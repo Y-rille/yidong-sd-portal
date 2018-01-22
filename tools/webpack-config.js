@@ -108,6 +108,10 @@ module.exports = (type) => {
             }),
             new CopyWebpackPlugin([
                 {
+                    from: config.webpack.path.src + '/assets/',
+                    to: 'assets/'
+                },
+                {
                     from: config.webpack.path.src + '/lib/',
                     to: 'lib/'
                 },
