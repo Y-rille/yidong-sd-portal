@@ -1,0 +1,3 @@
+export default {
+    PERFORMANCE_SAY_HELLO: 'PERFORMANCE_SAY_HELLO',
+}

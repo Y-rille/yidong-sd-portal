@@ -8,28 +8,20 @@ import {
   Route, Link
 } from 'react-router-dom'
 
-// import demoRoutes from '../modules/demo/routes/index'
-const Home = () => (
-  <div>
-    <h2>首页</h2>
-  </div>
-)
-
-const About = () => (
-  <div>
-    <h2>关于</h2>
-  </div>
-)
-
-const LoadableComponent = Loadable({
-  loader: () => import('../modules/demo/routes/index'),
+const AlarmComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "alarm" */'../modules/alarm/routes/index'),
   loading: (() => null),
 })
 
-// const Main = Loadable({
-//   loader: () => import('../components/Music/Music'),
-//   loading: (() => null),
-// })
+const ResourceComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "resource" */'../modules/resource/routes/index'),
+  loading: (() => null),
+})
+
+const PerformanceComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "performance" */'../modules/performance/routes/index'),
+  loading: (() => null),
+})
 
 export interface MainRouresProps {
   store?
@@ -53,14 +45,14 @@ export default class MainRoures extends React.PureComponent<MainRouresProps, any
       <Router>
         <Site>
           <ul>
-            <li><Link to="/">首页</Link></li>
-            <li><Link to="/about">关于</Link></li>
-            <li><Link to="/demo">主题列表</Link></li>
+            <li><Link to="/resource">资源管理</Link></li>
+            <li><Link to="/alarm">告警管理</Link></li>
+            <li><Link to="/performance">性能管理</Link></li>
           </ul>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/demo" component={LoadableComponent} />
+            <Route path="/alarm" component={AlarmComponent} />
+            <Route path="/resource" component={ResourceComponent} />
+            <Route path="/performance" component={PerformanceComponent} />
           </Switch>
         </Site>
       </Router>
