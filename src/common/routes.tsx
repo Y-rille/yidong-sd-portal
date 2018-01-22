@@ -8,13 +8,13 @@ import {
   Route, Link
 } from 'react-router-dom'
 
-const AlarmComponent = Loadable({
-  loader: () => import(/* webpackChunkName: "alarm" */'../modules/alarm/routes/index'),
+const ResourceComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "resource" */'../modules/resource/routes/index'),
   loading: (() => null),
 })
 
-const ResourceComponent = Loadable({
-  loader: () => import(/* webpackChunkName: "resource" */'../modules/resource/routes/index'),
+const AlarmComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "alarm" */'../modules/alarm/routes/index'),
   loading: (() => null),
 })
 
@@ -50,8 +50,8 @@ export default class MainRoures extends React.PureComponent<MainRouresProps, any
             <li><Link to="/performance">性能管理</Link></li>
           </ul>
           <Switch>
-            <Route path="/alarm" component={AlarmComponent} />
             <Route path="/resource" component={ResourceComponent} />
+            <Route path="/alarm" component={AlarmComponent} />
             <Route path="/performance" component={PerformanceComponent} />
           </Switch>
         </Site>
