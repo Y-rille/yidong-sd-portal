@@ -22,7 +22,7 @@ const About = () => (
 )
 
 const LoadableComponent = Loadable({
-  loader: () => import('../modules/demo/routes/index'),
+  loader: () => import(/* webpackChunkName: "demo" */'../modules/demo/routes/index'),
   loading: (() => null),
 })
 
