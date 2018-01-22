@@ -1,0 +1,39 @@
+@import "~antd/dist/antd.less";
+@import '~antd/lib/style/v2-compatible-reset.less';
+
+// font
+@icon-url: "/assets/fonts/iconfont/iconfont";
+
+
+// fix menu
+
+.ant-menu-item .iconfont,
+.ant-menu-submenu-title .iconfont {
+  min-width: 14px;
+  margin-right: 8px;
+  -webkit-transition: font-size 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: font-size 0.15s cubic-bezier(0.215, 0.61, 0.355, 1), margin 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.ant-menu-item .iconfont + span,
+.ant-menu-submenu-title .iconfont + span {
+  -webkit-transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  opacity: 1;
+}
+.ant-menu-inline-collapsed > .ant-menu-item .iconfont,
+.ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .iconfont,
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .iconfont {
+  font-size: 16px;
+  line-height: 40px;
+  margin: 0;
+}
+.ant-menu-inline-collapsed > .ant-menu-item .iconfont + span,
+.ant-menu-inline-collapsed > .ant-menu-item-group > .ant-menu-item-group-list > .ant-menu-item .iconfont + span,
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .iconfont + span {
+  max-width: 0;
+  display: inline-block;
+  opacity: 0;
+}
+.ant-menu-inline-collapsed-tooltip .iconfont {
+  display: none;
+}
