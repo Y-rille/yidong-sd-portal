@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import BasicLayout from '../layouts/BasicLayout'
+import UserLayout from '../layouts/UserLayout'
 
 const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
@@ -60,12 +61,20 @@ class Site extends React.Component<SiteProps, any> {
     }
 
     render() {
-        let { currentUser } = this.props
-        return (
-            <BasicLayout>
-                {this.props.children}
-            </BasicLayout>
-        );
+        if (this.props.location.pathname.indexOf('/login') > -1) {
+            return (
+                <UserLayout>
+                    {this.props.children}
+                </UserLayout>
+            );
+        } else {
+            let { currentUser } = this.props
+            return (
+                <BasicLayout>
+                    {this.props.children}
+                </BasicLayout>
+            );
+        }
     }
 }
 export default withRouter(connect(mapProps, mapDispatchToProps)(Site))

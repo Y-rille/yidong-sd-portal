@@ -2,6 +2,11 @@ import * as React from 'react';
 import styles from './BasicLayout.less';
 import { Layout, Menu, Icon, Avatar, Dropdown } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
+import {
+  HashRouter as Router,
+  Switch,
+  Route, Link
+} from 'react-router-dom'
 export interface BasicLayoutProps {
 }
 
@@ -46,7 +51,13 @@ export default class BasicLayout extends React.Component<BasicLayoutProps, any> 
     );
     return (
       <div className={styles.layout}>
-        {/* {this.props.children} */}
+        <ul>
+          <li><Link to="/dashboard">概览</Link></li>
+          <li><Link to="/resource">资源管理</Link></li>
+          <li><Link to="/alarm">告警管理</Link></li>
+          <li><Link to="/performance">性能管理</Link></li>
+        </ul>
+        {this.props.children}
         {layout}
       </div>
     );

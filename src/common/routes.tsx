@@ -8,6 +8,16 @@ import {
   Route, Link
 } from 'react-router-dom'
 
+const LoginComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "login" */'../modules/login/routes/index'),
+  loading: (() => null),
+})
+
+const DashboardComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "dashboard" */'../modules/dashboard/routes/index'),
+  loading: (() => null),
+})
+
 const ResourceComponent = Loadable({
   loader: () => import(/* webpackChunkName: "resource" */'../modules/resource/routes/index'),
   loading: (() => null),
@@ -44,12 +54,9 @@ export default class MainRoures extends React.PureComponent<MainRouresProps, any
     return (
       <Router>
         <Site>
-          <ul>
-            <li><Link to="/resource">资源管理</Link></li>
-            <li><Link to="/alarm">告警管理</Link></li>
-            <li><Link to="/performance">性能管理</Link></li>
-          </ul>
           <Switch>
+            <Route path="/login" component={LoginComponent} />
+            <Route path="/dashboard" component={DashboardComponent} />
             <Route path="/resource" component={ResourceComponent} />
             <Route path="/alarm" component={AlarmComponent} />
             <Route path="/performance" component={PerformanceComponent} />
