@@ -125,7 +125,7 @@ module.exports = (type) => {
                 }
             ]),
             new HtmlWebpackPlugin({
-                title: 'xmas',
+                title: pkgJson.name,
                 template: './src/templates/index.ejs',
                 filename: 'index.html'
             }),
