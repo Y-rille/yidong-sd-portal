@@ -60,7 +60,6 @@ class Site extends React.Component<SiteProps, any> {
     }
 
     render() {
-
         let { currentUser } = this.props
         return (
             <BasicLayout>

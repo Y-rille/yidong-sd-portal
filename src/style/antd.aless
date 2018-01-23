@@ -37,3 +37,9 @@
 .ant-menu-inline-collapsed-tooltip .iconfont {
   display: none;
 }
+.ant-layout .ant-menu.ant-menu-dark .ant-menu-item-selected {
+    background-color: #1DA57A;
+}
+.ant-avatar > *{
+  margin-top: 7px;
+}
