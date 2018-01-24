@@ -59,8 +59,8 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         return _.map(menu, (item) => {
             return (
                 <Menu.Item key={item.route}>
-                    <span><Link to={item.route}>{item.name}</Link></span>
-                </Menu.Item>
+                    <span><Link to={item.route} style={{ color: '#fff' }}>{item.name}</Link></span>
+                </Menu.Item >
             )
         })
     }
@@ -74,12 +74,15 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         return (
             <Header className={styles.header}>
                 <span className={styles.title}>NFV</span>
-                <Menu theme="light" mode="horizontal" defaultSelectedKeys={['1']} className={styles.nav}>
+                <Menu theme="light" mode="horizontal" defaultSelectedKeys={['/dashboard']} className={styles.nav}>
                     {this.renderMenuItem()}
                 </Menu>
 
                 <Dropdown overlay={option}>
-                    <a className="ant-dropdown-link" style={{ marginLeft: '10px', float: 'right' }}><span style={{ color: '#fff' }}>HPEer</span><Icon type="down" style={{ color: '#fff' }} /></a>
+                    <a className="ant-dropdown-link" style={{ marginLeft: '10px', float: 'right', lineHeight: '0px', marginTop: '25px' }}>
+                        <span style={{ color: '#fff' }}>HPEer</span>
+                        <Icon type="down" style={{ color: '#fff' }} />
+                    </a>
                 </Dropdown>
                 <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#1DA57A', float: 'right', marginTop: '18px' }} />
             </Header>
