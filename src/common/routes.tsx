@@ -8,28 +8,30 @@ import {
   Route, Link
 } from 'react-router-dom'
 
-// import demoRoutes from '../modules/demo/routes/index'
-const Home = () => (
-  <div>
-    <h2>首页</h2>
-  </div>
-)
-
-const About = () => (
-  <div>
-    <h2>关于</h2>
-  </div>
-)
-
-const LoadableComponent = Loadable({
-  loader: () => import(/* webpackChunkName: "demo" */'../modules/demo/routes/index'),
+const LoginComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "login" */'../modules/login/routes/index'),
   loading: (() => null),
 })
 
-// const Main = Loadable({
-//   loader: () => import('../components/Music/Music'),
-//   loading: (() => null),
-// })
+const DashboardComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "dashboard" */'../modules/dashboard/routes/index'),
+  loading: (() => null),
+})
+
+const ResourceComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "resource" */'../modules/resource/routes/index'),
+  loading: (() => null),
+})
+
+const AlarmComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "alarm" */'../modules/alarm/routes/index'),
+  loading: (() => null),
+})
+
+const PerformanceComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "performance" */'../modules/performance/routes/index'),
+  loading: (() => null),
+})
 
 export interface MainRouresProps {
   store?
@@ -52,15 +54,12 @@ export default class MainRoures extends React.PureComponent<MainRouresProps, any
     return (
       <Router>
         <Site>
-          <ul>
-            <li><Link to="/">首页</Link></li>
-            <li><Link to="/about">关于</Link></li>
-            <li><Link to="/demo">主题列表</Link></li>
-          </ul>
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/demo" component={LoadableComponent} />
+            <Route path="/login" component={LoginComponent} />
+            <Route path="/dashboard" component={DashboardComponent} />
+            <Route path="/resource" component={ResourceComponent} />
+            <Route path="/alarm" component={AlarmComponent} />
+            <Route path="/performance" component={PerformanceComponent} />
           </Switch>
         </Site>
       </Router>
