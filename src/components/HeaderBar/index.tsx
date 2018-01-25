@@ -68,7 +68,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
             return (
                 <Menu.Item key={item.route}>
                     <span>{item.name}</span>
-                </Menu.Item>
+                </Menu.Item >
             )
         })
     }
@@ -94,7 +94,10 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                 </Menu>
 
                 <Dropdown overlay={option}>
-                    <a className="ant-dropdown-link" style={{ marginLeft: '10px', float: 'right' }}><span style={{ color: '#fff' }}>HPEer</span><Icon type="down" style={{ color: '#fff' }} /></a>
+                    <a className="ant-dropdown-link" style={{ marginLeft: '10px', float: 'right', lineHeight: '0px', marginTop: '25px' }}>
+                        <span style={{ color: '#fff' }}>HPEer</span>
+                        <Icon type="down" style={{ color: '#fff' }} />
+                    </a>
                 </Dropdown>
                 <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#1DA57A', float: 'right', marginTop: '18px' }} />
             </Header>
