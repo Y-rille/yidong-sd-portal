@@ -74,9 +74,6 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
     }
     render() {
         let { isActive } = this.props;
-        if (!isActive) {
-            isActive = 'dashboard';
-        }
         const option = (
             <Menu>
                 <Menu.Item>设置</Menu.Item>

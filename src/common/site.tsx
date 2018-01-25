@@ -78,8 +78,6 @@ class Site extends React.Component<SiteProps, any> {
             let { currentUser } = this.props
             let { pathname } = this.props.location
             pathname = pathname.split('/')
-            // console.log(pathname, 'qqqq');
-            // console.log(pathname[1], 'wwww');
             return (
                 <BasicLayout
                     navClickHandler={this.navClickHandler}
