@@ -12,6 +12,8 @@ declare let global: any;
 
 export interface HeaderBarProps {
     menu?
+    navClickHandler?
+    isActive?
 }
 
 /**
@@ -32,39 +34,46 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         menu: [
             {
                 name: '首页',
-                route: '/dashboard',
+                route: 'dashboard',
             },
             {
                 name: '系统管理',
-                route: '',
+                route: 'setting',
             },
             {
                 name: '资源管理',
-                route: '/resource',
+                route: 'resource',
             },
             {
                 name: '告警监控',
-                route: '/alarm',
+                route: 'alarm',
             },
             {
                 name: '性能监控',
-                route: '/performance',
+                route: 'performance',
             }
         ],
     };
     static propTypes = {
     };
+    handleClick(e) {
+        let { navClickHandler } = this.props
+        if (navClickHandler) {
+            navClickHandler(e.key)
+        }
+    }
     renderMenuItem() {
         const { menu } = this.props;
         return _.map(menu, (item) => {
             return (
                 <Menu.Item key={item.route}>
-                    <span><Link to={item.route}>{item.name}</Link></span>
+                    <span>{item.name}</span>
                 </Menu.Item>
             )
         })
     }
     render() {
+        let { isActive } = this.props
         const option = (
             <Menu>
                 <Menu.Item>设置</Menu.Item>
@@ -74,7 +83,13 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         return (
             <Header className={styles.header}>
                 <span className={styles.title}>NFV</span>
-                <Menu theme="light" mode="horizontal" defaultSelectedKeys={['1']} className={styles.nav}>
+                <Menu
+                    theme="light"
+                    mode="horizontal"
+                    defaultSelectedKeys={[isActive]}
+                    className={styles.nav}
+                    onClick={this.handleClick.bind(this)}
+                >
                     {this.renderMenuItem()}
                 </Menu>
 

@@ -37,6 +37,7 @@ export interface SiteProps {
 
 class Site extends React.Component<SiteProps, any> {
     static contextTypes = {
+        router: PropTypes.object,
     }
 
     static defaultProps = {
@@ -49,6 +50,12 @@ class Site extends React.Component<SiteProps, any> {
 
     constructor(props: any) {
         super(props);
+        this.state = {
+            curRouter: this.props.location.pathname
+        }
+    }
+    navClickHandler(key) {
+        global.hashHistory.push(`/${key}`)
     }
     componentWillMount() {
 
@@ -69,8 +76,12 @@ class Site extends React.Component<SiteProps, any> {
             );
         } else {
             let { currentUser } = this.props
+            let { pathname } = this.props.location
+            pathname = pathname.split('/')
             return (
-                <BasicLayout>
+                <BasicLayout
+                    navClickHandler={this.navClickHandler}
+                    isActive={pathname.length > 1 ? pathname[1] : ''}>
                     {this.props.children}
                 </BasicLayout>
             );

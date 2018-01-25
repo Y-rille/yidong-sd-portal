@@ -9,6 +9,8 @@ import {
   Route, Link
 } from 'react-router-dom'
 export interface BasicLayoutProps {
+  navClickHandler?
+  isActive?
 }
 
 export default class BasicLayout extends React.Component<BasicLayoutProps, any> {
@@ -21,10 +23,10 @@ export default class BasicLayout extends React.Component<BasicLayoutProps, any> 
     };
   }
   render() {
-
+    let { navClickHandler, isActive } = this.props
     const layout = (
       <Layout>
-        <HeaderBar />
+        <HeaderBar navClickHandler={navClickHandler} isActive={isActive} />
         <Layout>
           <Sider></Sider>
           <Content></Content>
@@ -34,14 +36,7 @@ export default class BasicLayout extends React.Component<BasicLayoutProps, any> 
     return (
       <div className={styles.layout}>
         {layout}
-        <ul>
-          <li><Link to="/dashboard">概览</Link></li>
-          <li><Link to="/resource">资源管理</Link></li>
-          <li><Link to="/alarm">告警管理</Link></li>
-          <li><Link to="/performance">性能管理</Link></li>
-        </ul>
         {this.props.children}
-
       </div>
     );
   }
