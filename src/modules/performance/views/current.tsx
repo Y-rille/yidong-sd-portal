@@ -6,8 +6,7 @@ import {
     Route, Link
 } from 'react-router-dom'
 
-import { Row, Col, Tabs } from 'antd';
-const TabPane = Tabs.TabPane;
+import { Row, Col } from 'antd';
 
 class Home extends React.Component<any, any> {
     tabClick() {
@@ -15,8 +14,19 @@ class Home extends React.Component<any, any> {
     }
     render() {
         return (
-            <Row>
-                当前趋势main
+            <Row gutter={16} style={{ padding: '0 16px' }}>
+                <Col className="gutter-row" span={12}>
+                    <div className="gutter-box">当前状态</div>
+                </Col>
+                <Col className="gutter-row" span={12}>
+                    <div className="gutter-box">当前状态</div>
+                </Col>
+                <Col className="gutter-row" span={12}>
+                    <div className="gutter-box">当前状态</div>
+                </Col>
+                <Col className="gutter-row" span={12}>
+                    <div className="gutter-box">当前状态</div>
+                </Col>
             </Row>
         );
     }
