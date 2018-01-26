@@ -82,7 +82,10 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         );
         return (
             <Header className={styles.header}>
-                <span className={styles.title}>NFV</span>
+                <div className={styles.title}>
+                    NFV
+            </div>
+
                 <Menu
                     theme="light"
                     mode="horizontal"
@@ -92,14 +95,16 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                 >
                     {this.renderMenuItem()}
                 </Menu>
+                <div className={styles.right}>
+                    <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#1DA57A' }} />
+                    <Dropdown overlay={option}>
+                        <a className="ant-dropdown-link">
+                            <span style={{ color: '#fff' }}>HPEer</span>
+                            <Icon type="down" style={{ color: '#fff' }} />
+                        </a>
+                    </Dropdown>
 
-                <Dropdown overlay={option}>
-                    <a className="ant-dropdown-link" style={{ marginLeft: '10px', float: 'right', lineHeight: '0px', marginTop: '25px' }}>
-                        <span style={{ color: '#fff' }}>HPEer</span>
-                        <Icon type="down" style={{ color: '#fff' }} />
-                    </a>
-                </Dropdown>
-                <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#1DA57A', float: 'right', marginTop: '18px' }} />
+                </div>
             </Header>
         );
     }
