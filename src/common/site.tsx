@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import BasicLayout from '../layouts/BasicLayout'
+import UserLayout from '../layouts/UserLayout'
 
 const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
@@ -36,6 +37,7 @@ export interface SiteProps {
 
 class Site extends React.Component<SiteProps, any> {
     static contextTypes = {
+        router: PropTypes.object,
     }
 
     static defaultProps = {
@@ -48,6 +50,12 @@ class Site extends React.Component<SiteProps, any> {
 
     constructor(props: any) {
         super(props);
+        this.state = {
+            curRouter: this.props.location.pathname
+        }
+    }
+    navClickHandler(key) {
+        global.hashHistory.push(`/${key}`)
     }
     componentWillMount() {
 
@@ -60,13 +68,24 @@ class Site extends React.Component<SiteProps, any> {
     }
 
     render() {
-
-        let { currentUser } = this.props
-        return (
-            <BasicLayout>
-                {this.props.children}
-            </BasicLayout>
-        );
+        if (this.props.location.pathname.indexOf('/login') > -1) {
+            return (
+                <UserLayout>
+                    {this.props.children}
+                </UserLayout>
+            );
+        } else {
+            let { currentUser } = this.props
+            let { pathname } = this.props.location
+            pathname = pathname.split('/')
+            return (
+                <BasicLayout
+                    navClickHandler={this.navClickHandler}
+                    isActive={pathname.length > 1 ? pathname[1] : ''}>
+                    {this.props.children}
+                </BasicLayout>
+            );
+        }
     }
 }
 export default withRouter(connect(mapProps, mapDispatchToProps)(Site))

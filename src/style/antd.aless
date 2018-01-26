@@ -37,3 +37,30 @@
 .ant-menu-inline-collapsed-tooltip .iconfont {
   display: none;
 }
+.ant-layout .ant-menu.ant-menu-dark .ant-menu-item-selected {
+    background-color: #1DA57A;
+}
+.ant-menu-horizontal {
+  border-bottom: 0px;
+}
+.ant-menu {
+  color: #f1ebee;
+}
+.ant-menu-horizontal > .ant-menu-item-active {
+  border-bottom: 0px;
+  color: #fff;
+}
+.ant-menu-horizontal > .ant-menu-item:hover {
+  border-bottom: 0px;
+  color: #fff;
+}
+.ant-menu-horizontal > .ant-menu-item-selected {
+    border-bottom: 3px solid #fff !important;
+    color: #fff;
+}
+.ant-menu-horizontal > .ant-menu-item {
+  border-bottom: 0px;
+}
+.ant-layout-header{
+  padding:0 24px;
+}

@@ -108,6 +108,10 @@ module.exports = (type) => {
             }),
             new CopyWebpackPlugin([
                 {
+                    from: config.webpack.path.src + '/assets/',
+                    to: 'assets/'
+                },
+                {
                     from: config.webpack.path.src + '/lib/',
                     to: 'lib/'
                 },
@@ -121,7 +125,7 @@ module.exports = (type) => {
                 }
             ]),
             new HtmlWebpackPlugin({
-                title: 'xmas',
+                title: pkgJson.name,
                 template: './src/templates/index.ejs',
                 filename: 'index.html'
             }),
