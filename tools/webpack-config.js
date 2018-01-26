@@ -15,7 +15,7 @@ const OfflinePlugin = require('offline-plugin');
 
 const tsImportPluginFactory = require('ts-import-plugin')
 
-
+let theme = pkgJson.theme;
 module.exports = (type) => {
     const isDev = type === 'dev';
     const isDist = type === 'dist';
@@ -193,7 +193,7 @@ module.exports = (type) => {
                                 options: {
                                     plugins: postcssFun
                                 }
-                            }, `less-loader`],
+                            }, `less-loader?{"modifyVars":${JSON.stringify(theme)}}`],
                         publicPath: '../../'
                     })
                 },
@@ -217,7 +217,7 @@ module.exports = (type) => {
                                 options: {
                                     plugins: postcssFun
                                 }
-                            }, `less-loader`],
+                            }, `less-loader?{"modifyVars":${JSON.stringify(theme)}}`],
                         publicPath: '../../'
                     })
                 },
