@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import { matchPath } from 'react-router'
 
 import { Row, Col, Breadcrumb, Tabs, Button } from 'antd';
 const TabPane = Tabs.TabPane;
@@ -15,18 +16,31 @@ import styles from '../style/index.less'
 class Home extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        let { match } = this.props
         let { pathname } = this.props.location
+
         this.state = {
-            activeKey: pathname.split('/').length >= 2 ? pathname.split('/')[2] : ''
+            activeKey: _.compact([
+                matchPath(pathname, { path: `${match.url}/:id/current` }) != null && 'current',
+                matchPath(pathname, { path: `${match.url}/:id/history` }) != null && 'history',
+            ]).toString()
         };
     }
     tabClick(e) {
+        let { match } = this.props
+
         this.setState({
             activeKey: e
         })
-        global.hashHistory.push(`/performance/${e}`)
+        global.hashHistory.push(`${match.url}/1/${e}`)
+    }
+    isActive(path) {
+        let { location } = this.props
+        return matchPath(location.pathname, { path }) != null
     }
     render() {
+
+        let { match } = this.props
         let { activeKey } = this.state
         return (
             <Row className={styles.performance}>
@@ -47,12 +61,12 @@ class Home extends React.Component<any, any> {
                         type="card"
                         defaultActiveKey={activeKey}
                     >
-                        <TabPane tab="当前状态" key=""></TabPane>
+                        <TabPane tab="当前状态" key="current"></TabPane>
                         <TabPane tab="历史趋势" key="history"></TabPane>
                     </Tabs>
                     <Switch>
-                        <Route path="/performance/" exact component={Current} />
-                        <Route path="/performance/history" component={History} />
+                        <Route path={`${match.url}/:id/current`} exact component={Current} />
+                        <Route path={`${match.url}/:id/history`} component={History} />
                     </Switch>
                 </Col>
             </Row>
