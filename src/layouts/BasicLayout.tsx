@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './BasicLayout.less';
 import HeaderBar from '../components/HeaderBar/';
 import { Layout } from 'antd';
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 import {
   HashRouter as Router,
   Switch,
@@ -24,19 +24,14 @@ export default class BasicLayout extends React.Component<BasicLayoutProps, any> 
   }
   render() {
     let { navClickHandler, isActive } = this.props
-    const layout = (
-      <Layout>
-        <HeaderBar navClickHandler={navClickHandler} isActive={isActive} />
-        <Layout>
-          <Sider></Sider>
-          <Content></Content>
-        </Layout>
-      </Layout>
-    );
     return (
       <div className={styles.layout}>
-        {layout}
-        {this.props.children}
+        <Layout>
+          <HeaderBar navClickHandler={navClickHandler} isActive={isActive} />
+          <Layout>
+            <Content style={{ height: window.innerHeight - 64, overflowY: 'scroll' }}>{this.props.children}</Content>
+          </Layout>
+        </Layout>
       </div>
     );
   }
