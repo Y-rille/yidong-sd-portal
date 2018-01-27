@@ -97,7 +97,7 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                             <span className={styles.title}>CMP</span>
                         </a>
                     </div>
-                    <p className={styles.desc}>CMP 是最具影响力iot平台</p>
+                    <p className={styles.desc}>cloud management platform</p>
                 </div>
                 {this.renderForm()}
             </div>
