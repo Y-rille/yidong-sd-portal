@@ -21,8 +21,8 @@ class Home extends React.Component<any, any> {
 
         this.state = {
             activeKey: _.compact([
-                matchPath(pathname, { path: `${match.url}/:id/current` }) != null && 'current',
-                matchPath(pathname, { path: `${match.url}/:id/history` }) != null && 'history',
+                matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
+                matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
             ]).toString()
         };
     }
@@ -32,7 +32,7 @@ class Home extends React.Component<any, any> {
         this.setState({
             activeKey: e
         })
-        global.hashHistory.push(`${match.url}/1/${e}`)
+        global.hashHistory.push(`${match.url}/${e}`)
     }
     isActive(path) {
         let { location } = this.props
@@ -65,8 +65,8 @@ class Home extends React.Component<any, any> {
                         <TabPane tab="历史趋势" key="history"></TabPane>
                     </Tabs>
                     <Switch>
-                        <Route path={`${match.url}/:id/current`} exact component={Current} />
-                        <Route path={`${match.url}/:id/history`} component={History} />
+                        <Route path={`${match.url}/current`} exact component={Current} />
+                        <Route path={`${match.url}/history`} component={History} />
                     </Switch>
                 </Col>
             </Row>
