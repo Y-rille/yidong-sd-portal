@@ -14,7 +14,7 @@ class Home extends React.Component<any, any> {
     }
     render() {
         return (
-            <Row gutter={16} style={{ padding: '0 16px' }}>
+            <Row gutter={16} style={{ padding: '0 0' }}>
                 <Col className="gutter-row" span={12}>
                     <div className="gutter-box">当前状态</div>
                 </Col>

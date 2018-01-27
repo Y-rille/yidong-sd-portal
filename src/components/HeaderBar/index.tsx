@@ -84,7 +84,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
             <Header className={styles.header}>
                 <div className={styles['nav-wrapper']}>
                     <div className={styles.title}>
-                        NFV
+                        CMP
                     </div>
                     <Menu
                         theme="light"
