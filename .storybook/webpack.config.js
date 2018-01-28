@@ -12,6 +12,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const tsImportPluginFactory = require('ts-import-plugin')
 const isDist = false
+
+let theme = pkgJson.theme;
+
 const extractAntd = new ExtractTextPlugin({
   filename: `bundle/antd.css`,
 });
@@ -91,7 +94,7 @@ module.exports = {
               options: {
                 plugins: postcssFun
               }
-            }, `less-loader`],
+            }, `less-loader?{"modifyVars":${JSON.stringify(theme)}}`],
           publicPath: '../../'
         })
       },
@@ -116,7 +119,7 @@ module.exports = {
               options: {
                 plugins: postcssFun
               }
-            }, `less-loader`],
+            }, `less-loader?{"modifyVars":${JSON.stringify(theme)}}`],
           publicPath: '../../'
         })
       },
