@@ -96,7 +96,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                         {this.renderMenuItem()}
                     </Menu>
                     <div className={styles.right}>
-                        <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#1DA57A' }} />
+                        <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#00b388' }} />
                         <Dropdown overlay={option}>
                             <a className="ant-dropdown-link">
                                 <span style={{ color: '#fff' }}>HPEer</span>
