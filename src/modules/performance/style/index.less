@@ -1,3 +1,4 @@
+@import "~antd/lib/style/themes/default.less";
 .performance {
     height: 100%;
     .main {
@@ -22,7 +23,7 @@
             ul{
                 width: 256px;
                 height: 32px;
-                border: 1px solid #1DA57A;
+                border: 1px solid @primary-color;
                 border-radius: 4px;
                 overflow: hidden;
                 cursor: pointer;
@@ -32,10 +33,10 @@
                         width: 50%;
                         text-align: center;
                         line-height: 32px;
-                        color: #1DA57A;
+                        color: @primary-color;
                     }
                     .tabItem.active {
-                        background: #1DA57A;
+                        background: @primary-color;
                         color: #fff;
                     }
                 }

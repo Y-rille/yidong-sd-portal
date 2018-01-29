@@ -4,8 +4,9 @@ import * as classNames from 'classnames';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
+import moment from '../../../common/moment'
+import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
 import FactModal from '../../../components/FactModal/'
-import { Row, Col, Breadcrumb, Icon, Button } from 'antd';
 
 declare let global: any;
 
@@ -19,7 +20,6 @@ class Home extends React.Component<any, any> {
         super(props);
         let { match } = this.props
         let { pathname } = this.props.location
-
         this.state = {
             activeKey: _.compact([
                 matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
@@ -36,6 +36,17 @@ class Home extends React.Component<any, any> {
         })
         global.hashHistory.push(`${match.url}/${path}`)
     }
+    componentWillReceiveProps(nextProps) {
+        let { match } = nextProps
+        let { pathname } = nextProps.location
+        this.state = {
+            activeKey: _.compact([
+                matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
+                matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
+            ]).toString()
+        };
+    }
+
     renderTab() {
         let { activeKey } = this.state
         let tab = [{ key: 'current', name: '当前状态' }, { key: 'history', name: '历史趋势' }]
@@ -63,7 +74,9 @@ class Home extends React.Component<any, any> {
         })
     }
     render() {
-
+        // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
+        // console.log(`开始时间:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf()}`)
+        // console.log(`结束时间:${moment().tz('Asia/Shanghai').valueOf()}`)
         let { match } = this.props
         let { activeKey } = this.state
         return (
@@ -87,7 +100,8 @@ class Home extends React.Component<any, any> {
                             <Button onClick={this.showModal.bind(this)}><Icon type="tag-o" />添加指标</Button>
                         </div>
                         <Switch>
-                            <Route path={`${match.url}/current`} exact component={Current} />
+                            <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
+                            <Route path={`${match.url}/current`} component={Current} />
                             <Route path={`${match.url}/history`} component={History} />
                         </Switch>
                     </div>
