@@ -4,6 +4,10 @@
 // font
 @icon-url: "/assets/fonts/iconfont/iconfont";
 
+// fix layout
+.ant-layout {
+  background: #fff;
+}
 
 // fix menu
 
