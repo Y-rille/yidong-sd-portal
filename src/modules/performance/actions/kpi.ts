@@ -51,13 +51,13 @@ export const getMatchingDimensions = (packageId, params: MatchingDimensionsParam
  */
 export const getTimeFilter = (cb) => (dispatch) => {
   return kpiAPI.getTimeFilter().then((res: any) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res.body }
+    let action = { type: ActionTypes.PERFORMANCE_GET_TIME_FILTER, timeFilter: res.data.data }
     dispatch(action);
     if (cb) {
       cb(null)
     }
   }).catch((err) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: null }
+    let action = { type: ActionTypes.PERFORMANCE_GET_TIME_FILTER, timeFilter: null }
     dispatch(action);
     if (cb) {
       cb(err)
