@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Icon, Input, Row, Col, Alert, notification } from 'antd';
+import { Form, Button, Icon, Input, Row, Col, Alert, notification, Divider, Checkbox } from 'antd';
 import styles from '../style/index.less';
 import { CommonActions } from '../../common/actions/index'
 import emitter from '../../../common/emitter'
@@ -78,9 +78,16 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                             )}
 
                     </FormItem>
+
                     <FormItem className={styles.additional}>
+                        {getFieldDecorator('remember', {
+                            initialValue: true,
+                        })(
+                            <Checkbox className={styles.remember}>记住用户名</Checkbox>
+                            )}
                         <Button size="large" className={styles.submit} type="primary" htmlType="submit" disabled={this.state.loading} >
                             登录 </Button>
+                        <a className="login-form-forgot" href="javascript:;">忘记密码</a>
                     </FormItem>
                 </Form>
 
@@ -89,17 +96,17 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
     }
     render() {
         return (
-            <div className={styles.container} style={{ height: window.innerHeight }}>
+            <div className={styles.login} style={{ height: window.innerHeight }}>
                 <div className={styles.top}>
                     <div className={styles.header}>
                         <a href="/">
-                            {/* <img alt="" className={styles.logo} src="https://gw.alipayobjects.com/zos/rmsportal/NGCCBOENpgTXpBWUIPnI.svg" /> */}
-                            <span className={styles.title}>CMP</span>
+                            <img alt="" className={styles.logo} src={require('../../../img/logo.png')} />
                         </a>
                     </div>
-                    <p className={styles.desc}>cloud management platform</p>
+                    {/*<p className={styles.desc}>cloud management platform</p>*/}
+                    <Divider style={{ margin: '32px 0' }}>用户登录</Divider>
+                    {this.renderForm()}
                 </div>
-                {this.renderForm()}
             </div>
         );
     }
