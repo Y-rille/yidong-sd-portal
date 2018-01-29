@@ -4,11 +4,9 @@ import * as classNames from 'classnames';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
-
 import moment from '../../../common/moment'
-
 import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
-const TabPane = Tabs.TabPane;
+import FactModal from '../../../components/FactModal/'
 
 declare let global: any;
 
@@ -27,7 +25,8 @@ class Home extends React.Component<any, any> {
             activeKey: _.compact([
                 matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
                 matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-            ]).toString()
+            ]).toString(),
+            visible: false
         };
     }
     tabClick(e) {
@@ -47,6 +46,21 @@ class Home extends React.Component<any, any> {
                 active: activeKey === item.key ? true : false
             }
             return <li className={classNames(cls)} data-path={item.key} onClick={this.tabClick.bind(this)}>{item.name}</li>
+        })
+    }
+    showModal() {
+        this.setState({
+            visible: true
+        })
+    }
+    handleOk() {
+        this.setState({
+            visible: false
+        })
+    }
+    handleCancel() {
+        this.setState({
+            visible: false
         })
     }
     render() {
@@ -73,7 +87,7 @@ class Home extends React.Component<any, any> {
                             <ul>
                                 {this.renderTab()}
                             </ul>
-                            <Button><Icon type="tag-o" />添加指标</Button>
+                            <Button onClick={this.showModal.bind(this)}><Icon type="tag-o" />添加指标</Button>
                         </div>
                         <Switch>
                             <Route path={`${match.url}/current`} exact component={Current} />
@@ -81,6 +95,7 @@ class Home extends React.Component<any, any> {
                         </Switch>
                     </div>
                 </SplitPane>
+                <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} />
             </Row>
         );
     }
