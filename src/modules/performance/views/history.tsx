@@ -9,6 +9,7 @@ import {
 import { Row, Col } from 'antd';
 
 import styles from '../style/index.less'
+import TimeSelect from '../../../components/TimeSelect/';
 
 class Home extends React.Component<any, any> {
     tabClick() {
@@ -19,6 +20,7 @@ class Home extends React.Component<any, any> {
             <div>
                 <div className={styles.toolBar}>
                     工具栏
+                    <TimeSelect />
                 </div>
                 <Row gutter={20} style={{ padding: '0 20px' }}>
                     <Col className="gutter-row" span={12}>

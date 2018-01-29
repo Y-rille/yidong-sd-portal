@@ -2,7 +2,7 @@
 import { assert } from 'chai';
 import configureStore from 'redux-mock-store'
 import reduxThunk from 'redux-thunk';
-import { getTimeFilter } from '../kpi'
+import { getTimeFilter, getPackages } from '../kpi'
 const middlewares = [reduxThunk];
 const mockStore = configureStore(middlewares)
 
@@ -16,5 +16,13 @@ describe('Kpi actions', () => {
         assert.isNotNull(actions[0].timeFilter)
         done()
     })
-  })
+    })
+    it('assert get packages data', (done) => {
+        const store = mockStore({});
+        store.dispatch(getPackages(null)).then(() => {
+        const actions = store.getActions()
+        assert.isNotNull(actions[0].nfvdPm)
+        done()
+    })
+  })  
 })
