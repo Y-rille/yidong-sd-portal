@@ -6,7 +6,7 @@ export interface TimeSelectProps {
 
 }
 
-export default class TimeSelect extends React.PureComponent<TimeSelectProps, any>{
+export default class TimeSelect extends React.PureComponent<TimeSelectProps, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +27,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
     }
 
     onOk(value) {
-        console.log('onOk: ', value);
+        // console.log('onOk: ', value);
     }
 
     render() {
