@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from './BasicLayout.less';
 import HeaderBar from '../components/HeaderBar/';
+import FactModal from '../components/FactModal/'
 import { Layout } from 'antd';
 const { Content } = Layout;
 import {
@@ -28,7 +29,9 @@ export default class BasicLayout extends React.Component<BasicLayoutProps, any> 
       <Layout className={styles['layout']}>
         <HeaderBar navClickHandler={navClickHandler} isActive={isActive} />
         <Layout className={styles['page-body']}>
-          <Content className={styles['page-content']}>{this.props.children}</Content>
+          <Content className={styles['page-content']}>{this.props.children}
+            <FactModal />
+          </Content>
         </Layout>
       </Layout>
     );
