@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import * as classNames from 'classnames';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
 
-import { Row, Col, Breadcrumb, Tabs, Button } from 'antd';
-const TabPane = Tabs.TabPane;
+import { Row, Col, Breadcrumb, Icon, Button } from 'antd';
 
 declare let global: any;
 
@@ -29,15 +29,22 @@ class Home extends React.Component<any, any> {
     }
     tabClick(e) {
         let { match } = this.props
-
+        let path = e.target.getAttribute('data-path')
         this.setState({
-            activeKey: e
+            activeKey: path
         })
-        global.hashHistory.push(`${match.url}/${e}`)
+        global.hashHistory.push(`${match.url}/${path}`)
     }
-    isActive(path) {
-        let { location } = this.props
-        return matchPath(location.pathname, { path }) != null
+    renderTab() {
+        let { activeKey } = this.state
+        let tab = [{ key: 'current', name: '当前状态' }, { key: 'history', name: '历史趋势' }]
+        return _.map(tab, (item) => {
+            let cls = {
+                tabItem: true,
+                active: activeKey === item.key ? true : false
+            }
+            return <li className={classNames(cls)} data-path={item.key} onClick={this.tabClick.bind(this)}>{item.name}</li>
+        })
     }
     render() {
 
@@ -47,23 +54,22 @@ class Home extends React.Component<any, any> {
             <Row className={styles.performance}>
                 <SplitPane split="vertical" minSize={100} maxSize={300} defaultSize={200} >
                     <div>菜单树</div>
-                    <div style={{ padding: '16px', borderLeft: '1px solid #e8e8e8' }}>
-                        <Breadcrumb>
-                            <Breadcrumb.Item>性能监控</Breadcrumb.Item>
-                            <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                            <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
-                            <Breadcrumb.Item>四级菜单</Breadcrumb.Item>
-                        </Breadcrumb>
-                        <h1 className={styles.title}>交换机</h1>
-                        <Tabs
-                            onChange={this.tabClick.bind(this)}
-                            tabBarExtraContent={<Button>添加指标</Button>}
-                            type="card"
-                            defaultActiveKey={activeKey}
-                        >
-                            <TabPane tab="当前状态" key="current"></TabPane>
-                            <TabPane tab="历史趋势" key="history"></TabPane>
-                        </Tabs>
+                    <div className={styles.main}>
+                        <div className={styles.header}>
+                            <h1 className={styles.title}>交换机</h1>
+                            <Breadcrumb>
+                                <Breadcrumb.Item>性能监控</Breadcrumb.Item>
+                                <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
+                                <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                                <Breadcrumb.Item>四级菜单</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
+                        <div className={styles.tabBar}>
+                            <ul>
+                                {this.renderTab()}
+                            </ul>
+                            <Button><Icon type="tag-o" />添加指标</Button>
+                        </div>
                         <Switch>
                             <Route path={`${match.url}/current`} exact component={Current} />
                             <Route path={`${match.url}/history`} component={History} />
