@@ -1,8 +1,18 @@
 @import "~antd/lib/style/themes/default.less";
-
 .header {
-    background-color: #1DA57A;
+    // z-index: 99995;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: @primary-color;
+    position: fixed;
 }
+
+.nav-wrapper {
+    position: relative;
+    height: 100%;
+}
+
 .right {
     float: right;
     display: flex;
@@ -12,18 +22,24 @@
     line-height: 0px;
     margin-top: 19px;
 }
+
 .title {
     float: left;
     width: 25%;
+    color: white;
+    font-size: 20px;
 }
+
 .nav {
     float: left;
     line-height: 61px;
     background-color: #1DA57A;
 }
-a:focus{
+
+a:focus {
     text-decoration: none;
 }
-.ant-dropdown-link.ant-dropdown-trigger{
+
+.ant-dropdown-link.ant-dropdown-trigger {
     line-height: 0px;
 }

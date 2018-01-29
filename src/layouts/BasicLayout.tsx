@@ -25,14 +25,12 @@ export default class BasicLayout extends React.Component<BasicLayoutProps, any> 
   render() {
     let { navClickHandler, isActive } = this.props
     return (
-      <div className={styles.layout}>
-        <Layout>
-          <HeaderBar navClickHandler={navClickHandler} isActive={isActive} />
-          <Layout>
-            <Content style={{ height: window.innerHeight - 64, overflowY: 'scroll' }}>{this.props.children}</Content>
-          </Layout>
+      <Layout className={styles['layout']}>
+        <HeaderBar navClickHandler={navClickHandler} isActive={isActive} />
+        <Layout className={styles['page-body']}>
+          <Content className={styles['page-content']}>{this.props.children}</Content>
         </Layout>
-      </div>
+      </Layout>
     );
   }
 }

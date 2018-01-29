@@ -32,7 +32,8 @@ export interface SiteProps {
     children?: any;
     actions?: CommonActions;
     locale: string,
-    currentUser?
+    currentUser?,
+    location
 }
 
 class Site extends React.Component<SiteProps, any> {

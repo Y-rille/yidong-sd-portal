@@ -82,28 +82,28 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         );
         return (
             <Header className={styles.header}>
-                <div className={styles.title}>
-                    NFV
-            </div>
-
-                <Menu
-                    theme="light"
-                    mode="horizontal"
-                    defaultSelectedKeys={[isActive]}
-                    className={styles.nav}
-                    onClick={this.handleClick.bind(this)}
-                >
-                    {this.renderMenuItem()}
-                </Menu>
-                <div className={styles.right}>
-                    <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#1DA57A' }} />
-                    <Dropdown overlay={option}>
-                        <a className="ant-dropdown-link">
-                            <span style={{ color: '#fff' }}>HPEer</span>
-                            <Icon type="down" style={{ color: '#fff' }} />
-                        </a>
-                    </Dropdown>
-
+                <div className={styles['nav-wrapper']}>
+                    <div className={styles.title}>
+                        CMP
+                    </div>
+                    <Menu
+                        theme="light"
+                        mode="horizontal"
+                        defaultSelectedKeys={[isActive]}
+                        className={styles.nav}
+                        onClick={this.handleClick.bind(this)}
+                    >
+                        {this.renderMenuItem()}
+                    </Menu>
+                    <div className={styles.right}>
+                        <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#1DA57A' }} />
+                        <Dropdown overlay={option}>
+                            <a className="ant-dropdown-link">
+                                <span style={{ color: '#fff' }}>HPEer</span>
+                                <Icon type="down" style={{ color: '#fff' }} />
+                            </a>
+                        </Dropdown>
+                    </div>
                 </div>
             </Header>
         );
