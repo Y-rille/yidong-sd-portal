@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { Link } from 'react-router-dom'
+import { matchPath } from 'react-router'
 import styles from './index.less';
 
 import { Layout, Menu, Icon, Avatar, Dropdown } from 'antd';
@@ -13,7 +14,7 @@ declare let global: any;
 export interface HeaderBarProps {
     menu?
     navClickHandler?
-    isActive?
+    activeKey?
 }
 
 /**
@@ -27,8 +28,7 @@ export interface HeaderBarProps {
 export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+
     }
     static defaultProps = {
         menu: [
@@ -73,7 +73,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         })
     }
     render() {
-        let { isActive } = this.props;
+        let { activeKey } = this.props;
         const option = (
             <Menu>
                 <Menu.Item>设置</Menu.Item>
@@ -89,7 +89,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                     <Menu
                         theme="light"
                         mode="horizontal"
-                        defaultSelectedKeys={[isActive]}
+                        defaultSelectedKeys={[activeKey]}
                         className={styles.nav}
                         onClick={this.handleClick.bind(this)}
                     >

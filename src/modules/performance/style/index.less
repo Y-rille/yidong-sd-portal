@@ -1,23 +1,25 @@
+@import "../../../style/index.less";
+
 .performance {
     height: 100%;
     .main {
-        margin: 20px;
+        margin: @margin-base;
         background: #fff;
         border-radius: 4px;
         overflow: hidden;
         .header {
-            padding: 20px;
+            padding: @margin-base;
             border-bottom: 1px solid #e2e4e9;
             .title {
                 margin-bottom: 8px;
-                font-size: 20px;
+                font-size: @margin-base;
                 color: #525459;
                 font-weight: normal;
             }
         }
         .tabBar {
             display: flex;
-            padding: 20px;
+            padding: @margin-base;
             justify-content: space-between;
             ul{
                 width: 256px;
@@ -44,8 +46,8 @@
         }
     }
     .toolBar {
-        margin-bottom: 16px;
-        padding: 16px;
+        margin-bottom: @margin-base;
+        padding: @margin-base;
         background: #f2f2f2;
     }
 }
@@ -53,8 +55,8 @@
 :global {
     .gutter-box {
         min-height: 300px;
-        margin-bottom: 16px;
-        padding: 16px;
+        margin-bottom: @margin-base;
+        padding: @margin-base;
         border: 1px solid #e8e8e8;
     }
 }

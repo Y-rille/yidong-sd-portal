@@ -6,7 +6,8 @@ import UserLayout from '../layouts/UserLayout'
 const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
 
-import { withRouter } from 'react-router'
+import _ from 'lodash';
+import { withRouter, matchPath } from 'react-router'
 import HomeActionCreatorsMap, { CommonActions } from '../modules/common/actions/index'
 
 import emitter from './emitter'
@@ -51,11 +52,22 @@ class Site extends React.Component<SiteProps, any> {
 
     constructor(props: any) {
         super(props);
+        let { pathname } = this.props.location
+
         this.state = {
-            curRouter: this.props.location.pathname
-        }
+            activeKey: _.compact([
+                matchPath(pathname, { path: '/dashboard' }) != null && 'dashboard',
+                matchPath(pathname, { path: '/setting' }) != null && 'setting',
+                matchPath(pathname, { path: '/resource' }) != null && 'resource',
+                matchPath(pathname, { path: '/alarm' }) != null && 'alarm',
+                matchPath(pathname, { path: '/performance' }) != null && 'performance',
+            ]).toString()
+        };
     }
     navClickHandler(key) {
+        this.setState({
+            activeKey: key
+        })
         global.hashHistory.push(`/${key}`)
     }
     componentWillMount() {
@@ -77,12 +89,11 @@ class Site extends React.Component<SiteProps, any> {
             );
         } else {
             let { currentUser } = this.props
-            let { pathname } = this.props.location
-            pathname = pathname.split('/')
+            let { activeKey } = this.state
             return (
                 <BasicLayout
-                    navClickHandler={this.navClickHandler}
-                    isActive={pathname.length > 1 ? pathname[1] : ''}>
+                    navClickHandler={this.navClickHandler.bind(this)}
+                    activeKey={activeKey}>
                     {this.props.children}
                 </BasicLayout>
             );
