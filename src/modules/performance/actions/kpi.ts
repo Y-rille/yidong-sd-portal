@@ -8,8 +8,8 @@ import { MatchingDimensionsParams, DataParams } from '../api/kpiAPI'
  * @param cb 
  */
 export const getPackages = (cb) => (dispatch) => {
-  return kpiAPI.getPackages().then((res) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res }
+  return kpiAPI.getPackages().then((res: any) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res.body }
     dispatch(action);
     if (cb) {
       cb(null)
@@ -30,8 +30,8 @@ export const getPackages = (cb) => (dispatch) => {
  * @param cb 
  */
 export const getMatchingDimensions = (packageId, params: MatchingDimensionsParams, cb) => (dispatch) => {
-  return kpiAPI.getMatchingDimensions(packageId, params).then((res) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res }
+  return kpiAPI.getMatchingDimensions(packageId, params).then((res: any) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res.body }
     dispatch(action);
     if (cb) {
       cb(null)
@@ -50,8 +50,8 @@ export const getMatchingDimensions = (packageId, params: MatchingDimensionsParam
  * @param cb 
  */
 export const getTimeFilter = (cb) => (dispatch) => {
-  return kpiAPI.getTimeFilter().then((res) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res }
+  return kpiAPI.getTimeFilter().then((res: any) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res.body }
     dispatch(action);
     if (cb) {
       cb(null)
@@ -71,8 +71,8 @@ export const getTimeFilter = (cb) => (dispatch) => {
  * @param cb 
  */
 export const getKpiThresholds = (kpiId, cb) => (dispatch) => {
-  return kpiAPI.getKpiThresholds(kpiId).then((res) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res }
+  return kpiAPI.getKpiThresholds(kpiId).then((res: any) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res.body }
     dispatch(action);
     if (cb) {
       cb(null)
@@ -93,8 +93,8 @@ export const getKpiThresholds = (kpiId, cb) => (dispatch) => {
  * @param cb 
  */
 export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
-  return kpiAPI.getData(packageId, params).then((res) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res }
+  return kpiAPI.getData(packageId, params).then((res: any) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res.body }
     dispatch(action);
     if (cb) {
       cb(null)
