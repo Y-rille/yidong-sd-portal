@@ -28,7 +28,8 @@ export default class BasicLayout extends React.Component<BasicLayoutProps, any> 
       <Layout className={styles['layout']}>
         <HeaderBar navClickHandler={navClickHandler} activeKey={activeKey} />
         <Layout className={styles['page-body']}>
-          <Content className={styles['page-content']}>{this.props.children}</Content>
+          <Content className={styles['page-content']}>{this.props.children}
+          </Content>
         </Layout>
       </Layout>
     );

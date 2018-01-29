@@ -123,3 +123,13 @@
     overflow-y: auto;
   }
 }
+
+.ant-modal-close-x {
+  margin-right: -50px;
+  font-size: 30px;
+  color: #fff;
+}
+
+.ant-modal-body {
+  padding: 20px
+}

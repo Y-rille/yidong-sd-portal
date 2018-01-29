@@ -4,8 +4,9 @@ import * as classNames from 'classnames';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
-
-import { Row, Col, Breadcrumb, Icon, Button } from 'antd';
+import moment from '../../../common/moment'
+import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
+import FactModal from '../../../components/FactModal/'
 
 declare let global: any;
 
@@ -23,7 +24,8 @@ class Home extends React.Component<any, any> {
             activeKey: _.compact([
                 matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
                 matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-            ]).toString()
+            ]).toString(),
+            visible: false
         };
     }
     tabClick(e) {
@@ -56,8 +58,25 @@ class Home extends React.Component<any, any> {
             return <li className={classNames(cls)} data-path={item.key} onClick={this.tabClick.bind(this)}>{item.name}</li>
         })
     }
+    showModal() {
+        this.setState({
+            visible: true
+        })
+    }
+    handleOk() {
+        this.setState({
+            visible: false
+        })
+    }
+    handleCancel() {
+        this.setState({
+            visible: false
+        })
+    }
     render() {
-
+        // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
+        // console.log(`开始时间:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf()}`)
+        // console.log(`结束时间:${moment().tz('Asia/Shanghai').valueOf()}`)
         let { match } = this.props
         let { activeKey } = this.state
         return (
@@ -78,7 +97,7 @@ class Home extends React.Component<any, any> {
                             <ul>
                                 {this.renderTab()}
                             </ul>
-                            <Button><Icon type="tag-o" />添加指标</Button>
+                            <Button onClick={this.showModal.bind(this)}><Icon type="tag-o" />添加指标</Button>
                         </div>
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
@@ -87,6 +106,7 @@ class Home extends React.Component<any, any> {
                         </Switch>
                     </div>
                 </SplitPane>
+                <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} />
             </Row>
         );
     }
