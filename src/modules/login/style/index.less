@@ -4,17 +4,45 @@
   background: #f0f2f5;
   background: url('../../../img/bg.jpg');
   width: 100%;
-  height: 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100% 100%;
-}
-
-.top {
-  width: 320px;
-  margin: 120px 160px 0 0;
-  float: right;
-  text-align: center;
+  .top {
+    width: 320px;
+    margin: 160px 200px 0 0;
+    float: right;
+    text-align: center; 
+    .header {
+      height: 39px;
+      line-height: 39px;
+      a {
+        text-decoration: none;
+        .logo {
+          height: 39px;
+          vertical-align: top;
+          margin-right: 16px;
+        }
+      }
+    }
+    .formcont {
+      .prefixIcon {
+        font-size: 20px;
+        color: #a5b7bf;
+      }
+      .additional {
+        text-align: left; 
+        .remember {
+          color: #a5b7bf;
+        }     
+        .submit {
+          width: 100%;   
+        }
+        .forgot{
+          display: none;
+        }
+      }  
+    }
+  }
   :global {
     .ant-divider-inner-text {
       color: #d8dada;   
@@ -25,30 +53,6 @@
     .ant-divider-with-text:after{
       border-top: 1px solid #336f7e;
     }
-  }
-}
-
-.header {
-  height: 39px;
-  line-height: 39px;
-  a {
-    text-decoration: none;
-  }
-}
-
-.logo {
-  height: 39px;
-  vertical-align: top;
-  margin-right: 16px;
-}
-
-.footer {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-}
-.main {
-  :global {
     .ant-input {
       background: #336f7e;
       border: none;
@@ -56,23 +60,18 @@
     .ant-input:not(:first-child) {
       padding-left: 36px;
     }
+    .ant-input-lg {
+      color: #d8dada;
+    }
     .ant-checkbox-inner {
       background-color: #336f7e;
     }
   }
-
-  .prefixIcon {
-    font-size: 20px;
-    color: #a5b7bf;
-  }
-  .additional {
-    text-align: left; 
-    .remember {
-      color: #a5b7bf;
-    }     
-    .submit {
-      width: 100%;   
-    }
-  }
-  
 }
+
+
+
+
+
+
+

@@ -9,17 +9,6 @@ import { FormComponentProps } from 'antd/lib/form/Form';
 declare let global: any;
 
 const FormItem = Form.Item;
-const links = [{
-    title: '帮助',
-    href: '',
-}, {
-    title: '隐私',
-    href: '',
-}, {
-    title: '条款',
-    href: '',
-}];
-const copyright = <div>Copyright <Icon type="copyright" /> 2017</div>;
 
 export interface LoginProps {
     location?,
@@ -61,7 +50,7 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
     renderForm() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className={styles.main}>
+            <div className={styles.formcont}>
                 <Form onSubmit={this.handleSubmit}>
                     <FormItem>
                         {getFieldDecorator('email', {
@@ -87,7 +76,7 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                             )}
                         <Button size="large" className={styles.submit} type="primary" htmlType="submit" disabled={this.state.loading} >
                             登录 </Button>
-                        <a className="login-form-forgot" href="javascript:;">忘记密码</a>
+                        <a className={styles.forgot} href="javascript:;">忘记密码</a>
                     </FormItem>
                 </Form>
 
@@ -103,7 +92,6 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                             <img alt="" className={styles.logo} src={require('../../../img/logo.png')} />
                         </a>
                     </div>
-                    {/*<p className={styles.desc}>cloud management platform</p>*/}
                     <Divider style={{ margin: '32px 0' }}>用户登录</Divider>
                     {this.renderForm()}
                 </div>
