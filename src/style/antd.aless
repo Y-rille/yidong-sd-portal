@@ -1,6 +1,6 @@
 @import "~antd/dist/antd.less";
 @import '~antd/lib/style/v2-compatible-reset.less';
-
+@import "~antd/lib/style/themes/default.less";
 // font
 @icon-url: "/assets/fonts/iconfont/iconfont";
 
@@ -42,7 +42,7 @@
   display: none;
 }
 .ant-layout .ant-menu.ant-menu-dark .ant-menu-item-selected {
-    background-color: #1DA57A;
+    background-color: @primary-color;
 }
 .ant-menu-horizontal {
   border-bottom: 0px;
