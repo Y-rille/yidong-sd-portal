@@ -88,9 +88,7 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
             <div className={styles.login} style={{ height: window.innerHeight }}>
                 <div className={styles.top}>
                     <div className={styles.header}>
-                        <a href="/">
-                            <img alt="" className={styles.logo} src={require('../../../img/logo.png')} />
-                        </a>
+                        <img alt="logo" className={styles.logo} src={require('../../../img/logo.png')} />
                     </div>
                     <Divider style={{ margin: '32px 0' }}>用户登录</Divider>
                     {this.renderForm()}
