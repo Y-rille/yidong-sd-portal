@@ -6,10 +6,12 @@ class PerformanceState {
     name: string;
     config: Object;
     timeFilter: Array<Object>
+    nfvdPm: Object
     constructor() {
         this.name = 'PERFORMANCE'
         this.config = {}
         this.timeFilter = null
+        this.nfvdPm = null
     }
 }
 
