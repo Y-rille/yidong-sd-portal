@@ -7,7 +7,7 @@ import SplitPane from 'react-split-pane'
 
 import moment from '../../../common/moment'
 
-import { Row, Col, Breadcrumb, Tabs, Button } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
 const TabPane = Tabs.TabPane;
 
 declare let global: any;
