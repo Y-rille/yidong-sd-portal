@@ -20,7 +20,7 @@ const extractAntd = new ExtractTextPlugin({
 });
 
 const extractApp = new ExtractTextPlugin({
-  filename: `bundle/iot.css`,
+  filename: `bundle/${pkgJson.name}.css`,
   allChunks: true
 });
 
