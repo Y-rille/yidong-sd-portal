@@ -9,13 +9,13 @@ import { MatchingDimensionsParams, DataParams } from '../api/kpiAPI'
  */
 export const getPackages = (cb) => (dispatch) => {
   return kpiAPI.getPackages().then((res: any) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res.body }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nfvdPm: res.data[0] }
     dispatch(action);
     if (cb) {
       cb(null)
     }
   }).catch((err) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: null }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nfvdPm: null }
     dispatch(action);
     if (cb) {
       cb(err)
