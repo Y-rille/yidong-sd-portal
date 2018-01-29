@@ -5,7 +5,10 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
 
-import { Row, Col, Breadcrumb, Icon, Button } from 'antd';
+import moment from '../../../common/moment'
+
+import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
+const TabPane = Tabs.TabPane;
 
 declare let global: any;
 
@@ -47,7 +50,9 @@ class Home extends React.Component<any, any> {
         })
     }
     render() {
-
+        // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
+        // console.log(`开始时间:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf()}`)
+        // console.log(`结束时间:${moment().tz('Asia/Shanghai').valueOf()}`)
         let { match } = this.props
         let { activeKey } = this.state
         return (
