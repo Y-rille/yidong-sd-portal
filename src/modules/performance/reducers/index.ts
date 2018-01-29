@@ -7,6 +7,9 @@ class PerformanceState {
     config: Object;
     timeFilter: Array<Object>
     nfvdPm: Object
+
+    // TODO: 所以维度 dimensions 以及维度对应的指标 fact
+
     constructor() {
         this.name = 'PERFORMANCE'
         this.config = {}
