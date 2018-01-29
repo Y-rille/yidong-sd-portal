@@ -7,6 +7,7 @@ import { matchPath } from 'react-router'
 import styles from './index.less';
 
 import { Layout, Menu, Icon, Avatar, Dropdown } from 'antd';
+import { login } from '../../modules/common/actions/user';
 const { Header, Footer, Sider, Content } = Layout;
 
 declare let global: any;
@@ -66,25 +67,28 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         const { menu } = this.props;
         return _.map(menu, (item) => {
             return (
-                <Menu.Item key={item.route}>
+                <Menu.Item key={item.route} className={styles.item}>
                     <span>{item.name}</span>
                 </Menu.Item >
             )
         })
+    }
+    exit() {
+        global.hashHistory.push(`/login`)
     }
     render() {
         let { activeKey } = this.props;
         const option = (
             <Menu>
                 <Menu.Item>设置</Menu.Item>
-                <Menu.Item>退出</Menu.Item>
+                <Menu.Item><span onClick={this.exit.bind(this)}>退出</span></Menu.Item>
             </Menu>
         );
         return (
             <Header className={styles.header}>
                 <div className={styles['nav-wrapper']}>
                     <div className={styles.title}>
-                        CMP
+                        <img alt="" src={require('../../img/logo.png')} />
                     </div>
                     <Menu
                         theme="light"
@@ -96,10 +100,10 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                         {this.renderMenuItem()}
                     </Menu>
                     <div className={styles.right}>
-                        <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#00b388' }} />
+                        <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#00b388', marginRight: '8px' }} />
                         <Dropdown overlay={option}>
                             <a className="ant-dropdown-link">
-                                <span style={{ color: '#fff' }}>HPEer</span>
+                                <span style={{ color: '#fff', marginRight: '6px' }}>HPEer</span>
                                 <Icon type="down" style={{ color: '#fff' }} />
                             </a>
                         </Dropdown>
