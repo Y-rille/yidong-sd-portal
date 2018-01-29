@@ -28,6 +28,11 @@ class Home extends React.Component<any, any> {
             visible: false
         };
     }
+    triggerResize() {
+        let e: Event = document.createEvent('Event');
+        e.initEvent('resize', true, true);
+        window.dispatchEvent(e);
+    }
     tabClick(e) {
         let { match } = this.props
         let path = e.target.getAttribute('data-path')
@@ -81,7 +86,12 @@ class Home extends React.Component<any, any> {
         let { activeKey } = this.state
         return (
             <Row className={styles.performance}>
-                <SplitPane split="vertical" minSize={100} maxSize={300} defaultSize={200} >
+                <SplitPane
+                    split="vertical"
+                    minSize={100}
+                    maxSize={300}
+                    defaultSize={200}
+                    onChange={this.triggerResize} >
                     <div>菜单树</div>
                     <div className={styles.main}>
                         <div className={styles.header}>
