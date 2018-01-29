@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import '../../../style/antd.aless'
 
 import FactModal from '../'
+import { Button } from 'antd/lib/radio';
 
 let menu = [
     {
@@ -31,6 +32,6 @@ let menu = [
 storiesOf('FactModal', module)
     .add('default', () => (
         <div>
-            <FactModal menu={menu} />
+            <FactModal menu={menu} visible={true} handleOk={false} handleCancel={false} />
         </div>
     ));

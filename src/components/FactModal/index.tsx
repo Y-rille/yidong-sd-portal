@@ -10,6 +10,9 @@ declare let global: any;
 
 export interface FactModalProps {
     menu?
+    visible
+    handleOk
+    handleCancel
 }
 
 /**
@@ -23,9 +26,6 @@ export interface FactModalProps {
 export default class FactModal extends React.PureComponent<FactModalProps, any> {
     constructor(props) {
         super(props);
-        this.state = {
-            visible: false
-        };
     }
     static propTypes = {
     };
@@ -53,19 +53,13 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
             },
         ]
     }
-    showModal() {
-        this.setState({
-            visible: true,
-        });
-    }
     handleOk() {
-        this.setState({ visible: false });
+        this.props.handleOk();
     }
     handleCancel() {
-        this.setState({ visible: false });
+        this.props.handleCancel();
     }
     onChange(checkedValues) {
-        // console.log('checked = ', checkedValues);
     }
     renderMenuItem() {
         const { menu } = this.props;
@@ -78,12 +72,9 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         })
     }
     render() {
-        const { visible } = this.state;
+        const { visible } = this.props
         return (
             <div>
-                <Button type="primary" onClick={this.showModal.bind(this)}>
-                    添加指标
-            </Button>
                 <Modal visible={visible} title="添加指标" onOk={this.handleOk.bind(this)}
                     onCancel={this.handleCancel.bind(this)} footer={null} className={styles.modal}>
 
@@ -92,26 +83,8 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
                             <Col span={4}>选择指标：</Col>
                             <Col span={20}>
                                 <Row>
-                                    {/* <Col span={12}><Checkbox value="CPU使用率">CPU使用率</Checkbox></Col>
-                                <Col span={12}><Checkbox value="内存使用率">内存使用率</Checkbox></Col> */}
                                     {this.renderMenuItem()}
                                 </Row>
-
-                                {/* <Row style={{ marginTop: '20px' }}>
-                                <Col span={12}><Checkbox value="周平均CPU使用率">周平均CPU使用率</Checkbox></Col>
-                                <Col span={12}><Checkbox value="周平均内存使用率">周平均内存使用率</Checkbox></Col>
-                            </Row>
-                            <Row style={{ marginTop: '20px' }}>
-                                <Col span={12}><Checkbox value="周平均可用内存">周平均可用内存</Checkbox></Col>
-                                <Col span={12}><Checkbox value="周平均总内存">周平均总内存</Checkbox></Col>
-                            </Row>
-                            <Row style={{ marginTop: '20px' }}>
-                                <Col span={12}><Checkbox value="周平均网络端口发送速率">周平均网络端口发送速率</Checkbox></Col>
-                                <Col span={12}><Checkbox value="周平均交换机内存利用率">周平均交换机内存利用率</Checkbox></Col>
-                            </Row>
-                            <Row style={{ marginTop: '20px' }}>
-                                <Col span={12}><Checkbox value="网络端口接收速率">网络端口接收速率</Checkbox></Col>
-                            </Row> */}
                             </Col>
                         </Row>
                     </Checkbox.Group>
