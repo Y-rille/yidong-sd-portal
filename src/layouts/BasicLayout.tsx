@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom'
 export interface BasicLayoutProps {
   navClickHandler?
-  isActive?
+  activeKey?
 }
 
 export default class BasicLayout extends React.Component<BasicLayoutProps, any> {
@@ -23,12 +23,13 @@ export default class BasicLayout extends React.Component<BasicLayoutProps, any> 
     };
   }
   render() {
-    let { navClickHandler, isActive } = this.props
+    let { navClickHandler, activeKey } = this.props
     return (
       <Layout className={styles['layout']}>
-        <HeaderBar navClickHandler={navClickHandler} isActive={isActive} />
+        <HeaderBar navClickHandler={navClickHandler} activeKey={activeKey} />
         <Layout className={styles['page-body']}>
-          <Content className={styles['page-content']}>{this.props.children}</Content>
+          <Content className={styles['page-content']}>{this.props.children}
+          </Content>
         </Layout>
       </Layout>
     );

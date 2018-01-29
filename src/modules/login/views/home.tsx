@@ -40,23 +40,23 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        // let self = this
-        // this.props.form.validateFields((err, values) => {
-        //     if (!err) {
-        //         self.setState({
-        //             loading: true
-        //         })
-        //         // self.props.actions.login(values, (data) => {
-        //         //     self.setState({
-        //         //         loading: false
-        //         //     })
-        //         //     if (data) {
-        //         //         emitter.emit('message', 'success', '登录成功！')
-        //         //         global.hashHistory.replace(`/hub/endpoint`)
-        //         //     }
-        //         // })
-        //     }
-        // });
+        let self = this
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                self.setState({
+                    loading: true
+                })
+                self.props.actions.login(values, (data) => {
+                    self.setState({
+                        loading: false
+                    })
+                    if (data) {
+                        emitter.emit('message', 'success', '登录成功！')
+                        global.hashHistory.replace(`/dashboard`)
+                    }
+                })
+            }
+        });
     }
     renderForm() {
         const { getFieldDecorator } = this.props.form;

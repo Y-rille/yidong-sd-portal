@@ -20,7 +20,7 @@ class Home extends React.Component<any, any> {
                 <div className={styles.toolBar}>
                     工具栏
                 </div>
-                <Row gutter={16} style={{ padding: '0 0' }}>
+                <Row gutter={20} style={{ padding: '0 20px' }}>
                     <Col className="gutter-row" span={12}>
                         <div className="gutter-box">历史趋势</div>
                     </Col>
