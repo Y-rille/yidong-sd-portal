@@ -1,30 +1,29 @@
-@import "../../../style/index.less";
-
+@import "~antd/lib/style/themes/default.less";
 .performance {
     height: 100%;
     .main {
-        margin: @margin-base;
+        margin: 20px;
         background: #fff;
         border-radius: 4px;
         overflow: hidden;
         .header {
-            padding: @margin-base;
+            padding: 20px;
             border-bottom: 1px solid #e2e4e9;
             .title {
                 margin-bottom: 8px;
-                font-size: @margin-base;
+                font-size: 20px;
                 color: #525459;
                 font-weight: normal;
             }
         }
         .tabBar {
             display: flex;
-            padding: @margin-base;
+            padding: 20px;
             justify-content: space-between;
             ul{
                 width: 256px;
                 height: 32px;
-                border: 1px solid #1DA57A;
+                border: 1px solid @primary-color;
                 border-radius: 4px;
                 overflow: hidden;
                 cursor: pointer;
@@ -34,10 +33,10 @@
                         width: 50%;
                         text-align: center;
                         line-height: 32px;
-                        color: #1DA57A;
+                        color: @primary-color;
                     }
                     .tabItem.active {
-                        background: #1DA57A;
+                        background: @primary-color;
                         color: #fff;
                     }
                 }
@@ -46,8 +45,8 @@
         }
     }
     .toolBar {
-        margin-bottom: @margin-base;
-        padding: @margin-base;
+        margin-bottom: 16px;
+        padding: 16px;
         background: #f2f2f2;
     }
 }
@@ -55,8 +54,8 @@
 :global {
     .gutter-box {
         min-height: 300px;
-        margin-bottom: @margin-base;
-        padding: @margin-base;
+        margin-bottom: 16px;
+        padding: 16px;
         border: 1px solid #e8e8e8;
     }
 }
