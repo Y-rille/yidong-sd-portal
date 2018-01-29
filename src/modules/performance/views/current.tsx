@@ -8,6 +8,8 @@ import {
 
 import { Row, Col } from 'antd';
 
+import InstrumentPanel from '../../../components/InstrumentPanel'
+
 class Home extends React.Component<any, any> {
     tabClick() {
 
@@ -16,7 +18,7 @@ class Home extends React.Component<any, any> {
         return (
             <Row gutter={16} style={{ padding: '0 0' }}>
                 <Col className="gutter-row" span={12}>
-                    <div className="gutter-box">当前状态</div>
+                    <div className="gutter-box"><InstrumentPanel/></div>
                 </Col>
                 <Col className="gutter-row" span={12}>
                     <div className="gutter-box">当前状态</div>
