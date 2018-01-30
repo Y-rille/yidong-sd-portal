@@ -16,7 +16,7 @@ const HomeActionCreatorsMap = {
   getData
 }
 
-export interface HubActions {
+export interface PerformanceActions {
   getPackages: Function
   getMatchingDimensions: Function
   getTimeFilter: Function
