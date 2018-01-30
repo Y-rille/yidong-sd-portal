@@ -15,12 +15,16 @@ class Home extends React.Component<any, any> {
     tabClick() {
 
     }
+    inquire(longTime) {
+        // console.log(longTime);
+    }
+
     render() {
         return (
             <div>
                 <div className={styles.toolBar}>
                     工具栏
-                    <TimeSelect />
+                    <TimeSelect inquire={this.inquire.bind(this)} />
                 </div>
                 <Row gutter={20} style={{ padding: '0 20px' }}>
                     <Col className="gutter-row" span={12}>
