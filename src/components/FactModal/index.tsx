@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import styles from './index.less';
-
 import { Modal, Button, Checkbox, Row, Col } from 'antd';
 
 declare let global: any;
@@ -65,7 +64,7 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         const { menu } = this.props;
         return _.map(menu, (item) => {
             return (
-                <Col span={12} style={{ marginBottom: '20px' }}>
+                <Col span={12} className={styles.col}>
                     <Checkbox value={item.value}>{item.name}</Checkbox>
                 </Col>
             )
