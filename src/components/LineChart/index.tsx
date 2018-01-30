@@ -19,52 +19,54 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
     line: any
     options: any
     chart: any
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
     componentDidMount() {
         this.options = {
             title: {
-                text: '',
+                text: null,
                 align: 'left',
                 style: {
-                    'fontSize': '14px',
+                    'fontSize': '14px'
                 }
             },
             chart: {
                 height: 265,
                 type: 'line'
             },
+            xAxis: {
+                tickPosition: 'inside',
+                tickmarkPlacement: null,
+                type: 'category',
+                categories: ['10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30']
+            },
             yAxis: {
                 title: {
-                    text: '',
-
+                    text: null
                 },
+                gridLineColor: '#fff', // 隐藏栅格线
+                minorTickLength: '8px',
                 plotLines: [{
-                    color: 'yellow',
+                    color: '#F3CB74',
                     dashStyle: 'solid',
-                    value: 500,
-                    width: 2,
+                    value: 70,
+                    width: 1,
                     label: {
-                        text: '警戒线',
+                        text: null
                     }
-                }]
+                }],
+                tickAmount: 5 // 刻度总数
             },
             legend: {
                 // layout: 'vertical',
                 align: 'right',
                 // verticalAlign: 'middle'
             },
-            plotOptions: {
-                series: {
-                    label: {
-                        connectorAllowed: false
-                    },
-                    pointStart: 2010
-                }
-            },
-            series: [
-                { name: 'Amy', data: [1001, 200, 312, 222, 222] },
-                { name: 'Tony', data: [701, 222, 312, 322, 422] },
-                { name: 'Peter', data: [101, 200, 32, 22, 622] },
-            ],
+            series:
+                this.props.data,
             responsive: {
                 rules: [{
                     condition: {
@@ -88,11 +90,7 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
         }
         this.chart = Highcharts.chart(this.line, this.options);
     }
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
+
     render() {
         return (
             <div ref={(node) => { this.line = node }} ></div>
