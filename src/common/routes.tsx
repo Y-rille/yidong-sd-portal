@@ -3,6 +3,7 @@ import * as Loadable from 'react-loadable';
 import * as PropTypes from 'prop-types';
 import hashHistory from './history';
 import Site from './site'
+import Loading from './loading'
 import {
   HashRouter as Router,
   Switch,
@@ -11,27 +12,27 @@ import {
 
 const LoginComponent = Loadable({
   loader: () => import(/* webpackChunkName: "login" */'../modules/login/routes/index'),
-  loading: (() => null),
+  loading: () => { return <Loading /> }
 })
 
 const DashboardComponent = Loadable({
   loader: () => import(/* webpackChunkName: "dashboard" */'../modules/dashboard/routes/index'),
-  loading: (() => null),
+  loading: () => { return <Loading /> }
 })
 
 const ResourceComponent = Loadable({
   loader: () => import(/* webpackChunkName: "resource" */'../modules/resource/routes/index'),
-  loading: (() => null),
+  loading: () => { return <Loading /> }
 })
 
 const AlarmComponent = Loadable({
   loader: () => import(/* webpackChunkName: "alarm" */'../modules/alarm/routes/index'),
-  loading: (() => null),
+  loading: () => { return <Loading /> }
 })
 
 const PerformanceComponent = Loadable({
   loader: () => import(/* webpackChunkName: "performance" */'../modules/performance/routes/index'),
-  loading: (() => null),
+  loading: () => { return <Loading /> }
 })
 
 export interface MainRouresProps {

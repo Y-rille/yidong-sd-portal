@@ -135,3 +135,12 @@
 .ant-modal-body {
   padding: 20px
 }
+
+// fix spin
+.ant-spin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -12px;
+  margin-left: -10px;
+}
