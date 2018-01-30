@@ -95,13 +95,17 @@ class Site extends React.Component<SiteProps, any> {
                     message.success(content, duration, onClose)
             }
         })
-        this.props.actions.querytree('0', (err, data) => {
-            this.forceUpdate()
-        })
+        if (!matchPath('/login', { path: this.props.location.pathname })
+            && !this.props.tree) {
+            this.props.actions.querytree('0')
+        }
+
     }
 
     componentWillReceiveProps(nextProps: any) {
-
+        if (!nextProps.tree && nextProps.currentUser) {
+            this.props.actions.querytree('0')
+        }
     }
     componentDidMount() {
     }
@@ -110,7 +114,6 @@ class Site extends React.Component<SiteProps, any> {
     }
 
     render() {
-        // console.log(this.props.tree);
         if (this.props.location.pathname.indexOf('/login') > -1) {
             return (
                 <UserLayout>
@@ -124,6 +127,7 @@ class Site extends React.Component<SiteProps, any> {
                 return (
                     <BasicLayout
                         navClickHandler={this.navClickHandler.bind(this)}
+                        exitHandler={this.exitHandler.bind(this)}
                         activeKey={activeKey}>
                         {this.props.children}
                     </BasicLayout>
