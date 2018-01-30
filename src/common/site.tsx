@@ -11,6 +11,7 @@ import { withRouter, matchPath } from 'react-router'
 import HomeActionCreatorsMap, { CommonActions } from '../modules/common/actions/index'
 
 import emitter from './emitter'
+import { message } from 'antd'
 
 declare let global: any;
 
@@ -78,6 +79,22 @@ class Site extends React.Component<SiteProps, any> {
         global.hashHistory.push(`/login`)
     }
     componentWillMount() {
+        emitter.addListener('message', (type, content, duration, onClose) => {
+            message.destroy()
+            switch (type) {
+                case 'success':
+                    message.success(content, duration, onClose)
+                    break
+                case 'error':
+                    message.error(content, duration, onClose)
+                    break
+                case 'warning':
+                    message.warning(content, duration, onClose)
+                    break
+                default:
+                    message.success(content, duration, onClose)
+            }
+        })
         this.props.actions.querytree('0', (err, data) => {
             this.forceUpdate()
         })
