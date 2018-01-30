@@ -12,7 +12,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
         super(props);
         this.state = {
             longTime: [],
-            obj: {}
+            selectValue: {}
         };
     }
 
@@ -26,7 +26,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
     onSelectChange(value) {
         const { obj } = this.state;
         this.setState({
-            obj: value
+            selectValue: value
         })
     }
 
