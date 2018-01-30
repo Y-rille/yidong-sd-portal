@@ -138,6 +138,32 @@ let getKpiThresholds = {
   }
 }
 
+let getMoInstKpiThresholds = {
+  path: '/datashare-svr/api/kpi/getMoInstKpiThresholds/:moTypeId/:moInstId',
+  method: 'GET',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "data": [
+        {
+          "thresholdId": 1,
+          "kpiId": 1,
+          "criticalThresholdOperator": ">",
+          "criticalThresholdValue": "40",
+          "majorThresholdOperator": ">",
+          "majorThresholdValue": "30",
+          "minorThresholdOperator": ">",
+          "minorThresholdValue": "20",
+          "normalThresholdOperator": ">",
+          "normalThresholdValue": "-1",
+          "state": 1
+        }
+      ]
+    }
+  }
+}
+
 let getData = {
   path: '/datashare-svr/api/kpi/getData/:packageId',
   method: 'GET',
@@ -271,5 +297,6 @@ module.exports = {
   getMatchingDimensions,
   getTimeFilter,
   getKpiThresholds,
+  getMoInstKpiThresholds,
   getData
 }
