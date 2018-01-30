@@ -51,7 +51,6 @@ class Home extends React.Component<any, any> {
             ]).toString()
         };
     }
-
     renderTab() {
         let { activeKey } = this.state
         let tab = [{ key: 'current', name: '当前状态' }, { key: 'history', name: '历史趋势' }]

@@ -21,6 +21,7 @@ function mapProps(state: any) {
         notices: state.commonReducer.notices,
         locale: state.commonReducer.locale,
         currentUser: state.commonReducer.currentUser,
+        tree: state.commonReducer.tree
     }
 }
 function mapDispatchToProps(dispatch: any) {
@@ -34,7 +35,10 @@ export interface SiteProps {
     actions?: CommonActions;
     locale: string,
     currentUser?,
-    location
+    location,
+    matchPath,
+    match,
+    tree
 }
 
 class Site extends React.Component<SiteProps, any> {
@@ -74,6 +78,12 @@ class Site extends React.Component<SiteProps, any> {
         global.hashHistory.push(`/login`)
     }
     componentWillMount() {
+        this.props.actions.querytree('0', (err, data) => {
+            this.forceUpdate()
+        })
+    }
+
+    componentWillReceiveProps(nextProps: any) {
 
     }
     componentDidMount() {
@@ -83,6 +93,7 @@ class Site extends React.Component<SiteProps, any> {
     }
 
     render() {
+        // console.log(this.props.tree);
         if (this.props.location.pathname.indexOf('/login') > -1) {
             return (
                 <UserLayout>
@@ -92,13 +103,17 @@ class Site extends React.Component<SiteProps, any> {
         } else {
             let { currentUser } = this.props
             let { activeKey } = this.state
-            return (
-                <BasicLayout
-                    navClickHandler={this.navClickHandler.bind(this)}
-                    activeKey={activeKey} exitHandler={this.exitHandler.bind(this)}>
-                    {this.props.children}
-                </BasicLayout>
-            );
+            if (this.props.tree) {
+                return (
+                    <BasicLayout
+                        navClickHandler={this.navClickHandler.bind(this)}
+                        activeKey={activeKey}>
+                        {this.props.children}
+                    </BasicLayout>
+                );
+            } else {
+                return <div>loading</div>
+            }
         }
     }
 }
