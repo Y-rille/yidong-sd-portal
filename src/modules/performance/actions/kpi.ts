@@ -87,6 +87,28 @@ export const getKpiThresholds = (kpiId, cb) => (dispatch) => {
 }
 
 /**
+ * 对象实例阈值
+ * @param moTypeId 对象类型ID
+ * @param moInstId 对象实例ID
+ * @param cb 
+ */
+export const getMoInstKpiThresholds = (moTypeId, moInstId, cb) => (dispatch) => {
+  return kpiAPI.getMoInstKpiThresholds(moTypeId, moInstId).then((res: any) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res.body }
+    dispatch(action);
+    if (cb) {
+      cb(null)
+    }
+  }).catch((err) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: null }
+    dispatch(action);
+    if (cb) {
+      cb(err)
+    }
+  })
+}
+
+/**
  * 指标数据查询
  * @param packageId 分析模型包ID
  * @param params 

@@ -71,6 +71,9 @@ class KpiAPI {
   getData(packageId, params: DataParams) {
     return axios.get(`/api/datashare-svr/api/kpi/getData/${packageId}?${stringify(params)}`)
   }
+  getMoInstKpiThresholds(moTypeId, moInstId) {
+    return axios.get(`/datashare-svr/api/kpi/getMoInstKpiThresholds/${moTypeId}/${moInstId}`)    
+  }
 }
 
 export default new KpiAPI();
