@@ -22,7 +22,7 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
     componentDidMount() {
         this.options = {
             title: {
-                text: '折线图',
+                text: '',
                 align: 'left',
                 style: {
                     'fontSize': '14px',
@@ -34,8 +34,8 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
             },
             yAxis: {
                 title: {
-                    // text: '就业人数',
-                    useHTML: false
+                    text: '',
+
                 },
                 plotLines: [{
                     color: 'yellow',
@@ -80,29 +80,10 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                 }]
             },
             credits: {
-                enabled: false // 禁用版权信息
+                enabled: false
             },
             exporting: {
-                enabled: true,
-                buttons: {
-                    contextButton: {
-                        menuItems: [{
-                            text: 'Export to PNG (small)',
-                            onclick: function () {
-                                // this.exportChart({
-                                //     width: 250
-                                // });
-                            }
-                        }, {
-                            text: 'Export to PNG (large)',
-                            onclick: function () {
-                                // this.exportChart();
-                            },
-                            separator: false
-                        }]
-
-                    }
-                }
+                enabled: false,
             }
         }
         this.chart = Highcharts.chart(this.line, this.options);
