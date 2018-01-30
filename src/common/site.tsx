@@ -6,6 +6,8 @@ import UserLayout from '../layouts/UserLayout'
 const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
 
+import { Spin } from 'antd';
+
 import _ from 'lodash';
 import { withRouter, matchPath } from 'react-router'
 import HomeActionCreatorsMap, { CommonActions } from '../modules/common/actions/index'
@@ -142,7 +144,7 @@ class Site extends React.Component<SiteProps, any> {
                     </BasicLayout>
                 );
             } else {
-                return <div>loading</div>
+                return <Spin />
             }
         }
     }
