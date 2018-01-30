@@ -41,7 +41,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
 
     render() {
         return (
-            <div style={{marginTop:'-11px'}}>
+            <div style={{marginTop: '-11px'}}>
                 <span style={{ marginLeft: 5 }}>创建时间：</span>
                 <LocaleProvider locale={zh_CN}>
                 <RangePicker
