@@ -16,8 +16,8 @@ class Home extends React.Component<any, any> {
     tabClick() {
 
     }
-    inquire(longTime, obj) {
-        // console.log(longTime, obj);
+    inquire(longTime, selectValue) {
+        // console.log(longTime, selectValue);
     }
 
     render() {
