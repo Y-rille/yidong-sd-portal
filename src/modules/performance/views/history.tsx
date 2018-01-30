@@ -11,15 +11,15 @@ import { Row, Col } from 'antd';
 import styles from '../style/index.less'
 import TimeSelect from '../../../components/TimeSelect/';
 import LineChart from '../../../components/LineChart/'
+
 let data = [{
-    name: '安装，实施人员',
-    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+    name: '2018-1-30',
+    color: '#5CCBAE',
+    data: [34, 40, 77, 58, 41, 31, 33, 75, 43, 82, 21, 4]
 }, {
-    name: '工人',
-    data: [24916, 24064, 29742, 29851, 56432, 30282, 38121, 40434]
-}, {
-    name: '销售',
-    data: [16005, 17722, 11744, 19771, 20185, 24377, 32147, 39387]
+    name: '2018-1-31',
+    color: '#99CADA',
+    data: [16, 64, 42, 51, 32, 82, 51, 34, 31, 19, 33, 15]
 }]
 
 class Home extends React.Component<any, any> {

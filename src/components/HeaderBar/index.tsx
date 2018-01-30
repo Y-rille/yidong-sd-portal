@@ -83,7 +83,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         const option = (
             <Menu>
                 <Menu.Item>设置</Menu.Item>
-                <Menu.Item><span onClick={this.exit.bind(this)}>退出</span></Menu.Item>
+                <Menu.Item><a onClick={this.exit.bind(this)}>退出</a></Menu.Item>
             </Menu>
         );
         return (
