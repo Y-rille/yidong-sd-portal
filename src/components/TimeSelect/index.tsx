@@ -11,43 +11,48 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
     constructor(props) {
         super(props);
         this.state = {
-            longTime: []
+            longTime: [],
+            obj: {}
         };
     }
 
-    onChange(value, dateString) {
+    onRangePickerChange(value, dateString) {
         const { longTime } = this.state;
         this.setState({
-            longTime: [value[0]._d.getTime(), value[1]._d.getTime()]
+            longTime: [value[0]._d.getTime(), value[1]._d.getTime()],
+        })
+    }
+
+    onSelectChange(value) {
+        const { obj } = this.state;
+        this.setState({
+            obj: value
         })
     }
 
     handleClick() {
-        const { longTime } = this.state;
-        this.props.inquire(longTime);
+        const { longTime, obj } = this.state;
+        this.props.inquire(longTime, obj);
     }
 
     render() {
         return (
             <div>
-                <form>
-                    <span>创建时间：</span>
-                    <RangePicker
-                        showTime={{ format: 'YYYY-MM-DD HH:mm' }}
-                        format="YYYY-MM-DD HH:mm:ss"
-                        placeholder={['开始时间', '结束时间']}
-                        onChange={this.onChange.bind(this)}
-                    />
-                    &nbsp;&nbsp;
-                 <Select defaultValue=".com" style={{ width: 180 }}>
-                        <Option value=".com">上周同一时间</Option>
-                        <Option value=".jp">.jp</Option>
-                        <Option value=".cn">.cn</Option>
-                        <Option value=".org">.org</Option>
-                    </Select>
-                    &nbsp;&nbsp;
-                    <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
-                </form>
+                <span style={{ marginLeft: 5 }}>创建时间：</span>
+                <RangePicker
+                    style={{ marginLeft: 10 }}
+                    showTime={{ format: 'YYYY-MM-DD HH:mm' }}
+                    format="YYYY-MM-DD HH:mm:ss"
+                    placeholder={['开始时间', '结束时间']}
+                    onChange={this.onRangePickerChange.bind(this)}
+                />
+                <Select defaultValue=".com" style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
+                    <Option value=".com">上周同一时间</Option>
+                    <Option value=".jp">.jp</Option>
+                    <Option value=".cn">.cn</Option>
+                    <Option value=".org">.org</Option>
+                </Select>
+                <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
             </div>
         )
     }
