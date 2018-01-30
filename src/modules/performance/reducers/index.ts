@@ -7,6 +7,7 @@ class PerformanceState {
     config: Object;
     timeFilter: Array<Object>
     nfvdPm: Object
+    moInstKpiThresholds: Object
 
     // TODO: 所以维度 dimensions 以及维度对应的指标 fact
 
@@ -15,6 +16,7 @@ class PerformanceState {
         this.config = {}
         this.timeFilter = null
         this.nfvdPm = null
+        this.moInstKpiThresholds = null
     }
 }
 
