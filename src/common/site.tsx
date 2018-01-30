@@ -11,6 +11,7 @@ import { withRouter, matchPath } from 'react-router'
 import HomeActionCreatorsMap, { CommonActions } from '../modules/common/actions/index'
 
 import emitter from './emitter'
+import { message } from 'antd'
 
 declare let global: any;
 
@@ -40,6 +41,11 @@ export interface SiteProps {
     match,
     tree
 }
+
+message.config({
+    top: 100,
+    duration: 2,
+});
 
 class Site extends React.Component<SiteProps, any> {
     static contextTypes = {
@@ -78,6 +84,19 @@ class Site extends React.Component<SiteProps, any> {
         global.hashHistory.push(`/login`)
     }
     componentWillMount() {
+        emitter.addListener('message', (type, content, duration, onClose) => {
+            message.destroy()
+            switch (type) {
+                case 'error':
+                    message.error(content, duration, onClose)
+                    break
+                case 'warning':
+                    message.warning(content, duration, onClose)
+                    break
+                default:
+                    message.success(content, duration, onClose)
+            }
+        })
         if (!matchPath('/login', { path: this.props.location.pathname })
             && !this.props.tree) {
             this.props.actions.querytree('0')
