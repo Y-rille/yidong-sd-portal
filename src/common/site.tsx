@@ -70,10 +70,12 @@ class Site extends React.Component<SiteProps, any> {
         })
         global.hashHistory.push(`/${key}`)
     }
+    exitHandler() {
+        global.hashHistory.push(`/login`)
+    }
     componentWillMount() {
 
     }
-
     componentDidMount() {
     }
 
@@ -93,7 +95,7 @@ class Site extends React.Component<SiteProps, any> {
             return (
                 <BasicLayout
                     navClickHandler={this.navClickHandler.bind(this)}
-                    activeKey={activeKey}>
+                    activeKey={activeKey} exitHandler={this.exitHandler.bind(this)}>
                     {this.props.children}
                 </BasicLayout>
             );
