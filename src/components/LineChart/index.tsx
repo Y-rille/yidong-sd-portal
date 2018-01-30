@@ -19,6 +19,12 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
     line: any
     options: any
     chart: any
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+    }
     componentDidMount() {
         this.options = {
             title: {
@@ -35,18 +41,18 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
             yAxis: {
                 title: {
                     text: '',
-
                 },
                 plotLines: [{
                     color: 'yellow',
                     dashStyle: 'solid',
-                    value: 500,
+                    value: 82500,
                     width: 2,
                     label: {
                         text: '警戒线',
                     }
                 }]
             },
+
             legend: {
                 // layout: 'vertical',
                 align: 'right',
@@ -57,14 +63,10 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                     label: {
                         connectorAllowed: false
                     },
-                    pointStart: 2010
+                    pointStart: 10
                 }
             },
-            series: [
-                { name: 'Amy', data: [1001, 200, 312, 222, 222] },
-                { name: 'Tony', data: [701, 222, 312, 322, 422] },
-                { name: 'Peter', data: [101, 200, 32, 22, 622] },
-            ],
+            series: this.props.data,
             responsive: {
                 rules: [{
                     condition: {
@@ -88,11 +90,7 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
         }
         this.chart = Highcharts.chart(this.line, this.options);
     }
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
+
     render() {
         return (
             <div ref={(node) => { this.line = node }} ></div>
