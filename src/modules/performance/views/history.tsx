@@ -33,7 +33,7 @@ class Home extends React.Component<any, any> {
     render() {
         return (
             <div>
-                <div className={styles.toolBar}>
+                <div className={styles.toolBar} style={{backgroundColor:'#FFF',height:45}}>
                     <TimeSelect inquire={this.inquire.bind(this)} />
                 </div>
                 <Row gutter={20} style={{ padding: '0 20px' }}>
