@@ -47,10 +47,11 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 startAngle: -90, //  起始角度
                 endAngle: 90,
                 background: {
-                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
-                    innerRadius: '60%', // 刻度內轴位置，厚度
+                    backgroundColor: '#EEE',
+                    innerRadius: '80%', // 刻度內轴位置，厚度
                     outerRadius: '100%', // 刻度外轴
-                    shape: 'arc'
+                    shape: 'arc',
+                    borderWidth: 0
                 }
             },
             tooltip: {  // 数据提示框：不显示
@@ -63,17 +64,17 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             },
             yAxis: {
                 stops: [ // 进度条颜色，从0-1
-                    [0.3, '#48caaa'], // green
-                    [0.5, '#2dd2aa'], // yellow
-                    [0.8, '#00b388'] // red
+                    // [0.3, '#48caaa'], 
+                    // [0.5, '#2dd2aa'], 
+                    [1, '#00b388']
                 ],
                 lineWidth: 0,
                 minorTickInterval: null,
                 tickPixelInterval: 400,
                 tickWidth: 0,
                 title: {
-                    text: 'title',
-                    y: -60 // 标题高度
+                    text: '50%<br/><span style="font-size:10px;color:silver">|</span>',
+                    y: -70 // 标题高度
                 },
                 labels: {
                     y: 14 // 刻度范围位置
@@ -82,10 +83,11 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             plotOptions: { // 中间显示框
                 solidgauge: {
                     dataLabels: {
-                        y: 15,
+                        y: 8,
                         borderWidth: 0,
                         useHTML: true
-                    }
+                    },
+                    // rounded: true // 进度条变圆角
                 }
             },
             exporting: { enabled: false },
@@ -102,9 +104,9 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             yAxis: {
                 min: data.min,
                 max: data.max,
-                title: {
-                    text: data.title
-                },
+                // title: {
+                //     text: data.title
+                // },
                 // plotBands: [{   // 刻度条颜色
                 //     from: 0,
                 //     to: 120,
@@ -121,7 +123,11 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             },
 
             series: [{
-                data: [data.current],
+                data: [{
+                    radius: 100,
+                    innerRadius: 80,
+                    y: data.current
+                }],
 
             }]
         }

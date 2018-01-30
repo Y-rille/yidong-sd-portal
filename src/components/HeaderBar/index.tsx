@@ -17,6 +17,7 @@ export interface HeaderBarProps {
     navClickHandler?
     activeKey?
     exitHandler
+    currentUser
 }
 
 /**
@@ -78,11 +79,11 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         this.props.exitHandler();
     }
     render() {
-        let { activeKey } = this.props;
+        let { activeKey, currentUser } = this.props;
         const option = (
             <Menu>
                 <Menu.Item>设置</Menu.Item>
-                <Menu.Item><span onClick={this.exit.bind(this)}>退出</span></Menu.Item>
+                <Menu.Item><a onClick={this.exit.bind(this)}>退出</a></Menu.Item>
             </Menu>
         );
         return (
@@ -104,7 +105,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                         <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#00b388', marginRight: '8px' }} />
                         <Dropdown overlay={option}>
                             <a className="ant-dropdown-link">
-                                <span style={{ color: '#fff', marginRight: '6px' }}>HPEer</span>
+                                <span style={{ color: '#fff', marginRight: '6px' }}>{currentUser.name}</span>
                                 <Icon type="down" style={{ color: '#fff' }} />
                             </a>
                         </Dropdown>
