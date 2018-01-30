@@ -12,6 +12,7 @@ export interface FactModalProps {
     visible
     handleOk
     handleCancel
+    defaultMenu?
 }
 
 /**
@@ -50,6 +51,16 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
                 name: 'content5',
                 value: 'content5'
             },
+        ],
+        defaultMenu: [
+            {
+                name: 'content1',
+                value: 'content1'
+            },
+            {
+                name: 'content3',
+                value: 'content3'
+            }
         ]
     }
     handleOk() {
@@ -70,6 +81,12 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
             )
         })
     }
+    renderDefaultMenuItem() {
+        const { defaultMenu } = this.props;
+        return _.map(defaultMenu, (item) => {
+            return item.value;
+        })
+    }
     render() {
         const { visible } = this.props
         return (
@@ -77,7 +94,7 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
                 <Modal visible={visible} title="添加指标" onOk={this.handleOk.bind(this)}
                     onCancel={this.handleCancel.bind(this)} footer={null} className={styles.modal}>
 
-                    <Checkbox.Group style={{ width: '100%' }} onChange={this.onChange.bind(this)}>
+                    <Checkbox.Group style={{ width: '100%' }} onChange={this.onChange.bind(this)} defaultValue={this.renderDefaultMenuItem()}>
                         <Row>
                             <Col span={4}>选择指标：</Col>
                             <Col span={20}>
