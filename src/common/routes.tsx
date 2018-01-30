@@ -19,6 +19,10 @@ const DashboardComponent = Loadable({
   loader: () => import(/* webpackChunkName: "dashboard" */'../modules/dashboard/routes/index'),
   loading: () => { return <Loading /> }
 })
+const SettingComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "dashboard" */'../modules/setting/routes/index'),
+  loading: () => { return <Loading /> }
+})
 
 const ResourceComponent = Loadable({
   loader: () => import(/* webpackChunkName: "resource" */'../modules/resource/routes/index'),
@@ -59,6 +63,7 @@ export default class MainRoures extends React.PureComponent<MainRouresProps, any
           <Switch>
             <Route path="/login" component={LoginComponent} />
             <Route path="/dashboard" component={DashboardComponent} />
+            <Route path="/setting" component={SettingComponent} />
             <Route path="/resource" component={ResourceComponent} />
             <Route path="/alarm" component={AlarmComponent} />
             <Route path="/performance" component={PerformanceComponent} />

@@ -7,12 +7,8 @@ import SplitPane from 'react-split-pane'
 import moment from '../../../common/moment'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
 import FactModal from '../../../components/FactModal/'
-import TreeSelect from '../../../components/TreeSelect'
 
 declare let global: any;
-
-import Current from '../container/current'
-import History from '../container/history'
 
 import styles from '../style/index.less'
 
@@ -97,9 +93,7 @@ class Home extends React.Component<any, any> {
                     maxSize={300}
                     defaultSize={200}
                     onChange={this.triggerResize} >
-                    <div className={styles.tree}>
-                        <TreeSelect />
-                    </div>
+                    <div>菜单树</div>
                     <div className={styles.main}>
                         <div className={styles.header}>
                             <h1 className={styles.title}>交换机</h1>
@@ -116,14 +110,10 @@ class Home extends React.Component<any, any> {
                             </ul>
                             <Button onClick={this.showModal.bind(this)}><Icon type="tag-o" />添加指标</Button>
                         </div>
-                        <Switch>
-                            <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-                            <Route path={`${match.url}/current`} component={Current} />
-                            <Route path={`${match.url}/history`} component={History} />
-                        </Switch>
+                        seting
                     </div>
                 </SplitPane>
-                <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} />
+
             </Row>
         );
     }
