@@ -3,6 +3,7 @@ import {
   getMatchingDimensions,
   getTimeFilter,
   getKpiThresholds,
+  getMoInstKpiThresholds,
   getData
 } from './kpi'
 
@@ -11,6 +12,7 @@ const HomeActionCreatorsMap = {
   getMatchingDimensions,
   getTimeFilter,
   getKpiThresholds,
+  getMoInstKpiThresholds,
   getData
 }
 
@@ -19,6 +21,7 @@ export interface HubActions {
   getMatchingDimensions: Function
   getTimeFilter: Function
   getKpiThresholds: Function
+  getMoInstKpiThresholds: Function
   getData: Function
 }
 
