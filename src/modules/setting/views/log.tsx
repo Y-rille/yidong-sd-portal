@@ -17,11 +17,6 @@ class Log extends React.Component<any, any> {
             visible: false
         };
     }
-    triggerResize() {
-        let e: Event = document.createEvent('Event');
-        e.initEvent('resize', true, true);
-        window.dispatchEvent(e);
-    }
     componentWillReceiveProps(nextProps) {
     }
     // showModal() {
@@ -50,7 +45,7 @@ class Log extends React.Component<any, any> {
         return (
             <Row className={styles.performance}>
                 <div>log</div>
-
+                000
             </Row>
         );
     }

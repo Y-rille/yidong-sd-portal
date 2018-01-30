@@ -15,11 +15,6 @@ class User extends React.Component<any, any> {
             visible: false
         };
     }
-    triggerResize() {
-        let e: Event = document.createEvent('Event');
-        e.initEvent('resize', true, true);
-        window.dispatchEvent(e);
-    }
     componentWillReceiveProps(nextProps) {
     }
     // showModal() {
