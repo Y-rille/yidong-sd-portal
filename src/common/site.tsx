@@ -99,7 +99,15 @@ class Site extends React.Component<SiteProps, any> {
             && !this.props.tree) {
             this.props.actions.querytree('0')
         }
-
+        if (!this.props.currentUser) {
+            if (this.props.location.pathname.indexOf('/login') < 0) {
+                this.props.actions.touch((user) => {
+                    if (!user) {
+                        global.hashHistory.replace('/login')
+                    }
+                })
+            }
+        }
     }
 
     componentWillReceiveProps(nextProps: any) {
@@ -128,7 +136,8 @@ class Site extends React.Component<SiteProps, any> {
                     <BasicLayout
                         navClickHandler={this.navClickHandler.bind(this)}
                         exitHandler={this.exitHandler.bind(this)}
-                        activeKey={activeKey}>
+                        activeKey={activeKey}
+                        currentUser={currentUser ? currentUser : ''}>
                         {this.props.children}
                     </BasicLayout>
                 );
