@@ -44,6 +44,11 @@ export interface SiteProps {
     tree
 }
 
+message.config({
+    top: 100,
+    duration: 2,
+});
+
 class Site extends React.Component<SiteProps, any> {
     static contextTypes = {
         router: PropTypes.object,
@@ -84,9 +89,6 @@ class Site extends React.Component<SiteProps, any> {
         emitter.addListener('message', (type, content, duration, onClose) => {
             message.destroy()
             switch (type) {
-                case 'success':
-                    message.success(content, duration, onClose)
-                    break
                 case 'error':
                     message.error(content, duration, onClose)
                     break
