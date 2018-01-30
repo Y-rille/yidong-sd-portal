@@ -26,6 +26,11 @@ export interface FactModalProps {
 export default class FactModal extends React.PureComponent<FactModalProps, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            menuValue: _.map(this.props.defaultMenu, (item) => {
+                return item.value;
+            })
+        }
     }
     static propTypes = {
     };
@@ -33,43 +38,46 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         menu: [
             {
                 name: 'content1',
-                value: 'content1'
+                value: 'value1'
             },
             {
                 name: 'content2',
-                value: 'content2'
+                value: 'value2'
             },
             {
                 name: 'content3',
-                value: 'content3'
+                value: 'value3'
             },
             {
                 name: 'content4',
-                value: 'content4'
+                value: 'value4'
             },
             {
                 name: 'content5',
-                value: 'content5'
+                value: 'value5'
             },
         ],
         defaultMenu: [
             {
                 name: 'content1',
-                value: 'content1'
+                value: 'value1'
             },
             {
                 name: 'content3',
-                value: 'content3'
+                value: 'value3'
             }
         ]
     }
     handleOk() {
-        this.props.handleOk();
+        this.props.handleOk(this.state.menuValue);
     }
     handleCancel() {
         this.props.handleCancel();
     }
-    onChange(checkedValues) {
+    onChange(e) {
+        this.setState({
+            menuValue: e
+        })
     }
     renderMenuItem() {
         const { menu } = this.props;
