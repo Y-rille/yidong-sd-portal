@@ -81,7 +81,11 @@ class Site extends React.Component<SiteProps, any> {
         global.hashHistory.push(`/${key}`)
     }
     exitHandler() {
-        global.hashHistory.push(`/login`)
+        this.props.actions.logout((currentUser) => {
+            if (!currentUser) {
+                global.hashHistory.push(`/login`)
+            }
+        })
     }
     componentWillMount() {
         emitter.addListener('message', (type, content, duration, onClose) => {
