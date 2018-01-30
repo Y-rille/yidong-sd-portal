@@ -110,6 +110,7 @@ class Site extends React.Component<SiteProps, any> {
                 return (
                     <BasicLayout
                         navClickHandler={this.navClickHandler.bind(this)}
+                        exitHandler={this.exitHandler.bind(this)}
                         activeKey={activeKey}>
                         {this.props.children}
                     </BasicLayout>
