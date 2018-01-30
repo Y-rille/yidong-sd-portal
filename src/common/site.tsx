@@ -11,6 +11,7 @@ import { withRouter, matchPath } from 'react-router'
 import HomeActionCreatorsMap, { CommonActions } from '../modules/common/actions/index'
 
 import emitter from './emitter'
+import { message } from 'antd'
 
 declare let global: any;
 
@@ -40,6 +41,11 @@ export interface SiteProps {
     match,
     tree
 }
+
+message.config({
+    top: 100,
+    duration: 2,
+});
 
 class Site extends React.Component<SiteProps, any> {
     static contextTypes = {
@@ -78,11 +84,32 @@ class Site extends React.Component<SiteProps, any> {
         global.hashHistory.push(`/login`)
     }
     componentWillMount() {
+        emitter.addListener('message', (type, content, duration, onClose) => {
+            message.destroy()
+            switch (type) {
+                case 'error':
+                    message.error(content, duration, onClose)
+                    break
+                case 'warning':
+                    message.warning(content, duration, onClose)
+                    break
+                default:
+                    message.success(content, duration, onClose)
+            }
+        })
         if (!matchPath('/login', { path: this.props.location.pathname })
             && !this.props.tree) {
             this.props.actions.querytree('0')
         }
-
+        if (!this.props.currentUser) {
+            if (this.props.location.pathname.indexOf('/login') < 0) {
+                this.props.actions.touch((user) => {
+                    if (!user) {
+                        global.hashHistory.replace('/login')
+                    }
+                })
+            }
+        }
     }
 
     componentWillReceiveProps(nextProps: any) {
@@ -110,7 +137,9 @@ class Site extends React.Component<SiteProps, any> {
                 return (
                     <BasicLayout
                         navClickHandler={this.navClickHandler.bind(this)}
-                        activeKey={activeKey}>
+                        exitHandler={this.exitHandler.bind(this)}
+                        activeKey={activeKey}
+                        currentUser={currentUser ? currentUser : ''}>
                         {this.props.children}
                     </BasicLayout>
                 );

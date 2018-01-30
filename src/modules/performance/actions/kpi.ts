@@ -94,13 +94,13 @@ export const getKpiThresholds = (kpiId, cb) => (dispatch) => {
  */
 export const getMoInstKpiThresholds = (moTypeId, moInstId, cb) => (dispatch) => {
   return kpiAPI.getMoInstKpiThresholds(moTypeId, moInstId).then((res: any) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res.body }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: res.data}
     dispatch(action);
     if (cb) {
       cb(null)
     }
   }).catch((err) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: null }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: null }
     dispatch(action);
     if (cb) {
       cb(err)
