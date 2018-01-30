@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import styles from './index.less';
-
 import { Modal, Button, Checkbox, Row, Col } from 'antd';
 
 declare let global: any;
@@ -13,6 +12,7 @@ export interface FactModalProps {
     visible
     handleOk
     handleCancel
+    defaultMenu?
 }
 
 /**
@@ -51,6 +51,16 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
                 name: 'content5',
                 value: 'content5'
             },
+        ],
+        defaultMenu: [
+            {
+                name: 'content1',
+                value: 'content1'
+            },
+            {
+                name: 'content3',
+                value: 'content3'
+            }
         ]
     }
     handleOk() {
@@ -65,10 +75,16 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         const { menu } = this.props;
         return _.map(menu, (item) => {
             return (
-                <Col span={12} style={{ marginBottom: '20px' }}>
+                <Col span={12} className={styles.col}>
                     <Checkbox value={item.value}>{item.name}</Checkbox>
                 </Col>
             )
+        })
+    }
+    renderDefaultMenuItem() {
+        const { defaultMenu } = this.props;
+        return _.map(defaultMenu, (item) => {
+            return item.value;
         })
     }
     render() {
@@ -78,7 +94,7 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
                 <Modal visible={visible} title="添加指标" onOk={this.handleOk.bind(this)}
                     onCancel={this.handleCancel.bind(this)} footer={null} className={styles.modal}>
 
-                    <Checkbox.Group style={{ width: '100%' }} onChange={this.onChange.bind(this)}>
+                    <Checkbox.Group style={{ width: '100%' }} onChange={this.onChange.bind(this)} defaultValue={this.renderDefaultMenuItem()}>
                         <Row>
                             <Col span={4}>选择指标：</Col>
                             <Col span={20}>

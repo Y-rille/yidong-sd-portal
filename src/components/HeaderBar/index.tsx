@@ -16,6 +16,7 @@ export interface HeaderBarProps {
     menu?
     navClickHandler?
     activeKey?
+    exitHandler
 }
 
 /**
@@ -74,7 +75,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         })
     }
     exit() {
-        global.hashHistory.push(`/login`)
+        this.props.exitHandler();
     }
     render() {
         let { activeKey } = this.props;

@@ -9,7 +9,6 @@ import {
 import { Row, Col, Button } from 'antd';
 
 import InstrumentPanel from '../../../components/InstrumentPanel'
-import LineChart from '../../../components/LineChart'
 
 class Home extends React.Component<any, any> {
     instrumentPanel_1: any
@@ -37,7 +36,7 @@ class Home extends React.Component<any, any> {
                     </div>
                 </Col>
                 <Col className="gutter-row" span={12}>
-                    <div className="gutter-box"><LineChart /></div>
+                    <div className="gutter-box">当前状态</div>
                 </Col>
                 <Col className="gutter-row" span={12}>
                     <div className="gutter-box">当前状态</div>

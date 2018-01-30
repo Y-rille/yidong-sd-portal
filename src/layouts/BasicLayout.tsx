@@ -11,6 +11,7 @@ import {
 export interface BasicLayoutProps {
   navClickHandler?
   activeKey?
+  exitHandler?
 }
 
 export default class BasicLayout extends React.Component<BasicLayoutProps, any> {
@@ -23,10 +24,10 @@ export default class BasicLayout extends React.Component<BasicLayoutProps, any> 
     };
   }
   render() {
-    let { navClickHandler, activeKey } = this.props
+    let { navClickHandler, activeKey, exitHandler } = this.props
     return (
       <Layout className={styles['layout']}>
-        <HeaderBar navClickHandler={navClickHandler} activeKey={activeKey} />
+        <HeaderBar navClickHandler={navClickHandler} activeKey={activeKey} exitHandler={exitHandler} />
         <Layout className={styles['page-body']}>
           <Content className={styles['page-content']}>{this.props.children}
           </Content>
