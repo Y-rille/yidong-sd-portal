@@ -8,7 +8,7 @@ import commonAPI from '../api/commonAPI'
  */
 export const querytree = (parTreeId, cb) => (dispatch) => {
   return commonAPI.querytree(parTreeId).then((res: any) => {
-    let action = { type: ActionTypes.COMMON_GET_QUERYTREE, tree: res.body }
+    let action = { type: ActionTypes.COMMON_GET_QUERYTREE, tree: res.data }
     dispatch(action);
     if (cb) {
       cb(null)

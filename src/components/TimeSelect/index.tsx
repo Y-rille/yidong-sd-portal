@@ -1,45 +1,58 @@
 import React from 'react';
-import { DatePicker } from 'antd';
+import { DatePicker, Input, Select, Button } from 'antd';
 const { RangePicker } = DatePicker;
+const Option = Select.Option;
 
 export interface TimeSelectProps {
-
+    inquire?
 }
 
 export default class TimeSelect extends React.PureComponent<TimeSelectProps, any> {
     constructor(props) {
         super(props);
         this.state = {
-            longTime: []
+            longTime: [],
+            selectValue: {}
         };
     }
 
-    onChange(value, dateString) {
+    onRangePickerChange(value, dateString) {
         const { longTime } = this.state;
         this.setState({
-            longTime: [value[0]._d.getTime(), value[1]._d.getTime()]
+            longTime: [value[0]._d.getTime(), value[1]._d.getTime()],
         })
     }
 
-    getTimeForMs() {
-        const { longTime } = this.state;
-        return longTime;
+    onSelectChange(value) {
+        const { obj } = this.state;
+        this.setState({
+            selectValue: value
+        })
     }
 
-    onOk(value) {
-        // console.log('onOk: ', value);
+    handleClick() {
+        const { longTime, obj } = this.state;
+        this.props.inquire(longTime, obj);
     }
 
     render() {
         return (
             <div>
+                <span style={{ marginLeft: 5 }}>创建时间：</span>
                 <RangePicker
+                    style={{ marginLeft: 10 }}
                     showTime={{ format: 'YYYY-MM-DD HH:mm' }}
                     format="YYYY-MM-DD HH:mm:ss"
-                    placeholder={['Start Time', 'End Time']}
-                    onChange={this.onChange}
-                    onOk={this.onOk}
+                    placeholder={['开始时间', '结束时间']}
+                    onChange={this.onRangePickerChange.bind(this)}
                 />
+                <Select defaultValue=".com" style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
+                    <Option value=".com">上周同一时间</Option>
+                    <Option value=".jp">.jp</Option>
+                    <Option value=".cn">.cn</Option>
+                    <Option value=".org">.org</Option>
+                </Select>
+                <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
             </div>
         )
     }
