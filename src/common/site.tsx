@@ -74,6 +74,9 @@ class Site extends React.Component<SiteProps, any> {
         })
         global.hashHistory.push(`/${key}`)
     }
+    exitHandler() {
+        global.hashHistory.push(`/login`)
+    }
     componentWillMount() {
         if (!matchPath('/login', { path: this.props.location.pathname })
             && !this.props.tree) {
@@ -87,7 +90,6 @@ class Site extends React.Component<SiteProps, any> {
             this.props.actions.querytree('0')
         }
     }
-
     componentDidMount() {
     }
 
@@ -115,7 +117,6 @@ class Site extends React.Component<SiteProps, any> {
             } else {
                 return <div>loading</div>
             }
-
         }
     }
 }
