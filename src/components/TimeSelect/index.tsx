@@ -1,6 +1,10 @@
 import React from 'react';
+import { LocaleProvider } from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import 'moment/locale/zh-cn';
+
 import { DatePicker, Input, Select, Button } from 'antd';
-const { RangePicker } = DatePicker;
+const  {RangePicker} = DatePicker;
 const Option = Select.Option;
 
 export interface TimeSelectProps {
@@ -12,7 +16,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
         super(props);
         this.state = {
             longTime: [],
-            selectValue: ''
+            selectValue: '.com'
         };
     }
 
@@ -37,20 +41,20 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
 
     render() {
         return (
-            <div>
+            <div style={{marginTop: '-11px'}}>
                 <span style={{ marginLeft: 5 }}>创建时间：</span>
+                <LocaleProvider locale={zh_CN}>
                 <RangePicker
                     style={{ marginLeft: 10 }}
-                    showTime={{ format: 'YYYY-MM-DD HH:mm' }}
+                    showTime
                     format="YYYY-MM-DD HH:mm:ss"
                     placeholder={['开始时间', '结束时间']}
                     onChange={this.onRangePickerChange.bind(this)}
                 />
+                </LocaleProvider>
                 <Select defaultValue=".com" style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
                     <Option value=".com">上周同一时间</Option>
-                    <Option value=".jp">.jp</Option>
-                    <Option value=".cn">.cn</Option>
-                    <Option value=".org">.org</Option>
+                    <Option value=".jp">上月同一时间</Option>
                 </Select>
                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
             </div>

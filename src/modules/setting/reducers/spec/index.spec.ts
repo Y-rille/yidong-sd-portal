@@ -1,7 +1,7 @@
 // tslint:disable
 import { expect, assert } from 'chai';
 import * as deepFreeze from 'deep-freeze';
-import { PerformanceState, performanceReducer } from '../index';
+import { SettingState, settingReducer } from '../index';
 
 // http://chaijs.com/api/assert/
 

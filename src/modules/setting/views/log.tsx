@@ -6,10 +6,8 @@ import SplitPane from 'react-split-pane'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
 
 declare let global: any;
-
 import styles from '../style/index.less'
-
-class Home extends React.Component<any, any> {
+class Log extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -60,14 +58,14 @@ class Home extends React.Component<any, any> {
                     </div>
                     <div className={styles.main}>
                         <div className={styles.header}>
-                            <h1 className={styles.title}>用户管理</h1>
+                            <h1 className={styles.title}>日志管理</h1>
                             <Breadcrumb>
                                 <Breadcrumb.Item>首页</Breadcrumb.Item>
                                 <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
                                 <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
-                        seting
+                        日志
                     </div>
                 </SplitPane>
 
@@ -76,4 +74,4 @@ class Home extends React.Component<any, any> {
     }
 }
 
-export default Home;
+export default Log;
