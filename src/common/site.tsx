@@ -75,13 +75,17 @@ class Site extends React.Component<SiteProps, any> {
         global.hashHistory.push(`/${key}`)
     }
     componentWillMount() {
-        this.props.actions.querytree('0', (err, data) => {
-            this.forceUpdate()
-        })
+        if (!matchPath('/login', { path: this.props.location.pathname })
+            && !this.props.tree) {
+            this.props.actions.querytree('0')
+        }
+
     }
 
     componentWillReceiveProps(nextProps: any) {
-
+        if (!nextProps.tree && nextProps.currentUser) {
+            this.props.actions.querytree('0')
+        }
     }
 
     componentDidMount() {
@@ -91,7 +95,6 @@ class Site extends React.Component<SiteProps, any> {
     }
 
     render() {
-        console.log(this.props.tree);
         if (this.props.location.pathname.indexOf('/login') > -1) {
             return (
                 <UserLayout>

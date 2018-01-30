@@ -77,12 +77,17 @@ class Home extends React.Component<any, any> {
             visible: false
         })
     }
+    componentWillMount() {
+    }
     render() {
         // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
         // console.log(`开始时间:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf()}`)
         // console.log(`结束时间:${moment().tz('Asia/Shanghai').valueOf()}`)
-        let { match } = this.props
+        let { match, tree } = this.props
         let { activeKey } = this.state
+        // if (!tree) {
+        //     return <div>loading</div>
+        // }
         return (
             <Row className={styles.performance}>
                 <SplitPane
