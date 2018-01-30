@@ -1,9 +1,12 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
-import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
+
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input } from 'antd';
+const Search = Input.Search
+
+import UserTable from '../../../components/UserTable/'
 
 declare let global: any;
 
@@ -14,6 +17,7 @@ class Home extends React.Component<any, any> {
         super(props);
         this.state = {
             visible: false
+
         };
     }
     triggerResize() {
@@ -22,6 +26,7 @@ class Home extends React.Component<any, any> {
         window.dispatchEvent(e);
     }
     componentWillReceiveProps(nextProps) {
+
     }
     // showModal() {
     //     this.setState({
@@ -61,16 +66,22 @@ class Home extends React.Component<any, any> {
                     <div className={styles.main}>
                         <div className={styles.header}>
                             <h1 className={styles.title}>用户管理</h1>
+
                             <Breadcrumb>
                                 <Breadcrumb.Item>首页</Breadcrumb.Item>
                                 <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
                                 <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
                             </Breadcrumb>
+                            <h1 className={styles._title}>用户管理</h1>
+                            <Button type="primary">新建用户</Button>
+                            <Search
+                                className={styles.search}
+                                placeholder="请输入关键字"
+                            />
+                            <UserTable />
                         </div>
-                        seting
                     </div>
                 </SplitPane>
-
             </Row>
         );
     }
