@@ -295,7 +295,86 @@ let getData = {
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
-    return {
+    return query.timeFilter ? {
+      "headers": [
+          "EVENT_TIMESTAMP",
+          "T_HOST",
+          "4"
+      ],
+      "values": [
+          [
+              1514977200000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514978100000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514979000000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514979900000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514980800000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514981700000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514982600000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514982600000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514983500000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514984400000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514985300000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514986200000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ],
+          [
+              1514987100000,
+              "D03-hpeDL380-COMP04",
+              13072
+          ]
+      ],
+      "status": "OK",
+      "nbVals": 13,
+      "timeColumn": "EVENT_TIMESTAMP",
+      "statusInfo": "",
+      "offset": 0,
+      "totalCount": 13
+  } : {
       "headers": [
         "EVENT_TIMESTAMP",
         "T_HOST",

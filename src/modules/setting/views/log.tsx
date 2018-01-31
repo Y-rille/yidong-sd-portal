@@ -6,7 +6,7 @@ import SplitPane from 'react-split-pane'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input } from 'antd';
 const Search = Input.Search
 
-import UserTable from '../../../components/UserTable/'
+import LogTable from '../../../components/LogTable/'
 
 declare let global: any;
 import styles from '../style/index.less'
@@ -44,8 +44,19 @@ class Log extends React.Component<any, any> {
         // }
         return (
             <Row className={styles.setting}>
-                <div>log</div>
-                000
+                <div className={styles.header}>
+                    <Breadcrumb>
+                        <Breadcrumb.Item>首页</Breadcrumb.Item>
+                        <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
+                        <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <h1 className={styles._title}>日志管理</h1>
+                    <Search
+                        className={styles.search}
+                        placeholder="请输入关键字"
+                    />
+                    <LogTable />
+                </div>
             </Row>
         );
     }
