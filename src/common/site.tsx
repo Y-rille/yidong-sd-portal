@@ -130,6 +130,28 @@ class Site extends React.Component<SiteProps, any> {
     }
 
     render() {
+        const menu = [
+            // {
+            //     name: '首页',
+            //     route: 'dashboard',
+            // },
+            {
+                name: '系统管理',
+                route: 'setting',
+            },
+            {
+                name: '资源管理',
+                route: 'resource',
+            },
+            {
+                name: '告警监控',
+                route: 'alarm',
+            },
+            {
+                name: '性能监控',
+                route: 'performance',
+            }
+        ]
         if (this.props.location.pathname.indexOf('/login') > -1) {
             return (
                 <UserLayout>
@@ -145,6 +167,7 @@ class Site extends React.Component<SiteProps, any> {
                         navClickHandler={this.navClickHandler.bind(this)}
                         exitHandler={this.exitHandler.bind(this)}
                         activeKey={activeKey}
+                        menu={menu}
                         currentUser={currentUser ? currentUser : ''}>
                         {this.props.children}
                     </BasicLayout>
