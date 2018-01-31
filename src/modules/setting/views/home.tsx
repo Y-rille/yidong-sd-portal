@@ -53,8 +53,6 @@ class Home extends React.Component<any, any> {
                     </div>
                     <div className={styles.main}>
                         <div className={styles.header}>
-                            <h1 className={styles.title}>用户管理</h1>
-
                             <Breadcrumb>
                                 <Breadcrumb.Item>首页</Breadcrumb.Item>
                                 <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
