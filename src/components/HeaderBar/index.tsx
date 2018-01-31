@@ -16,8 +16,8 @@ export interface HeaderBarProps {
     menu?
     navClickHandler?
     activeKey?
-    exitHandler
-    currentUser
+    exitHandler?
+    currentUser?
 }
 
 /**

@@ -56,6 +56,10 @@ class Home extends React.Component<any, any> {
     }
     render() {
         let { match, tree } = this.props
+        let { activeKey } = this.state
+        // if (!tree) {
+        //     return <div>loading</div>
+        // }
         return (
             <Row className={styles.setting}>
                 <SplitPane
@@ -66,6 +70,22 @@ class Home extends React.Component<any, any> {
                     onChange={this.triggerResize} >
                     {this.renderLeftNav()}
                     <div className={styles.main}>
+                        <div className={styles.header}>
+                            <h1 className={styles.title}>用户管理</h1>
+
+                            <Breadcrumb>
+                                <Breadcrumb.Item>首页</Breadcrumb.Item>
+                                <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
+                                <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                            </Breadcrumb>
+                            <h1 className={styles._title}>用户管理</h1>
+                            <Button type="primary">新建用户</Button>
+                            <Search
+                                className={styles.search}
+                                placeholder="请输入关键字"
+                            />
+                            <UserTable />
+                        </div>
 
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/user`} exact />
@@ -74,7 +94,6 @@ class Home extends React.Component<any, any> {
                         </Switch>
                     </div>
                 </SplitPane>
-
             </Row>
         );
     }
