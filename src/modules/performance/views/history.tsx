@@ -36,7 +36,7 @@ let alldata = [{
     }]
 }]
 
-class Home extends React.Component<any, any> {
+class History extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -48,9 +48,8 @@ class Home extends React.Component<any, any> {
     renderLineChartCard() {
         return alldata.map((item, index) => {
             return (
-                <Col className="gutter-row" span={12} key={index}>
-                    <LineChartCard data={item} />
-                </Col>
+                <LineChartCard key={index} data={item} />
+
             )
         })
     }
@@ -68,4 +67,4 @@ class Home extends React.Component<any, any> {
     }
 }
 
-export default Home;
+export default History;
