@@ -1,12 +1,12 @@
 import React from 'react';
-import { Table, Icon, Divider } from 'antd';
+import { Table, Icon, Divider, Pagination } from 'antd';
 import styles from './index.less';
 
 const columns = [{
     title: '用户名',
     dataIndex: 'name',
     key: 'name',
-    render: text => <a href="#">{text}</a>,
+    render: text => <a href="javascript:;">{text}</a>,
 }, {
     title: '真实姓名',
     dataIndex: 'age',
@@ -100,7 +100,10 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
     }
     render() {
         return (
-            <Table className={styles.table} columns={columns} dataSource={data} />
+            <div>
+                <Table pagination={false} className={styles.table} columns={columns} dataSource={data} />
+                <Pagination className={styles.pagination} total={50} pageSize={10} showSizeChanger showQuickJumper />
+            </div>
         );
     }
 }

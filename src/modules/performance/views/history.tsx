@@ -6,7 +6,7 @@ import {
     Route, Link
 } from 'react-router-dom'
 
-import { Row, Col } from 'antd';
+import { Row, Col, Icon } from 'antd';
 
 import styles from '../style/index.less'
 import TimeSelect from '../../../components/TimeSelect/';
@@ -23,31 +23,61 @@ let data = [{
 }]
 
 class Home extends React.Component<any, any> {
-    tabClick() {
-
+    lineChart_1: any
+    lineChart_2: any
+    constructor(props) {
+        super(props);
+        this.state = {
+        };
     }
     inquire(longTime, selectValue) {
         // console.log(longTime, selectValue);
     }
-
+    printLineChart() {
+        this.lineChart_1.chartExport()
+        this.lineChart_2.chartExport()
+    }
+    hideOne() {
+        this.setState({
+            showOne: false
+        })
+    }
     render() {
         return (
             <div>
-                <div className={styles.toolBar}>
+                <div className={styles.toolBar} style={{backgroundColor: '#FFF', height: 45}}>
                     <TimeSelect inquire={this.inquire.bind(this)} />
                 </div>
-                <Row gutter={20} style={{ padding: '0 20px' }}>
+                <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
                     <Col className="gutter-row" span={12}>
-                        <div className="gutter-box"><LineChart data={data} /></div>
+                        <div className="gutter-box">
+                            <div className={styles.cardHead}>
+                                <div>CPU使用率</div>
+                                <div className={styles.cardIcon}>
+                                    <Icon type="download" onClick={this.printLineChart.bind(this)} />|
+                                    <Icon type="close" onClick={this.hideOne.bind(this)} />
+                                </div>
+                            </div>
+                            <LineChart ref={(node) => { this.lineChart_1 = node }} data={data} />
+                        </div>
                     </Col>
                     <Col className="gutter-row" span={12}>
-                        <div className="gutter-box"><LineChart data={data} /></div>
+                        <div className="gutter-box">
+                            <div className={styles.cardHead}>
+                                <div>内存使用率</div>
+                                <div className={styles.cardIcon}>
+                                    <Icon type="download" onClick={this.printLineChart.bind(this)} />|
+                                    <Icon type="close" onClick={this.hideOne.bind(this)} />
+                                </div>
+                            </div>
+                            <LineChart ref={(node) => { this.lineChart_2 = node }} data={data} />
+                        </div>
                     </Col>
                     <Col className="gutter-row" span={12}>
-                        <div className="gutter-box"><LineChart data={data} /></div>
+                        <div className="gutter-box">折线图</div>
                     </Col>
                     <Col className="gutter-row" span={12}>
-                        <div className="gutter-box"><LineChart data={data} /></div>
+                        <div className="gutter-box">折线图</div>
                     </Col>
                 </Row>
             </div>

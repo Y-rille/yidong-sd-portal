@@ -27,10 +27,17 @@ let menu = [
         route: 'performance',
     }
 ]
+let handler = () => {
+    // console.log('点击退出');
+}
 
+let key1 = 'dashboard';
+let navClickHandler = (key) => {
+    // console.log('route发生改变' + key);
+}
 storiesOf('HeaderBar', module)
     .add('default', () => (
         <div>
-            <HeaderBar menu={menu} />
+            <HeaderBar menu={menu} activeKey={key1} exitHandler={handler} currentUser={{}} navClickHandler={navClickHandler} />
         </div>
     ));
