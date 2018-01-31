@@ -70,21 +70,6 @@ class Home extends React.Component<any, any> {
                     onChange={this.triggerResize} >
                     {this.renderLeftNav()}
                     <div className={styles.main}>
-                        <div className={styles.header}>
-                            <Breadcrumb>
-                                <Breadcrumb.Item>首页</Breadcrumb.Item>
-                                <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                                <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
-                            </Breadcrumb>
-                            <h1 className={styles._title}>用户管理</h1>
-                            <Button type="primary">新建用户</Button>
-                            <Search
-                                className={styles.search}
-                                placeholder="请输入关键字"
-                            />
-                            <UserTable />
-                        </div>
-
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/user`} exact />
                             <Route path={`${match.url}/user`} component={User} />
