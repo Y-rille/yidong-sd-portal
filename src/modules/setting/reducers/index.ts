@@ -2,7 +2,7 @@ import ActionTypes from '../constants/actionTypes'
 
 const merge = require('lodash/merge')
 
-class PerformanceState {
+class SettingState {
     name: string;
     config: Object;
     timeFilter: Array<Object>
@@ -12,7 +12,7 @@ class PerformanceState {
     // TODO: 所以维度 dimensions 以及维度对应的指标 fact
 
     constructor() {
-        this.name = 'PERFORMANCE'
+        this.name = 'SETTING'
         this.config = {}
         this.timeFilter = null
         this.nfvdPm = null
@@ -20,11 +20,9 @@ class PerformanceState {
     }
 }
 
-let performanceReducer = (state = new PerformanceState(), action = null) => {
+let settingReducer = (state = new SettingState(), action = null) => {
     switch (action.type) {
-        case ActionTypes.PERFORMANCE_SAY_HELLO:
-            return merge({}, state, action)
-        case ActionTypes.PERFORMANCE_GET_TIME_FILTER:
+        case ActionTypes.SETTING_SAY_HELLO:
             return merge({}, state, action)
         default:
             return state
@@ -32,6 +30,6 @@ let performanceReducer = (state = new PerformanceState(), action = null) => {
 }
 
 export {
-    PerformanceState,
-    performanceReducer
+    SettingState,
+    settingReducer
 }
