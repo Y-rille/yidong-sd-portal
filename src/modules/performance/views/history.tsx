@@ -40,7 +40,7 @@ let alldata = [{
     }]
 }]
 
-class Home extends React.Component<any, any> {
+class History extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -70,4 +70,4 @@ class Home extends React.Component<any, any> {
     }
 }
 
-export default Home;
+export default History;

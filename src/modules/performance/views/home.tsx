@@ -14,9 +14,18 @@ declare let global: any;
 import Current from '../container/current'
 import History from '../container/history'
 
+import { PerformanceActions } from '../actions/index';
+
 import styles from '../style/index.less'
 
-class Home extends React.Component<any, any> {
+export interface HomeProps {
+    actions: PerformanceActions,
+    location?
+    match?
+    moInstKpiThresholds?
+}
+
+class Home extends React.Component<HomeProps, any> {
     constructor(props) {
         super(props);
         let { match } = this.props
@@ -41,16 +50,6 @@ class Home extends React.Component<any, any> {
             activeKey: path
         })
         global.hashHistory.push(`${match.url}/${path}`)
-    }
-    componentWillReceiveProps(nextProps) {
-        let { match } = nextProps
-        let { pathname } = nextProps.location
-        this.state = {
-            activeKey: _.compact([
-                matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
-                matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-            ]).toString()
-        };
     }
     renderTab() {
         let { activeKey } = this.state
@@ -79,6 +78,21 @@ class Home extends React.Component<any, any> {
         })
     }
     componentWillMount() {
+        this.props.actions.getMoInstKpiThresholds(1, 1)
+    }
+    componentDidMount() {
+        this.props.actions.getMoTypeKpis(1, 7, (data) => {
+        })
+    }
+    componentWillReceiveProps(nextProps) {
+        let { match } = nextProps
+        let { pathname } = nextProps.location
+        this.state = {
+            activeKey: _.compact([
+                matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
+                matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
+            ]).toString()
+        };
     }
     render() {
         // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
