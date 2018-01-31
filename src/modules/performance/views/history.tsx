@@ -5,21 +5,38 @@ import {
     Switch,
     Route, Link
 } from 'react-router-dom'
-import { Row, Col, Icon } from 'antd';
+import { Row, Col } from 'antd';
 
 import styles from '../style/index.less'
 import TimeSelect from '../../../components/TimeSelect/';
 import LineChartCard from '../../../components/LineChartCard/'
-
-let data = [{
-    name: '2018-1-30',
-    color: '#5CCBAE',
-    data: [34, 40, 77, 58, 41, 31, 33, 75, 43, 82, 21, 4]
+let alldata = [{
+    'title': 'CPU使用率',
+    'datas': [{
+        name: '2018-1-30',
+        data: [34, 40, 77, 58, 41, 31, 34, 75, 43, 82, 21, 4]
+    }]
+}, {
+    'title': '内存使用率',
+    'datas': [{
+        name: '2018-1-31',
+        data: [34, 40, 67, 58, 61, 31, 33, 79, 43, 62, 21, 12]
+    }]
+}, {
+    'title': '总内存',
+    'datas': [{
+        name: '2018-2-1',
+        data: [34, 40, 67, 58, 61, 31, 33, 79, 43, 62, 21, 12]
+    }]
+}, {
+    'title': '可用内存',
+    'datas': [{
+        name: '2018-2-2',
+        data: [34, 40, 67, 58, 61, 31, 33, 79, 43, 62, 21, 12]
+    }]
 }]
 
 class History extends React.Component<any, any> {
-    lineChart_1: any
-    lineChart_2: any
     constructor(props) {
         super(props);
         this.state = {
@@ -28,15 +45,22 @@ class History extends React.Component<any, any> {
     inquire(longTime, selectValue) {
         // console.log(longTime, selectValue);
     }
+    renderLineChartCard() {
+        return alldata.map((item, index) => {
+            return (
+                <LineChartCard key={index} data={item} />
+
+            )
+        })
+    }
     render() {
         return (
             <div>
                 <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
                     <TimeSelect inquire={this.inquire.bind(this)} />
                 </div>
-                <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
-                    <LineChartCard data={data} />
-                    <LineChartCard data={data} />
+                <Row gutter={20} style={{ padding: '0 20px' }}>
+                    {this.renderLineChartCard()}
                 </Row>
             </div>
         );
