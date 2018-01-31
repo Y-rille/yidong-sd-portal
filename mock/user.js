@@ -9,7 +9,7 @@ for (i = 0; i < 50; i++) {
       "id": i+1,
       "name": faker.name.firstName(),
       "email": faker.internet.email(),
-      "mobile": faker.phone.phoneNumber,
+      "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
       "remark": faker.lorem.text(),
       "roles": ["admin", "performance", "resource", "alarm"],
@@ -26,9 +26,9 @@ let login = {
       "id": 1,
       "name": faker.name.firstName(),
       "email": faker.internet.email(),
-      "mobile": faker.phone.phoneNumber,
+      "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
-      "remark": faker.lorem.text,
+      "remark": faker.lorem.text(),
       "roles": ["admin", "performance", "resource", "alarm"],
       "create_time":faker.date.past()
     }
@@ -86,9 +86,9 @@ let create = {
       "id": 1,
       "name": faker.name.firstName(),
       "email": faker.internet.email(),
-      "mobile": faker.phone.phoneNumber,
+      "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
-      "remark": faker.lorem.text,
+      "remark": faker.lorem.text(),
       "roles": ["performance", "resource", "alarm"],
       "create_time":faker.date.past()
     }
@@ -110,9 +110,9 @@ var edit = {
       "id": 1,
       "name": faker.name.firstName(),
       "email": faker.internet.email(),
-      "mobile": faker.phone.phoneNumber,
+      "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
-      "remark": faker.lorem.text,
+      "remark": faker.lorem.text(),
       "roles": ["performance", "resource", "alarm"],
       "create_time":faker.date.past()
     }
