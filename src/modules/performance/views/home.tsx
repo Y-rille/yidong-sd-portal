@@ -7,6 +7,7 @@ import SplitPane from 'react-split-pane'
 import moment from '../../../common/moment'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
 import FactModal from '../../../components/FactModal/'
+import TreeSelect from '../../../components/TreeSelect'
 
 declare let global: any;
 
@@ -96,7 +97,9 @@ class Home extends React.Component<any, any> {
                     maxSize={300}
                     defaultSize={200}
                     onChange={this.triggerResize} >
-                    <div>菜单树</div>
+                    <div className={styles.tree}>
+                        <TreeSelect />
+                    </div>
                     <div className={styles.main}>
                         <div className={styles.header}>
                             <h1 className={styles.title}>交换机</h1>
