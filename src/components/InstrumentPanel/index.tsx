@@ -153,7 +153,8 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
         this.chart.exportChart(
             {
                 type: 'image/png',
-                filename: this.props.data.title
+                filename: this.props.data.title,
+                sourceWidth: 280,
             },
             {
                 pane: { // 仪表盘
