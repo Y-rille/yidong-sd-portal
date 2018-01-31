@@ -46,8 +46,8 @@ export default class InstrumentCard extends React.PureComponent<InstrumentCardPr
         return (
             <Col className="gutter-row" span={12} >
                 <div className="gutter-box">
-                    <div className={styles.cardHead}>
-                        <div>{data.title}</div>
+                    <div className={styles.instrumentHead}>
+                        <div className={styles.title}>{data.title}</div>
                         <div className={styles.cardIcon}>
                             <Icon type="download" onClick={this.printInstrumentPane.bind(this)} />|
                             <Icon type="close" onClick={this.hideOne.bind(this)} />

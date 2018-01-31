@@ -33,31 +33,19 @@ export default class LineChartCard extends React.PureComponent<LineChartProps, a
             showOne: false
         })
     }
-    chartExport() {
-        this.chart.exportChart(
-            {
-                type: 'image/png',
-                // filename: ,
-                sourceWidth: 280,
-                sourceHeight: 200
-            }
-
-        );
-    }
     render() {
+        let { data } = this.props
         return (
-            <Col className="gutter-rowgutter-row" span={12}>
-                <div className="gutter-box">
-                    <div className={styles.cardHead}>
-                        <div>内存使用率</div>
-                        <div className={styles.cardIcon}>
-                            <Icon type="download" onClick={this.printLineChart.bind(this)} />|
+            <div className="gutter-box">
+                <div className={styles.cardHead}>
+                    <div>{data.title}</div>
+                    <div className={styles.cardIcon}>
+                        <Icon type="download" onClick={this.printLineChart.bind(this)} />|
                         <Icon type="close" onClick={this.hideOne.bind(this)} />
-                        </div>
                     </div>
-                    <LineChart ref={(node) => { this.lineChart1 = node }} data={this.props.data} />
                 </div>
-            </Col>
+                <LineChart ref={(node) => { this.lineChart1 = node }} data={data} />
+            </div>
         );
     }
 
