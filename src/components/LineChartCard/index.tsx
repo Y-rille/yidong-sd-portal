@@ -36,16 +36,18 @@ export default class LineChartCard extends React.PureComponent<LineChartProps, a
     render() {
         let { data } = this.props
         return (
-            <div className="gutter-box">
-                <div className={styles.cardHead}>
-                    <div>{data.title}</div>
-                    <div className={styles.cardIcon}>
-                        <Icon type="download" onClick={this.printLineChart.bind(this)} />|
+            <Col className="gutter-row" span={12} >
+                <div className="gutter-box">
+                    <div className={styles.cardHead}>
+                        <div>{data.title}</div>
+                        <div className={styles.cardIcon}>
+                            <Icon type="download" onClick={this.printLineChart.bind(this)} />|
                         <Icon type="close" onClick={this.hideOne.bind(this)} />
+                        </div>
                     </div>
+                    <LineChart ref={(node) => { this.lineChart1 = node }} data={data} />
                 </div>
-                <LineChart ref={(node) => { this.lineChart1 = node }} data={data} />
-            </div>
+            </Col>
         );
     }
 
