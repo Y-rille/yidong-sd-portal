@@ -8,7 +8,7 @@ export interface LineChartProps {
 }
 
 /**
- * 仪表盘
+ * 折线图
  * 
  * @export
  * @class LineChart
