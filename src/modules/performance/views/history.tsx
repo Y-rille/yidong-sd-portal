@@ -56,6 +56,9 @@ class History extends React.Component<any, any> {
             )
         })
     }
+    componentWillUpdate(nextProps: any, nextState) {
+        console.warn('History componentWillUpdate');
+    }
     render() {
         return (
             <div>

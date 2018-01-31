@@ -10,6 +10,8 @@ class PerformanceState {
     moInstKpiThresholds: Object
     moTypeKpis: Array<Object>
 
+    demo: string
+
     // TODO: 所以维度 dimensions 以及维度对应的指标 fact
 
     constructor() {
@@ -19,6 +21,7 @@ class PerformanceState {
         this.nfvdPm = null
         this.moInstKpiThresholds = null
         this.moTypeKpis = null
+        this.demo = null
     }
 }
 
