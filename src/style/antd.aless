@@ -124,6 +124,9 @@
   .Pane {
     overflow-y: auto;
   }
+  .Pane1 {
+    background: #ffffff;
+  }
 }
 
 .ant-modal-close-x {
@@ -143,4 +146,7 @@
   left: 50%;
   margin-top: -12px;
   margin-left: -10px;
+}
+.ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
+  background-color: @primary-color;
 }
