@@ -12,7 +12,7 @@ for (i = 0; i < 10; i++) {
       "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
       "remark": faker.lorem.words(),
-      "roles": ["admin", "performance", "resource", "alarm"],
+      "roles": "admin,performance,resource,alarm",
       "create_time":faker.date.recent()
     }
   )
@@ -29,7 +29,7 @@ let login = {
       "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
       "remark": faker.lorem.words(),
-      "roles": ["admin", "performance", "resource", "alarm"],
+      "roles": "admin,performance,resource,alarm",
       "create_time":faker.date.past()
     }
     return currentUser
@@ -89,7 +89,7 @@ let create = {
       "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
       "remark": faker.lorem.words(),
-      "roles": ["performance", "resource", "alarm"],
+      "roles": "performance,resource,alarm",
       "create_time":faker.date.past()
     }
   }
@@ -113,7 +113,7 @@ var edit = {
       "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
       "remark": faker.lorem.words(),
-      "roles": ["performance", "resource", "alarm"],
+      "roles": "performance,resource,alarm",
       "create_time":faker.date.past()
     }
   }
