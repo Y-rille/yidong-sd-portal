@@ -40,7 +40,8 @@ class Home extends React.Component<any, any> {
                     min: 0,
                     max: 100,
                     current: 65,
-                    gradient: false
+                    gradient: false,
+                    unit: '$'
                 }} />
                 <InstrumentCard data={{
                     title: '温度表1',
@@ -54,7 +55,8 @@ class Home extends React.Component<any, any> {
                     min: 0,
                     max: 100,
                     current: 65,
-                    gradient: false
+                    gradient: false,
+                    unit: '￥'
                 }} />
 
                 {/*<Col className="gutter-row" span={12}>
