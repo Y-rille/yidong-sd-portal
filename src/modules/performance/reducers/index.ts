@@ -1,36 +1,49 @@
 import ActionTypes from '../constants/actionTypes'
+import * as SI from 'seamless-immutable';
 
 const merge = require('lodash/merge')
 
-class PerformanceState {
-    name: string;
-    config: Object;
-    timeFilter: Array<Object>
-    nfvdPm: Object
-    moInstKpiThresholds: Object
-    moTypeKpis: Array<Object>
+const PerformanceState = SI.from({
+    name: 'PERFORMANCE',
+    config: {},
+    timeFilter: null,
+    nfvdPm: null,
+    moInstKpiThresholds: null,
+    moTypeKpis: null,
+    demo: [{ a: 'b', d: ['1', '2'] }, { c: 'd' }, { e: 'f' }],
+});
 
-    demo: string
+// class PerformanceState {
+//     name: string;
+//     config: Object;
+//     timeFilter: Array<Object>
+//     nfvdPm: Object
+//     moInstKpiThresholds: Object
+//     moTypeKpis: Array<Object>
 
-    // TODO: 所以维度 dimensions 以及维度对应的指标 fact
+//     demo: Array<Object>
 
-    constructor() {
-        this.name = 'PERFORMANCE'
-        this.config = {}
-        this.timeFilter = null
-        this.nfvdPm = null
-        this.moInstKpiThresholds = null
-        this.moTypeKpis = null
-        this.demo = null
-    }
-}
+//     // TODO: 所以维度 dimensions 以及维度对应的指标 fact
 
-let performanceReducer = (state = new PerformanceState(), action = null) => {
+//     constructor() {
+//         this.name = 'PERFORMANCE'
+//         this.config = {}
+//         this.timeFilter = null
+//         this.nfvdPm = null
+//         this.moInstKpiThresholds = null
+//         this.moTypeKpis = null
+//         this.demo = [{ a: 'b', d: ['1', '2'] }, { c: 'd' }, { e: 'f' }]
+//     }
+// }
+
+let performanceReducer = (state = PerformanceState, action = null) => {
     switch (action.type) {
         case ActionTypes.PERFORMANCE_SAY_HELLO:
-            return merge({}, state, action)
+            return state.merge(action);
+        // return merge({}, state, action)
         case ActionTypes.PERFORMANCE_GET_TIME_FILTER:
-            return merge({}, state, action)
+            return state.merge(action);
+        // return merge({}, state, action)
         default:
             return state
     }
