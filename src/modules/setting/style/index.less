@@ -1,5 +1,5 @@
 @import "~antd/lib/style/themes/default.less";
-.performance {
+.setting {
     height: 100%;
     .main {
         margin: 20px;
@@ -28,6 +28,10 @@
         width: 300px;
         margin-left: 8px;
     }
+    .leftBg{
+        background: #fff;
+    }
+    
 }
 
 :global {
@@ -36,5 +40,11 @@
         margin-bottom: 16px;
         padding: 16px;
         border: 1px solid #e8e8e8;
+    }
+    .leftNavItem{
+        display: block;
+    }
+    .leftNavItem:hover{
+        background-color: @primary-color;
     }
 }
