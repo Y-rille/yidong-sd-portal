@@ -41,7 +41,7 @@ class User extends React.Component<any, any> {
         //     return <div>loading</div>
         // }
         return (
-            <Row className={styles.performance}>
+            <Row className={styles.setting}>
                 <div className={styles.header}>
                     <Breadcrumb>
                         <Breadcrumb.Item>首页</Breadcrumb.Item>
