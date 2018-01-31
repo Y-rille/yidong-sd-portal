@@ -17,7 +17,7 @@ let data = [{
     data: [34, 40, 77, 58, 41, 31, 33, 75, 43, 82, 21, 4]
 }]
 
-class Home extends React.Component<any, any> {
+class History extends React.Component<any, any> {
     lineChart_1: any
     lineChart_2: any
     constructor(props) {
@@ -31,7 +31,7 @@ class Home extends React.Component<any, any> {
     render() {
         return (
             <div>
-                <div className={styles.toolBar} style={{backgroundColor: '#FFF', height: 45}}>
+                <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
                     <TimeSelect inquire={this.inquire.bind(this)} />
                 </div>
                 <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
@@ -43,4 +43,4 @@ class Home extends React.Component<any, any> {
     }
 }
 
-export default Home;
+export default History;
