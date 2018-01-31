@@ -25,6 +25,11 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
         }
     }
     componentDidMount() {
+        let seriesData = this.props.data.datas
+        seriesData.map(function (item) {
+            // 修改折线颜色
+            item.color = '#5CCBAE'
+        })
         this.options = {
             title: {
                 text: null,
@@ -43,25 +48,24 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                 title: {
                     text: null
                 },
-                gridLineColor: '#fff', // 隐藏栅格线
+                gridLineColor: '#fff',
                 minorTickLength: '8px',
                 plotLines: [{
                     color: '#F3CB74',
                     dashStyle: 'solid',
-                    value: 70,
+                    value: this.props.data.tagLine, // 警戒线
                     width: 1,
                     label: {
                         text: null
                     }
                 }],
-                tickAmount: 5// 刻度总数
+                tickAmount: 5,
+                tickInterval: 10
             },
             legend: {
-                // layout: 'vertical',
                 align: 'right',
-                // verticalAlign: 'middle'
             },
-            series: this.props.data,
+            series: seriesData,
             responsive: {
                 rules: [{
                     condition: {
@@ -70,7 +74,6 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                     chartOptions: {
                         legend: {
                             layout: 'horizontal',
-                            // align: 'center',
                             verticalAlign: 'bottom'
                         }
                     }
@@ -84,16 +87,24 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
             }
         }
         this.chart = Highcharts.chart(this.line, this.options);
+        // this.chart.yAxis[0].addPlotLine({
+        //     value: this.props.data.tagLine,
+        //     color: '#F3CB74',
+        //     dashStyle: 'solid',
+        //     width: 1,
+        //     label: {
+        //         text: null
+        //     }
+        // });
     }
     chartExport() {
         this.chart.exportChart(
             {
                 type: 'image/png',
-                // filename: ,
+                filename: this.props.data.title,
                 sourceWidth: 280,
                 sourceHeight: 200
             }
-
         );
     }
     render() {

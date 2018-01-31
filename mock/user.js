@@ -3,7 +3,7 @@ let faker = require('faker');
 let currentUser = null
 
 let users = []
-for (i = 0; i < 50; i++) {
+for (i = 0; i < 10; i++) {
   users.push(
     {
       "id": i+1,
@@ -11,8 +11,8 @@ for (i = 0; i < 50; i++) {
       "email": faker.internet.email(),
       "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
-      "remark": faker.lorem.text(),
-      "roles": ["admin", "performance", "resource", "alarm"],
+      "remark": faker.lorem.words(),
+      "roles": "admin,performance,resource,alarm",
       "create_time":faker.date.recent()
     }
   )
@@ -25,11 +25,11 @@ let login = {
     currentUser = {
       "id": 1,
       "name": faker.name.firstName(),
-      "email": faker.internet.email(),
+      "email": (params, query, body) => body.email,
       "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
-      "remark": faker.lorem.text(),
-      "roles": ["admin", "performance", "resource", "alarm"],
+      "remark": faker.lorem.words(),
+      "roles": "admin,performance,resource,alarm",
       "create_time":faker.date.past()
     }
     return currentUser
@@ -72,7 +72,7 @@ let list = {
   cache: false,
   template: (params, query, body) => {
     return {
-      count: users.length,
+      count: 50,
       rows: users
     }
   }
@@ -88,8 +88,8 @@ let create = {
       "email": faker.internet.email(),
       "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
-      "remark": faker.lorem.text(),
-      "roles": ["performance", "resource", "alarm"],
+      "remark": faker.lorem.words(),
+      "roles": "performance,resource,alarm",
       "create_time":faker.date.past()
     }
   }
@@ -112,8 +112,8 @@ var edit = {
       "email": faker.internet.email(),
       "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
-      "remark": faker.lorem.text(),
-      "roles": ["performance", "resource", "alarm"],
+      "remark": faker.lorem.words(),
+      "roles": "performance,resource,alarm",
       "create_time":faker.date.past()
     }
   }
