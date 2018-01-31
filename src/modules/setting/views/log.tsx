@@ -43,7 +43,7 @@ class Log extends React.Component<any, any> {
         //     return <div>loading</div>
         // }
         return (
-            <Row className={styles.performance}>
+            <Row className={styles.setting}>
                 <div>log</div>
                 000
             </Row>
