@@ -142,7 +142,7 @@ export const getMoTypeKpis = (moTypeId, timeDimensionId, cb) => (dispatch) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: res.data }
     dispatch(action);
     if (cb) {
-      cb(null)
+      cb(res.data, null)
     }
   }).catch((err) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: null }

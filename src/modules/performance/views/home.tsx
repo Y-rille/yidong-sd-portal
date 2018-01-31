@@ -35,7 +35,8 @@ class Home extends React.Component<HomeProps, any> {
                 matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
                 matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
             ]).toString(),
-            visible: false
+            visible: false,
+            kpis: []
         };
     }
     triggerResize() {
@@ -82,6 +83,12 @@ class Home extends React.Component<HomeProps, any> {
     }
     componentDidMount() {
         this.props.actions.getMoTypeKpis(1, 7, (data) => {
+            if (data) {
+                this.setState({
+                    kpis: data['data']
+                })
+            }
+
         })
     }
     componentWillReceiveProps(nextProps) {
@@ -137,7 +144,7 @@ class Home extends React.Component<HomeProps, any> {
                         </Switch>
                     </div>
                 </SplitPane>
-                <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} />
+                <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={this.state.kpis} />
             </Row>
         );
     }
