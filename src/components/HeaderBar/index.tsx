@@ -16,8 +16,8 @@ export interface HeaderBarProps {
     menu?
     navClickHandler?
     activeKey?
-    exitHandler
-    currentUser
+    exitHandler?
+    currentUser?
 }
 
 /**
@@ -35,10 +35,10 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
     }
     static defaultProps = {
         menu: [
-            {
-                name: '首页',
-                route: 'dashboard',
-            },
+            // {
+            //     name: '首页',
+            //     route: 'dashboard',
+            // },
             {
                 name: '系统管理',
                 route: 'setting',
@@ -65,15 +65,22 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
             navClickHandler(e.key)
         }
     }
-    renderMenuItem() {
+    renderMenuItem(currentUser) {
         const { menu } = this.props;
-        return _.map(menu, (item) => {
+        const newMenu = _.compact(_.map(menu, (item) => {
+            if (currentUser.roles && currentUser.roles.indexOf(item.route) > 0) {
+                return item
+            }
+        }))
+
+        return _.map(newMenu, (item) => {
             return (
                 <Menu.Item key={item.route} className={styles.item}>
                     <span>{item.name}</span>
                 </Menu.Item >
             )
         })
+
     }
     exit() {
         this.props.exitHandler();
@@ -98,7 +105,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                         className={styles.nav}
                         onClick={this.handleClick.bind(this)}
                     >
-                        {this.renderMenuItem()}
+                        {this.renderMenuItem(currentUser)}
                     </Menu>
                     <div className={styles.right}>
                         <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#00b388', marginRight: '8px' }} />

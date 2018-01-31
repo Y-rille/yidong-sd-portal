@@ -61,6 +61,128 @@ let getPackages = {
   }
 }
 
+// 对象指标查询
+let getMoTypeKpis = {
+  path: '/datashare-svr/api/kpi/getMoTypeKpis/:moTypeId/:timeDimensionId',
+  method: 'GET',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "data": [
+        {
+          "kpiId": 6,
+          "kpiName": "主机.网络端口接收速率",
+          "kpiRealName": "网络端口接收速率",
+          "mogrpId": 1,
+          "kpiDesc": "计算节点必选，所有业务端口接收速率的总和（1B=8b）",
+          "kpiCategory": "PI",
+          "kpiType": 2,
+          "kpiUnit": "Mbps",
+          "kpiAlgorithm": "采集",
+          "dimensionId": 7,
+          "priority": 1,
+          "kpiTablefield": "NicReceiveRate",
+          "version": "1.0",
+          "maxValue": "0",
+          "minValue": "1024",
+          "state": 1
+        },
+        {
+          "kpiId": 5,
+          "kpiName": "主机.网络端口发送速率",
+          "kpiRealName": "网络端口发送速率",
+          "mogrpId": 1,
+          "kpiDesc": "计算节点必选，所有业务端口发送速率的总和（1B=8b）",
+          "kpiCategory": "PI",
+          "kpiType": 2,
+          "kpiUnit": "Mbps",
+          "kpiAlgorithm": "采集",
+          "dimensionId": 7,
+          "priority": 1,
+          "kpiTablefield": "NicTransferRate",
+          "version": "1.0",
+          "maxValue": "0",
+          "minValue": "1024",
+          "state": 1
+        },
+        {
+          "kpiId": 3,
+          "kpiName": "主机.总内存",
+          "kpiRealName": "总内存",
+          "mogrpId": 1,
+          "kpiCategory": "PI",
+          "kpiType": 2,
+          "kpiUnit": "MB",
+          "kpiAlgorithm": "采集",
+          "dimensionId": 7,
+          "priority": 1,
+          "kpiTablefield": "RamTotal",
+          "version": "1.0",
+          "maxValue": "0",
+          "minValue": "131072",
+          "state": 1
+        },
+        {
+          "kpiId": 2,
+          "kpiName": "主机.内存使用率",
+          "kpiRealName": "内存使用率",
+          "mogrpId": 1,
+          "kpiCategory": "PI",
+          "kpiType": 2,
+          "kpiUnit": "%",
+          "kpiAlgorithm": "采集",
+          "dimensionId": 7,
+          "priority": 1,
+          "kpiTablefield": "RamUtil",
+          "version": "1.0",
+          "maxValue": "0",
+          "minValue": "100",
+          "state": 1
+        },
+        {
+          "kpiId": 1,
+          "kpiName": "主机.CPU使用率",
+          "kpiRealName": "CPU使用率",
+          "mogrpId": 1,
+          "kpiDesc": "总CPU使用率/CPU数量",
+          "kpiCategory": "PI",
+          "kpiType": 2,
+          "kpiUnit": "%",
+          "kpiAlgorithm": "采集",
+          "dimensionId": 7,
+          "priority": 1,
+          "kpiTablefield": "CpuUtil",
+          "version": "1.0",
+          "maxValue": "0",
+          "minValue": "100",
+          "state": 1
+        },
+        {
+          "kpiId": 4,
+          "kpiName": "主机.可用内存",
+          "kpiRealName": "可用内存",
+          "mogrpId": 1,
+          "kpiDesc": "",
+          "kpiCategory": "PI",
+          "kpiType": 2,
+          "kpiUnit": "MB",
+          "kpiAlgorithm": "采集",
+          "dimensionId": 7,
+          "priority": 1,
+          "kpiTablefield": "RamUsed",
+          "mogrpCnname": "主机",
+          "mogrpEnname": "HOST",
+          "version": "1.0",
+          "maxValue": "0",
+          "minValue": "131072",
+          "state": 1
+        }
+      ]
+    }
+  }
+}
+
 let getMatchingDimensions = {
   path: '/datashare-svr/api/kpi/getMatchingDimensions/:packageId',
   method: 'GET',
@@ -87,6 +209,7 @@ let getMatchingDimensions = {
   }
 }
 
+// 时间条件查询
 let getTimeFilter = {
   path: '/datashare-svr/api/kpi/getTimeFilter',
   method: 'GET',
@@ -112,6 +235,7 @@ let getTimeFilter = {
   }
 }
 
+// 指标阈值查询
 let getKpiThresholds = {
   path: '/datashare-svr/api/kpi/getKpiThresholds/:kpiId',
   method: 'GET',
@@ -138,6 +262,7 @@ let getKpiThresholds = {
   }
 }
 
+// 对象实例阈值
 let getMoInstKpiThresholds = {
   path: '/datashare-svr/api/kpi/getMoInstKpiThresholds/:moTypeId/:moInstId',
   method: 'GET',
@@ -164,6 +289,7 @@ let getMoInstKpiThresholds = {
   }
 }
 
+// 指标数据查询
 let getData = {
   path: '/datashare-svr/api/kpi/getData/:packageId',
   method: 'GET',
@@ -173,127 +299,28 @@ let getData = {
       "headers": [
         "EVENT_TIMESTAMP",
         "T_HOST",
-        "3",
-        "5",
-        "1",
-        "2",
-        "4",
-        "6"
+        "4"
       ],
       "values": [
         [
-          1514910600000,
+          1514977200000,
           "D03-hpeDL380-COMP04",
-          257328,
-          0,
-          0,
-          5.0799,
-          13072,
-          0
-        ],
-        [
-          1514910600000,
-          "D03-hpeDL380-COMP03",
-          257328,
-          0,
-          0,
-          52.0363,
-          133904,
-          0
-        ],
-        [
-          1514911500000,
-          "D03-hpeDL380-COMP04",
-          257328,
-          0,
-          0,
-          5.0799,
-          13072,
-          0
-        ],
-        [
-          1514911500000,
-          "D03-hpeDL380-COMP03",
-          257328,
-          0,
-          0,
-          52.0363,
-          133904,
-          0
-        ],
-        [
-          1514912400000,
-          "D03-hpeDL380-COMP03",
-          257328,
-          0,
-          0,
-          52.0363,
-          133904,
-          0
-        ],
-        [
-          1514912400000,
-          "D03-hpeDL380-COMP04",
-          257328,
-          0,
-          0,
-          5.0799,
-          13072,
-          0
-        ],
-        [
-          1514913300000,
-          "D03-hpeDL380-COMP04",
-          257328,
-          0,
-          0,
-          5.0799,
-          13072,
-          0
-        ],
-        [
-          1514913300000,
-          "D03-hpeDL380-COMP03",
-          257328,
-          0,
-          0,
-          52.0363,
-          133904,
-          0
-        ],
-        [
-          1514914200000,
-          "D03-hpeDL380-COMP04",
-          257328,
-          0,
-          0,
-          5.0799,
-          13072,
-          0
-        ],
-        [
-          1514914200000,
-          "D03-hpeDL380-COMP03",
-          257328,
-          0,
-          0,
-          52.0363,
-          133904,
-          0
+          13072
         ]
       ],
       "status": "OK",
-      "nbVals": 10,
+      "nbVals": 1,
       "timeColumn": "EVENT_TIMESTAMP",
       "statusInfo": "",
       "offset": 0,
-      "totalCount": 10
+      "totalCount": 1
     }
   }
 }
 
 module.exports = {
   getPackages,
+  getMoTypeKpis,
   getMatchingDimensions,
   getTimeFilter,
   getKpiThresholds,

@@ -9,9 +9,10 @@ import {
 import { Row, Col, Icon } from 'antd';
 
 import InstrumentPanel from '../../../components/InstrumentPanel'
+import InstrumentCard from '../../../components/InstrumentCard'
 import styles from '../style/index.less'
 
-class Home extends React.Component<any, any> {
+class Current extends React.Component<any, any> {
     instrumentPanel_1: any
     constructor(props) {
         super(props);
@@ -34,39 +35,35 @@ class Home extends React.Component<any, any> {
     render() {
         return (
             <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
-                {this.state.showOne ?
-                    <Col className="gutter-row" span={12} >
-                        <div className="gutter-box">
-                            <div className={styles.cardHead}>
-                                <div>仪表盘</div>
-                                <div className={styles.cardIcon}>
-                                    <Icon type="download" onClick={this.printInstrumentPane.bind(this)} />|
-                                    <Icon type="close" onClick={this.hideOne.bind(this)} />
-                                </div>
-                            </div>
-                            <InstrumentPanel
-                                ref={(node) => { this.instrumentPanel_1 = node }}
-                                data={{
-                                    title: '速度',
-                                    min: 0,
-                                    max: 100,
-                                    current: 45
-                                }}
-                            />
-                        </div>
-                    </Col> : ''}
-                <Col className="gutter-row" span={12}>
+                <InstrumentCard data={{
+                    title: '速度',
+                    min: 0,
+                    max: 100,
+                    current: 65,
+                    gradient: false
+                }} />
+                <InstrumentCard data={{
+                    title: '温度表1',
+                    min: 0,
+                    max: 100,
+                    current: 45,
+                    gradient: true
+                }} />
+                <InstrumentCard data={{
+                    title: '效率表2',
+                    min: 0,
+                    max: 100,
+                    current: 65,
+                    gradient: false
+                }} />
+
+                {/*<Col className="gutter-row" span={12}>
                     <div className="gutter-box">当前状态</div>
-                </Col>
-                <Col className="gutter-row" span={12}>
-                    <div className="gutter-box">当前状态</div>
-                </Col>
-                <Col className="gutter-row" span={12}>
-                    <div className="gutter-box">当前状态</div>
-                </Col>
+                </Col>*/}
+
             </Row>
         );
     }
 }
 
-export default Home;
+export default Current;

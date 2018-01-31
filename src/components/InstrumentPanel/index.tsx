@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Highcharts from 'highcharts';
 const merge = require('lodash/merge')
+const compact = require('lodash/compact')
 
 // 更多图表类型扩展模块
 import HighchartsMore from 'highcharts/highcharts-more';
@@ -10,7 +11,8 @@ import Solidgauge from 'highcharts/modules/solid-gauge.js';
 Solidgauge(Highcharts)
 
 export interface InstrumentPanelProps {
-    data
+    data,
+    gradient?
 }
 
 /**
@@ -63,11 +65,10 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 enabled: false
             },
             yAxis: {
-                stops: [ // 进度条颜色，从0-1
-                    // [0.3, '#48caaa'], 
-                    // [0.5, '#2dd2aa'], 
+                stops: compact([ // 进度条颜色，从0-1
+                    this.props.data.gradient && [0.5, 'red'],
                     [1, '#00b388']
-                ],
+                ]),
                 lineWidth: 0,
                 minorTickInterval: null,
                 tickPixelInterval: 400,
@@ -152,7 +153,8 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
         this.chart.exportChart(
             {
                 type: 'image/png',
-                filename: this.props.data.title
+                filename: this.props.data.title,
+                sourceWidth: 280,
             },
             {
                 pane: { // 仪表盘

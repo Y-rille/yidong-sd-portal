@@ -56,6 +56,10 @@ class Home extends React.Component<any, any> {
     }
     render() {
         let { match, tree } = this.props
+        let { activeKey } = this.state
+        // if (!tree) {
+        //     return <div>loading</div>
+        // }
         return (
             <Row className={styles.setting}>
                 <SplitPane
@@ -66,7 +70,6 @@ class Home extends React.Component<any, any> {
                     onChange={this.triggerResize} >
                     {this.renderLeftNav()}
                     <div className={styles.main}>
-
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/user`} exact />
                             <Route path={`${match.url}/user`} component={User} />
@@ -74,7 +77,6 @@ class Home extends React.Component<any, any> {
                         </Switch>
                     </div>
                 </SplitPane>
-
             </Row>
         );
     }
