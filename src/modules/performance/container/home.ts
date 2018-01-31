@@ -8,6 +8,7 @@ import Home from '../views/home'
 function mapProps(state) {
     return {
         name: state.performanceReducer.name,
+        moTypeKpis: state.performanceReducer.moTypeKpis,
         config: state.performanceReducer.config,
         tree: state.commonReducer.tree
     }

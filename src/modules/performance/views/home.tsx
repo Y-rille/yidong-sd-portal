@@ -42,6 +42,10 @@ class Home extends React.Component<any, any> {
         })
         global.hashHistory.push(`${match.url}/${path}`)
     }
+    componentDidMount() {
+        this.props.actions.getMoTypeKpis(1, 7, (data) => {
+        })
+    }
     componentWillReceiveProps(nextProps) {
         let { match } = nextProps
         let { pathname } = nextProps.location

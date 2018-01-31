@@ -68,11 +68,11 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
     renderMenuItem(currentUser) {
         const { menu } = this.props;
         let newMenu = []
-        if (currentUser.roles && currentUser.roles.indexOf('admin') > -1) {
+        if (currentUser.roles && currentUser.roles.split(',').indexOf('admin') > -1) {
             newMenu = menu
         } else {
             newMenu = _.compact(_.map(menu, (item) => {
-                if (currentUser.roles && currentUser.roles.indexOf(item.route) > 0) {
+                if (currentUser.roles && currentUser.roles.split(',').indexOf(item.route) > 0) {
                     return item
                 }
             }))
