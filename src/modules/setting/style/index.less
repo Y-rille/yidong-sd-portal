@@ -1,5 +1,5 @@
 @import "~antd/lib/style/themes/default.less";
-.performance {
+.setting {
     height: 100%;
     .main {
         margin: 20px;
@@ -16,39 +16,22 @@
                 font-weight: normal;
             }
         }
-        .tabBar {
-            display: flex;
-            padding: 20px;
-            justify-content: space-between;
-            ul{
-                width: 256px;
-                height: 32px;
-                border: 1px solid @primary-color;
-                border-radius: 4px;
-                overflow: hidden;
-                cursor: pointer;
-                :global{
-                    .tabItem {
-                        display: inline-block;
-                        width: 50%;
-                        text-align: center;
-                        line-height: 32px;
-                        color: @primary-color;
-                    }
-                    .tabItem.active {
-                        background: @primary-color;
-                        color: #fff;
-                    }
-                }
-            }
-
-        }
     }
-    .toolBar {
-        margin-bottom: 16px;
-        padding: 16px;
-        background: #f2f2f2;
+    ._title {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 20px;
+        color: #525459;
+        font-weight: normal;
     }
+    .search{
+        width: 300px;
+        margin-left: 8px;
+    }
+    .leftBg{
+        background: #fff;
+    }
+    
 }
 
 :global {
@@ -57,5 +40,11 @@
         margin-bottom: 16px;
         padding: 16px;
         border: 1px solid #e8e8e8;
+    }
+    .leftNavItem{
+        display: block;
+    }
+    .leftNavItem:hover{
+        background-color: @primary-color;
     }
 }
