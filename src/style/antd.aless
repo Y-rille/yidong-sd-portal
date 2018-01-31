@@ -124,6 +124,9 @@
   .Pane {
     overflow-y: auto;
   }
+  .Pane1 {
+    background: #ffffff;
+  }
 }
 
 .ant-modal-close-x {
