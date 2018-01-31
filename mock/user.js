@@ -11,7 +11,9 @@ let login = {
       "name": faker.name.firstName(),
       "email": (params, query, body) => body.email,
       "mobile": "13211111111",
-      "avatar": faker.image.avatar()
+      "avatar": faker.image.avatar(),
+      "remark": faker.lorem.text,
+      "roles":["admin","performance","resource","alarm"]
     }
     return currentUser
   }
