@@ -2,9 +2,7 @@ const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
 
 import HomeActionCreatorsMap from '../actions/index'
-
-import Home from '../views/home'
-
+import User from '../views/user'
 function mapProps(state) {
     return {
         name: state.settingReducer.name,
@@ -18,4 +16,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapProps, mapDispatchToProps)(Home)
+export default connect(mapProps, mapDispatchToProps)(User)
