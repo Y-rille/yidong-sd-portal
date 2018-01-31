@@ -2,24 +2,26 @@ import React from 'react';
 import { Table, Icon, Divider, Pagination } from 'antd';
 import styles from './index.less';
 
+import * as _ from 'lodash';
+
 const columns = [{
     title: '用户名',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'email',
+    key: 'email',
     render: text => <a href="javascript:;">{text}</a>,
 }, {
     title: '真实姓名',
-    dataIndex: 'age',
-    key: 'age',
+    dataIndex: 'name',
+    key: 'name',
 }, {
     title: '角色',
-    dataIndex: 'address',
-    key: 'address',
+    dataIndex: '_roles',
+    key: '_roles',
 }, {
 }, {
     title: '创建时间',
-    dataIndex: 'address',
-    key: 'address',
+    dataIndex: 'create_time',
+    key: 'create_time',
 }, {
     title: '操作',
     key: 'action',
@@ -34,62 +36,8 @@ const columns = [{
     ),
 }];
 
-const data = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-    }, {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    }, {
-        key: '3',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    }, {
-        key: '4',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    }, {
-        key: '5',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    }, {
-        key: '6',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    }, {
-        key: '7',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    }, {
-        key: '8',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    }, {
-        key: '9',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    }, {
-        key: '10',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-    }
-];
-
 export interface UserTableProps {
-    data?
+    userList?
 }
 
 export default class UserTable extends React.PureComponent<UserTableProps, any> {
@@ -98,11 +46,36 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         this.state = {
         };
     }
+    renderTable() {
+        let userList = this.props.userList
+        let base_data = {
+            admin: '系统运维',
+            resource: '资源运维',
+            alarm: '告警运维',
+            performance: '性能运维'
+        }
+        _.map(userList.rows, function (item, index) {
+            let key = index + 1
+            let _roles = []
+            _.map(item.roles, function (items) {
+                _roles.push(base_data[items])
+            })
+            item._roles = _roles.toString()
+            item.key = key
+        })
+        return (
+            <Table
+                pagination={false}
+                className={styles.table}
+                columns={columns} dataSource={userList.rows} />
+        )
+    }
     render() {
+        let userList = this.props.userList
         return (
             <div>
-                <Table pagination={false} className={styles.table} columns={columns} dataSource={data} />
-                <Pagination className={styles.pagination} total={50} pageSize={10} showSizeChanger showQuickJumper />
+                {this.renderTable()}
+                <Pagination className={styles.pagination} total={userList.count} pageSize={10} showQuickJumper />
             </div>
         );
     }
