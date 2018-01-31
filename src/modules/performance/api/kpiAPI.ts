@@ -22,6 +22,10 @@ export interface MatchingDimensionsParams {
 
 export interface DataParams {
   /**
+   * 分析模型包ID
+   */
+  packageId: number,
+  /**
    * 指标 ID，多个指标逗号分割；格式如：3,5,1,2,4,6
    */
   facts: string,
@@ -59,6 +63,9 @@ class KpiAPI {
   getPackages() {
     return axios.get(`/api/datashare-svr/api/kpi/getPackages`)
   }
+  getMoTypeKpis(moTypeId, timeDimensionId) {
+    return axios.get(`/api/datashare-svr/api/kpi/getMoTypeKpis/${moTypeId}/${timeDimensionId}`)
+  }
   getMatchingDimensions(packageId, params?: MatchingDimensionsParams) {
     return axios.get(`/api/datashare-svr/api/kpi/getMatchingDimensions/${packageId}?${stringify(params)}`)
   }
@@ -68,11 +75,11 @@ class KpiAPI {
   getKpiThresholds(kpiId) {
     return axios.get(`/api/datashare-svr/api/kpi/getKpiThresholds/${kpiId}`)
   }
+  getMoInstKpiThresholds(moTypeId, moInstId) {
+    return axios.get(`/api/datashare-svr/api/kpi/getMoInstKpiThresholds/${moTypeId}/${moInstId}`)
+  }
   getData(packageId, params: DataParams) {
     return axios.get(`/api/datashare-svr/api/kpi/getData/${packageId}?${stringify(params)}`)
-  }
-  getMoInstKpiThresholds(moTypeId, moInstId) {
-    return axios.get(`/api/datashare-svr/api/kpi/getMoInstKpiThresholds/${moTypeId}/${moInstId}`)    
   }
 }
 

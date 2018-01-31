@@ -12,7 +12,7 @@ import InstrumentPanel from '../../../components/InstrumentPanel'
 import InstrumentCard from '../../../components/InstrumentCard'
 import styles from '../style/index.less'
 
-class Home extends React.Component<any, any> {
+class Current extends React.Component<any, any> {
     instrumentPanel_1: any
     constructor(props) {
         super(props);
@@ -40,7 +40,8 @@ class Home extends React.Component<any, any> {
                     min: 0,
                     max: 100,
                     current: 65,
-                    gradient: false
+                    gradient: false,
+                    unit: '$'
                 }} />
                 <InstrumentCard data={{
                     title: '温度表1',
@@ -54,7 +55,8 @@ class Home extends React.Component<any, any> {
                     min: 0,
                     max: 100,
                     current: 65,
-                    gradient: false
+                    gradient: false,
+                    unit: '￥'
                 }} />
 
                 {/*<Col className="gutter-row" span={12}>
@@ -66,4 +68,4 @@ class Home extends React.Component<any, any> {
     }
 }
 
-export default Home;
+export default Current;

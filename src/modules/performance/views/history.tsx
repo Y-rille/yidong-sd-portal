@@ -12,31 +12,35 @@ import TimeSelect from '../../../components/TimeSelect/';
 import LineChartCard from '../../../components/LineChartCard/'
 let alldata = [{
     'title': 'CPU使用率',
+    'tagLine': 50,
     'datas': [{
         name: '2018-1-30',
         data: [34, 40, 77, 58, 41, 31, 34, 75, 43, 82, 21, 4]
     }]
 }, {
     'title': '内存使用率',
+    'tagLine': 60,
     'datas': [{
         name: '2018-1-31',
-        data: [34, 40, 67, 58, 61, 31, 33, 79, 43, 62, 21, 12]
+        data: [79, 43, 62, 21, 34, 40, 67, 58, 61, 31, 33, 12]
     }]
 }, {
     'title': '总内存',
+    'tagLine': '',
     'datas': [{
         name: '2018-2-1',
-        data: [34, 40, 67, 58, 61, 31, 33, 79, 43, 62, 21, 12]
+        data: [34, 4, 67, 58, 61, 31, 33, 79, 43, 62, 21, 12]
     }]
 }, {
     'title': '可用内存',
+    'tagLine': 70,
     'datas': [{
         name: '2018-2-2',
-        data: [34, 40, 67, 58, 61, 31, 33, 79, 43, 62, 21, 12]
+        data: [34, 40, 67, 33, 79, 43, 62, 21, 12, 58, 61, 31]
     }]
 }]
 
-class Home extends React.Component<any, any> {
+class History extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -48,9 +52,7 @@ class Home extends React.Component<any, any> {
     renderLineChartCard() {
         return alldata.map((item, index) => {
             return (
-                <Col className="gutter-row" span={12} key={index}>
-                    <LineChartCard data={item} />
-                </Col>
+                <LineChartCard key={index} data={item} />
             )
         })
     }
@@ -68,4 +70,4 @@ class Home extends React.Component<any, any> {
     }
 }
 
-export default Home;
+export default History;
