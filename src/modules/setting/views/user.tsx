@@ -10,11 +10,30 @@ import UserEdit from '../../../components/UserEdit/'
 
 declare let global: any;
 import styles from '../style/index.less'
-class User extends React.Component<any, any> {
+
+var qs = require('querystringify')
+import { stringify } from 'querystringify'
+
+import { SettingActions } from '../actions/index'
+
+export interface UserProps {
+    location?,
+    actions: SettingActions,
+    userList,
+    params?
+}
+
+class User extends React.PureComponent<UserProps, any> {
     constructor(props) {
         super(props);
+        let { page_num, query_key } = qs.parse(this.props.location.search)
+
         this.state = {
-            visible: false
+            visible: false,
+            listLoading: false,
+            page_size: 10,
+            page_num: page_num ? page_num : 0,
+            query_key: query_key ? query_key : '',
         };
     }
     componentWillReceiveProps(nextProps) {
@@ -41,12 +60,48 @@ class User extends React.Component<any, any> {
         });
 
     }
-
+    goPage(pagination) {
+        let page_num = pagination.current - 1
+        let { page_size } = this.state
+        let queryObj = {
+            page_num, page_size
+        }
+        global.hashHistory.push(`/hub/endpoint?${stringify(queryObj)}`)
+        this.setState({
+            page_num: page_num
+        });
+        this.getDataFn(queryObj)
+    }
+    getDataFn(queryObj) {
+        this.setState({
+            listLoading: true
+        });
+        let self = this
+        let { page_num, page_size, query_key } = queryObj
+        this.props.actions.getList({ page_num, page_size, query_key }, () => {
+            self.setState({
+                listLoading: false
+            });
+        })
+    }
     componentWillMount() {
+        let { page_num, page_size, query_key } = this.state
+        let queryObj = {
+            page_num, page_size, query_key
+        }
+        this.getDataFn(queryObj)
     }
     render() {
-        let { match, tree } = this.props
-        let { activeKey } = this.state
+        let userList = this.props.userList
+        let canRender = false
+        if (userList) {
+            canRender = true
+        }
+        if (!canRender) {
+            return <div />
+        }
+        // let { match, tree } = this.props
+        // let { activeKey } = this.state
         // if (!tree) {
         //     return <div>loading</div>
         // }
@@ -67,6 +122,7 @@ class User extends React.Component<any, any> {
                     <UserTable
                         showModal={this.showModal.bind(this)}
                         goEdit={this.goEdit.bind(this)}
+                        userList={userList}
                     />
                 </div>
                 <UserEdit
