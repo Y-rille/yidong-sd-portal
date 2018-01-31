@@ -9,6 +9,7 @@ function mapProps(state) {
     return {
         name: state.performanceReducer.name,
         config: state.performanceReducer.config,
+        moInstKpiThresholds: state.performanceReducer.moInstKpiThresholds,
         tree: state.commonReducer.tree
     }
 }
