@@ -53,13 +53,14 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                 plotLines: [{
                     color: '#F3CB74',
                     dashStyle: 'solid',
-                    value: 70,
+                    value: this.props.data.tagLine, // 警戒线
                     width: 1,
                     label: {
                         text: null
                     }
                 }],
-                tickAmount: 5
+                tickAmount: 5,
+                tickInterval: 10
             },
             legend: {
                 align: 'right',
@@ -86,6 +87,15 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
             }
         }
         this.chart = Highcharts.chart(this.line, this.options);
+        // this.chart.yAxis[0].addPlotLine({
+        //     value: this.props.data.tagLine,
+        //     color: '#F3CB74',
+        //     dashStyle: 'solid',
+        //     width: 1,
+        //     label: {
+        //         text: null
+        //     }
+        // });
     }
     chartExport() {
         this.chart.exportChart(
