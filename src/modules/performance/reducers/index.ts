@@ -8,6 +8,7 @@ class PerformanceState {
     timeFilter: Array<Object>
     nfvdPm: Object
     moInstKpiThresholds: Object
+    moTypeKpis: Array<Object>
 
     // TODO: 所以维度 dimensions 以及维度对应的指标 fact
 
@@ -17,6 +18,7 @@ class PerformanceState {
         this.timeFilter = null
         this.nfvdPm = null
         this.moInstKpiThresholds = null
+        this.moTypeKpis = null
     }
 }
 
