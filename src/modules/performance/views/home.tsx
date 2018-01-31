@@ -80,6 +80,10 @@ class Home extends React.Component<HomeProps, any> {
     componentWillMount() {
         this.props.actions.getMoInstKpiThresholds(1, 1)
     }
+    componentDidMount() {
+        this.props.actions.getMoTypeKpis(1, 7, (data) => {
+        })
+    }
     componentWillReceiveProps(nextProps) {
         let { match } = nextProps
         let { pathname } = nextProps.location
