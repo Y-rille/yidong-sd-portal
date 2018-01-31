@@ -24,7 +24,6 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
 
     onRangePickerChange(value, dateString) {
         const { longTime, values } = this.state;
-        console.log(value)
         this.setState({
             longTime: [value[0]._d.getTime(), value[1]._d.getTime()],
             values: value
