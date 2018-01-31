@@ -5,18 +5,14 @@ const merge = require('lodash/merge')
 class SettingState {
     name: string;
     config: Object;
-    timeFilter: Array<Object>
-    nfvdPm: Object
-    moInstKpiThresholds: Object
+    userList: Object
 
     // TODO: 所以维度 dimensions 以及维度对应的指标 fact
 
     constructor() {
         this.name = 'SETTING'
         this.config = {}
-        this.timeFilter = null
-        this.nfvdPm = null
-        this.moInstKpiThresholds = null
+        this.userList = null
     }
 }
 
