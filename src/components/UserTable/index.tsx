@@ -2,37 +2,7 @@ import React from 'react';
 import { Table, Icon, Divider, Pagination } from 'antd';
 import styles from './index.less';
 
-const columns = [{
-    title: '用户名',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a href="javascript:;">{text}</a>,
-}, {
-    title: '真实姓名',
-    dataIndex: 'age',
-    key: 'age',
-}, {
-    title: '角色',
-    dataIndex: 'address',
-    key: 'address',
-}, {
-}, {
-    title: '创建时间',
-    dataIndex: 'address',
-    key: 'address',
-}, {
-    title: '操作',
-    key: 'action',
-    render: (text, record) => (
-        <span>
-            <a href="javascript:;">编辑</a>
-            <Divider type="vertical" />
-            <a href="javascript:;">重置密码</a>
-            <Divider type="vertical" />
-            <a href="javascript:;" type="vertical">删除</a>
-        </span>
-    ),
-}];
+// const { showModal } = this.props
 
 const data = [
     {
@@ -90,6 +60,8 @@ const data = [
 
 export interface UserTableProps {
     data?
+    showModal
+    goEdit
 }
 
 export default class UserTable extends React.PureComponent<UserTableProps, any> {
@@ -98,7 +70,41 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         this.state = {
         };
     }
+    goEdit() {
+        this.props.goEdit();
+    }
     render() {
+        const columns = [{
+            title: '用户名',
+            dataIndex: 'name',
+            key: 'name',
+            render: text => <a href="javascript:;">{text}</a>,
+        }, {
+            title: '真实姓名',
+            dataIndex: 'age',
+            key: 'age',
+        }, {
+            title: '角色',
+            dataIndex: 'address',
+            key: 'address',
+        }, {
+        }, {
+            title: '创建时间',
+            dataIndex: 'address',
+            key: 'address',
+        }, {
+            title: '操作',
+            key: 'action',
+            render: (text, record) => (
+                <span>
+                    <a onClick={this.goEdit.bind(this)} href="javascript:;">编辑</a>
+                    <Divider type="vertical" />
+                    <a href="javascript:;">重置密码</a>
+                    <Divider type="vertical" />
+                    <a href="javascript:;" type="vertical">删除</a>
+                </span>
+            ),
+        }];
         return (
             <div>
                 <Table pagination={false} className={styles.table} columns={columns} dataSource={data} />

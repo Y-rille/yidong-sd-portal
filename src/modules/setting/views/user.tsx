@@ -6,6 +6,8 @@ import SplitPane from 'react-split-pane'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input } from 'antd';
 const Search = Input.Search
 import UserTable from '../../../components/UserTable/'
+import UserEdit from '../../../components/UserEdit/'
+
 declare let global: any;
 import styles from '../style/index.less'
 class User extends React.Component<any, any> {
@@ -17,21 +19,29 @@ class User extends React.Component<any, any> {
     }
     componentWillReceiveProps(nextProps) {
     }
-    // showModal() {
-    //     this.setState({
-    //         visible: true
-    //     })
-    // }
-    // handleOk() {
-    //     this.setState({
-    //         visible: false
-    //     })
-    // }
-    // handleCancel() {
-    //     this.setState({
-    //         visible: false
-    //     })
-    // }
+    showModal() {
+        this.setState({
+            visible: true
+        })
+    }
+    handleOk() {
+        this.setState({
+            visible: false
+        })
+    }
+    handleCancel() {
+        this.setState({
+            visible: false
+        })
+    }
+    goEdit(id) {
+        // 编辑
+        this.setState({
+            visible: true,
+        });
+
+    }
+
     componentWillMount() {
     }
     render() {
@@ -49,13 +59,21 @@ class User extends React.Component<any, any> {
                         <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
                     </Breadcrumb>
                     <h1 className={styles._title}>用户管理</h1>
-                    <Button type="primary">新建用户</Button>
+                    <Button type="primary" onClick={this.showModal.bind(this)}>新建用户</Button>
                     <Search
                         className={styles.search}
                         placeholder="请输入关键字"
                     />
-                    <UserTable />
+                    <UserTable
+                        showModal={this.showModal.bind(this)}
+                        goEdit={this.goEdit.bind(this)}
+                    />
                 </div>
+                <UserEdit
+                    visible={this.state.visible}
+                    handleOk={this.handleOk.bind(this)}
+                    handleCancel={this.handleCancel.bind(this)}
+                />
             </Row>
         );
     }
