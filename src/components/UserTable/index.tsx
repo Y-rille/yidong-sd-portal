@@ -2,6 +2,8 @@ import React from 'react';
 import { Table, Icon, Divider, Pagination } from 'antd';
 import styles from './index.less';
 
+import moment from '../../common/moment'
+
 // const { showModal } = this.props
 import * as _ from 'lodash';
 
@@ -16,8 +18,8 @@ const columns = [{
     key: 'name',
 }, {
     title: '角色',
-    dataIndex: '_roles',
-    key: '_roles',
+    dataIndex: 'roles',
+    key: 'roles',
 }, {
 }, {
     title: '创建时间',
@@ -71,7 +73,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         }
         _.map(userList.rows, function (item, index) {
             let key = index + 1
-            item._roles = item.roles
+            item.create_time = moment.tz(item.create_time, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
             item.key = key
         })
         return (
@@ -86,7 +88,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         return (
             <div>
                 {this.renderTable()}
-                <Pagination className={styles.pagination} onChange={this.goPage.bind(this)} total={userList.count} current={page_num} pageSize={page_size} showQuickJumper />
+                <Pagination className={styles.pagination} onChange={this.goPage.bind(this)} total={userList.count} current={page_num + 1} pageSize={page_size} showQuickJumper />
             </div>
         );
     }
