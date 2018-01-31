@@ -8,7 +8,7 @@ export interface LineChartProps {
 }
 
 /**
- * 仪表盘
+ * 折线图
  * 
  * @export
  * @class LineChart
@@ -28,10 +28,6 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
         this.options = {
             title: {
                 text: null,
-                align: 'left',
-                style: {
-                    'fontSize': '14px'
-                }
             },
             chart: {
                 height: 265,
@@ -58,15 +54,14 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                         text: null
                     }
                 }],
-                tickAmount: 5 // 刻度总数
+                tickAmount: 5// 刻度总数
             },
             legend: {
                 // layout: 'vertical',
                 align: 'right',
                 // verticalAlign: 'middle'
             },
-            series:
-                this.props.data,
+            series: this.props.data,
             responsive: {
                 rules: [{
                     condition: {
@@ -90,7 +85,17 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
         }
         this.chart = Highcharts.chart(this.line, this.options);
     }
+    chartExport() {
+        this.chart.exportChart(
+            {
+                type: 'image/png',
+                // filename: ,
+                sourceWidth: 280,
+                sourceHeight: 200
+            }
 
+        );
+    }
     render() {
         return (
             <div ref={(node) => { this.line = node }} ></div>
