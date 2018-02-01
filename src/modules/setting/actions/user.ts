@@ -29,9 +29,8 @@ export const getList = (params, cb) => (dispatch) => {
  */
 export const deleteUser = (userId, cb) => (dispatch) => {
     return UserAPI.deleteUser(userId).then((res) => {
-        let data = res.data
         let rows = {}
-        rows[data.id] = null
+        rows[userId] = null
         let userList = {
             rows
         }

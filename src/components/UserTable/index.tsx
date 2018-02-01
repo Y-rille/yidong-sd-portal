@@ -28,8 +28,9 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
     }
     goDelete(e) {
         let userId = e.currentTarget.id
+        let email = e.currentTarget.rel
         if (this.props.goDelete) {
-            this.props.goDelete(userId)
+            this.props.goDelete(userId, email)
         }
     }
     goPage(current) {
@@ -66,7 +67,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
                     <Divider type="vertical" />
                     <a href="javascript:;">重置密码</a>
                     <Divider type="vertical" />
-                    <a onClick={this.goDelete.bind(this)} id={record.id} href="javascript:;" type="vertical">删除</a>
+                    <a onClick={this.goDelete.bind(this)} rel={record.email} id={record.id} href="javascript:;" type="vertical">删除</a>
                 </span>
             ),
         }];
@@ -79,7 +80,6 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         }
         let userListFix = _.merge({}, userList)
         _.map(userListFix.rows, function (item, index) {
-            let key = index + 1
             let _roles = []
             let roles = item.roles.split(',')
             _.map(roles, (items) => {
@@ -87,7 +87,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             })
             item._roles = _roles.toString()
             item.create_time = moment.tz(item.create_time, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
-            item.key = key
+            item.key = index + 1
         })
         return (
             <Table
