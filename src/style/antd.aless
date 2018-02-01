@@ -149,4 +149,15 @@
 }
 .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
   background-color: @primary-color;
+
+.dynamicPropertiesPanel {
+    .ant-advanced-search-form {
+      .ant-form-item {
+        display: flex;
+        .ant-form-item-label {width:200px;}
+        .ant-form-item-control-wrapper{width:500px;}
+        input:read-only,
+        input:read-only:active {border:0; box-shadow:none;}
+      }
+    }
 }
