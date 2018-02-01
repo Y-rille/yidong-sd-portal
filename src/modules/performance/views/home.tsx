@@ -112,9 +112,6 @@ class Home extends React.Component<HomeProps, any> {
             // 请求指标数据,完成后设置上面俩个flag为false
         }
     }
-    componentWillUpdate(nextProps: any, nextState) {
-        console.warn('home componentWillUpdate');
-    }
     render() {
         // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
         // console.log(`开始时间:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf()}`)

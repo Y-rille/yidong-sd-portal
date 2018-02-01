@@ -3,6 +3,7 @@ import { LocaleProvider } from 'antd';
 import moment from 'moment';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
+import emitter from '../../common/emitter'
 
 import { DatePicker, Input, Select, Button } from 'antd';
 const { RangePicker } = DatePicker;
@@ -17,13 +18,12 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
         super(props);
         this.state = {
             longTime: [],
-            selectValue: 'nothing',
-            values: moment()
+            selectValue: '',
         };
     }
 
     onRangePickerChange(value, dateString) {
-        const { longTime, values } = this.state;
+        const { longTime } = this.state;
         this.setState({
             longTime: [value[0]._d.getTime(), value[1]._d.getTime()],
             values: value
@@ -39,32 +39,15 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
 
     handleClick() {
         const { longTime, selectValue } = this.state;
+        if (longTime[1] > Number(moment().format('X')) * 1000) {
+            emitter.emit('message', 'warning', '结束日期不能大于当前日期，请重新选择！')
+            return;
+        }
         this.props.inquire(longTime, selectValue);
     }
 
     disabledDate(dateCurrent) {
         return dateCurrent && dateCurrent > moment().endOf('day');
-    }
-
-    range(start, end) {
-        const result = [];
-        for (let i = start; i < end; i++) {
-            result.push(i);
-        }
-        return result;
-    }
-
-    disabledTime(currentHour, currentMinute, currentSecond) {
-        const { values } = this.state;
-        currentHour = Number(moment().format('hh')) + 12 + 1;
-        currentMinute = Number(moment().format('mm')) + 1;
-        currentSecond = Number(moment().format('ss')) + 1;
-
-        return {
-            disabledHours: () => this.range(currentHour, 24),
-            disabledMinutes: () => this.range(currentMinute, 60),
-            disabledSeconds: () => this.range(currentSecond, 60)
-        }
     }
 
     render() {
@@ -75,18 +58,14 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
                     <RangePicker
                         style={{ marginLeft: 10 }}
                         format="YYYY-MM-DD HH:mm:ss"
-                        disabledDate={this.disabledDate.bind(this)}
-                        disabledTime={this.disabledTime.bind(this)}
-                        showTime={{
-                            hideDisabledOptions: true,
-                            defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
-                        }}
+                        disabledDate={this.disabledDate}
+                        showTime
                         placeholder={['开始时间', '结束时间']}
                         onChange={this.onRangePickerChange.bind(this)}
                     />
                 </LocaleProvider>
-                <Select defaultValue="nothing" style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
-                    <Option value="nothing">无</Option>
+                <Select defaultValue="" style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
+                    <Option value="">无</Option>
                     <Option value="sameWeek">上周同一时间</Option>
                     <Option value="sameMonth">上月同一时间</Option>
                 </Select>

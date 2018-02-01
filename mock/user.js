@@ -6,14 +6,14 @@ let users = []
 for (i = 0; i < 10; i++) {
   users.push(
     {
-      "id": i+1,
+      "id": i + 1,
       "name": faker.name.firstName(),
       "email": faker.internet.email(),
       "mobile": faker.phone.phoneNumber(),
       "avatar": faker.image.avatar(),
       "remark": faker.lorem.words(),
       "roles": "admin,performance,resource,alarm",
-      "create_time":faker.date.recent()
+      "create_time": faker.date.recent()
     }
   )
 }
@@ -30,7 +30,7 @@ let login = {
       "avatar": faker.image.avatar(),
       "remark": faker.lorem.words(),
       "roles": "admin,performance,resource,alarm",
-      "create_time":faker.date.past()
+      "create_time": faker.date.past()
     }
     return currentUser
   }
@@ -90,7 +90,7 @@ let create = {
       "avatar": faker.image.avatar(),
       "remark": faker.lorem.words(),
       "roles": "performance,resource,alarm",
-      "create_time":faker.date.past()
+      "create_time": faker.date.past()
     }
   }
 }
@@ -114,7 +114,7 @@ var edit = {
       "avatar": faker.image.avatar(),
       "remark": faker.lorem.words(),
       "roles": "performance,resource,alarm",
-      "create_time":faker.date.past()
+      "create_time": faker.date.past()
     }
   }
 }
