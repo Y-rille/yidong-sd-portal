@@ -5,7 +5,7 @@ import {
   getKpiThresholds,
   getMoInstKpiThresholds,
   getData,
-  getMoTypeKpis,
+  getMoTypeKpis
 } from './kpi'
 
 const HomeActionCreatorsMap = {
