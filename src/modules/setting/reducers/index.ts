@@ -6,6 +6,7 @@ class SettingState {
     name: string;
     config: Object;
     userList: Object
+    logList: Object
 
     // TODO: 所以维度 dimensions 以及维度对应的指标 fact
 
@@ -13,6 +14,7 @@ class SettingState {
         this.name = 'SETTING'
         this.config = {}
         this.userList = null
+        this.logList = null
     }
 }
 
