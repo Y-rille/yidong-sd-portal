@@ -15,7 +15,7 @@ const HomeActionCreatorsMap = {
   getKpiThresholds,
   getMoInstKpiThresholds,
   getData,
-  getMoTypeKpis
+  getMoTypeKpis,
 }
 
 export interface PerformanceActions {
