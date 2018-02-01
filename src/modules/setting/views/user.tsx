@@ -31,6 +31,7 @@ class User extends React.PureComponent<UserProps, any> {
         let { page_num, query_key } = qs.parse(this.props.location.search)
 
         this.state = {
+            currentId: false,
             visible: false,
             listLoading: false,
             page_size: 10,
@@ -47,7 +48,8 @@ class User extends React.PureComponent<UserProps, any> {
     }
     handleOk() {
         this.setState({
-            visible: false
+            visible: false,
+            currentId: false
         })
     }
     handleCancel() {
@@ -59,6 +61,7 @@ class User extends React.PureComponent<UserProps, any> {
         // 编辑
         this.setState({
             visible: true,
+            currentId: true
         });
 
     }
@@ -123,6 +126,7 @@ class User extends React.PureComponent<UserProps, any> {
         this.getDataFn(queryObj)
     }
     render() {
+        let modalTitle = this.state.currentId ? '编辑用户' : '创建用户'
         let { page_num, page_size, query_key } = this.state
         let userList = this.props.userList
         let canRender = false
@@ -164,6 +168,7 @@ class User extends React.PureComponent<UserProps, any> {
                     />
                 </div>
                 <UserEdit
+                    modalTitle={modalTitle}
                     visible={this.state.visible}
                     handleOk={this.handleOk.bind(this)}
                     handleCancel={this.handleCancel.bind(this)}

@@ -4,7 +4,8 @@ import * as SI from 'seamless-immutable';
 const SettingState = SI.from({
     name: 'RESOURCE',
     config: {},
-    userList: null
+    userList: null,
+    logList: null
 });
 
 let settingReducer = (state = SettingState, action = null) => {
