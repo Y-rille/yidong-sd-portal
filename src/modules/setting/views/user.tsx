@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Modal } from 'antd';
 const Search = Input.Search
 import UserTable from '../../../components/UserTable/'
 import UserEdit from '../../../components/UserEdit/'
@@ -15,6 +15,8 @@ var qs = require('querystringify')
 import { stringify } from 'querystringify'
 
 import { SettingActions } from '../actions/index'
+
+import emitter from '../../../common/emitter'
 
 export interface UserProps {
     location?,
@@ -59,6 +61,25 @@ class User extends React.PureComponent<UserProps, any> {
             visible: true,
         });
 
+    }
+    goDelete(userId) {
+        let self = this
+        Modal.confirm({
+            title: '确定删除吗？',
+            content: '',
+            okText: '确定',
+            cancelText: '取消',
+            onOk() {
+                self.props.actions.deleteUser(userId, (data) => {
+                    if (data) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                })
+            },
+            onCancel() { },
+        });
     }
     goPage(current) {
         let page_num = current - 1
@@ -133,6 +154,7 @@ class User extends React.PureComponent<UserProps, any> {
                         onSearch={value => this.searchHandler(value)}
                     />
                     <UserTable
+                        goDelete={this.goDelete.bind(this)}
                         goPage={this.goPage.bind(this)}
                         page_num={page_num}
                         page_size={page_size}
