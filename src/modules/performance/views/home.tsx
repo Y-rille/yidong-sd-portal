@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
 import moment from '../../../common/moment'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
 import FactModal from '../../../components/FactModal/'
 import TreeSelect from '../../../components/TreeSelect'
 
@@ -31,13 +31,7 @@ class Home extends React.Component<HomeProps, any> {
     thresholdsLoaded: any
     constructor(props) {
         super(props);
-        let { match } = this.props
-        let { pathname } = this.props.location
         this.state = {
-            activeKey: _.compact([
-                matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
-                matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-            ]).toString(),
             visible: false,
             kpis: []
         };
@@ -56,12 +50,12 @@ class Home extends React.Component<HomeProps, any> {
         global.hashHistory.push(`${match.url}/${path}`)
     }
     renderTab() {
-        let { activeKey } = this.state
+        let { pathname } = this.props.location
         let tab = [{ key: 'current', name: '当前状态' }, { key: 'history', name: '历史趋势' }]
         return _.map(tab, (item) => {
             let cls = {
                 tabItem: true,
-                active: activeKey === item.key ? true : false
+                active: pathname.indexOf(item.key) > 0
             }
             return <li className={classNames(cls)} data-path={item.key} onClick={this.tabClick.bind(this)}>{item.name}</li>
         })
@@ -97,23 +91,10 @@ class Home extends React.Component<HomeProps, any> {
         })
     }
     componentDidMount() {
-
-        // console.log('--------------->getKpisAndThresholds');
-
         this.getKpisAndThresholds()
     }
     componentWillReceiveProps(nextProps) {
-        let { match } = nextProps
-        let { pathname } = nextProps.location
-        this.state = {
-            activeKey: _.compact([
-                matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
-                matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-            ]).toString()
-        };
-        if (this.kipsLoaded && this.thresholdsLoaded) {
-            // 请求指标数据,完成后设置上面俩个flag为false
-        }
+
     }
     render() {
         // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
@@ -159,7 +140,7 @@ class Home extends React.Component<HomeProps, any> {
                                     <Route path={`${match.url}/history`} component={History} />
                                 </Switch>
                             ) : (
-                                    <div>loading</div>
+                                    <Spin />
                                 )
                         }
 
