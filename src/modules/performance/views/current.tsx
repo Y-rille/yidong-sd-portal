@@ -52,10 +52,10 @@ class Current extends React.Component<any, any> {
                 <InstrumentCard data={{
                     title: '效率表2',
                     min: 0,
-                    max: 100,
+                    max: 200,
                     current: 65,
                     gradient: false,
-                    unit: '￥'
+                    unit: '℃'
                 }} />
 
                 {/*<Col className="gutter-row" span={12}>
