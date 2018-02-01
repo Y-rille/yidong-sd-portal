@@ -12,6 +12,7 @@ import InstrumentPanel from '../../../components/InstrumentPanel'
 import InstrumentCard from '../../../components/InstrumentCard'
 import styles from '../style/index.less'
 import getKpiData from '../utils/getKpiData'
+import moment from '../../../common/moment'
 
 // 指标列表
 // let moTypeKpis = {
@@ -179,10 +180,6 @@ class Current extends React.Component<any, any> {
     tabClick() {
 
     }
-    // componentDidMount() {
-    //     let data = getKpiData(moTypeKpis, moInstKpiThresholds, kpidate)
-    //     console.log('=========>', data)
-    // }
     printInstrumentPane() {
         this.instrumentPanel_1.chartExport()
     }
@@ -191,7 +188,31 @@ class Current extends React.Component<any, any> {
             showOne: false
         })
     }
+    componentWillMount() {
+        this.getData()
+    }
+    getData(begintime = moment().tz('Asia/Shanghai').subtract(15, 'minutes').format(), endtime = moment().tz('Asia/Shanghai'), timeFilter = null) { 
+        let DataParams = {
+            facts: '4',
+            begintime,
+            endtime,
+            // wheredim,
+        }
+        this.props.actions.getData('value_pack_vim', DataParams)
+    }
+    componentDidMount() {
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.moTypeKpis && nextProps.moInstKpiThresholds) {
+            
+        }
+    }
     render() {
+        if (this.props.kpidata) {
+            let result = getKpiData(this.props.moTypeKpis, this.props.moInstKpiThresholds, this.props.kpidata)
+        }
         return (
             <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
                 <InstrumentCard data={{

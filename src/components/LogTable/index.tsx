@@ -1,80 +1,14 @@
 import React from 'react';
 import { Table, Icon, Divider, Pagination } from 'antd';
 import styles from './index.less';
-
-const columns = [
-    {
-        title: '系统日志',
-        dataIndex: 'systemlog',
-        key: 'systemlog',
-        render: text => <a href="javascript:;">{text}</a>,
-    }, {
-        title: '操作日志',
-        dataIndex: 'handlelog',
-        key: 'handlelog',
-    }, {
-        title: '安全日志',
-        dataIndex: 'safelog',
-        key: 'safelog',
-    }
-];
-
-const data = [
-    {
-        key: '1',
-        systemlog: 'ddddddddd',
-        handlelog: '操作',
-        safelog: '安全',
-    }, {
-        key: '2',
-        systemlog: 'ddddddddd',
-        handlelog: '操作',
-        safelog: '安全',
-    }, {
-        key: '3',
-        systemlog: 'ddddddddd',
-        handlelog: '操作',
-        safelog: '安全',
-    }, {
-        key: '4',
-        systemlog: 'ddddddddd',
-        handlelog: '操作',
-        safelog: '安全',
-    }, {
-        key: '5',
-        systemlog: 'ddddddddd',
-        handlelog: '操作',
-        safelog: '安全',
-    }, {
-        key: '6',
-        systemlog: 'ddddddddd',
-        handlelog: '操作',
-        safelog: '安全',
-    }, {
-        key: '7',
-        systemlog: 'ddddddddd',
-        handlelog: '操作',
-        safelog: '安全',
-    }, {
-        key: '8',
-        systemlog: 'ddddddddd',
-        handlelog: '操作',
-        safelog: '安全',
-    }, {
-        key: '9',
-        systemlog: 'ddddddddd',
-        handlelog: '操作',
-        safelog: '安全',
-    }, {
-        key: '10',
-        systemlog: 'ddddddddd',
-        handlelog: '操作',
-        safelog: '安全',
-    }
-];
+import * as _ from 'lodash';
+import moment from '../../common/moment'
 
 export interface LogTableProps {
-    data?
+    logList?
+    page_num?
+    page_size?
+    goPage?
 }
 
 export default class LogTable extends React.PureComponent<LogTableProps, any> {
@@ -83,11 +17,68 @@ export default class LogTable extends React.PureComponent<LogTableProps, any> {
         this.state = {
         };
     }
+
+    goPage(current) {
+        if (this.props.goPage) {
+            this.props.goPage(current)
+        }
+    }
+
+    renderLogTable() {
+        const columns = [
+            {
+                title: 'LOG.ID',
+                dataIndex: 'message',
+                key: 'message',
+                // width: '10%'
+            }, {
+                title: '用户名',
+                dataIndex: 'email',
+                key: 'email',
+            }, {
+                title: '真实姓名',
+                dataIndex: 'name',
+                key: 'name',
+            }, {
+                title: '事件',
+                dataIndex: 'action',
+                key: 'action',
+            }, {
+                title: '时间',
+                dataIndex: 'create_time',
+                key: 'create_time',
+            }
+        ];
+        let data = this.props.logList.rows
+        let obj = {}
+        let arr = []
+        data.map((item, index) => {
+            let time = item.create_time
+            let timeshow = moment.tz(time, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
+            obj = {
+                key: index,
+                message: item.message,
+                email: item.user.email,
+                name: item.user.name,
+                action: item.action,
+                create_time: timeshow,
+                id: item.id,
+            }
+            arr.push(obj)
+        })
+        return (
+            <Table
+                pagination={false}
+                className={styles.logtable}
+                columns={columns} dataSource={arr} />
+        )
+    }
     render() {
+        let { page_size, page_num, logList, goPage } = this.props
         return (
             <div className={styles.logtable}>
-                <Table pagination={false} className={styles.table} columns={columns} dataSource={data} />
-                <Pagination className={styles.pagination} total={50} pageSize={10} showSizeChanger showQuickJumper />
+                {this.renderLogTable()}
+                <Pagination className={styles.pagination} onChange={this.goPage.bind(this)} total={logList.count} current={parseInt(page_num, 10) + 1} pageSize={page_size} showQuickJumper />
             </div>
         );
     }

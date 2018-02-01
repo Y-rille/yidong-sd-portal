@@ -26,9 +26,8 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
     constructor(props) {
         super(props);
         this.state = {
-            // menuValue: _.map(this.props.defaultMenu, (item) => {
-            //     return item.value;
-            // })
+            kpisValue: [],
+            defaultKpisValue: []
         }
     }
     static propTypes = {
@@ -36,68 +35,87 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
     static defaultProps = {
     }
     handleOk() {
-        this.props.handleOk(this.state.menuValue);
+        let kpisValue = this.state.kpisValue;
+        let kpis = this.props.kpis;
+        _.map(kpis, (item) => {
+            if (kpisValue.indexOf(item.kpiId) > -1) {
+                item.active = true;
+            }
+        })
+        this.props.handleOk(this.state.kpisValue);
     }
     handleCancel() {
+        this.setState({
+            defaultKpisValue: this.state.defaultKpisValue
+        })
         this.props.handleCancel();
     }
     onChange(e) {
         this.setState({
-            menuValue: e
+            kpisValue: e
         })
     }
     renderMenuItem() {
         const { kpis } = this.props;
-        // let menus = _.map(menu, (item) => {
-        //     item.activeKey = false;
-        //     return item;
-        // })
-        return _.map(kpis, (item) => {
 
+        // let arr = _.map(menus, (item) => {
+        //     if (item.active) {
+        //         return item;
+        //     }
+        // })
+        // this.setState({
+        //     defaultMenuValue: arr
+        // })
+        return _.map(this.props.kpis, (item) => {
             return (
                 <Col span={12} className={styles.col}>
-                    <Checkbox value={item.id}>{item.kpiRealName}</Checkbox>
+                    <Checkbox value={item.kpiId}>{item.kpiRealName}</Checkbox>
                 </Col>
             )
         })
     }
-    // renderDefaultMenuItem() {
-    //     // const { defaultMenu } = this.props;
-    //     // return _.map(defaultMenu, (item) => {
-    //     //     return item.value;
-    //     // })
-    //     const { menu } = this.props;
-    //     let arr = [];
-    //     if (arr.length >= 4) {
-    //         arr = menu.slice(0, 4);
-    //     } else {
-    //         arr = menu;
-    //     }
-    //     return _.map(arr, (item) => {
-    //         return item.id;
-    //     })
-    // }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.kpis) {
+            this.defaultKpisHandler(nextProps.kpis);
+        }
+    }
+    defaultKpisHandler(kpis) {
+        let defaultKpis = _.compact(_.map(kpis, (item, index) => {
+            if (!item.hasOwnProperty('active')) {
+                item.active = false;
+                if (index < 4) {
+                    item.active = true;
+                    return item;
+                }
+            } else {
+                if (item.active) {
+                    return item
+                }
+            }
+        }))
+        let defaultValue = _.map(defaultKpis, (item) => {
+            return item.kpiId;
+        })
+        this.setState({
+            defaultKpisValue: defaultValue
+        })
+    }
     render() {
-        const { visible } = this.props
-        // let menu = _.map(this.props.menu, (item) => {
-        //     item.activeKey = false;
-        //     return item;
-        // })
+        const { visible } = this.props;
         return (
             <div>
                 <Modal visible={visible} title="添加指标" onOk={this.handleOk.bind(this)}
                     onCancel={this.handleCancel.bind(this)} footer={null} className={styles.modal}>
-
-                    {/* <Checkbox.Group style={{ width: '100%' }} onChange={this.onChange.bind(this)} defaultValue={this.renderDefaultMenuItem()}> */}
-                    <Row>
-                        <Col span={4}>选择指标：</Col>
-                        <Col span={20}>
-                            <Row>
-                                {this.renderMenuItem()}
-                            </Row>
-                        </Col>
-                    </Row>
-                    {/* </Checkbox.Group> */}
+                    <Checkbox.Group style={{ width: '100%' }} onChange={this.onChange.bind(this)} defaultValue={this.state.defaultKpisValue}>
+                        <Row>
+                            <Col span={4}>选择指标：</Col>
+                            <Col span={20}>
+                                <Row>
+                                    {this.renderMenuItem()}
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Checkbox.Group>
 
                     <div className={styles.handle}>
                         <Button onClick={this.handleOk.bind(this)} type="primary">确定</Button>
