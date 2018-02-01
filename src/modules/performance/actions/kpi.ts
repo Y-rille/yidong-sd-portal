@@ -139,10 +139,10 @@ export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
 
 export const getMoTypeKpis = (moTypeId, timeDimensionId, cb) => (dispatch) => {
   return kpiAPI.getMoTypeKpis(moTypeId, timeDimensionId).then((res: any) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: res.data }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: res.data.data }
     dispatch(action);
     if (cb) {
-      cb(res.data)
+      cb(res.data.data)
     }
   }).catch((err) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: null }
