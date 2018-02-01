@@ -31,7 +31,18 @@ class Current extends React.Component<any, any> {
             showOne: false
         })
     }
+    componentDidMount() {
+        // console.log('moTypeKpis', this.props.moTypeKpis);
+        // console.log('moInstKpiThresholds', this.props.moInstKpiThresholds);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.moTypeKpis && nextProps.moInstKpiThresholds) {
+
+        }
+    }
     render() {
+        // console.log('current');
         return (
             <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
                 <InstrumentCard data={{
