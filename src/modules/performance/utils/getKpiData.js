@@ -239,7 +239,7 @@ function getKpiData(moTypeKpis,moInstKpiThresholds,kpidate) {
             let x_value = []
             let val = []
             for (let j = 0; j < kpidate_values.length; j++) { 
-                x_value.push(kpidate_values[j][0])
+                x_value.push(formatTime(kpidate_values[j][0]))
                 val.push(kpidate_values[j][i])
             }
             d.x_value = x_value
@@ -268,6 +268,20 @@ function getKpiData(moTypeKpis,moInstKpiThresholds,kpidate) {
         })
         return d2
     }
+    //处理时间格式
+    let formatTime =(date) => {
+        if(date.length == 10){ date = date*1000}
+        let fTime = new Date(date)
+        console.log(fTime)
+        let year = fTime.getFullYear()
+        let month = ((fTime.getMonth()+1)<10)?('0'+(fTime.getMonth()+1)):(fTime.getMonth()+1)
+        let date = (fTime.getDate()<10)?('0'+fTime.getDate()):(fTime.getDate())
+        let hour = (fTime.getHours()<10)?('0'+fTime.getHours()):(fTime.getHours())
+        let minute = (fTime.getMinutes()<10)?('0'+fTime.getMinutes()):(fTime.getMinutes())
+        let second = (fTime.getSeconds()<10)?('0'+fTime.getSeconds()):(fTime.getSeconds())
+        return   year+"/"+month+"/"+date+" "+hour+":"+minute
+    }
+
     let d1 = formatkpidate(kpidate)
     let d2 = meragemoInstKpiThresholds(d1, moInstKpiThresholds)
     let result = mergeinfo(d2, moTypeKpis)

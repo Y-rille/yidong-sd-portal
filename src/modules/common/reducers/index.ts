@@ -1,30 +1,18 @@
 import ActionTypes from '../constants/actionTypes';
-import * as _ from 'lodash';
-import store from 'superstore-sync'
+import * as SI from 'seamless-immutable';
 
-class CommonState {
-    name: string;
-    collapsed: boolean;
-    fetchingNotices: boolean;
-    notices: Object;
-    locale: string;
-    currentUser: Object;
-    translations: Object;
-    tree: Array<Object>;
+const CommonState = SI.from({
+    name: 'COMMON',
+    currentUser: null,
+    tree: null
+});
 
-    constructor() {
-        this.name = 'common'
-        this.currentUser = null
-        this.tree = null
-    }
-}
-
-let commonReducer = (state = new CommonState(), action = null) => {
+let commonReducer = (state = CommonState, action = null) => {
     switch (action.type) {
         case ActionTypes.COMMON_SAY_HELLO:
-            return _.merge({}, state, action)
+            return state.merge(action, { deep: true });
         case ActionTypes.COMMON_GET_QUERYTREE:
-            return _.merge({}, state, action)
+            return state.merge(action, { deep: true });
         default:
             return state
     }

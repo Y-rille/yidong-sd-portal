@@ -14,6 +14,7 @@ export interface UserTableProps {
     page_num?
     page_size?
     goPage?
+    goDelete?
 }
 
 export default class UserTable extends React.PureComponent<UserTableProps, any> {
@@ -24,6 +25,12 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
     }
     goEdit() {
         this.props.goEdit();
+    }
+    goDelete(e) {
+        let userId = e.currentTarget.id
+        if (this.props.goDelete) {
+            this.props.goDelete(userId)
+        }
     }
     goPage(current) {
 
@@ -59,7 +66,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
                     <Divider type="vertical" />
                     <a href="javascript:;">重置密码</a>
                     <Divider type="vertical" />
-                    <a href="javascript:;" type="vertical">删除</a>
+                    <a onClick={this.goDelete.bind(this)} id={record.id} href="javascript:;" type="vertical">删除</a>
                 </span>
             ),
         }];
@@ -70,7 +77,8 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             alarm: '告警运维',
             performance: '性能运维'
         }
-        _.map(userList.rows, function (item, index) {
+        let userListFix = _.merge({}, userList)
+        _.map(userListFix.rows, function (item, index) {
             let key = index + 1
             let _roles = []
             let roles = item.roles.split(',')
@@ -85,7 +93,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             <Table
                 pagination={false}
                 className={styles.table}
-                columns={columns} dataSource={userList.rows} />
+                columns={columns} dataSource={userListFix.rows} />
         )
     }
     render() {

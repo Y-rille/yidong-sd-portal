@@ -1,20 +1,15 @@
 import ActionTypes from '../constants/actionTypes'
+import * as SI from 'seamless-immutable';
 
-const merge = require('lodash/merge')
+const LoginState = SI.from({
+    name: 'LOGIN',
+    config: {}
+});
 
-class LoginState {
-    name: string;
-    config: Object
-    constructor() {
-        this.name = 'LOGIN'
-        this.config = {}
-    }
-}
-
-let loginReducer = (state = new LoginState(), action = null) => {
+let loginReducer = (state = LoginState, action = null) => {
     switch (action.type) {
         case ActionTypes.LOGIN_SAY_HELLO:
-            return merge({}, state, action)
+            return state.merge(action, { deep: true })
         default:
             return state
     }

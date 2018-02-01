@@ -7,7 +7,6 @@ function mapProps(state) {
     return {
         name: state.settingReducer.name,
         config: state.settingReducer.config,
-        tree: state.commonReducer.tree,
         userList: state.settingReducer.userList
     }
 }
