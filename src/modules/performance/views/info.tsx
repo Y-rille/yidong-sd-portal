@@ -82,7 +82,7 @@ export default class Info extends React.Component<InfoProps, any> {
   }
 
   render() {
-    let { match } = this.props
+    let { match, moTypeKpis } = this.props
     let { activeKey } = this.state
     return (
       <div>
@@ -112,7 +112,7 @@ export default class Info extends React.Component<InfoProps, any> {
               <div>loading</div>
             )
         }
-        {/* <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={this.props.moTypeKpis.data} /> */}
+        <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={moTypeKpis} />
       </div>
     );
   }
