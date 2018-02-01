@@ -53,6 +53,7 @@ class History extends React.Component<any, any> {
     inquire(longTime, selectValue) {
         // console.log(longTime, selectValue);
     }
+
     renderLineChartCard() {
         return alldata.map((item, index) => {
             return (
@@ -64,7 +65,7 @@ class History extends React.Component<any, any> {
         return (
             <div>
                 <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
-                    <TimeSelect inquire={this.inquire.bind(this)} />
+                    <TimeSelect inquire={this.inquire.bind(this)} defaultValue={[1517483193477, 1517483993477]} />
                 </div>
                 <Row gutter={20} style={{ padding: '0 20px' }}>
                     {this.renderLineChartCard()}

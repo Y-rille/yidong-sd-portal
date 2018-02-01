@@ -11,6 +11,7 @@ const Option = Select.Option;
 
 export interface TimeSelectProps {
     inquire?
+    defaultValue?
 }
 
 export default class TimeSelect extends React.PureComponent<TimeSelectProps, any> {
@@ -50,7 +51,13 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
         return dateCurrent && dateCurrent > moment().endOf('day');
     }
 
+    toStandartDate() {
+        const date = this.props.defaultValue;
+        return [moment(date[0]).format('YYYY-MM-DD HH:mm:ss'), moment(date[1]).format('YYYY-MM-DD HH:mm:ss')]
+    }
     render() {
+        var dateformat = 'YYYY-MM-DD HH:mm:ss';
+        const date = [moment(this.props.defaultValue[0]).format('YYYY-MM-DD HH:mm:ss'), moment(this.props.defaultValue[1]).format('YYYY-MM-DD HH:mm:ss')]
         return (
             <div style={{ marginTop: '-11px' }}>
                 <span style={{ marginLeft: 5 }}>创建时间：</span>
@@ -59,6 +66,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
                         style={{ marginLeft: 10 }}
                         format="YYYY-MM-DD HH:mm:ss"
                         disabledDate={this.disabledDate}
+                        defaultValue={[moment(date[0], dateformat), moment(date[1], dateformat)]}
                         showTime
                         placeholder={['开始时间', '结束时间']}
                         onChange={this.onRangePickerChange.bind(this)}
