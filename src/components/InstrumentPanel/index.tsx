@@ -33,6 +33,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
     }
     componentDidMount() {
         let { data } = this.props
+        let unit = data.unit || ''
         var options = {
             chart: {
                 type: 'solidgauge'
@@ -44,8 +45,9 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 enabled: false
             },
             pane: { // 仪表盘
-                center: ['50%', '90%'],
+                center: ['50%', '100%'],
                 size: '150%',
+
                 startAngle: -90, //  起始角度
                 endAngle: 90,
                 background: {
@@ -66,7 +68,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             },
             yAxis: {
                 stops: compact([ // 进度条颜色，从0-1
-                    this.props.data.gradient && [0.5, 'red'],
+                    this.props.data.gradient && [0.44, 'red'],
                     [1, '#00b388']
                 ]),
                 lineWidth: 0,
@@ -74,17 +76,22 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 tickPixelInterval: 400,
                 tickWidth: 0,
                 title: {
-                    text: '50%<br/><span style="font-size:10px;color:silver">|</span>',
-                    y: -70 // 标题高度
+                    text: '50' + unit + '<br/><span style="font-size:10px;color:silver">|</span>',
+                    y: -62 // 标题高度
                 },
                 labels: {
-                    y: 14 // 刻度范围位置
-                }
+                    distance: -8, // 刻度距离表盘圆心的距离
+                    y: 14, // 刻度范围位置
+                    formatter: function () {
+                        return this.value + unit;
+                    },
+                },
+
             },
             plotOptions: { // 中间显示框
                 solidgauge: {
                     dataLabels: {
-                        y: 8,
+                        y: 16,
                         borderWidth: 0,
                         useHTML: true
                     },
@@ -94,8 +101,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             exporting: { enabled: false },
             series: [{
                 dataLabels: {
-                    format: '<div style="text-align:center"><span style="font-size:25px;color:rgba(0, 0, 0, 0.8);">{y}</span>' +
-                    '<span style="font-size:12px;color:silver"> %</span></div>',
+                    format: '<div style="text-align:center"><span style="font-size:34px;color:rgba(0, 0, 0, 0.8);">{y}%</span></div>',
                     enabled: true
                 }
             }]
@@ -158,13 +164,13 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             },
             {
                 pane: { // 仪表盘
-                    center: ['50%', '90%'],
+                    center: ['50%', '95%'],
                     size: '150%'
                 },
                 plotOptions: { // 中间显示框
                     solidgauge: {
                         dataLabels: {
-                            y: 35,
+                            y: 65,
                             borderWidth: 0,
                         }
                     }
@@ -176,7 +182,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
     render() {
         return (
             <div>
-                <div ref={(node) => { this.container = node }} style={{ width: '100%', height: '160px' }}></div>
+                <div ref={(node) => { this.container = node }} style={{ width: '100%', height: '140px' }}></div>
             </div>
         );
     }

@@ -44,7 +44,7 @@ export default class InstrumentCard extends React.PureComponent<InstrumentCardPr
         }
         let { data } = this.props
         return (
-            <Col className="gutter-row" span={12} >
+            <Col className="gutter-row" span={6} >
                 <div className="gutter-box">
                     <div className={styles.instrumentHead}>
                         <div className={styles.title}>{data.title}</div>
