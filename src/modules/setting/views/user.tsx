@@ -6,6 +6,8 @@ import SplitPane from 'react-split-pane'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input } from 'antd';
 const Search = Input.Search
 import UserTable from '../../../components/UserTable/'
+import UserEdit from '../../../components/UserEdit/'
+
 declare let global: any;
 import styles from '../style/index.less'
 
@@ -36,28 +38,35 @@ class User extends React.PureComponent<UserProps, any> {
     }
     componentWillReceiveProps(nextProps) {
     }
-    // showModal() {
-    //     this.setState({
-    //         visible: true
-    //     })
-    // }
-    // handleOk() {
-    //     this.setState({
-    //         visible: false
-    //     })
-    // }
-    // handleCancel() {
-    //     this.setState({
-    //         visible: false
-    //     })
-    // }
-    goPage(pagination) {
-        let page_num = pagination.current - 1
-        let { page_size } = this.state
+    showModal() {
+        this.setState({
+            visible: true
+        })
+    }
+    handleOk() {
+        this.setState({
+            visible: false
+        })
+    }
+    handleCancel() {
+        this.setState({
+            visible: false
+        })
+    }
+    goEdit(id) {
+        // 编辑
+        this.setState({
+            visible: true,
+        });
+
+    }
+    goPage(current) {
+        let page_num = current - 1
+        let { page_size, query_key } = this.state
         let queryObj = {
-            page_num, page_size
+            page_num, page_size, query_key
         }
-        global.hashHistory.push(`/hub/endpoint?${stringify(queryObj)}`)
+        global.hashHistory.push(`/setting/user?${stringify(queryObj)}`)
         this.setState({
             page_num: page_num
         });
@@ -75,6 +84,16 @@ class User extends React.PureComponent<UserProps, any> {
             });
         })
     }
+    searchHandler(query_key) {
+        let { page_num, page_size } = this.state
+        page_num = 0
+        let queryObj = { page_num, query_key, page_size }
+        global.hashHistory.push(`/setting/user?${stringify(queryObj)}`)
+        this.setState({
+            page_num, query_key
+        });
+        this.getDataFn(queryObj)
+    }
     componentWillMount() {
         let { page_num, page_size, query_key } = this.state
         let queryObj = {
@@ -83,6 +102,7 @@ class User extends React.PureComponent<UserProps, any> {
         this.getDataFn(queryObj)
     }
     render() {
+        let { page_num, page_size, query_key } = this.state
         let userList = this.props.userList
         let canRender = false
         if (userList) {
@@ -105,13 +125,27 @@ class User extends React.PureComponent<UserProps, any> {
                         <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
                     </Breadcrumb>
                     <h1 className={styles._title}>用户管理</h1>
-                    <Button type="primary">新建用户</Button>
+                    <Button type="primary" onClick={this.showModal.bind(this)}>新建用户</Button>
                     <Search
                         className={styles.search}
                         placeholder="请输入关键字"
+                        defaultValue={query_key}
+                        onSearch={value => this.searchHandler(value)}
                     />
-                    <UserTable userList={userList} />
+                    <UserTable
+                        goPage={this.goPage.bind(this)}
+                        page_num={page_num}
+                        page_size={page_size}
+                        showModal={this.showModal.bind(this)}
+                        goEdit={this.goEdit.bind(this)}
+                        userList={userList}
+                    />
                 </div>
+                <UserEdit
+                    visible={this.state.visible}
+                    handleOk={this.handleOk.bind(this)}
+                    handleCancel={this.handleCancel.bind(this)}
+                />
             </Row>
         );
     }

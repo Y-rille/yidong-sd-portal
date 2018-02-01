@@ -54,6 +54,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
+    "seamless-immutable": "^7.1.2",
     "superstore-sync": "^2.1.0",
     "testcafe": "^0.18.5",
     "ts-import-plugin": "^1.4.2",

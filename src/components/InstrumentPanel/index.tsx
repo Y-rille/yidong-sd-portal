@@ -34,6 +34,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
     componentDidMount() {
         let { data } = this.props
         let unit = data.unit || ''
+        let middle = data.max / 2
         var options = {
             chart: {
                 type: 'solidgauge'
@@ -76,7 +77,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 tickPixelInterval: 400,
                 tickWidth: 0,
                 title: {
-                    text: '50' + unit + '<br/><span style="font-size:10px;color:silver">|</span>',
+                    text: middle + unit + '<br/><span style="font-size:10px;color:silver">|</span>',
                     y: -62 // 标题高度
                 },
                 labels: {
@@ -101,7 +102,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             exporting: { enabled: false },
             series: [{
                 dataLabels: {
-                    format: '<div style="text-align:center"><span style="font-size:34px;color:rgba(0, 0, 0, 0.8);">{y}%</span></div>',
+                    format: '<div style="text-align:center"><span style="font-size:34px;color:rgba(0, 0, 0, 0.8);">{y}' + unit + '</span></div>',
                     enabled: true
                 }
             }]
