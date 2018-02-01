@@ -68,10 +68,10 @@ class User extends React.PureComponent<UserProps, any> {
         });
 
     }
-    goDelete(userId) {
+    goDelete(userId, email) {
         let self = this
         Modal.confirm({
-            title: '确定删除吗？',
+            title: '确定要删除' + email + '吗？',
             content: '',
             okText: '确定',
             cancelText: '取消',
