@@ -27,7 +27,7 @@ export default class Routes extends React.Component<RoutesProps, any> {
         let { match } = this.props
         return (
             <Switch>
-                <Route path={`${match.url}/:packageId`} component={Home} />
+                <Route path={`${match.url}`} component={Home} />
             </Switch>
         );
     }
