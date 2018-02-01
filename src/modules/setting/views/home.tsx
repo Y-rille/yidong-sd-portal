@@ -12,6 +12,8 @@ declare let global: any;
 import styles from '../style/index.less'
 import Log from '../container/log'
 import User from '../container/user'
+import UserEdit from '../container/userEdit'
+
 class Home extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -72,7 +74,7 @@ class Home extends React.Component<any, any> {
                     <div className={styles.main}>
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/user`} exact />
-                            <Route path={`${match.url}/user`} component={User} />
+                            <Route path={`${match.url}/user`} exact component={User} />}
                             <Route path={`${match.url}/log`} component={Log} />
                         </Switch>
                     </div>

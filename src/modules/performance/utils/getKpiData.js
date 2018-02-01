@@ -226,7 +226,6 @@
 //     "offset": 0,
 //     "totalCount": 13
 // }
-
 function getKpiData(moTypeKpis,moInstKpiThresholds,kpidate) { 
     // 格式化指标数据
     let formatkpidate = (kpidate) => { 
@@ -272,7 +271,6 @@ function getKpiData(moTypeKpis,moInstKpiThresholds,kpidate) {
     let formatTime =(date) => {
         if(date.length == 10){ date = date*1000}
         let fTime = new Date(date)
-        console.log(fTime)
         let year = fTime.getFullYear()
         let month = ((fTime.getMonth()+1)<10)?('0'+(fTime.getMonth()+1)):(fTime.getMonth()+1)
         let date = (fTime.getDate()<10)?('0'+fTime.getDate()):(fTime.getDate())
