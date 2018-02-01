@@ -1,8 +1,6 @@
 import ActionTypes from '../constants/actionTypes'
 import * as SI from 'seamless-immutable';
 
-const merge = require('lodash/merge')
-
 const PerformanceState = SI.from({
     name: 'PERFORMANCE',
     config: {},

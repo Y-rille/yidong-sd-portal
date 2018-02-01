@@ -70,7 +70,8 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             alarm: '告警运维',
             performance: '性能运维'
         }
-        _.map(userList.rows, function (item, index) {
+        let userListFix = _.merge({}, userList)
+        _.map(userListFix.rows, function (item, index) {
             let key = index + 1
             item.create_time = moment.tz(item.create_time, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
             item.key = key
@@ -79,7 +80,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             <Table
                 pagination={false}
                 className={styles.table}
-                columns={columns} dataSource={userList.rows} />
+                columns={columns} dataSource={userListFix.rows} />
         )
     }
     render() {
