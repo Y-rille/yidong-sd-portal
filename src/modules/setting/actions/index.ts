@@ -1,13 +1,22 @@
 import {
-    getList
+    getList,
+    deleteUser
 } from './user'
 
+import {
+    getLogList
+} from './log'
+
 const HomeActionCreatorsMap = {
-    getList
+    getList,
+    deleteUser,
+    getLogList
 }
 
 export interface SettingActions {
     getList: Function
+    getLogList: Function
+    deleteUser: Function
 }
 
 export default HomeActionCreatorsMap;

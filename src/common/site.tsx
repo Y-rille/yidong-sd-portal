@@ -6,23 +6,18 @@ import UserLayout from '../layouts/UserLayout'
 const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
 
-import { Spin } from 'antd';
+import { Spin, message } from 'antd';
 
 import _ from 'lodash';
 import { withRouter, matchPath } from 'react-router'
 import HomeActionCreatorsMap, { CommonActions } from '../modules/common/actions/index'
 
 import emitter from './emitter'
-import { message } from 'antd'
 
 declare let global: any;
 
 function mapProps(state: any) {
     return {
-        collapsed: state.commonReducer.collapsed,
-        fetchingNotices: state.commonReducer.fetchingNotices,
-        notices: state.commonReducer.notices,
-        locale: state.commonReducer.locale,
         currentUser: state.commonReducer.currentUser,
         tree: state.commonReducer.tree
     }
@@ -36,7 +31,6 @@ function mapDispatchToProps(dispatch: any) {
 export interface SiteProps {
     children?: any;
     actions?: CommonActions;
-    locale: string,
     currentUser?,
     location,
     matchPath,

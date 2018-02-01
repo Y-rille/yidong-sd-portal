@@ -3,10 +3,10 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Modal } from 'antd';
 const Search = Input.Search
 import UserTable from '../../../components/UserTable/'
-import UserEdit from '../../../components/UserEdit/'
+import UserEdit from '../container/userEdit'
 
 declare let global: any;
 import styles from '../style/index.less'
@@ -15,6 +15,8 @@ var qs = require('querystringify')
 import { stringify } from 'querystringify'
 
 import { SettingActions } from '../actions/index'
+
+import emitter from '../../../common/emitter'
 
 export interface UserProps {
     location?,
@@ -29,6 +31,7 @@ class User extends React.PureComponent<UserProps, any> {
         let { page_num, query_key } = qs.parse(this.props.location.search)
 
         this.state = {
+            currentId: false,
             visible: false,
             listLoading: false,
             page_size: 10,
@@ -45,7 +48,8 @@ class User extends React.PureComponent<UserProps, any> {
     }
     handleOk() {
         this.setState({
-            visible: false
+            visible: false,
+            currentId: false
         })
     }
     handleCancel() {
@@ -53,12 +57,35 @@ class User extends React.PureComponent<UserProps, any> {
             visible: false
         })
     }
+    goCreate() {
+        global.hashHistory.replace(`/setting/user/create`)
+    }
     goEdit(id) {
         // 编辑
         this.setState({
             visible: true,
+            currentId: true
         });
 
+    }
+    goDelete(userId, email) {
+        let self = this
+        Modal.confirm({
+            title: '确定要删除' + email + '吗？',
+            content: '',
+            okText: '确定',
+            cancelText: '取消',
+            onOk() {
+                self.props.actions.deleteUser(userId, (data) => {
+                    if (data) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                })
+            },
+            onCancel() { },
+        });
     }
     goPage(current) {
         let page_num = current - 1
@@ -102,6 +129,7 @@ class User extends React.PureComponent<UserProps, any> {
         this.getDataFn(queryObj)
     }
     render() {
+        let modalTitle = this.state.currentId ? '编辑用户' : '创建用户'
         let { page_num, page_size, query_key } = this.state
         let userList = this.props.userList
         let canRender = false
@@ -111,42 +139,42 @@ class User extends React.PureComponent<UserProps, any> {
         if (!canRender) {
             return <div />
         }
-        // let { match, tree } = this.props
-        // let { activeKey } = this.state
-        // if (!tree) {
-        //     return <div>loading</div>
-        // }
+        let { match } = this.props
         return (
-            <Row className={styles.setting}>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>首页</Breadcrumb.Item>
-                        <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                        <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <h1 className={styles._title}>用户管理</h1>
-                    <Button type="primary" onClick={this.showModal.bind(this)}>新建用户</Button>
-                    <Search
-                        className={styles.search}
-                        placeholder="请输入关键字"
-                        defaultValue={query_key}
-                        onSearch={value => this.searchHandler(value)}
-                    />
-                    <UserTable
-                        goPage={this.goPage.bind(this)}
-                        page_num={page_num}
-                        page_size={page_size}
-                        showModal={this.showModal.bind(this)}
-                        goEdit={this.goEdit.bind(this)}
-                        userList={userList}
-                    />
-                </div>
-                <UserEdit
-                    visible={this.state.visible}
-                    handleOk={this.handleOk.bind(this)}
-                    handleCancel={this.handleCancel.bind(this)}
-                />
-            </Row>
+            <Switch>
+                <Route path={`${match.url}/create`} component={UserEdit} />
+                <Route path={`${match.url}/edit/:userId`} component={UserEdit} />
+                <Route render={() => (
+                    <Row className={styles.setting}>
+                        <div className={styles.cont}>
+                            <div className="header">
+                                <Breadcrumb>
+                                    <Breadcrumb.Item>首页</Breadcrumb.Item>
+                                    <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
+                                    <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                                </Breadcrumb>
+                                <h1 className={styles._title}>用户管理</h1>
+                                <Button type="primary" onClick={this.goCreate.bind(this)}>新建用户</Button>
+                                <Search
+                                    className={styles.search}
+                                    placeholder="请输入关键字"
+                                    defaultValue={query_key}
+                                    onSearch={value => this.searchHandler(value)}
+                                />
+                            </div>
+                            <UserTable
+                                goDelete={this.goDelete.bind(this)}
+                                goPage={this.goPage.bind(this)}
+                                page_num={page_num}
+                                page_size={page_size}
+                                showModal={this.showModal.bind(this)}
+                                goEdit={this.goEdit.bind(this)}
+                                userList={userList}
+                            />
+                        </div>
+                    </Row>
+                )} />
+            </Switch>
         );
     }
 }

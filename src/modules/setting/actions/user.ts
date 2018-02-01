@@ -22,3 +22,28 @@ export const getList = (params, cb) => (dispatch) => {
         }
     })
 }
+
+/**
+ * 删除用户
+ * @param cb 
+ */
+export const deleteUser = (userId, cb) => (dispatch) => {
+    return UserAPI.deleteUser(userId).then((res) => {
+        let rows = {}
+        rows[userId] = null
+        let userList = {
+            rows
+        }
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: userList }
+        if (cb) {
+            cb(res.data)
+        }
+        dispatch(action);
+    }).catch((err) => {
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: {} }
+        dispatch(action);
+        if (cb) {
+            cb(err)
+        }
+    })
+}
