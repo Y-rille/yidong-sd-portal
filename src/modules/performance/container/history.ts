@@ -9,7 +9,9 @@ function mapProps(state) {
     return {
         name: state.performanceReducer.name,
         config: state.performanceReducer.config,
-        kpidata: state.performanceReducer.kpidata
+        kpidata: state.performanceReducer.kpidata,
+        moTypeKpis: state.performanceReducer.moTypeKpis,
+        moInstKpiThresholds: state.performanceReducer.moInstKpiThresholds
     }
 }
 function mapDispatchToProps(dispatch) {

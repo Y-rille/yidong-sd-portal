@@ -97,6 +97,9 @@ class Home extends React.Component<HomeProps, any> {
         })
     }
     componentDidMount() {
+
+        // console.log('--------------->getKpisAndThresholds');
+
         this.getKpisAndThresholds()
     }
     componentWillReceiveProps(nextProps) {
@@ -148,11 +151,18 @@ class Home extends React.Component<HomeProps, any> {
                             </ul>
                             <Button onClick={this.showModal.bind(this)}><Icon type="tag-o" />添加指标</Button>
                         </div>
-                        <Switch>
-                            <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-                            <Route path={`${match.url}/current`} component={Current} />
-                            <Route path={`${match.url}/history`} component={History} />
-                        </Switch>
+                        {
+                            (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
+                                <Switch>
+                                    <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
+                                    <Route path={`${match.url}/current`} component={Current} />
+                                    <Route path={`${match.url}/history`} component={History} />
+                                </Switch>
+                            ) : (
+                                    <div>loading</div>
+                                )
+                        }
+
                     </div>
                 </SplitPane>
                 <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={this.state.kpis} />

@@ -79,7 +79,6 @@ class History extends React.Component<any, any> {
         })
     }
     render() {
-        // console.log('history');
         return (
             <div>
                 <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
