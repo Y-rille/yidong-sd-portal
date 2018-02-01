@@ -43,8 +43,8 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             key: 'name',
         }, {
             title: '角色',
-            dataIndex: 'roles',
-            key: 'roles',
+            dataIndex: '_roles',
+            key: '_roles',
         }, {
         }, {
             title: '创建时间',
@@ -72,6 +72,12 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         }
         _.map(userList.rows, function (item, index) {
             let key = index + 1
+            let _roles = []
+            let roles = item.roles.split(',')
+            _.map(roles, (items) => {
+                _roles.push(base_data[items])
+            })
+            item._roles = _roles.toString()
             item.create_time = moment.tz(item.create_time, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
             item.key = key
         })

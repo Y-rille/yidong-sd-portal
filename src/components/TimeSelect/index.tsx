@@ -3,6 +3,7 @@ import { LocaleProvider } from 'antd';
 import moment from 'moment';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
+import emitter from '../../common/emitter'
 
 import { DatePicker, Input, Select, Button } from 'antd';
 const { RangePicker } = DatePicker;
@@ -39,7 +40,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
     handleClick() {
         const { longTime, selectValue } = this.state;
         if (longTime[1] > Number(moment().format('X')) * 1000) {
-            alert('结束时间不能大于当前时间，请重新选择时间！');
+            emitter.emit('message', 'warning', '结束日期不能大于当前日期，请重新选择！')
             return;
         }
         this.props.inquire(longTime, selectValue);
