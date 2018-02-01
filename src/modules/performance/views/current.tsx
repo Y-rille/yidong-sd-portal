@@ -202,7 +202,6 @@ class Current extends React.Component<any, any> {
         }
     }
     render() {
-        // console.log('current');
         return (
             <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
                 <InstrumentCard data={{
