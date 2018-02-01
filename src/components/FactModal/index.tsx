@@ -46,10 +46,6 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
             }
         })
         this.props.handleOk(this.state.kpisValue);
-        this.setState({
-            // isCancel: false
-            keyIndex: this.state.keyIndex + 1
-        })
     }
     handleCancel() {
         this.setState({
