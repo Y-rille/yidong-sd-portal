@@ -236,14 +236,13 @@ function test(moTypeKpis,moInstKpiThresholds,kpidate) {
         for (let i = 2; i < kpidate_headers.length; i++) {
             let d:any = {}
             d.kpiId = kpidate_headers[i]
-            // let kpiId = kpidate_headers[i]
-            let times = []
+            let x_value = []
             let val = []
             for (let j = 0; j < kpidate_values.length; j++) { 
-                times.push(kpidate_values[j][0])
+                x_value.push(kpidate_values[j][0])
                 val.push(kpidate_values[j][i])
             }
-            d.times = times
+            d.x_value = x_value
             d.val = val
             data.push(d)
         }
@@ -253,7 +252,7 @@ function test(moTypeKpis,moInstKpiThresholds,kpidate) {
     let  meragemoInstKpiThresholds = (d1,moInstKpiThresholds) => { 
         let y_data = moInstKpiThresholds.data
         d1.forEach(item => { 
-            item.yuzhi = _.filter(y_data, function(o) { return item.kpiId==o.kpiId; })[0];
+            item.threshold = _.filter(y_data, function(o) { return item.kpiId==o.kpiId; })[0];
         })
         return d1
     }
