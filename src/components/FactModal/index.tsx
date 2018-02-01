@@ -27,7 +27,8 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         super(props);
         this.state = {
             kpisValue: [],
-            defaultKpisValue: []
+            defaultKpisValue: [],
+            keyIndex: 0
         }
     }
     static propTypes = {
@@ -40,13 +41,20 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         _.map(kpis, (item) => {
             if (kpisValue.indexOf(item.kpiId) > -1) {
                 item.active = true;
+            } else {
+                item.active = false;
             }
         })
         this.props.handleOk(this.state.kpisValue);
+        this.setState({
+            // isCancel: false
+            keyIndex: this.state.keyIndex + 1
+        })
     }
     handleCancel() {
         this.setState({
-            defaultKpisValue: this.state.defaultKpisValue
+            kpisValue: this.state.defaultKpisValue,
+            keyIndex: this.state.keyIndex + 1
         })
         this.props.handleCancel();
     }
@@ -57,7 +65,8 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
     }
     renderMenuItem() {
         const { kpis } = this.props;
-
+        // console.log(kpis, '00000');
+        // console.log(this.state.kpisValue, 'nnmmnnmm');
         // let arr = _.map(menus, (item) => {
         //     if (item.active) {
         //         return item;
@@ -100,29 +109,35 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
             defaultKpisValue: defaultValue
         })
     }
+    renderCheckGroup() {
+        return (
+            <Checkbox.Group key={this.state.keyIndex} style={{ width: '100%' }} onChange={this.onChange.bind(this)} defaultValue={this.state.defaultKpisValue}>
+                <Row>
+                    <Col span={4}>选择指标：</Col>
+                    <Col span={20}>
+                        <Row>
+                            {this.renderMenuItem()}
+                        </Row>
+                    </Col>
+                </Row>
+            </Checkbox.Group>
+
+        )
+    }
     render() {
         const { visible } = this.props;
         return (
             <div>
                 <Modal visible={visible} title="添加指标" onOk={this.handleOk.bind(this)}
                     onCancel={this.handleCancel.bind(this)} footer={null} className={styles.modal}>
-                    <Checkbox.Group style={{ width: '100%' }} onChange={this.onChange.bind(this)} defaultValue={this.state.defaultKpisValue}>
-                        <Row>
-                            <Col span={4}>选择指标：</Col>
-                            <Col span={20}>
-                                <Row>
-                                    {this.renderMenuItem()}
-                                </Row>
-                            </Col>
-                        </Row>
-                    </Checkbox.Group>
+                    {this.renderCheckGroup()}
 
-                    <div className={styles.handle}>
+                    < div className={styles.handle}>
                         <Button onClick={this.handleOk.bind(this)} type="primary">确定</Button>
                         <Button onClick={this.handleCancel.bind(this)}>取消</Button>
                     </div>
                 </Modal>
-            </div>
+            </div >
         );
     }
 }
