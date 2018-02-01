@@ -7,15 +7,6 @@ import { MatchingDimensionsParams, DataParams } from '../api/kpiAPI'
  * 查询分析模型包
  * @param cb 
  */
-export const demo = (cb) => (dispatch) => {
-  let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, demo: [{ d: ['3', '4'], ee: 'aa' }, {}, {}, { ss: 'ss' }] }
-  dispatch(action);
-}
-
-/**
- * 查询分析模型包
- * @param cb 
- */
 export const getPackages = (cb) => (dispatch) => {
   return kpiAPI.getPackages().then((res: any) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nfvdPm: res.data[0] }
