@@ -1,33 +1,21 @@
 import ActionTypes from '../constants/actionTypes'
+import * as SI from 'seamless-immutable';
 
-const merge = require('lodash/merge')
+const PerformanceState = SI.from({
+    name: 'PERFORMANCE',
+    config: {},
+    timeFilter: null,
+    nfvdPm: null,
+    moInstKpiThresholds: null,
+    moTypeKpis: null,
+});
 
-class PerformanceState {
-    name: string;
-    config: Object;
-    timeFilter: Array<Object>
-    nfvdPm: Object
-    moInstKpiThresholds: Object
-    moTypeKpis: Array<Object>
-
-    // TODO: 所以维度 dimensions 以及维度对应的指标 fact
-
-    constructor() {
-        this.name = 'PERFORMANCE'
-        this.config = {}
-        this.timeFilter = null
-        this.nfvdPm = null
-        this.moInstKpiThresholds = null
-        this.moTypeKpis = null
-    }
-}
-
-let performanceReducer = (state = new PerformanceState(), action = null) => {
+let performanceReducer = (state = PerformanceState, action = null) => {
     switch (action.type) {
         case ActionTypes.PERFORMANCE_SAY_HELLO:
-            return merge({}, state, action)
+            return state.merge(action, { deep: true });
         case ActionTypes.PERFORMANCE_GET_TIME_FILTER:
-            return merge({}, state, action)
+            return state.merge(action);
         default:
             return state
     }
