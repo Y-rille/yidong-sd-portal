@@ -87,7 +87,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         return (
             <div>
                 {this.renderTable()}
-                <Pagination className={styles.pagination} onChange={this.goPage.bind(this)} total={userList.count} current={page_num + 1} pageSize={page_size} showQuickJumper />
+                <Pagination className={styles.pagination} onChange={this.goPage.bind(this)} total={userList.count} current={parseInt(page_num, 10) + 1} pageSize={page_size} showQuickJumper />
             </div>
         );
     }
