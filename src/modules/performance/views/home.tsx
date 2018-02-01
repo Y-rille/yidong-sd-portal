@@ -97,9 +97,6 @@ class Home extends React.Component<HomeProps, any> {
         })
     }
     componentDidMount() {
-
-        console.log('--------------->getKpisAndThresholds');
-
         this.getKpisAndThresholds()
     }
     componentWillReceiveProps(nextProps) {

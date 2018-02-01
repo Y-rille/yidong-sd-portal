@@ -10,6 +10,7 @@ import { Row, Col } from 'antd';
 import styles from '../style/index.less'
 import TimeSelect from '../../../components/TimeSelect/';
 import LineChartCard from '../../../components/LineChartCard/'
+import moment from '../../../common/moment'
 let alldata = [{
     'title': 'CPU使用率',
     'x': ['10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30'],
@@ -53,6 +54,23 @@ class History extends React.Component<any, any> {
     inquire(longTime, selectValue) {
         // console.log(longTime, selectValue);
     }
+    getData(begintime = moment().tz('Asia/Shanghai').subtract(1, 'days'), endtime = moment().tz('Asia/Shanghai'), timeFilter = null) { 
+        // console.log(start_time.format())
+        // console.log(end_time.format())
+        let DataParams = {
+            facts: '4,5',
+            begintime,
+            endtime,
+            // wheredim,
+            timeFilter
+
+        }
+        this.props.actions.getData('value_pack_vim', DataParams)
+    }
+    componentDidMount() {
+        // this.getData()
+    }
+    
     renderLineChartCard() {
         return alldata.map((item, index) => {
             return (
