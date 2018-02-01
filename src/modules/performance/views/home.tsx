@@ -6,13 +6,12 @@ import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
 import moment from '../../../common/moment'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
-import FactModal from '../../../components/FactModal/'
+
 import TreeSelect from '../../../components/TreeSelect'
 
-declare let global: any;
+import Info from '../container/info'
 
-import Current from '../container/current'
-import History from '../container/history'
+declare let global: any;
 
 import { PerformanceActions } from '../actions/index';
 
@@ -24,106 +23,32 @@ export interface HomeProps {
     match?
     moInstKpiThresholds?
     moTypeKpis?
+    tree?
 }
 
 class Home extends React.Component<HomeProps, any> {
-    kipsLoaded: any
-    thresholdsLoaded: any
     constructor(props) {
         super(props);
-        let { match } = this.props
-        let { pathname } = this.props.location
-        this.state = {
-            activeKey: _.compact([
-                matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
-                matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-            ]).toString(),
-            visible: false,
-            kpis: []
-        };
     }
     triggerResize() {
         let e: Event = document.createEvent('Event');
         e.initEvent('resize', true, true);
         window.dispatchEvent(e);
     }
-    tabClick(e) {
-        let { match } = this.props
-        let path = e.target.getAttribute('data-path')
-        this.setState({
-            activeKey: path
-        })
-        global.hashHistory.push(`${match.url}/${path}`)
-    }
-    renderTab() {
-        let { activeKey } = this.state
-        let tab = [{ key: 'current', name: '当前状态' }, { key: 'history', name: '历史趋势' }]
-        return _.map(tab, (item) => {
-            let cls = {
-                tabItem: true,
-                active: activeKey === item.key ? true : false
-            }
-            return <li className={classNames(cls)} data-path={item.key} onClick={this.tabClick.bind(this)}>{item.name}</li>
-        })
-    }
-    showModal() {
-        this.setState({
-            visible: true
-        })
-    }
-    handleOk() {
-        this.setState({
-            visible: false
-        })
-    }
-    handleCancel() {
-        this.setState({
-            visible: false
-        })
-    }
     getKpisAndThresholds() {
         this.props.actions.getMoTypeKpis(1, 7, (data) => {
-            if (data) {
-                this.kipsLoaded = true
-                this.setState({
-                    kpis: data['data']
-                })
-            }
         })
         this.props.actions.getMoInstKpiThresholds(1, 1, (data) => {
-            if (data) {
-                this.thresholdsLoaded = true
-            }
         })
     }
     componentDidMount() {
-
-        console.log('--------------->getKpisAndThresholds');
-
         this.getKpisAndThresholds()
-    }
-    componentWillReceiveProps(nextProps) {
-        let { match } = nextProps
-        let { pathname } = nextProps.location
-        this.state = {
-            activeKey: _.compact([
-                matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
-                matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-            ]).toString()
-        };
-        if (this.kipsLoaded && this.thresholdsLoaded) {
-            // 请求指标数据,完成后设置上面俩个flag为false
-        }
     }
     render() {
         // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
         // console.log(`开始时间:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf()}`)
         // console.log(`结束时间:${moment().tz('Asia/Shanghai').valueOf()}`)
         let { match, tree } = this.props
-        let { activeKey } = this.state
-        // if (!tree) {
-        //     return <div>loading</div>
-        // }
         return (
             <Row className={styles.performance}>
                 <SplitPane
@@ -136,36 +61,21 @@ class Home extends React.Component<HomeProps, any> {
                         <TreeSelect />
                     </div>
                     <div className={styles.main}>
-                        <div className={styles.header}>
-                            <h1 className={styles.title}>交换机</h1>
-                            <Breadcrumb>
-                                <Breadcrumb.Item>性能监控</Breadcrumb.Item>
-                                <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                                <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
-                                <Breadcrumb.Item>四级菜单</Breadcrumb.Item>
-                            </Breadcrumb>
-                        </div>
-                        <div className={styles.tabBar}>
-                            <ul>
-                                {this.renderTab()}
-                            </ul>
-                            <Button onClick={this.showModal.bind(this)}><Icon type="tag-o" />添加指标</Button>
-                        </div>
                         {
                             (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
                                 <Switch>
-                                    <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-                                    <Route path={`${match.url}/current`} component={Current} />
-                                    <Route path={`${match.url}/history`} component={History} />
+                                    <Route path={`${match.url}/:moTypeId/:moInstId`} component={Info} />
+                                    <Route render={() => (
+                                        <h3>Please select a node.</h3>
+                                    )} />
                                 </Switch>
                             ) : (
                                     <div>loading</div>
                                 )
                         }
-
                     </div>
                 </SplitPane>
-                <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={this.state.kpis} />
+
             </Row>
         );
     }
