@@ -9,6 +9,7 @@ function mapProps(state) {
     return {
         name: state.performanceReducer.name,
         config: state.performanceReducer.config,
+        demo: state.performanceReducer.demo,
     }
 }
 function mapDispatchToProps(dispatch) {

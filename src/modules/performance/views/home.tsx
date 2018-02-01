@@ -23,9 +23,12 @@ export interface HomeProps {
     location?
     match?
     moInstKpiThresholds?
+    moTypeKpis?
 }
 
 class Home extends React.Component<HomeProps, any> {
+    kipsLoaded: any
+    thresholdsLoaded: any
     constructor(props) {
         super(props);
         let { match } = this.props
@@ -35,7 +38,8 @@ class Home extends React.Component<HomeProps, any> {
                 matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
                 matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
             ]).toString(),
-            visible: false
+            visible: false,
+            kpis: []
         };
     }
     triggerResize() {
@@ -77,12 +81,23 @@ class Home extends React.Component<HomeProps, any> {
             visible: false
         })
     }
-    componentWillMount() {
-        this.props.actions.getMoInstKpiThresholds(1, 1)
+    getKpisAndThresholds() {
+        this.props.actions.getMoTypeKpis(1, 7, (data) => {
+            if (data) {
+                this.kipsLoaded = true
+                this.setState({
+                    kpis: data['data']
+                })
+            }
+        })
+        this.props.actions.getMoInstKpiThresholds(1, 1, (data) => {
+            if (data) {
+                this.thresholdsLoaded = true
+            }
+        })
     }
     componentDidMount() {
-        this.props.actions.getMoTypeKpis(1, 7, (data) => {
-        })
+        this.getKpisAndThresholds()
     }
     componentWillReceiveProps(nextProps) {
         let { match } = nextProps
@@ -93,6 +108,12 @@ class Home extends React.Component<HomeProps, any> {
                 matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
             ]).toString()
         };
+        if (this.kipsLoaded && this.thresholdsLoaded) {
+            // 请求指标数据,完成后设置上面俩个flag为false
+        }
+    }
+    componentWillUpdate(nextProps: any, nextState) {
+        console.warn('home componentWillUpdate');
     }
     render() {
         // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
@@ -137,7 +158,7 @@ class Home extends React.Component<HomeProps, any> {
                         </Switch>
                     </div>
                 </SplitPane>
-                <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} />
+                <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={this.state.kpis} />
             </Row>
         );
     }
