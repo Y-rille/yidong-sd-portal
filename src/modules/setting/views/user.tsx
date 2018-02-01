@@ -60,13 +60,13 @@ class User extends React.PureComponent<UserProps, any> {
         });
 
     }
-    goPage(pagination) {
-        let page_num = pagination.current - 1
+    goPage(current) {
+        let page_num = current - 1
         let { page_size } = this.state
         let queryObj = {
             page_num, page_size
         }
-        global.hashHistory.push(`/hub/endpoint?${stringify(queryObj)}`)
+        global.hashHistory.push(`/setting/user?${stringify(queryObj)}`)
         this.setState({
             page_num: page_num
         });
@@ -84,6 +84,16 @@ class User extends React.PureComponent<UserProps, any> {
             });
         })
     }
+    searchHandler(query_key) {
+        let { page_num, page_size } = this.state
+        page_num = 0
+        let queryObj = { page_num, query_key, page_size }
+        global.hashHistory.push(`/setting/user?${stringify(queryObj)}`)
+        this.setState({
+            page_num, query_key
+        });
+        this.getDataFn(queryObj)
+    }
     componentWillMount() {
         let { page_num, page_size, query_key } = this.state
         let queryObj = {
@@ -92,6 +102,7 @@ class User extends React.PureComponent<UserProps, any> {
         this.getDataFn(queryObj)
     }
     render() {
+        let { page_num, page_size, query_key } = this.state
         let userList = this.props.userList
         let canRender = false
         if (userList) {
@@ -118,8 +129,13 @@ class User extends React.PureComponent<UserProps, any> {
                     <Search
                         className={styles.search}
                         placeholder="请输入关键字"
+                        defaultValue={query_key}
+                        onSearch={value => this.searchHandler(value)}
                     />
                     <UserTable
+                        goPage={this.goPage.bind(this)}
+                        page_num={page_num}
+                        page_size={page_size}
                         showModal={this.showModal.bind(this)}
                         goEdit={this.goEdit.bind(this)}
                         userList={userList}
