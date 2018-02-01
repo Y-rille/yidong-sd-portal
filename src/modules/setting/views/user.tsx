@@ -62,9 +62,9 @@ class User extends React.PureComponent<UserProps, any> {
     }
     goPage(current) {
         let page_num = current - 1
-        let { page_size } = this.state
+        let { page_size, query_key } = this.state
         let queryObj = {
-            page_num, page_size
+            page_num, page_size, query_key
         }
         global.hashHistory.push(`/setting/user?${stringify(queryObj)}`)
         this.setState({
