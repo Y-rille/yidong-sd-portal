@@ -7,6 +7,15 @@ import { MatchingDimensionsParams, DataParams } from '../api/kpiAPI'
  * 查询分析模型包
  * @param cb 
  */
+export const demo = (cb) => (dispatch) => {
+  let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, demo: [{ d: ['3', '4'], ee: 'aa' }, {}, {}, { ss: 'ss' }] }
+  dispatch(action);
+}
+
+/**
+ * 查询分析模型包
+ * @param cb 
+ */
 export const getPackages = (cb) => (dispatch) => {
   return kpiAPI.getPackages().then((res: any) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nfvdPm: res.data[0] }
@@ -94,10 +103,10 @@ export const getKpiThresholds = (kpiId, cb) => (dispatch) => {
  */
 export const getMoInstKpiThresholds = (moTypeId, moInstId, cb) => (dispatch) => {
   return kpiAPI.getMoInstKpiThresholds(moTypeId, moInstId).then((res: any) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: res.data}
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: res.data }
     dispatch(action);
     if (cb) {
-      cb(null)
+      cb(res.data)
     }
   }).catch((err) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: null }
@@ -123,6 +132,29 @@ export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
     }
   }).catch((err) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: null }
+    dispatch(action);
+    if (cb) {
+      cb(err)
+    }
+  })
+}
+
+/**
+ * 对象指标查询
+ * getMoTypeKpis
+ * @param moTypeId 对象类型ID
+ * @param timeDimensionId 时间维度ID
+ */
+
+export const getMoTypeKpis = (moTypeId, timeDimensionId, cb) => (dispatch) => {
+  return kpiAPI.getMoTypeKpis(moTypeId, timeDimensionId).then((res: any) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: res.data }
+    dispatch(action);
+    if (cb) {
+      cb(res.data)
+    }
+  }).catch((err) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: null }
     dispatch(action);
     if (cb) {
       cb(err)

@@ -32,15 +32,25 @@ class Current extends React.Component<any, any> {
         })
     }
 
+    componentWillUpdate(nextProps: any, nextState) {
+        console.warn('Current componentWillUpdate');
+    }
+
+    demo() {
+        this.props.actions.demo()
+    }
     render() {
+        // console.log('-------------------------', this.props.demo);
         return (
             <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
+                {/* <a href="javascript:void(0)" onClick={this.demo.bind(this)}>demo</a> */}
                 <InstrumentCard data={{
                     title: '速度',
                     min: 0,
                     max: 100,
                     current: 65,
-                    gradient: false
+                    gradient: false,
+                    unit: '$'
                 }} />
                 <InstrumentCard data={{
                     title: '温度表1',
@@ -52,9 +62,10 @@ class Current extends React.Component<any, any> {
                 <InstrumentCard data={{
                     title: '效率表2',
                     min: 0,
-                    max: 100,
+                    max: 200,
                     current: 65,
-                    gradient: false
+                    gradient: false,
+                    unit: '℃'
                 }} />
 
                 {/*<Col className="gutter-row" span={12}>

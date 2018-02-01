@@ -1,5 +1,6 @@
 import React from 'react';
 import { LocaleProvider } from 'antd';
+import moment from 'moment';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 
@@ -16,7 +17,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
         super(props);
         this.state = {
             longTime: [],
-            selectValue: 'sameWeek'
+            selectValue: '',
         };
     }
 
@@ -24,6 +25,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
         const { longTime } = this.state;
         this.setState({
             longTime: [value[0]._d.getTime(), value[1]._d.getTime()],
+            values: value
         })
     }
 
@@ -36,7 +38,15 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
 
     handleClick() {
         const { longTime, selectValue } = this.state;
+        if (longTime[1] > Number(moment().format('X')) * 1000) {
+            alert('结束时间不能大于当前时间，请重新选择时间！');
+            return;
+        }
         this.props.inquire(longTime, selectValue);
+    }
+
+    disabledDate(dateCurrent) {
+        return dateCurrent && dateCurrent > moment().endOf('day');
     }
 
     render() {
@@ -46,13 +56,15 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
                 <LocaleProvider locale={zh_CN}>
                     <RangePicker
                         style={{ marginLeft: 10 }}
-                        showTime
                         format="YYYY-MM-DD HH:mm:ss"
+                        disabledDate={this.disabledDate}
+                        showTime
                         placeholder={['开始时间', '结束时间']}
                         onChange={this.onRangePickerChange.bind(this)}
                     />
                 </LocaleProvider>
-                <Select defaultValue="sameWeek" style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
+                <Select defaultValue="" style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
+                    <Option value="">无</Option>
                     <Option value="sameWeek">上周同一时间</Option>
                     <Option value="sameMonth">上月同一时间</Option>
                 </Select>

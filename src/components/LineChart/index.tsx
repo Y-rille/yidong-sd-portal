@@ -42,9 +42,10 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                 tickPosition: 'inside',
                 tickmarkPlacement: null,
                 type: 'category',
-                categories: ['10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30']
+                categories: this.props.data.x
             },
             yAxis: {
+                tickPositions: [0, 20, 40, 60, 80, 100],
                 title: {
                     text: null
                 },
@@ -53,16 +54,18 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                 plotLines: [{
                     color: '#F3CB74',
                     dashStyle: 'solid',
-                    value: 70,
+                    value: this.props.data.tagLine, // 警戒线
                     width: 1,
                     label: {
                         text: null
                     }
                 }],
-                tickAmount: 5
+                tickAmount: 5,
+                tickInterval: 10
             },
             legend: {
-                align: 'right',
+                // align: 'right',
+                enabled: false // 隐藏图例
             },
             series: seriesData,
             responsive: {
@@ -86,6 +89,15 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
             }
         }
         this.chart = Highcharts.chart(this.line, this.options);
+        // this.chart.yAxis[0].addPlotLine({
+        //     value: this.props.data.tagLine,
+        //     color: '#F3CB74',
+        //     dashStyle: 'solid',
+        //     width: 1,
+        //     label: {
+        //         text: null
+        //     }
+        // });
     }
     chartExport() {
         this.chart.exportChart(
