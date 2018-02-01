@@ -57,6 +57,9 @@ class User extends React.PureComponent<UserProps, any> {
             visible: false
         })
     }
+    goCreate() {
+        global.hashHistory.replace(`/setting/user/create`)
+    }
     goEdit(id) {
         // 编辑
         this.setState({
@@ -65,10 +68,10 @@ class User extends React.PureComponent<UserProps, any> {
         });
 
     }
-    goDelete(userId) {
+    goDelete(userId, email) {
         let self = this
         Modal.confirm({
-            title: '确定删除吗？',
+            title: '确定要删除' + email + '吗？',
             content: '',
             okText: '确定',
             cancelText: '取消',
@@ -136,11 +139,7 @@ class User extends React.PureComponent<UserProps, any> {
         if (!canRender) {
             return <div />
         }
-        // let { match, tree } = this.props
-        // let { activeKey } = this.state
-        // if (!tree) {
-        //     return <div>loading</div>
-        // }
+        let { match } = this.props
         return (
             <Row className={styles.setting}>
                 <div className={styles.header}>
@@ -150,7 +149,7 @@ class User extends React.PureComponent<UserProps, any> {
                         <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
                     </Breadcrumb>
                     <h1 className={styles._title}>用户管理</h1>
-                    <Button type="primary" onClick={this.showModal.bind(this)}>新建用户</Button>
+                    <Button type="primary" onClick={this.goCreate.bind(this)}>新建用户</Button>
                     <Search
                         className={styles.search}
                         placeholder="请输入关键字"
@@ -167,12 +166,10 @@ class User extends React.PureComponent<UserProps, any> {
                         userList={userList}
                     />
                 </div>
-                <UserEdit
-                    modalTitle={modalTitle}
-                    visible={this.state.visible}
-                    handleOk={this.handleOk.bind(this)}
-                    handleCancel={this.handleCancel.bind(this)}
-                />
+                <Switch>
+                    <Route path={`${match.url}/create`} component={UserEdit} />
+                    <Route path={`${match.url}/edit/:userId`} component={UserEdit} />
+                </Switch>
             </Row>
         );
     }
