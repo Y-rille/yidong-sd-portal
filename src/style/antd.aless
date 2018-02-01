@@ -149,7 +149,7 @@
 }
 .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
   background-color: @primary-color;
-
+}
 .dynamicPropertiesPanel {
     .ant-advanced-search-form {
       .ant-form-item {
