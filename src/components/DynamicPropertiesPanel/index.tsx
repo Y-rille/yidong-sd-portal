@@ -108,13 +108,13 @@ export default class DynamicPropertiesPanel extends React.PureComponent<DynamicP
                 query[form[i].name] = form[i].value;
             }
 
-        //    query is update params
+            //    query is update params
         }
     }
 
     render() {
         return (
-            <div className="dynamicPropertiesPanel">
+            <div className="dynamicPropertiesPanel" style={{padding: '20px'}}>
                 {
                     this.state.data.groups.map((group, index) => (
                         <Collapse defaultActiveKey={['0']}>
