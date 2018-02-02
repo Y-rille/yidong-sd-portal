@@ -68,7 +68,7 @@ class Home extends React.Component<HomeProps, any> {
                     defaultSize={200}
                     onChange={this.triggerResize} >
                     <div className={styles.tree}>
-                        <TreeSelect />
+                        <TreeSelect data={this.props.tree} />
                     </div>
                     <div className={styles.main}>
                         {

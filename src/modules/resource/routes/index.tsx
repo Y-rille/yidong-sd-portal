@@ -7,7 +7,7 @@ import {
     Route,
 } from 'react-router-dom'
 
-let { resourceReducer } = require('../reducers/index');
+let {resourceReducer} = require('../reducers/index');
 
 export interface RoutesProps {
     // store
@@ -18,19 +18,18 @@ export default class Routes extends React.Component<RoutesProps, any> {
     static contextTypes = {
         store: PropTypes.object
     }
+
     componentWillMount() {
-        let { store } = this.context
+        let {store} = this.context
         injectAsyncReducer(store, 'resourceReducer', resourceReducer);
     }
 
     render() {
-        let { match } = this.props
+        let {match} = this.props
         return (
-            <div>
-                <Switch>
-                    <Route path={`${match.url}`} component={Home} />
-                </Switch>
-            </div>
+            <Switch>
+                <Route path={`${match.url}`} component={Home}/>
+            </Switch>
         );
     }
 }
