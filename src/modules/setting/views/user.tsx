@@ -76,11 +76,10 @@ class User extends React.PureComponent<UserProps, any> {
         // 编辑
         global.hashHistory.replace(`/setting/user/edit/${id}`)
     }
-    goDelete(userId, email) {
+    goDelete(userId, name) {
         let self = this
         Modal.confirm({
-            title: '确定要删除' + email + '吗？',
-            content: '',
+            title: '确定要删除' + name + '吗？',
             okText: '确定',
             cancelText: '取消',
             onOk() {
@@ -155,19 +154,22 @@ class User extends React.PureComponent<UserProps, any> {
                     <Row className={styles.setting}>
                         <div className={styles.cont}>
                             <div className={styles.header}>
+                                <h1 className={styles.title}>用户管理</h1>
                                 <Breadcrumb>
                                     <Breadcrumb.Item>首页</Breadcrumb.Item>
                                     <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
                                     <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
                                 </Breadcrumb>
-                                <h1 className={styles._title}>用户管理</h1>
-                                <Button type="primary" onClick={this.goCreate.bind(this)}>新建用户</Button>
+                            </div>
+                            <div className={styles.filter}>
                                 <Search
                                     className={styles.search}
-                                    placeholder="请输入关键字"
+                                    placeholder="请输入用户名"
                                     defaultValue={query_key}
+                                    enterButton="查询"
                                     onSearch={value => this.searchHandler(value)}
                                 />
+                                <Button className={styles.bn} onClick={this.goCreate.bind(this)}><Icon type="file-add" />新建用户</Button>
                             </div>
                             <UserTable
                                 showModal={this.showModal.bind(this)}
