@@ -115,6 +115,7 @@ export const getMoInstKpiThresholds = (moTypeId, moInstId, cb) => (dispatch) => 
  * @param cb 
  */
 export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
+  dispatch({ type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: null });
   return kpiAPI.getData(packageId, params).then((res: any) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: res.data }
     dispatch(action);
