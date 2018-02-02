@@ -40,14 +40,14 @@ class Home extends React.Component<any, any> {
     }
     renderLeftNav() {
         let leftNav = [
-            { name: '用户管理', target: 'user' },
-            { name: '日志管理', target: 'log' },
+            { name: '用户管理', target: 'user', type: 'solution' },
+            { name: '日志管理', target: 'log', type: 'form' },
         ]
         let cls = 'leftNavItem'
         let content = _.map(leftNav, (item, index) => {
             const currentUrl = this.props.location.pathname
             let status = currentUrl.indexOf(item.target) > 0
-            return <li className={classNames('leftNavItem', { 'selected': status })} onClick={this.goPath.bind(this)} data-target={item.target}>{item.name}</li>
+            return <li className={classNames('leftNavItem', { 'selected': status })} onClick={this.goPath.bind(this)} data-target={item.target}><Icon type={item.type} />{item.name}</li>
         })
         return (
             <ul className={styles.leftBg}>
