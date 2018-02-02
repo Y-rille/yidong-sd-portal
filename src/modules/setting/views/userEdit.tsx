@@ -36,16 +36,16 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     if (data) {
                         emitter.emit('notification', '修改成功！', '', 'success')
                         setTimeout(() => {
-                            // global.hashHistory.push("/setting/user")
+                            global.hashHistory.push('/setting/user')
                         }, 1000)
                     }
                 })
             } else {
-                this.props.actions.createUser(formdata, (data, err) => {
+                this.props.actions.createUser(formdata, (err, data) => {
                     if (data) {
                         emitter.emit('notification', '创建成功！', '', 'success')
                         setTimeout(() => {
-                            // global.hashHistory.push("/setting/user")
+                            global.hashHistory.push('/setting/user')
                         }, 1000)
                     }
                 })

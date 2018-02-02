@@ -66,7 +66,6 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 enabled: false,
                 // valueSuffix: ' km/h'
             },
-
             credits: {  // 版权信息，不显示
                 enabled: false
             },
@@ -111,7 +110,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
         }
 
         let plotBandsArr: Array<object> = [] // 刻度线
-        let stopsArr: Array<object> = [] // 进度条
+        // let stopsArr: Array<object> = [] // 进度条
 
         let plotBandsColor = ['#ffe780', '#f3820f', '#ef3233'] // '#7cd8ba'
         let plotBandsOpt = [
@@ -131,6 +130,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 plot: 'criticalThresholdValue',
                 color: '#ef3233'
             }]
+
         if (data.threshold) {
             for (let i = 0; i < plotBandsOpt.length; i++) {
                 let plot = data.threshold[plotBandsOpt[i].plot]
@@ -145,8 +145,8 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                     }
                     plotBandsArr.push(plotBandsobj1)
 
-                    let stopsobj1 = stopsArr.length === 0 ? [(plot / max), '#7cd8ba'] : [(plot / max), plotBandsOpt[i - 1]['color']]
-                    stopsArr.push(stopsobj1)
+                    // let stopsobj1 = stopsArr.length === 0 ? [(plot / max), '#7cd8ba'] : [(plot / max), plotBandsOpt[i - 1]['color']]
+                    // stopsArr.push(stopsobj1)
 
                     if (i === plotBandsOpt.length - 1) {
                         let plotBandsobj2 = {
@@ -158,18 +158,27 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                         }
                         plotBandsArr.push(plotBandsobj2)
 
-                        let stopsobj2 = [1, plotBandsOpt[i]['color']]
-                        stopsArr.push(stopsobj2)
+                        // let stopsobj2 = [1, plotBandsOpt[i]['color']]
+                        // stopsArr.push(stopsobj2)
                     }
                 } else {
                     plotBandsOpt = plotBandsOpt.splice(i, 1)
                 }
             }
 
-        } else {
-            stopsArr = [[1, '#7cd8ba']]
         }
+        // else {
+        //     stopsArr = [[1, '#7cd8ba']]
+        // }
 
+        let stopsColor = '#7cd8ba' // 进度条颜色
+        if (data.threshold) {
+            for (let i = 0; i < plotBandsOpt.length; i++) {
+                if (current >= parseFloat(data.threshold[plotBandsOpt[i].plot])) {
+                    stopsColor = plotBandsOpt[i].color
+                }
+            }
+        }
         let chose_options = {
             yAxis: {
                 min: min,
@@ -178,28 +187,10 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 // title: {
                 //     text: data.title
                 // },
-                stops: stopsArr,
+                stops: [[1, stopsColor]],
                 tickPosition: 'outside',
                 plotBands: plotBandsArr,
-                // [{   // 刻度条颜色
-                //     from: 0,
-                //     to: 120,
-                //     color: '#7cd8ba', // green
-                //     innerRadius: '95%',
-                //     outerRadius: '98%'
-                // }, {
-                //     from: 50,
-                //     to: 160,
-                //     color: '#ffe780', // yellow
-                //     innerRadius: '95%',
-                //     outerRadius: '98%'
-                // }, {
-                //     from: 160,
-                //     to: 200,
-                //     color: '#fba277', // red
-                //     innerRadius: '95%',
-                //     outerRadius: '98%'
-                // }]
+
             },
 
             series: [{
