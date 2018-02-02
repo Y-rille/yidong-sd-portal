@@ -66,14 +66,14 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                     <Col span={12}>
                         <Form.Item
                             {...formItemLayout}
-                            label="邮箱"
+                            label="用户名"
                             hasFeedback
                             required
                         >
                             {getFieldDecorator('email', {
                                 initialValue: userInfo.email,
                                 rules: [{
-                                    type: 'email', message: 'The input is not valid E-mail!',
+                                    type: 'email', message: '请输入正确邮箱',
                                 }],
                             })(
                                 <Input placeholder="请输入邮箱" />
@@ -82,7 +82,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                         {
                             this.props.userInfo ? '' : <FormItem
                                 {...formItemLayout}
-                                label="密码"
+                                label="密码设置"
                             >
                                 {getFieldDecorator('password', {
                                     rules: [{
@@ -130,14 +130,14 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
-                            label="手机号"
+                            label="手机号码"
                         >
                             {getFieldDecorator('mobile', {
                                 initialValue: userInfo.mobile,
                                 rules: [{
                                 }],
                             })(
-                                <Input placeholder="请输入手机号" />
+                                <Input placeholder="请输入手机号码" />
                                 )}
                         </Form.Item>
                     </Col>
