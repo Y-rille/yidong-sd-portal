@@ -54,7 +54,7 @@ class History extends React.Component<any, any> {
         this.state = {
             begintime: moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(),
             endtime: moment().tz('Asia/Shanghai').valueOf(),
-            timeFilter: '11',
+            timeFilter: 5,
         };
     }
     inquire(longTime, selectValue) {
