@@ -77,7 +77,7 @@ class History extends React.Component<any, any> {
     }
     componentWillMount() {
         let moTypeKpis = this.props.moTypeKpis
-        if (moTypeKpis) { 
+        if (moTypeKpis) {
             let facts = []
             for (let i = 0; i < 4; i++) {
                 if (moTypeKpis[i]) {
@@ -88,7 +88,7 @@ class History extends React.Component<any, any> {
             // 默认获取前四个指标的信息
             this.getData(str_facts)
         }
-        
+
     }
     componentDidMount() {
 
@@ -111,7 +111,7 @@ class History extends React.Component<any, any> {
             return (
                 <div>
                     <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
-                        <TimeSelect inquire={this.inquire.bind(this)} />
+                        <TimeSelect inquire={this.inquire.bind(this)} defaultValue={[]} />
                     </div>
                     <Row gutter={20} style={{ padding: '0 20px' }}>
                         {this.renderLineChartCard(result)}
