@@ -73,12 +73,14 @@ class Current extends React.Component<any, any> {
             this.getData(this.props.kpis)
         }
     }
-    getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(15, 'minutes').format(), endtime = moment().tz('Asia/Shanghai'), timeFilter = null) {
+    getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf(), endtime = moment().tz('Asia/Shanghai').valueOf(), timeFilter = null) {
+        let nodeInfo = this.props.nodeInfo
+        let wheredim = `${nodeInfo.bizFields.moDimensionId},eq,${nodeInfo.nodeName}`
         let DataParams = {
             facts: facts,
             begintime,
             endtime,
-            // wheredim,
+            wheredim,
         }
         this.props.actions.getData('value_pack_vim', DataParams)
     }
