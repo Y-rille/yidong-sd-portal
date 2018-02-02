@@ -77,7 +77,6 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 ]),
                 lineWidth: 0,
                 minorTickInterval: null,
-                tickPixelInterval: 400,
                 tickWidth: 0,
                 title: {
                     text: middle + unit + '<br/><span style="font-size:10px;color:silver">|</span>',
@@ -175,6 +174,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             yAxis: {
                 min: min,
                 max: max,
+                tickPositions: [min, max],
                 // title: {
                 //     text: data.title
                 // },

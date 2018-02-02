@@ -33,6 +33,7 @@ class User extends React.PureComponent<UserProps, any> {
 
         this.state = {
             currentId: false,
+            userId: '',
             visible: false,
             listLoading: false,
             page_size: 10,
@@ -42,40 +43,30 @@ class User extends React.PureComponent<UserProps, any> {
     }
     componentWillReceiveProps(nextProps) {
     }
-    showModal() {
+    showModal(userId) {
         this.setState({
-            visible: true
+            visible: true,
+            userId: userId
         })
     }
-    handleOk(data) {
-        // if (params) {
-        //     if (id) {
-        //         this.props.actions.editPolicy(endpointId, id, params, (err, data) => {
-        //             if (data) {
-        //                 this.setState({
-        //                     visible: false,
-        //                 });
-        //                 emitter.emit('message', 'success', '编辑成功！')
-        //             }
-        //         })
-        //     } else {
-        //         this.props.actions.createPolicy(endpointId, params, (err, data) => {
-        //             if (data) {
-        //                 this.setState({
-        //                     visible: false,
-        //                 });
-        //                 emitter.emit('message', 'success', '创建成功！')
-        //             }
-        //         })
-        //     }
-        // }
-        this.setState({
-            visible: false
-        })
+    handleOk(param) {
+        if (param) {
+            let userId = this.state.userId
+            this.props.actions.editUserPassword(userId, param, (err, data) => {
+                if (data) {
+                    this.setState({
+                        visible: false,
+                        userId: ''
+                    });
+                    emitter.emit('message', 'success', '修改成功！')
+                }
+            })
+        }
     }
     handleCancel() {
         this.setState({
-            visible: false
+            visible: false,
+            userId: ''
         })
     }
     goCreate() {

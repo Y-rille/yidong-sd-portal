@@ -107,6 +107,7 @@ class History extends React.Component<any, any> {
         let kpidata = this.props.kpidata
         if (moInstKpiThresholds && moTypeKpis && kpidata) {
             let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
+            // console.log('result: ', result);
             return (
                 <div>
                     <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>

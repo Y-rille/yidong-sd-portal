@@ -12,6 +12,7 @@ function mapProps(state) {
     moTypeKpis: state.performanceReducer.moTypeKpis,
     moInstKpiThresholds: state.performanceReducer.moInstKpiThresholds,
     tree: state.commonReducer.tree,
+    nodeInfo: state.performanceReducer.nodeInfo,
     timeFilter: state.performanceReducer.timeFilter
   }
 }

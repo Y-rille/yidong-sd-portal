@@ -28,7 +28,7 @@ let testData = [
     {
         'kpiId': '5',
         'x_value': [15149772, 15149781, 15149790, 15149799, 15149808, 15149817, 15149826, 15149826, 15149835, 15149844, 15149853, 15149862, 15149871],
-        'val': [70],
+        'val': [900],
         'threshold': {
             'thresholdId': 1,
             'kpiId': 5,
@@ -101,7 +101,7 @@ class Current extends React.Component<any, any> {
             let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
             return (
                 <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
-                    {result.map((item, index) => {
+                    {testData.map((item, index) => {
                         return (
                             <InstrumentCard key={index} data={item} />
                         )

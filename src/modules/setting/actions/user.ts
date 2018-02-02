@@ -35,8 +35,24 @@ export const deleteUser = (userId, cb) => (dispatch) => {
         }
         dispatch(action);
     }).catch((err) => {
-        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: {} }
+        let action = { type: ActionTypes.SETTING_DELETE_USER, userList: {} }
         dispatch(action);
+        if (cb) {
+            cb(err)
+        }
+    })
+}
+
+/**
+ * 修改密码
+ * @param cb 
+ */
+export const editUserPassword = (userId, params: EditUserPasswordParams, cb) => (dispatch) => {
+    return UserAPI.editUserPassword(userId, params).then((res) => {
+        if (cb) {
+            cb(res.data)
+        }
+    }).catch((err) => {
         if (cb) {
             cb(err)
         }

@@ -19,6 +19,9 @@ export interface InfoProps {
   moTypeKpis?
   moInstKpiThresholds?
   location?
+  tree?
+  actions?
+  nodeInfo?
   timeFilter?
 }
 
@@ -64,9 +67,21 @@ export default class Info extends React.Component<InfoProps, any> {
     })
     global.hashHistory.push(`${match.url}/${path}`)
   }
-
+  componentWillMount() {
+    let nodeId = this.props.match.params.nodeId
+    this.props.actions.getNodeData(nodeId, this.props.tree)
+  }
   componentWillReceiveProps(nextProps) {
+    let { match } = nextProps
+    let { pathname } = nextProps.location
+    this.state = {
+      facts: this.state.facts,
+      activeKey: _.compact([
+        matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
+        matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
+      ]).toString()
 
+    };
   }
 
   renderTab() {
