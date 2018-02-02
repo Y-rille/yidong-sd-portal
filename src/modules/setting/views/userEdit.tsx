@@ -72,12 +72,12 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
             <Row className={styles.setting}>
                 <div className={styles.cont}>
                     <div className={styles.header}>
+                        <h1 className={styles.title}>{modalTitle}</h1>
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
                             <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
                         </Breadcrumb>
-                        <h1 className={styles.title}>{modalTitle}</h1>
                     </div>
                     <UserForm
                         userInfo={this.props.userInfo}
