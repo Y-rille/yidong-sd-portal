@@ -6,7 +6,7 @@ import SplitPane from 'react-split-pane'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Modal } from 'antd';
 const Search = Input.Search
 import UserTable from '../../../components/UserTable/'
-import UserEdit from '../../../components/UserEdit/'
+import UserEdit from '../container/userEdit'
 
 declare let global: any;
 import styles from '../style/index.less'
@@ -141,36 +141,40 @@ class User extends React.PureComponent<UserProps, any> {
         }
         let { match } = this.props
         return (
-            <Row className={styles.setting}>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>首页</Breadcrumb.Item>
-                        <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                        <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <h1 className={styles._title}>用户管理</h1>
-                    <Button type="primary" onClick={this.goCreate.bind(this)}>新建用户</Button>
-                    <Search
-                        className={styles.search}
-                        placeholder="请输入关键字"
-                        defaultValue={query_key}
-                        onSearch={value => this.searchHandler(value)}
-                    />
-                    <UserTable
-                        goDelete={this.goDelete.bind(this)}
-                        goPage={this.goPage.bind(this)}
-                        page_num={page_num}
-                        page_size={page_size}
-                        showModal={this.showModal.bind(this)}
-                        goEdit={this.goEdit.bind(this)}
-                        userList={userList}
-                    />
-                </div>
-                <Switch>
-                    <Route path={`${match.url}/create`} component={UserEdit} />
-                    <Route path={`${match.url}/edit/:userId`} component={UserEdit} />
-                </Switch>
-            </Row>
+            <Switch>
+                <Route path={`${match.url}/create`} component={UserEdit} />
+                <Route path={`${match.url}/edit/:userId`} component={UserEdit} />
+                <Route render={() => (
+                    <Row className={styles.setting}>
+                        <div className={styles.cont}>
+                            <div className="header">
+                                <Breadcrumb>
+                                    <Breadcrumb.Item>首页</Breadcrumb.Item>
+                                    <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
+                                    <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                                </Breadcrumb>
+                                <h1 className={styles._title}>用户管理</h1>
+                                <Button type="primary" onClick={this.goCreate.bind(this)}>新建用户</Button>
+                                <Search
+                                    className={styles.search}
+                                    placeholder="请输入关键字"
+                                    defaultValue={query_key}
+                                    onSearch={value => this.searchHandler(value)}
+                                />
+                            </div>
+                            <UserTable
+                                goDelete={this.goDelete.bind(this)}
+                                goPage={this.goPage.bind(this)}
+                                page_num={page_num}
+                                page_size={page_size}
+                                showModal={this.showModal.bind(this)}
+                                goEdit={this.goEdit.bind(this)}
+                                userList={userList}
+                            />
+                        </div>
+                    </Row>
+                )} />
+            </Switch>
         );
     }
 }

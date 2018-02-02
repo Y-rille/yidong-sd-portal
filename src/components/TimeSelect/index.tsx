@@ -11,6 +11,7 @@ const Option = Select.Option;
 
 export interface TimeSelectProps {
     inquire?
+    defaultValue?
 }
 
 export default class TimeSelect extends React.PureComponent<TimeSelectProps, any> {
@@ -51,6 +52,9 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
     }
 
     render() {
+        var dateformat = 'YYYY-MM-DD HH:mm:ss';
+        const date = [moment(this.props.defaultValue[0]).format('YYYY-MM-DD HH:mm:ss'), moment(this.props.defaultValue[1]).format('YYYY-MM-DD HH:mm:ss')]
+        const selectDate = this.props.defaultValue[2] == null ? '' : this.props.defaultValue[2];
         return (
             <div style={{ marginTop: '-11px' }}>
                 <span style={{ marginLeft: 5 }}>创建时间：</span>
@@ -59,12 +63,13 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
                         style={{ marginLeft: 10 }}
                         format="YYYY-MM-DD HH:mm:ss"
                         disabledDate={this.disabledDate}
+                        defaultValue={[moment(date[0], dateformat), moment(date[1], dateformat)]}
                         showTime
                         placeholder={['开始时间', '结束时间']}
                         onChange={this.onRangePickerChange.bind(this)}
                     />
                 </LocaleProvider>
-                <Select defaultValue="" style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
+                <Select defaultValue={selectDate} style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
                     <Option value="">无</Option>
                     <Option value="sameWeek">上周同一时间</Option>
                     <Option value="sameMonth">上月同一时间</Option>

@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
 import moment from '../../../common/moment'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
 
 import TreeSelect from '../../../components/TreeSelect'
 
@@ -70,7 +70,7 @@ class Home extends React.Component<HomeProps, any> {
                                     )} />
                                 </Switch>
                             ) : (
-                                    <div>loading</div>
+                                    <div><Spin /></div>
                                 )
                         }
                     </div>

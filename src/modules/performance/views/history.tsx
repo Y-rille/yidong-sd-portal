@@ -12,6 +12,7 @@ import TimeSelect from '../../../components/TimeSelect/';
 import LineChartCard from '../../../components/LineChartCard/'
 import moment from '../../../common/moment'
 import getKpiData from '../utils/getKpiData'
+
 let alldata = [{
     'title': 'CPU使用率',
     'x': ['10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30'],
@@ -47,10 +48,13 @@ let alldata = [{
 }]
 const packageId = 'value_pack_vim'
 class History extends React.Component<any, any> {
-    
+
     constructor(props) {
         super(props);
         this.state = {
+            begintime: moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(),
+            endtime: moment().tz('Asia/Shanghai').valueOf(),
+            timeFilter: ''
         };
     }
     inquire(longTime, selectValue) {
@@ -58,10 +62,16 @@ class History extends React.Component<any, any> {
         let begintime = longTime.length > 0 ? longTime[0] : null
         let endtime = longTime.length > 0 ? longTime[1] : null
         let timeFilter = selectValue !== '' ? selectValue : null
+        this.setState({
+            begintime,
+            endtime,
+            timeFilter
+        })
         this.getData('4,5', begintime, endtime, timeFilter)
 
     }
-    getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(), endtime = moment().tz('Asia/Shanghai').valueOf(), timeFilter = null) { 
+
+    getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(), endtime = moment().tz('Asia/Shanghai').valueOf(), timeFilter = null) {
         let DataParams = {
             facts: facts,
             begintime,
@@ -74,21 +84,24 @@ class History extends React.Component<any, any> {
         this.props.actions.getData(packageId, DataParams)
     }
     componentWillMount() {
-        let moTypeKpis = this.props.moTypeKpis.data
-        let facts = []
-        for (let i = 0; i < 4; i++) {
-            if (moTypeKpis[i]) { 
-                facts.push(moTypeKpis[i].kpiId)
+        let moTypeKpis = this.props.moTypeKpis
+        if (moTypeKpis) {
+            let facts = []
+            for (let i = 0; i < 4; i++) {
+                if (moTypeKpis[i]) {
+                    facts.push(moTypeKpis[i].kpiId)
+                }
             }
+            var str_facts = facts.join(',')
+            // 默认获取前四个指标的信息
+            this.getData(str_facts)
         }
-        var str_facts = facts.join(',')
-        // 默认获取前四个指标的信息
-        this.getData(str_facts)
+
     }
     componentDidMount() {
 
     }
-    
+
     renderLineChartCard(result) {
         return alldata.map((item, index) => {
             return (
@@ -106,17 +119,17 @@ class History extends React.Component<any, any> {
             return (
                 <div>
                     <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
-                        <TimeSelect inquire={this.inquire.bind(this)}  />
+                        <TimeSelect defaultValue={[this.state.begintime, this.state.endtime, this.state.timeFilter]} inquire={this.inquire.bind(this)} />
                     </div>
                     <Row gutter={20} style={{ padding: '0 20px' }}>
                         {this.renderLineChartCard(result)}
                     </Row>
                 </div>
             );
-        } else { 
+        } else {
             return (<div>loading</div>)
         }
-        
+
     }
 }
 
