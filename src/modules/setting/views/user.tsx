@@ -6,6 +6,7 @@ import SplitPane from 'react-split-pane'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Modal } from 'antd';
 const Search = Input.Search
 import UserTable from '../../../components/UserTable/'
+import UserEditPassword from '../../../components/UserEditPassword/'
 import UserEdit from '../container/userEdit'
 
 declare let global: any;
@@ -46,10 +47,30 @@ class User extends React.PureComponent<UserProps, any> {
             visible: true
         })
     }
-    handleOk() {
+    handleOk(data) {
+        // if (params) {
+        //     if (id) {
+        //         this.props.actions.editPolicy(endpointId, id, params, (err, data) => {
+        //             if (data) {
+        //                 this.setState({
+        //                     visible: false,
+        //                 });
+        //                 emitter.emit('message', 'success', '编辑成功！')
+        //             }
+        //         })
+        //     } else {
+        //         this.props.actions.createPolicy(endpointId, params, (err, data) => {
+        //             if (data) {
+        //                 this.setState({
+        //                     visible: false,
+        //                 });
+        //                 emitter.emit('message', 'success', '创建成功！')
+        //             }
+        //         })
+        //     }
+        // }
         this.setState({
-            visible: false,
-            currentId: false
+            visible: false
         })
     }
     handleCancel() {
@@ -170,6 +191,11 @@ class User extends React.PureComponent<UserProps, any> {
                                 showModal={this.showModal.bind(this)}
                                 goEdit={this.goEdit.bind(this)}
                                 userList={userList}
+                            />
+                            <UserEditPassword
+                                visible={this.state.visible}
+                                handleOk={this.handleOk.bind(this)}
+                                handleCancel={this.handleCancel.bind(this)}
                             />
                         </div>
                     </Row>
