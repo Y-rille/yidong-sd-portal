@@ -11,10 +11,9 @@ declare const sinon;
 describe('user actions', () => {
     it('assert get userList data', (done) => {
         const store = mockStore({});
-        store.dispatch(getList(null)).then(() => {
+        store.dispatch(getList(null, null)).then(() => {
             const actions = store.getActions()
             assert.isNotNull(actions[0])
-            console.log(actions[0], '==========================>');
             done()
         })
     })

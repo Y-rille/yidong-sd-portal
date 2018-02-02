@@ -275,13 +275,13 @@ let getMoInstKpiThresholds = {
           "thresholdId": 1,
           "kpiId": 5,
           "criticalThresholdOperator": ">",
-          "criticalThresholdValue": "15660",
+          "criticalThresholdValue": "45000",
           "majorThresholdOperator": ">",
-          "majorThresholdValue": "12330",
+          "majorThresholdValue": "30000",
           "minorThresholdOperator": ">",
-          "minorThresholdValue": "10000",
+          "minorThresholdValue": "19000",
           "normalThresholdOperator": ">",
-          "normalThresholdValue": "5000",
+          "normalThresholdValue": "15000",
           "state": 1
         }
       ]
