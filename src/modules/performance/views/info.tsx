@@ -19,6 +19,7 @@ export interface InfoProps {
   moTypeKpis?
   moInstKpiThresholds?
   location?
+  timeFilter?
 }
 
 export default class Info extends React.Component<InfoProps, any> {
