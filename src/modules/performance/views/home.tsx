@@ -64,7 +64,7 @@ class Home extends React.Component<HomeProps, any> {
                         {
                             (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
                                 <Switch>
-                                    <Route path={`${match.url}/:moTypeId/:moInstId`} component={Info} />
+                                    <Route path={`${match.url}/:nodeId`} component={Info} />
                                     <Route render={() => (
                                         <h3>Please select a node.</h3>
                                     )} />
