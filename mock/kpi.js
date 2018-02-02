@@ -89,6 +89,26 @@ let getMoTypeKpis = {
           "state": 1
         },
         {
+          "kpiId": 4,
+          "kpiName": "主机.可用内存",
+          "kpiRealName": "可用内存",
+          "mogrpId": 1,
+          "kpiDesc": "",
+          "kpiCategory": "PI",
+          "kpiType": 2,
+          "kpiUnit": "MB",
+          "kpiAlgorithm": "采集",
+          "dimensionId": 7,
+          "priority": 1,
+          "kpiTablefield": "RamUsed",
+          "mogrpCnname": "主机",
+          "mogrpEnname": "HOST",
+          "version": "1.0",
+          "maxValue": "0",
+          "minValue": "131072",
+          "state": 1
+        },
+        {
           "kpiId": 5,
           "kpiName": "主机.网络端口发送速率",
           "kpiRealName": "网络端口发送速率",
@@ -156,26 +176,6 @@ let getMoTypeKpis = {
           "version": "1.0",
           "maxValue": "0",
           "minValue": "100",
-          "state": 1
-        },
-        {
-          "kpiId": 4,
-          "kpiName": "主机.可用内存",
-          "kpiRealName": "可用内存",
-          "mogrpId": 1,
-          "kpiDesc": "",
-          "kpiCategory": "PI",
-          "kpiType": 2,
-          "kpiUnit": "MB",
-          "kpiAlgorithm": "采集",
-          "dimensionId": 7,
-          "priority": 1,
-          "kpiTablefield": "RamUsed",
-          "mogrpCnname": "主机",
-          "mogrpEnname": "HOST",
-          "version": "1.0",
-          "maxValue": "0",
-          "minValue": "131072",
           "state": 1
         }
       ]
@@ -399,7 +399,7 @@ let getData = {
           [
             1514977200000,
             "D03-hpeDL380-COMP04",
-            13072
+            13072,
           ]
         ],
         "status": "OK",
