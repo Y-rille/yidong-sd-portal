@@ -25,11 +25,34 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
         }
     }
     componentDidMount() {
-        let seriesData = this.props.data.datas
-        seriesData.map(function (item) {
-            // 修改折线颜色
-            item.color = '#5CCBAE'
-        })
+        let data = this.props.data
+        let seriesData = [{
+            color: '#5CCBAE',
+            data: data.val
+        }]
+
+        let plotLinesArr = []
+        let plotLinesOpt = ['normalThresholdValue', 'minorThresholdValue', 'majorThresholdValue', 'criticalThresholdValue']
+        let plotLinesColor = ['#7cd8ba', '#ffe780', '#f3820f', '#ef3233']
+        if (data.threshold) {
+            for (let i = 0; i < plotLinesOpt.length; i++) {
+                let plot = data.threshold[plotLinesOpt[i]]
+                if (plot.length > 0) {
+                    let plotLinesobj = {
+                        color: plotLinesColor[i],
+                        dashStyle: 'solid',
+                        value: parseFloat(plot), // 警戒线
+                        width: 1,
+                        label: {
+                            text: null
+                        }
+                    }
+                    plotLinesArr.push(plotLinesobj)
+                }
+
+            }
+        }
+
         this.options = {
             title: {
                 text: null,
@@ -42,30 +65,27 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                 tickPosition: 'inside',
                 tickmarkPlacement: null,
                 type: 'category',
-                categories: this.props.data.x
+                categories: data.x_value
+
             },
             yAxis: {
-                tickPositions: [0, 20, 40, 60, 80, 100],
                 title: {
-                    text: null
+                    text: data.kpiName + '(' + data.kpiUnit + ')'
                 },
                 gridLineColor: '#fff',
                 minorTickLength: '8px',
-                plotLines: [{
-                    color: '#F3CB74',
-                    dashStyle: 'solid',
-                    value: this.props.data.tagLine, // 警戒线
-                    width: 1,
-                    label: {
-                        text: null
-                    }
-                }],
+                plotLines: plotLinesArr,
                 tickAmount: 5,
-                tickInterval: 10
             },
             legend: {
                 // align: 'right',
-                enabled: false // 隐藏图例
+                enabled: false
+            },
+            tooltip: {  // 数据提示框
+                formatter: function () {
+                    return this.x + ' : ' + this.y + data.kpiUnit
+                }
+
             },
             series: seriesData,
             responsive: {
@@ -103,7 +123,7 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
         this.chart.exportChart(
             {
                 type: 'image/png',
-                filename: this.props.data.title,
+                filename: this.props.data.kpiName,
                 sourceWidth: 280,
                 sourceHeight: 200
             }

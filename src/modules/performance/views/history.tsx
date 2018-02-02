@@ -13,52 +13,51 @@ import LineChartCard from '../../../components/LineChartCard/'
 import moment from '../../../common/moment'
 import getKpiData from '../utils/getKpiData'
 
-let alldata = [{
-    'title': 'CPU使用率',
-    'x': ['10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30'],
-    'tagLine': 50,
-    'datas': [{
-        // name: '2018-1-30',
-        data: [34, 40, 77, 58, 41, 31, 34, 75, 43, 82, 21, 4]
-    }]
-}, {
-    'title': '内存使用率',
-    'tagLine': 60,
-    'x': ['11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30'],
-    'datas': [{
-        // name: '2018-1-31',
-        data: [62, 21, 34, 40, 67, 58, 61, 31, 33, 12]
-    }]
-}, {
-    'title': '总内存',
-    'tagLine': '',
-    'x': ['11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00'],
-    'datas': [{
-        // name: '2018-2-1',
-        data: [34, 4, 67, 58, 61, 31, 33]
-    }]
-}, {
-    'title': '可用内存',
-    'tagLine': 70,
-    'x': ['11:30', '12:00', '12:30', '13:00', '13:30', '14:00'],
-    'datas': [{
-        // name: '2018-2-2',
-        data: [33, 79, 43, 62, 21, 12]
-    }]
-}]
+let testData = [
+    {
+        'kpiId': '4',
+        'x_value': [15149772, 15149781, 15149790, 15149799, 15149808, 15149817, 15149826, 15149826, 15149835, 15149844, 15149853, 15149862, 15149871],
+        'val': [13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072],
+        'kpiName': '主机.可用内存',
+        'kpiUnit': 'MB',
+        'maxValue': '0',
+        'minValue': '131072'
+    },
+    {
+        'kpiId': '5',
+        'x_value': [15149772, 15149781, 15149790, 15149799, 15149808, 15149817, 15149826, 15149826, 15149835, 15149844, 15149853, 15149862, 15149871],
+        'val': [2111, 2343, 17644, 13211, 24222, 34222, 34222, 16072, 34222, 34222, 34222, 34222, 34222],
+        'threshold': {
+            'thresholdId': 1,
+            'kpiId': 5,
+            'criticalThresholdOperator': '>',
+            'criticalThresholdValue': '30000',
+            'majorThresholdOperator': '>',
+            'majorThresholdValue': '20000',
+            'minorThresholdOperator': '>',
+            'minorThresholdValue': '14000',
+            'normalThresholdOperator': '>',
+            'normalThresholdValue': '5000',
+            'state': 1
+        },
+        'kpiName': '主机.网络端口发送速率',
+        'kpiUnit': 'Mbps',
+        'maxValue': '0',
+        'minValue': '1024'
+    }
+]
+
 const packageId = 'value_pack_vim'
 class History extends React.Component<any, any> {
-
     constructor(props) {
         super(props);
         this.state = {
             begintime: moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(),
             endtime: moment().tz('Asia/Shanghai').valueOf(),
-            timeFilter: ''
+            timeFilter: '11',
         };
     }
     inquire(longTime, selectValue) {
-        let facts = '4,5'
         let begintime = longTime.length > 0 ? longTime[0] : null
         let endtime = longTime.length > 0 ? longTime[1] : null
         let timeFilter = selectValue !== '' ? selectValue : null
@@ -67,7 +66,7 @@ class History extends React.Component<any, any> {
             endtime,
             timeFilter
         })
-        this.getData('4,5', begintime, endtime, timeFilter)
+        this.getData(this.props.kpis, begintime, endtime, timeFilter)
 
     }
 
@@ -78,32 +77,25 @@ class History extends React.Component<any, any> {
             endtime,
             // wheredim,
             timeFilter
-
         }
-        // console.log(DataParams)
         this.props.actions.getData(packageId, DataParams)
     }
-    componentWillMount() {
-        let moTypeKpis = this.props.moTypeKpis
-        if (moTypeKpis) {
-            let facts = []
-            for (let i = 0; i < 4; i++) {
-                if (moTypeKpis[i]) {
-                    facts.push(moTypeKpis[i].kpiId)
-                }
-            }
-            var str_facts = facts.join(',')
-            // 默认获取前四个指标的信息
-            this.getData(str_facts)
-        }
 
+    componentWillMount() {
+        this.getData(this.props.kpis)
     }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.kpis && nextProps.kpis !== this.props.kpis) {
+            this.getData(nextProps.kpis, this.state.begintime, this.state.endtime, this.state.timeFilter)
+        }
+    }
+
     componentDidMount() {
 
     }
 
     renderLineChartCard(result) {
-        return alldata.map((item, index) => {
+        return result.map((item, index) => {
             return (
                 <LineChartCard key={index} data={item} />
             )
@@ -114,7 +106,7 @@ class History extends React.Component<any, any> {
         let moTypeKpis = this.props.moTypeKpis
         let kpidata = this.props.kpidata
         if (moInstKpiThresholds && moTypeKpis && kpidata) {
-            let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata)
+            let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
             // console.log('result: ', result);
             return (
                 <div>
@@ -127,7 +119,7 @@ class History extends React.Component<any, any> {
                 </div>
             );
         } else {
-            return (<div>loading</div>)
+            return (<div > loading</div>)
         }
 
     }
