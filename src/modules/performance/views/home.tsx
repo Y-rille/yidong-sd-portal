@@ -32,7 +32,7 @@ class Home extends React.Component<HomeProps, any> {
         super(props);
     }
     onTreeSelect(nodeId) {
-        console.log('nodeId', nodeId);
+        // console.log('nodeId', nodeId);
     }
     triggerResize() {
         let e: Event = document.createEvent('Event');
