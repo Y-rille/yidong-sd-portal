@@ -6,7 +6,7 @@ import { matchPath } from 'react-router'
 
 import styles from '../style/index.less'
 
-import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
 
 import FactModal from '../../../components/FactModal/'
 import Current from '../container/current'
@@ -19,24 +19,34 @@ export interface InfoProps {
   moTypeKpis?
   moInstKpiThresholds?
   location?
+  tree?
+  actions?
+  nodeInfo?
+  timeFilter?
 }
 
 export default class Info extends React.Component<InfoProps, any> {
   constructor(props) {
     super(props);
-    let { match } = this.props
-    let { pathname } = this.props.location
+    // 设置默认选中的值
+    let { moTypeKpis } = this.props
+    let facts = []
+    for (let i = 0; i < 4; i++) {
+      if (moTypeKpis[i]) {
+        facts.push(moTypeKpis[i].kpiId)
+      }
+    }
+    var str_facts = facts.join(',')
     this.state = {
-      activeKey: _.compact([
-        matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
-        matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-      ]).toString(),
       visible: false,
+      facts: str_facts,
     };
   }
-  handleOk() {
+  handleOk(kpis) {
+    var str_facts = kpis.join(',')
     this.setState({
-      visible: false
+      visible: false,
+      facts: str_facts,
     })
   }
   handleCancel() {
@@ -57,32 +67,37 @@ export default class Info extends React.Component<InfoProps, any> {
     })
     global.hashHistory.push(`${match.url}/${path}`)
   }
-
+  componentWillMount() {
+    let nodeId = this.props.match.params.nodeId
+    this.props.actions.getNodeData(nodeId, this.props.tree)
+  }
   componentWillReceiveProps(nextProps) {
     let { match } = nextProps
     let { pathname } = nextProps.location
     this.state = {
+      facts: this.state.facts,
       activeKey: _.compact([
         matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
         matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
       ]).toString()
+
     };
   }
 
   renderTab() {
-    let { activeKey } = this.state
+    let { pathname } = this.props.location
     let tab = [{ key: 'current', name: '当前状态' }, { key: 'history', name: '历史趋势' }]
     return _.map(tab, (item) => {
       let cls = {
         tabItem: true,
-        active: activeKey === item.key ? true : false
+        active: pathname.indexOf(item.key) > 0
       }
       return <li className={classNames(cls)} data-path={item.key} onClick={this.tabClick.bind(this)}>{item.name}</li>
     })
   }
 
   render() {
-    let { match } = this.props
+    let { match, moTypeKpis } = this.props
     let { activeKey } = this.state
     return (
       <div>
@@ -105,14 +120,14 @@ export default class Info extends React.Component<InfoProps, any> {
           (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
             <Switch>
               <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-              <Route path={`${match.url}/current`} component={Current} />
-              <Route path={`${match.url}/history`} component={History} />
+              <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.facts} />} />
+              <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.facts} />} />
             </Switch>
           ) : (
-              <div>loading</div>
+              <Spin />
             )
         }
-        {/* <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={this.props.moTypeKpis.data} /> */}
+        <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={moTypeKpis} />
       </div>
     );
   }

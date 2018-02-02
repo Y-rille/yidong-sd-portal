@@ -6,6 +6,7 @@ import SplitPane from 'react-split-pane'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Modal } from 'antd';
 const Search = Input.Search
 import UserTable from '../../../components/UserTable/'
+import UserEditPassword from '../../../components/UserEditPassword/'
 import UserEdit from '../container/userEdit'
 
 declare let global: any;
@@ -31,6 +32,9 @@ class User extends React.PureComponent<UserProps, any> {
         let { page_num, query_key } = qs.parse(this.props.location.search)
 
         this.state = {
+            currentId: false,
+            userId: '',
+            visible: false,
             listLoading: false,
             page_size: 10,
             page_num: page_num ? page_num : 0,
@@ -39,7 +43,32 @@ class User extends React.PureComponent<UserProps, any> {
     }
     componentWillReceiveProps(nextProps) {
     }
-
+    showModal(userId) {
+        this.setState({
+            visible: true,
+            userId: userId
+        })
+    }
+    handleOk(param) {
+        if (param) {
+            let userId = this.state.userId
+            this.props.actions.editUserPassword(userId, param, (err, data) => {
+                if (data) {
+                    this.setState({
+                        visible: false,
+                        userId: ''
+                    });
+                    emitter.emit('message', 'success', '修改成功！')
+                }
+            })
+        }
+    }
+    handleCancel() {
+        this.setState({
+            visible: false,
+            userId: ''
+        })
+    }
     goCreate() {
         global.hashHistory.replace(`/setting/user/create`)
     }
@@ -141,12 +170,18 @@ class User extends React.PureComponent<UserProps, any> {
                                 />
                             </div>
                             <UserTable
+                                showModal={this.showModal.bind(this)}
                                 goDelete={this.goDelete.bind(this)}
                                 goPage={this.goPage.bind(this)}
                                 page_num={page_num}
                                 page_size={page_size}
                                 goEdit={this.goEdit.bind(this)}
                                 userList={userList}
+                            />
+                            <UserEditPassword
+                                visible={this.state.visible}
+                                handleOk={this.handleOk.bind(this)}
+                                handleCancel={this.handleCancel.bind(this)}
                             />
                         </div>
                     </Row>

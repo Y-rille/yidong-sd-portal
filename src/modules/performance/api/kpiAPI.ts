@@ -22,10 +22,6 @@ export interface MatchingDimensionsParams {
 
 export interface DataParams {
   /**
-   * 分析模型包ID
-   */
-  packageId: number,
-  /**
    * 指标 ID，多个指标逗号分割；格式如：3,5,1,2,4,6
    */
   facts: string,

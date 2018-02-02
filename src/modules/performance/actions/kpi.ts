@@ -2,6 +2,7 @@ import * as _ from 'lodash'
 import ActionTypes from '../constants/actionTypes'
 import kpiAPI from '../api/kpiAPI'
 import { MatchingDimensionsParams, DataParams } from '../api/kpiAPI'
+import deepPick from '../utils/deepPick'
 
 /**
  * 查询分析模型包
@@ -94,10 +95,10 @@ export const getKpiThresholds = (kpiId, cb) => (dispatch) => {
  */
 export const getMoInstKpiThresholds = (moTypeId, moInstId, cb) => (dispatch) => {
   return kpiAPI.getMoInstKpiThresholds(moTypeId, moInstId).then((res: any) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: res.data }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: res.data.data }
     dispatch(action);
     if (cb) {
-      cb(res.data)
+      cb(res.data.data)
     }
   }).catch((err) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: null }
@@ -115,6 +116,7 @@ export const getMoInstKpiThresholds = (moTypeId, moInstId, cb) => (dispatch) => 
  * @param cb 
  */
 export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
+  dispatch({ type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: null });
   return kpiAPI.getData(packageId, params).then((res: any) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: res.data }
     dispatch(action);
@@ -139,16 +141,43 @@ export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
 
 export const getMoTypeKpis = (moTypeId, timeDimensionId, cb) => (dispatch) => {
   return kpiAPI.getMoTypeKpis(moTypeId, timeDimensionId).then((res: any) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: res.data }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: res.data.data }
     dispatch(action);
     if (cb) {
-      cb(res.data)
+      cb(res.data.data)
     }
   }).catch((err) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: null }
     dispatch(action);
     if (cb) {
       cb(err)
+    }
+  })
+}
+
+/**
+ * 根据nodeId返回节点信息
+ * getNodeData
+ * @param items 整棵树
+ * @param nodeId 节点id
+ */
+
+export const getNodeData = (nodeId, items, cb) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    try {
+      let nodeInfo: any = deepPick(nodeId, items)
+      if (nodeInfo !== 'undefined') {
+        let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nodeInfo: nodeInfo }
+        dispatch(action)
+        resolve(nodeInfo)
+      } else {
+        let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nodeInfo: null }
+        dispatch(action)
+      }
+    } catch (error) {
+      let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nodeInfo: null }
+      dispatch(action)
+      reject(error)
     }
   })
 }

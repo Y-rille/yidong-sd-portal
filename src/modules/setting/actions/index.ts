@@ -4,7 +4,8 @@ import {
     getUserInfo,
     createUser,
     editUser,
-    resetUserInfo
+    resetUserInfo,
+    editUserPassword
 } from './user'
 
 import {
@@ -18,7 +19,8 @@ const HomeActionCreatorsMap = {
     getUserInfo,
     createUser,
     editUser,
-    resetUserInfo
+    resetUserInfo,
+    editUserPassword
 }
 
 export interface SettingActions {
@@ -29,6 +31,7 @@ export interface SettingActions {
     createUser: Function
     editUser: Function
     resetUserInfo: Function
+    editUserPassword: Function
 }
 
 export default HomeActionCreatorsMap;
