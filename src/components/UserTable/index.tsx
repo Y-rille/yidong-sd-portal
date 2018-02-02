@@ -23,9 +23,10 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         this.state = {
         };
     }
-    showModal() {
+    showModal(e) {
+        let userId = e.currentTarget.id
         if (this.props.showModal) {
-            this.props.showModal()
+            this.props.showModal(userId)
         }
     }
     goEdit() {
@@ -69,7 +70,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
                 <span>
                     <a onClick={this.goEdit.bind(this)} href="javascript:;">编辑</a>
                     <Divider type="vertical" />
-                    <a onClick={this.showModal.bind(this)} href="javascript:;">修改密码</a>
+                    <a onClick={this.showModal.bind(this)} id={record.id} href="javascript:;">修改密码</a>
                     <Divider type="vertical" />
                     <a onClick={this.goDelete.bind(this)} rel={record.email} id={record.id} href="javascript:;" type="vertical">删除</a>
                 </span>
