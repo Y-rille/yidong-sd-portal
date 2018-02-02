@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 
-import { Row, Breadcrumb } from 'antd';
+import {Row, Breadcrumb} from 'antd';
+import TreeSelect from '../../../components/TreeSelect'
 import DynamicPropertiesPanel from '../../../components/DynamicPropertiesPanel'
+import SearchResultPanel from '../../../components/SearchResultPanel'
 import SplitPane from 'react-split-pane'
-import styles from '../../../style/index.less'
-import Log from '../../setting/container/log';
-import User from '../../setting/container/user';
+import styles from '../style/index.less'
 
 declare let global: any;
 
@@ -212,16 +212,56 @@ const data = {
 };
 
 class Home extends React.Component<any, any> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            result: null
+        }
+        this.getSearchResult = this.getSearchResult.bind(this)
+    }
+
     handle() {
         global.hashHistory.push('/alarm')
+    }
+
+    triggerResize() {
+        let e: Event = document.createEvent('Event');
+        e.initEvent('resize', true, true);
+        window.dispatchEvent(e);
+    }
+
+    getSearchResult(result) {
+        this.setState({result: result})
     }
 
     render() {
         return (
             <Row className={styles.performance}>
-                <div className={styles.main}>
-                    <DynamicPropertiesPanel attributes={attributes} data={data}/>
-                </div>
+                <SplitPane
+                    split="vertical"
+                    minSize={100}
+                    maxSize={300}
+                    defaultSize={200}
+                    onChange={this.triggerResize}>
+                    <div className={styles.tree}>
+                        <TreeSelect onSearch={this.getSearchResult}/>
+                    </div>
+                    <div className={styles.main}>
+                        <div className={styles.header}>
+                            <h1 className={styles.title}>交换机</h1>
+                            <Breadcrumb>
+                                <Breadcrumb.Item>性能监控</Breadcrumb.Item>
+                                <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
+                                <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                                <Breadcrumb.Item>四级菜单</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
+
+                        <DynamicPropertiesPanel attributes={attributes} data={data}/>
+                        <SearchResultPanel result={this.state.result}/>
+                    </div>
+                </SplitPane>
             </Row>
         );
     }
