@@ -161,3 +161,17 @@
       }
     }
 }
+
+.anticon-exclamation-circle-o:before {
+    color: @primary-color;
+}
+
+.treeSelect {
+  .ant-input-search {
+    margin-bottom: 0 !important;
+    padding: @margin-min;
+    &:not(.ant-input-search-small) > .ant-input-suffix {
+      right: 22px;
+    }
+  }
+}
