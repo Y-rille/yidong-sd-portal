@@ -19,6 +19,8 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
     line: any
     options: any
     chart: any
+    x: any
+    y: any
     constructor(props) {
         super(props);
         this.state = {
@@ -79,9 +81,9 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
             legend: {
                 enabled: false
             },
-            tooltip: {  // 数据提示框
+            tooltip: {
                 formatter: function () {
-                    return this.x + ' : ' + this.y + data.kpiUnit
+                    return 'x:' + this.x + ' <br/> ' + 'y:' + this.y + data.kpiUnit
                 }
 
             },
