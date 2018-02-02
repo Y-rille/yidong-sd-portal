@@ -653,6 +653,65 @@ let querytree = {
                     },
                     "queryUri": "/datashare-svr/api/moinst/1/4",
                     "queryMethod": "GET"
+                  },
+                  {
+                    "nodeLabel": "D04-hpeDL380-COMP19",
+                    "nodeId": "5",
+                    "nodeName": "D04-hpeDL380-COMP19",
+                    "lablePath": "厂家资源树/主机/华为/D04-hpeDL380-COMP19",
+                    "dataType": 2,
+                    "bizFields": {
+                      "moTypeId": "1",
+                      "moDimensionId": "T_HOST",
+                      "moInstId": "5",
+                      "moTypeEnName": "HOST"
+                    },
+                    "queryUri": "/datashare-svr/api/moinst/1/4",
+                    "queryMethod": "GET"
+                  }
+                ]
+              },
+              {
+                "nodeLabel": "IBM",
+                "nodeId": "6",
+                "nodeName": "VENDOR",
+                "lablePath": "厂家资源树/主机/IBM",
+                "dataType": 1,
+                "queryParams": {
+                  "VENDOR": "IBM"
+                },
+                "queryUri": "/datashare-svr/api/moinst/1/querydata",
+                "queryMethod": "POST",
+                "children": [
+                  {
+                    "nodeLabel": "D04-hpeDL380-COMP20",
+                    "nodeId": "7",
+                    "nodeName": "D04-hpeDL380-COMP20",
+                    "lablePath": "厂家资源树/主机/IBM/D04-hpeDL380-COMP0920",
+                    "dataType": 2,
+                    "bizFields": {
+                      "moTypeId": "1",
+                      "moDimensionId": "T_HOST",
+                      "moInstId": "7",
+                      "moTypeEnName": "HOST"
+                    },
+                    "queryUri": "/datashare-svr/api/moinst/1/4",
+                    "queryMethod": "GET"
+                  },
+                  {
+                    "nodeLabel": "D04-hpeDL380-COMP29",
+                    "nodeId": "8",
+                    "nodeName": "D04-hpeDL380-COMP29",
+                    "lablePath": "厂家资源树/主机/IBM/D04-hpeDL380-COMP29",
+                    "dataType": 2,
+                    "bizFields": {
+                      "moTypeId": "1",
+                      "moDimensionId": "T_HOST",
+                      "moInstId": "8",
+                      "moTypeEnName": "HOST"
+                    },
+                    "queryUri": "/datashare-svr/api/moinst/1/4",
+                    "queryMethod": "GET"
                   }
                 ]
               }
