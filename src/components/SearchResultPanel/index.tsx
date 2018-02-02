@@ -57,7 +57,7 @@ export default class SearchResultPanel extends React.Component<SearchResultPanel
 
     ListDescription({ list }) {
         return list.map((item, index) => {
-            return <a key={index} style={{ marginRight: '20px' }}>{item.nodeLabel}</a>
+            return <a key={index} style={{ marginRight: '20px' }}>{item.nodeLabel}</ a>
         });
     };
     render() {
@@ -68,8 +68,8 @@ export default class SearchResultPanel extends React.Component<SearchResultPanel
         return (
             <div className={styles.warpper}>
                 <div className={styles.header}>
-                    <p>搜索关键字：{result.searchValue}</p>
-                    <p>共搜索到 {result.selectedKeys.length} 条数据</p>
+                    <p>搜索关键字：{result.searchValue}</p >
+                    <p>共搜索到 {result.selectedKeys.length} 条数据</p >
                 </div>
                 <List
                     itemLayout="horizontal"

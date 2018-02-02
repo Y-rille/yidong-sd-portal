@@ -2,11 +2,12 @@ import React from 'react';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
+const { TextArea } = Input;
 import styles from './index.less';
 import { FormComponentProps } from 'antd/lib/form/Form';
 
 export interface UserFormClsProps extends FormComponentProps {
-    data?
+    userInfo?
     id?
 }
 const formItemLayout = {
@@ -40,6 +41,14 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
     componentWillReceiveProps(nextProps) {
     }
     render() {
+        let userInfo = this.props.userInfo || ''
+        let disabled = this.props.userInfo ? true : false
+        let rolesStr = ''
+        let rolesArr = []
+        if (this.props.userInfo) {
+            rolesStr = userInfo.roles
+            rolesArr = rolesStr.split(',')
+        }
         const { getFieldDecorator } = this.props.form;
         const children = [];
         const arr = ['admin', 'performance', 'resource', 'alarm']
@@ -48,80 +57,98 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
         })
         return (
             <Form className={styles.userForm}>
-                <Form.Item
-                    {...formItemLayout}
-                    label="邮箱"
-                    hasFeedback
-                    required
-                >
-                    {getFieldDecorator('email', {
-                        // initialValue: email,
-                        rules: [{
-                            type: 'email', message: 'The input is not valid E-mail!',
-                        }],
-                    })(
-                        <Input placeholder="请输入邮箱" />
-                        )}
-                </Form.Item>
-                <Form.Item
-                    {...formItemLayout}
-                    label="真实姓名"
-                >
-                    {getFieldDecorator('name', {
-                        // initialValue: name
-                        rules: [{
-                            required: true, message: '请输入真实姓名！',
-                        }],
-                    })(
-                        <Input placeholder="请输入真实姓名" />
-                        )}
-                </Form.Item>
-                <FormItem
-                    {...formItemLayout}
-                    label="密码"
-                >
-                    {getFieldDecorator('password', {
-                        // initialValue: password
-                        rules: [{
-                            required: true, message: '请输入密码！',
-                        }],
-                    })(
-                        <Input type="password" />
-                        )}
-                </FormItem>
-                <Form.Item
-                    {...formItemLayout}
-                    label="手机号"
-                >
-                    {getFieldDecorator('mobile', {
-                        // initialValue: mobile
-                        rules: [{
-                            required: true, message: '请输入手机号！',
-                        }],
-                    })(
-                        <Input placeholder="请输入手机号" />
-                        )}
-                </Form.Item>
-                <Form.Item
-                    {...formItemLayout}
-                    label="角色"
-                >
-                    {getFieldDecorator('remark', {
-                        // initialValue: remark
-                        rules: [{
-                            required: true, message: '请选择角色！',
-                        }],
-                    })(
-                        <Select
-                            mode="tags"
-                            style={{ width: '100%' }}
-                            placeholder="请选择角色"
-                            onChange={this.handleChange.bind(this)}
+                <Row>
+                    <Col span={12}>
+                        <Form.Item
+                            {...formItemLayout}
+                            label="邮箱"
+                            hasFeedback
+                            required
                         >
-                            {children}
-                        </Select>
-                        )}
-                </Form.Item>
+                            {getFieldDecorator('email', {
+                                initialValue: 'email@qq.com',
+                                rules: [{
+                                    type: 'email', message: 'The input is not valid E-mail!',
+                                }],
+                            })(
+                                <Input placeholder="请输入邮箱" />
+                                )}
+                        </Form.Item>
+
+                        <FormItem
+                            {...formItemLayout}
+                            label="密码"
+                        >
+                            {getFieldDecorator('password', {
+                                // initialValue: password
+                                rules: [{
+                                    required: true, message: '请输入密码！',
+                                }],
+                            })(
+                                <Input type="password" disabled={disabled} />
+                                )}
+                        </FormItem>
+                        <Form.Item
+                            {...formItemLayout}
+                            label="角色"
+                        >
+                            {getFieldDecorator('roles', {
+                                initialValue: rolesArr,
+                                rules: [{
+                                    required: true, message: '请选择角色！',
+                                }],
+                            })(
+                                <Select
+                                    mode="tags"
+                                    style={{ width: '100%' }}
+                                    placeholder="请选择角色"
+                                    onChange={this.handleChange.bind(this)}
+                                >
+                                    {children}
+                                </Select>
+                                )}
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            {...formItemLayout}
+                            label="真实姓名"
+                        >
+                            {getFieldDecorator('name', {
+                                initialValue: userInfo.name,
+                                rules: [{
+                                    required: true, message: '请输入真实姓名！',
+                                }],
+                            })(
+                                <Input placeholder="请输入真实姓名" />
+                                )}
+                        </Form.Item>
+                        <Form.Item
+                            {...formItemLayout}
+                            label="手机号"
+                        >
+                            {getFieldDecorator('mobile', {
+                                initialValue: userInfo.mobile,
+                                rules: [{
+                                }],
+                            })(
+                                <Input placeholder="请输入手机号" />
+                                )}
+                        </Form.Item>
+                        <FormItem
+                            {...formItemLayout}
+                            label="备注"
+                        >
+                            {getFieldDecorator('remark', {
+                                initialValue: userInfo.remark,
+                                rules: [{
+                                }],
+                            })(
+                                <TextArea rows={4} />
+                                )}
+                        </FormItem>
+                    </Col>
+                </Row>
             </Form>
         )
     }
