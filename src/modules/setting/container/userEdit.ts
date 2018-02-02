@@ -7,7 +7,7 @@ function mapProps(state) {
     return {
         name: state.settingReducer.name,
         config: state.settingReducer.config,
-        // userInfo: state.settingReducer.userInfo
+        userInfo: state.settingReducer.userInfo
     }
 }
 function mapDispatchToProps(dispatch) {

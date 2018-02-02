@@ -20,7 +20,7 @@ class History extends React.Component<any, any> {
         this.state = {
             begintime: moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(),
             endtime: moment().tz('Asia/Shanghai').valueOf(),
-            timeFilter: '11',
+            timeFilter: 5,
         };
     }
     inquire(longTime, selectValue) {
@@ -74,7 +74,7 @@ class History extends React.Component<any, any> {
             return (
                 <div>
                     <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
-                        <TimeSelect defaultValue={[this.state.begintime, this.state.endtime, this.state.timeFilter]} inquire={this.inquire.bind(this)} />
+                        <TimeSelect timeFilter={this.props.timeFilter} defaultValue={[this.state.begintime, this.state.endtime, this.state.timeFilter]} inquire={this.inquire.bind(this)} />
                     </div>
                     <Row gutter={20} style={{ padding: '0 20px' }}>
                         {this.renderLineChartCard(result)}

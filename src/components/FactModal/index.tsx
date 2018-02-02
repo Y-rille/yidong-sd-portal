@@ -124,7 +124,7 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         const { visible } = this.props;
         return (
             <Modal visible={visible} title="添加指标" onOk={this.handleOk.bind(this)}
-                onCancel={this.handleCancel.bind(this)} footer={null} className={styles.modal}>
+                onCancel={this.handleCancel.bind(this)} footer={null}>
                 {this.renderCheckGroup()}
                 < div className={styles.handle}>
                     <Button onClick={this.handleOk.bind(this)} type="primary">确定</Button>
