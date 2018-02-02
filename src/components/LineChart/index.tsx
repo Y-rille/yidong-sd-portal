@@ -33,23 +33,22 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
 
         let plotLinesArr = []
         let plotLinesOpt = ['normalThresholdValue', 'minorThresholdValue', 'majorThresholdValue', 'criticalThresholdValue']
-        let plotLinesColor = ['#7cd8ba', '#ffe780', '#f3820f', '#ef3233']
+        let plotLinesColor = ['#7cd8ba', '#ffe780', '#ffa500', '#fa9e9e']
         if (data.threshold) {
             for (let i = 0; i < plotLinesOpt.length; i++) {
                 let plot = data.threshold[plotLinesOpt[i]]
                 if (plot.length > 0) {
                     let plotLinesobj = {
                         color: plotLinesColor[i],
-                        dashStyle: 'solid',
+                        dashStyle: 'soild',
                         value: parseFloat(plot), // 警戒线
-                        width: 1,
+                        width: 2,
                         label: {
                             text: null
                         }
                     }
                     plotLinesArr.push(plotLinesobj)
                 }
-
             }
         }
 
@@ -78,7 +77,6 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                 tickAmount: 5,
             },
             legend: {
-                // align: 'right',
                 enabled: false
             },
             tooltip: {  // 数据提示框
@@ -109,15 +107,6 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
             }
         }
         this.chart = Highcharts.chart(this.line, this.options);
-        // this.chart.yAxis[0].addPlotLine({
-        //     value: this.props.data.tagLine,
-        //     color: '#F3CB74',
-        //     dashStyle: 'solid',
-        //     width: 1,
-        //     label: {
-        //         text: null
-        //     }
-        // });
     }
     chartExport() {
         this.chart.exportChart(

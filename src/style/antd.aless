@@ -161,3 +161,7 @@
       }
     }
 }
+
+.anticon-exclamation-circle-o:before {
+    color: @primary-color;
+}
