@@ -93,7 +93,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             plotOptions: { // 中间显示框
                 solidgauge: {
                     dataLabels: {
-                        y: 16,
+                        y: 10,
                         borderWidth: 0,
                         useHTML: true
                     },
@@ -223,7 +223,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
         this.chart.exportChart(
             {
                 type: 'image/png',
-                filename: this.props.data.title,
+                filename: this.props.data.kpiName,
                 sourceWidth: 280,
             },
             {
@@ -234,7 +234,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 plotOptions: { // 中间显示框
                     solidgauge: {
                         dataLabels: {
-                            y: 65,
+                            y: 45,
                             borderWidth: 0,
                         }
                     }
@@ -246,7 +246,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
     render() {
         return (
             <div>
-                <div ref={(node) => { this.container = node }} style={{ width: '100%', height: '140px' }}></div>
+                <div ref={(node) => { this.container = node }} style={{ width: '100%', height: '160px' }}></div>
             </div>
         );
     }
