@@ -5,7 +5,7 @@ import {
     Switch,
     Route, Link
 } from 'react-router-dom'
-import { Row, Col } from 'antd';
+import { Row, Col, Spin } from 'antd';
 
 import styles from '../style/index.less'
 import TimeSelect from '../../../components/TimeSelect/';
@@ -36,12 +36,14 @@ class History extends React.Component<any, any> {
 
     }
 
-    getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(), endtime = moment().tz('Asia/Shanghai').valueOf(), timeFilter = null) {
+    getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(), endtime = moment().tz('Asia/Shanghai').valueOf(), timeFilter = this.state.timeFilter) {
+        let nodeInfo = this.props.nodeInfo
+        let wheredim = `${nodeInfo.bizFields.moDimensionId},eq,${nodeInfo.nodeName}`
         let DataParams = {
             facts: facts,
             begintime,
             endtime,
-            // wheredim,
+            wheredim,
             timeFilter
         }
         this.props.actions.getData(packageId, DataParams)
@@ -69,7 +71,7 @@ class History extends React.Component<any, any> {
         let moInstKpiThresholds = this.props.moInstKpiThresholds
         let moTypeKpis = this.props.moTypeKpis
         let kpidata = this.props.kpidata
-        if (moInstKpiThresholds && moTypeKpis && kpidata) {
+        if (moInstKpiThresholds && moTypeKpis && kpidata && this.props.nodeInfo) {
             let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
             return (
                 <div>
@@ -82,7 +84,7 @@ class History extends React.Component<any, any> {
                 </div>
             );
         } else {
-            return (<div > loading</div>)
+            return <Spin />
         }
 
     }
