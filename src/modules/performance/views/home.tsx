@@ -41,6 +41,9 @@ class Home extends React.Component<HomeProps, any> {
         this.props.actions.getMoInstKpiThresholds(1, 1, (data) => {
         })
     }
+    goInfoDetail() {
+
+    }
     componentDidMount() {
         this.getKpisAndThresholds()
     }
@@ -58,7 +61,7 @@ class Home extends React.Component<HomeProps, any> {
                     defaultSize={200}
                     onChange={this.triggerResize} >
                     <div className={styles.tree}>
-                        <TreeSelect />
+                        <TreeSelect data={this.props.tree} />
                     </div>
                     <div className={styles.main}>
                         {
