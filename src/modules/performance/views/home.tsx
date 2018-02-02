@@ -55,6 +55,11 @@ class Home extends React.Component<HomeProps, any> {
 
     }
     componentWillMount() {
+        let { match } = this.props
+        const mp: any = matchPath(this.props.location.pathname, {
+            path: `${match.url}/:nodeId`
+        })
+        let nodeId = mp.params.nodeId
     }
     componentDidMount() {
         this.getKpisAndThresholds();
