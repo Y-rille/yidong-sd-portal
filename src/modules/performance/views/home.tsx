@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
 import moment from '../../../common/moment'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
 
 import TreeSelect from '../../../components/TreeSelect'
 
@@ -33,7 +33,7 @@ class Home extends React.Component<HomeProps, any> {
 
     }
     onTreeSelect(nodeId) {
-        let { match} = this.props
+        let { match } = this.props
         global.hashHistory.push(`${match.url}/${nodeId}`)
         // console.log('nodeId', nodeId);
     }
@@ -56,6 +56,11 @@ class Home extends React.Component<HomeProps, any> {
 
     }
     componentWillMount() {
+        let { match } = this.props
+        const mp: any = matchPath(this.props.location.pathname, {
+            path: `${match.url}/:nodeId`
+        })
+        let nodeId = mp.params.nodeId
     }
     componentDidMount() {
         this.getKpisAndThresholds();
@@ -88,7 +93,7 @@ class Home extends React.Component<HomeProps, any> {
                                     )} />
                                 </Switch>
                             ) : (
-                                    <Spin />
+                                    <div>loading</div>
                                 )
                         }
                     </div>
