@@ -30,9 +30,11 @@ export interface HomeProps {
 class Home extends React.Component<HomeProps, any> {
     constructor(props) {
         super(props);
+
     }
     onTreeSelect(nodeId) {
-        // console.log('nodeId', nodeId);
+        let { match } = this.props
+        global.hashHistory.push(`${match.url}/${nodeId}`)
     }
     triggerResize() {
         let e: Event = document.createEvent('Event');
@@ -51,6 +53,8 @@ class Home extends React.Component<HomeProps, any> {
     }
     getInfoDetail() {
 
+    }
+    componentWillMount() {
     }
     componentDidMount() {
         this.getKpisAndThresholds();
@@ -71,7 +75,7 @@ class Home extends React.Component<HomeProps, any> {
                     defaultSize={200}
                     onChange={this.triggerResize} >
                     <div className={styles.tree}>
-                        <TreeSelect onSelect={this.onTreeSelect} data={this.props.tree} />
+                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} />
                     </div>
                     <div className={styles.main}>
                         {
