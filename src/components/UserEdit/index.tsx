@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import styles from './index.less';
+import UserForm from '../UserForm/'
 
 export interface UserEditProps {
     data?
@@ -8,6 +9,7 @@ export interface UserEditProps {
     visible
     handleOk
     handleCancel
+    modalTitle?
 }
 
 export default class UserEdit extends React.PureComponent<UserEditProps, any> {
@@ -28,14 +30,14 @@ export default class UserEdit extends React.PureComponent<UserEditProps, any> {
         return (
             <div className={styles.useredit}>
                 <Modal
-                    title="新建用户"
+                    title={this.props.modalTitle}
+                    cancelText="取消"
+                    okText="确定"
                     visible={visible}
                     onOk={this.handleOk.bind(this)}
                     onCancel={this.handleCancel.bind(this)}
                 >
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                    <UserForm />
                 </Modal>
             </div>
         );

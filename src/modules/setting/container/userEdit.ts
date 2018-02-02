@@ -2,14 +2,12 @@ const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
 
 import HomeActionCreatorsMap from '../actions/index'
-import Log from '../views/log'
-
+import UserEdit from '../views/userEdit'
 function mapProps(state) {
     return {
         name: state.settingReducer.name,
         config: state.settingReducer.config,
-        tree: state.commonReducer.tree,
-        logList: state.settingReducer.logList
+        // userInfo: state.settingReducer.userInfo
     }
 }
 function mapDispatchToProps(dispatch) {
@@ -18,4 +16,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapProps, mapDispatchToProps)(Log)
+export default connect(mapProps, mapDispatchToProps)(UserEdit)

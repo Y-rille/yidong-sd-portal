@@ -66,6 +66,7 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                 tickmarkPlacement: null,
                 type: 'category',
                 categories: data.x_value
+
             },
             yAxis: {
                 title: {
@@ -84,6 +85,7 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
                 formatter: function () {
                     return this.x + ' : ' + this.y + data.kpiUnit
                 }
+
             },
             series: seriesData,
             responsive: {

@@ -8,8 +8,7 @@ import Home from '../views/home'
 function mapProps(state) {
     return {
         name: state.settingReducer.name,
-        config: state.settingReducer.config,
-        tree: state.commonReducer.tree
+        config: state.settingReducer.config
     }
 }
 function mapDispatchToProps(dispatch) {

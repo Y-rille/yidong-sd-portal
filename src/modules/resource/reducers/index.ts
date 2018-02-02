@@ -1,20 +1,15 @@
 import ActionTypes from '../constants/actionTypes'
+import * as SI from 'seamless-immutable';
 
-const merge = require('lodash/merge')
+const ResourceState = SI.from({
+    name: 'RESOURCE',
+    config: {}
+});
 
-class ResourceState {
-    name: string;
-    config: Object
-    constructor() {
-        this.name = 'RESOURCE'
-        this.config = {}
-    }
-}
-
-let resourceReducer = (state = new ResourceState(), action = null) => {
+let resourceReducer = (state = ResourceState, action = null) => {
     switch (action.type) {
         case ActionTypes.RESOURCE_SAY_HELLO:
-            return merge({}, state, action)
+            return state.merge(action, { deep: true })
         default:
             return state
     }

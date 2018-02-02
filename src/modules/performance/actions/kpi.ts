@@ -7,15 +7,6 @@ import { MatchingDimensionsParams, DataParams } from '../api/kpiAPI'
  * 查询分析模型包
  * @param cb 
  */
-export const demo = (cb) => (dispatch) => {
-  let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, demo: [{ d: ['3', '4'], ee: 'aa' }, {}, {}, { ss: 'ss' }] }
-  dispatch(action);
-}
-
-/**
- * 查询分析模型包
- * @param cb 
- */
 export const getPackages = (cb) => (dispatch) => {
   return kpiAPI.getPackages().then((res: any) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nfvdPm: res.data[0] }
@@ -103,10 +94,10 @@ export const getKpiThresholds = (kpiId, cb) => (dispatch) => {
  */
 export const getMoInstKpiThresholds = (moTypeId, moInstId, cb) => (dispatch) => {
   return kpiAPI.getMoInstKpiThresholds(moTypeId, moInstId).then((res: any) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: res.data }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: res.data.data }
     dispatch(action);
     if (cb) {
-      cb(res.data)
+      cb(res.data.data)
     }
   }).catch((err) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moInstKpiThresholds: null }
@@ -125,13 +116,13 @@ export const getMoInstKpiThresholds = (moTypeId, moInstId, cb) => (dispatch) => 
  */
 export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
   return kpiAPI.getData(packageId, params).then((res: any) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: res.body }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: res.data }
     dispatch(action);
     if (cb) {
       cb(null)
     }
   }).catch((err) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, data: null }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: null }
     dispatch(action);
     if (cb) {
       cb(err)
@@ -148,10 +139,10 @@ export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
 
 export const getMoTypeKpis = (moTypeId, timeDimensionId, cb) => (dispatch) => {
   return kpiAPI.getMoTypeKpis(moTypeId, timeDimensionId).then((res: any) => {
-    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: res.data }
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: res.data.data }
     dispatch(action);
     if (cb) {
-      cb(res.data)
+      cb(res.data.data)
     }
   }).catch((err) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: null }

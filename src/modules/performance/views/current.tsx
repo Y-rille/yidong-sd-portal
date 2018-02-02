@@ -11,6 +11,8 @@ import { Row, Col, Icon } from 'antd';
 import InstrumentPanel from '../../../components/InstrumentPanel'
 import InstrumentCard from '../../../components/InstrumentCard'
 import styles from '../style/index.less'
+import getKpiData from '../utils/getKpiData'
+import moment from '../../../common/moment'
 
 let testData = [
     {
@@ -64,42 +66,54 @@ class Current extends React.Component<any, any> {
             showOne: false
         })
     }
+    componentWillMount() {
+        let moTypeKpis = this.props.moTypeKpis
+        if (moTypeKpis) {
+            let facts = []
+            for (let i = 0; i < 4; i++) {
+                if (moTypeKpis[i]) {
+                    facts.push(moTypeKpis[i].kpiId)
+                }
+            }
+            var str_facts = facts.join(',')
+            this.getData(str_facts)
+        }
 
-    componentWillUpdate(nextProps: any, nextState) {
-        console.warn('Current componentWillUpdate');
+    }
+    getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(15, 'minutes').format(), endtime = moment().tz('Asia/Shanghai'), timeFilter = null) {
+        let DataParams = {
+            facts: facts,
+            begintime,
+            endtime,
+            // wheredim,
+        }
+        this.props.actions.getData('value_pack_vim', DataParams)
+    }
+    componentDidMount() {
+
     }
 
-    demo() {
-        this.props.actions.demo()
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.kpis && nextProps.kpis !== this.props.kpis) {
+            this.getData(nextProps.kpis)
+        }
     }
     renderCard() {
 
     }
     render() {
-        // console.log('-------------------------', this.props.demo);
+        if (this.props.kpidata) {
+            let result = getKpiData(this.props.moTypeKpis, this.props.moInstKpiThresholds, this.props.kpidata)
+        }
         return (
             <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
-                {/* <a href="javascript:void(0)" onClick={this.demo.bind(this)}>demo</a> */}
                 {testData.map((item, index) => {
                     return (
                         <InstrumentCard key={index} data={item} />
                     )
                 })}
-                {/*<InstrumentCard data={{
-                    title: '速度',
-                    min: 0,
-                    max: 100,
-                    current: 65,
-                    gradient: false,
-                    unit: '$'
-                }} />
-               
-                <Col className="gutter-row" span={12}>
-                    <div className="gutter-box">当前状态</div>
-                </Col>*/}
-
             </Row>
-        );
+        )
     }
 }
 

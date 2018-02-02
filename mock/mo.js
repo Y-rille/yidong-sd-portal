@@ -633,8 +633,9 @@ let querytree = {
                 "nodeName": "VENDOR",
                 "lablePath": "厂家资源树/主机/华为",
                 "dataType": 1,
-                "queryField": "VENDOR",
-                "queryValue": "华为",
+                "queryParams": {
+                  "VENDOR": "华为"
+                },
                 "queryUri": "/datashare-svr/api/moinst/1/querydata",
                 "queryMethod": "POST",
                 "children": [
@@ -644,6 +645,12 @@ let querytree = {
                     "nodeName": "D04-hpeDL380-COMP09",
                     "lablePath": "厂家资源树/主机/华为/D04-hpeDL380-COMP09",
                     "dataType": 2,
+                    "bizFields": {
+                      "moTypeId": "1",
+                      "moDimensionId": "T_HOST",
+                      "moInstId": "4",
+                      "moTypeEnName": "HOST"
+                    },
                     "queryUri": "/datashare-svr/api/moinst/1/4",
                     "queryMethod": "GET"
                   }
