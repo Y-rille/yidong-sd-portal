@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 
-import {Row, Breadcrumb} from 'antd';
+import { Row, Breadcrumb } from 'antd';
 import TreeSelect from '../../../components/TreeSelect'
 import DynamicPropertiesPanel from '../../../components/DynamicPropertiesPanel'
 import SearchResultPanel from '../../../components/SearchResultPanel'
@@ -232,7 +232,7 @@ class Home extends React.Component<any, any> {
     }
 
     getSearchResult(result) {
-        this.setState({result: result})
+        this.setState({ result: result })
     }
 
     render() {
@@ -245,7 +245,7 @@ class Home extends React.Component<any, any> {
                     defaultSize={200}
                     onChange={this.triggerResize}>
                     <div className={styles.tree}>
-                        <TreeSelect onSearch={this.getSearchResult}/>
+                        <TreeSelect data={this.props.tree} onSearch={this.getSearchResult} />
                     </div>
                     <div className={styles.main}>
                         <div className={styles.header}>
@@ -258,8 +258,8 @@ class Home extends React.Component<any, any> {
                             </Breadcrumb>
                         </div>
 
-                        <DynamicPropertiesPanel attributes={attributes} data={data}/>
-                        <SearchResultPanel result={this.state.result}/>
+                        <DynamicPropertiesPanel attributes={attributes} data={data} />
+                        <SearchResultPanel result={this.state.result} />
                     </div>
                 </SplitPane>
             </Row>
