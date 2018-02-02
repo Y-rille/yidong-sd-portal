@@ -22,6 +22,7 @@ export interface InfoProps {
   tree?
   actions?
   nodeInfo?
+  timeFilter?
 }
 
 export default class Info extends React.Component<InfoProps, any> {

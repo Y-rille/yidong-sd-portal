@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
 import moment from '../../../common/moment'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
 
 import TreeSelect from '../../../components/TreeSelect'
 
@@ -24,6 +24,7 @@ export interface HomeProps {
     moInstKpiThresholds?
     moTypeKpis?
     tree?
+    timeFilter?
 }
 
 class Home extends React.Component<HomeProps, any> {
@@ -41,17 +42,23 @@ class Home extends React.Component<HomeProps, any> {
         this.props.actions.getMoInstKpiThresholds(1, 1, (data) => {
         })
     }
-    goInfoDetail() {
+    getTimeFilter() {
+        this.props.actions.getTimeFilter((data) => {
+        })
+    }
+    getInfoDetail() {
 
     }
     componentDidMount() {
-        this.getKpisAndThresholds()
+        this.getKpisAndThresholds();
+        this.getTimeFilter();
     }
     render() {
         // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
         // console.log(`开始时间:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf()}`)
         // console.log(`结束时间:${moment().tz('Asia/Shanghai').valueOf()}`)
         let { match, tree } = this.props
+        // console.log(this.props.timeFilter)
         return (
             <Row className={styles.performance}>
                 <SplitPane
@@ -67,13 +74,13 @@ class Home extends React.Component<HomeProps, any> {
                         {
                             (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
                                 <Switch>
-                                    <Route path={`${match.url}/:nodeId`} component={Info} />
+                                    <Route path={`${match.url}/:moTypeId/:moInstId`} component={Info} />
                                     <Route render={() => (
                                         <h3>Please select a node.</h3>
                                     )} />
                                 </Switch>
                             ) : (
-                                    <div><Spin /></div>
+                                    <div>loading</div>
                                 )
                         }
                     </div>
