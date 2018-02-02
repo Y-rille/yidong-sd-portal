@@ -190,14 +190,17 @@ class Current extends React.Component<any, any> {
     }
     componentWillMount() {
         let moTypeKpis = this.props.moTypeKpis.data
-        let facts = []
-        for (let i = 0; i < 4; i++) {
-            if (moTypeKpis[i]) {
-                facts.push(moTypeKpis[i].kpiId)
+        if (moTypeKpis) { 
+            let facts = []
+            for (let i = 0; i < 4; i++) {
+                if (moTypeKpis[i]) {
+                    facts.push(moTypeKpis[i].kpiId)
+                }
             }
+            var str_facts = facts.join(',')
+            this.getData(str_facts)
         }
-        var str_facts = facts.join(',')
-        this.getData(str_facts)
+        
     }
     getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(15, 'minutes').format(), endtime = moment().tz('Asia/Shanghai'), timeFilter = null) { 
         let DataParams = {

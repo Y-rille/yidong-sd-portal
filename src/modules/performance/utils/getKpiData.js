@@ -249,17 +249,15 @@ function getKpiData(moTypeKpis,moInstKpiThresholds,kpidate) {
     }    
     //将阈值信息合并到指标信息中
     let  meragemoInstKpiThresholds = (d1,moInstKpiThresholds) => { 
-        let y_data = moInstKpiThresholds.data
         d1.forEach(item => { 
-            item.threshold = _.filter(y_data, function(o) { return item.kpiId==o.kpiId; })[0];
+            item.threshold = _.filter(moInstKpiThresholds, function(o) { return item.kpiId==o.kpiId; })[0];
         })
         return d1
     }
     // 合并指标的一些基本信息，比如单位，标题等
     let mergeinfo = (d2, moTypeKpis) => { 
-        let b_data = moTypeKpis.data
         d2.forEach(item => { 
-            let obj = _.filter(b_data, function (o) { return item.kpiId == o.kpiId; })[0];
+            let obj = _.filter(moTypeKpis, function (o) { return item.kpiId == o.kpiId; })[0];
             item.kpiName = obj.kpiName
             item.kpiUnit = obj.kpiUnit
             item.maxValue = obj.maxValue
