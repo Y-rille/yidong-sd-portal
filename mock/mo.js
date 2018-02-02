@@ -633,8 +633,9 @@ let querytree = {
                 "nodeName": "VENDOR",
                 "lablePath": "厂家资源树/主机/华为",
                 "dataType": 1,
-                "queryField": "VENDOR",
-                "queryValue": "华为",
+                "queryParams": {
+                  "VENDOR": "华为"
+                },
                 "queryUri": "/datashare-svr/api/moinst/1/querydata",
                 "queryMethod": "POST",
                 "children": [

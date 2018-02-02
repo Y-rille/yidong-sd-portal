@@ -26,17 +26,30 @@ export default class Info extends React.Component<InfoProps, any> {
     super(props);
     let { match } = this.props
     let { pathname } = this.props.location
+
+    // 设置默认选中的值
+    let { moTypeKpis } = this.props
+    let facts = []
+    for (let i = 0; i < 4; i++) {
+      if (moTypeKpis[i]) {
+        facts.push(moTypeKpis[i].kpiId)
+      }
+    }
+    var str_facts = facts.join(',')
     this.state = {
       activeKey: _.compact([
         matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
         matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
       ]).toString(),
       visible: false,
+      facts: str_facts,
     };
   }
-  handleOk() {
+  handleOk(kpis) {
+    var str_facts = kpis.join(',')
     this.setState({
-      visible: false
+      visible: false,
+      facts: str_facts,
     })
   }
   handleCancel() {
@@ -105,8 +118,8 @@ export default class Info extends React.Component<InfoProps, any> {
           (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
             <Switch>
               <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-              <Route path={`${match.url}/current`} render={() => <Current />} />
-              <Route path={`${match.url}/history`} render={() => <History />} />
+              <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.facts} />} />
+              <Route path={`${match.url}/history`} render={() => <History kpis={this.state.facts} />} />
             </Switch>
           ) : (
               <div><Spin /></div>
