@@ -17,8 +17,7 @@
                 border-bottom: 1px solid #e2e4e9;                               
             }
             .title {
-                margin-top: @margin-base;
-                margin-bottom: 0;
+                margin-bottom: 8px;
                 font-size: 20px;
                 color: #525459;
                 font-weight: normal;
@@ -31,24 +30,25 @@
                 }
             }
     }
-    ._title {
-        margin-top: @margin-base;
-        margin-bottom: @margin-base;
-        font-size: 20px;
-        color: #525459;
-        font-weight: normal;
-    }
-    .search{
-        width: 300px;
-        margin-left: 8px;
-    }
     .leftBg{
         background: #fff;
         li:nth-child(2){
             border-top: 1px solid #eee
         }
     }
-    
+    .filter{
+        margin-bottom: 8px;
+        .search{
+            width: 300px;
+            margin-left: 8px;
+        }
+        .search_bn{
+            margin-left: 8px
+        }
+        .bn{
+            float: right
+        }
+    }
 }
 
 :global {
