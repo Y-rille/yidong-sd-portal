@@ -54,11 +54,12 @@ class History extends React.Component<any, any> {
         this.state = {
             begintime: moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(),
             endtime: moment().tz('Asia/Shanghai').valueOf(),
-            timeFilter: ''
+            timeFilter: '',
+            facts: ''
         };
     }
     inquire(longTime, selectValue) {
-        let facts = '4,5'
+        let facts = this.state.facts
         let begintime = longTime.length > 0 ? longTime[0] : null
         let endtime = longTime.length > 0 ? longTime[1] : null
         let timeFilter = selectValue !== '' ? selectValue : null
@@ -67,7 +68,7 @@ class History extends React.Component<any, any> {
             endtime,
             timeFilter
         })
-        this.getData('4,5', begintime, endtime, timeFilter)
+        this.getData(facts, begintime, endtime, timeFilter)
 
     }
 
@@ -80,7 +81,6 @@ class History extends React.Component<any, any> {
             timeFilter
 
         }
-        // console.log(DataParams)
         this.props.actions.getData(packageId, DataParams)
     }
     componentWillMount() {
@@ -93,6 +93,7 @@ class History extends React.Component<any, any> {
                 }
             }
             var str_facts = facts.join(',')
+            this.setState({facts: str_facts})
             // 默认获取前四个指标的信息
             this.getData(str_facts)
         }
@@ -114,8 +115,7 @@ class History extends React.Component<any, any> {
         let moTypeKpis = this.props.moTypeKpis
         let kpidata = this.props.kpidata
         if (moInstKpiThresholds && moTypeKpis && kpidata) {
-            let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata)
-            // console.log('result: ', result);
+            let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.state.facts)
             return (
                 <div>
                     <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
