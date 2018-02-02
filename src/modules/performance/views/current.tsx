@@ -11,6 +11,7 @@ import { Row, Col, Icon } from 'antd';
 import InstrumentPanel from '../../../components/InstrumentPanel'
 import InstrumentCard from '../../../components/InstrumentCard'
 import styles from '../style/index.less'
+import deepPick from '../utils/deepPick'
 import getKpiData from '../utils/getKpiData'
 import moment from '../../../common/moment'
 
@@ -47,12 +48,14 @@ let testData = [
         'minValue': '0'
     }
 ]
+
 class Current extends React.Component<any, any> {
     instrumentPanel_1: any
     constructor(props) {
         super(props);
         this.state = {
-            showOne: true
+            showOne: true,
+            facts: ''
         };
     }
     tabClick() {
@@ -76,6 +79,7 @@ class Current extends React.Component<any, any> {
                 }
             }
             var str_facts = facts.join(',')
+            this.setState({ facts: str_facts })
             this.getData(str_facts)
         }
 
@@ -90,7 +94,7 @@ class Current extends React.Component<any, any> {
         this.props.actions.getData('value_pack_vim', DataParams)
     }
     componentDidMount() {
-
+        // let f = deepPick('5', testdadadadata)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -102,18 +106,27 @@ class Current extends React.Component<any, any> {
 
     }
     render() {
-        if (this.props.kpidata) {
-            let result = getKpiData(this.props.moTypeKpis, this.props.moInstKpiThresholds, this.props.kpidata)
+        let moInstKpiThresholds = this.props.moInstKpiThresholds
+        let moTypeKpis = this.props.moTypeKpis
+        let kpidata = this.props.kpidata
+
+        if (moInstKpiThresholds && moTypeKpis && kpidata) {
+            // console.log(getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.state.facts), '---')
+            let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.state.facts)
+
+            return (
+                <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
+                    {result.map((item, index) => {
+                        return (
+                            <InstrumentCard key={index} data={item} />
+                        )
+                    })}
+                </Row>
+            )
+        } else {
+            return <div></div>
         }
-        return (
-            <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
-                {testData.map((item, index) => {
-                    return (
-                        <InstrumentCard key={index} data={item} />
-                    )
-                })}
-            </Row>
-        )
+
     }
 }
 
