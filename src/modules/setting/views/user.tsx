@@ -74,11 +74,7 @@ class User extends React.PureComponent<UserProps, any> {
     }
     goEdit(id) {
         // 编辑
-        this.setState({
-            visible: true,
-            currentId: true
-        });
-
+        global.hashHistory.replace(`/setting/user/edit/${id}`)
     }
     goDelete(userId, email) {
         let self = this
@@ -141,7 +137,6 @@ class User extends React.PureComponent<UserProps, any> {
         this.getDataFn(queryObj)
     }
     render() {
-        let modalTitle = this.state.currentId ? '编辑用户' : '创建用户'
         let { page_num, page_size, query_key } = this.state
         let userList = this.props.userList
         let canRender = false
@@ -159,7 +154,7 @@ class User extends React.PureComponent<UserProps, any> {
                 <Route render={() => (
                     <Row className={styles.setting}>
                         <div className={styles.cont}>
-                            <div className="header">
+                            <div className={styles.header}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item>首页</Breadcrumb.Item>
                                     <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
@@ -175,11 +170,11 @@ class User extends React.PureComponent<UserProps, any> {
                                 />
                             </div>
                             <UserTable
+                                showModal={this.showModal.bind(this)}
                                 goDelete={this.goDelete.bind(this)}
                                 goPage={this.goPage.bind(this)}
                                 page_num={page_num}
                                 page_size={page_size}
-                                showModal={this.showModal.bind(this)}
                                 goEdit={this.goEdit.bind(this)}
                                 userList={userList}
                             />

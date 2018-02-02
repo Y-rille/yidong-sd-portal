@@ -28,7 +28,7 @@ export interface ListParams {
   page_num?: number,
   query_key?: string,
   order_by?: string,
-  order?: string 
+  order?: string
 }
 
 class UserAPI {

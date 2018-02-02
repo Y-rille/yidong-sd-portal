@@ -108,19 +108,21 @@ class Log extends React.PureComponent<LogProps, any> {
         // }
         return (
             <Row className={styles.setting}>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>首页</Breadcrumb.Item>
-                        <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                        <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <h1 className={styles._title}>日志管理</h1>
-                    <Search
-                        className={styles.search}
-                        placeholder="请输入关键字"
-                        defaultValue={query_key}
-                        onSearch={value => this.searchHandler(value)}
-                    />
+                <div className={styles.cont}>
+                    <div className={styles.header}>
+                        <Breadcrumb>
+                            <Breadcrumb.Item>首页</Breadcrumb.Item>
+                            <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
+                            <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                        </Breadcrumb>
+                        <h1 className={styles._title}>日志管理</h1>
+                        <Search
+                            className={styles.search}
+                            placeholder="请输入关键字"
+                            defaultValue={query_key}
+                            onSearch={value => this.searchHandler(value)}
+                        />
+                    </div>
                     <LogTable
                         goPage={this.goPage.bind(this)}
                         page_num={page_num}
