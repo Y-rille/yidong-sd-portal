@@ -109,7 +109,7 @@ class Current extends React.Component<any, any> {
                 </Row>
             )
         } else {
-            return <div>jjj</div>
+            return <div></div>
         }
     }
 }
