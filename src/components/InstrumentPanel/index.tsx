@@ -33,8 +33,11 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
     }
     componentDidMount() {
         let { data } = this.props
-        let unit = data.unit || ''
-        let middle = data.max / 2
+        let unit = data.kpiUnit || ''
+        let min = parseFloat(data.minValue)
+        let max = parseFloat(data.maxValue)
+        let current = parseFloat(data.val[0])
+        let middle = (max - min) / 2
         var options = {
             chart: {
                 type: 'solidgauge'
@@ -54,7 +57,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                 background: {
                     backgroundColor: '#EEE',
                     innerRadius: '80%', // 刻度內轴位置，厚度
-                    outerRadius: '100%', // 刻度外轴
+                    outerRadius: '95%', // 刻度外轴
                     shape: 'arc',
                     borderWidth: 0
                 }
@@ -69,8 +72,8 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             },
             yAxis: {
                 stops: compact([ // 进度条颜色，从0-1
-                    this.props.data.gradient && [0.44, 'red'],
-                    [1, '#00b388']
+                    // this.props.data.gradient && [0.44, 'red'],
+                    [1, '#7cd8ba']
                 ]),
                 lineWidth: 0,
                 minorTickInterval: null,
@@ -102,39 +105,108 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             exporting: { enabled: false },
             series: [{
                 dataLabels: {
-                    format: '<div style="text-align:center"><span style="font-size:34px;color:rgba(0, 0, 0, 0.8);">{y}' + unit + '</span></div>',
+                    format: '<div style="text-align:center"><span style="font-size:24px;color:rgba(0, 0, 0, 0.8);">{y}' + unit + '</span></div>',
                     enabled: true
                 }
             }]
-
         }
+
+        let plotBandsArr: Array<object> = [] // 刻度线
+        let stopsArr: Array<object> = [] // 进度条
+
+        let plotBandsColor = ['#ffe780', '#f3820f', '#ef3233'] // '#7cd8ba'
+        let plotBandsOpt = [
+            // { // 暂时去掉了
+            //     plot: 'normalThresholdValue',
+            //     color: 'blue',
+            // },
+            {
+                plot: 'minorThresholdValue',
+                color: '#ffe780',
+            },
+            {
+                plot: 'majorThresholdValue',
+                color: '#f3820f'
+            },
+            {
+                plot: 'criticalThresholdValue',
+                color: '#ef3233'
+            }]
+        if (data.threshold) {
+            for (let i = 0; i < plotBandsOpt.length; i++) {
+                let plot = data.threshold[plotBandsOpt[i].plot]
+                if (plot.length > 0) {
+                    plot = parseFloat(plot)
+                    let plotBandsobj1 = {
+                        from: plotBandsArr.length === 0 ? min : plotBandsArr[plotBandsArr.length - 1]['to'],
+                        to: plot,
+                        color: plotBandsArr.length === 0 ? '#7cd8ba' : plotBandsOpt[i - 1]['color'],
+                        innerRadius: '95%',
+                        outerRadius: '98%'
+                    }
+                    plotBandsArr.push(plotBandsobj1)
+
+                    let stopsobj1 = stopsArr.length === 0 ? [(plot / max), '#7cd8ba'] : [(plot / max), plotBandsOpt[i - 1]['color']]
+                    stopsArr.push(stopsobj1)
+
+                    if (i === plotBandsOpt.length - 1) {
+                        let plotBandsobj2 = {
+                            from: plotBandsArr.length === 0 ? min : plotBandsArr[plotBandsArr.length - 1]['to'],
+                            to: max,
+                            color: plotBandsArr.length === 0 ? '#7cd8ba' : plotBandsOpt[i]['color'],
+                            innerRadius: '95%',
+                            outerRadius: '98%'
+                        }
+                        plotBandsArr.push(plotBandsobj2)
+
+                        let stopsobj2 = [1, plotBandsOpt[i]['color']]
+                        stopsArr.push(stopsobj2)
+                    }
+                } else {
+                    plotBandsOpt = plotBandsOpt.splice(i, 1)
+                }
+            }
+
+        } else {
+            stopsArr = [[1, '#7cd8ba']]
+        }
+
         let chose_options = {
             yAxis: {
-                min: data.min,
-                max: data.max,
+                min: min,
+                max: max,
                 // title: {
                 //     text: data.title
                 // },
-                // plotBands: [{   // 刻度条颜色
+                stops: stopsArr,
+                tickPosition: 'outside',
+                plotBands: plotBandsArr,
+                // [{   // 刻度条颜色
                 //     from: 0,
                 //     to: 120,
-                //     color: '#55BF3B' // green
+                //     color: '#7cd8ba', // green
+                //     innerRadius: '95%',
+                //     outerRadius: '98%'
                 // }, {
-                //     from: 120,
+                //     from: 50,
                 //     to: 160,
-                //     color: '#DDDF0D' // yellow
+                //     color: '#ffe780', // yellow
+                //     innerRadius: '95%',
+                //     outerRadius: '98%'
                 // }, {
                 //     from: 160,
                 //     to: 200,
-                //     color: '#DF5353' // red
+                //     color: '#fba277', // red
+                //     innerRadius: '95%',
+                //     outerRadius: '98%'
                 // }]
             },
 
             series: [{
                 data: [{
-                    radius: 100,
+                    radius: 95,
                     innerRadius: 80,
-                    y: data.current
+                    y: current
                 }],
 
             }]

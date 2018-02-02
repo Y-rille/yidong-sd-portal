@@ -40,6 +40,40 @@ let alldata = [{
     }]
 }]
 
+let testData = [
+    {
+        'kpiId': '4',
+        'x_value': [15149772, 15149781, 15149790, 15149799, 15149808, 15149817, 15149826, 15149826, 15149835, 15149844, 15149853, 15149862, 15149871],
+        'val': [13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072, 13072],
+        'kpiName': '主机.可用内存',
+        'kpiUnit': 'MB',
+        'maxValue': '0',
+        'minValue': '131072'
+    },
+    {
+        'kpiId': '5',
+        'x_value': [15149772, 15149781, 15149790, 15149799, 15149808, 15149817, 15149826, 15149826, 15149835, 15149844, 15149853, 15149862, 15149871],
+        'val': [2111, 2343, 17644, 13211, 24222, 34222, 34222, 16072, 34222, 34222, 34222, 34222, 34222],
+        'threshold': {
+            'thresholdId': 1,
+            'kpiId': 5,
+            'criticalThresholdOperator': '>',
+            'criticalThresholdValue': '30000',
+            'majorThresholdOperator': '>',
+            'majorThresholdValue': '20000',
+            'minorThresholdOperator': '>',
+            'minorThresholdValue': '14000',
+            'normalThresholdOperator': '>',
+            'normalThresholdValue': '5000',
+            'state': 1
+        },
+        'kpiName': '主机.网络端口发送速率',
+        'kpiUnit': 'Mbps',
+        'maxValue': '0',
+        'minValue': '1024'
+    }
+]
+
 class History extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -50,7 +84,7 @@ class History extends React.Component<any, any> {
         // console.log(longTime, selectValue);
     }
     renderLineChartCard() {
-        return alldata.map((item, index) => {
+        return testData.map((item, index) => {
             return (
                 <LineChartCard key={index} data={item} />
             )
