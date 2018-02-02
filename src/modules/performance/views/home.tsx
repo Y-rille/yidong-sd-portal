@@ -30,11 +30,19 @@ export interface HomeProps {
 class Home extends React.Component<HomeProps, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            defaultNodeId: []
+        }
 
     }
     onTreeSelect(nodeId) {
         let { match } = this.props
         global.hashHistory.push(`${match.url}/${nodeId}`)
+        let defaultNodeIdArr = []
+        defaultNodeIdArr.push(nodeId)
+        this.setState({
+            defaultNodeId: defaultNodeIdArr
+        })
     }
     triggerResize() {
         let e: Event = document.createEvent('Event');
@@ -59,7 +67,13 @@ class Home extends React.Component<HomeProps, any> {
         const mp: any = matchPath(this.props.location.pathname, {
             path: `${match.url}/:nodeId`
         })
-        let nodeId = mp.params.nodeId
+        if (mp) {
+            let defaultNodeIdArr = []
+            defaultNodeIdArr.push(mp.params.nodeId)
+            this.setState({
+                defaultNodeId: defaultNodeIdArr
+            })
+        }
     }
     componentDidMount() {
         this.getKpisAndThresholds();
@@ -80,7 +94,7 @@ class Home extends React.Component<HomeProps, any> {
                     defaultSize={200}
                     onChange={this.triggerResize} >
                     <div className={styles.tree}>
-                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} />
+                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} dExpandedKeys={this.state.defaultNodeId} />
                     </div>
                     <div className={styles.main}>
                         {

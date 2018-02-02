@@ -10,181 +10,10 @@ export interface TreeSelectProps {
     data?;
     onSearch?
     onSelect?
+    dExpandedKeys?
 }
 
-const treeData = [{
-    title: '0-0',
-    key: '0-0',
-    children: [{
-        title: '0-0-0',
-        key: '0-0-0',
-        children: [
-            { title: '0-0-0-0', key: '0-0-0-0' },
-            { title: '0-0-0-1', key: '0-0-0-1' },
-            { title: '0-0-0-2', key: '0-0-0-2' },
-        ],
-    }, {
-        title: '0-0-1',
-        key: '0-0-1',
-        children: [
-            { title: '0-0-1-0', key: '0-0-1-0' },
-            { title: '0-0-1-1', key: '0-0-1-1' },
-            { title: '0-0-1-2', key: '0-0-1-2' },
-        ],
-    }, {
-        title: '0-0-2',
-        key: '0-0-2',
-    }],
-}, {
-    title: '0-1',
-    key: '0-1',
-    children: [
-        { title: '0-1-0-0', key: '0-1-0-0' },
-        { title: '0-1-0-1', key: '0-1-0-1' },
-        { title: '0-1-0-2', key: '0-1-0-2' },
-    ],
-}, {
-    title: '0-2',
-    key: '0-2',
-}]
-
-let datas = [
-    {
-        'nodeLabel': '物理资源树',
-        'nodeId': '1001',
-        'nodeName': 'PhysicalResource',
-        'lablePath': '物理资源树',
-        'dataType': 0,
-        'children': [
-            {
-                'nodeLabel': '萧山产业园',
-                'nodeId': '2001',
-                'nodeName': 'DataCenter',
-                'lablePath': '物理资源树/萧山产业园',
-                'dataType': 1,
-                'queryUri': '/datashare-svr/api/moinst/1/querydata',
-                'queryMethod': 'POST',
-                'children': [
-                    {
-                        'nodeLabel': '机柜G08',
-                        'nodeId': '3001',
-                        'nodeName': 'CABINET',
-                        'lablePath': '物理资源树/萧山产业园/机柜G08',
-                        'dataType': 1,
-                        'queryField': 'CABINET',
-                        'queryValue': '机柜G08',
-                        'queryUri': '/datashare-svr/api/moinst/2/querydata',
-                        'queryMethod': 'POST',
-                        'children': [
-                            {
-                                'nodeLabel': 'F08',
-                                'nodeId': '4001',
-                                'nodeName': 'G08-hpeDL380-COMP09',
-                                'lablePath': '物理资源树/萧山产业园/机柜G08/G08-hpeDL380-COMP09',
-                                'dataType': 2,
-                                'queryUri': '/datashare-svr/api/moinst/3/4',
-                                'queryMethod': 'GET'
-                            },
-                            {
-                                'nodeLabel': 'G08-hpe',
-                                'nodeId': '4002',
-                                'nodeName': 'G08-hpeDL380-COMP10',
-                                'lablePath': '物理资源树/萧山产业园/机柜G08/G08-hpeDL380-COMP10',
-                                'dataType': 2,
-                                'queryUri': '/datashare-svr/api/moinst/3/5',
-                                'queryMethod': 'GET'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                'nodeLabel': '萧山产业园',
-                'nodeId': '2002',
-                'nodeName': 'DataCenter',
-                'lablePath': '物理资源树/萧山产业园',
-                'dataType': 1,
-                'queryUri': '/datashare-svr/api/moinst/1/querydata',
-                'queryMethod': 'POST',
-                'children': [
-                    {
-                        'nodeLabel': '机柜G08',
-                        'nodeId': '3002',
-                        'nodeName': 'CABINET',
-                        'lablePath': '物理资源树/萧山产业园/机柜G08',
-                        'dataType': 1,
-                        'queryField': 'CABINET',
-                        'queryValue': '机柜G08',
-                        'queryUri': '/datashare-svr/api/moinst/2/querydata',
-                        'queryMethod': 'POST',
-                        'children': [
-                            {
-                                'nodeLabel': 'G08',
-                                'nodeId': '4003',
-                                'nodeName': 'G08-hpeDL380-COMP09',
-                                'lablePath': '物理资源树/萧山产业园/机柜G08/G08-hpeDL380-COMP09',
-                                'dataType': 2,
-                                'queryUri': '/datashare-svr/api/moinst/3/4',
-                                'queryMethod': 'GET'
-                            },
-                            {
-                                'nodeLabel': 'G08-hpe',
-                                'nodeId': '4004',
-                                'nodeName': 'G08-hpeDL380-COMP10',
-                                'lablePath': '物理资源树/萧山产业园/机柜G08/G08-hpeDL380-COMP10',
-                                'dataType': 2,
-                                'queryUri': '/datashare-svr/api/moinst/3/5',
-                                'queryMethod': 'GET'
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        'nodeLabel': '萧山产业园',
-        'nodeId': '1002',
-        'nodeName': 'DataCenter',
-        'lablePath': '物理资源树/萧山产业园',
-        'dataType': 1,
-        'queryUri': '/datashare-svr/api/moinst/1/querydata',
-        'queryMethod': 'POST',
-        'children': [
-            {
-                'nodeLabel': '机柜G08',
-                'nodeId': '2011',
-                'nodeName': 'CABINET',
-                'lablePath': '物理资源树/萧山产业园/机柜G08',
-                'dataType': 1,
-                'queryField': 'CABINET',
-                'queryValue': '机柜G08',
-                'queryUri': '/datashare-svr/api/moinst/2/querydata',
-                'queryMethod': 'POST',
-                'children': [
-                    {
-                        'nodeLabel': 'G08',
-                        'nodeId': '3011',
-                        'nodeName': 'G08-hpeDL380-COMP09',
-                        'lablePath': '物理资源树/萧山产业园/机柜G08/G08-hpeDL380-COMP09',
-                        'dataType': 2,
-                        'queryUri': '/datashare-svr/api/moinst/3/4',
-                        'queryMethod': 'GET'
-                    },
-                    {
-                        'nodeLabel': 'G08-hpe',
-                        'nodeId': '3012',
-                        'nodeName': 'G08-hpeDL380-COMP10',
-                        'lablePath': '物理资源树/萧山产业园/机柜G08/G08-hpeDL380-COMP10',
-                        'dataType': 2,
-                        'queryUri': '/datashare-svr/api/moinst/3/5',
-                        'queryMethod': 'GET'
-                    }
-                ]
-            }
-        ]
-    }
-]
+let datas = []
 
 const dataList = [];
 
@@ -256,7 +85,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
     constructor(props) {
         super(props);
         this.state = {
-            expandedKeys: [],
+            expandedKeys: this.props.dExpandedKeys ? this.props.dExpandedKeys : [],
             searchValue: '',
             autoExpandParent: true,
         };
@@ -343,6 +172,9 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             const afterStr = item.nodeLabel.substr(index + searchValue.length);
             const title = (item.dataType === 2 && index > -1) ? (<span>{beforeStr}<span style={{ color: '#f50' }}>{searchValue}</span>{afterStr}</span>) : <span>{item.nodeLabel}</span>;
             let selectable = (item.dataType === 2)
+            if (_.indexOf(this.props.dExpandedKeys, item.nodeId) > -1) {
+                selectable = false
+            }
             if (item.children) {
                 return (
                     <TreeNode key={item.nodeId} title={title} dataRef={item} selectable={selectable}>
@@ -353,7 +185,6 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
 
             return <TreeNode title={title} key={item.nodeId} dataRef={item} selectable={selectable} />;
         });
-
         return (
             <div className="treeSelect">
                 <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={this.onChange} />
@@ -362,6 +193,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
                     expandedKeys={expandedKeys}
                     autoExpandParent={autoExpandParent}
                     onSelect={this.onSelect.bind(this)}
+                    selectedKeys={this.props.dExpandedKeys}
                 >
                     {loop(this.props.data)}
                 </Tree>
