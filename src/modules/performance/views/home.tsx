@@ -80,11 +80,7 @@ class Home extends React.Component<HomeProps, any> {
         this.getTimeFilter();
     }
     render() {
-        // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
-        // console.log(`开始时间:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf()}`)
-        // console.log(`结束时间:${moment().tz('Asia/Shanghai').valueOf()}`)
         let { match, tree } = this.props
-        // console.log(this.props.timeFilter)
         return (
             <Row className={styles.performance}>
                 <SplitPane

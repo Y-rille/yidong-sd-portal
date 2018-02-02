@@ -186,7 +186,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             return <TreeNode title={title} key={item.nodeId} dataRef={item} selectable={selectable} />;
         });
         return (
-            <div>
+            <div className="treeSelect">
                 <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={this.onChange} />
                 <Tree
                     onExpand={this.onExpand}
