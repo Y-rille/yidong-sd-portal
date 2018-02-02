@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
 import moment from '../../../common/moment'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
 
 import TreeSelect from '../../../components/TreeSelect'
 
@@ -30,8 +30,11 @@ export interface HomeProps {
 class Home extends React.Component<HomeProps, any> {
     constructor(props) {
         super(props);
+
     }
     onTreeSelect(nodeId) {
+        let { match} = this.props
+        global.hashHistory.push(`${match.url}/${nodeId}`)
         // console.log('nodeId', nodeId);
     }
     triggerResize() {
@@ -52,6 +55,8 @@ class Home extends React.Component<HomeProps, any> {
     getInfoDetail() {
 
     }
+    componentWillMount() {
+    }
     componentDidMount() {
         this.getKpisAndThresholds();
         this.getTimeFilter();
@@ -71,7 +76,7 @@ class Home extends React.Component<HomeProps, any> {
                     defaultSize={200}
                     onChange={this.triggerResize} >
                     <div className={styles.tree}>
-                        <TreeSelect onSelect={this.onTreeSelect} data={this.props.tree} />
+                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} />
                     </div>
                     <div className={styles.main}>
                         {
@@ -83,7 +88,7 @@ class Home extends React.Component<HomeProps, any> {
                                     )} />
                                 </Switch>
                             ) : (
-                                    <Spin />
+                                    <div>loading</div>
                                 )
                         }
                     </div>
