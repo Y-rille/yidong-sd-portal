@@ -55,7 +55,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
     render() {
         var dateformat = 'YYYY-MM-DD HH:mm:ss';
         const date = [moment(this.props.defaultValue[0]).format('YYYY-MM-DD HH:mm:ss'), moment(this.props.defaultValue[1]).format('YYYY-MM-DD HH:mm:ss')]
-        const selectDate = this.props.defaultValue[2] == null ? '' : this.props.defaultValue[2];
+        const selectDate = this.props.defaultValue[2] == null ? '' : Number(this.props.defaultValue[2]);
         const timeFilter = this.props.timeFilter;
         return (
             <div style={{ marginTop: '-11px' }}>
