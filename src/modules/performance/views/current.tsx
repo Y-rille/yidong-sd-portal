@@ -113,7 +113,6 @@ class Current extends React.Component<any, any> {
         super(props);
         this.state = {
             showOne: true,
-            facts: ''
         };
     }
     tabClick() {
@@ -128,19 +127,9 @@ class Current extends React.Component<any, any> {
         })
     }
     componentWillMount() {
-        let moTypeKpis = this.props.moTypeKpis
-        if (moTypeKpis) {
-            let facts = []
-            for (let i = 0; i < 4; i++) {
-                if (moTypeKpis[i]) {
-                    facts.push(moTypeKpis[i].kpiId)
-                }
-            }
-            var str_facts = facts.join(',')
-            this.setState({facts: str_facts})
-            this.getData(str_facts)
+        if (this.props.kpis) {
+            this.getData(this.props.kpis)
         }
-
     }
     getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(15, 'minutes').format(), endtime = moment().tz('Asia/Shanghai'), timeFilter = null) {
         let DataParams = {
@@ -152,7 +141,6 @@ class Current extends React.Component<any, any> {
         this.props.actions.getData('value_pack_vim', DataParams)
     }
     componentDidMount() {
-        // let f = deepPick('5', testdadadadata)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -165,7 +153,7 @@ class Current extends React.Component<any, any> {
             let moTypeKpis = this.props.moTypeKpis
             let kpidata = this.props.kpidata
             if (moInstKpiThresholds && moTypeKpis && kpidata) {
-                let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.state.facts)
+                let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
             }
             return (
                 <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
