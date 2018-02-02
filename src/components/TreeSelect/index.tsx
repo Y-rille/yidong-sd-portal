@@ -9,6 +9,7 @@ export interface TreeSelectProps {
     // inquire?
     data?;
     onSearch?
+    onSelect?
 }
 
 const treeData = [{
@@ -328,6 +329,12 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
         }
     }
 
+    onSelect(selectedKeys, e: { selected: boolean, selectedNodes, node, event }) {
+        if (this.props.onSelect) {
+            this.props.onSelect(selectedKeys[0])
+        }
+    }
+
     render() {
         const { searchValue, expandedKeys, autoExpandParent } = this.state;
         const loop = data => data.map((item) => {
@@ -335,16 +342,16 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             const beforeStr = item.nodeLabel.substr(0, index);
             const afterStr = item.nodeLabel.substr(index + searchValue.length);
             const title = (item.dataType === 2 && index > -1) ? (<span>{beforeStr}<span style={{ color: '#f50' }}>{searchValue}</span>{afterStr}</span>) : <span>{item.nodeLabel}</span>;
-
+            let selectable = (item.dataType === 2)
             if (item.children) {
                 return (
-                    <TreeNode key={item.nodeId} title={title} dataRef={item}>
+                    <TreeNode key={item.nodeId} title={title} dataRef={item} selectable={selectable}>
                         {loop(item.children)}
                     </TreeNode>
                 );
             }
 
-            return <TreeNode title={title} key={item.nodeId} dataRef={item} />;
+            return <TreeNode title={title} key={item.nodeId} dataRef={item} selectable={selectable} />;
         });
 
         return (
@@ -354,6 +361,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
                     onExpand={this.onExpand}
                     expandedKeys={expandedKeys}
                     autoExpandParent={autoExpandParent}
+                    onSelect={this.onSelect.bind(this)}
                 >
                     {loop(this.props.data)}
                 </Tree>

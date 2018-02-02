@@ -8,7 +8,8 @@ const PerformanceState = SI.from({
     nfvdPm: null,
     moInstKpiThresholds: null,
     moTypeKpis: null,
-    kpidata: null
+    kpidata: null,
+    nodeInfo: null 
 });
 
 let performanceReducer = (state = PerformanceState, action = null) => {

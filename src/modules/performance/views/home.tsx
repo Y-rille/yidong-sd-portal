@@ -31,6 +31,9 @@ class Home extends React.Component<HomeProps, any> {
     constructor(props) {
         super(props);
     }
+    onTreeSelect(nodeId) {
+        // console.log('nodeId', nodeId);
+    }
     triggerResize() {
         let e: Event = document.createEvent('Event');
         e.initEvent('resize', true, true);
@@ -68,7 +71,7 @@ class Home extends React.Component<HomeProps, any> {
                     defaultSize={200}
                     onChange={this.triggerResize} >
                     <div className={styles.tree}>
-                        <TreeSelect data={this.props.tree} />
+                        <TreeSelect onSelect={this.onTreeSelect} data={this.props.tree} />
                     </div>
                     <div className={styles.main}>
                         {
