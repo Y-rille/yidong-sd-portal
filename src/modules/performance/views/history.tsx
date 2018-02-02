@@ -5,7 +5,7 @@ import {
     Switch,
     Route, Link
 } from 'react-router-dom'
-import { Row, Col } from 'antd';
+import { Row, Col, Spin } from 'antd';
 
 import styles from '../style/index.less'
 import TimeSelect from '../../../components/TimeSelect/';
@@ -82,7 +82,7 @@ class History extends React.Component<any, any> {
                 </div>
             );
         } else {
-            return (<div > loading</div>)
+            return <Spin />
         }
 
     }
