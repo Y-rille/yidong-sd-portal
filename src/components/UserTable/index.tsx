@@ -8,7 +8,7 @@ import moment from '../../common/moment'
 import * as _ from 'lodash';
 
 export interface UserTableProps {
-    showModal
+    showModal?
     goEdit
     userList?
     page_num?
@@ -23,6 +23,12 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         this.state = {
         };
     }
+    showModal(e) {
+        let userId = e.currentTarget.id
+        if (this.props.showModal) {
+            this.props.showModal(userId)
+        }
+    }
     goEdit() {
         this.props.goEdit();
     }
@@ -34,7 +40,6 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         }
     }
     goPage(current) {
-
         if (this.props.goPage) {
             this.props.goPage(current)
         }
@@ -65,7 +70,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
                 <span>
                     <a onClick={this.goEdit.bind(this)} href="javascript:;">编辑</a>
                     <Divider type="vertical" />
-                    <a href="javascript:;">重置密码</a>
+                    <a onClick={this.showModal.bind(this)} id={record.id} href="javascript:;">修改密码</a>
                     <Divider type="vertical" />
                     <a onClick={this.goDelete.bind(this)} rel={record.email} id={record.id} href="javascript:;" type="vertical">删除</a>
                 </span>

@@ -1,11 +1,17 @@
 import React from 'react';
-import { Tree } from 'antd';
+import * as _ from 'lodash';
+import { Tree, Input } from 'antd';
+
 const TreeNode = Tree.TreeNode;
+const Search = Input.Search;
 
 export interface TreeSelectProps {
     // inquire?
-    data?
+    data?;
+    onSearch?
+    onSelect?
 }
+
 const treeData = [{
     title: '0-0',
     key: '0-0',
@@ -42,7 +48,7 @@ const treeData = [{
     key: '0-2',
 }]
 
-const datas = [
+let datas = [
     {
         'nodeLabel': '物理资源树',
         'nodeId': '1001',
@@ -71,7 +77,7 @@ const datas = [
                         'queryMethod': 'POST',
                         'children': [
                             {
-                                'nodeLabel': 'G08',
+                                'nodeLabel': 'F08',
                                 'nodeId': '4001',
                                 'nodeName': 'G08-hpeDL380-COMP09',
                                 'lablePath': '物理资源树/萧山产业园/机柜G08/G08-hpeDL380-COMP09',
@@ -180,32 +186,186 @@ const datas = [
     }
 ]
 
+const dataList = [];
+
+const fmtDataFunc = (data) => {
+    function fmtTreeData(item, ids?) {
+        let loopIds = ids || [];
+
+        if (ids) {
+            loopIds = loopIds.filter(id => (parseInt(id, 10) < item.nodeId));
+        }
+
+        loopIds.push(item.nodeId);
+        item.idPath = loopIds.join(',');
+
+        if (item.children) {
+            loopTreeData(item.children, loopIds)
+        }
+
+        return item;
+    }
+
+    function loopTreeData(items, ids?) {
+        return items.map(item => fmtTreeData(item, ids))
+    }
+
+    return loopTreeData(data)
+};
+
+datas = fmtDataFunc(datas);
+
+const generateList = (data) => {
+    for (let i = 0; i < data.length; i++) {
+        const node = data[i];
+
+        dataList.push({
+            'nodeLabel': node.nodeLabel,
+            'nodeId': node.nodeId,
+            'idPath': node.idPath,
+            'dataType': node.dataType
+        });
+
+        if (node.children) {
+            generateList(node.children);
+        }
+    }
+};
+
+generateList(datas);
+
+const getParentKey = (nodeId, tree) => {
+    let parentKey;
+
+    for (let i = 0; i < tree.length; i++) {
+        const node = tree[i];
+
+        if (node.children) {
+            if (node.children.some(item => item.nodeId === nodeId)) {
+                parentKey = node.nodeId;
+            } else if (getParentKey(nodeId, node.children)) {
+                parentKey = getParentKey(nodeId, node.children);
+            }
+        }
+    }
+
+    return parentKey;
+};
+
 export default class TreeSelect extends React.PureComponent<TreeSelectProps, any> {
     constructor(props) {
         super(props);
         this.state = {
+            expandedKeys: [],
+            searchValue: '',
+            autoExpandParent: true,
         };
     }
-    handleClick() {
+
+    onExpand = (expandedKeys) => {
+        this.setState({
+            expandedKeys,
+            autoExpandParent: false,
+        });
     }
 
-    renderTreeNodes = (data) => {
-        return data.map((item) => {
+    onChange = (e) => {
+        const value = e.target.value;
+        const selectedKeys = [];
+
+        if (e.target.value) {
+            const expandedKeys = dataList.map((item) => {
+                if (item.nodeLabel.indexOf(value) > -1) {
+                    if (item.dataType === 2) {
+                        selectedKeys.push(item.nodeId)
+                    }
+
+                    return getParentKey(item.nodeId, datas);
+                }
+
+                return null;
+            }).filter((item, i, self) => item && self.indexOf(item) === i);
+
+            this.setState({
+                expandedKeys,
+                searchValue: value,
+                autoExpandParent: true,
+            });
+
+            let data = [];
+            let ids = [];
+
+            selectedKeys.map(key => {
+                dataList.map(item => {
+                    if (item.nodeId === key) {
+                        ids = ids.concat(item.idPath.split(','));
+                    }
+                });
+            });
+
+            ids = ids.filter((item, i, self) => item && self.indexOf(item) === i);
+
+            ids.map(id => {
+                data.push(dataList.find(item => (item.nodeId === id)))
+            });
+
+            const result = {
+                selectedKeys,
+                data,
+                searchValue: value,
+            };
+            if (this.props.onSearch) {
+                this.props.onSearch(result)
+            }
+        } else {
+            this.setState({
+                expandedKeys: [],
+                searchValue: '',
+                autoExpandParent: true,
+            });
+            if (this.props.onSearch) {
+                this.props.onSearch(null)
+            }
+        }
+    }
+
+    onSelect(selectedKeys, e: { selected: boolean, selectedNodes, node, event }) {
+        if (this.props.onSelect) {
+            this.props.onSelect(selectedKeys[0])
+        }
+    }
+
+    render() {
+        const { searchValue, expandedKeys, autoExpandParent } = this.state;
+        const loop = data => data.map((item) => {
+            const index = item.nodeLabel.indexOf(searchValue);
+            const beforeStr = item.nodeLabel.substr(0, index);
+            const afterStr = item.nodeLabel.substr(index + searchValue.length);
+            const title = (item.dataType === 2 && index > -1) ? (<span>{beforeStr}<span style={{ color: '#f50' }}>{searchValue}</span>{afterStr}</span>) : <span>{item.nodeLabel}</span>;
+            let selectable = (item.dataType === 2)
             if (item.children) {
                 return (
-                    <TreeNode title={item.nodeLabel} key={item.nodeId} dataRef={item}>
-                        {this.renderTreeNodes(item.children)}
+                    <TreeNode key={item.nodeId} title={title} dataRef={item} selectable={selectable}>
+                        {loop(item.children)}
                     </TreeNode>
                 );
             }
-            return <TreeNode title={item.nodeLabel} key={item.nodeId} dataRef={item} />;
+
+            return <TreeNode title={title} key={item.nodeId} dataRef={item} selectable={selectable} />;
         });
-    }
-    render() {
+
         return (
-            <Tree autoExpandParent>
-                {this.renderTreeNodes(this.props.data)}
-            </Tree>
+            <div>
+                <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={this.onChange} />
+                <Tree
+                    onExpand={this.onExpand}
+                    expandedKeys={expandedKeys}
+                    autoExpandParent={autoExpandParent}
+                    onSelect={this.onSelect.bind(this)}
+                >
+                    {loop(this.props.data)}
+                </Tree>
+            </div>
         );
     }
 }

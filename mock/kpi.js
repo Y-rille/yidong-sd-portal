@@ -248,13 +248,13 @@ let getKpiThresholds = {
           "thresholdId": 1,
           "kpiId": 1,
           "criticalThresholdOperator": ">",
-          "criticalThresholdValue": "15542",
+          "criticalThresholdValue": "40",
           "majorThresholdOperator": ">",
-          "majorThresholdValue": "12332",
+          "majorThresholdValue": "30",
           "minorThresholdOperator": ">",
-          "minorThresholdValue": "10000",
+          "minorThresholdValue": "20",
           "normalThresholdOperator": ">",
-          "normalThresholdValue": "1000",
+          "normalThresholdValue": "-1",
           "state": 1
         }
       ]
@@ -275,13 +275,13 @@ let getMoInstKpiThresholds = {
           "thresholdId": 1,
           "kpiId": 5,
           "criticalThresholdOperator": ">",
-          "criticalThresholdValue": "40",
+          "criticalThresholdValue": "15660",
           "majorThresholdOperator": ">",
-          "majorThresholdValue": "30",
+          "majorThresholdValue": "12330",
           "minorThresholdOperator": ">",
-          "minorThresholdValue": "20",
+          "minorThresholdValue": "10000",
           "normalThresholdOperator": ">",
-          "normalThresholdValue": "-1",
+          "normalThresholdValue": "5000",
           "state": 1
         }
       ]
@@ -399,7 +399,7 @@ let getData = {
           [
             1514977200000,
             "D03-hpeDL380-COMP04",
-            13072,
+            13072
           ]
         ],
         "status": "OK",

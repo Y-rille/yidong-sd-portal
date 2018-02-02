@@ -1,6 +1,7 @@
 import {
     getList,
-    deleteUser
+    deleteUser,
+    editUserPassword
 } from './user'
 
 import {
@@ -10,13 +11,15 @@ import {
 const HomeActionCreatorsMap = {
     getList,
     deleteUser,
-    getLogList
+    getLogList,
+    editUserPassword
 }
 
 export interface SettingActions {
     getList: Function
     getLogList: Function
     deleteUser: Function
+    editUserPassword: Function
 }
 
 export default HomeActionCreatorsMap;

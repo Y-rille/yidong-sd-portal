@@ -6,6 +6,7 @@ import SplitPane from 'react-split-pane'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Modal } from 'antd';
 const Search = Input.Search
 import UserTable from '../../../components/UserTable/'
+import UserEditPassword from '../../../components/UserEditPassword/'
 import UserEdit from '../container/userEdit'
 
 declare let global: any;
@@ -32,6 +33,7 @@ class User extends React.PureComponent<UserProps, any> {
 
         this.state = {
             currentId: false,
+            userId: '',
             visible: false,
             listLoading: false,
             page_size: 10,
@@ -41,20 +43,30 @@ class User extends React.PureComponent<UserProps, any> {
     }
     componentWillReceiveProps(nextProps) {
     }
-    showModal() {
+    showModal(userId) {
         this.setState({
-            visible: true
+            visible: true,
+            userId: userId
         })
     }
-    handleOk() {
-        this.setState({
-            visible: false,
-            currentId: false
-        })
+    handleOk(param) {
+        if (param) {
+            let userId = this.state.userId
+            this.props.actions.editUserPassword(userId, param, (err, data) => {
+                if (data) {
+                    this.setState({
+                        visible: false,
+                        userId: ''
+                    });
+                    emitter.emit('message', 'success', '修改成功！')
+                }
+            })
+        }
     }
     handleCancel() {
         this.setState({
-            visible: false
+            visible: false,
+            userId: ''
         })
     }
     goCreate() {
@@ -170,6 +182,11 @@ class User extends React.PureComponent<UserProps, any> {
                                 showModal={this.showModal.bind(this)}
                                 goEdit={this.goEdit.bind(this)}
                                 userList={userList}
+                            />
+                            <UserEditPassword
+                                visible={this.state.visible}
+                                handleOk={this.handleOk.bind(this)}
+                                handleCancel={this.handleCancel.bind(this)}
                             />
                         </div>
                     </Row>
