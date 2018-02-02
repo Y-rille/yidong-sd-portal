@@ -5,7 +5,8 @@ const SettingState = SI.from({
     name: 'RESOURCE',
     config: {},
     userList: null,
-    logList: null
+    logList: null,
+    userInfo: null
 });
 
 let settingReducer = (state = SettingState, action = null) => {

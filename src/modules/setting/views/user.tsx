@@ -31,8 +31,6 @@ class User extends React.PureComponent<UserProps, any> {
         let { page_num, query_key } = qs.parse(this.props.location.search)
 
         this.state = {
-            currentId: false,
-            visible: false,
             listLoading: false,
             page_size: 10,
             page_num: page_num ? page_num : 0,
@@ -41,32 +39,13 @@ class User extends React.PureComponent<UserProps, any> {
     }
     componentWillReceiveProps(nextProps) {
     }
-    showModal() {
-        this.setState({
-            visible: true
-        })
-    }
-    handleOk() {
-        this.setState({
-            visible: false,
-            currentId: false
-        })
-    }
-    handleCancel() {
-        this.setState({
-            visible: false
-        })
-    }
+
     goCreate() {
         global.hashHistory.replace(`/setting/user/create`)
     }
     goEdit(id) {
         // 编辑
-        this.setState({
-            visible: true,
-            currentId: true
-        });
-
+        global.hashHistory.replace(`/setting/user/edit/${id}`)
     }
     goDelete(userId, email) {
         let self = this
@@ -129,7 +108,6 @@ class User extends React.PureComponent<UserProps, any> {
         this.getDataFn(queryObj)
     }
     render() {
-        let modalTitle = this.state.currentId ? '编辑用户' : '创建用户'
         let { page_num, page_size, query_key } = this.state
         let userList = this.props.userList
         let canRender = false
@@ -147,7 +125,7 @@ class User extends React.PureComponent<UserProps, any> {
                 <Route render={() => (
                     <Row className={styles.setting}>
                         <div className={styles.cont}>
-                            <div className="header">
+                            <div className={styles.header}>
                                 <Breadcrumb>
                                     <Breadcrumb.Item>首页</Breadcrumb.Item>
                                     <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
@@ -167,7 +145,6 @@ class User extends React.PureComponent<UserProps, any> {
                                 goPage={this.goPage.bind(this)}
                                 page_num={page_num}
                                 page_size={page_size}
-                                showModal={this.showModal.bind(this)}
                                 goEdit={this.goEdit.bind(this)}
                                 userList={userList}
                             />

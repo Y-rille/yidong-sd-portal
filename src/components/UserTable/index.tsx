@@ -4,12 +4,10 @@ import styles from './index.less';
 
 import moment from '../../common/moment'
 
-// const { showModal } = this.props
 import * as _ from 'lodash';
 
 export interface UserTableProps {
-    showModal
-    goEdit
+    goEdit?
     userList?
     page_num?
     page_size?
@@ -23,8 +21,11 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
         this.state = {
         };
     }
-    goEdit() {
-        this.props.goEdit();
+    goEdit(e) {
+        let userId = e.currentTarget.id
+        if (this.props.goEdit) {
+            this.props.goEdit(userId)
+        }
     }
     goDelete(e) {
         let userId = e.currentTarget.id
@@ -63,7 +64,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             key: 'action',
             render: (text, record) => (
                 <span>
-                    <a onClick={this.goEdit.bind(this)} href="javascript:;">编辑</a>
+                    <a onClick={this.goEdit.bind(this)} id={record.id} href="javascript:;">编辑</a>
                     <Divider type="vertical" />
                     <a href="javascript:;">重置密码</a>
                     <Divider type="vertical" />
