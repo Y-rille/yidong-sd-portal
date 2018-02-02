@@ -31,6 +31,9 @@ class Home extends React.Component<HomeProps, any> {
     constructor(props) {
         super(props);
     }
+    onTreeSelect(nodeId) {
+        console.log('nodeId', nodeId);
+    }
     triggerResize() {
         let e: Event = document.createEvent('Event');
         e.initEvent('resize', true, true);
@@ -68,13 +71,13 @@ class Home extends React.Component<HomeProps, any> {
                     defaultSize={200}
                     onChange={this.triggerResize} >
                     <div className={styles.tree}>
-                        <TreeSelect data={this.props.tree} />
+                        <TreeSelect onSelect={this.onTreeSelect} data={this.props.tree} />
                     </div>
                     <div className={styles.main}>
                         {
                             (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
                                 <Switch>
-                                    <Route path={`${match.url}/:moTypeId/:moInstId`} component={Info} />
+                                    <Route path={`${match.url}/:nodeId`} component={Info} />
                                     <Route render={() => (
                                         <h3>Please select a node.</h3>
                                     )} />
