@@ -6,7 +6,7 @@ import { matchPath } from 'react-router'
 
 import styles from '../style/index.less'
 
-import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
 
 import FactModal from '../../../components/FactModal/'
 import Current from '../container/current'
@@ -105,11 +105,11 @@ export default class Info extends React.Component<InfoProps, any> {
           (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
             <Switch>
               <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-              <Route path={`${match.url}/current`} component={Current} />
-              <Route path={`${match.url}/history`} component={History} />
+              <Route path={`${match.url}/current`} render={() => <Current />} />
+              <Route path={`${match.url}/history`} render={() => <History />} />
             </Switch>
           ) : (
-              <div>loading</div>
+              <div><Spin /></div>
             )
         }
         <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={moTypeKpis} />
