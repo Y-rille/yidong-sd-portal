@@ -52,14 +52,21 @@ class History extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
+            begintime: moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(),
+            endtime: moment().tz('Asia/Shanghai').valueOf(),
+            timeFilter: '',
         };
     }
     inquire(longTime, selectValue) {
-        let facts = '4,5'
         let begintime = longTime.length > 0 ? longTime[0] : null
         let endtime = longTime.length > 0 ? longTime[1] : null
         let timeFilter = selectValue !== '' ? selectValue : null
-        this.getData('4,5', begintime, endtime, timeFilter)
+        this.setState({
+            begintime,
+            endtime,
+            timeFilter
+        })
+        this.getData(this.props.kpis, begintime, endtime, timeFilter)
 
     }
 
@@ -70,26 +77,18 @@ class History extends React.Component<any, any> {
             endtime,
             // wheredim,
             timeFilter
-
         }
-        // console.log(DataParams)
         this.props.actions.getData(packageId, DataParams)
     }
     componentWillMount() {
-        let moTypeKpis = this.props.moTypeKpis
-        if (moTypeKpis) {
-            let facts = []
-            for (let i = 0; i < 4; i++) {
-                if (moTypeKpis[i]) {
-                    facts.push(moTypeKpis[i].kpiId)
-                }
-            }
-            var str_facts = facts.join(',')
-            // 默认获取前四个指标的信息
-            this.getData(str_facts)
-        }
-
+        this.getData(this.props.kpis)
     }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.kpis && nextProps.kpis !== this.props.kpis) {
+            this.getData(nextProps.kpis, this.state.begintime, this.state.endtime, this.state.timeFilter)
+        }
+    }
+    
     componentDidMount() {
 
     }
@@ -106,12 +105,11 @@ class History extends React.Component<any, any> {
         let moTypeKpis = this.props.moTypeKpis
         let kpidata = this.props.kpidata
         if (moInstKpiThresholds && moTypeKpis && kpidata) {
-            let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata)
-            // console.log('result: ', result);
+            let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
             return (
                 <div>
                     <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
-                        <TimeSelect inquire={this.inquire.bind(this)} defaultValue={[]} />
+                        <TimeSelect defaultValue={[this.state.begintime, this.state.endtime, this.state.timeFilter]} inquire={this.inquire.bind(this)} />
                     </div>
                     <Row gutter={20} style={{ padding: '0 20px' }}>
                         {this.renderLineChartCard(result)}

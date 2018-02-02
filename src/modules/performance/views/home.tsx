@@ -46,6 +46,9 @@ class Home extends React.Component<HomeProps, any> {
         this.props.actions.getTimeFilter((data) => {
         })
     }
+    getInfoDetail() {
+
+    }
     componentDidMount() {
         this.getKpisAndThresholds();
         this.getTimeFilter();
