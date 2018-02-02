@@ -23,12 +23,12 @@ const fmtData = (selectedIds, data) => {
         groups[tempPath].push(temp)
     });
 
-    for (let key in groups) {
-        list.push({
-            title: key.split(','),
-            description: groups[key]
-        })
-    }
+    // for (let key in groups) {
+    //     list.push({
+    //         title: key.split(','),
+    //         description: groups[key]
+    //     })
+    // }
 
     list = list.map(item => {
         item.title = getTitle(item.title, data);
@@ -50,17 +50,17 @@ const getTitle = (list, data) => {
     return title.join(' / ')
 };
 
-const ListDescription = ({list}) => {
+const ListDescription = ({ list }) => {
     let description = [];
 
     list.map(item => {
-        description.push(<a style={{marginRight: '20px'}}>{item.nodeLabel}</a>)
+        description.push(<a style={{ marginRight: '20px' }}>{item.nodeLabel}</a>)
     });
 
     return description;
 };
 
-const SearchResultPanel = ({result}) => {
+const SearchResultPanel = ({ result }) => {
     if (!result) {
         return null;
     }
@@ -78,7 +78,7 @@ const SearchResultPanel = ({result}) => {
                     <List.Item>
                         <List.Item.Meta
                             title={item.title}
-                            description={<ListDescription list={item.description}/>}
+                            description={<ListDescription list={item.description} />}
                         />
                     </List.Item>
                 )}
