@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
 import moment from '../../../common/moment'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
 
 import TreeSelect from '../../../components/TreeSelect'
 
@@ -74,13 +74,13 @@ class Home extends React.Component<HomeProps, any> {
                         {
                             (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
                                 <Switch>
-                                    <Route path={`${match.url}/:moTypeId/:moInstId`} component={Info} />
+                                    <Route path={`${match.url}/:nodeId`} component={Info} />
                                     <Route render={() => (
                                         <h3>Please select a node.</h3>
                                     )} />
                                 </Switch>
                             ) : (
-                                    <div>loading</div>
+                                    <Spin />
                                 )
                         }
                     </div>
