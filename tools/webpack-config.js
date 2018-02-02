@@ -69,7 +69,7 @@ module.exports = (type) => {
             'react-dom': 'ReactDOM',
             'react-router-dom': 'ReactRouterDOM',
             'react-redux': 'ReactRedux',
-            'lodash': '_',
+            // 'lodash': '_',
         },
         plugins: _.compact([
             // isDist && new ManifestPlugin({
@@ -131,7 +131,7 @@ module.exports = (type) => {
             }),
             new HtmlWebpackIncludeAssetsPlugin({
                 assets: [
-                    'lib/lodash.min.js',
+                    // 'lib/lodash.min.js',
                     'lib/react.production.min.js',
                     'lib/react-dom.production.min.js',
                     'lib/react-router-dom.min.js',

@@ -19,14 +19,12 @@ export interface InfoProps {
   moTypeKpis?
   moInstKpiThresholds?
   location?
+  timeFilter?
 }
 
 export default class Info extends React.Component<InfoProps, any> {
   constructor(props) {
     super(props);
-    let { match } = this.props
-    let { pathname } = this.props.location
-
     // 设置默认选中的值
     let { moTypeKpis } = this.props
     let facts = []
@@ -37,10 +35,6 @@ export default class Info extends React.Component<InfoProps, any> {
     }
     var str_facts = facts.join(',')
     this.state = {
-      activeKey: _.compact([
-        matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
-        matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-      ]).toString(),
       visible: false,
       facts: str_facts,
     };
@@ -72,25 +66,16 @@ export default class Info extends React.Component<InfoProps, any> {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { match } = nextProps
-    let { pathname } = nextProps.location
-    this.state = {
-      facts: this.state.facts,
-      activeKey: _.compact([
-        matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
-        matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-      ]).toString()
 
-    };
   }
 
   renderTab() {
-    let { activeKey } = this.state
+    let { pathname } = this.props.location
     let tab = [{ key: 'current', name: '当前状态' }, { key: 'history', name: '历史趋势' }]
     return _.map(tab, (item) => {
       let cls = {
         tabItem: true,
-        active: activeKey === item.key ? true : false
+        active: pathname.indexOf(item.key) > 0
       }
       return <li className={classNames(cls)} data-path={item.key} onClick={this.tabClick.bind(this)}>{item.name}</li>
     })
@@ -124,7 +109,7 @@ export default class Info extends React.Component<InfoProps, any> {
               <Route path={`${match.url}/history`} render={() => <History kpis={this.state.facts} />} />
             </Switch>
           ) : (
-              <div><Spin /></div>
+              <Spin />
             )
         }
         <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={moTypeKpis} />
