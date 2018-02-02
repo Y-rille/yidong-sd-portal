@@ -36,16 +36,16 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     if (data) {
                         emitter.emit('notification', '修改成功！', '', 'success')
                         setTimeout(() => {
-                            // global.hashHistory.push("/setting/user")
+                            global.hashHistory.push('/setting/user')
                         }, 1000)
                     }
                 })
             } else {
-                this.props.actions.createUser(formdata, (data, err) => {
+                this.props.actions.createUser(formdata, (err, data) => {
                     if (data) {
                         emitter.emit('notification', '创建成功！', '', 'success')
                         setTimeout(() => {
-                            // global.hashHistory.push("/setting/user")
+                            global.hashHistory.push('/setting/user')
                         }, 1000)
                     }
                 })
@@ -72,12 +72,12 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
             <Row className={styles.setting}>
                 <div className={styles.cont}>
                     <div className={styles.header}>
+                        <h1 className={styles.title}>{modalTitle}</h1>
                         <Breadcrumb>
                             <Breadcrumb.Item>首页</Breadcrumb.Item>
                             <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
                             <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
                         </Breadcrumb>
-                        <h1 className={styles.title}>{modalTitle}</h1>
                     </div>
                     <UserForm
                         userInfo={this.props.userInfo}
