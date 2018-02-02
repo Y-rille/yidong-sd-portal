@@ -216,8 +216,8 @@ class Current extends React.Component<any, any> {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.moTypeKpis && nextProps.moInstKpiThresholds) {
-
+        if (nextProps.kpis && nextProps.kpis !== this.props.kpis ) {
+            this.getData(nextProps.kpis)
         }
     }
     render() {
