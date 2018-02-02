@@ -30,6 +30,9 @@ export interface HomeProps {
 class Home extends React.Component<HomeProps, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            defaultNodeId: []
+        }
 
     }
     onTreeSelect(nodeId) {
@@ -59,18 +62,18 @@ class Home extends React.Component<HomeProps, any> {
         const mp: any = matchPath(this.props.location.pathname, {
             path: `${match.url}/:nodeId`
         })
-        let nodeId = mp.params.nodeId
+        let defaultNodeIdArr = []
+        defaultNodeIdArr.push(mp.params.nodeId)
+        this.setState({
+            defaultNodeId: defaultNodeIdArr
+        })
     }
     componentDidMount() {
         this.getKpisAndThresholds();
         this.getTimeFilter();
     }
     render() {
-        // console.log(`15分钟前:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').format()}`)
-        // console.log(`开始时间:${moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf()}`)
-        // console.log(`结束时间:${moment().tz('Asia/Shanghai').valueOf()}`)
         let { match, tree } = this.props
-        // console.log(this.props.timeFilter)
         return (
             <Row className={styles.performance}>
                 <SplitPane
@@ -80,7 +83,7 @@ class Home extends React.Component<HomeProps, any> {
                     defaultSize={200}
                     onChange={this.triggerResize} >
                     <div className={styles.tree}>
-                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} />
+                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} dExpandedKeys={this.state.defaultNodeId}/>
                     </div>
                     <div className={styles.main}>
                         {

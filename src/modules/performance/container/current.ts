@@ -11,7 +11,8 @@ function mapProps(state) {
         config: state.performanceReducer.config,
         moTypeKpis: state.performanceReducer.moTypeKpis,
         moInstKpiThresholds: state.performanceReducer.moInstKpiThresholds,
-        kpidata: state.performanceReducer.kpidata
+        kpidata: state.performanceReducer.kpidata,
+        nodeInfo: state.performanceReducer.nodeInfo
     }
 }
 function mapDispatchToProps(dispatch) {
