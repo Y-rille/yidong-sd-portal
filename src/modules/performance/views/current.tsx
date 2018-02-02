@@ -189,7 +189,7 @@ class Current extends React.Component<any, any> {
         })
     }
     componentWillMount() {
-        let moTypeKpis = this.props.moTypeKpis.data
+        let moTypeKpis = this.props.moTypeKpis
         if (moTypeKpis) { 
             let facts = []
             for (let i = 0; i < 4; i++) {

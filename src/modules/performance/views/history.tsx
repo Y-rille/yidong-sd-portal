@@ -52,6 +52,9 @@ class History extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
+            begintime: moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(),
+            endtime: moment().tz('Asia/Shanghai').valueOf(),
+            timeFilter: ''
         };
     }
     inquire(longTime, selectValue) {
@@ -59,6 +62,11 @@ class History extends React.Component<any, any> {
         let begintime = longTime.length > 0 ? longTime[0] : null
         let endtime = longTime.length > 0 ? longTime[1] : null
         let timeFilter = selectValue !== '' ? selectValue : null
+        this.setState({
+            begintime,
+            endtime,
+            timeFilter
+        })
         this.getData('4,5', begintime, endtime, timeFilter)
 
     }
@@ -77,7 +85,7 @@ class History extends React.Component<any, any> {
     }
     componentWillMount() {
         let moTypeKpis = this.props.moTypeKpis
-        if (moTypeKpis) { 
+        if (moTypeKpis) {
             let facts = []
             for (let i = 0; i < 4; i++) {
                 if (moTypeKpis[i]) {
@@ -88,7 +96,7 @@ class History extends React.Component<any, any> {
             // 默认获取前四个指标的信息
             this.getData(str_facts)
         }
-        
+
     }
     componentDidMount() {
 
@@ -111,7 +119,7 @@ class History extends React.Component<any, any> {
             return (
                 <div>
                     <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
-                        <TimeSelect inquire={this.inquire.bind(this)} />
+                        <TimeSelect defaultValue={[this.state.begintime, this.state.endtime]} inquire={this.inquire.bind(this)} />
                     </div>
                     <Row gutter={20} style={{ padding: '0 20px' }}>
                         {this.renderLineChartCard(result)}
