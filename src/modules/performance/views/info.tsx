@@ -75,10 +75,12 @@ export default class Info extends React.Component<InfoProps, any> {
     let { match } = nextProps
     let { pathname } = nextProps.location
     this.state = {
+      facts: this.state.facts,
       activeKey: _.compact([
         matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
         matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
       ]).toString()
+
     };
   }
 

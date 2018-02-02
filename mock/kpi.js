@@ -248,13 +248,13 @@ let getKpiThresholds = {
           "thresholdId": 1,
           "kpiId": 1,
           "criticalThresholdOperator": ">",
-          "criticalThresholdValue": "40",
+          "criticalThresholdValue": "15542",
           "majorThresholdOperator": ">",
-          "majorThresholdValue": "30",
+          "majorThresholdValue": "12332",
           "minorThresholdOperator": ">",
-          "minorThresholdValue": "20",
+          "minorThresholdValue": "10000",
           "normalThresholdOperator": ">",
-          "normalThresholdValue": "-1",
+          "normalThresholdValue": "1000",
           "state": 1
         }
       ]
