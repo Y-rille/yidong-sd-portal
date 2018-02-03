@@ -12,6 +12,9 @@ export const login = (params, cb) => (dispatch) => {
   }).catch((err) => {
     let action = { type: ActionTypes.COMMON_SAY_HELLO, currentUser: null }
     dispatch(action);
+    if (cb) {
+      cb(null)
+    }
   })
 };
 
