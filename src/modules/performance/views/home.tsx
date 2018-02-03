@@ -64,7 +64,7 @@ class Home extends React.Component<HomeProps, any> {
     componentWillMount() {
         let { match } = this.props
         const mp: any = matchPath(this.props.location.pathname, {
-            path: `${match.url} /: nodeId`
+            path: `${match.url}/:nodeId`
         })
         if (mp) {
             let defaultNodeIdArr = []
