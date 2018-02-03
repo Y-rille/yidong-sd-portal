@@ -49,12 +49,7 @@ class Home extends React.Component<HomeProps, any> {
         e.initEvent('resize', true, true);
         window.dispatchEvent(e);
     }
-    getKpisAndThresholds() {
-        this.props.actions.getMoTypeKpis(1, 7, (data) => {
-        })
-        this.props.actions.getMoInstKpiThresholds(1, 1, (data) => {
-        })
-    }
+
     getTimeFilter() {
         this.props.actions.getTimeFilter((data) => {
         })
@@ -76,7 +71,6 @@ class Home extends React.Component<HomeProps, any> {
         }
     }
     componentDidMount() {
-        this.getKpisAndThresholds();
         this.getTimeFilter();
     }
     render() {
@@ -93,18 +87,13 @@ class Home extends React.Component<HomeProps, any> {
                         <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} dExpandedKeys={this.state.defaultNodeId} />
                     </div>
                     <div className={styles.main}>
-                        {
-                            (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
-                                <Switch>
-                                    <Route path={`${match.url}/:nodeId`} component={Info} />
-                                    <Route render={() => (
-                                        <h3>Please select a node.</h3>
-                                    )} />
-                                </Switch>
-                            ) : (
-                                    <Spin />
-                                )
-                        }
+                        <Switch>
+                            <Route path={`${match.url}/:nodeId`} component={Info} />
+                            <Route render={() => (
+                                <h3>Please select a node.</h3>
+                            )} />
+                        </Switch>
+
                     </div>
                 </SplitPane>
 
