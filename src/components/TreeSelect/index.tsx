@@ -161,7 +161,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             })  
         } else {
             this.setState({
-                expandedKeys: [],
+                expandedKeys: this.props.dExpandedKeys ? this.props.dExpandedKeys : [],
                 searchValue: '',
                 autoExpandParent: true,
                 result: {
