@@ -35,7 +35,8 @@ class Home extends React.Component<HomeProps, any> {
     constructor(props) {
         super(props);
         this.state = {
-            defaultNodeId: []
+            defaultNodeId: [],
+            searchValue: ''
         }
 
     }
@@ -65,24 +66,39 @@ class Home extends React.Component<HomeProps, any> {
     }
     handleSearch(value) {
         let { match, history } = this.props
-        if (value.searchValue) {
-            // console.log(value, '=======>value')
-            // console.log(this.props.location.pathname.split('/').indexOf('search'), '=======>location')
-            if (this.props.location.pathname.split('/').indexOf('search') < 0) {
-                history.push(`${match.url}/search/${value.searchValue}`)
+        if (value) {
+            if (value.searchValue) {
+                // console.log(value, '=======>value')
+                // console.log(this.props.location.pathname.split('/').indexOf('search'), '=======>location')
+                if (this.props.location.pathname.split('/').indexOf('search') < 0) {
+                    history.push(`${match.url}/search/${value.searchValue}`)
+                } else {
+                    history.replace(`${match.url}/search/${value.searchValue}`)
+                }
             } else {
-                history.replace(`${match.url}/search/${value.searchValue}`)
+                let firstNode = deepPickFirst(this.props.tree)
+                history.push(`${match.url}/${firstNode.nodeId}`)
+                this.setState({
+                    defaultNodeId: [firstNode.nodeId]
+                })
             }
+            this.setState({
+                searchValue: value
+            })
+        } else {
+            this.setState({
+                searchValue: ''
+            })
         }
     }
     componentWillMount() {
         let { match, history } = this.props
-        const mp: any = matchPath(this.props.location.pathname, {
+        const mp_node: any = matchPath(this.props.location.pathname, {
             path: `${match.url}/:nodeId`
         })
-        if (mp) {
+        if (mp_node) {
             let defaultNodeIdArr = []
-            defaultNodeIdArr.push(mp.params.nodeId)
+            defaultNodeIdArr.push(mp_node.params.nodeId)
             this.setState({
                 defaultNodeId: defaultNodeIdArr
             })
@@ -102,6 +118,13 @@ class Home extends React.Component<HomeProps, any> {
     }
     render() {
         let { match, tree } = this.props
+        const mp_search: any = matchPath(this.props.location.pathname, {
+            path: `${match.url}/search/:querykey`
+        })
+        let initSearchValue = ''
+        if (mp_search) {
+            initSearchValue = mp_search.params.querykey
+        }
         return (
             <Row className={styles.performance}>
                 <SplitPane
@@ -111,11 +134,11 @@ class Home extends React.Component<HomeProps, any> {
                     defaultSize={200}
                     onChange={this.triggerResize.bind(this)} >
                     <div className={styles.tree}>
-                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} dExpandedKeys={this.state.defaultNodeId} onSearch={this.handleSearch.bind(this)}/>
+                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} searchValue={initSearchValue} dExpandedKeys={this.state.defaultNodeId} onSearch={this.handleSearch.bind(this)}/>
                     </div>
                     <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
-                            <Route path={`${match.url}/search/:querykey`} component={Result} />
+                            <Route path={`${match.url}/search/:querykey`} render={() => <Result {...this.props} datas={this.state.searchValue}/>} />
                             <Route path={`${match.url}/:nodeId`} component={Info} />
                             <Route render={() => (
                                 <div></div>

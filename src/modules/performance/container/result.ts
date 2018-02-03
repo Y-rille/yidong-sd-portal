@@ -10,6 +10,7 @@ function mapProps(state) {
     name: state.performanceReducer.name,
     config: state.performanceReducer.config,
     tree: state.commonReducer.tree,
+    searchDatas: state.performanceReducer.searchDatas
   }
 }
 function mapDispatchToProps(dispatch) {

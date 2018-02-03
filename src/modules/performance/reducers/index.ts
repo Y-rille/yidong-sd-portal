@@ -9,7 +9,8 @@ const PerformanceState = SI.from({
     moInstKpiThresholds: null,
     moTypeKpis: null,
     kpidata: null,
-    nodeInfo: null 
+    nodeInfo: null ,
+    searchDatas: null
 });
 
 let performanceReducer = (state = PerformanceState, action = null) => {
