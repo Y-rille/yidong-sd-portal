@@ -37,7 +37,7 @@ class User extends React.PureComponent<UserProps, any> {
             userId: '',
             visible: false,
             listLoading: false,
-            page_size: 10,
+            page_size: 4,
             page_num: page_num ? page_num : 0,
             query_key: query_key ? query_key : '',
         };

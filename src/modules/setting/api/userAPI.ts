@@ -34,22 +34,22 @@ export interface ListParams {
 class UserAPI {
 
   getList(params?: ListParams) {
-    return axios.get(`/api/v1/user/users?${stringify(params)}`)
+    return axios.get(`/api_setting/v1/user/users?${stringify(params)}`)
   }
   getUserInfo(userId) {
-    return axios.get(`/api/v1/user/users/${userId}`)
+    return axios.get(`/api_setting/v1/user/users/${userId}`)
   }
   createUser(params: CreateUserParams) {
-    return axios.post(`/api/v1/user/users`, params)
+    return axios.post(`/api_setting/v1/user/users`, params)
   }
   editUser(userId, params: EditUserParams) {
-    return axios.put(`/api/v1/user/users/${userId}`, params)
+    return axios.put(`/api_setting/v1/user/users/${userId}`, params)
   }
   deleteUser(userId) {
-    return axios.delete(`/api/v1/user/users/${userId}`)
+    return axios.delete(`/api_setting/v1/user/users/${userId}`)
   }
   editUserPassword(userId, params: EditUserPasswordParams) {
-    return axios.put(`/api/v1/user/users/${userId}/password`, params)
+    return axios.put(`/api_setting/v1/user/users/${userId}/password`, params)
   }
 
 }
