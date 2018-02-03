@@ -132,7 +132,7 @@ export default class Info extends React.Component<InfoProps, any> {
   renderFactModel(moTypeKpis) {
     if (moTypeKpis) {
       return (
-        <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={moTypeKpis} />
+        <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={moTypeKpis} facts={this.state.facts} />
       )
     } else {
       return <div />
