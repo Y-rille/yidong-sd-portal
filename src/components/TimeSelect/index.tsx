@@ -19,8 +19,8 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
     constructor(props) {
         super(props);
         this.state = {
-            longTime: [],
-            selectValue: '',
+            longTime: [this.props.defaultValue[0], this.props.defaultValue[1]],
+            selectValue: this.props.defaultValue[2] == null ? '' : this.props.defaultValue[2].toString(),
         };
     }
 
@@ -28,7 +28,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
         const { longTime } = this.state;
         this.setState({
             longTime: [value[0]._d.getTime(), value[1]._d.getTime()],
-            values: value
+            // values: value
         })
     }
 

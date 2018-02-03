@@ -136,6 +136,9 @@ class User extends React.PureComponent<UserProps, any> {
         }
         this.getDataFn(queryObj)
     }
+    componentWillUnmount() {
+        this.props.actions.resetUserList()
+    }
     render() {
         let { page_num, page_size, query_key } = this.state
         let userList = this.props.userList
@@ -153,15 +156,15 @@ class User extends React.PureComponent<UserProps, any> {
                 <Route path={`${match.url}/edit/:userId`} component={UserEdit} />
                 <Route render={() => (
                     <Row className={styles.setting}>
-                        <div className={styles.cont}>
-                            <div className={styles.header}>
-                                <h1 className={styles.title}>用户管理</h1>
-                                <Breadcrumb>
-                                    <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                                    <Breadcrumb.Item>系统管理</Breadcrumb.Item>
-                                    <Breadcrumb.Item>用户管理</Breadcrumb.Item>
-                                </Breadcrumb>
-                            </div>
+                        <div className={styles.header}>
+                            <h1 className={styles.title}>用户管理</h1>
+                            <Breadcrumb>
+                                <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                                <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                                <Breadcrumb.Item>用户管理</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
+                        <div className={styles.tb}>
                             <div className={styles.filter}>
                                 <Search
                                     className={styles.search}
