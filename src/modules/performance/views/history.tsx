@@ -60,12 +60,8 @@ class History extends React.Component<any, any> {
     componentDidMount() {
 
     }
-    renderLineChartCard(result) {
-        return result.map((item, index) => {
-            return (
-                <LineChartCard key={index} data={item} />
-            )
-        })
+    deleteCard(kpiId) {
+        this.props.deleteCard(kpiId)
     }
     render() {
         let moInstKpiThresholds = this.props.moInstKpiThresholds
@@ -79,7 +75,13 @@ class History extends React.Component<any, any> {
                         <TimeSelect timeFilter={this.props.timeFilter} defaultValue={[this.state.begintime, this.state.endtime, this.state.timeFilter]} inquire={this.inquire.bind(this)} />
                     </div>
                     <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }}>
-                        {this.renderLineChartCard(result)}
+                        {
+                            result.map((item, index) => {
+                                return (
+                                    <LineChartCard key={index} data={item} deleteCard={this.deleteCard.bind(this)} />
+                                )
+                            })
+                        }
                     </Row>
                 </div>
             );
