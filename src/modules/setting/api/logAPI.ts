@@ -11,7 +11,7 @@ export interface LogListParams {
 
 class LogAPI {
     getLogList(params?: LogListParams) {
-        return axios.get(`/api/v1/log/logs?${stringify(params)}`)
+        return axios.get(`/api_setting/v1/log/logs?${stringify(params)}`)
     }
 }
 
