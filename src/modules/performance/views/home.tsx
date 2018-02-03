@@ -61,6 +61,18 @@ class Home extends React.Component<HomeProps, any> {
     getInfoDetail() {
 
     }
+    handleSearch(value) {
+        let { match, history } = this.props
+        if (value.searchValue) {
+            // console.log(value, '=======>value')
+            // console.log(this.props.location.pathname.split('/').indexOf('search'), '=======>location')
+            if (this.props.location.pathname.split('/').indexOf('search') < 0) {
+                history.push(`${match.url}/search/${value.searchValue}`)
+            } else {
+                history.replace(`${match.url}/search/${value.searchValue}`)
+            }
+        }
+    }
     componentWillMount() {
         let { match } = this.props
         const mp: any = matchPath(this.props.location.pathname, {
@@ -89,7 +101,7 @@ class Home extends React.Component<HomeProps, any> {
                     defaultSize={200}
                     onChange={this.triggerResize.bind(this)} >
                     <div className={styles.tree}>
-                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} dExpandedKeys={this.state.defaultNodeId} />
+                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} dExpandedKeys={this.state.defaultNodeId} onSearch={this.handleSearch.bind(this)}/>
                     </div>
                     <div className={styles.main}>
                         <Switch>
