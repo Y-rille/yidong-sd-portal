@@ -48,6 +48,8 @@ class Home extends React.Component<HomeProps, any> {
         let e: Event = document.createEvent('Event');
         e.initEvent('resize', true, true);
         window.dispatchEvent(e);
+
+        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
     }
     getKpisAndThresholds() {
         this.props.actions.getMoTypeKpis(1, 7, (data) => {
@@ -65,7 +67,7 @@ class Home extends React.Component<HomeProps, any> {
     componentWillMount() {
         let { match } = this.props
         const mp: any = matchPath(this.props.location.pathname, {
-            path: `${match.url}/:nodeId`
+            path: `${match.url} /: nodeId`
         })
         if (mp) {
             let defaultNodeIdArr = []
@@ -88,7 +90,7 @@ class Home extends React.Component<HomeProps, any> {
                     minSize={100}
                     maxSize={300}
                     defaultSize={200}
-                    onChange={this.triggerResize} >
+                    onChange={this.triggerResize.bind(this)} >
                     <div className={styles.tree}>
                         <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} dExpandedKeys={this.state.defaultNodeId} />
                     </div>
@@ -96,7 +98,7 @@ class Home extends React.Component<HomeProps, any> {
                         {
                             (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
                                 <Switch>
-                                    <Route path={`${match.url}/:nodeId`} component={Info} />
+                                    <Route path={`${match.url} /: nodeId`} component={Info} />
                                     <Route render={() => (
                                         <h3>Please select a node.</h3>
                                     )} />

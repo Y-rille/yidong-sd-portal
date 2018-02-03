@@ -187,7 +187,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
         });
         return (
             <div className="treeSelect">
-                <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={this.onChange} />
+                <Search placeholder="Search" onChange={this.onChange} />
                 <Tree
                     onExpand={this.onExpand}
                     expandedKeys={expandedKeys}
