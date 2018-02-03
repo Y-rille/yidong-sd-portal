@@ -102,7 +102,7 @@ class Current extends React.Component<any, any> {
         if (moInstKpiThresholds && moTypeKpis && kpidata) {
             let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
             return (
-                <Row gutter={20} style={{ padding: '0 20px' }} className={styles.current}>
+                <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
                     {result.map((item, index) => {
                         return (
                             <InstrumentCard key={index} data={item} />
