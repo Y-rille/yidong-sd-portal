@@ -113,9 +113,19 @@ class Site extends React.Component<SiteProps, any> {
     }
 
     componentWillReceiveProps(nextProps: any) {
+        let { pathname } = nextProps.location
         if (!nextProps.tree && nextProps.currentUser) {
             this.props.actions.querytree('0')
         }
+        this.state = {
+            activeKey: _.compact([
+                matchPath(pathname, { path: '/dashboard' }) != null && 'dashboard',
+                matchPath(pathname, { path: '/setting' }) != null && 'setting',
+                matchPath(pathname, { path: '/resource' }) != null && 'resource',
+                matchPath(pathname, { path: '/alarm' }) != null && 'alarm',
+                matchPath(pathname, { path: '/performance' }) != null && 'performance',
+            ]).toString()
+        };
     }
     componentDidMount() {
     }

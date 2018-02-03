@@ -30,6 +30,21 @@ var options = {
 var webProxy = proxy(options);
 
 
+const proxy_setting = require('http-proxy-middleware');
+var options_setting = {
+    target: 'http://47.94.4.45:8067/', // target host
+    secure: false,
+    changeOrigin: true,               // needed for virtual hosted sites
+    ws: true,                         // proxy websockets
+    ignorePath: false,
+    pathRewrite: {
+        '^/api_setting': ''
+    }
+};
+
+var webProxy_setting = proxy(options_setting);
+
+
 // Start an express server for development using webpack dev-middleware and hot-middleware
 function startDevServer() {
     const app = express();
@@ -44,6 +59,7 @@ function startDevServer() {
 
     app.use(hotMiddleware(compiler));
     app.use('/api/*', webProxy);
+    app.use('/api_setting/*', webProxy_setting);
 
     // // First, find files from src folder
     // app.use(express.static(path.join(__dirname, '../src')));
