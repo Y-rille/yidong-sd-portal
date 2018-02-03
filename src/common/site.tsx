@@ -98,7 +98,7 @@ class Site extends React.Component<SiteProps, any> {
     exitHandler() {
         this.props.actions.logout((currentUser) => {
             if (!currentUser) {
-                this.clearCookie('email');
+                this.clearCookie('token');
                 this.props.history.push(`/login`)
             }
         })
