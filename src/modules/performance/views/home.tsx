@@ -12,6 +12,8 @@ import TreeSelect from '../../../components/TreeSelect'
 import Info from '../container/info'
 import Result from '../container/result'
 
+import { deepPickFirst } from '../utils/deepPick'
+
 declare let global: any;
 
 import { PerformanceActions } from '../actions/index';
@@ -62,13 +64,21 @@ class Home extends React.Component<HomeProps, any> {
 
     }
     componentWillMount() {
-        let { match } = this.props
+        let { match, history } = this.props
         const mp: any = matchPath(this.props.location.pathname, {
             path: `${match.url}/:nodeId`
         })
         if (mp) {
             let defaultNodeIdArr = []
             defaultNodeIdArr.push(mp.params.nodeId)
+            this.setState({
+                defaultNodeId: defaultNodeIdArr
+            })
+        } else {
+            let firstNode = deepPickFirst(this.props.tree)
+            history.replace(`${match.url}/${firstNode.nodeId}`)
+            let defaultNodeIdArr = []
+            defaultNodeIdArr.push(firstNode.nodeId)
             this.setState({
                 defaultNodeId: defaultNodeIdArr
             })
@@ -96,7 +106,7 @@ class Home extends React.Component<HomeProps, any> {
                             <Route path={`${match.url}/search/:querykey`} component={Result} />
                             <Route path={`${match.url}/:nodeId`} component={Info} />
                             <Route render={() => (
-                                <h3>Please select a node.</h3>
+                                <div></div>
                             )} />
                         </Switch>
                     </div>
