@@ -16,8 +16,13 @@ let settingReducer = (state = SettingState, action = null) => {
         case ActionTypes.SETTING_ADD_USER:
             return state.setIn(['userList', 'rows'], state.getIn(['userList', 'rows']).concat([action.user]));
         case ActionTypes.SETTING_EDIT_USER:
-            // console.log(state.setIn(['userList', 'rows'], state.getIn(['userList', 'rows']).update(action.user.id, [action.user], )))
-            return state.merge(action, { deep: true })
+            return state.setIn(['userList', 'rows'], state.userList.rows.flatMap((item) => {
+                if (item.id === action.user.id) {
+                    return action.user
+                } else {
+                    return item
+                }
+            }))
         case ActionTypes.SETTING_DELETE_USER:
             return state.setIn(['userList', 'rows'], state.getIn(['userList', 'rows']).filter(o => o.id !== parseInt(action.id, 0)));
         default:

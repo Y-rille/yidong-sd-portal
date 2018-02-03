@@ -117,6 +117,8 @@ export const resetUserList = () => (dispatch) => {
  */
 export const editUserPassword = (userId, params: EditUserPasswordParams, cb) => (dispatch) => {
     return UserAPI.editUserPassword(userId, params).then((res) => {
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, id: userId }
+        dispatch(action)
         if (cb) {
             cb(res.data)
         }
