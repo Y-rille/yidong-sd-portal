@@ -58,37 +58,49 @@ export default class Info extends React.Component<InfoProps, any> {
     })
     this.props.history.push(`${match.url}/${path}`)
   }
-  getKpisAndThresholds() {
+  getKpisAndThresholds(nodeInfo) {
+    // TODO change params
     this.props.actions.getMoTypeKpis(1, 7, (data) => {
     })
     this.props.actions.getMoInstKpiThresholds(1, 1, (data) => {
     })
   }
+
+  getNodeInfo(nodeId) {
+    this.props.actions.getNodeData(nodeId, this.props.tree, (err, nodeInfo) => {
+      this.getKpisAndThresholds(nodeInfo);
+    })
+  }
+
   componentWillMount() {
     let nodeId = this.props.match.params.nodeId
-    this.props.actions.getNodeData(nodeId, this.props.tree)
-  }
-  componentDidMount() {
-    this.getKpisAndThresholds();
+    this.getNodeInfo(nodeId)
   }
   componentWillReceiveProps(nextProps) {
     let { match } = nextProps
     let { pathname } = nextProps.location
-    // 设置默认选中的值
-    let { moTypeKpis } = nextProps
-    if (moTypeKpis) {
-      let facts = []
-      for (let i = 0; i < 4; i++) {
-        if (moTypeKpis[i]) {
-          facts.push(moTypeKpis[i].kpiId)
+    // check nodeid is changed
+    let pre_nodeId = this.props.match.params.nodeId
+    let next_nodeId = nextProps.match.params.nodeId
+    if (pre_nodeId === next_nodeId) {
+      // 设置默认选中的值
+      let { moTypeKpis } = nextProps
+      if (moTypeKpis) {
+        let facts = []
+        for (let i = 0; i < 4; i++) {
+          if (moTypeKpis[i]) {
+            facts.push(moTypeKpis[i].kpiId)
+          }
         }
+        var str_facts = facts.join(',')
+        this.state = {
+          facts: str_facts,
+        };
       }
-      var str_facts = facts.join(',')
-      this.state = {
-        facts: str_facts,
-      };
+    } else {
+      this.props.actions.cleanMoTypeKpisAndMoInstKpiThresholds()
+      this.getNodeInfo(next_nodeId)
     }
-
   }
 
   renderTab() {
