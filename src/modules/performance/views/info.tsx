@@ -110,7 +110,8 @@ export default class Info extends React.Component<InfoProps, any> {
     if (pre_nodeId === next_nodeId) {
     } else {
       this.setState({
-        facts: ''
+        facts: '',
+        changeFacts: ''
       })
       this.props.actions.cleanMoTypeKpisAndMoInstKpiThresholds()
       this.getNodeInfo(next_nodeId)
