@@ -25,6 +25,7 @@ export interface HomeProps {
     moTypeKpis?
     tree?
     timeFilter?
+    history?
 }
 
 class Home extends React.Component<HomeProps, any> {
@@ -37,7 +38,7 @@ class Home extends React.Component<HomeProps, any> {
     }
     onTreeSelect(nodeId) {
         let { match } = this.props
-        global.hashHistory.push(`${match.url}/${nodeId}`)
+        this.props.history.push(`${match.url}/${nodeId}`)
         let defaultNodeIdArr = []
         defaultNodeIdArr.push(nodeId)
         this.setState({
@@ -49,13 +50,10 @@ class Home extends React.Component<HomeProps, any> {
         let e: Event = document.createEvent('Event');
         e.initEvent('resize', true, true);
         window.dispatchEvent(e);
+
+        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
     }
-    getKpisAndThresholds() {
-        this.props.actions.getMoTypeKpis(1, 7, (data) => {
-        })
-        this.props.actions.getMoInstKpiThresholds(1, 1, (data) => {
-        })
-    }
+
     getTimeFilter() {
         this.props.actions.getTimeFilter((data) => {
         })
@@ -77,8 +75,8 @@ class Home extends React.Component<HomeProps, any> {
         }
     }
     componentDidMount() {
-        this.getKpisAndThresholds();
         this.getTimeFilter();
+        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
     }
     render() {
         let { match, tree } = this.props
@@ -89,23 +87,17 @@ class Home extends React.Component<HomeProps, any> {
                     minSize={100}
                     maxSize={300}
                     defaultSize={200}
-                    onChange={this.triggerResize} >
+                    onChange={this.triggerResize.bind(this)} >
                     <div className={styles.tree}>
                         <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} dExpandedKeys={this.state.defaultNodeId} />
                     </div>
                     <div className={styles.main}>
-                        {
-                            (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
-                                <Switch>
-                                    <Route path={`${match.url}/:nodeId`} component={Info} />
-                                    <Route render={() => (
-                                        <h3>Please select a node.</h3>
-                                    )} />
-                                </Switch>
-                            ) : (
-                                    <Spin />
-                                )
-                        }
+                        <Switch>
+                            <Route path={`${match.url}/:nodeId`} component={Info} />
+                            <Route render={() => (
+                                <h3>Please select a node.</h3>
+                            )} />
+                        </Switch>
                     </div>
                 </SplitPane>
 

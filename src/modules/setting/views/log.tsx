@@ -18,6 +18,7 @@ export interface LogProps {
     actions: SettingActions,
     logList,
     params?
+    history?
 }
 
 class Log extends React.PureComponent<LogProps, any> {
@@ -38,7 +39,7 @@ class Log extends React.PureComponent<LogProps, any> {
         let queryObj = {
             page_num, page_size, query_key
         }
-        global.hashHistory.push(`/setting/log?${stringify(queryObj)}`)
+        this.props.history.push(`/setting/log?${stringify(queryObj)}`)
         this.setState({
             page_num: page_num
         });
@@ -60,7 +61,7 @@ class Log extends React.PureComponent<LogProps, any> {
         let { page_num, page_size } = this.state
         page_num = 0
         let queryObj = { page_num, query_key, page_size }
-        global.hashHistory.push(`/setting/log?${stringify(queryObj)}`)
+        this.props.history.push(`/setting/log?${stringify(queryObj)}`)
         this.setState({
             page_num, query_key
         });
