@@ -115,8 +115,8 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
             {
                 type: 'image/png',
                 filename: this.props.data.kpiName,
-                sourceWidth: 280,
-                sourceHeight: 200
+                sourceWidth: 400,
+                sourceHeight: 280
             }
         );
     }

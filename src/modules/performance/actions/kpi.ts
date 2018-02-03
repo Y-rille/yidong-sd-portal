@@ -171,27 +171,19 @@ export const getMoTypeKpis = (moTypeId, timeDimensionId, cb) => (dispatch) => {
  */
 
 export const getNodeData = (nodeId, items, cb) => (dispatch) => {
-  return new Promise((resolve, reject) => {
-    try {
-      let nodeInfo: any = deepPick(nodeId, items)
-      if (nodeInfo !== 'undefined') {
-        let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nodeInfo: nodeInfo }
-        dispatch(action)
-        resolve(nodeInfo)
-      } else {
-        let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nodeInfo: null }
-        dispatch(action)
-      }
-      if (cb) {
-        cb(null, nodeInfo)
-      }
-    } catch (error) {
-      let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nodeInfo: null }
-      dispatch(action)
-      reject(error)
-      if (cb) {
-        cb(error)
-      }
+  let nodeInfo: any = deepPick(nodeId, items)
+  if (nodeInfo !== 'undefined') {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nodeInfo: nodeInfo }
+    dispatch(action)
+    if (cb) {
+      cb(null, nodeInfo)
     }
-  })
+  } else {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nodeInfo: null }
+    dispatch(action)
+    if (cb) {
+      cb(new Error(`not found by ${nodeId}`), null)
+    }
+  }
+
 }

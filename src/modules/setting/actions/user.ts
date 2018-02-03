@@ -67,18 +67,13 @@ export const getUserInfo = (userId, cb) => (dispatch) => {
  */
 export const createUser = (params: CreateUserParams, cb) => (dispatch) => {
     return UserAPI.createUser(params).then((res: any) => {
-        let data = res.data
-        let userList = {
-            rows: _.keyBy([data], 'id')
-        }
-        // let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: userList }
+        let action = { type: ActionTypes.SETTING_ADD_USER, user: res.data }
+        dispatch(action);
         if (cb) {
-            cb(null, userList)
+            cb(null, res.data)
         }
-        // dispatch(action);
-
     }).catch((err) => {
-        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: null }
+        let action = { type: ActionTypes.SETTING_ADD_USER, user: null }
         dispatch(action);
     })
 }
@@ -93,11 +88,11 @@ export const editUser = (userId, params: EditUserParams, cb) => (dispatch) => {
         let userList = {
             rows: _.keyBy([data], 'id')
         }
-        // let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: userList }
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: userList }
+        dispatch(action)
         if (cb) {
             cb(null, userList)
         }
-        // dispatch(action);
     }).catch((err) => {
         let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: null }
         dispatch(action);

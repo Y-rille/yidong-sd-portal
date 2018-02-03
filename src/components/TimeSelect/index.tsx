@@ -58,8 +58,8 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
         const selectDate = this.props.defaultValue[2] == null ? '' : this.props.defaultValue[2].toString()
         const timeFilter = this.props.timeFilter;
         return (
-            <div style={{ marginTop: '-11px' }}>
-                <span style={{ marginLeft: 5 }}>创建时间：</span>
+            <div>
+                <span>创建时间：</span>
                 <LocaleProvider locale={zh_CN}>
                     <RangePicker
                         style={{ marginLeft: 10 }}

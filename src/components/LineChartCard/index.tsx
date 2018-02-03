@@ -20,7 +20,8 @@ export default class LineChartCard extends React.PureComponent<LineChartProps, a
     constructor(props) {
         super(props);
         this.state = {
-        }
+            show: true
+        };
     }
     componentDidMount() {
 
@@ -30,10 +31,13 @@ export default class LineChartCard extends React.PureComponent<LineChartProps, a
     }
     hideOne() {
         this.setState({
-            showOne: false
+            show: false
         })
     }
     render() {
+        if (!this.state.show) {
+            return <div />
+        }
         let { data } = this.props
         return (
             <Col className="gutter-row" span={12} >

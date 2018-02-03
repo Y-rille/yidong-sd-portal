@@ -73,14 +73,32 @@ class Site extends React.Component<SiteProps, any> {
         };
     }
     navClickHandler(key) {
-        this.setState({
-            activeKey: key
-        })
-        this.props.history.push(`/${key}`)
+        if (!matchPath(this.props.location.pathname, { path: `/${key}` })) {
+            this.setState({
+                activeKey: key
+            })
+            this.props.history.push(`/${key}`)
+        }
+    }
+    clearCookie(name) {
+        // let date = new Date();
+        // date.setTime(date.getTime() - 10000);
+        // let keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+        // if (keys) {
+        //     for (let i = keys.length; i--;)
+        //         document.cookie = keys[i] + "=0; expire=" + new Date(0).toUTCString();
+        // }
+        // let exp = new Date();
+        // exp.setTime(exp.getTime() - 1);
+        // let cval = this.getCookie(name);
+        // if (cval != null)
+        //     document.cookie = name + "=" + cval + ";expires=" + exp.toUTCString();
+        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
     exitHandler() {
         this.props.actions.logout((currentUser) => {
             if (!currentUser) {
+                this.clearCookie('email');
                 this.props.history.push(`/login`)
             }
         })
