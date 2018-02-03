@@ -88,16 +88,16 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
         let modalTitle = match.params.userId ? '编辑用户' : '创建用户'
         return (
             <Row className={styles.setting}>
-                <div className={styles.cont}>
-                    <div className={styles.header}>
-                        <h1 className={styles.title}>{modalTitle}</h1>
-                        <Breadcrumb>
-                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                            <Breadcrumb.Item>系统管理</Breadcrumb.Item>
-                            <Breadcrumb.Item>用户管理</Breadcrumb.Item>
-                            <Breadcrumb.Item>{modalTitle}</Breadcrumb.Item>
-                        </Breadcrumb>
-                    </div>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>{modalTitle}</h1>
+                    <Breadcrumb>
+                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                        <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                        <Breadcrumb.Item>用户管理</Breadcrumb.Item>
+                        <Breadcrumb.Item>{modalTitle}</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className={styles.tb}>
                     <UserForm
                         userInfo={this.props.userInfo}
                         wrappedComponentRef={(node) => { this.formRef = node }}
