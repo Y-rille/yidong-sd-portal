@@ -73,10 +73,12 @@ class Site extends React.Component<SiteProps, any> {
         };
     }
     navClickHandler(key) {
-        this.setState({
-            activeKey: key
-        })
-        this.props.history.push(`/${key}`)
+        if (!matchPath(this.props.location.pathname, { path: `/${key}` })) {
+            this.setState({
+                activeKey: key
+            })
+            this.props.history.push(`/${key}`)
+        }
     }
     exitHandler() {
         this.props.actions.logout((currentUser) => {
