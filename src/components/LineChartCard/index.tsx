@@ -6,6 +6,7 @@ import LineChart from '../LineChart'
 export interface LineChartProps {
     data,
     deleteCard?
+    hideFacts?
 
 }
 
@@ -32,6 +33,9 @@ export default class LineChartCard extends React.PureComponent<LineChartProps, a
         this.lineChart1.chartExport()
     }
     hideOne() {
+        this.setState({
+            show: false
+        })
         if (this.props.deleteCard) {
             this.props.deleteCard(this.props.data.kpiId)
         }

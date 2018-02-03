@@ -229,12 +229,16 @@ class Home extends React.Component<any, any> {
         let e: Event = document.createEvent('Event');
         e.initEvent('resize', true, true);
         window.dispatchEvent(e);
+
+        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
     }
 
     getSearchResult(result) {
         this.setState({ result: result })
     }
-
+    componentDidMount() {
+        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
+    }
     render() {
         return (
             <Row className={styles.performance}>

@@ -82,6 +82,9 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
     componentWillUnmount() {
         this.props.actions.resetUserInfo()
     }
+    goUserList() {
+        this.props.history.push('/setting/user')
+    }
     render() {
         let { match } = this.props
         let id = match.params.userId
@@ -93,7 +96,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     <Breadcrumb>
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>系统管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>用户管理</Breadcrumb.Item>
+                        <Breadcrumb.Item onClick={this.goUserList.bind(this)}><a>用户管理</a></Breadcrumb.Item>
                         <Breadcrumb.Item>{modalTitle}</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
