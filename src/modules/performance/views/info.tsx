@@ -30,7 +30,7 @@ export default class Info extends React.Component<InfoProps, any> {
   constructor(props) {
     super(props);
     this.state = {
-      facts: [],
+      facts: '',
     };
   }
   handleOk(kpis) {
@@ -60,7 +60,24 @@ export default class Info extends React.Component<InfoProps, any> {
   }
   getKpisAndThresholds(nodeInfo) {
     // TODO change params
-    this.props.actions.getMoTypeKpis(1, 7, (data) => {
+    this.props.actions.getMoTypeKpis(1, 7, (moTypeKpis) => {
+      // 设置默认选中的值
+      if (moTypeKpis) {
+        let facts = []
+        if (this.state.facts.length === 0) {
+          for (let i = 0; i < 4; i++) {
+            if (moTypeKpis[i]) {
+              facts.push(moTypeKpis[i].kpiId)
+            }
+          }
+          var str_facts = facts.join(',')
+          this.setState({
+            facts: str_facts,
+          })
+        }
+
+      }
+
     })
     this.props.actions.getMoInstKpiThresholds(1, 1, (data) => {
     })
@@ -83,23 +100,13 @@ export default class Info extends React.Component<InfoProps, any> {
     let pre_nodeId = this.props.match.params.nodeId
     let next_nodeId = nextProps.match.params.nodeId
     if (pre_nodeId === next_nodeId) {
-      // 设置默认选中的值
-      let { moTypeKpis } = nextProps
-      if (moTypeKpis) {
-        let facts = []
-        for (let i = 0; i < 4; i++) {
-          if (moTypeKpis[i]) {
-            facts.push(moTypeKpis[i].kpiId)
-          }
-        }
-        var str_facts = facts.join(',')
-        this.state = {
-          facts: str_facts,
-        };
-      }
     } else {
+      this.setState({
+        facts: ''
+      })
       this.props.actions.cleanMoTypeKpisAndMoInstKpiThresholds()
       this.getNodeInfo(next_nodeId)
+
     }
   }
 
