@@ -18,6 +18,7 @@ export interface LogProps {
     actions: SettingActions,
     logList,
     params?
+    history?
 }
 
 class Log extends React.PureComponent<LogProps, any> {
@@ -38,7 +39,7 @@ class Log extends React.PureComponent<LogProps, any> {
         let queryObj = {
             page_num, page_size, query_key
         }
-        global.hashHistory.push(`/setting/log?${stringify(queryObj)}`)
+        this.props.history.push(`/setting/log?${stringify(queryObj)}`)
         this.setState({
             page_num: page_num
         });
@@ -60,7 +61,7 @@ class Log extends React.PureComponent<LogProps, any> {
         let { page_num, page_size } = this.state
         page_num = 0
         let queryObj = { page_num, query_key, page_size }
-        global.hashHistory.push(`/setting/log?${stringify(queryObj)}`)
+        this.props.history.push(`/setting/log?${stringify(queryObj)}`)
         this.setState({
             page_num, query_key
         });
@@ -112,9 +113,9 @@ class Log extends React.PureComponent<LogProps, any> {
                     <div className={styles.header}>
                         <h1 className={styles.title}>日志管理</h1>
                         <Breadcrumb>
-                            <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                            <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>日志管理</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
                     <div className={styles.filter}>

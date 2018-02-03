@@ -661,7 +661,7 @@ let querytree = {
                     "lablePath": "厂家资源树/主机/华为/D04-hpeDL380-COMP19",
                     "dataType": 2,
                     "bizFields": {
-                      "moTypeId": "1",
+                      "moTypeId": "2",
                       "moDimensionId": "T_HOST",
                       "moInstId": "5",
                       "moTypeEnName": "HOST"
@@ -690,7 +690,7 @@ let querytree = {
                     "lablePath": "厂家资源树/主机/IBM/D04-hpeDL380-COMP0920",
                     "dataType": 2,
                     "bizFields": {
-                      "moTypeId": "1",
+                      "moTypeId": "3",
                       "moDimensionId": "T_HOST",
                       "moInstId": "7",
                       "moTypeEnName": "HOST"
@@ -705,7 +705,7 @@ let querytree = {
                     "lablePath": "厂家资源树/主机/IBM/D04-hpeDL380-COMP29",
                     "dataType": 2,
                     "bizFields": {
-                      "moTypeId": "1",
+                      "moTypeId": "4",
                       "moDimensionId": "T_HOST",
                       "moInstId": "8",
                       "moTypeEnName": "HOST"

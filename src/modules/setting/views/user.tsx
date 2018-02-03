@@ -24,6 +24,7 @@ export interface UserProps {
     actions: SettingActions,
     userList,
     params?
+    history?
 }
 
 class User extends React.PureComponent<UserProps, any> {
@@ -70,11 +71,11 @@ class User extends React.PureComponent<UserProps, any> {
         })
     }
     goCreate() {
-        global.hashHistory.replace(`/setting/user/create`)
+        this.props.history.push(`/setting/user/create`)
     }
     goEdit(id) {
         // 编辑
-        global.hashHistory.replace(`/setting/user/edit/${id}`)
+        this.props.history.push(`/setting/user/edit/${id}`)
     }
     goDelete(userId, name) {
         let self = this
@@ -100,7 +101,7 @@ class User extends React.PureComponent<UserProps, any> {
         let queryObj = {
             page_num, page_size, query_key
         }
-        global.hashHistory.push(`/setting/user?${stringify(queryObj)}`)
+        this.props.history.push(`/setting/user?${stringify(queryObj)}`)
         this.setState({
             page_num: page_num
         });
@@ -122,7 +123,7 @@ class User extends React.PureComponent<UserProps, any> {
         let { page_num, page_size } = this.state
         page_num = 0
         let queryObj = { page_num, query_key, page_size }
-        global.hashHistory.push(`/setting/user?${stringify(queryObj)}`)
+        this.props.history.push(`/setting/user?${stringify(queryObj)}`)
         this.setState({
             page_num, query_key
         });
@@ -156,9 +157,9 @@ class User extends React.PureComponent<UserProps, any> {
                             <div className={styles.header}>
                                 <h1 className={styles.title}>用户管理</h1>
                                 <Breadcrumb>
-                                    <Breadcrumb.Item>首页</Breadcrumb.Item>
-                                    <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                                    <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                                    <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                                    <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                                    <Breadcrumb.Item>用户管理</Breadcrumb.Item>
                                 </Breadcrumb>
                             </div>
                             <div className={styles.filter}>

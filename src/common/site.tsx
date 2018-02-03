@@ -13,6 +13,7 @@ import { withRouter, matchPath } from 'react-router'
 import HomeActionCreatorsMap, { CommonActions } from '../modules/common/actions/index'
 
 import emitter from './emitter'
+import history from '../modules/performance/container/history';
 
 declare let global: any;
 
@@ -35,6 +36,7 @@ export interface SiteProps {
     location,
     matchPath,
     match,
+    history?,
     tree
 }
 
@@ -74,7 +76,7 @@ class Site extends React.Component<SiteProps, any> {
         this.setState({
             activeKey: key
         })
-        global.hashHistory.push(`/${key}`)
+        this.props.history.push(`/${key}`)
     }
     clearCookie(name) {
         // let date = new Date();
@@ -95,7 +97,7 @@ class Site extends React.Component<SiteProps, any> {
         this.props.actions.logout((currentUser) => {
             if (!currentUser) {
                 this.clearCookie('email');
-                global.hashHistory.push(`/login`)
+                this.props.history.push(`/login`)
             }
         })
     }
@@ -121,7 +123,7 @@ class Site extends React.Component<SiteProps, any> {
             if (this.props.location.pathname.indexOf('/login') < 0) {
                 this.props.actions.touch((user) => {
                     if (!user) {
-                        global.hashHistory.replace('/login')
+                        this.props.history.replace('/login')
                     }
                 })
             }
@@ -129,9 +131,19 @@ class Site extends React.Component<SiteProps, any> {
     }
 
     componentWillReceiveProps(nextProps: any) {
+        let { pathname } = nextProps.location
         if (!nextProps.tree && nextProps.currentUser) {
             this.props.actions.querytree('0')
         }
+        this.state = {
+            activeKey: _.compact([
+                matchPath(pathname, { path: '/dashboard' }) != null && 'dashboard',
+                matchPath(pathname, { path: '/setting' }) != null && 'setting',
+                matchPath(pathname, { path: '/resource' }) != null && 'resource',
+                matchPath(pathname, { path: '/alarm' }) != null && 'alarm',
+                matchPath(pathname, { path: '/performance' }) != null && 'performance',
+            ]).toString()
+        };
     }
     componentDidMount() {
     }
