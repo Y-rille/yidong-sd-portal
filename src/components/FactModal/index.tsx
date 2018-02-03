@@ -12,6 +12,7 @@ export interface FactModalProps {
     visible
     handleOk
     handleCancel
+    facts
 }
 
 /**
@@ -33,13 +34,6 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
     }
     handleOk() {
         let { kpisValue } = this.state;
-        _.map(this.kpis, (item) => {
-            if (kpisValue.indexOf(item.kpiId) > -1) {
-                item.active = true;
-            } else {
-                item.active = false;
-            }
-        })
         this.props.handleOk(kpisValue);
     }
     handleCancel() {
@@ -55,17 +49,10 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         })
     }
     getDefaultKpi() {
+        let facts = this.props.facts;
         let defaultKpis = _.compact(_.map(this.kpis, (item, index) => {
-            if (!item.hasOwnProperty('active')) {
-                item.active = false;
-                if (index < 4) {
-                    item.active = true;
-                    return item;
-                }
-            } else {
-                if (item.active) {
-                    return item
-                }
+            if (facts.indexOf(item.kpiId) > -1) {
+                return item;
             }
         }))
         let defaultValue = _.map(defaultKpis, (item) => {
@@ -82,19 +69,6 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         })
     }
     renderCheckGroup() {
-        let defaultKpis = _.compact(_.map(this.kpis, (item, index) => {
-            if (!item.hasOwnProperty('active')) {
-                item.active = false;
-                if (index < 4) {
-                    item.active = true;
-                    return item;
-                }
-            } else {
-                if (item.active) {
-                    return item
-                }
-            }
-        }))
         let defaultValue = this.getDefaultKpi()
 
         return (
