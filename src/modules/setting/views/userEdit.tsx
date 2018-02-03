@@ -71,9 +71,6 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
         }
 
     }
-    goUserList() {
-        this.props.history.replace('/setting/user')
-    }
     componentWillMount() {
         let { match } = this.props
         let id = match.params.userId
@@ -85,22 +82,25 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
     componentWillUnmount() {
         this.props.actions.resetUserInfo()
     }
+    goUserList() {
+        this.props.history.push('/setting/user')
+    }
     render() {
         let { match } = this.props
         let id = match.params.userId
         let modalTitle = match.params.userId ? '编辑用户' : '创建用户'
         return (
             <Row className={styles.setting}>
-                <div className={styles.cont}>
-                    <div className={styles.header}>
-                        <h1 className={styles.title}>{modalTitle}</h1>
-                        <Breadcrumb>
-                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                            <Breadcrumb.Item>系统管理</Breadcrumb.Item>
-                            <Breadcrumb.Item onClick={this.goUserList.bind(this)}><a>用户管理</a></Breadcrumb.Item>
-                            <Breadcrumb.Item>{modalTitle}</Breadcrumb.Item>
-                        </Breadcrumb>
-                    </div>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>{modalTitle}</h1>
+                    <Breadcrumb>
+                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                        <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                        <Breadcrumb.Item onClick={this.goUserList.bind(this)}><a>用户管理</a></Breadcrumb.Item>
+                        <Breadcrumb.Item>{modalTitle}</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className={styles.tb}>
                     <UserForm
                         userInfo={this.props.userInfo}
                         wrappedComponentRef={(node) => { this.formRef = node }}

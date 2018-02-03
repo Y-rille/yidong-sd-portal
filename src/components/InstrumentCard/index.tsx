@@ -8,7 +8,8 @@ import styles from './index.less'
 export interface InstrumentCardProps {
     data,
     gradient?,
-    deleteCard?
+    deleteCard?,
+    hideFacts?
 }
 
 /**
@@ -25,7 +26,7 @@ export default class InstrumentCard extends React.PureComponent<InstrumentCardPr
     constructor(props) {
         super(props);
         this.state = {
-            // show: true
+            show: true
         };
     }
     componentDidMount() {
@@ -35,17 +36,17 @@ export default class InstrumentCard extends React.PureComponent<InstrumentCardPr
         this.instrumentPanel.chartExport()
     }
     hideOne() {
-        // this.setState({
-        //     show: false
-        // })
+        this.setState({
+            show: false
+        })
         if (this.props.deleteCard) {
             this.props.deleteCard(this.props.data.kpiId)
         }
     }
     render() {
-        // if (!this.state.show) {
-        //     return <div />
-        // }
+        if (!this.state.show) {
+            return <div />
+        }
         let { data } = this.props
         return (
             <Col className="gutter-row" span={8} >

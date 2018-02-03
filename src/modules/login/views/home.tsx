@@ -24,25 +24,18 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
     }
     constructor(props) {
         super(props)
-        this.state = {
-            loading: false,
-        }
     }
     handleSubmit = (e) => {
         e.preventDefault();
         let self = this
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                self.setState({
-                    loading: true
-                })
                 self.props.actions.login(values, (data) => {
-                    self.setState({
-                        loading: false
-                    })
                     if (data) {
                         emitter.emit('message', 'success', '登录成功！')
                         this.props.history.replace(`/performance`)
+                    } else {
+                        emitter.emit('message', 'error', '用户名或密码错误！')
                     }
                 })
             }
@@ -57,14 +50,14 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                         {getFieldDecorator('email', {
                             rules: [{ required: true, message: '请输入用户名!' }],
                         })(
-                            <Input size="large" prefix={<Icon type="user" className={styles.prefixIcon} />} placeholder="用户名" disabled={this.state.loading} />
+                            <Input size="large" prefix={<Icon type="user" className={styles.prefixIcon} />} placeholder="用户名" />
                             )}
                     </FormItem>
                     <FormItem>
                         {getFieldDecorator('password', {
                             rules: [{ required: true, message: '请输入密码!' }],
                         })(
-                            <Input size="large" prefix={<Icon type="lock" className={styles.prefixIcon} />} placeholder="密码" type="password" disabled={this.state.loading} />
+                            <Input size="large" prefix={<Icon type="lock" className={styles.prefixIcon} />} placeholder="密码" type="password" />
                             )}
 
                     </FormItem>
@@ -75,7 +68,7 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                         })(
                             <Checkbox className={styles.remember}>记住用户名</Checkbox>
                             )} */}
-                        <Button size="large" className={styles.submit} type="primary" htmlType="submit" disabled={this.state.loading} >
+                        <Button size="large" className={styles.submit} type="primary" htmlType="submit">
                             登录 </Button>
                         <a className={styles.forgot} href="javascript:;">忘记密码</a>
                     </FormItem>

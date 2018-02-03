@@ -31,6 +31,7 @@ export default class Info extends React.Component<InfoProps, any> {
     super(props);
     this.state = {
       facts: '',
+      changeFacts: ''
     };
   }
   handleOk(kpis) {
@@ -38,6 +39,7 @@ export default class Info extends React.Component<InfoProps, any> {
     this.setState({
       visible: false,
       facts: str_facts,
+      changeFacts: str_facts
     })
   }
   handleCancel() {
@@ -72,6 +74,7 @@ export default class Info extends React.Component<InfoProps, any> {
           var str_facts = facts.join(',')
           this.setState({
             facts: str_facts,
+            changeFacts: str_facts
           })
         }
 
@@ -129,7 +132,7 @@ export default class Info extends React.Component<InfoProps, any> {
   renderFactModel(moTypeKpis) {
     if (moTypeKpis) {
       return (
-        <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={moTypeKpis} />
+        <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={moTypeKpis} facts={this.state.facts} />
       )
     } else {
       return <div />
@@ -164,7 +167,7 @@ export default class Info extends React.Component<InfoProps, any> {
             (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
               <Switch>
                 <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-                <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.facts} deleteCard={this.deleteCard.bind(this)} />} />
+                <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.changeFacts} deleteCard={this.deleteCard.bind(this)} />} />
                 <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.facts} deleteCard={this.deleteCard.bind(this)} />} />
               </Switch>
             ) : (
