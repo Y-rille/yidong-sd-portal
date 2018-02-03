@@ -113,36 +113,43 @@ export default class Info extends React.Component<InfoProps, any> {
   render() {
     let { match, moTypeKpis } = this.props
     let { activeKey } = this.state
-    return (
-      <div>
-        <div className={styles.header}>
-          <h1 className={styles.title}>交换机</h1>
-          <Breadcrumb>
-            <Breadcrumb.Item>性能监控</Breadcrumb.Item>
-            <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-            <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
-            <Breadcrumb.Item>四级菜单</Breadcrumb.Item>
-          </Breadcrumb>
+    if (this.props.nodeInfo) {
+      let lablePathArr = this.props.nodeInfo.lablePath.split('/')
+      return (
+        <div>
+          <div className={styles.header}>
+            <h1 className={styles.title}>{this.props.nodeInfo.nodeName}</h1>
+            <Breadcrumb>
+              {
+                lablePathArr.map((item, index) => {
+                  return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                })
+              }
+            </Breadcrumb>
+          </div>
+          <div className={styles.tabBar}>
+            <ul>
+              {this.renderTab()}
+            </ul>
+            <Button onClick={this.showModal.bind(this)}><Icon type="tag-o" />添加指标</Button>
+          </div>
+          {
+            (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
+              <Switch>
+                <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
+                <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.facts} />} />
+                <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.facts} />} />
+              </Switch>
+            ) : (
+                <Spin />
+              )
+          }
+          {this.renderFactModel(moTypeKpis)}
         </div>
-        <div className={styles.tabBar}>
-          <ul>
-            {this.renderTab()}
-          </ul>
-          <Button onClick={this.showModal.bind(this)}><Icon type="tag-o" />添加指标</Button>
-        </div>
-        {
-          (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
-            <Switch>
-              <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-              <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.facts} />} />
-              <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.facts} />} />
-            </Switch>
-          ) : (
-              <Spin />
-            )
-        }
-        {this.renderFactModel(moTypeKpis)}
-      </div>
-    );
+
+      )
+    } else {
+      return <Spin />
+    }
   }
 }

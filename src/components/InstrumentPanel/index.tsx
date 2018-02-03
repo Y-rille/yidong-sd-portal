@@ -139,7 +139,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                     let plotBandsobj1 = {
                         from: plotBandsArr.length === 0 ? min : plotBandsArr[plotBandsArr.length - 1]['to'],
                         to: plot,
-                        color: plotBandsArr.length === 0 ? '#7cd8ba' : plotBandsOpt[i - 1]['color'],
+                        color: plotBandsArr.length === 0 ? '#18b4ef' : plotBandsOpt[i - 1]['color'],
                         innerRadius: '95%',
                         outerRadius: '98%'
                     }
@@ -152,7 +152,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
                         let plotBandsobj2 = {
                             from: plotBandsArr.length === 0 ? min : plotBandsArr[plotBandsArr.length - 1]['to'],
                             to: max,
-                            color: plotBandsArr.length === 0 ? '#7cd8ba' : plotBandsOpt[i]['color'],
+                            color: plotBandsArr.length === 0 ? '#18b4ef' : plotBandsOpt[i]['color'],
                             innerRadius: '95%',
                             outerRadius: '98%'
                         }
@@ -171,7 +171,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
         //     stopsArr = [[1, '#7cd8ba']]
         // }
 
-        let stopsColor = '#7cd8ba' // 进度条颜色
+        let stopsColor = '#18b4ef' // 进度条颜色
         if (data.threshold) {
             for (let i = 0; i < plotBandsOpt.length; i++) {
                 if (current >= parseFloat(data.threshold[plotBandsOpt[i].plot])) {
