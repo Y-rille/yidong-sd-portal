@@ -59,8 +59,7 @@ export default class Info extends React.Component<InfoProps, any> {
     this.props.history.push(`${match.url}/${path}`)
   }
   getKpisAndThresholds(nodeInfo) {
-    // TODO change params
-    this.props.actions.getMoTypeKpis(1, 7, (moTypeKpis) => {
+    this.props.actions.getMoTypeKpis(nodeInfo.bizFields.moTypeId, 7, (moTypeKpis) => {
       // 设置默认选中的值
       if (moTypeKpis) {
         let facts = []
@@ -79,7 +78,7 @@ export default class Info extends React.Component<InfoProps, any> {
       }
 
     })
-    this.props.actions.getMoInstKpiThresholds(1, 1, (data) => {
+    this.props.actions.getMoInstKpiThresholds(nodeInfo.bizFields.moTypeId, nodeInfo.bizFields.moInstId, (data) => {
     })
   }
 
