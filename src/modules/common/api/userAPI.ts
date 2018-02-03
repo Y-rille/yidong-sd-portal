@@ -1,4 +1,5 @@
 import axios from 'axios'
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 export interface LoginParams {
   email: string,
@@ -7,13 +8,17 @@ export interface LoginParams {
 
 class UserAPI {
   login(params: LoginParams) {
-    return axios.post(`/api/v1/login`, params)
+    return axios.post(`/api_setting/v1/login`, params, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
   }
   logout() {
-    return axios.get(`/api/v1/logout`)
+    return axios.post(`/api_setting/v1/logout`)
   }
   touch() {
-    return axios.get(`/api/v1/users/common/info`)
+    return axios.get(`/api_setting/v1/user/touch`)
   }
 }
 
