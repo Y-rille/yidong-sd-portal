@@ -91,7 +91,7 @@ class Home extends React.Component<HomeProps, any> {
                     <div className={styles.tree}>
                         <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} dExpandedKeys={this.state.defaultNodeId} />
                     </div>
-                    <div className={styles.main}>
+                    <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
                             <Route path={`${match.url}/search/:querykey`} component={Result} />
                             <Route path={`${match.url}/:nodeId`} component={Info} />

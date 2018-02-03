@@ -75,10 +75,10 @@ class History extends React.Component<any, any> {
             let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
             return (
                 <div>
-                    <div className={styles.toolBar} style={{ backgroundColor: '#FFF', height: 45 }}>
+                    <div className={styles.toolBar} style={{ backgroundColor: '#FFF' }}>
                         <TimeSelect timeFilter={this.props.timeFilter} defaultValue={[this.state.begintime, this.state.endtime, this.state.timeFilter]} inquire={this.inquire.bind(this)} />
                     </div>
-                    <Row gutter={20} style={{ padding: '0 20px' }}>
+                    <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }}>
                         {this.renderLineChartCard(result)}
                     </Row>
                 </div>
