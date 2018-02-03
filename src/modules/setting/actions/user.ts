@@ -84,22 +84,31 @@ export const createUser = (params: CreateUserParams, cb) => (dispatch) => {
  */
 export const editUser = (userId, params: EditUserParams, cb) => (dispatch) => {
     return UserAPI.editUser(userId, params).then((res) => {
-        let action = { type: ActionTypes.SETTING_SAY_HELLO, user: res.data }
+        let action = { type: ActionTypes.SETTING_EDIT_USER, user: res.data }
         dispatch(action)
         if (cb) {
             cb(null, res.data)
         }
     }).catch((err) => {
-        let action = { type: ActionTypes.SETTING_SAY_HELLO, user: null }
+        let action = { type: ActionTypes.SETTING_EDIT_USER, user: null }
         dispatch(action);
     })
 }
+
 /**
  * reset 用户信息
  * @param cb 
  */
 export const resetUserInfo = () => (dispatch) => {
     return dispatch({ type: ActionTypes.SETTING_SAY_HELLO, userInfo: null })
+}
+
+/**
+ * reset 用户信息
+ * @param cb 
+ */
+export const resetUserList = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.SETTING_SAY_HELLO, userList: null })
 }
 
 /**

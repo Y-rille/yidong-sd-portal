@@ -3,19 +3,13 @@
 .setting {
     height: 100%;
     .main {
-        margin: @margin-base;
+        margin: 20px;
         background: #fff;
         border-radius: 4px;
         overflow: hidden;
-        .cont {
-            min-height: 556px;
-            padding: @padding-base;
+        .header {
+            padding: 20px;
             border-bottom: 1px solid #e2e4e9;
-            .header {
-                padding-bottom: @padding-base;
-                margin-bottom: @margin-base;
-                border-bottom: 1px solid #e2e4e9;                               
-            }
             .title {
                 margin-bottom: 8px;
                 font-size: 20px;
@@ -24,11 +18,14 @@
             }
         }
         .footer {
-                padding: 20px 80px;
-                :nth-child(2){
-                    margin-left: @margin-min;
-                }
+            padding: 20px 80px;
+            :nth-child(2){
+                margin-left: @margin-min;
             }
+        }
+        .tb{
+            padding: 20px
+        }
     }
     .leftBg{
         background: #fff;
@@ -40,7 +37,6 @@
         margin-bottom: @margin-base;
         .search{
             width: 300px;
-            margin-left: 8px;
         }
         .search_bn{
             margin-left: 8px
