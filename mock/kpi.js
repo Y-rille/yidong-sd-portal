@@ -72,24 +72,6 @@ let getMoTypeKpis = {
         "code": 1,
         "data": [
           {
-            "kpiId": 6,
-            "kpiName": "主机.网络端口接收速率",
-            "kpiRealName": "网络端口接收速率",
-            "mogrpId": 1,
-            "kpiDesc": "计算节点必选，所有业务端口接收速率的总和（1B=8b）",
-            "kpiCategory": "PI",
-            "kpiType": 2,
-            "kpiUnit": "Mbps",
-            "kpiAlgorithm": "采集",
-            "dimensionId": 7,
-            "priority": 1,
-            "kpiTablefield": "NicReceiveRate",
-            "version": "1.0",
-            "maxValue": "1024",
-            "minValue": "0",
-            "state": 1
-          },
-          {
             "kpiId": 4,
             "kpiName": "主机.可用内存",
             "kpiRealName": "可用内存",
@@ -127,58 +109,6 @@ let getMoTypeKpis = {
             "minValue": "0",
             "state": 1
           },
-          {
-            "kpiId": 3,
-            "kpiName": "主机.总内存",
-            "kpiRealName": "总内存",
-            "mogrpId": 1,
-            "kpiCategory": "PI",
-            "kpiType": 2,
-            "kpiUnit": "MB",
-            "kpiAlgorithm": "采集",
-            "dimensionId": 7,
-            "priority": 1,
-            "kpiTablefield": "RamTotal",
-            "version": "1.0",
-            "maxValue": "131072",
-            "minValue": "0",
-            "state": 1
-          },
-          {
-            "kpiId": 2,
-            "kpiName": "主机.内存使用率",
-            "kpiRealName": "内存使用率",
-            "mogrpId": 1,
-            "kpiCategory": "PI",
-            "kpiType": 2,
-            "kpiUnit": "%",
-            "kpiAlgorithm": "采集",
-            "dimensionId": 7,
-            "priority": 1,
-            "kpiTablefield": "RamUtil",
-            "version": "1.0",
-            "maxValue": "100",
-            "minValue": "0",
-            "state": 1
-          },
-          {
-            "kpiId": 1,
-            "kpiName": "主机.CPU使用率",
-            "kpiRealName": "CPU使用率",
-            "mogrpId": 1,
-            "kpiDesc": "总CPU使用率/CPU数量",
-            "kpiCategory": "PI",
-            "kpiType": 2,
-            "kpiUnit": "%",
-            "kpiAlgorithm": "采集",
-            "dimensionId": 7,
-            "priority": 1,
-            "kpiTablefield": "CpuUtil",
-            "version": "1.0",
-            "maxValue": "100",
-            "minValue": "0",
-            "state": 1
-          }
         ]
       }
 
@@ -228,26 +158,6 @@ let getMoTypeKpis = {
         "code": 1,
         "data": [
           {
-            "kpiId": 4,
-            "kpiName": "主机.可用内存",
-            "kpiRealName": "可用内存",
-            "mogrpId": 1,
-            "kpiDesc": "",
-            "kpiCategory": "PI",
-            "kpiType": 2,
-            "kpiUnit": "MB",
-            "kpiAlgorithm": "采集",
-            "dimensionId": 7,
-            "priority": 1,
-            "kpiTablefield": "RamUsed",
-            "mogrpCnname": "主机",
-            "mogrpEnname": "HOST",
-            "version": "1.0",
-            "maxValue": "131072",
-            "minValue": "0",
-            "state": 1
-          },
-          {
             "kpiId": 3,
             "kpiName": "主机.总内存",
             "kpiRealName": "总内存",
@@ -261,6 +171,24 @@ let getMoTypeKpis = {
             "kpiTablefield": "RamTotal",
             "version": "1.0",
             "maxValue": "131072",
+            "minValue": "0",
+            "state": 1
+          },
+          {
+            "kpiId": 6,
+            "kpiName": "主机.网络端口接收速率",
+            "kpiRealName": "网络端口接收速率",
+            "mogrpId": 1,
+            "kpiDesc": "计算节点必选，所有业务端口接收速率的总和（1B=8b）",
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "Mbps",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "NicReceiveRate",
+            "version": "1.0",
+            "maxValue": "1024",
             "minValue": "0",
             "state": 1
           },
@@ -364,26 +292,26 @@ let getMoInstKpiThresholds = {
             "thresholdId": 1,
             "kpiId": 5,
             "criticalThresholdOperator": ">",
-            "criticalThresholdValue": "45000",
+            "criticalThresholdValue": "800",
             "majorThresholdOperator": ">",
-            "majorThresholdValue": "30000",
+            "majorThresholdValue": "400",
             "minorThresholdOperator": ">",
-            "minorThresholdValue": "19000",
+            "minorThresholdValue": "200",
             "normalThresholdOperator": ">",
-            "normalThresholdValue": "15000",
+            "normalThresholdValue": "100",
             "state": 1
           },
           {
             "thresholdId": 1,
-            "kpiId": 6,
+            "kpiId": 4,
             "criticalThresholdOperator": ">",
-            "criticalThresholdValue": "1000",
+            "criticalThresholdValue": "30000",
             "majorThresholdOperator": ">",
-            "majorThresholdValue": "600",
+            "majorThresholdValue": "25000",
             "minorThresholdOperator": ">",
-            "minorThresholdValue": "300",
+            "minorThresholdValue": "20000",
             "normalThresholdOperator": ">",
-            "normalThresholdValue": "100",
+            "normalThresholdValue": "10000",
             "state": 1
           }
         ]
@@ -394,28 +322,28 @@ let getMoInstKpiThresholds = {
         "data": [
           {
             "thresholdId": 1,
-            "kpiId": 5,
+            "kpiId": 1,
             "criticalThresholdOperator": ">",
-            "criticalThresholdValue": "30000",
+            "criticalThresholdValue": "90",
             "majorThresholdOperator": ">",
-            "majorThresholdValue": "25000",
+            "majorThresholdValue": "80",
             "minorThresholdOperator": ">",
-            "minorThresholdValue": "20000",
+            "minorThresholdValue": "60",
             "normalThresholdOperator": ">",
-            "normalThresholdValue": "10000",
+            "normalThresholdValue": "30",
             "state": 1
           },
           {
             "thresholdId": 1,
-            "kpiId": 6,
+            "kpiId": 2,
             "criticalThresholdOperator": ">",
-            "criticalThresholdValue": "1000",
+            "criticalThresholdValue": "90",
             "majorThresholdOperator": ">",
-            "majorThresholdValue": "600",
+            "majorThresholdValue": "30",
             "minorThresholdOperator": ">",
-            "minorThresholdValue": "300",
+            "minorThresholdValue": "50",
             "normalThresholdOperator": ">",
-            "normalThresholdValue": "100",
+            "normalThresholdValue": "20",
             "state": 1
           }
         ]
@@ -426,15 +354,15 @@ let getMoInstKpiThresholds = {
         "data": [
           {
             "thresholdId": 1,
-            "kpiId": 5,
+            "kpiId": 3,
             "criticalThresholdOperator": ">",
-            "criticalThresholdValue": "800",
+            "criticalThresholdValue": "50000",
             "majorThresholdOperator": ">",
-            "majorThresholdValue": "400",
+            "majorThresholdValue": "25000",
             "minorThresholdOperator": ">",
-            "minorThresholdValue": "200",
+            "minorThresholdValue": "20000",
             "normalThresholdOperator": ">",
-            "normalThresholdValue": "100",
+            "normalThresholdValue": "10000",
             "state": 1
           },
           {
@@ -469,6 +397,10 @@ let getData = {
         "T_HOST",
         "4",
         "5",
+        "1",
+        "2",
+        "3",
+        "6"
 
       ],
       "values": [
@@ -476,79 +408,131 @@ let getData = {
           1514977200000,
           "D03-hpeDL380-COMP04",
           13072,
-          34523
+          200,
+          233,
+          566,
+          20000,
+          788
         ],
         [
           1514978100000,
           "D03-hpeDL380-COMP04",
           12543,
-          22111
+          100,
+          566,
+          444,
+          20300,
+          344
         ],
         [
           1514979000000,
           "D03-hpeDL380-COMP04",
           32121,
-          43212
+          300,
+          666,
+          555,
+          30000,
+          444
         ],
         [
           1514979900000,
           "D03-hpeDL380-COMP04",
           13072,
-          34523
+          700,
+          233,
+          566,
+          20000,
+          788
         ],
         [
           1514980800000,
           "D03-hpeDL380-COMP04",
           13072,
-          34523
+          1000,
+          786,
+          556,
+          20000,
+          566
         ],
         [
           1514981700000,
           "D03-hpeDL380-COMP04",
           13072,
-          34523
+          988,
+          123,
+          232,
+          11999,
+          343
         ],
         [
           1514982600000,
           "D03-hpeDL380-COMP04",
           13072,
-          34523
+          445,
+          676,
+          555,
+          40030,
+          454
         ],
         [
           1514982600000,
           "D03-hpeDL380-COMP04",
           12345,
-          12345
+          222,
+          221,
+          222,
+          20000,
+          1000
         ],
         [
           1514983500000,
           "D03-hpeDL380-COMP04",
           13072,
-          34523
+          222,
+          233,
+          566,
+          20000,
+          788
         ],
         [
           1514984400000,
           "D03-hpeDL380-COMP04",
           13072,
-          34523
+          444,
+          233,
+          566,
+          20000,
+          788
         ],
         [
           1514985300000,
           "D03-hpeDL380-COMP04",
           11111,
-          13222
+          555,
+          333,
+          454,
+          20000,
+          222
         ],
         [
           1514986200000,
           "D03-hpeDL380-COMP04",
           13221,
-          23111
+          777,
+          233,
+          222,
+          20000,
+          788
         ],
         [
           1514987100000,
           "D03-hpeDL380-COMP04",
           13072,
-          13211
+          555,
+          233,
+          566,
+          23222,
+          776
         ]
       ],
       "status": "OK",
@@ -562,6 +546,10 @@ let getData = {
           "EVENT_TIMESTAMP",
           "T_HOST",
           "4",
+          "5",
+          "1",
+          "2",
+          "3",
           "6"
         ],
         "values": [
@@ -569,7 +557,11 @@ let getData = {
             1514977200000,
             "D03-hpeDL380-COMP04",
             13072,
-            990
+            990,
+            29,
+            50,
+            29999,
+            399
           ]
         ],
         "status": "OK",
@@ -579,6 +571,7 @@ let getData = {
         "offset": 0,
         "totalCount": 1
       }
+    
   }
 }
 
