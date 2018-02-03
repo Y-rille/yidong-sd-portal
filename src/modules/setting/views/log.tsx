@@ -112,9 +112,9 @@ class Log extends React.PureComponent<LogProps, any> {
                     <div className={styles.header}>
                         <h1 className={styles.title}>日志管理</h1>
                         <Breadcrumb>
-                            <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                            <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>日志管理</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
                     <div className={styles.filter}>
