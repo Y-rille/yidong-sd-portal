@@ -104,7 +104,7 @@ class Current extends React.Component<any, any> {
                 <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
                     {result.map((item, index) => {
                         return (
-                            <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={index} data={item} />
+                            <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} />
                         )
                     })}
                 </Row>
