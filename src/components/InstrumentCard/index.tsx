@@ -7,7 +7,8 @@ import styles from './index.less'
 
 export interface InstrumentCardProps {
     data,
-    gradient?
+    gradient?,
+    deleteCard?
 }
 
 /**
@@ -37,6 +38,9 @@ export default class InstrumentCard extends React.PureComponent<InstrumentCardPr
         this.setState({
             show: false
         })
+        if (this.props.deleteCard) {
+            this.props.deleteCard(this.props.data.kpiId)
+        }
     }
     render() {
         if (!this.state.show) {
