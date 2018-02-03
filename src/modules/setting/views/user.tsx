@@ -37,8 +37,8 @@ class User extends React.PureComponent<UserProps, any> {
             userId: '',
             visible: false,
             listLoading: false,
-            page_size: 4,
-            page_num: page_num ? page_num : 0,
+            page_size: 10,
+            page_num: page_num ? page_num : 1,
             query_key: query_key ? query_key : '',
         };
     }
@@ -96,7 +96,7 @@ class User extends React.PureComponent<UserProps, any> {
         });
     }
     goPage(current) {
-        let page_num = current - 1
+        let page_num = current
         let { page_size, query_key } = this.state
         let queryObj = {
             page_num, page_size, query_key

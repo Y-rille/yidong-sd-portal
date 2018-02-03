@@ -81,7 +81,7 @@ export default class LogTable extends React.PureComponent<LogTableProps, any> {
         return (
             <div className={styles.logtable}>
                 {this.renderLogTable()}
-                <Pagination className={styles.pagination} onChange={this.goPage.bind(this)} total={logList.count} current={parseInt(page_num, 10) + 1} pageSize={page_size} showQuickJumper />
+                <Pagination className={styles.pagination} onChange={this.goPage.bind(this)} total={logList.count} current={parseInt(page_num, 10)} pageSize={page_size} showQuickJumper />
             </div>
         );
     }
