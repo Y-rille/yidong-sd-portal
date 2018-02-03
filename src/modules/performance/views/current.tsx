@@ -54,7 +54,7 @@ class Current extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            showOne: true,
+            // showOne: true,
         };
     }
     tabClick() {
@@ -63,11 +63,7 @@ class Current extends React.Component<any, any> {
     printInstrumentPane() {
         this.instrumentPanel_1.chartExport()
     }
-    hideOne() {
-        this.setState({
-            showOne: false
-        })
-    }
+
     componentWillMount() {
         if (this.props.kpis) {
             this.getData(this.props.kpis)
@@ -92,6 +88,9 @@ class Current extends React.Component<any, any> {
             this.getData(nextProps.kpis)
         }
     }
+    deleteCard(kpiId) {
+        this.props.deleteCard(kpiId);
+    }
     renderCard() {
 
     }
@@ -105,7 +104,7 @@ class Current extends React.Component<any, any> {
                 <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
                     {result.map((item, index) => {
                         return (
-                            <InstrumentCard key={index} data={item} />
+                            <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} />
                         )
                     })}
                 </Row>
