@@ -11,8 +11,12 @@ export interface UserFormClsProps extends FormComponentProps {
     id?
 }
 const formItemLayout = {
-    labelCol: { span: 5 },
+    labelCol: { span: 4 },
     wrapperCol: { span: 16 },
+};
+const formItemLayoutBei = {
+    labelCol: { span: 2 },
+    wrapperCol: { span: 20 },
 };
 class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
     constructor(props: any) {
@@ -40,9 +44,10 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
     }
     componentWillReceiveProps(nextProps) {
     }
+
     render() {
         let userInfo = this.props.userInfo || ''
-        let disabled = this.props.userInfo ? true : false
+        // let disabled = this.props.userInfo ? true : false
         let rolesStr = ''
         let rolesArr = []
         if (this.props.userInfo) {
@@ -61,33 +66,33 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                     <Col span={12}>
                         <Form.Item
                             {...formItemLayout}
-                            label="邮箱"
+                            label="用户名"
                             hasFeedback
                             required
                         >
                             {getFieldDecorator('email', {
-                                initialValue: 'email@qq.com',
+                                initialValue: userInfo.email,
                                 rules: [{
-                                    type: 'email', message: 'The input is not valid E-mail!',
+                                    type: 'email', message: '请输入正确邮箱',
                                 }],
                             })(
                                 <Input placeholder="请输入邮箱" />
                                 )}
                         </Form.Item>
-
-                        <FormItem
-                            {...formItemLayout}
-                            label="密码"
-                        >
-                            {getFieldDecorator('password', {
-                                // initialValue: password
-                                rules: [{
-                                    required: true, message: '请输入密码！',
-                                }],
-                            })(
-                                <Input type="password" disabled={disabled} />
-                                )}
-                        </FormItem>
+                        {
+                            this.props.userInfo ? '' : <FormItem
+                                {...formItemLayout}
+                                label="密码设置"
+                            >
+                                {getFieldDecorator('password', {
+                                    rules: [{
+                                        required: true, message: '请输入密码！',
+                                    }],
+                                })(
+                                    <Input type="password" placeholder="请输入密码" />
+                                    )}
+                            </FormItem>
+                        }
                         <Form.Item
                             {...formItemLayout}
                             label="角色"
@@ -99,7 +104,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                                 }],
                             })(
                                 <Select
-                                    mode="tags"
+                                    mode="multiple"
                                     style={{ width: '100%' }}
                                     placeholder="请选择角色"
                                     onChange={this.handleChange.bind(this)}
@@ -125,18 +130,22 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
-                            label="手机号"
+                            label="手机号码"
                         >
                             {getFieldDecorator('mobile', {
                                 initialValue: userInfo.mobile,
                                 rules: [{
                                 }],
                             })(
-                                <Input placeholder="请输入手机号" />
+                                <Input placeholder="请输入手机号码" />
                                 )}
                         </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24}>
                         <FormItem
-                            {...formItemLayout}
+                            {...formItemLayoutBei}
                             label="备注"
                         >
                             {getFieldDecorator('remark', {
@@ -144,7 +153,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                                 rules: [{
                                 }],
                             })(
-                                <TextArea rows={4} />
+                                <TextArea rows={5} />
                                 )}
                         </FormItem>
                     </Col>

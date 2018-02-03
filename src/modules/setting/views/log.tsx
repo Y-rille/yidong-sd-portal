@@ -110,16 +110,19 @@ class Log extends React.PureComponent<LogProps, any> {
             <Row className={styles.setting}>
                 <div className={styles.cont}>
                     <div className={styles.header}>
+                        <h1 className={styles.title}>日志管理</h1>
                         <Breadcrumb>
-                            <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                            <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>日志管理</Breadcrumb.Item>
                         </Breadcrumb>
-                        <h1 className={styles._title}>日志管理</h1>
+                    </div>
+                    <div className={styles.filter}>
                         <Search
                             className={styles.search}
-                            placeholder="请输入关键字"
+                            placeholder="请输入用户名"
                             defaultValue={query_key}
+                            enterButton="查询"
                             onSearch={value => this.searchHandler(value)}
                         />
                     </div>

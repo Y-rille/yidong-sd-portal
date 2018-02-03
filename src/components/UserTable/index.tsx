@@ -74,16 +74,16 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
                     <Divider type="vertical" />
                     <a onClick={this.showModal.bind(this)} id={record.id} href="javascript:;">修改密码</a>
                     <Divider type="vertical" />
-                    <a onClick={this.goDelete.bind(this)} rel={record.email} id={record.id} href="javascript:;" type="vertical">删除</a>
+                    <a onClick={this.goDelete.bind(this)} rel={record.name} id={record.id} href="javascript:;" type="vertical">删除</a>
                 </span>
             ),
         }];
         let { userList } = this.props
         let base_data = {
-            admin: '系统运维',
-            resource: '资源运维',
-            alarm: '告警运维',
-            performance: '性能运维'
+            admin: '系统管理员',
+            resource: '资源运维人员',
+            alarm: '告警运维人员',
+            performance: '性能运维人员'
         }
         let userListFix = _.merge({}, userList)
         _.map(userListFix.rows, function (item, index) {

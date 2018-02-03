@@ -172,6 +172,9 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             const afterStr = item.nodeLabel.substr(index + searchValue.length);
             const title = (item.dataType === 2 && index > -1) ? (<span>{beforeStr}<span style={{ color: '#f50' }}>{searchValue}</span>{afterStr}</span>) : <span>{item.nodeLabel}</span>;
             let selectable = (item.dataType === 2)
+            if (_.indexOf(this.props.dExpandedKeys, item.nodeId) > -1) {
+                selectable = false
+            }
             if (item.children) {
                 return (
                     <TreeNode key={item.nodeId} title={title} dataRef={item} selectable={selectable}>
@@ -183,7 +186,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             return <TreeNode title={title} key={item.nodeId} dataRef={item} selectable={selectable} />;
         });
         return (
-            <div>
+            <div className="treeSelect">
                 <Search style={{ marginBottom: 8 }} placeholder="Search" onChange={this.onChange} />
                 <Tree
                     onExpand={this.onExpand}

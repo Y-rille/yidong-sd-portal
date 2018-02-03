@@ -71,16 +71,15 @@ export const createUser = (params: CreateUserParams, cb) => (dispatch) => {
         let userList = {
             rows: _.keyBy([data], 'id')
         }
-        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: userList }
+        // let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: userList }
         if (cb) {
-            cb(userList, null)
+            cb(null, userList)
         }
-        dispatch(action);
+        // dispatch(action);
 
     }).catch((err) => {
-        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: {} }
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: null }
         dispatch(action);
-
     })
 }
 
@@ -94,11 +93,11 @@ export const editUser = (userId, params: EditUserParams, cb) => (dispatch) => {
         let userList = {
             rows: _.keyBy([data], 'id')
         }
-        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: userList }
+        // let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: userList }
         if (cb) {
-            cb()
+            cb(null, userList)
         }
-        dispatch(action);
+        // dispatch(action);
     }).catch((err) => {
         let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: null }
         dispatch(action);
