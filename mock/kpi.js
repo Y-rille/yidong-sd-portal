@@ -256,7 +256,7 @@ let getKpiThresholds = {
           "normalThresholdOperator": ">",
           "normalThresholdValue": "-1",
           "state": 1
-        }
+        },
       ]
     }
   }
@@ -282,6 +282,19 @@ let getMoInstKpiThresholds = {
           "minorThresholdValue": "19000",
           "normalThresholdOperator": ">",
           "normalThresholdValue": "15000",
+          "state": 1
+        },
+        {
+          "thresholdId": 1,
+          "kpiId": 6,
+          "criticalThresholdOperator": ">",
+          "criticalThresholdValue": "1000",
+          "majorThresholdOperator": ">",
+          "majorThresholdValue": "600",
+          "minorThresholdOperator": ">",
+          "minorThresholdValue": "300",
+          "normalThresholdOperator": ">",
+          "normalThresholdValue": "100",
           "state": 1
         }
       ]
@@ -393,13 +406,15 @@ let getData = {
         "headers": [
           "EVENT_TIMESTAMP",
           "T_HOST",
-          "4"
+          "4",
+          "6"
         ],
         "values": [
           [
             1514977200000,
             "D03-hpeDL380-COMP04",
-            13072
+            13072,
+            990
           ]
         ],
         "status": "OK",

@@ -76,9 +76,10 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     <div className={styles.header}>
                         <h1 className={styles.title}>{modalTitle}</h1>
                         <Breadcrumb>
-                            <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                            <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>用户管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>{modalTitle}</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
                     <UserForm
