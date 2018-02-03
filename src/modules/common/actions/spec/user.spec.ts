@@ -15,7 +15,7 @@ describe('User', () => {
   // });
   it('assert login succ', (done) => {
     const store = mockStore({});
-    store.dispatch(login({ email: 'zhangsan@cmp.com', password: '111111' }, null)).then(() => {
+    store.dispatch(login({ email: 'zhangsan@163.com', password: '111111' }, null)).then(() => {
       const actions = store.getActions()
       assert.isNotNull(actions[0].currentUser)
       done()
