@@ -83,7 +83,8 @@ class Current extends React.Component<any, any> {
     componentDidMount() {
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.kpis && nextProps.kpis !== this.props.kpis) {
+        if (nextProps.kpis && (nextProps.kpis !== this.props.kpis)) {
+            console.log('8888888888888888888');
             this.getData(nextProps.kpis)
         }
     }
@@ -100,7 +101,7 @@ class Current extends React.Component<any, any> {
                 <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
                     {result.map((item, index) => {
                         return (
-                            <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} />
+                            <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} hideFacts={this.props.hideFacts} />
                         )
                     })}
                 </Row>
