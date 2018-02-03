@@ -67,119 +67,207 @@ let getMoTypeKpis = {
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
-    return {
-      "code": 1,
-      "data": [
-        {
-          "kpiId": 6,
-          "kpiName": "主机.网络端口接收速率",
-          "kpiRealName": "网络端口接收速率",
-          "mogrpId": 1,
-          "kpiDesc": "计算节点必选，所有业务端口接收速率的总和（1B=8b）",
-          "kpiCategory": "PI",
-          "kpiType": 2,
-          "kpiUnit": "Mbps",
-          "kpiAlgorithm": "采集",
-          "dimensionId": 7,
-          "priority": 1,
-          "kpiTablefield": "NicReceiveRate",
-          "version": "1.0",
-          "maxValue": "0",
-          "minValue": "1024",
-          "state": 1
-        },
-        {
-          "kpiId": 4,
-          "kpiName": "主机.可用内存",
-          "kpiRealName": "可用内存",
-          "mogrpId": 1,
-          "kpiDesc": "",
-          "kpiCategory": "PI",
-          "kpiType": 2,
-          "kpiUnit": "MB",
-          "kpiAlgorithm": "采集",
-          "dimensionId": 7,
-          "priority": 1,
-          "kpiTablefield": "RamUsed",
-          "mogrpCnname": "主机",
-          "mogrpEnname": "HOST",
-          "version": "1.0",
-          "maxValue": "0",
-          "minValue": "131072",
-          "state": 1
-        },
-        {
-          "kpiId": 5,
-          "kpiName": "主机.网络端口发送速率",
-          "kpiRealName": "网络端口发送速率",
-          "mogrpId": 1,
-          "kpiDesc": "计算节点必选，所有业务端口发送速率的总和（1B=8b）",
-          "kpiCategory": "PI",
-          "kpiType": 2,
-          "kpiUnit": "Mbps",
-          "kpiAlgorithm": "采集",
-          "dimensionId": 7,
-          "priority": 1,
-          "kpiTablefield": "NicTransferRate",
-          "version": "1.0",
-          "maxValue": "0",
-          "minValue": "1024",
-          "state": 1
-        },
-        {
-          "kpiId": 3,
-          "kpiName": "主机.总内存",
-          "kpiRealName": "总内存",
-          "mogrpId": 1,
-          "kpiCategory": "PI",
-          "kpiType": 2,
-          "kpiUnit": "MB",
-          "kpiAlgorithm": "采集",
-          "dimensionId": 7,
-          "priority": 1,
-          "kpiTablefield": "RamTotal",
-          "version": "1.0",
-          "maxValue": "0",
-          "minValue": "131072",
-          "state": 1
-        },
-        {
-          "kpiId": 2,
-          "kpiName": "主机.内存使用率",
-          "kpiRealName": "内存使用率",
-          "mogrpId": 1,
-          "kpiCategory": "PI",
-          "kpiType": 2,
-          "kpiUnit": "%",
-          "kpiAlgorithm": "采集",
-          "dimensionId": 7,
-          "priority": 1,
-          "kpiTablefield": "RamUtil",
-          "version": "1.0",
-          "maxValue": "0",
-          "minValue": "100",
-          "state": 1
-        },
-        {
-          "kpiId": 1,
-          "kpiName": "主机.CPU使用率",
-          "kpiRealName": "CPU使用率",
-          "mogrpId": 1,
-          "kpiDesc": "总CPU使用率/CPU数量",
-          "kpiCategory": "PI",
-          "kpiType": 2,
-          "kpiUnit": "%",
-          "kpiAlgorithm": "采集",
-          "dimensionId": 7,
-          "priority": 1,
-          "kpiTablefield": "CpuUtil",
-          "version": "1.0",
-          "maxValue": "0",
-          "minValue": "100",
-          "state": 1
-        }
-      ]
+    if (params.moTypeId == 1) {
+      return {
+        "code": 1,
+        "data": [
+          {
+            "kpiId": 6,
+            "kpiName": "主机.网络端口接收速率",
+            "kpiRealName": "网络端口接收速率",
+            "mogrpId": 1,
+            "kpiDesc": "计算节点必选，所有业务端口接收速率的总和（1B=8b）",
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "Mbps",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "NicReceiveRate",
+            "version": "1.0",
+            "maxValue": "1024",
+            "minValue": "0",
+            "state": 1
+          },
+          {
+            "kpiId": 4,
+            "kpiName": "主机.可用内存",
+            "kpiRealName": "可用内存",
+            "mogrpId": 1,
+            "kpiDesc": "",
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "MB",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "RamUsed",
+            "mogrpCnname": "主机",
+            "mogrpEnname": "HOST",
+            "version": "1.0",
+            "maxValue": "131072",
+            "minValue": "0",
+            "state": 1
+          },
+          {
+            "kpiId": 5,
+            "kpiName": "主机.网络端口发送速率",
+            "kpiRealName": "网络端口发送速率",
+            "mogrpId": 1,
+            "kpiDesc": "计算节点必选，所有业务端口发送速率的总和（1B=8b）",
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "Mbps",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "NicTransferRate",
+            "version": "1.0",
+            "maxValue": "1024",
+            "minValue": "0",
+            "state": 1
+          },
+          {
+            "kpiId": 3,
+            "kpiName": "主机.总内存",
+            "kpiRealName": "总内存",
+            "mogrpId": 1,
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "MB",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "RamTotal",
+            "version": "1.0",
+            "maxValue": "131072",
+            "minValue": "0",
+            "state": 1
+          },
+          {
+            "kpiId": 2,
+            "kpiName": "主机.内存使用率",
+            "kpiRealName": "内存使用率",
+            "mogrpId": 1,
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "%",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "RamUtil",
+            "version": "1.0",
+            "maxValue": "100",
+            "minValue": "0",
+            "state": 1
+          },
+          {
+            "kpiId": 1,
+            "kpiName": "主机.CPU使用率",
+            "kpiRealName": "CPU使用率",
+            "mogrpId": 1,
+            "kpiDesc": "总CPU使用率/CPU数量",
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "%",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "CpuUtil",
+            "version": "1.0",
+            "maxValue": "100",
+            "minValue": "0",
+            "state": 1
+          }
+        ]
+      }
+
+    } else if (params.moTypeId == 2) {
+      return {
+        "code": 1,
+        "data": [
+          {
+            "kpiId": 2,
+            "kpiName": "主机.内存使用率",
+            "kpiRealName": "内存使用率",
+            "mogrpId": 1,
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "%",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "RamUtil",
+            "version": "1.0",
+            "maxValue": "100",
+            "minValue": "0",
+            "state": 1
+          },
+          {
+            "kpiId": 1,
+            "kpiName": "主机.CPU使用率",
+            "kpiRealName": "CPU使用率",
+            "mogrpId": 1,
+            "kpiDesc": "总CPU使用率/CPU数量",
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "%",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "CpuUtil",
+            "version": "1.0",
+            "maxValue": "100",
+            "minValue": "0",
+            "state": 1
+          }
+        ]
+      }
+    } else { 
+      return {
+        "code": 1,
+        "data": [
+          {
+            "kpiId": 4,
+            "kpiName": "主机.可用内存",
+            "kpiRealName": "可用内存",
+            "mogrpId": 1,
+            "kpiDesc": "",
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "MB",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "RamUsed",
+            "mogrpCnname": "主机",
+            "mogrpEnname": "HOST",
+            "version": "1.0",
+            "maxValue": "131072",
+            "minValue": "0",
+            "state": 1
+          },
+          {
+            "kpiId": 3,
+            "kpiName": "主机.总内存",
+            "kpiRealName": "总内存",
+            "mogrpId": 1,
+            "kpiCategory": "PI",
+            "kpiType": 2,
+            "kpiUnit": "MB",
+            "kpiAlgorithm": "采集",
+            "dimensionId": 7,
+            "priority": 1,
+            "kpiTablefield": "RamTotal",
+            "version": "1.0",
+            "maxValue": "131072",
+            "minValue": "0",
+            "state": 1
+          },
+        ]
+      }
     }
+    
   }
 }
 
@@ -256,7 +344,7 @@ let getKpiThresholds = {
           "normalThresholdOperator": ">",
           "normalThresholdValue": "-1",
           "state": 1
-        }
+        },
       ]
     }
   }
@@ -268,24 +356,104 @@ let getMoInstKpiThresholds = {
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
-    return {
-      "code": 1,
-      "data": [
-        {
-          "thresholdId": 1,
-          "kpiId": 5,
-          "criticalThresholdOperator": ">",
-          "criticalThresholdValue": "45000",
-          "majorThresholdOperator": ">",
-          "majorThresholdValue": "30000",
-          "minorThresholdOperator": ">",
-          "minorThresholdValue": "19000",
-          "normalThresholdOperator": ">",
-          "normalThresholdValue": "15000",
-          "state": 1
-        }
-      ]
+    if (params.moTypeId == 1) {
+      return {
+        "code": 1,
+        "data": [
+          {
+            "thresholdId": 1,
+            "kpiId": 5,
+            "criticalThresholdOperator": ">",
+            "criticalThresholdValue": "45000",
+            "majorThresholdOperator": ">",
+            "majorThresholdValue": "30000",
+            "minorThresholdOperator": ">",
+            "minorThresholdValue": "19000",
+            "normalThresholdOperator": ">",
+            "normalThresholdValue": "15000",
+            "state": 1
+          },
+          {
+            "thresholdId": 1,
+            "kpiId": 6,
+            "criticalThresholdOperator": ">",
+            "criticalThresholdValue": "1000",
+            "majorThresholdOperator": ">",
+            "majorThresholdValue": "600",
+            "minorThresholdOperator": ">",
+            "minorThresholdValue": "300",
+            "normalThresholdOperator": ">",
+            "normalThresholdValue": "100",
+            "state": 1
+          }
+        ]
+      }
+    } else if (params.moTypeId == 2) {
+      return {
+        "code": 1,
+        "data": [
+          {
+            "thresholdId": 1,
+            "kpiId": 5,
+            "criticalThresholdOperator": ">",
+            "criticalThresholdValue": "30000",
+            "majorThresholdOperator": ">",
+            "majorThresholdValue": "25000",
+            "minorThresholdOperator": ">",
+            "minorThresholdValue": "20000",
+            "normalThresholdOperator": ">",
+            "normalThresholdValue": "10000",
+            "state": 1
+          },
+          {
+            "thresholdId": 1,
+            "kpiId": 6,
+            "criticalThresholdOperator": ">",
+            "criticalThresholdValue": "1000",
+            "majorThresholdOperator": ">",
+            "majorThresholdValue": "600",
+            "minorThresholdOperator": ">",
+            "minorThresholdValue": "300",
+            "normalThresholdOperator": ">",
+            "normalThresholdValue": "100",
+            "state": 1
+          }
+        ]
+      }
+    } else { 
+      return {
+        "code": 1,
+        "data": [
+          {
+            "thresholdId": 1,
+            "kpiId": 5,
+            "criticalThresholdOperator": ">",
+            "criticalThresholdValue": "800",
+            "majorThresholdOperator": ">",
+            "majorThresholdValue": "400",
+            "minorThresholdOperator": ">",
+            "minorThresholdValue": "200",
+            "normalThresholdOperator": ">",
+            "normalThresholdValue": "100",
+            "state": 1
+          },
+          {
+            "thresholdId": 1,
+            "kpiId": 6,
+            "criticalThresholdOperator": ">",
+            "criticalThresholdValue": "1000",
+            "majorThresholdOperator": ">",
+            "majorThresholdValue": "600",
+            "minorThresholdOperator": ">",
+            "minorThresholdValue": "300",
+            "normalThresholdOperator": ">",
+            "normalThresholdValue": "100",
+            "state": 1
+          }
+        ]
+      }
     }
+    
   }
 }
 
@@ -393,13 +561,15 @@ let getData = {
         "headers": [
           "EVENT_TIMESTAMP",
           "T_HOST",
-          "4"
+          "4",
+          "6"
         ],
         "values": [
           [
             1514977200000,
             "D03-hpeDL380-COMP04",
-            13072
+            13072,
+            990
           ]
         ],
         "status": "OK",

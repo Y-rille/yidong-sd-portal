@@ -222,7 +222,7 @@ class Home extends React.Component<any, any> {
     }
 
     handle() {
-        global.hashHistory.push('/alarm')
+        this.props.history.push('/alarm')
     }
 
     triggerResize() {

@@ -11,6 +11,8 @@ export interface UserEditProps {
     modalTitle?
     actions: SettingActions,
     userInfo?
+    history?,
+    match?
 }
 
 class UserEdit extends React.PureComponent<UserEditProps, any> {
@@ -23,12 +25,28 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
     }
 
     doCancel() {
-        global.hashHistory.goBack()
+        this.props.history.goBack()
     }
 
     doSubmit() {
         let formdata = this.formRef.getData()
-        let { match } = this.props
+        let arr = formdata.roles
+        let base_data = {
+            admin: '系统管理员',
+            resource: '资源运维人员',
+            alarm: '告警运维人员',
+            performance: '性能运维人员'
+        }
+        let rolesArr = []
+        for (var i = 0; i < arr.length; i++) {
+            for (var key in base_data) {
+                if (base_data[key] === arr[i]) {
+                    rolesArr.push(key)
+                }
+            }
+        }
+        formdata.roles = rolesArr.toString()
+        let { match, history } = this.props
         let id = match.params.userId
         if (formdata) {
             if (id) {
@@ -36,7 +54,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     if (data) {
                         emitter.emit('notification', '修改成功！', '', 'success')
                         setTimeout(() => {
-                            global.hashHistory.push('/setting/user')
+                            history.push('/setting/user')
                         }, 1000)
                     }
                 })
@@ -45,7 +63,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     if (data) {
                         emitter.emit('notification', '创建成功！', '', 'success')
                         setTimeout(() => {
-                            global.hashHistory.push('/setting/user')
+                            history.push('/setting/user')
                         }, 1000)
                     }
                 })
@@ -74,9 +92,10 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     <div className={styles.header}>
                         <h1 className={styles.title}>{modalTitle}</h1>
                         <Breadcrumb>
-                            <Breadcrumb.Item>首页</Breadcrumb.Item>
-                            <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                            <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>用户管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>{modalTitle}</Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
                     <UserForm

@@ -34,6 +34,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
             if (!err) {
                 delete values.username
                 data = values
+
             } else {
                 data = null
             }
@@ -48,15 +49,22 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
     render() {
         let userInfo = this.props.userInfo || ''
         // let disabled = this.props.userInfo ? true : false
-        let rolesStr = ''
+        let base_data = {
+            admin: '系统管理员',
+            resource: '资源运维人员',
+            alarm: '告警运维人员',
+            performance: '性能运维人员'
+        }
         let rolesArr = []
         if (this.props.userInfo) {
-            rolesStr = userInfo.roles
-            rolesArr = rolesStr.split(',')
+            rolesArr = userInfo.roles.split(',')
+            for (var i = 0; i < rolesArr.length; i++) {
+                rolesArr[i] = base_data[rolesArr[i]]
+            }
         }
         const { getFieldDecorator } = this.props.form;
         const children = [];
-        const arr = ['admin', 'performance', 'resource', 'alarm']
+        const arr = ['系统管理员', '性能运维人员', '资源运维人员', '告警运维人员']
         arr.map((item, index) => {
             children.push(<Option key={item}>{item}</Option>)
         })

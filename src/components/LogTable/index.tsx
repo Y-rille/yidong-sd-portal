@@ -28,21 +28,24 @@ export default class LogTable extends React.PureComponent<LogTableProps, any> {
         const columns = [
             {
                 title: 'LOG.ID',
-                dataIndex: 'message',
-                key: 'message',
-                // width: '10%'
+                dataIndex: 'id',
+                key: 'id',
+                width: '15%'
             }, {
                 title: '用户名',
                 dataIndex: 'email',
                 key: 'email',
+                width: '25%'
             }, {
                 title: '真实姓名',
                 dataIndex: 'name',
                 key: 'name',
+                width: '20%'
             }, {
                 title: '事件',
                 dataIndex: 'action',
                 key: 'action',
+                width: '20%'
             }, {
                 title: '时间',
                 dataIndex: 'create_time',
@@ -57,7 +60,7 @@ export default class LogTable extends React.PureComponent<LogTableProps, any> {
             let timeshow = moment.tz(time, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
             obj = {
                 key: index,
-                message: item.message,
+                id: item.id,
                 email: item.user.email,
                 name: item.user.name,
                 action: item.action,

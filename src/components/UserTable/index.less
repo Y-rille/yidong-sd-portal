@@ -1,6 +1,19 @@
 @import "~antd/lib/style/themes/default.less";
-
-.pagination{
-    text-align: right;
-    margin-top: 10px;
+@import "../../style/index.less";
+.usertable {
+    .pagination{
+        text-align: right;
+        margin-top: @margin-base;
+    }
+    tbody {
+        tr{
+            td:nth-child(3){
+                max-width: 80px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+    
 }

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as Loadable from 'react-loadable';
 import * as PropTypes from 'prop-types';
-import hashHistory from './history';
 import Site from './site'
 import Loading from './loading'
 import {
@@ -58,7 +57,7 @@ export default class MainRoures extends React.PureComponent<MainRouresProps, any
   }
   render() {
     return (
-      <Router history={hashHistory}>
+      <Router>
         <Site>
           <Switch>
             <Route path="/login" component={LoginComponent} />
