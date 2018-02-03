@@ -84,8 +84,8 @@ let getMoTypeKpis = {
           "priority": 1,
           "kpiTablefield": "NicReceiveRate",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "1024",
+          "maxValue": "1024",
+          "minValue": "0",
           "state": 1
         },
         {
@@ -104,8 +104,8 @@ let getMoTypeKpis = {
           "mogrpCnname": "主机",
           "mogrpEnname": "HOST",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "131072",
+          "maxValue": "131072",
+          "minValue": "0",
           "state": 1
         },
         {
@@ -122,8 +122,8 @@ let getMoTypeKpis = {
           "priority": 1,
           "kpiTablefield": "NicTransferRate",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "1024",
+          "maxValue": "1024",
+          "minValue": "0",
           "state": 1
         },
         {
@@ -139,8 +139,8 @@ let getMoTypeKpis = {
           "priority": 1,
           "kpiTablefield": "RamTotal",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "131072",
+          "maxValue": "131072",
+          "minValue": "0",
           "state": 1
         },
         {
@@ -156,8 +156,8 @@ let getMoTypeKpis = {
           "priority": 1,
           "kpiTablefield": "RamUtil",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "100",
+          "maxValue": "100",
+          "minValue": "0",
           "state": 1
         },
         {
@@ -174,8 +174,8 @@ let getMoTypeKpis = {
           "priority": 1,
           "kpiTablefield": "CpuUtil",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "100",
+          "maxValue": "100",
+          "minValue": "0",
           "state": 1
         }
       ]
