@@ -43,6 +43,7 @@ class Home extends React.Component<HomeProps, any> {
         this.setState({
             defaultNodeId: defaultNodeIdArr
         })
+        this.props.actions.getNodeData(nodeId, this.props.tree)
     }
     triggerResize() {
         let e: Event = document.createEvent('Event');
