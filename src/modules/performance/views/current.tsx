@@ -54,7 +54,7 @@ class Current extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-
+            result: []
         };
     }
     tabClick() {
@@ -78,7 +78,16 @@ class Current extends React.Component<any, any> {
             endtime,
             wheredim,
         }
-        this.props.actions.getData('value_pack_vim', DataParams)
+        let moInstKpiThresholds = this.props.moInstKpiThresholds
+        let moTypeKpis = this.props.moTypeKpis
+        // let kpidata = this.props.kpidata
+        let self = this
+
+        this.props.actions.getData('value_pack_vim', DataParams, function(kpidata) {
+            self.setState({
+                result: getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, self.props.kpis)
+            })
+        })
     }
     componentDidMount() {
     }
@@ -94,20 +103,30 @@ class Current extends React.Component<any, any> {
         let moInstKpiThresholds = this.props.moInstKpiThresholds
         let moTypeKpis = this.props.moTypeKpis
         let kpidata = this.props.kpidata
-        if (moInstKpiThresholds && moTypeKpis && kpidata) {
-            let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
-            return (
-                <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
-                    {result.map((item, index) => {
-                        return (
-                            <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} hideFacts={this.props.hideFacts} />
-                        )
-                    })}
-                </Row>
-            )
-        } else {
-            return <div></div>
-        }
+        // if (moInstKpiThresholds && moTypeKpis && kpidata) {
+        //     let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
+        //     return (
+        //         <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
+        //             {result.map((item, index) => {
+        //                 return (
+        //                     <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} hideFacts={this.props.hideFacts} />
+        //                 )
+        //             })}
+        //         </Row>
+        //     )
+        // } else {
+        //     return <div></div>
+        // }
+
+        return (
+            <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
+                {this.state.result.map((item, index) => {
+                    return (
+                        <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} hideFacts={this.props.hideFacts} />
+                    )
+                })}
+            </Row>
+        )
     }
 }
 

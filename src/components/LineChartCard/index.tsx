@@ -49,7 +49,7 @@ export default class LineChartCard extends React.PureComponent<LineChartProps, a
             <Col className="gutter-row" span={12} >
                 <div className="gutter-box">
                     <div className={styles.cardHead}>
-                        <div>{data.kpiName}</div>
+                        <div>{data.kpiName} {data.kpiId}</div>
                         <div className={styles.cardIcon}>
                             <Icon type="download" onClick={this.printLineChart.bind(this)} />|
                             <Icon type="close" onClick={this.hideOne.bind(this)} />

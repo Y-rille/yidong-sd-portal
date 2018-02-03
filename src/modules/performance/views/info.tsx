@@ -31,15 +31,13 @@ export default class Info extends React.Component<InfoProps, any> {
     super(props);
     this.state = {
       facts: '',
-      changeFacts: ''
     };
   }
   handleOk(kpis) {
     var str_facts = kpis.join(',')
     this.setState({
       visible: false,
-      facts: str_facts,
-      changeFacts: str_facts
+      facts: str_facts
     })
   }
   handleCancel() {
@@ -95,6 +93,7 @@ export default class Info extends React.Component<InfoProps, any> {
     let { facts } = this.state
     facts = _.compact(facts.replace(id, '').split(',')).toString()
     this.setState({ facts })
+
   }
 
   componentWillMount() {
@@ -168,8 +167,8 @@ export default class Info extends React.Component<InfoProps, any> {
             (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
               <Switch>
                 <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-                <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.changeFacts} deleteCard={this.deleteCard.bind(this)} />} />
-                <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.changeFacts} deleteCard={this.deleteCard.bind(this)} />} />
+                <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.facts} deleteCard={this.deleteCard.bind(this)} />} />
+                <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.facts} deleteCard={this.deleteCard.bind(this)} />} />
               </Switch>
             ) : (
                 <Spin />

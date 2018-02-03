@@ -121,7 +121,7 @@ export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: res.data }
     dispatch(action);
     if (cb) {
-      cb(null)
+      cb(res.data)
     }
   }).catch((err) => {
     let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: null }
