@@ -54,7 +54,7 @@ class Current extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            // showOne: true,
+
         };
     }
     tabClick() {
@@ -82,7 +82,6 @@ class Current extends React.Component<any, any> {
     }
     componentDidMount() {
     }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.kpis && nextProps.kpis !== this.props.kpis) {
             this.getData(nextProps.kpis)
@@ -90,9 +89,6 @@ class Current extends React.Component<any, any> {
     }
     deleteCard(kpiId) {
         this.props.deleteCard(kpiId);
-    }
-    renderCard() {
-
     }
     render() {
         let moInstKpiThresholds = this.props.moInstKpiThresholds
