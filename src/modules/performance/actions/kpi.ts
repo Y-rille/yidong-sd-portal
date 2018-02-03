@@ -132,6 +132,14 @@ export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
   })
 }
 
+export const cleanMoTypeKpisAndMoInstKpiThresholds = (cb) => (dispatch) => {
+  let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: null, moInstKpiThresholds: null }
+  dispatch(action);
+  if (cb) {
+    cb(null)
+  }
+}
+
 /**
  * 对象指标查询
  * getMoTypeKpis
@@ -174,10 +182,16 @@ export const getNodeData = (nodeId, items, cb) => (dispatch) => {
         let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nodeInfo: null }
         dispatch(action)
       }
+      if (cb) {
+        cb(null, nodeInfo)
+      }
     } catch (error) {
       let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, nodeInfo: null }
       dispatch(action)
       reject(error)
+      if (cb) {
+        cb(error)
+      }
     }
   })
 }

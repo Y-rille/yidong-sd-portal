@@ -34,6 +34,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
             if (!err) {
                 delete values.username
                 data = values
+
             } else {
                 data = null
             }
