@@ -84,17 +84,13 @@ export const createUser = (params: CreateUserParams, cb) => (dispatch) => {
  */
 export const editUser = (userId, params: EditUserParams, cb) => (dispatch) => {
     return UserAPI.editUser(userId, params).then((res) => {
-        let data = res.data
-        let userList = {
-            rows: _.keyBy([data], 'id')
-        }
-        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: userList }
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, user: res.data }
         dispatch(action)
         if (cb) {
-            cb(null, userList)
+            cb(null, res.data)
         }
     }).catch((err) => {
-        let action = { type: ActionTypes.SETTING_SAY_HELLO, userList: null }
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, user: null }
         dispatch(action);
     })
 }
