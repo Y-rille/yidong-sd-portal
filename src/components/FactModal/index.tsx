@@ -29,7 +29,7 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         super(props);
         this.state = {
             kpisValue: [], // onchange checkgroup 选中的值
-            keyIndex: 0  // key的值，点击取消按钮默认+1 解决checkgrop 默认值不渲染的问题
+            keyIndex: 1  // key的值，点击取消按钮默认+1 解决checkgrop 默认值不渲染的问题
         }
     }
     handleOk() {
@@ -68,9 +68,16 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
             kpisValue: this.getDefaultKpi()
         })
     }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.facts !== this.props.facts) { // 解决删除表格时 指标不重新渲染的问题
+            this.setState({
+                keyIndex: this.state.keyIndex + 1,
+                kpisValue: nextProps.facts.split(',')
+            })
+        }
+    }
     renderCheckGroup() {
         let defaultValue = this.getDefaultKpi()
-
         return (
             <Checkbox.Group key={this.state.keyIndex} style={{ width: '100%', minHeight: '100px' }} onChange={this.onChange.bind(this)} defaultValue={defaultValue}>
                 <Row>

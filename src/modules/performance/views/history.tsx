@@ -78,7 +78,7 @@ class History extends React.Component<any, any> {
                         {
                             result.map((item, index) => {
                                 return (
-                                    <LineChartCard key={index} data={item} deleteCard={this.deleteCard.bind(this)} />
+                                    <LineChartCard key={index} data={item} deleteCard={this.deleteCard.bind(this)} hideFacts={this.props.hideFacts} />
                                 )
                             })
                         }

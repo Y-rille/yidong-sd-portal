@@ -169,7 +169,7 @@ export default class Info extends React.Component<InfoProps, any> {
               <Switch>
                 <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
                 <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.changeFacts} deleteCard={this.deleteCard.bind(this)} />} />
-                <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.facts} deleteCard={this.deleteCard.bind(this)} />} />
+                <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.changeFacts} deleteCard={this.deleteCard.bind(this)} />} />
               </Switch>
             ) : (
                 <Spin />
