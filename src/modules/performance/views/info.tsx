@@ -28,18 +28,8 @@ export interface InfoProps {
 export default class Info extends React.Component<InfoProps, any> {
   constructor(props) {
     super(props);
-    // 设置默认选中的值
-    let { moTypeKpis } = this.props
-    let facts = []
-    for (let i = 0; i < 4; i++) {
-      if (moTypeKpis[i]) {
-        facts.push(moTypeKpis[i].kpiId)
-      }
-    }
-    var str_facts = facts.join(',')
     this.state = {
-      visible: false,
-      facts: str_facts,
+      facts: [],
     };
   }
   handleOk(kpis) {
@@ -67,21 +57,37 @@ export default class Info extends React.Component<InfoProps, any> {
     })
     global.hashHistory.push(`${match.url}/${path}`)
   }
+  getKpisAndThresholds() {
+    this.props.actions.getMoTypeKpis(1, 7, (data) => {
+    })
+    this.props.actions.getMoInstKpiThresholds(1, 1, (data) => {
+    })
+  }
   componentWillMount() {
     let nodeId = this.props.match.params.nodeId
     this.props.actions.getNodeData(nodeId, this.props.tree)
   }
+  componentDidMount() {
+    this.getKpisAndThresholds();
+  }
   componentWillReceiveProps(nextProps) {
     let { match } = nextProps
     let { pathname } = nextProps.location
-    this.state = {
-      facts: this.state.facts,
-      activeKey: _.compact([
-        matchPath(pathname, { path: `${match.url}/current` }) != null && 'current',
-        matchPath(pathname, { path: `${match.url}/history` }) != null && 'history',
-      ]).toString()
+    // 设置默认选中的值
+    let { moTypeKpis } = nextProps
+    if (moTypeKpis) {
+      let facts = []
+      for (let i = 0; i < 4; i++) {
+        if (moTypeKpis[i]) {
+          facts.push(moTypeKpis[i].kpiId)
+        }
+      }
+      var str_facts = facts.join(',')
+      this.state = {
+        facts: str_facts,
+      };
+    }
 
-    };
   }
 
   renderTab() {
@@ -95,7 +101,15 @@ export default class Info extends React.Component<InfoProps, any> {
       return <li className={classNames(cls)} data-path={item.key} onClick={this.tabClick.bind(this)}>{item.name}</li>
     })
   }
-
+  renderFactModel(moTypeKpis) {
+    if (moTypeKpis) {
+      return (
+        <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={moTypeKpis} />
+      )
+    } else {
+      return <div />
+    }
+  }
   render() {
     let { match, moTypeKpis } = this.props
     let { activeKey } = this.state
@@ -106,11 +120,11 @@ export default class Info extends React.Component<InfoProps, any> {
           <div className={styles.header}>
             <h1 className={styles.title}>{this.props.nodeInfo.nodeName}</h1>
             <Breadcrumb>
-            {
-              lablePathArr.map((item, index) => {
-                return  <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
-              })
-            }
+              {
+                lablePathArr.map((item, index) => {
+                  return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                })
+              }
             </Breadcrumb>
           </div>
           <div className={styles.tabBar}>
@@ -130,9 +144,12 @@ export default class Info extends React.Component<InfoProps, any> {
                 <Spin />
               )
           }
-          <FactModal visible={this.state.visible} handleOk={this.handleOk.bind(this)} handleCancel={this.handleCancel.bind(this)} kpis={moTypeKpis} />
+          {this.renderFactModel(moTypeKpis)}
         </div>
+
       )
+    } else {
+      return <Spin />
     }
   }
 }
