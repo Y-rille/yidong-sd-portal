@@ -13,6 +13,7 @@ import { withRouter, matchPath } from 'react-router'
 import HomeActionCreatorsMap, { CommonActions } from '../modules/common/actions/index'
 
 import emitter from './emitter'
+import history from '../modules/performance/container/history';
 
 declare let global: any;
 
@@ -35,6 +36,7 @@ export interface SiteProps {
     location,
     matchPath,
     match,
+    history?,
     tree
 }
 
@@ -74,12 +76,12 @@ class Site extends React.Component<SiteProps, any> {
         this.setState({
             activeKey: key
         })
-        global.hashHistory.push(`/${key}`)
+        this.props.history.push(`/${key}`)
     }
     exitHandler() {
         this.props.actions.logout((currentUser) => {
             if (!currentUser) {
-                global.hashHistory.push(`/login`)
+                this.props.history.push(`/login`)
             }
         })
     }
@@ -105,7 +107,7 @@ class Site extends React.Component<SiteProps, any> {
             if (this.props.location.pathname.indexOf('/login') < 0) {
                 this.props.actions.touch((user) => {
                     if (!user) {
-                        global.hashHistory.replace('/login')
+                        this.props.history.replace('/login')
                     }
                 })
             }

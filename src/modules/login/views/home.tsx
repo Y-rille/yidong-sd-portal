@@ -13,7 +13,8 @@ const FormItem = Form.Item;
 export interface LoginProps {
     location?,
     actions: CommonActions,
-    currentUser?
+    currentUser?,
+    history?
     form
 }
 
@@ -41,7 +42,7 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                     })
                     if (data) {
                         emitter.emit('message', 'success', '登录成功！')
-                        global.hashHistory.replace(`/performance/4/current`)
+                        this.props.history.replace(`/performance/4/current`)
                     }
                 })
             }

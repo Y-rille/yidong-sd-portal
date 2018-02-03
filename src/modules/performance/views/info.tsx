@@ -16,6 +16,7 @@ declare let global: any;
 
 export interface InfoProps {
   match?
+  history?
   moTypeKpis?
   moInstKpiThresholds?
   location?
@@ -55,7 +56,7 @@ export default class Info extends React.Component<InfoProps, any> {
     this.setState({
       activeKey: path
     })
-    global.hashHistory.push(`${match.url}/${path}`)
+    this.props.history.push(`${match.url}/${path}`)
   }
   getKpisAndThresholds() {
     this.props.actions.getMoTypeKpis(1, 7, (data) => {

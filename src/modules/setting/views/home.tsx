@@ -32,7 +32,7 @@ class Home extends React.Component<any, any> {
         const path = e.target.getAttribute('data-target')
         const currentUrl = this.props.location.pathname
         if (currentUrl.indexOf(path) < 0) {
-            global.hashHistory.push(`${match.url}/${path}`)
+            this.props.history.push(`${match.url}/${path}`)
         }
 
     }

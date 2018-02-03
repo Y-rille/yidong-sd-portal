@@ -25,6 +25,7 @@ export interface HomeProps {
     moTypeKpis?
     tree?
     timeFilter?
+    history?
 }
 
 class Home extends React.Component<HomeProps, any> {
@@ -37,7 +38,7 @@ class Home extends React.Component<HomeProps, any> {
     }
     onTreeSelect(nodeId) {
         let { match } = this.props
-        global.hashHistory.push(`${match.url}/${nodeId}`)
+        this.props.history.push(`${match.url}/${nodeId}`)
         let defaultNodeIdArr = []
         defaultNodeIdArr.push(nodeId)
         this.setState({

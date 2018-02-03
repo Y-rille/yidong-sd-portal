@@ -11,6 +11,8 @@ export interface UserEditProps {
     modalTitle?
     actions: SettingActions,
     userInfo?
+    history?,
+    match?
 }
 
 class UserEdit extends React.PureComponent<UserEditProps, any> {
@@ -23,12 +25,12 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
     }
 
     doCancel() {
-        global.hashHistory.goBack()
+        this.props.history.goBack()
     }
 
     doSubmit() {
         let formdata = this.formRef.getData()
-        let { match } = this.props
+        let { match, history } = this.props
         let id = match.params.userId
         if (formdata) {
             if (id) {
@@ -36,7 +38,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     if (data) {
                         emitter.emit('notification', '修改成功！', '', 'success')
                         setTimeout(() => {
-                            global.hashHistory.push('/setting/user')
+                            history.push('/setting/user')
                         }, 1000)
                     }
                 })
@@ -45,7 +47,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     if (data) {
                         emitter.emit('notification', '创建成功！', '', 'success')
                         setTimeout(() => {
-                            global.hashHistory.push('/setting/user')
+                            history.push('/setting/user')
                         }, 1000)
                     }
                 })
