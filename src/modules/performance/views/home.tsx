@@ -10,6 +10,9 @@ import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
 import TreeSelect from '../../../components/TreeSelect'
 
 import Info from '../container/info'
+import Result from '../container/result'
+
+import { deepPickFirst } from '../utils/deepPick'
 
 declare let global: any;
 
@@ -37,19 +40,20 @@ class Home extends React.Component<HomeProps, any> {
 
     }
     onTreeSelect(nodeId) {
-        let { match } = this.props
-        this.props.history.push(`${match.url}/${nodeId}`)
+        let { match, history } = this.props
         let defaultNodeIdArr = []
         defaultNodeIdArr.push(nodeId)
         this.setState({
             defaultNodeId: defaultNodeIdArr
         })
-        this.props.actions.getNodeData(nodeId, this.props.tree)
+        history.push(`${match.url}/${nodeId}`)
     }
     triggerResize() {
         let e: Event = document.createEvent('Event');
         e.initEvent('resize', true, true);
         window.dispatchEvent(e);
+
+        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
     }
 
     getTimeFilter() {
@@ -60,7 +64,7 @@ class Home extends React.Component<HomeProps, any> {
 
     }
     componentWillMount() {
-        let { match } = this.props
+        let { match, history } = this.props
         const mp: any = matchPath(this.props.location.pathname, {
             path: `${match.url}/:nodeId`
         })
@@ -70,10 +74,19 @@ class Home extends React.Component<HomeProps, any> {
             this.setState({
                 defaultNodeId: defaultNodeIdArr
             })
+        } else {
+            let firstNode = deepPickFirst(this.props.tree)
+            history.replace(`${match.url}/${firstNode.nodeId}`)
+            let defaultNodeIdArr = []
+            defaultNodeIdArr.push(firstNode.nodeId)
+            this.setState({
+                defaultNodeId: defaultNodeIdArr
+            })
         }
     }
     componentDidMount() {
         this.getTimeFilter();
+        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
     }
     render() {
         let { match, tree } = this.props
@@ -84,18 +97,18 @@ class Home extends React.Component<HomeProps, any> {
                     minSize={100}
                     maxSize={300}
                     defaultSize={200}
-                    onChange={this.triggerResize} >
+                    onChange={this.triggerResize.bind(this)} >
                     <div className={styles.tree}>
                         <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} dExpandedKeys={this.state.defaultNodeId} />
                     </div>
-                    <div className={styles.main}>
+                    <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
+                            <Route path={`${match.url}/search/:querykey`} component={Result} />
                             <Route path={`${match.url}/:nodeId`} component={Info} />
                             <Route render={() => (
-                                <h3>Please select a node.</h3>
+                                <div></div>
                             )} />
                         </Switch>
-
                     </div>
                 </SplitPane>
 

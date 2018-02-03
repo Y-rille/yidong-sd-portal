@@ -7,7 +7,7 @@ export interface CreateUserParams {
   mobile: string,
   avatar: string,
   remark?: string,
-  roles: Array<string>,
+  roles: string,
   password: string
 }
 
@@ -17,7 +17,7 @@ export interface EditUserParams {
   mobile: string,
   avatar: string,
   remark?: string,
-  roles: Array<string>,
+  roles: string,
 }
 export interface EditUserPasswordParams {
   password: string,

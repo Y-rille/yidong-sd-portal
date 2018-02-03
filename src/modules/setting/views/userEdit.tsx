@@ -30,6 +30,22 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
 
     doSubmit() {
         let formdata = this.formRef.getData()
+        let arr = formdata.roles
+        let base_data = {
+            admin: '系统管理员',
+            resource: '资源运维人员',
+            alarm: '告警运维人员',
+            performance: '性能运维人员'
+        }
+        let rolesArr = []
+        for (var i = 0; i < arr.length; i++) {
+            for (var key in base_data) {
+                if (base_data[key] === arr[i]) {
+                    rolesArr.push(key)
+                }
+            }
+        }
+        formdata.roles = rolesArr.toString()
         let { match, history } = this.props
         let id = match.params.userId
         if (formdata) {
