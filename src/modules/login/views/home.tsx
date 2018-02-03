@@ -70,11 +70,11 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                     </FormItem>
 
                     <FormItem className={styles.additional}>
-                        {getFieldDecorator('remember', {
+                        {/* {getFieldDecorator('remember', {
                             initialValue: true,
                         })(
                             <Checkbox className={styles.remember}>记住用户名</Checkbox>
-                            )}
+                            )} */}
                         <Button size="large" className={styles.submit} type="primary" htmlType="submit" disabled={this.state.loading} >
                             登录 </Button>
                         <a className={styles.forgot} href="javascript:;">忘记密码</a>

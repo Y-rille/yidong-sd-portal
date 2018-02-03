@@ -83,6 +83,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             expandedKeys: this.props.dExpandedKeys ? this.props.dExpandedKeys : [],
             searchValue: '',
             autoExpandParent: true,
+            result: {}
         };
     }
 
@@ -135,31 +136,39 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
 
             ids.map(id => {
                 data.push(dataList.find(item => (item.nodeId === id)))
-            });
+            })
 
             const result = {
                 selectedKeys,
                 data,
                 searchValue: value,
-            };
-            if (this.props.onSearch) {
-                this.props.onSearch(result)
             }
+            this.setState({
+                result: result
+            })            
         } else {
             this.setState({
                 expandedKeys: [],
                 searchValue: '',
                 autoExpandParent: true,
+                result: {}
             });
-            if (this.props.onSearch) {
-                this.props.onSearch(null)
-            }
+            // if (this.props.onSearch) {
+            //     this.props.onSearch(null)
+            // }
         }
     }
 
     onSelect(selectedKeys, e: { selected: boolean, selectedNodes, node, event }) {
         if (this.props.onSelect) {
             this.props.onSelect(selectedKeys[0])
+        }
+    }
+
+    onSearch() {
+        if (this.props.onSearch) {
+            let result = this.state.result
+            this.props.onSearch(result)
         }
     }
 
@@ -186,7 +195,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
         });
         return (
             <div className="treeSelect">
-                <Search placeholder="Search" onChange={this.onChange} />
+                <Search placeholder="Search" onChange={this.onChange} onSearch={this.onSearch.bind(this)}/>
                 <Tree
                     onExpand={this.onExpand}
                     expandedKeys={expandedKeys}

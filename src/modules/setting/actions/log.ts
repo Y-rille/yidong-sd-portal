@@ -9,7 +9,7 @@ import { LogListParams } from '../api/LogAPI'
  */
 export const getLogList = (params, cb) => (dispatch) => {
     return LogAPI.getLogList(params).then((res: any) => {
-        let action = { type: ActionTypes.SETTING_SAY_HELLO, logList: res.data }
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, logList: res.data.data }
         dispatch(action);
         if (cb) {
             cb(null)

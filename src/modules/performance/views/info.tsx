@@ -88,6 +88,12 @@ export default class Info extends React.Component<InfoProps, any> {
     })
   }
 
+  deleteCard(id) {
+    let { facts } = this.state
+    facts = _.compact(facts.replace(id, '').split(',')).toString()
+    this.setState({ facts })
+  }
+
   componentWillMount() {
     let nodeId = this.props.match.params.nodeId
     this.getNodeInfo(nodeId)
@@ -158,8 +164,8 @@ export default class Info extends React.Component<InfoProps, any> {
             (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
               <Switch>
                 <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-                <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.facts} />} />
-                <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.facts} />} />
+                <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.facts} deleteCard={this.deleteCard.bind(this)} />} />
+                <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.facts} deleteCard={this.deleteCard.bind(this)} />} />
               </Switch>
             ) : (
                 <Spin />
