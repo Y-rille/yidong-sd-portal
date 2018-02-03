@@ -62,7 +62,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             title: '角色',
             dataIndex: '_roles',
             key: '_roles',
-            width: '27%'
+            width: '25%'
         }, {
         }, {
             title: '创建时间',
@@ -110,7 +110,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
     render() {
         let { page_size, page_num, userList, goPage } = this.props
         return (
-            <div>
+            <div className={styles.usertable}>
                 {this.renderTable()}
                 <Pagination className={styles.pagination} onChange={this.goPage.bind(this)} total={userList.count} current={parseInt(page_num, 10) + 1} pageSize={page_size} showQuickJumper />
             </div>
