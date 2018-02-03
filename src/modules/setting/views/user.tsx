@@ -156,9 +156,9 @@ class User extends React.PureComponent<UserProps, any> {
                             <div className={styles.header}>
                                 <h1 className={styles.title}>用户管理</h1>
                                 <Breadcrumb>
-                                    <Breadcrumb.Item>首页</Breadcrumb.Item>
-                                    <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                                    <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                                    <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                                    <Breadcrumb.Item>系统管理</Breadcrumb.Item>
+                                    <Breadcrumb.Item>用户管理</Breadcrumb.Item>
                                 </Breadcrumb>
                             </div>
                             <div className={styles.filter}>
