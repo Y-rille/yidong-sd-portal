@@ -72,7 +72,7 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         let defaultValue = this.getDefaultKpi()
 
         return (
-            <Checkbox.Group key={this.state.keyIndex} style={{ width: '100%' }} onChange={this.onChange.bind(this)} defaultValue={defaultValue}>
+            <Checkbox.Group key={this.state.keyIndex} style={{ width: '100%', minHeight: '100px' }} onChange={this.onChange.bind(this)} defaultValue={defaultValue}>
                 <Row>
                     <Col span={4}>选择指标：</Col>
                     <Col span={20}>
@@ -98,12 +98,8 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         const { visible } = this.props;
         return (
             <Modal visible={visible} title="添加指标" onOk={this.handleOk.bind(this)}
-                onCancel={this.handleCancel.bind(this)} footer={null}>
+                onCancel={this.handleCancel.bind(this)} okText="确认" cancelText="取消">
                 {this.renderCheckGroup()}
-                < div className={styles.handle}>
-                    <Button onClick={this.handleOk.bind(this)} type="primary">确定</Button>
-                    <Button onClick={this.handleCancel.bind(this)}>取消</Button>
-                </div>
             </Modal>
         );
     }
