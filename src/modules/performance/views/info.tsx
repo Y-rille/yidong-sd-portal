@@ -106,6 +106,8 @@ export default class Info extends React.Component<InfoProps, any> {
           <div className={styles.header}>
             <h1 className={styles.title}>{this.props.nodeInfo.nodeName}</h1>
             <Breadcrumb>
+            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+            <Breadcrumb.Item>性能监控</Breadcrumb.Item>
             {
               lablePathArr.map((item, index) => {
                 return  <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>

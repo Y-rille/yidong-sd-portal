@@ -12,10 +12,9 @@ export interface TreeSelectProps {
     onSelect?
     dExpandedKeys?
 }
-
 let datas = []
 
-const dataList = [];
+let dataList = [];
 
 const fmtDataFunc = (data) => {
     function fmtTreeData(item, ids?) {
@@ -42,8 +41,6 @@ const fmtDataFunc = (data) => {
     return loopTreeData(data)
 };
 
-datas = fmtDataFunc(datas);
-
 const generateList = (data) => {
     for (let i = 0; i < data.length; i++) {
         const node = data[i];
@@ -60,8 +57,6 @@ const generateList = (data) => {
         }
     }
 };
-
-generateList(datas);
 
 const getParentKey = (nodeId, tree) => {
     let parentKey;
@@ -96,6 +91,10 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             expandedKeys,
             autoExpandParent: false,
         });
+    }
+    componentWillMount() {
+        datas = fmtDataFunc(_.merge([{}], this.props.data))
+        generateList(datas);
     }
 
     onChange = (e) => {
