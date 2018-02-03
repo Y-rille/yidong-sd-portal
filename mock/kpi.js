@@ -84,8 +84,8 @@ let getMoTypeKpis = {
           "priority": 1,
           "kpiTablefield": "NicReceiveRate",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "1024",
+          "maxValue": "1024",
+          "minValue": "0",
           "state": 1
         },
         {
@@ -104,8 +104,8 @@ let getMoTypeKpis = {
           "mogrpCnname": "主机",
           "mogrpEnname": "HOST",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "131072",
+          "maxValue": "131072",
+          "minValue": "0",
           "state": 1
         },
         {
@@ -122,8 +122,8 @@ let getMoTypeKpis = {
           "priority": 1,
           "kpiTablefield": "NicTransferRate",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "1024",
+          "maxValue": "1024",
+          "minValue": "0",
           "state": 1
         },
         {
@@ -139,8 +139,8 @@ let getMoTypeKpis = {
           "priority": 1,
           "kpiTablefield": "RamTotal",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "131072",
+          "maxValue": "131072",
+          "minValue": "0",
           "state": 1
         },
         {
@@ -156,8 +156,8 @@ let getMoTypeKpis = {
           "priority": 1,
           "kpiTablefield": "RamUtil",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "100",
+          "maxValue": "100",
+          "minValue": "0",
           "state": 1
         },
         {
@@ -174,8 +174,8 @@ let getMoTypeKpis = {
           "priority": 1,
           "kpiTablefield": "CpuUtil",
           "version": "1.0",
-          "maxValue": "0",
-          "minValue": "100",
+          "maxValue": "100",
+          "minValue": "0",
           "state": 1
         }
       ]
@@ -256,7 +256,7 @@ let getKpiThresholds = {
           "normalThresholdOperator": ">",
           "normalThresholdValue": "-1",
           "state": 1
-        }
+        },
       ]
     }
   }
@@ -282,6 +282,19 @@ let getMoInstKpiThresholds = {
           "minorThresholdValue": "19000",
           "normalThresholdOperator": ">",
           "normalThresholdValue": "15000",
+          "state": 1
+        },
+        {
+          "thresholdId": 1,
+          "kpiId": 6,
+          "criticalThresholdOperator": ">",
+          "criticalThresholdValue": "1000",
+          "majorThresholdOperator": ">",
+          "majorThresholdValue": "600",
+          "minorThresholdOperator": ">",
+          "minorThresholdValue": "300",
+          "normalThresholdOperator": ">",
+          "normalThresholdValue": "100",
           "state": 1
         }
       ]
@@ -393,13 +406,15 @@ let getData = {
         "headers": [
           "EVENT_TIMESTAMP",
           "T_HOST",
-          "4"
+          "4",
+          "6"
         ],
         "values": [
           [
             1514977200000,
             "D03-hpeDL380-COMP04",
-            13072
+            13072,
+            990
           ]
         ],
         "status": "OK",
