@@ -163,10 +163,11 @@
 .treeSelect {
   .ant-input-search {
     position: fixed;
-    top: 67px;
+    top: 64px;
     left: 0;
-    width: 180px;
+    z-index: 99;
     padding: @margin-min;
+    background-color: #fff;
     &:not(.ant-input-search-small) > .ant-input-suffix {
       right: 22px;
     }

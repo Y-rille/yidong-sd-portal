@@ -42,7 +42,7 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                     })
                     if (data) {
                         emitter.emit('message', 'success', '登录成功！')
-                        this.props.history.replace(`/performance/4/current`)
+                        this.props.history.replace(`/performance`)
                     }
                 })
             }
