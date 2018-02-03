@@ -16,6 +16,7 @@ declare let global: any;
 
 export interface InfoProps {
   match?
+  history?
   moTypeKpis?
   moInstKpiThresholds?
   location?
@@ -65,7 +66,7 @@ export default class Info extends React.Component<InfoProps, any> {
     this.setState({
       activeKey: path
     })
-    global.hashHistory.push(`${match.url}/${path}`)
+    this.props.history.push(`${match.url}/${path}`)
   }
   componentWillMount() {
     let nodeId = this.props.match.params.nodeId
@@ -106,11 +107,11 @@ export default class Info extends React.Component<InfoProps, any> {
           <div className={styles.header}>
             <h1 className={styles.title}>{this.props.nodeInfo.nodeName}</h1>
             <Breadcrumb>
-            {
-              lablePathArr.map((item, index) => {
-                return  <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
-              })
-            }
+              {
+                lablePathArr.map((item, index) => {
+                  return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                })
+              }
             </Breadcrumb>
           </div>
           <div className={styles.tabBar}>
