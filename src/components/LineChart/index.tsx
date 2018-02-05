@@ -35,7 +35,7 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
 
         let plotLinesArr = []
         let plotLinesOpt = ['normalThresholdValue', 'minorThresholdValue', 'majorThresholdValue', 'criticalThresholdValue']
-        let plotLinesColor = ['#18b4ef', '#ffe780', '#ffa500', '#fa9e9e']
+        let plotLinesColor = ['#18b4ef', '#ffff00', '#fea70a', '#ef3233']
         if (data.threshold) {
             for (let i = 0; i < plotLinesOpt.length; i++) {
                 let plot = data.threshold[plotLinesOpt[i]]

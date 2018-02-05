@@ -1,6 +1,6 @@
 import React from 'react';
 import { LocaleProvider } from 'antd';
-import moment from 'moment';
+import moment from '../../common/moment';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import 'moment/locale/zh-cn';
 import emitter from '../../common/emitter'
@@ -55,8 +55,8 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
     render() {
         var dateformat = 'YYYY-MM-DD HH:mm:ss';
         const date = [moment(this.props.defaultValue[0]).format('YYYY-MM-DD HH:mm:ss'), moment(this.props.defaultValue[1]).format('YYYY-MM-DD HH:mm:ss')]
-        const selectDate = this.props.defaultValue[2] == null ? '' : this.props.defaultValue[2].toString()
-        const timeFilter = this.props.timeFilter;
+        const { selectValue } = this.state;
+        const timeFilter = this.props.timeFilter || [];
         return (
             <div>
                 <span>创建时间：</span>
@@ -71,7 +71,7 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
                         onChange={this.onRangePickerChange.bind(this)}
                     />
                 </LocaleProvider>
-                <Select defaultValue={selectDate} style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
+                <Select value={selectValue} style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
                     <Option value="">无</Option>
                     {
                         timeFilter.map((item, index) => {
