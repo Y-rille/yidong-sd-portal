@@ -89,7 +89,7 @@ export default class Info extends React.Component<InfoProps, any> {
         let facts = [];
         let localFacts = store.local.get(nodeInfo.bizFields.moTypeId);
         if (this.state.facts.length === 0) {
-          if (localFacts) {
+          if (localFacts !== undefined) {
             this.setState({
               facts: localFacts,
               changeFacts: localFacts,
