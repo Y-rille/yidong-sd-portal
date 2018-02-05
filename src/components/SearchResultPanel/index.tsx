@@ -28,15 +28,17 @@ export default class SearchResultPanel extends React.Component<SearchResultPanel
             groups[tempPath].push(temp)
         });
 
-        _.forEach(groups, function (value, key) {
-            list.push({
-                title: key.split(','),
-                description: groups[key]
-            })
-        });
+        for (let key in groups) {
+            if (groups.hasOwnProperty(key)) {
+                list.push({
+                    title: key.split(','),
+                    description: groups[key]
+                })
+            }
+        }
 
         list = list.map(item => {
-            item.title = this.getTitle(item.title, data);
+            item.title = getTitle(item.title, data);
 
             return item;
         });

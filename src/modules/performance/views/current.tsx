@@ -92,7 +92,7 @@ class Current extends React.Component<any, any> {
     componentDidMount() {
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.kpis && (nextProps.kpis !== this.props.kpis)) {
+        if (nextProps.kpis !== this.props.kpis) {
             this.getData(nextProps.kpis)
         }
     }

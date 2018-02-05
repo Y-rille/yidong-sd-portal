@@ -62,7 +62,7 @@ class History extends React.Component<any, any> {
         this.getData(this.props.kpis)
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.kpis && nextProps.kpis !== this.props.kpis) {
+        if (nextProps.kpis !== this.props.kpis) {
             this.getData(nextProps.kpis, this.state.begintime, this.state.endtime, this.state.timeFilter)
         }
     }
