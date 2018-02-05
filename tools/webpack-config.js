@@ -125,7 +125,7 @@ module.exports = (type) => {
                 }
             ]),
             new HtmlWebpackPlugin({
-                title: pkgJson.name,
+                title: pkgJson.title,
                 template: './src/templates/index.ejs',
                 filename: 'index.html'
             }),
@@ -139,7 +139,7 @@ module.exports = (type) => {
                 ],
                 append: false
             }),
-            // new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|zh-cn)$/),
+            new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|zh-cn)$/),
             // isDist && new OfflinePlugin()
         ]),
         module: {
