@@ -4,13 +4,14 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import store from 'superstore-sync'
+import * as Loadable from 'react-loadable';
+import Loading from '../../../common/loading'
+
 import styles from '../style/index.less'
 
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
 
 import FactModal from '../../../components/FactModal/'
-import Current from '../container/current'
-import History from '../container/history'
 
 declare let global: any;
 
@@ -27,12 +28,32 @@ export interface InfoProps {
 }
 
 export default class Info extends React.Component<InfoProps, any> {
+  CurrentComponent: any
+  HistoryComponent: any
   constructor(props) {
     super(props);
     this.state = {
       facts: '',
       moId: ''
     };
+
+    let self = this
+    this.CurrentComponent = Loadable({
+      loader: () => import(/* webpackChunkName: "performance.current" */'../container/current'),
+      render(loaded, _props) {
+        let Current = loaded.default;
+        return <Current {..._props} kpis={self.state.facts} deleteCard={self.deleteCard.bind(this)} />;
+      },
+      loading: () => { return <Loading /> }
+    })
+    this.HistoryComponent = Loadable({
+      loader: () => import(/* webpackChunkName: "performance.history" */'../container/history'),
+      render(loaded, _props) {
+        let History = loaded.default;
+        return <History {..._props} timeFilter={self.props.timeFilter} kpis={self.state.facts} deleteCard={self.deleteCard.bind(this)} />;
+      },
+      loading: () => { return <Loading /> }
+    })
   }
   handleOk(kpis) {
     let moId = this.state.moId;
@@ -181,8 +202,8 @@ export default class Info extends React.Component<InfoProps, any> {
             (this.props.moTypeKpis && this.props.moInstKpiThresholds) ? (
               <Switch>
                 <Redirect from={`${match.url}`} to={`${match.url}/current`} exact />
-                <Route path={`${match.url}/current`} render={() => <Current kpis={this.state.facts} deleteCard={this.deleteCard.bind(this)} />} />
-                <Route path={`${match.url}/history`} render={() => <History timeFilter={this.props.timeFilter} kpis={this.state.facts} deleteCard={this.deleteCard.bind(this)} />} />
+                <Route path={`${match.url}/current`} component={this.CurrentComponent} />
+                <Route path={`${match.url}/history`} component={this.HistoryComponent} />
               </Switch>
             ) : (
                 <Spin />
