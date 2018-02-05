@@ -17,30 +17,32 @@ let datas = []
 
 let dataList = [];
 
-const fmtDataFunc = (data) => {
-    function fmtTreeData(item, ids?) {
-        let loopIds = ids || [];
+const getPath = (data, arr) => {
+    let path = arr ? arr : [];
 
-        if (ids) {
-            loopIds = loopIds.filter(id => (parseInt(id, 10) < item.nodeId));
-        }
+    path.push(data.nodeId);
+    data.idPath = path.join(',')
 
-        loopIds.push(item.nodeId);
-        item.idPath = loopIds.join(',');
-
-        if (item.children) {
-            loopTreeData(item.children, loopIds)
-        }
-
-        return item;
+    if (data.children) {
+        return path
     }
 
-    function loopTreeData(items, ids?) {
-        return items.map(item => fmtTreeData(item, ids))
-    }
-
-    return loopTreeData(data)
+    return path.pop()
 };
+
+const fmtDataFunc = (data, arr?) => {
+    let path = getPath(data, arr);
+
+    if (data.children) {
+        data.children.map(children => {
+            fmtDataFunc(children, path)
+        })
+    }
+};
+
+datas.map(item => {
+    fmtDataFunc(item);
+});
 
 const generateList = (data) => {
     for (let i = 0; i < data.length; i++) {
@@ -107,7 +109,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
     }
     componentDidMount() {
         if (this.props.searchValue) {
-            this.onSearch() 
+            this.onSearch()
         }
     }
 
@@ -158,7 +160,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             }
             this.setState({
                 result: result
-            })  
+            })
         } else {
             this.setState({
                 expandedKeys: this.props.dExpandedKeys ? this.props.dExpandedKeys : [],
@@ -214,7 +216,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
         });
         return (
             <div className="treeSelect">
-                <Search placeholder={this.props.searchValue ? this.props.searchValue : 'Search'} onChange={this.onChange} onSearch={this.onSearch.bind(this)}/>
+                <Search placeholder={this.props.searchValue ? this.props.searchValue : 'Search'} onChange={this.onChange} onSearch={this.onSearch.bind(this)} />
                 <Tree
                     onExpand={this.onExpand}
                     expandedKeys={expandedKeys}

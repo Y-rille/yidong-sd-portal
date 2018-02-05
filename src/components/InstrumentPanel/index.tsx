@@ -112,7 +112,7 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
         let plotBandsArr: Array<object> = [] // 刻度线
         // let stopsArr: Array<object> = [] // 进度条
 
-        let plotBandsColor = ['#ffe780', '#f3820f', '#ef3233'] // '#7cd8ba'
+        let plotBandsColor = ['#ffff00', '#fea70a', '#ef3233'] // '#7cd8ba'
         let plotBandsOpt = [
             // { // 暂时去掉了
             //     plot: 'normalThresholdValue',
@@ -120,11 +120,11 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
             // },
             {
                 plot: 'minorThresholdValue',
-                color: '#ffe780',
+                color: '#ffff00',
             },
             {
                 plot: 'majorThresholdValue',
-                color: '#f3820f'
+                color: '#fea70a'
             },
             {
                 plot: 'criticalThresholdValue',

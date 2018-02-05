@@ -52,7 +52,7 @@ export default class InstrumentCard extends React.PureComponent<InstrumentCardPr
             <Col className="gutter-row" span={8} >
                 <div className="gutter-box">
                     <div className={styles.instrumentHead}>
-                        <div className={styles.title}>{data.kpiName} {data.kpiId}</div>
+                        <div className={styles.title}>{data.kpiName}</div>
                         <div className={styles.cardIcon}>
                             <Icon type="download" onClick={this.printInstrumentPane.bind(this)} />|
                             <Icon type="close" onClick={this.hideOne.bind(this)} />

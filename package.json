@@ -1,5 +1,6 @@
 {
   "name": "cloud-management-platform",
+  "title": "云管平台",
   "version": "1.0.0",
   "description": "cloud management platform",
   "scripts": {

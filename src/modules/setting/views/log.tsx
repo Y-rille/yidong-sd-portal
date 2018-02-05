@@ -59,7 +59,7 @@ class Log extends React.PureComponent<LogProps, any> {
     }
     searchHandler(query_key) {
         let { page_num, page_size } = this.state
-        page_num = 0
+        page_num = 1
         let queryObj = { page_num, query_key, page_size }
         this.props.history.push(`/setting/log?${stringify(queryObj)}`)
         this.setState({
@@ -121,7 +121,7 @@ class Log extends React.PureComponent<LogProps, any> {
                     <div className={styles.filter}>
                         <Search
                             className={styles.search}
-                            placeholder="请输入用户名"
+                            placeholder="请输入用户名或者真实姓名"
                             defaultValue={query_key}
                             enterButton="查询"
                             onSearch={value => this.searchHandler(value)}
