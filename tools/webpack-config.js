@@ -16,6 +16,9 @@ const OfflinePlugin = require('offline-plugin');
 const tsImportPluginFactory = require('ts-import-plugin')
 
 let theme = pkgJson.theme;
+
+const header = ` ${pkgJson.name} v ${pkgJson.version}\n Copyright (c) HPE 2018;`
+
 module.exports = (type) => {
     const isDev = type === 'dev';
     const isDist = type === 'dist';
@@ -125,7 +128,7 @@ module.exports = (type) => {
                 }
             ]),
             new HtmlWebpackPlugin({
-                title: pkgJson.name,
+                title: pkgJson.title,
                 template: './src/templates/index.ejs',
                 filename: 'index.html'
             }),
@@ -139,7 +142,8 @@ module.exports = (type) => {
                 ],
                 append: false
             }),
-            // new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|zh-cn)$/),
+            new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|zh-cn)$/), ,
+            new webpack.BannerPlugin(header)
             // isDist && new OfflinePlugin()
         ]),
         module: {
