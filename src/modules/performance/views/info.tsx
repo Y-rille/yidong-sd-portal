@@ -42,7 +42,7 @@ export default class Info extends React.Component<InfoProps, any> {
       loader: () => import(/* webpackChunkName: "performance.current" */'../container/current'),
       render(loaded, _props) {
         let Current = loaded.default;
-        return <Current {..._props} kpis={self.state.facts} deleteCard={self.deleteCard.bind(this)} />;
+        return <Current {..._props} kpis={self.state.facts} deleteCard={self.deleteCard.bind(self)} />;
       },
       loading: () => { return <Loading /> }
     })
@@ -50,7 +50,7 @@ export default class Info extends React.Component<InfoProps, any> {
       loader: () => import(/* webpackChunkName: "performance.history" */'../container/history'),
       render(loaded, _props) {
         let History = loaded.default;
-        return <History {..._props} timeFilter={self.props.timeFilter} kpis={self.state.facts} deleteCard={self.deleteCard.bind(this)} />;
+        return <History {..._props} timeFilter={self.props.timeFilter} kpis={self.state.facts} deleteCard={self.deleteCard.bind(self)} />;
       },
       loading: () => { return <Loading /> }
     })
