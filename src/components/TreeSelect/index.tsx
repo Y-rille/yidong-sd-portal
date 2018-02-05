@@ -11,6 +11,7 @@ export interface TreeSelectProps {
     onSearch?
     onSelect?
     dExpandedKeys?
+    searchValue?
 }
 let datas = []
 
@@ -83,7 +84,11 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             expandedKeys: this.props.dExpandedKeys ? this.props.dExpandedKeys : [],
             searchValue: '',
             autoExpandParent: true,
-            result: {}
+            result: {
+                data: [],
+                searchValue: '',
+                selectedKeys: []
+            }
         };
     }
 
@@ -96,13 +101,21 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
     componentWillMount() {
         datas = fmtDataFunc(_.merge([{}], this.props.data))
         generateList(datas);
+        if (this.props.searchValue) {
+            this.onChange(null, this.props.searchValue)
+        }
+    }
+    componentDidMount() {
+        if (this.props.searchValue) {
+            this.onSearch() 
+        }
     }
 
-    onChange = (e) => {
-        const value = e.target.value;
+    onChange = (e, propsValue = '') => {
+        const value = propsValue ? propsValue : e.target.value;
         const selectedKeys = [];
 
-        if (e.target.value) {
+        if (value) {
             const expandedKeys = dataList.map((item) => {
                 if (item.nodeLabel.indexOf(value) > -1) {
                     if (item.dataType === 2) {
@@ -145,13 +158,17 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             }
             this.setState({
                 result: result
-            })            
+            })  
         } else {
             this.setState({
-                expandedKeys: [],
+                expandedKeys: this.props.dExpandedKeys ? this.props.dExpandedKeys : [],
                 searchValue: '',
                 autoExpandParent: true,
-                result: {}
+                result: {
+                    data: [],
+                    searchValue: '',
+                    selectedKeys: []
+                }
             });
             // if (this.props.onSearch) {
             //     this.props.onSearch(null)
@@ -167,8 +184,10 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
 
     onSearch() {
         if (this.props.onSearch) {
-            let result = this.state.result
-            this.props.onSearch(result)
+            if (this.state.result) {
+                let result = this.state.result
+                this.props.onSearch(result)
+            }
         }
     }
 
@@ -195,7 +214,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
         });
         return (
             <div className="treeSelect">
-                <Search placeholder="Search" onChange={this.onChange} onSearch={this.onSearch.bind(this)}/>
+                <Search placeholder={this.props.searchValue ? this.props.searchValue : 'Search'} onChange={this.onChange} onSearch={this.onSearch.bind(this)}/>
                 <Tree
                     onExpand={this.onExpand}
                     expandedKeys={expandedKeys}
