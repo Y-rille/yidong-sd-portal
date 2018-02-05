@@ -67,9 +67,11 @@ ListDescription({ list }) {
         return <a key={index} style={{ marginRight: '20px' }}>{item.nodeLabel}</ a>
     })
 }
-goDetail(nodeId) {
-  // let { match, history } = this.props
-  // history.push(`${match.url}/${nodeId}`)
+goDetail(e) {
+  // console.log(e.currentTarget.getAttribute('data-key'), '==========>godetail')
+  let { match, history } = this.props
+  let nodeId = e.currentTarget.getAttribute('data-key')
+  history.push(`${match.url}/${nodeId}`)
 }
 
 renderList(data) {
@@ -91,10 +93,11 @@ renderList(data) {
       itemLayout="horizontal"
       dataSource={fmtResData}
       renderItem={item => (
-        <List.Item>
+        <List.Item
+        actions={[<a onClick={this.goDetail.bind(this)} data-key={item.nodeId} key={item.nodeId}>查看详情</a>]}>
           <List.Item.Meta
             title={item.title}
-            description={item.description}
+            description={item.description}            
           />
         </List.Item>
       )}
@@ -111,6 +114,7 @@ render() {
                 <p>搜索关键字：{datas.searchValue}</p >
                 <p>共搜索到 {_.uniq(datas.selectedKeys).length} 条数据</p >
             </div>
+            <hr/>
             <div className={styles.resultList}>
               {this.renderList(datas)}
             </div>
