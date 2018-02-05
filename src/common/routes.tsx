@@ -18,6 +18,7 @@ const DashboardComponent = Loadable({
   loader: () => import(/* webpackChunkName: "dashboard" */'../modules/dashboard/routes/index'),
   loading: () => { return <Loading /> }
 })
+
 const SettingComponent = Loadable({
   loader: () => import(/* webpackChunkName: "dashboard" */'../modules/setting/routes/index'),
   loading: () => { return <Loading /> }
