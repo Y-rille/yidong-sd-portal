@@ -76,36 +76,19 @@ class History extends React.Component<any, any> {
         let moInstKpiThresholds = this.props.moInstKpiThresholds
         let moTypeKpis = this.props.moTypeKpis
         let kpidata = this.props.kpidata
-
-        // if (moInstKpiThresholds && moTypeKpis && kpidata && this.props.nodeInfo) {
-        //     let result = getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, this.props.kpis)
-        //     return (
-        //         <div>
-        //             <div className={styles.toolBar} style={{ backgroundColor: '#FFF' }}>
-        //                 <TimeSelect timeFilter={this.props.timeFilter} defaultValue={[this.state.begintime, this.state.endtime, this.state.timeFilter]} inquire={this.inquire.bind(this)} />
-        //             </div>
-        //             <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }}>
-        //                 {
-        //                     result.map((item, index) => {
-        //                         return (
-        //                             <LineChartCard key={index} data={item} deleteCard={this.deleteCard.bind(this)} hideFacts={this.props.hideFacts} />
-        //                         )
-        //                     })
-        //                 }
-        //             </Row>
-        //         </div>
-        //     );
-        // } else {
-        //     return <Spin />
-        // }
         return (
-            <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
-                {this.state.result.map((item, index) => {
-                    return (
-                        <LineChartCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} hideFacts={this.props.hideFacts} />
-                    )
-                })}
-            </Row>
+            <div>
+                <div className={styles.toolBar} style={{ backgroundColor: '#FFF' }}>
+                    <TimeSelect timeFilter={this.props.timeFilter} defaultValue={[this.state.begintime, this.state.endtime, this.state.timeFilter]} inquire={this.inquire.bind(this)} />
+                </div>
+                <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
+                    {this.state.result.map((item, index) => {
+                        return (
+                            <LineChartCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} hideFacts={this.props.hideFacts} />
+                        )
+                    })}
+                </Row>
+            </div>
         )
 
     }
