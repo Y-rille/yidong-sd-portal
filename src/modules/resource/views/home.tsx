@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 
-import {Row, Breadcrumb} from 'antd';
+import { Row, Breadcrumb } from 'antd';
 import TreeSelect from '../../../components/TreeSelect'
 import DynamicPropertiesPanel from '../../../components/DynamicPropertiesPanel'
 import SearchResultPanel from '../../../components/SearchResultPanel'

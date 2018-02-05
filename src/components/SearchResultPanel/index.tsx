@@ -24,10 +24,12 @@ const fmtData = (selectedIds, data) => {
     });
 
     for (let key in groups) {
-        list.push({
-            title: key.split(','),
-            description: groups[key]
-        })
+        if (groups.hasOwnProperty(key)) {
+            list.push({
+                title: key.split(','),
+                description: groups[key]
+            })
+        }
     }
 
     list = list.map(item => {

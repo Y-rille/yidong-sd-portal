@@ -187,32 +187,32 @@ let datas = [
 
 const dataList = [];
 
-const fmtDataFunc = (data) => {
-    function fmtTreeData(item, ids?) {
-        let loopIds = ids || [];
+const getPath = (data, arr) => {
+    let path = arr ? arr : [];
 
-        if (ids) {
-            loopIds = loopIds.filter(id => (parseInt(id, 10) < item.nodeId));
-        }
+    path.push(data.nodeId);
+    data.idPath = path.join(',')
 
-        loopIds.push(item.nodeId);
-        item.idPath = loopIds.join(',');
-
-        if (item.children) {
-            loopTreeData(item.children, loopIds)
-        }
-
-        return item;
+    if (data.children) {
+        return path
     }
 
-    function loopTreeData(items, ids?) {
-        return items.map(item => fmtTreeData(item, ids))
-    }
-
-    return loopTreeData(data)
+    return path.pop()
 };
 
-datas = fmtDataFunc(datas);
+const fmtDataFunc = (data, arr?) => {
+    let path = getPath(data, arr);
+
+    if (data.children) {
+        data.children.map(children => {
+            fmtDataFunc(children, path)
+        })
+    }
+};
+
+datas.map(item => {
+    fmtDataFunc(item);
+});
 
 const generateList = (data) => {
     for (let i = 0; i < data.length; i++) {
