@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-
+import store from 'superstore-sync'
 import styles from '../style/index.less'
 
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
@@ -31,10 +31,13 @@ export default class Info extends React.Component<InfoProps, any> {
     super(props);
     this.state = {
       facts: '',
+      moId: ''
     };
   }
   handleOk(kpis) {
+    let moId = this.state.moId;
     var str_facts = kpis.join(',')
+    store.local.set(moId, str_facts);
     this.setState({
       visible: false,
       facts: str_facts
@@ -62,22 +65,31 @@ export default class Info extends React.Component<InfoProps, any> {
     this.props.actions.getMoTypeKpis(nodeInfo.bizFields.moTypeId, 7, (moTypeKpis) => {
       // 设置默认选中的值
       if (moTypeKpis) {
-        let facts = []
+        let facts = [];
+        let localFacts = store.local.get(nodeInfo.bizFields.moTypeId);
         if (this.state.facts.length === 0) {
-          for (let i = 0; i < 4; i++) {
-            if (moTypeKpis[i]) {
-              facts.push(moTypeKpis[i].kpiId)
+          if (localFacts) {
+            this.setState({
+              facts: localFacts,
+              changeFacts: localFacts,
+              moId: nodeInfo.bizFields.moTypeId
+            })
+          } else {
+            for (let i = 0; i < 4; i++) {
+              if (moTypeKpis[i]) {
+                facts.push(moTypeKpis[i].kpiId)
+              }
             }
+            let str_facts = facts.join(',')
+            this.setState({
+              facts: str_facts,
+              changeFacts: str_facts,
+              moId: nodeInfo.bizFields.moTypeId
+            })
           }
-          var str_facts = facts.join(',')
-          this.setState({
-            facts: str_facts,
-            changeFacts: str_facts
-          })
+
         }
-
       }
-
     })
     this.props.actions.getMoInstKpiThresholds(nodeInfo.bizFields.moTypeId, nodeInfo.bizFields.moInstId, (data) => {
     })
@@ -90,8 +102,10 @@ export default class Info extends React.Component<InfoProps, any> {
   }
 
   deleteCard(id) {
-    let { facts } = this.state
+    let { facts } = this.state;
+    let { moId } = this.state;
     facts = _.compact(facts.replace(id, '').split(',')).toString()
+    store.local.set(moId, facts);
     this.setState({ facts })
 
   }
