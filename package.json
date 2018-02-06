@@ -11,7 +11,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "mocks": "dyson mock",
-    "e2e": "testcafe Chrome test/e2e*"
+    "e2e": "testcafe Chrome test/e2e*",
+    "dump": "np --yolo --no-publish"
   },
   "pre-commit": [
     "lint"
