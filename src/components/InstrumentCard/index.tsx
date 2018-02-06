@@ -6,10 +6,11 @@ const compact = require('lodash/compact')
 import styles from './index.less'
 
 export interface InstrumentCardProps {
-    data,
-    gradient?,
-    deleteCard?,
+    data
+    gradient?
+    deleteCard?
     hideFacts?
+    nodeName?
 }
 
 /**
@@ -61,6 +62,7 @@ export default class InstrumentCard extends React.PureComponent<InstrumentCardPr
                     <InstrumentPanel
                         ref={(node) => { this.instrumentPanel = node }}
                         data={data}
+                        nodeName={this.props.nodeName}
                     />
                 </div>
             </Col>

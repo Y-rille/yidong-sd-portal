@@ -4,8 +4,13 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, DatePicker, LocaleProvider } from 'antd';
+const { RangePicker } = DatePicker;
 const Search = Input.Search
+
+import moment from '../../../common/moment';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import 'moment/locale/zh-cn';
 
 import LogTable from '../../../components/LogTable/'
 declare let global: any;
@@ -24,20 +29,22 @@ export interface LogProps {
 class Log extends React.PureComponent<LogProps, any> {
     constructor(props) {
         super(props);
-        let { page_num, query_key } = qs.parse(this.props.location.search)
+        let { page_num, query_key, start_time, end_time } = qs.parse(this.props.location.search)
         this.state = {
             visible: false,
             listLoading: false,
             page_size: 5,
             page_num: page_num ? page_num : 1,
             query_key: query_key ? query_key : '',
+            start_time: '',
+            end_time: ''
         };
     }
     goPage(current) {
         let page_num = current
-        let { page_size, query_key } = this.state
+        let { page_size, query_key, start_time, end_time } = this.state
         let queryObj = {
-            page_num, page_size, query_key
+            page_num, page_size, query_key, start_time, end_time
         }
         this.props.history.push(`/setting/log?${stringify(queryObj)}`)
         this.setState({
@@ -50,17 +57,17 @@ class Log extends React.PureComponent<LogProps, any> {
             listLoading: true
         });
         let self = this
-        let { page_num, page_size, query_key } = queryObj
-        this.props.actions.getLogList({ page_num, page_size, query_key }, () => {
+        let { page_num, page_size, query_key, start_time, end_time } = queryObj
+        this.props.actions.getLogList({ page_num, page_size, query_key, start_time, end_time }, () => {
             self.setState({
                 listLoading: false
             });
         })
     }
     searchHandler(query_key) {
-        let { page_num, page_size } = this.state
+        let { page_num, page_size, start_time, end_time } = this.state
         page_num = 1
-        let queryObj = { page_num, query_key, page_size }
+        let queryObj = { page_num, query_key, page_size, start_time, end_time }
         this.props.history.push(`/setting/log?${stringify(queryObj)}`)
         this.setState({
             page_num, query_key
@@ -68,26 +75,19 @@ class Log extends React.PureComponent<LogProps, any> {
         this.getDataFn(queryObj)
     }
     componentWillReceiveProps(nextProps) {
+
     }
-    // showModal() {
-    //     this.setState({
-    //         visible: true
-    //     })
-    // }
-    // handleOk() {
-    //     this.setState({
-    //         visible: false
-    //     })
-    // }
-    // handleCancel() {
-    //     this.setState({
-    //         visible: false
-    //     })
-    // }
+    onChange(value, dateString) {
+        let { start_time, end_time } = this.state
+        this.setState({
+            start_time: dateString[0],
+            end_time: dateString[1]
+        });
+    }
     componentWillMount() {
-        let { page_num, page_size, query_key } = this.state
+        let { page_num, page_size, query_key, start_time, end_time } = this.state
         let queryObj = {
-            page_num, page_size, query_key
+            page_num, page_size, query_key, start_time, end_time
         }
         this.getDataFn(queryObj)
     }
@@ -101,12 +101,6 @@ class Log extends React.PureComponent<LogProps, any> {
         if (!canRender) {
             return <div />
         }
-
-        // let { match, tree } = this.props
-        // let { activeKey } = this.state
-        // if (!tree) {
-        //     return <div>loading</div>
-        // }
         return (
             <Row className={styles.setting}>
                 <div className={styles.header}>
@@ -119,6 +113,14 @@ class Log extends React.PureComponent<LogProps, any> {
                 </div>
                 <div className={styles.tb}>
                     <div className={styles.filter}>
+                        <LocaleProvider locale={zh_CN}>
+                            <RangePicker
+                                showTime={{ format: 'HH:mm:ss' }}
+                                format="YYYY-MM-DD HH:mm:ss"
+                                placeholder={['开始时间', '结束时间']}
+                                onChange={this.onChange.bind(this)}
+                            />
+                        </LocaleProvider>
                         <Search
                             className={styles.search}
                             placeholder="请输入用户名或者真实姓名"

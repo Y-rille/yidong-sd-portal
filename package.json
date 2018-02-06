@@ -1,7 +1,7 @@
 {
   "name": "cloud-management-platform",
   "title": "云管平台",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "cloud management platform",
   "scripts": {
     "start": "node ./tools/server.js",
@@ -11,7 +11,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "mocks": "dyson mock",
-    "e2e": "testcafe Chrome test/e2e*"
+    "e2e": "testcafe Chrome test/e2e*",
+    "dump": "np --yolo --no-publish"
   },
   "pre-commit": [
     "lint"
