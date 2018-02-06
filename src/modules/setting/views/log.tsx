@@ -4,9 +4,13 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SplitPane from 'react-split-pane'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, DatePicker } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, DatePicker, LocaleProvider } from 'antd';
 const { RangePicker } = DatePicker;
 const Search = Input.Search
+
+import moment from '../../../common/moment';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import 'moment/locale/zh-cn';
 
 import LogTable from '../../../components/LogTable/'
 declare let global: any;
@@ -109,12 +113,14 @@ class Log extends React.PureComponent<LogProps, any> {
                 </div>
                 <div className={styles.tb}>
                     <div className={styles.filter}>
-                        <RangePicker
-                            showTime={{ format: 'HH:mm:ss' }}
-                            format="YYYY-MM-DD HH:mm:ss"
-                            placeholder={['开始时间', '结束时间']}
-                            onChange={this.onChange.bind(this)}
-                        />
+                        <LocaleProvider locale={zh_CN}>
+                            <RangePicker
+                                showTime={{ format: 'HH:mm:ss' }}
+                                format="YYYY-MM-DD HH:mm:ss"
+                                placeholder={['开始时间', '结束时间']}
+                                onChange={this.onChange.bind(this)}
+                            />
+                        </LocaleProvider>
                         <Search
                             className={styles.search}
                             placeholder="请输入用户名或者真实姓名"
