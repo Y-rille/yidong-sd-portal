@@ -2,6 +2,8 @@ import React from 'react';
 import * as Highcharts from 'highcharts';
 const merge = require('lodash/merge')
 const compact = require('lodash/compact')
+import * as Exporting from 'highcharts/modules/exporting';
+Exporting(Highcharts);
 
 // 更多图表类型扩展模块
 import HighchartsMore from 'highcharts/highcharts-more';
