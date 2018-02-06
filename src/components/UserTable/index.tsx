@@ -64,7 +64,6 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             key: '_roles',
             width: '25%'
         }, {
-        }, {
             title: '创建时间',
             dataIndex: 'create_time',
             key: 'create_time',
