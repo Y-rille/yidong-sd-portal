@@ -4,7 +4,8 @@ import * as Exporting from 'highcharts/modules/exporting';
 Exporting(Highcharts);
 
 export interface LineChartProps {
-    data
+    data?
+    nodeName?
 }
 
 /**
@@ -111,10 +112,11 @@ export default class LineChart extends React.PureComponent<LineChartProps, any> 
         this.chart = Highcharts.chart(this.line, this.options);
     }
     chartExport() {
+        let filename = this.props.nodeName + ' ' + this.props.data.kpiName
         this.chart.exportChart(
             {
                 type: 'image/png',
-                filename: this.props.data.kpiName,
+                filename: filename,
                 sourceWidth: 400,
                 sourceHeight: 280
             }

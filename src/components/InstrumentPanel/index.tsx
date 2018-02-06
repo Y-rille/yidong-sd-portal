@@ -12,7 +12,8 @@ Solidgauge(Highcharts)
 
 export interface InstrumentPanelProps {
     data,
-    gradient?
+    gradient?,
+    nodeName?
 }
 
 /**
@@ -220,10 +221,11 @@ export default class InstrumentPanel extends React.PureComponent<InstrumentPanel
         });
     }
     chartExport() {
+        let filename = this.props.nodeName + ' ' + this.props.data.kpiName
         this.chart.exportChart(
             {
                 type: 'image/png',
-                filename: this.props.data.kpiName,
+                filename: filename,
                 sourceWidth: 280,
             },
             {
