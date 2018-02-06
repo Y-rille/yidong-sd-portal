@@ -80,10 +80,8 @@ class Current extends React.Component<any, any> {
         }
         let moInstKpiThresholds = this.props.moInstKpiThresholds
         let moTypeKpis = this.props.moTypeKpis
-        // let kpidata = this.props.kpidata
         let self = this
-
-        this.props.actions.getData('value_pack_vim', DataParams, function(kpidata) {
+        this.props.actions.getData('value_pack_vim', DataParams, function (kpidata) {
             self.setState({
                 result: getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, self.props.kpis)
             })
@@ -100,6 +98,7 @@ class Current extends React.Component<any, any> {
         this.props.deleteCard(kpiId);
     }
     render() {
+        let nodeName = this.props.nodeInfo.nodeName;
         let moInstKpiThresholds = this.props.moInstKpiThresholds
         let moTypeKpis = this.props.moTypeKpis
         let kpidata = this.props.kpidata
@@ -122,7 +121,7 @@ class Current extends React.Component<any, any> {
             <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
                 {this.state.result.map((item, index) => {
                     return (
-                        <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} hideFacts={this.props.hideFacts} />
+                        <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} nodeName={nodeName} hideFacts={this.props.hideFacts} />
                     )
                 })}
             </Row>

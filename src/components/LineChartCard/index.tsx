@@ -4,10 +4,10 @@ import { Row, Col, Icon } from 'antd';
 import styles from './index.less'
 import LineChart from '../LineChart'
 export interface LineChartProps {
-    data,
+    data
     deleteCard?
     hideFacts?
-
+    nodeName?
 }
 
 /**
@@ -18,7 +18,7 @@ export interface LineChartProps {
  */
 
 export default class LineChartCard extends React.PureComponent<LineChartProps, any> {
-    lineChart1: any
+    lineChart: any
     chart: any
     constructor(props) {
         super(props);
@@ -30,7 +30,7 @@ export default class LineChartCard extends React.PureComponent<LineChartProps, a
 
     }
     printLineChart() {
-        this.lineChart1.chartExport()
+        this.lineChart.chartExport()
     }
     hideOne() {
         this.setState({
@@ -41,6 +41,8 @@ export default class LineChartCard extends React.PureComponent<LineChartProps, a
         }
     }
     render() {
+        // console.log(this.props.nodeInfo.nodeName, '00000000000')
+
         if (!this.state.show) {
             return <div />
         }
@@ -55,7 +57,7 @@ export default class LineChartCard extends React.PureComponent<LineChartProps, a
                             <Icon type="close" onClick={this.hideOne.bind(this)} />
                         </div>
                     </div>
-                    <LineChart ref={(node) => { this.lineChart1 = node }} data={data} />
+                    <LineChart ref={(node) => { this.lineChart = node }} nodeName={this.props.nodeName} data={data} />
                 </div>
             </Col>
         );

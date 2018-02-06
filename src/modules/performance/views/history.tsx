@@ -21,7 +21,7 @@ class History extends React.Component<any, any> {
             begintime: moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(),
             endtime: moment().tz('Asia/Shanghai').valueOf(),
             timeFilter: 5,
-            result: []
+            result: [],
         };
     }
     inquire(longTime, selectValue) {
@@ -49,7 +49,6 @@ class History extends React.Component<any, any> {
         }
         let moInstKpiThresholds = this.props.moInstKpiThresholds
         let moTypeKpis = this.props.moTypeKpis
-        // let kpidata = this.props.kpidata
         let self = this
         this.props.actions.getData(packageId, DataParams, function (kpidata) {
             self.setState({
@@ -73,6 +72,7 @@ class History extends React.Component<any, any> {
         this.props.deleteCard(kpiId)
     }
     render() {
+        let nodeName = this.props.nodeInfo.nodeName;
         let moInstKpiThresholds = this.props.moInstKpiThresholds
         let moTypeKpis = this.props.moTypeKpis
         let kpidata = this.props.kpidata
@@ -84,7 +84,7 @@ class History extends React.Component<any, any> {
                 <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
                     {this.state.result.map((item, index) => {
                         return (
-                            <LineChartCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} hideFacts={this.props.hideFacts} />
+                            <LineChartCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} nodeName={nodeName} hideFacts={this.props.hideFacts} />
                         )
                     })}
                 </Row>

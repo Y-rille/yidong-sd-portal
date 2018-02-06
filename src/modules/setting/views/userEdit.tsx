@@ -52,7 +52,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
             if (id) {
                 this.props.actions.editUser(id, formdata, (err, data) => {
                     if (data) {
-                        emitter.emit('notification', '修改成功！', '', 'success')
+                        emitter.emit('message', 'success', '修改成功！')
                         setTimeout(() => {
                             history.push('/setting/user')
                         }, 1000)
@@ -61,7 +61,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
             } else {
                 this.props.actions.createUser(formdata, (err, data) => {
                     if (data) {
-                        emitter.emit('notification', '创建成功！', '', 'success')
+                        emitter.emit('message', 'success', '创建成功！')
                         setTimeout(() => {
                             history.push('/setting/user')
                         }, 1000)
