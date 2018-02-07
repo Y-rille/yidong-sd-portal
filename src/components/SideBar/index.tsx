@@ -3,12 +3,13 @@ import * as _ from 'lodash';
 import { Menu, Icon } from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
+import styles from './index.less';
 
-export interface SidebarProps {
+export interface SideBarProps {
 
 }
 
-export default class Sidebar extends React.PureComponent<SidebarProps, any> {
+export default class SideBar extends React.PureComponent<SideBarProps, any> {
     constructor(props) {
         super(props);
 
@@ -28,26 +29,26 @@ export default class Sidebar extends React.PureComponent<SidebarProps, any> {
         return (
             <Menu
                 onClick={this.handleClick}
-                style={{ width: 256 }}
+                style={{ width: 256, color: '#525459' }}
                 defaultSelectedKeys={['1']}
                 defaultOpenKeys={['sub1']}
                 mode="inline"
             >
-                <SubMenu key="sub1" title={<span><Icon type="mail" /><span>概览</span></span>}>
-                    <Menu.Item key="1">Option 1</Menu.Item>
-                    <Menu.Item key="2">Option 2</Menu.Item>
+                <SubMenu key="sub1" title={<span><Icon type="mail" /><span>概览</span></span>} >
+                    <Menu.Item key="1" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>Option 1</Menu.Item>
+                    <Menu.Item key="2" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>Option 2</Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>资源结构组织</span></span>}>
-                    <Menu.Item key="5">AZ管理</Menu.Item>
-                    <Menu.Item key="6">HA管理</Menu.Item>
-                    <Menu.Item key="7">主机管理</Menu.Item>
-                    <Menu.Item key="8">虚拟机管理</Menu.Item>
+                    <Menu.Item key="5" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>AZ管理</Menu.Item>
+                    <Menu.Item key="6" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>HA管理</Menu.Item>
+                    <Menu.Item key="7" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>主机管理</Menu.Item>
+                    <Menu.Item key="8" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>虚拟机管理</Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub4" title={<span><Icon type="setting" /><span>物理部署组织</span></span>}>
-                    <Menu.Item key="9">服务器管理</Menu.Item>
-                    <Menu.Item key="10">磁阵管理</Menu.Item>
-                    <Menu.Item key="11">交换机管理</Menu.Item>
-                    <Menu.Item key="12">服务器管理</Menu.Item>
+                    <Menu.Item key="9" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>服务器管理</Menu.Item>
+                    <Menu.Item key="10" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>磁阵管理</Menu.Item>
+                    <Menu.Item key="11" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>交换机管理</Menu.Item>
+                    <Menu.Item key="12" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>服务器管理</Menu.Item>
                 </SubMenu>
             </Menu>
         )
