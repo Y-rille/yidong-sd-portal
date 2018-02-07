@@ -5,11 +5,11 @@ import { Row, Col, Icon, Card } from 'antd';
 import styles from './index.less';
 declare let global: any;
 
-export interface DashboardProps {
+export interface DashboardCardProps {
 
 }
 
-export default class Dashboard extends React.PureComponent<DashboardProps, any> {
+export default class DashboardCard extends React.PureComponent<DashboardCardProps, any> {
     goInfo() {
 
     }
