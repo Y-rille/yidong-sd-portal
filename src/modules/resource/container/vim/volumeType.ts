@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import HomeActionCreatorsMap from '../../actions/index'
 
-import VirtualNetwork from '../../views/vim/virtualNetwork'
+import VolumeType from '../../views/vim/volumeType'
 
 function mapProps(state) {
     return {
@@ -18,4 +18,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapProps, mapDispatchToProps)(VirtualNetwork)
+export default connect(mapProps, mapDispatchToProps)(VolumeType)

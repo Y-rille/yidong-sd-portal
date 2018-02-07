@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import { Row, Col, Breadcrumb, Icon, Radio } from 'antd';
-import HostInfo from './hostInfo'
+import HostInfo from '../../container/vim/hostInfo'
+import { Row, Col, Breadcrumb, Icon, Radio, Spin } from 'antd';
 import styles from '../../style/index.less'
 class Host extends React.Component<any, any> {
     constructor(props) {
