@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import HostInfo from './hostInfo'
+import HostInfo from '../../container/vim/hostInfo'
 import styles from '../../style/index.less'
 class Host extends React.Component<any, any> {
     constructor(props) {

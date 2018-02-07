@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
-class HostInfo extends React.Component<any, any> {
+class VolumeTypeInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
     render() {
         return (
-            <div>HostInfo</div>
+            <div>VolumeTypeInfo</div>
         );
     }
 }
-export default HostInfo;
+export default VolumeTypeInfo;

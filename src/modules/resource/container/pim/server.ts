@@ -1,10 +1,9 @@
-
 const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
 
 import HomeActionCreatorsMap from '../../actions/index'
 
-import VirtualNetwork from '../../views/vim/virtualNetwork'
+import Server from '../../views/pim/server'
 
 function mapProps(state) {
     return {
@@ -18,4 +17,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapProps, mapDispatchToProps)(VirtualNetwork)
+export default connect(mapProps, mapDispatchToProps)(Server)
