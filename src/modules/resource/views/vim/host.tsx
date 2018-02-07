@@ -66,7 +66,7 @@ class Host extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <div style={{ marginBottom: 20 }}>
+                                <div style={{ marginLeft: -20, marginTop: -20 }}>
                                     <Select
                                         value={menuValue}
                                         onChange={this.menuChange.bind(this)}
@@ -100,7 +100,7 @@ class Host extends React.Component<any, any> {
                                         onClick={this.handleClick.bind(this)}
                                     >
                                         查询
-                </Button>
+                                    </Button>
                                 </div>
                             </div>
                             <Radio.Group onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }}>
