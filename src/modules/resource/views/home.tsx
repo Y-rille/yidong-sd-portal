@@ -23,12 +23,8 @@ class Home extends React.Component<any, any> {
 
         }
     }
-    goPath = (e) => {
-        let path = e.target.getAttribute('data-target')
-        if (path === 'vim') {
-            path = 'vim/1'
-        }
-        this.props.history.push(`/resource/${path}`)
+    handleClick = (key) => {
+        this.props.history.push(`/resource/${key}`)
     }
     componentDidMount() {
 
@@ -38,15 +34,15 @@ class Home extends React.Component<any, any> {
         return (
             <Row className={styles.resource}>
                 <Col span={4}>
-                    <SideBar />
+                    <SideBar onLinkHandleClick={this.handleClick} />
                 </Col>
                 <Col span={20}>
                     <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/dashboard`} exact />
                             <Route path={`${match.url}/dashboard`} component={Dashboard} />
-                            <Route path={`${match.url}/vim/1`} component={Vim} />
-                            <Route path={`${match.url}/pim/1`} component={Pim} />
+                            <Route path={`${match.url}/vim/:vimId`} component={Vim} />
+                            <Route path={`${match.url}/pim/:pimId`} component={Pim} />
                         </Switch>
                     </div>
                 </Col>
