@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import MagneticInfo from '../../container/pim/magneticInfo'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader } from 'antd';
 import styles from '../../style/index.less'
 class Magnetic extends React.Component<any, any> {
     constructor(props) {
@@ -12,7 +12,89 @@ class Magnetic extends React.Component<any, any> {
     goInfo = () => {
         this.props.history.push(`/resource/pim/1/magnetic/info`)
     }
+    onChangeDataCenter(value) {
+        // console.log(value, 'ppp')
+    }
+    onChangeSupplier(value) {
+        // console.log(value, 'ooo')
+    }
     render() {
+        const DataCenter = [{
+            value: '数据中心1',
+            label: '数据中心1',
+            children: [{
+                value: '机房1',
+                label: '机房1',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }, {
+                value: '机房2',
+                label: '机房2',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }, {
+                value: '机房3',
+                label: '机房3',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }],
+        }, {
+            value: '数据中心2',
+            label: '数据中心2',
+            children: [{
+                value: '机房1',
+                label: '机房1',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }, {
+                value: '机房2',
+                label: '机房2',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }, {
+                value: '机房3',
+                label: '机房3',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }],
+        }];
+        const Supplier = [{
+            value: '供应商1',
+            label: '供应商1'
+        }, {
+            value: '供应商2',
+            label: '供应商2'
+        }]
         let { match } = this.props
         return (
             <div>
@@ -26,7 +108,9 @@ class Magnetic extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div className={styles.queryBar}>
-                    queryBar
+                    <Cascader options={DataCenter} onChange={this.onChangeDataCenter.bind(this)} placeholder="数据中心" style={{ marginRight: '20px' }} />
+                    <Cascader options={Supplier} onChange={this.onChangeSupplier.bind(this)} placeholder="供应商" style={{ marginRight: '20px' }} />
+                    <Button type="primary">查询</Button>
                 </div>
                 <Switch>
                     <Route path={`${match.url}/info`} component={MagneticInfo} />
