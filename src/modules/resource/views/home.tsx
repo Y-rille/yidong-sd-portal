@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 
 import { Row, Col, Breadcrumb } from 'antd';
-import TreeSelect from '../../../components/TreeSelect'
+import SideBar from '../../../components/SideBar'
 import DynamicPropertiesPanel from '../../../components/DynamicPropertiesPanel'
 import SearchResultPanel from '../../../components/SearchResultPanel'
 import SplitPane from 'react-split-pane'
@@ -42,8 +42,8 @@ class Home extends React.Component<any, any> {
                     minSize={100}
                     maxSize={300}
                     defaultSize={200} >
-                    <div className={styles.tree}>
-                        左侧导航
+                    <div>
+                        <SideBar />
                     </div>
                     <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
@@ -54,7 +54,7 @@ class Home extends React.Component<any, any> {
                         </Switch>
                     </div>
                 </SplitPane>
-            </Row>
+            </Row >
         );
     }
 }
