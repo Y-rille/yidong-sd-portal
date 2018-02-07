@@ -21,7 +21,7 @@ class Vim extends React.Component<any, any> {
         return (
             <div>
                 <Switch>
-                    <Redirect from={`${match.url}`} to={`${match.url}/host`} exact />
+                    <Redirect from={`${match.url}`} to={`${match.url}/az`} exact />
                     <Route path={`${match.url}/host`} component={Host} />
                     <Route path={`${match.url}/az`} component={Az} />
                     <Route path={`${match.url}/flavor`} component={Flavor} />
