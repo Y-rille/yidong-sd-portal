@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Modal } from 'antd';
-const Search = Input.Search
+import { Row, Breadcrumb, Icon } from 'antd';
 import styles from '../style/index.less'
 class Dashboard extends React.Component<any, any> {
     constructor(props) {
