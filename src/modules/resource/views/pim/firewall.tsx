@@ -24,7 +24,7 @@ class Firewall extends React.Component<any, any> {
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                                <Breadcrumb.Item>物理部署组织</Breadcrumb.Item>
                                 <Breadcrumb.Item>防火墙列表</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>

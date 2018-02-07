@@ -51,30 +51,32 @@ class Az extends React.Component<any, any> {
                                     <Breadcrumb.Item>AZ列表</Breadcrumb.Item>
                                 </Breadcrumb>
                             </div>
-                            <div className={styles.queryBar}>
-                                <Select
-                                    value={AZSelectValue}
-                                    onChange={this.AZSelectChange.bind(this)}
-                                    style={{ width: 120 }}>
-                                    <Option value="1">K1</Option>
-                                    <Option value="2">K2</Option>
-                                    <Option value="3">K3</Option>
-                                </Select>
-                                <Input
-                                    value={AZInputValue} type="text"
-                                    onChange={this.AZInputChange.bind(this)}
-                                    style={{ width: 120, marginLeft: 10 }}
-                                />
-                                <Button
-                                    type="primary"
-                                    style={{ marginLeft: 10 }}
-                                    onClick={this.handleClick.bind(this)}
-                                >
-                                    查询
+                            <div style={{ padding: '20px' }}>
+                                <div className={styles.queryBar}>
+                                    <Select
+                                        value={AZSelectValue}
+                                        onChange={this.AZSelectChange.bind(this)}
+                                        style={{ width: 120 }}>
+                                        <Option value="1">K1</Option>
+                                        <Option value="2">K2</Option>
+                                        <Option value="3">K3</Option>
+                                    </Select>
+                                    <Input
+                                        value={AZInputValue} type="text"
+                                        onChange={this.AZInputChange.bind(this)}
+                                        style={{ width: 120, marginLeft: 10 }}
+                                    />
+                                    <Button
+                                        type="primary"
+                                        style={{ marginLeft: 10 }}
+                                        onClick={this.handleClick.bind(this)}
+                                    >
+                                        查询
                                 </Button>
-                            </div>
-                            <div>
-                                table区域
+                                </div>
+                                <div>
+                                    table区域
+                                </div>
                             </div>
                         </div>
                     )} />
