@@ -21,27 +21,7 @@ class Dashboard extends React.Component<any, any> {
                 <div>
                     DashboardItem
                 </div>
-                        {/* <div className={styles.tabBar}>
-                            <div className={styles.filter}>
-                                <Search
-                                    className={styles.search}
-                                    placeholder="请输入用户名或者真实姓名"
-                                    enterButton="查询"
-                                />
-                                <Button className={styles.bn}><Icon type="file-add" />新建用户</Button>
-                            </div>
-                            <UserTable
-                                showModal={this.showModal.bind(this)}
-                                goDelete={this.goDelete.bind(this)}
-                                goPage={this.goPage.bind(this)}
-                                page_num={page_num}
-                                page_size={page_size}
-                                goEdit={this.goEdit.bind(this)}
-                                userList={userList}
-                            />
-                            
-                        </div> */}
-                    </Row>
+            </Row>
         );
     }
 }
