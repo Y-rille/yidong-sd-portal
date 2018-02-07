@@ -37,48 +37,47 @@ class Server extends React.Component<any, any> {
         let { match } = this.props;
         const { dataSelectValue, supplierSelectValue } = this.state;
         return (
-            <div>
-                <div className={styles.header}>
-                    <h1 className={styles.title}>服务器列表</h1>
-                    <Breadcrumb>
-                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                        <Breadcrumb.Item>服务器列表</Breadcrumb.Item>
-                    </Breadcrumb>
-                </div>
-                <div className={styles.queryBar}>
-                    <Select
-                        value={dataSelectValue}
-                        onChange={this.dataSelectChange.bind(this)}
-                        style={{ width: 120, marginLeft: 10 }}>
-                        <Option value="1">K1</Option>
-                        <Option value="2">K2</Option>
-                        <Option value="3">K3</Option>
-                    </Select>
-                    <Select
-                        value={supplierSelectValue}
-                        onChange={this.supplierSelectChange.bind(this)}
-                        style={{ width: 120, marginLeft: 10 }}>
-                        <Option value="1">K1</Option>
-                        <Option value="2">K2</Option>
-                        <Option value="3">K3</Option>
-                    </Select>
-                    <Button
-                        type="primary"
-                        style={{ marginLeft: 10 }}
-                        onClick={this.handleClick.bind(this)}
-                    >
-                        查询
-                    </Button>
-                </div>
-                <Switch>
-                    <Route path={`${match.url}/info`} component={ServerInfo} />
-                    <Route render={() => (
-                        <div onClick={this.goInfo}>详情</div>
-                    )} />
-                </Switch>
-            </div>
+            <Switch>
+                <Route path={`${match.url}/info`} component={ServerInfo} />
+                <Route render={() => (
+                    <div>
+                        <div className={styles.header}>
+                            <h1 className={styles.title}>服务器列表</h1>
+                            <Breadcrumb>
+                                <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                                <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                                <Breadcrumb.Item>服务器列表</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
+                        <div className={styles.queryBar}>
+                            <Select
+                                value={dataSelectValue}
+                                onChange={this.dataSelectChange.bind(this)}
+                                style={{ width: 120, marginLeft: 10 }}>
+                                <Option value="1">K1</Option>
+                                <Option value="2">K2</Option>
+                                <Option value="3">K3</Option>
+                            </Select>
+                            <Select
+                                value={supplierSelectValue}
+                                onChange={this.supplierSelectChange.bind(this)}
+                                style={{ width: 120, marginLeft: 10 }}>
+                                <Option value="1">K1</Option>
+                                <Option value="2">K2</Option>
+                                <Option value="3">K3</Option>
+                            </Select>
+                            <Button
+                                type="primary"
+                                style={{ marginLeft: 10 }}
+                                onClick={this.handleClick.bind(this)}
+                            >
+                                查询
+                            </Button>
+                        </div>
+                    </div>
+                )} />
+            </Switch>
         );
     }
 }
