@@ -35,7 +35,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                 defaultOpenKeys={['sub2']}
                 mode="inline"
             >
-                <Menu.Item key="1">
+                <Menu.Item key="dashboard">
                     <Icon type="inbox" />
                     <span>概览</span>
                 </Menu.Item >
