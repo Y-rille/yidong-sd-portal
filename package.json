@@ -123,5 +123,10 @@
   },
   "theme": {
     "primary-color": "#00b388"
+  },
+  "bin": "mock.js",
+  "pkg": {
+    "scripts": "./mock.js",
+    "assets": "./mock/**/*"
   }
 }
