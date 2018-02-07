@@ -45,7 +45,7 @@ export default class HostQueryBar extends React.PureComponent<HostQueryBarProps,
     render() {
         const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         return (
-            <div style={{ marginLeft: 20, marginTop: 20 }}>
+            <div style={{ marginBottom: 20 }}>
                 <Select
                     value={menuValue}
                     onChange={this.menuChange.bind(this)}
