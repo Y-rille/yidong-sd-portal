@@ -5,12 +5,12 @@ import { matchPath } from 'react-router'
 import MagneticInfo from '../../container/pim/magneticInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
 import styles from '../../style/index.less'
-class Mirror extends React.Component<any, any> {
+class Magnetic extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
     goInfo = () => {
-        this.props.history.push(`/resource/vim/1/mirror/info`)
+        this.props.history.push(`/resource/pim/1/magnetic/info`)
     }
     render() {
         let { match } = this.props
@@ -38,4 +38,4 @@ class Mirror extends React.Component<any, any> {
         );
     }
 }
-export default Mirror;
+export default Magnetic;

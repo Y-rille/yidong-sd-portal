@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import HomeActionCreatorsMap from '../../actions/index'
 
-import SwitchboardInfo from '../../views/pim/pim'
+import SwitchboardInfo from '../../views/pim/switchboardInfo'
 
 function mapProps(state) {
     return {
