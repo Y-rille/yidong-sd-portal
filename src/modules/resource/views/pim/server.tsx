@@ -50,30 +50,32 @@ class Server extends React.Component<any, any> {
                                 <Breadcrumb.Item>服务器列表</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
-                        <div className={styles.queryBar}>
-                            <Select
-                                value={dataSelectValue}
-                                onChange={this.dataSelectChange.bind(this)}
-                                style={{ width: 120 }}>
-                                <Option value="1">K1</Option>
-                                <Option value="2">K2</Option>
-                                <Option value="3">K3</Option>
-                            </Select>
-                            <Select
-                                value={supplierSelectValue}
-                                onChange={this.supplierSelectChange.bind(this)}
-                                style={{ width: 120, marginLeft: 10 }}>
-                                <Option value="1">K1</Option>
-                                <Option value="2">K2</Option>
-                                <Option value="3">K3</Option>
-                            </Select>
-                            <Button
-                                type="primary"
-                                style={{ marginLeft: 10 }}
-                                onClick={this.handleClick.bind(this)}
-                            >
-                                查询
+                        <div style={{ padding: '20px' }}>
+                            <div className={styles.queryBar}>
+                                <Select
+                                    value={dataSelectValue}
+                                    onChange={this.dataSelectChange.bind(this)}
+                                    style={{ width: 120 }}>
+                                    <Option value="1">K1</Option>
+                                    <Option value="2">K2</Option>
+                                    <Option value="3">K3</Option>
+                                </Select>
+                                <Select
+                                    value={supplierSelectValue}
+                                    onChange={this.supplierSelectChange.bind(this)}
+                                    style={{ width: 120, marginLeft: 10 }}>
+                                    <Option value="1">K1</Option>
+                                    <Option value="2">K2</Option>
+                                    <Option value="3">K3</Option>
+                                </Select>
+                                <Button
+                                    type="primary"
+                                    style={{ marginLeft: 10 }}
+                                    onClick={this.handleClick.bind(this)}
+                                >
+                                    查询
                             </Button>
+                            </div>
                         </div>
                     </div>
                 )} />

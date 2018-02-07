@@ -111,10 +111,12 @@ class Magnetic extends React.Component<any, any> {
                                 <Breadcrumb.Item>磁阵列表</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
-                        <div className={styles.queryBar}>
-                            <Cascader options={DataCenter} onChange={this.onChangeDataCenter.bind(this)} placeholder="数据中心" style={{ marginRight: '10px' }} />
-                            <Cascader options={Supplier} onChange={this.onChangeSupplier.bind(this)} placeholder="供应商" style={{ marginRight: '10px' }} />
-                            <Button type="primary">查询</Button>
+                        <div style={{ padding: '20px' }}>
+                            <div className={styles.queryBar}>
+                                <Cascader options={DataCenter} onChange={this.onChangeDataCenter.bind(this)} placeholder="数据中心" style={{ marginRight: '10px' }} />
+                                <Cascader options={Supplier} onChange={this.onChangeSupplier.bind(this)} placeholder="供应商" style={{ marginRight: '10px' }} />
+                                <Button type="primary">查询</Button>
+                            </div>
                         </div>
                     </div>
                 )} />
