@@ -1,14 +1,15 @@
+
 import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
-class HostInfo extends React.Component<any, any> {
+class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
     render() {
         return (
-            <div>HostInfo</div>
-        );
+            <div>MageneticInfo磁阵</div>
+        )
     }
 }
-export default HostInfo;
+export default MageneticInfo;

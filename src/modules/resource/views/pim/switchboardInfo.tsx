@@ -1,14 +1,15 @@
+
 import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
-class HostInfo extends React.Component<any, any> {
+class SwitchboardInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
     render() {
         return (
-            <div>HostInfo</div>
+            <div>SwitchboardInfo</div>
         );
     }
 }
-export default HostInfo;
+export default SwitchboardInfo;
