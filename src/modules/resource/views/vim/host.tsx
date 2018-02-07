@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
 import HostInfo from './hostInfo'
 import styles from '../../style/index.less'
 class Host extends React.Component<any, any> {
@@ -15,6 +16,18 @@ class Host extends React.Component<any, any> {
         let { match } = this.props
         return (
             <div>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>主机列表</h1>
+                    <Breadcrumb>
+                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                        <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                        <Breadcrumb.Item>主机列表</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div className={styles.queryBar}>
+                    queryBar
+                </div>
                 <Switch>
                     <Route path={`${match.url}/info`} component={HostInfo} />
                     <Route render={() => (

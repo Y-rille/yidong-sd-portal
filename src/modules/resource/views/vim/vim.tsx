@@ -12,7 +12,6 @@ class Vim extends React.Component<any, any> {
         let { match } = this.props
         return (
             <div>
-                <div>主机列表*****************</div>
                 <Switch>
                     <Redirect from={`${match.url}`} to={`${match.url}/host`} exact />
                     <Route path={`${match.url}/host`} component={Host} />
