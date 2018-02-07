@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Row, Breadcrumb, Icon } from 'antd';
 import styles from '../style/index.less'
+import DashboardCard from '../../../components/DashboardCard'
 class Dashboard extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -17,8 +18,8 @@ class Dashboard extends React.Component<any, any> {
                         <Breadcrumb.Item>概览</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div>
-                    DashboardItem
+                <div className={styles.card}>
+                    <DashboardCard />
                 </div>
             </Row>
         );
