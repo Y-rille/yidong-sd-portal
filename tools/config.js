@@ -6,10 +6,10 @@ const __basename = path.dirname(__dirname);
 var config = {
     port: '9001',
     deploy: {
-        host: '118.244.237.2',
+        host: '47.94.4.45',
         port: 22000,
         auth: 'hpe',
-        remotePath: '/opt/baleina/baleina/code/cmp'
+        remotePath: '/opt/cloud-management-platform/'
     },
     webpack: {
         path: {
