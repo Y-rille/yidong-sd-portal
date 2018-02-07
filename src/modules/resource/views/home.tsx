@@ -9,8 +9,8 @@ import SplitPane from 'react-split-pane'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import Dashboard from './dashboard'
-import Vim from './vim/vim'
-import Pim from './pim/pim'
+import Vim from '../container/vim/vim'
+import Pim from '../container/pim/pim'
 import styles from '../style/index.less'
 
 declare let global: any;
@@ -50,7 +50,7 @@ class Home extends React.Component<any, any> {
                             <Redirect from={`${match.url}`} to={`${match.url}/dashboard`} exact />
                             <Route path={`${match.url}/dashboard`} component={Dashboard} />
                             <Route path={`${match.url}/vim/1`} component={Vim} />
-                            {/* <Route path={`${match.url}/1/pim`} component={Pim} /> */}
+                            <Route path={`${match.url}/pim/1`} component={Pim} />
                         </Switch>
                     </div>
                 </SplitPane>

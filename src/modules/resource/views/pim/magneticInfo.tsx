@@ -9,7 +9,7 @@ class MageneticInfo extends React.Component<any, any> {
     render() {
         return (
             <div>MageneticInfo磁阵</div>
-        );
+        )
     }
 }
 export default MageneticInfo;
