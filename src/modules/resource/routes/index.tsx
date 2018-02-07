@@ -31,8 +31,8 @@ export default class Routes extends React.Component<RoutesProps, any> {
         let { match } = this.props
         return (
             <Switch>
-                <Route path={`${match.url}/dashboard`} component={Dashboard} />
-                <Route path={`${match.url}/vim`} component={Vim} />
+                {/* <Route path={`${match.url}/dashboard`} component={Dashboard} />
+                <Route path={`${match.url}/vim`} component={Vim} /> */}
                 {/* <Route path={`${match.url}/pim`} component={Pim} /> */}
                 <Route path={`${match.url}`} component={Home} />
             </Switch>
