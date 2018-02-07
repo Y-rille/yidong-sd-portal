@@ -29,15 +29,12 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
         return (
             <Menu
                 onClick={this.handleClick}
-                style={{ width: 256, color: '#525459' }}
+                style={{ color: '#525459', height: window.innerHeight - 64 }}
                 defaultSelectedKeys={['1']}
                 defaultOpenKeys={['sub1']}
                 mode="inline"
             >
-                <SubMenu key="sub1" title={<span><Icon type="mail" /><span>概览</span></span>} >
-                    <Menu.Item key="1" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>Option 1</Menu.Item>
-                    <Menu.Item key="2" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>Option 2</Menu.Item>
-                </SubMenu>
+                <SubMenu key="sub1" title={<span><Icon type="mail" /><span>概览</span></span>}></SubMenu>
                 <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>资源结构组织</span></span>}>
                     <Menu.Item key="5" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>AZ管理</Menu.Item>
                     <Menu.Item key="6" style={{ color: 'rgba(0, 0, 0, 0.45)' }}>HA管理</Menu.Item>
