@@ -54,7 +54,7 @@ class Ha extends React.Component<any, any> {
                             <Select
                                 value={HASelectValue}
                                 onChange={this.HASelectChange.bind(this)}
-                                style={{ width: 120, marginLeft: 10 }}>
+                                style={{ width: 120 }}>
                                 <Option value="1">K1</Option>
                                 <Option value="2">K2</Option>
                                 <Option value="3">K3</Option>
@@ -62,7 +62,7 @@ class Ha extends React.Component<any, any> {
                             <Input
                                 value={HAInputValue} type="text"
                                 onChange={this.HAInputChange.bind(this)}
-                                style={{ width: 120, marginLeft: 20 }}
+                                style={{ width: 120, marginLeft: 10 }}
                             />
                             <Button
                                 type="primary"

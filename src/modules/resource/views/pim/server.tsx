@@ -54,7 +54,7 @@ class Server extends React.Component<any, any> {
                             <Select
                                 value={dataSelectValue}
                                 onChange={this.dataSelectChange.bind(this)}
-                                style={{ width: 120, marginLeft: 10 }}>
+                                style={{ width: 120 }}>
                                 <Option value="1">K1</Option>
                                 <Option value="2">K2</Option>
                                 <Option value="3">K3</Option>
