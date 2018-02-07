@@ -19,7 +19,6 @@ class Host extends React.Component<any, any> {
     render() {
         let { match } = this.props
         return (
-
             <Switch>
                 <Route path={`${match.url}/info`} component={HostInfo} />
                 <Route render={() => (
