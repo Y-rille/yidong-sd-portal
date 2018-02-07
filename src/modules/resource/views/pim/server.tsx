@@ -3,17 +3,39 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import ServerInfo from '../../container/pim/serverInfo'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select } from 'antd';
 import styles from '../../style/index.less'
+const Option = Select.Option;
 class Server extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            dataSelectValue: '1',
+            supplierSelectValue: '1'
+        }
     }
     goInfo = () => {
         this.props.history.push(`/resource/pim/1/server/info`)
     }
+    dataSelectChange(value) {
+        const { dataSelectValue } = this.state;
+        this.setState({
+            dataSelectValue: value
+        })
+    }
+    supplierSelectChange(value) {
+        const { supplierSelectValue } = this.state;
+        this.setState({
+            supplierSelectValue: value
+        })
+    }
+    handleClick() {
+        const { dataSelectValue, supplierSelectValue } = this.state;
+        // console.log(dataSelectValue, supplierSelectValue);
+    }
     render() {
-        let { match } = this.props
+        let { match } = this.props;
+        const { dataSelectValue, supplierSelectValue } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -26,7 +48,29 @@ class Server extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div className={styles.queryBar}>
-                    queryBar
+                    <Select
+                        value={dataSelectValue}
+                        onChange={this.dataSelectChange.bind(this)}
+                        style={{ width: 120, marginLeft: 10 }}>
+                        <Option value="1">K1</Option>
+                        <Option value="2">K2</Option>
+                        <Option value="3">K3</Option>
+                    </Select>
+                    <Select
+                        value={supplierSelectValue}
+                        onChange={this.supplierSelectChange.bind(this)}
+                        style={{ width: 120, marginLeft: 10 }}>
+                        <Option value="1">K1</Option>
+                        <Option value="2">K2</Option>
+                        <Option value="3">K3</Option>
+                    </Select>
+                    <Button
+                        type="primary"
+                        style={{ marginLeft: 10 }}
+                        onClick={this.handleClick.bind(this)}
+                    >
+                        查询
+                    </Button>
                 </div>
                 <Switch>
                     <Route path={`${match.url}/info`} component={ServerInfo} />

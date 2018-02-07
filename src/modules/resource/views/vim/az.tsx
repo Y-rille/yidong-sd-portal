@@ -37,47 +37,47 @@ class Az extends React.Component<any, any> {
         let { match } = this.props;
         const { AZInputValue, AZSelectValue } = this.state;
         return (
-            <div>
-                <div className={styles.header}>
-                    <h1 className={styles.title}>AZ列表</h1>
-                    <Breadcrumb>
-                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                        <Breadcrumb.Item>AZ列表</Breadcrumb.Item>
-                    </Breadcrumb>
-                </div>
-                <div className={styles.queryBar}>
-                    <div style={{ marginBottom: 20, marginTop: 20 }}>
-                        <Select
-                            value={AZSelectValue}
-                            onChange={this.AZSelectChange.bind(this)}
-                            style={{ width: 120, marginLeft: 10 }}>
-                            <Option value="1">K1</Option>
-                            <Option value="2">K2</Option>
-                            <Option value="3">K3</Option>
-                        </Select>
-                        <Input
-                            value={AZInputValue} type="text"
-                            onChange={this.AZInputChange.bind(this)}
-                            style={{ width: 120, marginLeft: 20 }}
-                        />
-                        <Button
-                            type="primary"
-                            style={{ marginLeft: 10 }}
-                            onClick={this.handleClick.bind(this)}
-                        >
-                            查询
+            <Switch>
+                <Route path={`${match.url}/info`} component={AzInfo} />
+                <Route render={() => (
+                    <div>
+                        <div className={styles.header}>
+                            <h1 className={styles.title}>AZ列表</h1>
+                            <Breadcrumb>
+                                <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                                <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                                <Breadcrumb.Item>AZ列表</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
+                        <div className={styles.queryBar}>
+                            <Select
+                                value={AZSelectValue}
+                                onChange={this.AZSelectChange.bind(this)}
+                                style={{ width: 120, marginLeft: 10 }}>
+                                <Option value="1">K1</Option>
+                                <Option value="2">K2</Option>
+                                <Option value="3">K3</Option>
+                            </Select>
+                            <Input
+                                value={AZInputValue} type="text"
+                                onChange={this.AZInputChange.bind(this)}
+                                style={{ width: 120, marginLeft: 20 }}
+                            />
+                            <Button
+                                type="primary"
+                                style={{ marginLeft: 10 }}
+                                onClick={this.handleClick.bind(this)}
+                            >
+                                查询
                         </Button>
+                        </div>
+                        <div>
+                            table区域
+                        </div>
                     </div>
-                </div>
-                <Switch>
-                    <Route path={`${match.url}/info`} component={AzInfo} />
-                    <Route render={() => (
-                        <div onClick={this.goInfo}>详情</div>
-                    )} />
-                </Switch>
-            </div>
+                )} />
+            </Switch>
         );
     }
 }
