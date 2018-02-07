@@ -56,7 +56,7 @@ export default class DashboardCard extends React.PureComponent<DashboardCardProp
                 <div className={styles.dashcard}>
                     <div className={styles.title}>
                         <span className={styles.title_header}>资源组织结构  VIM2</span><span>ID: 12345678</span>
-                        <Button className={styles.bn} size="small" type="primary">编辑</Button>
+                        <Button className={styles.bn} size="small" type="primary" onClick={this.goEdit.bind(this)}>编辑</Button>
                     </div>
                     <Row gutter={20}>
                         <Col span={6}>
@@ -88,7 +88,7 @@ export default class DashboardCard extends React.PureComponent<DashboardCardProp
                 <div className={styles.dashcard}>
                     <div className={styles.title}>
                         <span className={styles.title_header}>资源组织结构  VIM3</span><span>ID: 12345678</span>
-                        <Button className={styles.bn} size="small" type="primary">编辑</Button>
+                        <Button className={styles.bn} size="small" type="primary" onClick={this.goEdit.bind(this)}>编辑</Button>
                     </div>
                     <Row gutter={20}>
                         <Col span={6}>
