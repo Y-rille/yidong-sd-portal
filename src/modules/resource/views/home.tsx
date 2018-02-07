@@ -1,11 +1,16 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 
-import { Row, Breadcrumb } from 'antd';
+import { Row, Col, Breadcrumb } from 'antd';
 import TreeSelect from '../../../components/TreeSelect'
 import DynamicPropertiesPanel from '../../../components/DynamicPropertiesPanel'
 import SearchResultPanel from '../../../components/SearchResultPanel'
 import SplitPane from 'react-split-pane'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import { matchPath } from 'react-router'
+import Dashboard from './dashboard'
+import Vim from './vim/vim'
+import Pim from './pim/pim'
 import styles from '../style/index.less'
 
 declare let global: any;
@@ -218,31 +223,39 @@ class Home extends React.Component<any, any> {
         this.state = {
             result: null
         }
-        this.getSearchResult = this.getSearchResult.bind(this)
+        // this.getSearchResult = this.getSearchResult.bind(this)
     }
 
-    handle() {
-        this.props.history.push('/alarm')
-    }
+    // handle() {
+    //     this.props.history.push('/alarm')
+    // }
 
-    triggerResize() {
-        let e: Event = document.createEvent('Event');
-        e.initEvent('resize', true, true);
-        window.dispatchEvent(e);
+    // triggerResize() {
+    //     let e: Event = document.createEvent('Event');
+    //     e.initEvent('resize', true, true);
+    //     window.dispatchEvent(e);
 
-        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
-    }
+    //     document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
+    // }
 
-    getSearchResult(result) {
-        this.setState({ result: result })
+    // getSearchResult(result) {
+    //     this.setState({ result: result })
+    // }
+    goPath = (e) => {
+        let path = e.target.getAttribute('data-target')
+        if (path === 'vim') {
+            path = 'vim/1'
+        }
+        this.props.history.push(`/resource/${path}`)
     }
     componentDidMount() {
-        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
+        // document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
     }
     render() {
+        let { match } = this.props
         return (
             <Row className={styles.performance}>
-                <SplitPane
+                {/* <SplitPane
                     split="vertical"
                     minSize={100}
                     maxSize={300}
@@ -265,7 +278,25 @@ class Home extends React.Component<any, any> {
                         <DynamicPropertiesPanel attributes={attributes} data={data} />
                         <SearchResultPanel result={this.state.result} />
                     </div>
-                </SplitPane>
+                </SplitPane> */}
+                <Col span={12}>
+                    /*左侧导航栏*/
+                    <div onClick={this.goPath} data-target="dashboard">dashboard</div>
+                    <div>
+                        vim
+                    <span onClick={this.goPath} data-target="vim">主机列表</span>
+                    </div>
+                </Col>
+                <Col span={12}>
+
+                    <Switch>
+                        <Redirect from={`${match.url}`} to={`${match.url}/dashboard`} exact />
+                        <Route path={`${match.url}/dashboard`} component={Dashboard} />
+                        <Route path={`${match.url}/vim/1`} component={Vim} />
+                        {/* <Route path={`${match.url}/1/pim`} component={Pim} /> */}
+                    </Switch>
+                </Col>
+
             </Row>
         );
     }
