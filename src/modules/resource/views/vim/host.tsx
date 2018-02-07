@@ -5,6 +5,7 @@ import { matchPath } from 'react-router'
 import HostInfo from '../../container/vim/hostInfo'
 import { Row, Col, Breadcrumb, Icon, Radio, Spin } from 'antd';
 import styles from '../../style/index.less'
+import HostQueryBar from '../../../../components/HostQueryBar/'
 class Host extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -34,7 +35,7 @@ class Host extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                queryBar
+                                <HostQueryBar />
                             </div>
                             <Radio.Group onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }}>
                                 <Radio.Button value="small">控制节点</Radio.Button>
