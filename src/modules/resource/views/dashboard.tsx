@@ -9,7 +9,7 @@ class Dashboard extends React.Component<any, any> {
     }
     render() {
         return (
-            <Row className={styles.resource}>
+            <div className={styles.resource}>
                 <div className={styles.header}>
                     <h1 className={styles.title}>概览</h1>
                     <Breadcrumb>
@@ -21,7 +21,7 @@ class Dashboard extends React.Component<any, any> {
                 <div className={styles.card}>
                     <DashboardCard />
                 </div>
-            </Row>
+            </div>
         );
     }
 }
