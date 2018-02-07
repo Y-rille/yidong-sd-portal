@@ -6,7 +6,7 @@ const MenuItemGroup = Menu.ItemGroup;
 import styles from './index.less';
 
 export interface SideBarProps {
-    onLinkHandleClick
+    onLinkHandleClick?
 }
 
 export default class SideBar extends React.PureComponent<SideBarProps, any> {
