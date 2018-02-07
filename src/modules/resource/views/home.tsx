@@ -37,10 +37,14 @@ class Home extends React.Component<any, any> {
         let { match } = this.props
         return (
             <Row className={styles.resource}>
-                <Col span={4}>
-                    <SideBar />
-                </Col>
-                <Col span={20}>
+                <SplitPane
+                    split="vertical"
+                    minSize={100}
+                    maxSize={300}
+                    defaultSize={200} >
+                    <div>
+                        <SideBar />
+                    </div>
                     <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/dashboard`} exact />
@@ -49,7 +53,7 @@ class Home extends React.Component<any, any> {
                             <Route path={`${match.url}/pim/1`} component={Pim} />
                         </Switch>
                     </div>
-                </Col>
+                </SplitPane>
             </Row >
         );
     }
