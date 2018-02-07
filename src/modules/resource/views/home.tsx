@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 
 import { Row, Col, Breadcrumb } from 'antd';
-import TreeSelect from '../../../components/TreeSelect'
+import SideBar from '../../../components/SideBar'
 import DynamicPropertiesPanel from '../../../components/DynamicPropertiesPanel'
 import SearchResultPanel from '../../../components/SearchResultPanel'
 import SplitPane from 'react-split-pane'
@@ -23,12 +23,8 @@ class Home extends React.Component<any, any> {
 
         }
     }
-    goPath = (e) => {
-        let path = e.target.getAttribute('data-target')
-        if (path === 'vim') {
-            path = 'vim/1'
-        }
-        this.props.history.push(`/resource/${path}`)
+    handleClick = (key) => {
+        this.props.history.push(`/resource/${key}`)
     }
     componentDidMount() {
 
@@ -42,19 +38,19 @@ class Home extends React.Component<any, any> {
                     minSize={100}
                     maxSize={300}
                     defaultSize={200} >
-                    <div className={styles.tree}>
-                        左侧导航
+                    <div>
+                        <SideBar onLinkHandleClick={this.handleClick} />
                     </div>
                     <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/dashboard`} exact />
                             <Route path={`${match.url}/dashboard`} component={Dashboard} />
-                            <Route path={`${match.url}/vim/1`} component={Vim} />
-                            <Route path={`${match.url}/pim/1`} component={Pim} />
+                            <Route path={`${match.url}/vim/:vimId`} component={Vim} />
+                            <Route path={`${match.url}/pim/:pimId`} component={Pim} />
                         </Switch>
                     </div>
                 </SplitPane>
-            </Row>
+            </Row >
         );
     }
 }
