@@ -1,5 +1,5 @@
 @import "~antd/lib/style/themes/default.less";
-.performance {
+.resource {
   height: 100%;
   .main {
     margin: 20px;
@@ -16,68 +16,6 @@
         font-weight: normal;
       }
     }
-    .tabBar {
-      display: flex;
-      padding: 20px;
-      justify-content: space-between;
-      ul{
-        width: 256px;
-        height: 32px;
-        border: 1px solid @primary-color;
-        border-radius: 4px;
-        overflow: hidden;
-        cursor: pointer;
-        :global{
-          .tabItem {
-            display: inline-block;
-            width: 50%;
-            text-align: center;
-            line-height: 32px;
-            color: @primary-color;
-          }
-          .tabItem.active {
-            background: @primary-color;
-            color: #fff;
-          }
-        }
-      }
-
-    }
-    .current{
-      .cardHead{
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 16px;
-
-      }
-      .cardIcon{
-        color:#b0b0b0;
-        i{
-          margin: 0 10px;
-          cursor: pointer
-        }
-      }
-    }
-  }
-  .toolBar {
-    margin-bottom: 16px;
-    padding: 16px;
-    background: #f2f2f2;
-  }
-  .tree {
-    box-sizing: content-box;
-    display: flex;
-    min-height: 100%;
-    background: #fff;
-    border-radius: 4px;
   }
 }
 
-:global {
-  .gutter-box {
-    min-height: 300px;
-    margin-bottom: 16px;
-    padding: 16px;
-    border: 1px solid #e8e8e8;
-  }
-}
