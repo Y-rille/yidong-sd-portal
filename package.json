@@ -12,7 +12,7 @@
     "build-storybook": "build-storybook",
     "mocks": "dyson mock",
     "e2e": "testcafe Chrome test/e2e*",
-    "dump": "np --yolo --no-publish",
+    "dump": "np prepatch --yolo --no-publish --no-cleanup",
     "pub": "./node_modules/.bin/gulp --gulpfile ./tools/gulpfile.js deploy"
   },
   "pre-commit": [
