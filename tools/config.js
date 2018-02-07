@@ -7,7 +7,7 @@ var config = {
     port: '9001',
     deploy: {
         host: '47.94.4.45',
-        port: 22000,
+        port: 22,
         auth: 'hpe',
         remotePath: '/opt/cloud-management-platform/'
     },
