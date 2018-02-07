@@ -7,6 +7,7 @@ import DynamicPropertiesPanel from '../../../components/DynamicPropertiesPanel'
 import SearchResultPanel from '../../../components/SearchResultPanel'
 import SplitPane from 'react-split-pane'
 import styles from '../style/index.less'
+import HostQueryBar from '../../../components/HostQueryBar/';
 
 declare let global: any;
 
@@ -261,7 +262,7 @@ class Home extends React.Component<any, any> {
                                 <Breadcrumb.Item>四级菜单</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
-
+                        <HostQueryBar />
                         <DynamicPropertiesPanel attributes={attributes} data={data} />
                         <SearchResultPanel result={this.state.result} />
                     </div>
