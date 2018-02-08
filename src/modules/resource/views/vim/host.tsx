@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import ResourceTable from '../../../../components/ResourceTable/'
 import HostInfo from '../../container/vim/hostInfo'
 import { Row, Col, Breadcrumb, Icon, Radio, Spin, Select, Button, Tabs } from 'antd';
 
@@ -28,21 +27,18 @@ class Host extends React.Component<any, any> {
         }
     }
     menuChange(value) {
-        const { menuValue } = this.state;
         this.setState({
             menuValue: value
         })
     }
 
     secondMenuChange(value) {
-        const { secondMenuValue } = this.state;
         this.setState({
             secondMenuValue: value
         })
     }
 
     thiredMenuChange(value) {
-        const { thiredMenuValue } = this.state;
         this.setState({
             thiredMenuValue: value
         })
@@ -52,6 +48,7 @@ class Host extends React.Component<any, any> {
         const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         // console.log("selectValue:", menuValue, secondMenuValue, thiredMenuValue)
     }
+
     onChange(key) {
         let { match } = this.props
         let { pathname } = this.props.location
@@ -75,6 +72,7 @@ class Host extends React.Component<any, any> {
             ]).toString()
         })
     }
+
     render() {
         let { match } = this.props;
         const { menuValue, secondMenuValue, thiredMenuValue, activeKey } = this.state;
@@ -135,7 +133,6 @@ class Host extends React.Component<any, any> {
                                 <Route path={`${match.url}/storage`} component={HostList} />
                             </Switch>
                         </div>
-
                     </div>
                 )} />
             </Switch>
