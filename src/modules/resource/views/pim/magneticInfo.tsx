@@ -265,12 +265,12 @@ class MageneticInfo extends React.Component<any, any> {
     renderBtns() {
         return (
             <div className={styles.btn}>
-
                 <Button
+                    icon="dingding"
                     style={{ margin: '0px 10px 0px 0' }}
                     onClick={this.showModel.bind(this, this.state.status === 'down' ? 'up' : 'down')}
                 >{this.state.status === 'down' ? '上电' : '下电'}</Button>
-                <Button onClick={this.showModel.bind(this, 'reset')}>复位</Button>
+                <Button icon="retweet" onClick={this.showModel.bind(this, 'reset')}>复位</Button>
             </div>
         )
     }
