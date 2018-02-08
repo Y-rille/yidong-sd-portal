@@ -4,10 +4,11 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import ResourceTable from '../../../../components/ResourceTable/'
 import HostInfo from '../../container/vim/hostInfo'
-import { Row, Col, Breadcrumb, Icon, Radio, Spin, Select, Button } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Radio, Spin, Select, Button, Tabs } from 'antd';
 import styles from '../../style/index.less'
 // import HostQueryBar from '../../../../components/HostQueryBar/'
 const Option = Select.Option;
+const TabPane = Tabs.TabPane;
 
 var tData = {
     'count': 8,
@@ -128,23 +129,25 @@ class Host extends React.Component<any, any> {
                                     查询
                                 </Button>
                             </div>
-                            <Radio.Group onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }}>
-                                <Radio.Button value="small">控制节点</Radio.Button>
-                                <Radio.Button value="default">计算节点</Radio.Button>
-                                <Radio.Button value="large">存储节点</Radio.Button>
-                            </Radio.Group>
+                            <Tabs onChange={this.onChange.bind(this)} type="card">
+                                <TabPane tab="控制节点" key="1">
+                                    <ResourceTable
+                                        goDelete={this.goDelete.bind(this)}
+                                        goEdit={this.goEdit.bind(this)}
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        page_num={1}
+                                        page_size={10}
+                                        data={tData}
+                                        showAuth={['id', 'mobile', 'name', 'email']}
+                                        actionAuth={[]}
+                                    />
+                                </TabPane>
+                                <TabPane tab="计算节点" key="2">计算节点</TabPane>
+                                <TabPane tab="存储节点" key="3">存储节点</TabPane>
+                            </Tabs>
                             <div>
-                                <ResourceTable
-                                    goDelete={this.goDelete.bind(this)}
-                                    goEdit={this.goEdit.bind(this)}
-                                    goPage={this.goPage.bind(this)} // 翻页
-                                    goLink={this.goLink.bind(this)}
-                                    page_num={1}
-                                    page_size={10}
-                                    data={tData}
-                                    showAuth={['id', 'mobile', 'name', 'email']}
-                                    actionAuth={[]}
-                                />
+
                             </div>
                         </div>
 
