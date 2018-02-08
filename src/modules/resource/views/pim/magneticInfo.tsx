@@ -4,6 +4,7 @@ import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPane
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
+const confirm = Modal.confirm;
 const attributes = [
     {
         'moAttributeId': 1,
@@ -220,18 +221,8 @@ class MageneticInfo extends React.Component<any, any> {
         this.setState({
             visible: true,
             status: e,
-        })
-    }
-    handleOk = () => {
-        this.setState({
-            visible: false
-        })
-    }
-    handleCancel = () => {
-        this.setState({
-            visible: false,
-            status: this.state.status === 'down' ? 'up' : 'down'
-        })
+        });
+        this.renderModel();
     }
     renderTitle = (title) => {
         return (
@@ -286,19 +277,21 @@ class MageneticInfo extends React.Component<any, any> {
             // title = '复位'
             content = '服务器正在运行，确定复位吗？'
         }
-        return (
-            <Modal
-                visible={this.state.visible}
-                onOk={this.handleOk}
-                okText="确认" cancelText="取消"
-                onCancel={this.handleCancel}
-            >
-                <div style={{ minHeight: '100px' }}>
-                    <Icon type="exclamation-circle" />
-                    {content}
-                </div>
-            </Modal>
-        )
+        let self = this
+        confirm({
+            title: content,
+            content: '',
+            okText: '确认',
+            cancelText: '取消',
+            iconType: 'exclamation-circle',
+            onOk() {
+            },
+            onCancel() {
+                self.setState({
+                    status: self.state.status === 'down' ? 'up' : 'down'
+                })
+            }
+        })
 
     }
     render() {
@@ -341,7 +334,6 @@ class MageneticInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                     </Tabs>
-                    {this.renderModel()}
                 </div>
                 <DynamicPropertiesPanel attributes={attributes} data={data} />
             </div>
