@@ -70,7 +70,7 @@ class Az extends React.Component<any, any> {
                                         onClick={this.handleClick.bind(this)}
                                     >
                                         查询
-                                </Button>
+                                    </Button>
                                 </div>
                                 <div>
                                     table区域
