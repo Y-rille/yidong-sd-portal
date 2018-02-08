@@ -9,7 +9,7 @@ class SwitchboardInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
-    onChange() { 
+    onChange() {
 
     }
     render() {
@@ -21,7 +21,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                         <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                        <Breadcrumb.Item>交换机列表</Breadcrumb.Item>
+                        <Breadcrumb.Item>交换机管理</Breadcrumb.Item>
                         <Breadcrumb.Item>交换机详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
