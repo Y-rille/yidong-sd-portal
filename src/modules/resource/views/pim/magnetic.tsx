@@ -103,12 +103,12 @@ class Magnetic extends React.Component<any, any> {
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
-                            <h1 className={styles.title}>磁阵列表</h1>
+                            <h1 className={styles.title}>磁阵管理</h1>
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                                 <Breadcrumb.Item>物理部署组织</Breadcrumb.Item>
-                                <Breadcrumb.Item>磁阵列表</Breadcrumb.Item>
+                                <Breadcrumb.Item>磁阵管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
                         <div style={{ padding: '20px' }}>
