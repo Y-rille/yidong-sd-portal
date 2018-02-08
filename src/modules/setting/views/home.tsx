@@ -71,7 +71,9 @@ class Home extends React.Component<any, any> {
                     maxSize={300}
                     defaultSize={200}
                     onChange={this.triggerResize} >
-                    {this.renderLeftNav()}
+                    <div className="sideBar">
+                        {this.renderLeftNav()}
+                    </div>
                     <div className={styles.main}>
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/user`} exact />
