@@ -22,6 +22,8 @@ export default class ResourceTable extends React.PureComponent<UserTableProps, a
     constructor(props) {
         super(props);
         this.state = {
+            page_num: 1,
+            page_size: 10,
         };
     }
     goEdit(e) {
@@ -44,6 +46,7 @@ export default class ResourceTable extends React.PureComponent<UserTableProps, a
         }
     }
     goPage(current) {
+        this.setState({ page_num: current })
         if (this.props.goPage) {
             this.props.goPage(current)
         }
@@ -75,7 +78,7 @@ export default class ResourceTable extends React.PureComponent<UserTableProps, a
                         {actionAuth.indexOf('edit') > -1 ? (
                             <a onClick={this.goEdit.bind(this)} id={record.id} href="javascript:;">编辑</a>
                         ) : ''}
-                        {actionAuth.indexOf('edit') > -1 ? (<Divider type="vertical" />) : ''}
+                        {actionAuth.length > 1 ? (<Divider type="vertical" />) : ''}
                         {actionAuth.indexOf('delete') > -1 ? (
                             <a onClick={this.goDelete.bind(this)} rel={record.name} id={record.id} href="javascript:;" type="vertical">删除</a>
                         ) : ''}
@@ -108,7 +111,8 @@ export default class ResourceTable extends React.PureComponent<UserTableProps, a
         )
     }
     render() {
-        let { page_size, page_num, data, goPage } = this.props
+        let { data, goPage } = this.props
+        let { page_size, page_num } = this.state
         return (
             <div className={styles.resourceTable}>
                 {this.renderTable()}

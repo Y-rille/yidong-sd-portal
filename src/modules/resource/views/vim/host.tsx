@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import ResourceTable from '../../../../components/ResourceTable/'
+import CompactTable from '../../../../components/CompactTable/'
 import HostInfo from '../../container/vim/hostInfo'
 import { Row, Col, Breadcrumb, Icon, Radio, Spin, Select, Button } from 'antd';
 import styles from '../../style/index.less'
@@ -10,8 +11,11 @@ import styles from '../../style/index.less'
 const Option = Select.Option;
 
 var tData = {
-    'count': 8,
+    'count': 38,
     'header': [{
+        key: 'id',
+        title: '编号',
+    }, {
         key: 'name',
         title: '姓名',
         link: '/resource/vim/1/host/info'
@@ -21,11 +25,47 @@ var tData = {
     }, {
         key: 'email',
         title: '邮箱',
+    }, {
+        key: 'cpu',
+        title: 'CPU',
+    }, {
+        key: 'memory',
+        title: '内存',
+    }, {
+        key: 'role',
+        title: '角色',
     }],
     'body': [
-        { 'id': 10000077, 'email': 'zhan21@hpe.com', 'roles': 'admin,alarm', 'name': '张三21', 'mobile': '15811001101', 'remark': '新建功能，试一试~', 'create_time': '2018-02-07 13:38:50' },
-        { 'id': 10000056, 'email': 'dandan', 'roles': 'admin', 'name': 'admin', 'mobile': '13211111111', 'remark': 'some remark', 'create_time': '2018-02-06 18:24:59' },
-        { 'id': 10000003, 'email': 'admin@cmp.com', 'roles': 'admin', 'name': '管理员', 'mobile': '13211111111', 'remark': 'some remark', 'create_time': '2018-02-03 10:47:07' }
+        {
+            'id': 100077,
+            'email': 'zhan21@hpe.com',
+            'name': '张三21',
+            'mobile': '15811001101',
+            'cpu': '1/10',
+            'memory': '50%',
+            'role': '管理员',
+            'vm': 20
+        },
+        {
+            'id': 100056,
+            'email': 'dandan',
+            'name': 'admin',
+            'mobile': '13211111111',
+            'cpu': '1/10',
+            'memory': '70%',
+            'role': '普通会员',
+            'vm': 25
+        },
+        {
+            'id': 100003,
+            'email': 'admin@cmp.com',
+            'name': '管理员',
+            'mobile': '13211117890',
+            'cpu': '1/10',
+            'memory': '40%',
+            'role': 'VIP',
+            'vm': 15
+        }
     ]
 }
 
@@ -64,16 +104,14 @@ class Host extends React.Component<any, any> {
         // console.log("selectValue:", menuValue, secondMenuValue, thiredMenuValue)
     }
     goPage = () => {
-        this.props.history.push(`/resource/vim/1/host/info`)
+        // this.props.history.push(`/resource/vim/1/host/info`)
     }
     goLink(url) {
         this.props.history.push(url)
     }
     goDelete = () => { }
     goEdit = () => { }
-    onChange() {
-
-    }
+    onChange = () => { }
     render() {
         let { match } = this.props;
         const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
@@ -142,7 +180,15 @@ class Host extends React.Component<any, any> {
                                     page_num={1}
                                     page_size={10}
                                     data={tData}
-                                    showAuth={['id', 'mobile', 'name', 'email']}
+                                    actionAuth={['edit', 'delete']}
+                                />
+                                <br />
+                                <CompactTable
+                                    goPage={this.goPage.bind(this)} // 翻页
+                                    goLink={this.goLink.bind(this)}
+                                    page_num={1}
+                                    page_size={10}
+                                    data={null}
                                     actionAuth={[]}
                                 />
                             </div>
