@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
-import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Modal } from 'antd';
+import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
 const attributes = [
@@ -233,8 +233,34 @@ class MageneticInfo extends React.Component<any, any> {
             status: this.state.status === 'down' ? 'up' : 'down'
         })
     }
+    renderTitle = (title) => {
+        return (
+            <div className={styles.nodeTitle}>
+                <span className={styles.nodeTitle1}></span>
+                <span className={styles.nodeTitle2}>{title}</span>
+            </div>
+        )
+    }
     renderPerformance() {
-        return <div>xingneng</div>
+        return (
+            <div>
+                {this.renderTitle('节点信息')}
+                <div className={styles.nodeInfo}>
+                    <Row className={styles.nodeRow}>
+                        <Col span={6}>平均IO时延:&nbsp;&nbsp;0.367</Col>
+                        <Col span={6}>总带宽(Mbps):&nbsp;&nbsp;3.798</Col>
+                        <Col span={6}>读带宽(Mbps):&nbsp;&nbsp;3.798</Col>
+                        <Col span={6}>写带宽(Mbps):&nbsp;&nbsp;3.798</Col>
+                    </Row>
+                    <Row className={styles.nodeRow}>
+                        <Col span={6}></Col>
+                        <Col span={6}>总次数(IOps):&nbsp;&nbsp;153</Col>
+                        <Col span={6}>读次数(IOps):&nbsp;&nbsp;153</Col>
+                        <Col span={6}>写次数(IOps):&nbsp;&nbsp;153</Col>
+                    </Row>
+                </div>
+            </div>
+        )
     }
     renderBtns() {
         return (
@@ -284,7 +310,7 @@ class MageneticInfo extends React.Component<any, any> {
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                         <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                        <Breadcrumb.Item>磁阵列表</Breadcrumb.Item>
+                        <Breadcrumb.Item>磁阵管理</Breadcrumb.Item>
                         <Breadcrumb.Item>磁阵详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>

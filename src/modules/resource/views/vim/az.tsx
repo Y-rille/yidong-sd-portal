@@ -41,12 +41,12 @@ class Az extends React.Component<any, any> {
                     <Route render={() => (
                         <div>
                             <div className={styles.header}>
-                                <h1 className={styles.title}>AZ列表</h1>
+                                <h1 className={styles.title}>AZ管理</h1>
                                 <Breadcrumb>
                                     <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                     <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                                     <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                                    <Breadcrumb.Item>AZ列表</Breadcrumb.Item>
+                                    <Breadcrumb.Item>AZ管理</Breadcrumb.Item>
                                 </Breadcrumb>
                             </div>
                             <div style={{ padding: '20px' }}>
@@ -69,7 +69,7 @@ class Az extends React.Component<any, any> {
                                         onClick={this.handleClick.bind(this)}
                                     >
                                         查询
-                                </Button>
+                                    </Button>
                                 </div>
                                 <div>
                                     table区域
