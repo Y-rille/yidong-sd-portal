@@ -60,7 +60,6 @@ class Host extends React.Component<any, any> {
                 showAuth={['id', 'mobile', 'name', 'email']}
                 actionAuth={[]}
             />
-
         );
     }
 }
