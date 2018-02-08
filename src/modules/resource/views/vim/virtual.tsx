@@ -20,28 +20,24 @@ class Virtual extends React.Component<any, any> {
         this.props.history.push(`/resource/vim/1/virtual/info`)
     }
     menuChange(value) {
-        const { menuValue } = this.state;
         this.setState({
             menuValue: value
         })
     }
 
     secondMenuChange(value) {
-        const { secondMenuValue } = this.state;
         this.setState({
             secondMenuValue: value
         })
     }
 
     thiredMenuChange(value) {
-        const { thiredMenuValue } = this.state;
         this.setState({
             thiredMenuValue: value
         })
     }
 
     fourthMenuChange(value) {
-        const { fourthMenuValue } = this.state;
         this.setState({
             fourthMenuValue: value
         })
