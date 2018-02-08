@@ -174,4 +174,16 @@
     margin-top: 50px;
   }
 }
-
+.sideBar{
+  .ant-menu-item{
+    margin-bottom:0;
+    margin-top:0;
+  }
+ .ant-menu-item:not(:last-child){
+    margin-bottom:0;
+ }
+ .ant-menu-submenu-title{
+    margin-bottom:0;
+    margin-top:0;
+ }
+}
