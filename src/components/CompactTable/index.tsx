@@ -5,7 +5,7 @@ import moment from '../../common/moment'
 import * as _ from 'lodash';
 
 var tData = {
-    'count': 38,
+    'count': 7,
     'header': [{
         key: 'id',
         title: '编号',
@@ -223,13 +223,21 @@ export default class CompacteTable extends React.PureComponent<UserTableProps, a
         return (
             <div className={styles.compactTable}>
                 {this.renderTable()}
-                <Pagination
-                    className={styles.pagination}
-                    onChange={this.goPage.bind(this)}
-                    total={count}
-                    current={parseInt(page_num, 10)}
-                    pageSize={page_size}
-                    showQuickJumper />
+                <div className={styles.tfooter}>
+                    <div>* 底部信息</div>
+                    {count > 10 ? (
+                        <div>
+                            <Pagination size="small"
+                                className={styles.pagination}
+                                onChange={this.goPage.bind(this)}
+                                total={count}
+                                current={parseInt(page_num, 10)}
+                                pageSize={page_size}
+                                showQuickJumper />
+                        </div>
+                    ) : ''}
+                </div>
+
             </div>
         );
     }
