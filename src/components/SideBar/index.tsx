@@ -103,7 +103,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                         return (<SubMenu key={i} title={<span><Icon type="dropbox" /><span>{item.name}</span></span>}>
                             {item.list.map((subitem, index) => {
                                 return (
-                                    <Menu.Item key={index} key={`vim/${id}/${subitem.page}`} > {subitem.pageName}</Menu.Item>
+                                    <Menu.Item  key={`vim/${id}/${subitem.page}`} > {subitem.pageName}</Menu.Item>
                                 )
                             })}
                         </SubMenu>)
@@ -113,7 +113,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                         return (<SubMenu key={i} title={<span><Icon type="api" /><span>{item.name}</span></span>}>
                             {item.list.map((subitem, index) => {
                                 return (
-                                    <Menu.Item key={index} key={`pim/${id}/${subitem.page}`} > {subitem.pageName}</Menu.Item>
+                                    <Menu.Item  key={`pim/${id}/${subitem.page}`} > {subitem.pageName}</Menu.Item>
                                 )
                             })}
                         </SubMenu>)
