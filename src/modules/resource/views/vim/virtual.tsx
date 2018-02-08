@@ -10,38 +10,34 @@ class Virtual extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            menuValue: '1',
-            secondMenuValue: '1',
-            thiredMenuValue: '1',
-            fourthMenuValue: '1'
+            menuValue: 'region',
+            secondMenuValue: 'az',
+            thiredMenuValue: 'ha',
+            fourthMenuValue: 'host'
         }
     }
     goInfo = () => {
         this.props.history.push(`/resource/vim/1/virtual/info`)
     }
     menuChange(value) {
-        const { menuValue } = this.state;
         this.setState({
             menuValue: value
         })
     }
 
     secondMenuChange(value) {
-        const { secondMenuValue } = this.state;
         this.setState({
             secondMenuValue: value
         })
     }
 
     thiredMenuChange(value) {
-        const { thiredMenuValue } = this.state;
         this.setState({
             thiredMenuValue: value
         })
     }
 
     fourthMenuChange(value) {
-        const { fourthMenuValue } = this.state;
         this.setState({
             fourthMenuValue: value
         })
@@ -59,12 +55,12 @@ class Virtual extends React.Component<any, any> {
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
-                            <h1 className={styles.title}>虚拟机列表</h1>
+                            <h1 className={styles.title}>虚拟机管理</h1>
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                                 <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                                <Breadcrumb.Item>虚拟机列表</Breadcrumb.Item>
+                                <Breadcrumb.Item>虚拟机管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
                         <div style={{ padding: '20px' }}>
@@ -73,36 +69,28 @@ class Virtual extends React.Component<any, any> {
                                     value={menuValue}
                                     onChange={this.menuChange.bind(this)}
                                     style={{ width: 120 }}>
-                                    <Option value="1">H1</Option>
-                                    <Option value="2">H2</Option>
-                                    <Option value="3">H3</Option>
+                                    <Option value="region">Region</Option>
                                 </Select>
 
                                 <Select
                                     value={secondMenuValue}
                                     onChange={this.secondMenuChange.bind(this)}
                                     style={{ width: 120, marginLeft: 10 }}>
-                                    <Option value="1">K1</Option>
-                                    <Option value="2">K2</Option>
-                                    <Option value="3">K3</Option>
+                                    <Option value="az">AZ</Option>
                                 </Select>
 
                                 <Select
                                     value={thiredMenuValue}
                                     onChange={this.thiredMenuChange.bind(this)}
                                     style={{ width: 120, marginLeft: 10 }}>
-                                    <Option value="1">Z1</Option>
-                                    <Option value="2">Z2</Option>
-                                    <Option value="3">Z3</Option>
+                                    <Option value="ha">HA</Option>
                                 </Select>
 
                                 <Select
                                     value={fourthMenuValue}
                                     onChange={this.fourthMenuChange.bind(this)}
                                     style={{ width: 120, marginLeft: 10 }}>
-                                    <Option value="1">Z1</Option>
-                                    <Option value="2">Z2</Option>
-                                    <Option value="3">Z3</Option>
+                                    <Option value="host">Host</Option>
                                 </Select>
 
                                 <Button

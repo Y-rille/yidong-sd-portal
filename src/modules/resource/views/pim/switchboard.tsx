@@ -18,13 +18,11 @@ class Switchboard extends React.Component<any, any> {
         this.props.history.push(`/resource/pim/1/switchboard/info`)
     }
     onDataChange(value) {
-        const { dataValue } = this.state;
         this.setState({
             dataValue: value
         })
     }
     onNameChange(value) {
-        const { nameValue } = this.state;
         this.setState({
             nameValue: value
         })
@@ -111,12 +109,12 @@ class Switchboard extends React.Component<any, any> {
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
-                            <h1 className={styles.title}>交换机列表</h1>
+                            <h1 className={styles.title}>交换机管理</h1>
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                                 <Breadcrumb.Item>物理部署组织</Breadcrumb.Item>
-                                <Breadcrumb.Item>交换机列表</Breadcrumb.Item>
+                                <Breadcrumb.Item>交换机管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
                         <div style={{ padding: '20px' }}>
@@ -124,7 +122,7 @@ class Switchboard extends React.Component<any, any> {
                                 <Cascader
                                     options={DataCenter}
                                     onChange={this.onDataChange.bind(this)}
-                                    placeholder={dataValue} style={{ marginRight: '10px' }}
+                                    placeholder={dataValue}
                                 />
                                 <Input
                                     placeholder="名称，编号"

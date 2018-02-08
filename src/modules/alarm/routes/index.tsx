@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types';
-import Home from '../views/home'
+import Home from '../container/home'
 import { injectAsyncReducer } from '../../../common/store';
 import {
     Switch,

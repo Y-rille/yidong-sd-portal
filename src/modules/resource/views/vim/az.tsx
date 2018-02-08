@@ -10,21 +10,19 @@ class Az extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            AZInputValue: 'AZ名称',
-            AZSelectValue: '1'
+            AZInputValue: '',
+            AZSelectValue: 'region'
         }
     }
     goInfo = () => {
         this.props.history.push(`/resource/vim/1/az/info`)
     }
     AZSelectChange(value) {
-        const { AZSelectValue } = this.state;
         this.setState({
             AZSelectValue: value
         })
     }
     AZInputChange(value) {
-        const { AZInputValue } = this.state;
         this.setState({
             AZInputValue: value
         })
@@ -43,12 +41,12 @@ class Az extends React.Component<any, any> {
                     <Route render={() => (
                         <div>
                             <div className={styles.header}>
-                                <h1 className={styles.title}>AZ列表</h1>
+                                <h1 className={styles.title}>AZ管理</h1>
                                 <Breadcrumb>
                                     <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                     <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                                     <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                                    <Breadcrumb.Item>AZ列表</Breadcrumb.Item>
+                                    <Breadcrumb.Item>AZ管理</Breadcrumb.Item>
                                 </Breadcrumb>
                             </div>
                             <div style={{ padding: '20px' }}>
@@ -57,13 +55,12 @@ class Az extends React.Component<any, any> {
                                         value={AZSelectValue}
                                         onChange={this.AZSelectChange.bind(this)}
                                         style={{ width: 120 }}>
-                                        <Option value="1">K1</Option>
-                                        <Option value="2">K2</Option>
-                                        <Option value="3">K3</Option>
+                                        <Option value="region">Region</Option>
                                     </Select>
                                     <Input
+                                        placeholder="AZ名称"
                                         value={AZInputValue} type="text"
-                                        onChange={this.AZInputChange.bind(this)}
+                                        onChange={e => this.AZInputChange(e.target.value)}
                                         style={{ width: 120, marginLeft: 10 }}
                                     />
                                     <Button
@@ -72,7 +69,7 @@ class Az extends React.Component<any, any> {
                                         onClick={this.handleClick.bind(this)}
                                     >
                                         查询
-                                </Button>
+                                    </Button>
                                 </div>
                                 <div>
                                     table区域
