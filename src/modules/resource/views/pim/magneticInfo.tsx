@@ -1,5 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
+
 import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
 import { Breadcrumb, Icon, Button, Spin, Cascader } from 'antd';
 import styles from '../../style/index.less'
@@ -14,9 +16,9 @@ const attributes = [
         'physicalTablefield': 'ID',
         'state': 1,
         'version': '1.0',
-        'ediable': 0,
-        'visible': 0,
-        'attributeGroup': '基本属性'
+        'ediable': 1,
+        'visible': 1,
+        'attributeGroup': '基本信息'
     },
     {
         'moAttributeId': 2,
@@ -27,9 +29,9 @@ const attributes = [
         'physicalTablefield': 'NAME',
         'state': 1,
         'version': '1.0',
-        'ediable': 0,
+        'ediable': 1,
         'visible': 1,
-        'attributeGroup': '基本属性'
+        'attributeGroup': '基本信息'
     },
     {
         'moAttributeId': 3,
@@ -41,8 +43,8 @@ const attributes = [
         'state': 1,
         'version': '1.0',
         'ediable': 0,
-        'visible': 0,
-        'attributeGroup': '基本属性'
+        'visible': 1,
+        'attributeGroup': '基本信息'
     },
     {
         'moAttributeId': 4,
@@ -54,8 +56,8 @@ const attributes = [
         'state': 1,
         'version': '1.0',
         'ediable': 0,
-        'visible': 0,
-        'attributeGroup': '基本属性'
+        'visible': 1,
+        'attributeGroup': '基本信息'
     },
     {
         'moAttributeId': 56,
@@ -68,7 +70,7 @@ const attributes = [
         'version': '1.0',
         'ediable': 0,
         'visible': 1,
-        'attributeGroup': '基本属性'
+        'attributeGroup': '基本信息'
     },
     {
         'moAttributeId': 57,
@@ -81,7 +83,7 @@ const attributes = [
         'version': '1.0',
         'ediable': 0,
         'visible': 1,
-        'attributeGroup': '基本属性'
+        'attributeGroup': '基本信息'
     },
     {
         'moAttributeId': 57,
@@ -94,7 +96,7 @@ const attributes = [
         'version': '1.0',
         'ediable': 0,
         'visible': 1,
-        'attributeGroup': '其他属性'
+        'attributeGroup': '位置信息'
     },
     {
         'moAttributeId': 57,
@@ -107,7 +109,7 @@ const attributes = [
         'version': '1.0',
         'ediable': 0,
         'visible': 1,
-        'attributeGroup': '其他属性'
+        'attributeGroup': '位置信息'
     },
     {
         'moAttributeId': 57,
@@ -120,7 +122,7 @@ const attributes = [
         'version': '1.0',
         'ediable': 0,
         'visible': 1,
-        'attributeGroup': '其他属性'
+        'attributeGroup': '位置信息'
     },
     {
         'moAttributeId': 57,
@@ -133,7 +135,7 @@ const attributes = [
         'version': '1.0',
         'ediable': 1,
         'visible': 1,
-        'attributeGroup': '其他'
+        'attributeGroup': '维护信息'
     }
 ];
 
@@ -184,8 +186,8 @@ const data = {
         [
             7,
             'ZJHZ-NFV3-C-SQ5-3F-C03-hwDA5600-STOR01',
-            '',
-            '',
+            '21:00:00',
+            '21:00:01',
             '1081',
             '1081',
             '2.0',
@@ -204,6 +206,50 @@ const data = {
         ],
     ]
 };
+const testdata = [
+    {
+        group: '基本信息', 
+        data: {
+            '名称': 'XXXXXX',
+            'Cache容量': 'ZJHZ-NFV3-B-XSCYY1H2F-D1',
+            'License信息': '2102310YJA10H6003708',
+            '制造商': 'Huawei',
+            '供应商': 'Huawei',
+            '资产编号': 'BC11HGSA',
+            '磁阵型号': 'RH2288H V3',
+            '软件版本': 'v1.2.32',
+            '序列号': 'v1.2.32',
+            '管理IP': '36',
+            '温度(℃）': '36',
+            '健康及运行状态': 'runnning',
+            '上下电状态': 'OK',
+            '未用容量/总容量(TB)': '18/32',
+            'LUN未用容量/总容量(TB)': '18/32',
+            '硬盘容量': '18/32',
+            '磁阵块大小': '23',
+            '未用块数量/总块数量': '12'
+        }
+    },
+    {
+        group: '位置信息',
+        data: {            
+            '数据中心': '浙江移动数据中心',
+            '机房': 'ZJHZ',
+            '机柜': 'ZJHZ',
+            '安装槽位': 'ZJHZ',
+        }
+    }, 
+    {
+        group: '维护信息',
+        data: {
+            '维护状态': 'running',
+            '投产时间': '计算节点',
+            '资产来源': '借用',
+            '资产状态': '已使用',
+         
+        }
+    }
+]
 
 class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
@@ -222,6 +268,7 @@ class MageneticInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>磁阵详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
+                {/* <DynamicPropertiesCollapse data={testdata}/> */}
                 <DynamicPropertiesPanel attributes={attributes} data={data} />
             </div>
         )

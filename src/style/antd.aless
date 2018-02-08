@@ -152,6 +152,17 @@
         input:read-only:active {border:0; box-shadow:none;}
       }
     }
+    .ant-form-item-label{
+        label {
+            color:rgba(0, 0, 0, 0.45);
+        }
+    }
+    .ant-form-item-control{
+      white-space: nowrap;
+    }
+    .ant-collapse-header{
+        background-color: #ffffff;
+    }
 }
 
 .anticon-exclamation-circle-o:before {
