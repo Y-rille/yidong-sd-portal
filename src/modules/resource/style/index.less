@@ -26,6 +26,25 @@
     }
     .queryBar {
       margin-bottom: @margin-base;
+      :global {
+        .ant-select {
+          width: 180px;
+          margin-left: @margin-min;
+          &:first-child {
+            margin-left: 0;
+          }
+        } 
+        .ant-btn {
+          margin-left: @margin-min;
+        }
+        .ant-input {
+          width: 180px;
+          margin-left: @margin-min;
+          &:first-child {
+            margin-left: 0;
+          }
+        } 
+      }
     }
   }
 }
