@@ -42,16 +42,20 @@ class Home extends React.Component<any, any> {
         this.goPath(e.key);
     }
     renderLeftNav() {
-        return (
-            <Menu onClick={this.handleClick.bind(this)} defaultSelectedKeys={['user']} mode="inline">
-                <Menu.Item key="user">
-                    <Icon type="solution" />用户管理
-                </Menu.Item>
-                <Menu.Item key="log">
-                    <Icon type="form" />日志管理
-                </Menu.Item>
-            </Menu>
-        )
+        let path = this.props.location.pathname
+        let pathKey = path.replace('/setting/', '');
+        if (pathKey.indexOf('setting') < 0) {
+            return (
+                <Menu onClick={this.handleClick.bind(this)} defaultSelectedKeys={pathKey} mode="inline">
+                    <Menu.Item key="user">
+                        <Icon type="solution" />用户管理
+                    </Menu.Item>
+                    <Menu.Item key="log">
+                        <Icon type="form" />日志管理
+                    </Menu.Item>
+                </Menu>
+            )
+        }
     }
     render() {
         let { match, tree } = this.props
