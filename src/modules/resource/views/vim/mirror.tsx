@@ -20,12 +20,12 @@ class Mirror extends React.Component<any, any> {
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
-                            <h1 className={styles.title}>镜像列表</h1>
+                            <h1 className={styles.title}>镜像管理</h1>
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                                 <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                                <Breadcrumb.Item>镜像列表</Breadcrumb.Item>
+                                <Breadcrumb.Item>镜像管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
                         <div className={styles.queryBar}>

@@ -11,7 +11,7 @@ class Ha extends React.Component<any, any> {
         super(props);
         this.state = {
             HAInputValue: 'HA名称',
-            HASelectValue: '1'
+            HASelectValue: 'region'
         }
     }
     goInfo = () => {
@@ -42,12 +42,12 @@ class Ha extends React.Component<any, any> {
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
-                            <h1 className={styles.title}>HA列表</h1>
+                            <h1 className={styles.title}>HA管理</h1>
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                                 <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                                <Breadcrumb.Item>HA列表</Breadcrumb.Item>
+                                <Breadcrumb.Item>HA管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
                         <div style={{ padding: '20px' }}>
@@ -56,9 +56,7 @@ class Ha extends React.Component<any, any> {
                                     value={HASelectValue}
                                     onChange={this.HASelectChange.bind(this)}
                                     style={{ width: 120 }}>
-                                    <Option value="1">K1</Option>
-                                    <Option value="2">K2</Option>
-                                    <Option value="3">K3</Option>
+                                    <Option value="region">Region</Option>
                                 </Select>
                                 <Input
                                     value={HAInputValue} type="text"

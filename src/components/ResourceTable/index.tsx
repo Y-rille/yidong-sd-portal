@@ -5,7 +5,64 @@ import styles from './index.less';
 import moment from '../../common/moment'
 
 import * as _ from 'lodash';
-
+// var tData = {
+//     'count': 38,
+//     'header': [{
+//         key: 'id',
+//         title: '编号',
+//     }, {
+//         key: 'name',
+//         title: '姓名',
+//         link: '/resource/vim/1/host/info'
+//     }, {
+//         key: 'mobile',
+//         title: '电话',
+//     }, {
+//         key: 'email',
+//         title: '邮箱',
+//     }, {
+//         key: 'cpu',
+//         title: 'CPU',
+//     }, {
+//         key: 'memory',
+//         title: '内存',
+//     }, {
+//         key: 'role',
+//         title: '角色',
+//     }],
+//     'body': [
+//         {
+//             'id': 100077,
+//             'email': 'zhan21@hpe.com',
+//             'name': '张三21',
+//             'mobile': '15811001101',
+//             'cpu': '1/10',
+//             'memory': '50%',
+//             'role': '管理员',
+//             'vm': 20
+//         },
+//         {
+//             'id': 100056,
+//             'email': 'dandan',
+//             'name': 'admin',
+//             'mobile': '13211111111',
+//             'cpu': '1/10',
+//             'memory': '70%',
+//             'role': '普通会员',
+//             'vm': 25
+//         },
+//         {
+//             'id': 100003,
+//             'email': 'admin@cmp.com',
+//             'name': '管理员',
+//             'mobile': '13211117890',
+//             'cpu': '1/10',
+//             'memory': '40%',
+//             'role': 'VIP',
+//             'vm': 15
+//         }
+//     ]
+// }
 export interface UserTableProps {
     goEdit?
     // showModal?
