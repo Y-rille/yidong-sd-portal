@@ -80,7 +80,7 @@ class Host extends React.Component<any, any> {
         const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={HostInfo} />
+                <Route path={`${match.url}/info/:id`} component={HostInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
