@@ -10,112 +10,128 @@ export interface DashboardCardProps {
 }
 
 export default class DashboardCard extends React.PureComponent<DashboardCardProps, any> {
-    goInfo() {
-
-    }
     goEdit() {
         if (this.props.goEdit) {
             this.props.goEdit()
         }
     }
+    renderVim() {
+        return (
+            <div>
+                <div className={styles.vim}>
+                    <div className={styles.title}>
+                        <span className={styles.title_header}>VIM1</span><span>ID: 12345678</span>&emsp;<span>位置：杭州萧山</span>
+                        <a className={styles.edit} href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>
+                    </div>
+                    <Row gutter={20}>
+                        <Col span={12}>
+                            <Card onClick={this.goEdit.bind(this)}>
+                                <p>资源分配情况</p>
+                                <p>未完成</p>
+                                <p>占位符</p>
+                            </Card>
+                        </Col>
+                        <Col span={4}>
+                            <Card>
+                                <p>告警</p>
+                                <p>未完成</p>
+                                <p>占位符</p>
+                            </Card>
+                        </Col>
+                        <Col span={4}>
+                            <Card>
+                                <p>虚拟机电源状态</p>
+                                <p>未完成</p>
+                                <p>占位符</p>
+                            </Card>
+                        </Col>
+                        <Col span={4}>
+                            <Card>
+                                <p>虚拟机健康状态</p>
+                                <p>未完成</p>
+                                <p>占位符</p>
+                            </Card>
+                        </Col>
+                    </Row>
+                </div>
+                <div className={styles.vim}>
+                    <div className={styles.title}>
+                        <span className={styles.title_header}>VIM2</span><span>ID: 12345678</span>&emsp;<span>位置：杭州萧山</span>
+                        <a className={styles.edit} href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>
+                    </div>
+                    <Row gutter={20}>
+                        <Col span={12}>
+                            <Card>
+                                <p>资源分配情况</p>
+                                <p>未完成</p>
+                                <p>占位符</p>
+                            </Card>
+                        </Col>
+                        <Col span={4}>
+                            <Card>
+                                <p>告警</p>
+                                <p>未完成</p>
+                                <p>占位符</p>
+                            </Card>
+                        </Col>
+                        <Col span={4}>
+                            <Card>
+                                <p>虚拟机电源状态</p>
+                                <p>未完成</p>
+                                <p>占位符</p>
+                            </Card>
+                        </Col>
+                        <Col span={4}>
+                            <Card>
+                                <p>虚拟机健康状态</p>
+                                <p>未完成</p>
+                                <p>占位符</p>
+                            </Card>
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+        )
+    }
+    renderPim() {
+        return (
+            <div className={styles.vim}>
+                <Row gutter={20}>
+                    <Col span={12}>
+                        <Card>
+                            <p>资源分配情况</p>
+                            <p>未完成</p>
+                            <p>占位符</p>
+                        </Card>
+                    </Col>
+                    <Col span={8}>
+                        <Card>
+                            <p>服务器</p>
+                            <p>未完成</p>
+                            <p>占位符</p>
+                        </Card>
+                    </Col>
+                    <Col span={4}>
+                        <Card>
+                            <p>告警</p>
+                            <p>未完成</p>
+                            <p>占位符</p>
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
+        )
+    }
     render() {
         return (
             <div>
                 <div className={styles.dashcard}>
-                    <div className={styles.title}>
-                        <span className={styles.title_header}>资源组织结构  VIM1</span><span>ID: 12345678</span>
-                        <Button className={styles.bn} size="small" type="primary" onClick={this.goEdit.bind(this)}>编辑</Button>
-                    </div>
-                    <Row gutter={20}>
-                        <Col span={6}>
-                            <div className={styles.card} onClick={this.goInfo.bind(this)}>
-                                <h3><Icon type="book" /> AZ管理</h3>
-                                <p><span>15</span>个</p>
-                            </div>
-                        </Col>
-                        <Col span={6}>
-                            <div className={styles.card}>
-                                <h3><Icon type="desktop" /> HA管理</h3>
-                                <p><span>16</span>个</p>
-                            </div>
-                        </Col>
-                        <Col span={6}>
-                            <div className={styles.card}>
-                                <h3><Icon type="calendar" /> 主机管理</h3>
-                                <p><span>15</span>台</p>
-                            </div>
-                        </Col>
-                        <Col span={6}>
-                            <div className={styles.card}>
-                                <h3><Icon type="frown" /> 虚拟机管理</h3>
-                                <p><span>06</span>台</p>
-                            </div>
-                        </Col>
-                    </Row>
+                    <p className={styles.header}>资源结构组织</p>
+                    {this.renderVim()}
                 </div>
                 <div className={styles.dashcard}>
-                    <div className={styles.title}>
-                        <span className={styles.title_header}>资源组织结构  VIM2</span><span>ID: 12345678</span>
-                        <Button className={styles.bn} size="small" type="primary" onClick={this.goEdit.bind(this)}>编辑</Button>
-                    </div>
-                    <Row gutter={20}>
-                        <Col span={6}>
-                            <div className={styles.card} onClick={this.goInfo.bind(this)}>
-                                <h3><Icon type="book" /> AZ管理</h3>
-                                <p><span>15</span>个</p>
-                            </div>
-                        </Col>
-                        <Col span={6}>
-                            <div className={styles.card}>
-                                <h3><Icon type="desktop" /> HA管理</h3>
-                                <p><span>16</span>个</p>
-                            </div>
-                        </Col>
-                        <Col span={6}>
-                            <div className={styles.card}>
-                                <h3><Icon type="calendar" /> 主机管理</h3>
-                                <p><span>15</span>台</p>
-                            </div>
-                        </Col>
-                        <Col span={6}>
-                            <div className={styles.card}>
-                                <h3><Icon type="frown" /> 虚拟机管理</h3>
-                                <p><span>06</span>台</p>
-                            </div>
-                        </Col>
-                    </Row>
-                </div>
-                <div className={styles.dashcard}>
-                    <div className={styles.title}>
-                        <span className={styles.title_header}>资源组织结构  VIM3</span><span>ID: 12345678</span>
-                        <Button className={styles.bn} size="small" type="primary" onClick={this.goEdit.bind(this)}>编辑</Button>
-                    </div>
-                    <Row gutter={20}>
-                        <Col span={6}>
-                            <div className={styles.card} onClick={this.goInfo.bind(this)}>
-                                <h3><Icon type="book" /> AZ管理</h3>
-                                <p><span>15</span>个</p>
-                            </div>
-                        </Col>
-                        <Col span={6}>
-                            <div className={styles.card}>
-                                <h3><Icon type="desktop" /> HA管理</h3>
-                                <p><span>16</span>个</p>
-                            </div>
-                        </Col>
-                        <Col span={6}>
-                            <div className={styles.card}>
-                                <h3><Icon type="calendar" /> 主机管理</h3>
-                                <p><span>15</span>台</p>
-                            </div>
-                        </Col>
-                        <Col span={6}>
-                            <div className={styles.card}>
-                                <h3><Icon type="frown" /> 虚拟机管理</h3>
-                                <p><span>06</span>台</p>
-                            </div>
-                        </Col>
-                    </Row>
+                    <p className={styles.header}>物理部署组织</p>
+                    {this.renderPim()}
                 </div>
             </div>
         );

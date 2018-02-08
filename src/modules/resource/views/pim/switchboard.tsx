@@ -124,7 +124,7 @@ class Switchboard extends React.Component<any, any> {
                                 <Cascader
                                     options={DataCenter}
                                     onChange={this.onDataChange.bind(this)}
-                                    placeholder={dataValue} style={{ marginRight: '10px' }}
+                                    placeholder={dataValue}
                                 />
                                 <Input
                                     placeholder="名称，编号"

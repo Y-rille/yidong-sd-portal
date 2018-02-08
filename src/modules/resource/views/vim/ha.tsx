@@ -11,7 +11,7 @@ class Ha extends React.Component<any, any> {
         super(props);
         this.state = {
             HAInputValue: 'HA名称',
-            HASelectValue: '1'
+            HASelectValue: 'region'
         }
     }
     goInfo = () => {
@@ -56,9 +56,7 @@ class Ha extends React.Component<any, any> {
                                     value={HASelectValue}
                                     onChange={this.HASelectChange.bind(this)}
                                     style={{ width: 120 }}>
-                                    <Option value="1">K1</Option>
-                                    <Option value="2">K2</Option>
-                                    <Option value="3">K3</Option>
+                                    <Option value="region">Region</Option>
                                 </Select>
                                 <Input
                                     value={HAInputValue} type="text"

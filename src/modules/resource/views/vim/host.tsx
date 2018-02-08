@@ -34,9 +34,9 @@ class Host extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            menuValue: '1',
-            secondMenuValue: '1',
-            thiredMenuValue: '1'
+            menuValue: 'region',
+            secondMenuValue: 'az',
+            thiredMenuValue: 'ha'
         }
     }
     menuChange(value) {
@@ -98,27 +98,21 @@ class Host extends React.Component<any, any> {
                                     value={menuValue}
                                     onChange={this.menuChange.bind(this)}
                                     style={{ width: 120 }}>
-                                    <Option value="1">H1</Option>
-                                    <Option value="2">H2</Option>
-                                    <Option value="3">H3</Option>
+                                    <Option value="region">Region</Option>
                                 </Select>
 
                                 <Select
                                     value={secondMenuValue}
                                     onChange={this.secondMenuChange.bind(this)}
                                     style={{ width: 120, marginLeft: 10 }}>
-                                    <Option value="1">K1</Option>
-                                    <Option value="2">K2</Option>
-                                    <Option value="3">K3</Option>
+                                    <Option value="az">AZ</Option>
                                 </Select>
 
                                 <Select
                                     value={thiredMenuValue}
                                     onChange={this.thiredMenuChange.bind(this)}
                                     style={{ width: 120, marginLeft: 10 }}>
-                                    <Option value="1">Z1</Option>
-                                    <Option value="2">Z2</Option>
-                                    <Option value="3">Z3</Option>
+                                    <Option value="ha">HA</Option>
                                 </Select>
 
                                 <Button
