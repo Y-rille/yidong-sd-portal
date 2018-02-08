@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import ResourceTable from '../../../../components/ResourceTable/'
+import CompactTable from '../../../../components/CompactTable/'
 import HostInfo from '../../container/vim/hostInfo'
 import { Row, Col, Breadcrumb, Icon, Radio, Spin, Select, Button, Tabs } from 'antd';
 import styles from '../../style/index.less'
@@ -49,17 +50,24 @@ class Host extends React.Component<any, any> {
         let { match } = this.props;
         const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         return (
-            <ResourceTable
-                goDelete={this.goDelete.bind(this)}
-                goEdit={this.goEdit.bind(this)}
-                goPage={this.goPage.bind(this)} // 翻页
-                goLink={this.goLink.bind(this)}
-                page_num={1}
-                page_size={10}
-                data={tData}
-                showAuth={['id', 'mobile', 'name', 'email']}
-                actionAuth={[]}
-            />
+            <div>
+                <ResourceTable
+                    goDelete={this.goDelete.bind(this)}
+                    goEdit={this.goEdit.bind(this)}
+                    goPage={this.goPage.bind(this)} // 翻页
+                    goLink={this.goLink.bind(this)}
+                    data={tData}
+                    showAuth={['id', 'mobile', 'name', 'email']}
+                    actionAuth={[]}
+                />
+                <br />
+                <CompactTable
+                    goPage={this.goPage.bind(this)} // 翻页
+                    goLink={this.goLink.bind(this)}
+                    data={null}
+                    actionAuth={[]}
+                />
+            </div>
 
         );
     }
