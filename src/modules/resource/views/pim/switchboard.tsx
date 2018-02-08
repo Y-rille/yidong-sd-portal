@@ -18,13 +18,11 @@ class Switchboard extends React.Component<any, any> {
         this.props.history.push(`/resource/pim/1/switchboard/info`)
     }
     onDataChange(value) {
-        const { dataValue } = this.state;
         this.setState({
             dataValue: value
         })
     }
     onNameChange(value) {
-        const { nameValue } = this.state;
         this.setState({
             nameValue: value
         })
