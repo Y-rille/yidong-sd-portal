@@ -29,6 +29,15 @@ class Home extends React.Component<any, any> {
     componentDidMount() {
 
     }
+    renderSider() {
+        let route = this.props.location.pathname.replace('/resource/', '')
+        let current = route.replace('/info', '')
+        if (current.indexOf('resource') < 0) {
+            return <SideBar current={current} onLinkHandleClick={this.handleClick} />
+        } else {
+            return <div />
+        }
+    }
     render() {
         let { match } = this.props
         return (
@@ -39,7 +48,7 @@ class Home extends React.Component<any, any> {
                     maxSize={300}
                     defaultSize={200} >
                     <div>
-                        <SideBar onLinkHandleClick={this.handleClick} />
+                        {this.renderSider()}
                     </div>
                     <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
