@@ -17,7 +17,7 @@ class HaInfo extends React.Component<any, any> {
         super(props);
         this.state = {
             HostInputValue: '',
-            HZSelectValue: 'AZ'
+            HZSelectValue: 'HZ'
         }
     }
     handleClick() {
