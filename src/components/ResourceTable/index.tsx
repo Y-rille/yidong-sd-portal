@@ -5,7 +5,64 @@ import styles from './index.less';
 import moment from '../../common/moment'
 
 import * as _ from 'lodash';
-
+// var tData = {
+//     'count': 38,
+//     'header': [{
+//         key: 'id',
+//         title: '编号',
+//     }, {
+//         key: 'name',
+//         title: '姓名',
+//         link: '/resource/vim/1/host/info'
+//     }, {
+//         key: 'mobile',
+//         title: '电话',
+//     }, {
+//         key: 'email',
+//         title: '邮箱',
+//     }, {
+//         key: 'cpu',
+//         title: 'CPU',
+//     }, {
+//         key: 'memory',
+//         title: '内存',
+//     }, {
+//         key: 'role',
+//         title: '角色',
+//     }],
+//     'body': [
+//         {
+//             'id': 100077,
+//             'email': 'zhan21@hpe.com',
+//             'name': '张三21',
+//             'mobile': '15811001101',
+//             'cpu': '1/10',
+//             'memory': '50%',
+//             'role': '管理员',
+//             'vm': 20
+//         },
+//         {
+//             'id': 100056,
+//             'email': 'dandan',
+//             'name': 'admin',
+//             'mobile': '13211111111',
+//             'cpu': '1/10',
+//             'memory': '70%',
+//             'role': '普通会员',
+//             'vm': 25
+//         },
+//         {
+//             'id': 100003,
+//             'email': 'admin@cmp.com',
+//             'name': '管理员',
+//             'mobile': '13211117890',
+//             'cpu': '1/10',
+//             'memory': '40%',
+//             'role': 'VIP',
+//             'vm': 15
+//         }
+//     ]
+// }
 export interface UserTableProps {
     goEdit?
     // showModal?
@@ -22,6 +79,8 @@ export default class ResourceTable extends React.PureComponent<UserTableProps, a
     constructor(props) {
         super(props);
         this.state = {
+            page_num: 1,
+            page_size: 10,
         };
     }
     goEdit(e) {
@@ -44,6 +103,7 @@ export default class ResourceTable extends React.PureComponent<UserTableProps, a
         }
     }
     goPage(current) {
+        this.setState({ page_num: current })
         if (this.props.goPage) {
             this.props.goPage(current)
         }
@@ -75,7 +135,7 @@ export default class ResourceTable extends React.PureComponent<UserTableProps, a
                         {actionAuth.indexOf('edit') > -1 ? (
                             <a onClick={this.goEdit.bind(this)} id={record.id} href="javascript:;">编辑</a>
                         ) : ''}
-                        {actionAuth.indexOf('edit') > -1 ? (<Divider type="vertical" />) : ''}
+                        {actionAuth.length > 1 ? (<Divider type="vertical" />) : ''}
                         {actionAuth.indexOf('delete') > -1 ? (
                             <a onClick={this.goDelete.bind(this)} rel={record.name} id={record.id} href="javascript:;" type="vertical">删除</a>
                         ) : ''}
@@ -108,7 +168,8 @@ export default class ResourceTable extends React.PureComponent<UserTableProps, a
         )
     }
     render() {
-        let { page_size, page_num, data, goPage } = this.props
+        let { data, goPage } = this.props
+        let { page_size, page_num } = this.state
         return (
             <div className={styles.resourceTable}>
                 {this.renderTable()}

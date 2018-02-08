@@ -10,7 +10,7 @@ class Az extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            AZInputValue: 'AZ名称',
+            AZInputValue: '',
             AZSelectValue: 'region'
         }
     }
@@ -18,13 +18,11 @@ class Az extends React.Component<any, any> {
         this.props.history.push(`/resource/vim/1/az/info`)
     }
     AZSelectChange(value) {
-        const { AZSelectValue } = this.state;
         this.setState({
             AZSelectValue: value
         })
     }
     AZInputChange(value) {
-        const { AZInputValue } = this.state;
         this.setState({
             AZInputValue: value
         })
@@ -60,8 +58,9 @@ class Az extends React.Component<any, any> {
                                         <Option value="region">Region</Option>
                                     </Select>
                                     <Input
+                                        placeholder="AZ名称"
                                         value={AZInputValue} type="text"
-                                        onChange={this.AZInputChange.bind(this)}
+                                        onChange={e => this.AZInputChange(e.target.value)}
                                         style={{ width: 120, marginLeft: 10 }}
                                     />
                                     <Button
