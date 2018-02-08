@@ -2,8 +2,11 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Row, Breadcrumb, Icon } from 'antd';
 import styles from '../style/index.less'
-import DashboardCard from '../../../components/DashboardCard'
+
+import VimSummary from '../../../components/VimSummary'
+import PimSummary from '../../../components/PimSummary'
 import VimEdit from '../../../components/VimEdit/'
+
 let editRef = null
 let vimInfo = {
     id: '1',
@@ -55,7 +58,10 @@ class Dashboard extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div className={styles.card}>
-                    <DashboardCard goEdit={this.goEdit.bind(this)} />
+                    <p className={styles.summary}>资源结构组织</p>
+                    <VimSummary goEdit={this.goEdit.bind(this)} />
+                    <p className={styles.summary}>物理部署组织</p>
+                    <PimSummary />
                 </div>
                 <VimEdit
                     data={this.state.currentId ? vimInfo : null}
