@@ -250,7 +250,7 @@ class MageneticInfo extends React.Component<any, any> {
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                         <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                        <Breadcrumb.Item>磁阵列表</Breadcrumb.Item>
+                        <Breadcrumb.Item>磁阵管理</Breadcrumb.Item>
                         <Breadcrumb.Item>磁阵详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
