@@ -24,7 +24,7 @@ class Home extends React.Component<any, any> {
         }
     }
     handleClick = (key) => {
-        this.props.history.push(`/resource/${key}`)
+        this.props.history.push(`${key}`)
     }
     componentDidMount() {
 
@@ -33,7 +33,7 @@ class Home extends React.Component<any, any> {
         let route = this.props.location.pathname.replace('/resource/', '')
         let current = route.replace('/info', '')
         if (current.indexOf('resource') < 0) {
-            return <SideBar current={current} onLinkHandleClick={this.handleClick} />
+            return <SideBar pathname={this.props.location.pathname} current={current} onLinkHandleClick={this.handleClick} />
         } else {
             return <div />
         }
