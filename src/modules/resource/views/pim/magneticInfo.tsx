@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
-import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col } from 'antd';
+import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
 const attributes = [
@@ -208,10 +208,31 @@ const data = {
 class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            visible: false,
+            status: 'up'
+        }
     }
     callback = () => { }
     tabInfo = () => { }
     tabConnect = () => { }
+    showModel = (e) => {
+        this.setState({
+            visible: true,
+            status: e,
+        })
+    }
+    handleOk = () => {
+        this.setState({
+            visible: false
+        })
+    }
+    handleCancel = () => {
+        this.setState({
+            visible: false,
+            status: this.state.status === 'down' ? 'up' : 'down'
+        })
+    }
     renderTitle = (title) => {
         return (
             <div className={styles.nodeTitle}>
@@ -241,6 +262,45 @@ class MageneticInfo extends React.Component<any, any> {
             </div>
         )
     }
+    renderBtns() {
+        return (
+            <div>
+                <Button
+                    style={{ margin: '0px 10px 0px 0' }}
+                    onClick={this.showModel.bind(this, this.state.status === 'down' ? 'up' : 'down')}
+                >{this.state.status === 'down' ? '上电' : '下电'}</Button>
+                <Button onClick={this.showModel.bind(this, 'reset')}>复位</Button>
+            </div>
+        )
+    }
+    renderModel() {
+        // let title = '上电'
+        let content = '服务器正在运行，确定上电吗？'
+        if (this.state.status === 'up') {
+            // title = '上电'
+            content = '服务器正在运行，确定上电吗？'
+        } else if (this.state.status === 'down') {
+            // title = '下电'
+            content = '服务器正在运行，确定下电吗？'
+        } else {
+            // title = '复位'
+            content = '服务器正在运行，确定复位吗？'
+        }
+        return (
+            <Modal
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                okText="确认" cancelText="取消"
+                onCancel={this.handleCancel}
+            >
+                <div style={{ minHeight: '100px' }}>
+                    <Icon type="exclamation-circle" />
+                    {content}
+                </div>
+            </Modal>
+        )
+
+    }
     render() {
         return (
             <div>
@@ -256,14 +316,21 @@ class MageneticInfo extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.callback} type="card">
-                        <TabPane tab="资源详情" key="1">
-                            <Tabs defaultActiveKey="1" size="small" onChange={this.tabInfo}>
+                        <TabPane tab="资源详情" key="1" >
+                            <Tabs
+                                defaultActiveKey="1"
+                                size="small"
+                                onChange={this.tabInfo}
+                                tabBarExtraContent={this.renderBtns()}>
                                 <TabPane tab="概况" key="1">概况</TabPane>
                                 <TabPane tab="日志" key="2">日志</TabPane>
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="2">
-                            <Tabs defaultActiveKey="1" size="small" onChange={this.tabConnect}>
+                            <Tabs
+                                defaultActiveKey="1"
+                                size="small"
+                                onChange={this.tabConnect}>
                                 <TabPane tab="RAID信息" key="1">RAID信息</TabPane>
                                 <TabPane tab="LUN信息" key="2">LUN信息</TabPane>
                                 <TabPane tab="ISCSI信息" key="3">ISCSI信息</TabPane>
@@ -274,6 +341,7 @@ class MageneticInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                     </Tabs>
+                    {this.renderModel()}
                 </div>
                 <DynamicPropertiesPanel attributes={attributes} data={data} />
             </div>

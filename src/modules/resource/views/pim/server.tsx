@@ -18,13 +18,11 @@ class Server extends React.Component<any, any> {
         this.props.history.push(`/resource/pim/1/server/info`)
     }
     dataSelectChange(value) {
-        const { dataSelectValue } = this.state;
         this.setState({
             dataSelectValue: value
         })
     }
     supplierSelectChange(value) {
-        const { supplierSelectValue } = this.state;
         this.setState({
             supplierSelectValue: value
         })
