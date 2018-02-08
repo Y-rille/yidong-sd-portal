@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import SplitPane from 'react-split-pane'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Menu } from 'antd';
 const Search = Input.Search
 
 import UserTable from '../../../components/UserTable/'
@@ -29,7 +29,7 @@ class Home extends React.Component<any, any> {
     }
     goPath(e) {
         let { match } = this.props
-        const path = e.target.getAttribute('data-target')
+        const path = e
         const currentUrl = this.props.location.pathname
         if (currentUrl.indexOf(path) < 0) {
             this.props.history.push(`${match.url}/${path}`)
@@ -38,22 +38,24 @@ class Home extends React.Component<any, any> {
     }
     componentWillMount() {
     }
+    handleClick(e) {
+        this.goPath(e.key);
+    }
     renderLeftNav() {
-        let leftNav = [
-            { name: '用户管理', target: 'user', type: 'solution' },
-            { name: '日志管理', target: 'log', type: 'form' },
-        ]
-        let cls = 'leftNavItem'
-        let content = _.map(leftNav, (item, index) => {
-            const currentUrl = this.props.location.pathname
-            let status = currentUrl.indexOf(item.target) > 0
-            return <li className={classNames('leftNavItem', { 'selected': status })} onClick={this.goPath.bind(this)} data-target={item.target}><Icon type={item.type} />{item.name}</li>
-        })
-        return (
-            <ul className={styles.leftBg}>
-                {content}
-            </ul>
-        )
+        let path = this.props.location.pathname
+        let pathKey = path.replace('/setting/', '');
+        if (pathKey.indexOf('setting') < 0) {
+            return (
+                <Menu onClick={this.handleClick.bind(this)} defaultSelectedKeys={pathKey} mode="inline">
+                    <Menu.Item key="user">
+                        <Icon type="solution" />用户管理
+                    </Menu.Item>
+                    <Menu.Item key="log">
+                        <Icon type="form" />日志管理
+                    </Menu.Item>
+                </Menu>
+            )
+        }
     }
     render() {
         let { match, tree } = this.props
