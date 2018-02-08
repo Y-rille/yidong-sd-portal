@@ -40,21 +40,18 @@ class Host extends React.Component<any, any> {
         }
     }
     menuChange(value) {
-        const { menuValue } = this.state;
         this.setState({
             menuValue: value
         })
     }
 
     secondMenuChange(value) {
-        const { secondMenuValue } = this.state;
         this.setState({
             secondMenuValue: value
         })
     }
 
     thiredMenuChange(value) {
-        const { thiredMenuValue } = this.state;
         this.setState({
             thiredMenuValue: value
         })

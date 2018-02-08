@@ -10,7 +10,7 @@ class Ha extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            HAInputValue: 'HA名称',
+            HAInputValue: '',
             HASelectValue: 'region'
         }
     }
@@ -18,15 +18,13 @@ class Ha extends React.Component<any, any> {
         this.props.history.push(`/resource/vim/1/ha/info`)
     }
     HASelectChange(value) {
-        const { AZSelectValue } = this.state;
         this.setState({
-            AZSelectValue: value
+            HASelectValue: value
         })
     }
     HAInputChange(value) {
-        const { AZInputValue } = this.state;
         this.setState({
-            AZInputValue: value
+            HAInputValue: value
         })
     }
     handleClick() {
@@ -59,8 +57,9 @@ class Ha extends React.Component<any, any> {
                                     <Option value="region">Region</Option>
                                 </Select>
                                 <Input
+                                    placeholder="HA名称"
                                     value={HAInputValue} type="text"
-                                    onChange={this.HAInputChange.bind(this)}
+                                    onChange={e => this.HAInputChange(e.target.value)}
                                     style={{ width: 120, marginLeft: 10 }}
                                 />
                                 <Button
