@@ -53,19 +53,18 @@ class Server extends React.Component<any, any> {
                                 <Select
                                     value={dataSelectValue}
                                     onChange={this.dataSelectChange.bind(this)}
-                                    style={{ width: 120 }}>
+                                >
                                     <Option value="1">数据中心</Option>
 
                                 </Select>
                                 <Select
                                     value={supplierSelectValue}
                                     onChange={this.supplierSelectChange.bind(this)}
-                                    style={{ width: 120, marginLeft: 10 }}>
+                                >
                                     <Option value="1">供应商</Option>
                                 </Select>
                                 <Button
                                     type="primary"
-                                    style={{ marginLeft: 10 }}
                                     onClick={this.handleClick.bind(this)}
                                 >
                                     查询

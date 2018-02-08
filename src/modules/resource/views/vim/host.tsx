@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import ResourceTable from '../../../../components/ResourceTable/'
 import HostInfo from '../../container/vim/hostInfo'
 import { Row, Col, Breadcrumb, Icon, Radio, Spin, Select, Button, Tabs } from 'antd';
 
@@ -49,6 +48,7 @@ class Host extends React.Component<any, any> {
         const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         // console.log("selectValue:", menuValue, secondMenuValue, thiredMenuValue)
     }
+
     onChange(key) {
         let { match } = this.props
         let { pathname } = this.props.location
@@ -72,6 +72,7 @@ class Host extends React.Component<any, any> {
             ]).toString()
         })
     }
+
     render() {
         let { match } = this.props;
         const { menuValue, secondMenuValue, thiredMenuValue, activeKey } = this.state;
@@ -94,33 +95,32 @@ class Host extends React.Component<any, any> {
                                 <Select
                                     value={menuValue}
                                     onChange={this.menuChange.bind(this)}
-                                    style={{ width: 120 }}>
+                                >
                                     <Option value="region">Region</Option>
                                 </Select>
 
                                 <Select
                                     value={secondMenuValue}
                                     onChange={this.secondMenuChange.bind(this)}
-                                    style={{ width: 120, marginLeft: 10 }}>
+                                >
                                     <Option value="az">AZ</Option>
                                 </Select>
 
                                 <Select
                                     value={thiredMenuValue}
                                     onChange={this.thiredMenuChange.bind(this)}
-                                    style={{ width: 120, marginLeft: 10 }}>
+                                >
                                     <Option value="ha">HA</Option>
                                 </Select>
 
                                 <Button
                                     type="primary"
-                                    style={{ marginLeft: 10 }}
                                     onClick={this.handleClick.bind(this)}
                                 >
                                     查询
                                 </Button>
                             </div>
-                            <Tabs onChange={this.onChange.bind(this)} type="card" defaultActiveKey={activeKey}>
+                            <Tabs onChange={this.onChange.bind(this)} type="card" activeKey={activeKey}>
                                 <TabPane tab="控制节点" key="control"></TabPane>
                                 <TabPane tab="计算节点" key="calculate"></TabPane>
                                 <TabPane tab="存储节点" key="storage"></TabPane>
@@ -131,11 +131,7 @@ class Host extends React.Component<any, any> {
                                 <Route path={`${match.url}/calculate`} component={HostList} />
                                 <Route path={`${match.url}/storage`} component={HostList} />
                             </Switch>
-                            <div>
-
-                            </div>
                         </div>
-
                     </div>
                 )} />
             </Switch>

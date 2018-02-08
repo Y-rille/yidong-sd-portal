@@ -128,11 +128,9 @@ class Switchboard extends React.Component<any, any> {
                                     placeholder="名称，编号"
                                     value={nameValue} type="text"
                                     onChange={this.onNameChange.bind(this)}
-                                    style={{ width: 120, marginLeft: 10 }}
                                 />
                                 <Button
                                     type="primary"
-                                    style={{ marginLeft: 10 }}
                                     onClick={this.handleClick.bind(this)}
                                 >
                                     查询

@@ -54,22 +54,20 @@ class Az extends React.Component<any, any> {
                                     <Select
                                         value={AZSelectValue}
                                         onChange={this.AZSelectChange.bind(this)}
-                                        style={{ width: 120 }}>
+                                    >
                                         <Option value="region">Region</Option>
                                     </Select>
                                     <Input
                                         placeholder="AZ名称"
                                         value={AZInputValue} type="text"
                                         onChange={e => this.AZInputChange(e.target.value)}
-                                        style={{ width: 120, marginLeft: 10 }}
                                     />
                                     <Button
                                         type="primary"
-                                        style={{ marginLeft: 10 }}
                                         onClick={this.handleClick.bind(this)}
                                     >
                                         查询
-                                </Button>
+                                    </Button>
                                 </div>
                                 <div>
                                     table区域
