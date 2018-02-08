@@ -56,17 +56,14 @@ class Server extends React.Component<any, any> {
                                     value={dataSelectValue}
                                     onChange={this.dataSelectChange.bind(this)}
                                     style={{ width: 120 }}>
-                                    <Option value="1">K1</Option>
-                                    <Option value="2">K2</Option>
-                                    <Option value="3">K3</Option>
+                                    <Option value="1">数据中心</Option>
+
                                 </Select>
                                 <Select
                                     value={supplierSelectValue}
                                     onChange={this.supplierSelectChange.bind(this)}
                                     style={{ width: 120, marginLeft: 10 }}>
-                                    <Option value="1">K1</Option>
-                                    <Option value="2">K2</Option>
-                                    <Option value="3">K3</Option>
+                                    <Option value="1">供应商</Option>
                                 </Select>
                                 <Button
                                     type="primary"

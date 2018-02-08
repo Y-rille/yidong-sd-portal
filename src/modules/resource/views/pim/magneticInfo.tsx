@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
-import { Breadcrumb, Icon, Button, Spin, Cascader } from 'antd';
+import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs } from 'antd';
 import styles from '../../style/index.less'
-
+const TabPane = Tabs.TabPane;
 const attributes = [
     {
         'moAttributeId': 1,
@@ -209,6 +209,12 @@ class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
+    callback = () => { }
+    tabInfo = () => { }
+    tabConnect = () => { }
+    renderPerformance() {
+        return <div>xingneng</div>
+    }
     render() {
         return (
             <div>
@@ -221,6 +227,27 @@ class MageneticInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>磁阵列表</Breadcrumb.Item>
                         <Breadcrumb.Item>磁阵详情</Breadcrumb.Item>
                     </Breadcrumb>
+                </div>
+                <div style={{ padding: '20px' }}>
+                    <Tabs onChange={this.callback} type="card">
+                        <TabPane tab="资源详情" key="1">
+                            <Tabs defaultActiveKey="1" size="small" onChange={this.tabInfo}>
+                                <TabPane tab="概况" key="1">概况</TabPane>
+                                <TabPane tab="日志" key="2">日志</TabPane>
+                            </Tabs>
+                        </TabPane>
+                        <TabPane tab="资源关系" key="2">
+                            <Tabs defaultActiveKey="1" size="small" onChange={this.tabConnect}>
+                                <TabPane tab="RAID信息" key="1">RAID信息</TabPane>
+                                <TabPane tab="LUN信息" key="2">LUN信息</TabPane>
+                                <TabPane tab="ISCSI信息" key="3">ISCSI信息</TabPane>
+                                <TabPane tab="硬盘信息" key="4">硬盘信息</TabPane>
+                                <TabPane tab="性能信息" key="5">{this.renderPerformance()}</TabPane>
+                                <TabPane tab="告警" key="6">告警</TabPane>
+                                <TabPane tab="其它信息" key="7">其它信息</TabPane>
+                            </Tabs>
+                        </TabPane>
+                    </Tabs>
                 </div>
                 <DynamicPropertiesPanel attributes={attributes} data={data} />
             </div>
