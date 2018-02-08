@@ -57,6 +57,5 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                 </Menu>
             </div>
         )
-
     }
 }
