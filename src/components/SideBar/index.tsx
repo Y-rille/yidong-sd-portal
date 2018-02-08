@@ -7,12 +7,12 @@ import styles from './index.less';
 
 export interface SideBarProps {
     onLinkHandleClick?
+    current?
 }
 
 export default class SideBar extends React.PureComponent<SideBarProps, any> {
     constructor(props) {
-        super(props);
-
+        super(props)
     }
 
     componentWillMount() {
@@ -28,11 +28,13 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
     }
 
     render() {
+        let id = '1'
         return (
             <Menu
                 onClick={this.handleClick}
                 style={{ height: window.innerHeight - 64 }}
                 defaultOpenKeys={['sub2']}
+                defaultSelectedKeys={[this.props.current]}
                 mode="inline"
             >
                 <Menu.Item key="dashboard">
@@ -40,7 +42,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     <span>概览</span>
                 </Menu.Item >
                 <SubMenu key="sub2" title={<span><Icon type="appstore" /><span>资源结构组织</span></span>}>
-                    <Menu.Item key="vim/1/az">AZ管理</Menu.Item>
+                    <Menu.Item key={`vim/${id}/az`}>AZ管理</Menu.Item>
                     <Menu.Item key="vim/1/ha">HA管理</Menu.Item>
                     <Menu.Item key="vim/1/host">主机管理</Menu.Item>
                     <Menu.Item key="vim/1/virtual">虚拟机管理</Menu.Item>
