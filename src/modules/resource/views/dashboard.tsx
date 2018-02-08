@@ -17,7 +17,7 @@ class Dashboard extends React.Component<any, any> {
         super(props);
         this.state = {
             visible: false,
-            currentId: true
+            currentId: false
         }
     }
     showModal() {
@@ -28,6 +28,7 @@ class Dashboard extends React.Component<any, any> {
     goEdit() {
         this.setState({
             visible: true,
+            currentId: true
         })
     }
     handleOk(data) {
