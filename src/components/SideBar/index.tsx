@@ -89,6 +89,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
         let data = this.props.data || ''
         let keys = ['/resource/dashboard']
         data.vim.map(function (item) {
+            keys.push(`/resource/vim/${item.id}`)
             keys.push(`/resource/vim/${item.id}/host`)
             keys.push(`/resource/vim/${item.id}/virtual`)
             keys.push(`/resource/vim/${item.id}/az`)
@@ -100,6 +101,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
             keys.push(`/resource/vim/${item.id}/volume_type`)
         })
         data.pim.map(function (item) {
+            keys.push(`/resource/pim/${item.id}`)
             keys.push(`/resource/pim/${item.id}/server`)
             keys.push(`/resource/pim/${item.id}/firewall`)
             keys.push(`/resource/pim/${item.id}/switchboard`)
@@ -125,7 +127,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                 <Menu
                     onClick={this.handleClick}
                     style={{ height: window.innerHeight - 64 }}
-                    defaultOpenKeys={['sub2']}
+                    defaultOpenKeys={selectedKeys}
                     defaultSelectedKeys={selectedKeys}
                     mode="inline"
                 >
@@ -135,7 +137,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     </Menu.Item >
                     {data.vim.map((item, i) => {
                         let id = item.id
-                        return (<SubMenu key={`vim-${i}`} title={<span><Icon type="dropbox" /><span>{item.name}</span></span>}>
+                        return (<SubMenu key={`/resource/vim/${id}`} title={<span><Icon type="dropbox" /><span>{item.name}</span></span>}>
                             {item.list.map((subitem, index) => {
                                 return (
                                     <Menu.Item key={`/resource/vim/${id}/${subitem.page}`} > {subitem.pageName}</Menu.Item>
@@ -145,7 +147,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     })}
                     {data.pim.map((item, i) => {
                         let id = item.id
-                        return (<SubMenu key={`pim-${i}`} title={<span><Icon type="api" /><span>{item.name}</span></span>}>
+                        return (<SubMenu key={`/resource/pim/${id}`} title={<span><Icon type="api" /><span>{item.name}</span></span>}>
                             {item.list.map((subitem, index) => {
                                 return (
                                     <Menu.Item key={`/resource/pim/${id}/${subitem.page}`} > {subitem.pageName}</Menu.Item>
