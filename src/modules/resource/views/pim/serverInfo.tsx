@@ -301,7 +301,7 @@ class ServerInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>服务器详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div className={styles.tabCont}>
+                <div style={{ padding: '20px 20px 0 20px' }}>
                     <Tabs onChange={this.callback} type="card">
                         <TabPane tab="资源详情" key="1" >
                             <Tabs

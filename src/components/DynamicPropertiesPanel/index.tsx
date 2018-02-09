@@ -118,7 +118,7 @@ export default class DynamicPropertiesPanel extends React.PureComponent<DynamicP
     render() {
         return (
             <div className="dynamicPropertiesPanel" style={{
-                padding: '20px 0'
+                padding: '20px 0 0 0'
             }}>
                 {
                     this.state.data.groups.map((group, index) => (
