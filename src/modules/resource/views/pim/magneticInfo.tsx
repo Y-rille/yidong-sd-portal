@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import Headline from '../../../../components/Headline';
+import Summaries from '../../../../components/Summaries'
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
-import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
-import DetailInfoTitle from '../../../../components/DetailInfoTitle';
-import DetailInfoContent from '../../../../components/DetailInfoContent'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
@@ -274,7 +273,7 @@ class MageneticInfo extends React.Component<any, any> {
     renderPerformance() {
         return (
             <div>
-                <DetailInfoTitle title="节点信息" />
+                <Headline title="节点信息" />
                 {/* <div className={styles.nodeInfo}>
                     <Row className={styles.nodeRow}>
                         <Col span={6}>平均IO时延:&nbsp;&nbsp;0.367</Col>
@@ -289,7 +288,7 @@ class MageneticInfo extends React.Component<any, any> {
                         <Col span={6}>写次数(IOps):&nbsp;&nbsp;153</Col>
                     </Row>
                 </div> */}
-                <DetailInfoContent colNum={4} />
+                <Summaries colNum={5} />
             </div>
         )
     }
@@ -321,14 +320,16 @@ class MageneticInfo extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div className={styles.tabCont}>
-                    <Tabs onChange={this.callback} type="card">
+                    <Tabs onChange={this.callback} type="card" animated={false}>
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
                                 onChange={this.tabInfo}
                                 tabBarExtraContent={this.renderBtns()}>
-                                <TabPane tab="概况" key="1"></TabPane>
+                                <TabPane tab="概况" key="1">
+                                    <DynamicPropertiesCollapse attributes={attributes} data={data} />
+                                </TabPane>
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
                         </TabPane>
@@ -349,7 +350,7 @@ class MageneticInfo extends React.Component<any, any> {
                     </Tabs>
                 </div>
                 {/* <DynamicPropertiesPanel attributes={attributes} data={data} /> */}
-                <DynamicPropertiesCollapse attributes={attributes} data={data} />
+
             </div>
         )
     }
