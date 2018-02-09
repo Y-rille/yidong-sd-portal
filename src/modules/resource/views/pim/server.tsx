@@ -33,10 +33,13 @@ class Server extends React.Component<any, any> {
         // console.log(dataSelectValue, supplierSelectValue);
     }
     goPage = () => {
-        this.props.history.push(`/resource/pim/1/server/info`)
+        // this.props.history.push(`/resource/pim/1/server/info`)
     }
-    goLink(url) {
-        this.props.history.push(url)
+    goLink(key, obj) {
+        let { match } = this.props
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
     }
     render() {
         let { match } = this.props;
@@ -79,7 +82,7 @@ class Server extends React.Component<any, any> {
                             </div>
                             <CompactTable
                                 // goPage={this.goPage.bind(this)} // 翻页
-                                // goLink={this.goLink.bind(this)}
+                                goLink={this.goLink.bind(this)}
                                 // data={null}
                                 actionAuth={['delete']}
                                 pageAuth={false}
