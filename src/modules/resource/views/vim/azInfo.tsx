@@ -103,6 +103,7 @@ class AzInfo extends React.Component<any, any> {
                             data={null}
                             actionAuth={[]}
                             pageAuth={false}
+                            footInfoAuth={false}
                         />
                     </div>
                 </div>
