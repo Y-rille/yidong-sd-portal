@@ -5,15 +5,15 @@ import moment from '../../common/moment'
 import * as _ from 'lodash';
 
 var tData = {
-    'count': 7,
+    'count': 17,
     'header': [{
         key: 'id',
         title: '编号',
-        fixed: true
+        fixed: true,
+        link: '/resource/vim/1/host/info',
     }, {
         key: 'name',
         title: '姓名',
-        link: '/resource/vim/1/host/info',
         fixed: true,
     }, {
         key: 'mobile',
@@ -108,7 +108,7 @@ var tData = {
         }
     ]
 }
-export interface UserTableProps {
+export interface CompactTableProps {
     goEdit?
     // showModal?
     data?
@@ -118,9 +118,11 @@ export interface UserTableProps {
     goLink?
     goDelete?
     actionAuth?
+    pageAuth?
+    footInfoAuth?
 }
 
-export default class CompacteTable extends React.PureComponent<UserTableProps, any> {
+export default class CompacteTable extends React.PureComponent<CompactTableProps, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -217,15 +219,15 @@ export default class CompacteTable extends React.PureComponent<UserTableProps, a
         )
     }
     render() {
-        let { data, goPage } = this.props
+        let { data, goPage, pageAuth, footInfoAuth } = this.props
         let { page_size, page_num } = this.state
         let count = data ? data.count : tData.count
         return (
             <div className={styles.compactTable}>
                 {this.renderTable()}
                 <div className={styles.tfooter}>
-                    <div>* 底部信息</div>
-                    {count > 10 ? (
+                    {footInfoAuth ? (<div>* 底部信息</div>) : ''}
+                    {(pageAuth && count > page_size) ? (
                         <div>
                             <Pagination size="small"
                                 className={styles.pagination}

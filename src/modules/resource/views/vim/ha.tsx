@@ -36,7 +36,7 @@ class Ha extends React.Component<any, any> {
         const { HAInputValue, HASelectValue } = this.state;
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={HaInfo} />
+                <Route path={`${match.url}/info/:haId`} component={HaInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

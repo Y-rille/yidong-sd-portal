@@ -16,7 +16,7 @@ class Mirror extends React.Component<any, any> {
         let { match } = this.props
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={MirrorInfo} />
+                <Route path={`${match.url}/info/:id`} component={MirrorInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
