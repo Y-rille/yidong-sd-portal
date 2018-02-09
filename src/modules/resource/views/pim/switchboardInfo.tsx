@@ -3,10 +3,10 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Breadcrumb, Icon, Tabs } from 'antd';
 import styles from '../../style/index.less'
-import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable/'
 import Headline from '../../../../components/Headline/'
 import Summaries from '../../../../components/Summaries/'
+import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 
 const TabPane = Tabs.TabPane;
 
