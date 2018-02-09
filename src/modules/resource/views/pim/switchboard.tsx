@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SwitchboardInfo from '../../container/pim/switchboardInfo'
+import CompactTable from '../../../../components/CompactTable'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Input } from 'antd';
 import styles from '../../style/index.less'
 
@@ -30,6 +31,12 @@ class Switchboard extends React.Component<any, any> {
     handleClick() {
         const { dataValue, nameValue } = this.state;
         // console.log(dataValue, nameValue)
+    }
+    goPage = () => {
+        
+    }
+    goLink(url) {
+        this.props.history.push(url)
     }
     render() {
         let { match } = this.props;
@@ -136,6 +143,12 @@ class Switchboard extends React.Component<any, any> {
                                     查询
                                 </Button>
                             </div>
+                            <CompactTable
+                                goPage={this.goPage.bind(this)} // 翻页
+                                goLink={this.goLink.bind(this)}
+                                data={null}
+                                actionAuth={[]}
+                            />
                         </div>
                     </div>
                 )} />
