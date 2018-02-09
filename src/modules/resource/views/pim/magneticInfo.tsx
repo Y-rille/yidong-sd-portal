@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import Headline from '../../../../components/Headline';
 import Summaries from '../../../../components/Summaries'
+import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
