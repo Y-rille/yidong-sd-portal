@@ -9,11 +9,11 @@ var tData = {
     'header': [{
         key: 'id',
         title: '编号',
-        fixed: true
+        fixed: true,
+        link: '/resource/vim/1/host/info',
     }, {
         key: 'name',
         title: '姓名',
-        link: '/resource/vim/1/host/info',
         fixed: true,
     }, {
         key: 'mobile',
