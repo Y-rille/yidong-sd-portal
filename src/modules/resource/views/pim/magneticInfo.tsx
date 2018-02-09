@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
-import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
-import DetailInfoTitle from '../../../../components/DetailInfoTitle';
-import DetailInfoContent from '../../../../components/DetailInfoContent'
+import Headline from '../../../../components/Headline';
+import Summaries from '../../../../components/Summaries'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
@@ -318,7 +317,7 @@ class MageneticInfo extends React.Component<any, any> {
     renderPerformance() {
         return (
             <div>
-                <DetailInfoTitle title="节点信息" />
+                <Headline title="节点信息" />
                 {/* <div className={styles.nodeInfo}>
                     <Row className={styles.nodeRow}>
                         <Col span={6}>平均IO时延:&nbsp;&nbsp;0.367</Col>
@@ -333,7 +332,7 @@ class MageneticInfo extends React.Component<any, any> {
                         <Col span={6}>写次数(IOps):&nbsp;&nbsp;153</Col>
                     </Row>
                 </div> */}
-                <DetailInfoContent colNum={4} />
+                <Summaries colNum={5} />
             </div>
         )
     }
