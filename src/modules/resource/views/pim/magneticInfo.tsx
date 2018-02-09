@@ -95,7 +95,7 @@ const attributes = [
         'physicalTablefield': 'Hostname',
         'state': 1,
         'version': '1.0',
-        'ediable': 1,
+        'ediable': 0,
         'visible': 1,
         'attributeGroup': '位置信息'
     },
@@ -108,7 +108,7 @@ const attributes = [
         'physicalTablefield': 'Hostname',
         'state': 1,
         'version': '1.0',
-        'ediable': 1,
+        'ediable': 0,
         'visible': 1,
         'attributeGroup': '位置信息'
     },
@@ -210,50 +210,6 @@ const data = {
         ],
     ]
 };
-const testdata = [
-    {
-        group: '基本信息',
-        data: {
-            '名称': 'XXXXXX',
-            'Cache容量': 'ZJHZ-NFV3-B-XSCYY1H2F-D1',
-            'License信息': '2102310YJA10H6003708',
-            '制造商': 'Huawei',
-            '供应商': 'Huawei',
-            '资产编号': 'BC11HGSA',
-            '磁阵型号': 'RH2288H V3',
-            '软件版本': 'v1.2.32',
-            '序列号': 'v1.2.32',
-            '管理IP': '36',
-            '温度(℃）': '36',
-            '健康及运行状态': 'runnning',
-            '上下电状态': 'OK',
-            '未用容量/总容量(TB)': '18/32',
-            'LUN未用容量/总容量(TB)': '18/32',
-            '硬盘容量': '18/32',
-            '磁阵块大小': '23',
-            '未用块数量/总块数量': '12'
-        }
-    },
-    {
-        group: '位置信息',
-        data: {
-            '数据中心': '浙江移动数据中心',
-            '机房': 'ZJHZ',
-            '机柜': 'ZJHZ',
-            '安装槽位': 'ZJHZ',
-        }
-    },
-    {
-        group: '维护信息',
-        data: {
-            '维护状态': 'running',
-            '投产时间': '计算节点',
-            '资产来源': '借用',
-            '资产状态': '已使用',
-
-        }
-    }
-]
 
 class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
