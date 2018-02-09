@@ -11,7 +11,8 @@ class Magnetic extends React.Component<any, any> {
         super(props);
     }
     goInfo = () => {
-        this.props.history.push(`/resource/pim/1/magnetic/info`)
+        let { match } = this.props
+        this.props.history.push(`${match}/info/1`)
     }
     onChangeDataCenter(value) {
         // console.log(value, 'ppp')
@@ -99,7 +100,7 @@ class Magnetic extends React.Component<any, any> {
         let { match } = this.props
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={MagneticInfo} />
+                <Route path={`${match.url}/info/:magneticId`} component={MagneticInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

@@ -160,6 +160,16 @@
     .ant-form-item-control{
       white-space: nowrap;
     }
+    .ant-collapse{
+      border-left: none;
+      border-right: none;
+      border-top: none;
+      border-radius: none;
+      background-color: rgba(0,0,0,0);
+    }
+    .ant-collapse-item{
+        border-top: 1px solid #d9d9d9;
+    }
     .ant-collapse-header{
         background-color: #ffffff;
     }
@@ -186,6 +196,9 @@
   }
 }
 .sideBar{
+  ul{
+    border-color:#fff;
+  }
   .ant-menu-item{
     margin-bottom:0;
     margin-top:0;
@@ -200,4 +213,32 @@
  .ant-menu-submenu-selected{
    color:@primary-color;
  }
+
+}
+
+.ant-tabs.ant-tabs-card {
+  &>.ant-tabs-bar {
+      .ant-tabs-ink-bar {
+        left: 0px;
+        right: 0;
+        top: 0px;
+        box-sizing: border-box;
+        height: 3px;
+        background-color: #00b388;
+        visibility: visible !important;
+      }
+      .ant-tabs-tab {
+        margin-right: 0 !important;
+        margin-left: -1px !important;
+        border-radius: 0;
+      }
+      .ant-tabs-tab:nth-child(2) {
+        margin-left: 0 !important;
+      }
+  }
+  .ant-tabs-content {
+    .ant-tabs-ink-bar { 
+      height: 3px;
+    }
+  }
 }
