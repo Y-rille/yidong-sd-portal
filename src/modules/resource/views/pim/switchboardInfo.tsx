@@ -297,7 +297,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
                                         // data={null}
-                                        pageAuth={false}
+                                        pageAuth={true}
                                         actionAuth={[]}
                                     /></TabPane>
                                 <TabPane tab="告警信息" key="6">告警信息</TabPane>
