@@ -27,7 +27,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         };
     }
     static defaultProps = {
-        tData: {
+        data: {
             'count': 17,
             'header': [{
                 key: 'id',
