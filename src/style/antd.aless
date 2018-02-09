@@ -169,6 +169,10 @@
     }
     .ant-collapse-item{
         border-top: 1px solid #d9d9d9;
+        border-left: 1px solid #d9d9d9;;
+        border-right: 1px solid #d9d9d9;
+        border-radius: 4px;
+        overflow: hidden;
     }
     .ant-collapse-header{
         background-color: #ffffff;
@@ -236,9 +240,12 @@
         margin-left: 0 !important;
       }
   }
-  .ant-tabs-content {
+  &>.ant-tabs-content {
     .ant-tabs-ink-bar { 
       height: 3px;
+    }
+    .ant-tabs-tab {
+      padding: 16px;
     }
   }
 }
