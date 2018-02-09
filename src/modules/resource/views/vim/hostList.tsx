@@ -41,8 +41,11 @@ class Host extends React.Component<any, any> {
     goPage = () => {
         // this.props.history.push(`/resource/vim/1/host/info`)
     }
-    goLink(url) {
-        this.props.history.push(url)
+    goLink(key, obj) {
+        let { match } = this.props
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
     }
     goDelete = () => { }
     goEdit = () => { }
@@ -67,6 +70,7 @@ class Host extends React.Component<any, any> {
                     // data={null}
                     actionAuth={[]}
                     pageAuth={false}
+                    outStyle={{ 'marginTop': '20px' }}
                 />
             </div>
 
