@@ -29,7 +29,7 @@ const conversion = (attributes, data) => {
         let summary = _.find(attributes, attr => (attr.attributeName === item));
 
         if (summary) {
-            summary = _.assign({key, values}, summary);
+            summary = _.assign({ key, values }, summary);
             temp.list.push(summary);
 
             if (_.indexOf(temp.groups, summary.attributeGroup) < 0) {
@@ -41,17 +41,17 @@ const conversion = (attributes, data) => {
     return temp;
 };
 
-const PanelButton = ({group, target, list, action}) => {
+const PanelButton = ({ group, target, list, action }) => {
     const data = list.filter(item => (item.attributeGroup === group && item.visible));
     let isEditor = false;
 
-    if (_.find(data, {ediable: 1})) {
+    if (_.find(data, { ediable: 1 })) {
         isEditor = true;
     }
 
     if (isEditor) {
         return (
-            <div style={{textAlign: 'left', padding: '16px 0'}}>
+            <div style={{ textAlign: 'left', padding: '16px 0' }}>
                 <Button onClick={(evt) => {
                     evt.stopPropagation();
                     action(evt.target, target)
@@ -63,7 +63,7 @@ const PanelButton = ({group, target, list, action}) => {
     return null;
 };
 
-const PanelItem = ({group, list}) => {
+const PanelItem = ({ group, list }) => {
     let items = [];
     const data = list.filter(item => (item.attributeGroup === group && item.visible));
 
@@ -71,7 +71,7 @@ const PanelItem = ({group, list}) => {
         items.push(
             <Col span={8} key={i}>
                 <FormItem label={item.key}>
-                    {item.ediable ? <Input defaultValue={item.values} readOnly={true} name={item.attributeName}/> : <p>{item.values}</p>}
+                    {item.ediable ? <Input defaultValue={item.values} readOnly={true} name={item.attributeName} /> : <p>{item.values}</p>}
                 </FormItem>
             </Col>
         )
@@ -117,10 +117,11 @@ export default class DynamicPropertiesPanel extends React.PureComponent<DynamicP
 
     render() {
         return (
-            <div className="dynamicPropertiesPanel" style={{padding: '20px' ,
-            'background-color': '#fbfcfd'
-        }}>
-                {   
+            <div className="dynamicPropertiesPanel" style={{
+                padding: '20px',
+                'background-color': '#fbfcfd'
+            }}>
+                {
                     this.state.data.groups.map((group, index) => (
                         <Collapse defaultActiveKey={['0']} className={styles.collapse}>
                             <Panel
@@ -129,10 +130,10 @@ export default class DynamicPropertiesPanel extends React.PureComponent<DynamicP
                             >
                                 <Form id={`form.${index}`} className="ant-advanced-search-form">
                                     <Row gutter={24}>
-                                        <PanelItem group={group} list={this.state.data.list}/>
+                                        <PanelItem group={group} list={this.state.data.list} />
                                     </Row>
                                 </Form>
-                                <PanelButton group={group} list={this.state.data.list} target={index} action={this.editor}/>
+                                <PanelButton group={group} list={this.state.data.list} target={index} action={this.editor} />
                             </Panel>
                         </Collapse>
                     ))

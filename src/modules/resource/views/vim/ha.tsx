@@ -53,18 +53,16 @@ class Ha extends React.Component<any, any> {
                                 <Select
                                     value={HASelectValue}
                                     onChange={this.HASelectChange.bind(this)}
-                                    style={{ width: 120 }}>
+                                >
                                     <Option value="region">Region</Option>
                                 </Select>
                                 <Input
                                     placeholder="HA名称"
                                     value={HAInputValue} type="text"
                                     onChange={e => this.HAInputChange(e.target.value)}
-                                    style={{ width: 120, marginLeft: 10 }}
                                 />
                                 <Button
                                     type="primary"
-                                    style={{ marginLeft: 10 }}
                                     onClick={this.handleClick.bind(this)}
                                 >
                                     查询
