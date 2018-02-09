@@ -147,7 +147,8 @@ class Switchboard extends React.Component<any, any> {
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
                                 data={null}
-                                actionAuth={[]}
+                                pageAuth={true}
+                                actionAuth={['delete']}
                             />
                         </div>
                     </div>
