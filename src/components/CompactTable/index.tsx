@@ -5,7 +5,7 @@ import moment from '../../common/moment'
 import * as _ from 'lodash';
 
 var tData = {
-    'count': 7,
+    'count': 17,
     'header': [{
         key: 'id',
         title: '编号',
@@ -108,7 +108,7 @@ var tData = {
         }
     ]
 }
-export interface UserTableProps {
+export interface CompactTableProps {
     goEdit?
     // showModal?
     data?
@@ -118,9 +118,10 @@ export interface UserTableProps {
     goLink?
     goDelete?
     actionAuth?
+    pageAuth?
 }
 
-export default class CompacteTable extends React.PureComponent<UserTableProps, any> {
+export default class CompacteTable extends React.PureComponent<CompactTableProps, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -217,7 +218,7 @@ export default class CompacteTable extends React.PureComponent<UserTableProps, a
         )
     }
     render() {
-        let { data, goPage } = this.props
+        let { data, goPage, pageAuth } = this.props
         let { page_size, page_num } = this.state
         let count = data ? data.count : tData.count
         return (
