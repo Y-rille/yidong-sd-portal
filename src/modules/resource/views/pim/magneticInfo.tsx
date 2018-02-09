@@ -1,15 +1,9 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-<<<<<<< HEAD
-import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel';
 import Headline from '../../../../components/Headline';
 import Summaries from '../../../../components/Summaries'
-=======
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
-import DetailInfoTitle from '../../../../components/DetailInfoTitle';
-import DetailInfoContent from '../../../../components/DetailInfoContent'
->>>>>>> origin/zhuxueyuan
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
