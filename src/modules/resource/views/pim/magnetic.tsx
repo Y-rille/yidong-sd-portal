@@ -25,8 +25,8 @@ class Magnetic extends React.Component<any, any> {
         // this.props.history.push(`/resource/vim/1/host/info`)
     }
     goLink(url) {
-        // let { match } = this.props
-        // this.props.history.push(`${match}/info/1`)
+        let { match } = this.props
+        this.props.history.push(`${match}/info/1`)
     }
     render() {
         const DataCenter = [{
@@ -131,8 +131,8 @@ class Magnetic extends React.Component<any, any> {
                             <CompactTable
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
-                                data={null}
-                                actionAuth={[]}
+                                // data={null}
+                                actionAuth={['delete']}
                                 pageAuth={false}
                             />
                         </div>

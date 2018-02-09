@@ -48,7 +48,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <Input placeholder="请输入VIM ID" />
-                        )}
+                    )}
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
@@ -61,7 +61,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <Input placeholder="请输入名称" />
-                        )}
+                    )}
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
@@ -74,7 +74,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <Input placeholder="请输入URL" />
-                        )}
+                    )}
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
@@ -83,10 +83,11 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                     {getFieldDecorator('position', {
                         initialValue: vimInfo.position,
                         rules: [{
+                            // required: true, message: '请输入位置！',
                         }],
                     })(
                         <Input placeholder="请输入位置" />
-                        )}
+                    )}
                 </Form.Item>
                 <FormItem
                     {...formItemLayout}
@@ -95,10 +96,11 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                     {getFieldDecorator('description', {
                         initialValue: vimInfo.description,
                         rules: [{
+                            // required: true, message: '请输入描述！',
                         }],
                     })(
                         <TextArea rows={4} />
-                        )}
+                    )}
                 </FormItem>
             </Form>
         )

@@ -11,6 +11,8 @@ import {
     Input
 } from 'antd';
 import CompactTable from '../../../../components/CompactTable/'
+import Headline from '../../../../components/Headline/'
+import Summaries from '../../../../components/Summaries/'
 import styles from '../../style/index.less'
 const Option = Select.Option;
 class AzInfo extends React.Component<any, any> {
@@ -60,22 +62,9 @@ class AzInfo extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <div>
-                        {this.renderTitle('基本信息')}
-                        <div className={styles.nodeInfo} style={{ marginBottom: '20px' }}>
-                            <Row className={styles.nodeRow}>
-                                <Col span={8}>HA数:&nbsp;&nbsp;12312</Col>
-                                <Col span={8}>Host数:&nbsp;&nbsp;12312</Col>
-                                <Col span={8}></Col>
-                            </Row>
-                            <Row className={styles.nodeRow}>
-                                <Col span={8}>VCPU（未使用/总）:&nbsp;&nbsp;21GB/26GB</Col>
-                                <Col span={8}>内存（未使用/总）:&nbsp;&nbsp;21GB/26GB</Col>
-                                <Col span={8}>硬盘（未使用/总）:&nbsp;&nbsp;21GB/26GB</Col>
-                            </Row>
-                        </div>
-                    </div>
-                    <div>
-                        {this.renderTitle('主机')}
+                        <Headline title="系统信息" />
+                        <Summaries colNum={5} />
+                        <Headline title="主机" />
                         <div className={styles.queryBar}>
                             <Input
                                 value={HostInputValue}
@@ -96,6 +85,7 @@ class AzInfo extends React.Component<any, any> {
                             </Button>
                         </div>
                     </div>
+
                     <div>
                         <CompactTable
                             goPage={this.goPage.bind(this)} // 翻页
