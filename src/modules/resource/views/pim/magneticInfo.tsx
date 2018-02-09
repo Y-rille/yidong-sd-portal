@@ -283,51 +283,31 @@ class MageneticInfo extends React.Component<any, any> {
         return (
             <div>
                 <Headline title="节点信息" />
-                {/* <div className={styles.nodeInfo}>
-                    <Row className={styles.nodeRow}>
-                        <Col span={6}>平均IO时延:&nbsp;&nbsp;0.367</Col>
-                        <Col span={6}>总带宽(Mbps):&nbsp;&nbsp;3.798</Col>
-                        <Col span={6}>读带宽(Mbps):&nbsp;&nbsp;3.798</Col>
-                        <Col span={6}>写带宽(Mbps):&nbsp;&nbsp;3.798</Col>
-                    </Row>
-                    <Row className={styles.nodeRow}>
-                        <Col span={6}></Col>
-                        <Col span={6}>总次数(IOps):&nbsp;&nbsp;153</Col>
-                        <Col span={6}>读次数(IOps):&nbsp;&nbsp;153</Col>
-                        <Col span={6}>写次数(IOps):&nbsp;&nbsp;153</Col>
-                    </Row>
-                </div> */}
                 <Summaries colNum={5} />
-                <div style={{ marginTop: '20px' }}>
-                    <Headline title="LUN性能信息" />
-                    <CompactTable
-                        // goPage={self.goPage.bind(self)} // 翻页
-                        // goLink={self.goLink.bind(self)}
-                        // data={null}
-                        actionAuth={['delete']}
-                        pageAuth={false}
-                    />
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                    <Headline title="前端业务端口信息" />
-                    <CompactTable
-                        // goPage={self.goPage.bind(self)} // 翻页
-                        // goLink={self.goLink.bind(self)}
-                        // data={null}
-                        actionAuth={['delete']}
-                        pageAuth={false}
-                    />
-                </div>
-                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                    <Headline title="磁盘框温度" />
-                    <CompactTable
-                        // goPage={self.goPage.bind(self)} // 翻页
-                        // goLink={self.goLink.bind(self)}
-                        // data={null}
-                        actionAuth={['delete']}
-                        pageAuth={false}
-                    />
-                </div>
+                <Headline title="LUN性能信息" />
+                <CompactTable
+                    // goPage={self.goPage.bind(self)} // 翻页
+                    // goLink={self.goLink.bind(self)}
+                    // data={null}
+                    actionAuth={['delete']}
+                    pageAuth={false}
+                />
+                <Headline title="前端业务端口信息" />
+                <CompactTable
+                    // goPage={self.goPage.bind(self)} // 翻页
+                    // goLink={self.goLink.bind(self)}
+                    // data={null}
+                    actionAuth={['delete']}
+                    pageAuth={false}
+                />
+                <Headline title="磁盘框温度" />
+                <CompactTable
+                    // goPage={self.goPage.bind(self)} // 翻页
+                    // goLink={self.goLink.bind(self)}
+                    // data={null}
+                    actionAuth={['delete']}
+                    pageAuth={false}
+                />
             </div>
         )
     }
@@ -439,13 +419,14 @@ class MageneticInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>磁阵详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div className={styles.tabCont}>
+                <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.callback} type="card" animated={false}>
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
                                 onChange={this.tabInfo}
+                                animated={false}
                                 tabBarExtraContent={this.renderBtns()}>
                                 <TabPane tab="概况" key="1">
                                     <DynamicPropertiesCollapse attributes={attributes} data={data} />
@@ -457,6 +438,7 @@ class MageneticInfo extends React.Component<any, any> {
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
+                                animated={false}
                                 onChange={this.tabConnect}>
                                 <TabPane tab="RAID信息" key="1">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
@@ -479,7 +461,7 @@ class MageneticInfo extends React.Component<any, any> {
                                     </div>
                                 </TabPane>
                                 <TabPane tab="性能信息" key="5">{this.renderPerformance()}</TabPane>
-                                <TabPane tab="告警" key="6">告警信息
+                                <TabPane tab="告警" key="6">
                                 </TabPane>
                                 <TabPane tab="其它信息" key="7">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>

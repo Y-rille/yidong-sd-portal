@@ -251,6 +251,7 @@ class Switchboard extends React.Component<any, any> {
                                 </Button>
                             </div>
                             <CompactTable
+                                outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
                                 data={tdata}
