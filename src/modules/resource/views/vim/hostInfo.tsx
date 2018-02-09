@@ -318,7 +318,7 @@ class HostInfo extends React.Component<any, any> {
                                     <CompactTable
                                         // goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         actionAuth={[]}
                                         pageAuth={false}
                                     />
@@ -327,7 +327,7 @@ class HostInfo extends React.Component<any, any> {
                                     <CompactTable
                                         // goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         actionAuth={[]}
                                         pageAuth={false}
                                     />
@@ -336,7 +336,7 @@ class HostInfo extends React.Component<any, any> {
                                     <CompactTable
                                         // goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         actionAuth={[]}
                                         pageAuth={false}
                                     />
