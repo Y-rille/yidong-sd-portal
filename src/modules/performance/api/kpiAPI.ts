@@ -61,25 +61,25 @@ export interface DataParams {
 
 class KpiAPI {
   getPackages() {
-    return axios.get(`/api/datashare-svr/api/kpi/getPackages`)
+    return axios.get(`/api_performance/datashare-svr/api/kpi/getPackages`)
   }
   getMoTypeKpis(moTypeId, timeDimensionId) {
-    return axios.get(`/api/datashare-svr/api/kpi/getMoTypeKpis/${moTypeId}/${timeDimensionId}`)
+    return axios.get(`/api_performance/datashare-svr/api/kpi/getMoTypeKpis/${moTypeId}/${timeDimensionId}`)
   }
   getMatchingDimensions(packageId, params?: MatchingDimensionsParams) {
-    return axios.get(`/api/datashare-svr/api/kpi/getMatchingDimensions/${packageId}?${stringify(params)}`)
+    return axios.get(`/api_performance/datashare-svr/api/kpi/getMatchingDimensions/${packageId}?${stringify(params)}`)
   }
   getTimeFilter() {
-    return axios.get(`/api/datashare-svr/api/kpi/getTimeFilter`)
+    return axios.get(`/api_performance/datashare-svr/api/kpi/getTimeFilter`)
   }
   getKpiThresholds(kpiId) {
-    return axios.get(`/api/datashare-svr/api/kpi/getKpiThresholds/${kpiId}`)
+    return axios.get(`/api_performance/datashare-svr/api/kpi/getKpiThresholds/${kpiId}`)
   }
   getMoInstKpiThresholds(moTypeId, moInstId) {
-    return axios.get(`/api/datashare-svr/api/kpi/getMoInstKpiThresholds/${moTypeId}/${moInstId}`)
+    return axios.get(`/api_performance/datashare-svr/api/kpi/getMoInstKpiThresholds/${moTypeId}/${moInstId}`)
   }
   getData(packageId, params: DataParams) {
-    return axios.get(`/api/datashare-svr/api/kpi/getData/${packageId}?${stringify(params)}`)
+    return axios.get(`/api_performance/datashare-svr/api/kpi/getData/${packageId}?${stringify(params)}`)
   }
 }
 

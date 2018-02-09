@@ -43,7 +43,17 @@
           &:first-child {
             margin-left: 0;
           }
-        } 
+        }
+        .ant-cascader-picker{
+          width: 180px;
+          margin-left: @margin-min;
+          &:first-child {
+            margin-left: 0;
+          }
+          .ant-input{
+            margin-left: 0;
+          }
+        }
       }
     }
   }
@@ -56,7 +66,7 @@
     width:7px;
     height:20px;
     border-radius:4px;
-    background-color: #bdbcbc;
+    background-color: @primary-color;
     display: inline-block;
     margin-right:10px;
   }
@@ -65,7 +75,7 @@
   }
 }
 .nodeInfo{
-  background-color:#efebeb;
+  border: 1px solid #d9d9d9;
   .nodeRow{
     padding: 10px;
   }
