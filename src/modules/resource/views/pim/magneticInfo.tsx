@@ -371,7 +371,9 @@ class MageneticInfo extends React.Component<any, any> {
                                 size="small"
                                 onChange={this.tabInfo}
                                 tabBarExtraContent={this.renderBtns()}>
-                                <TabPane tab="概况" key="1"></TabPane>
+                                <TabPane tab="概况" key="1">
+                                    <DynamicPropertiesCollapse attributes={attributes} data={data} />
+                                </TabPane>
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
                         </TabPane>
@@ -392,7 +394,7 @@ class MageneticInfo extends React.Component<any, any> {
                     </Tabs>
                 </div>
                 {/* <DynamicPropertiesPanel attributes={attributes} data={data} /> */}
-                <DynamicPropertiesCollapse attributes={attributes} data={data} />
+
             </div>
         )
     }
