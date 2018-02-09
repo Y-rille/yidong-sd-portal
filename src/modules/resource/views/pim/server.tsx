@@ -5,6 +5,7 @@ import { matchPath } from 'react-router'
 import ServerInfo from '../../container/pim/serverInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select } from 'antd';
 import styles from '../../style/index.less'
+import CompactTable from '../../../../components/CompactTable/'
 const Option = Select.Option;
 class Server extends React.Component<any, any> {
     constructor(props) {
@@ -30,6 +31,12 @@ class Server extends React.Component<any, any> {
     handleClick() {
         const { dataSelectValue, supplierSelectValue } = this.state;
         // console.log(dataSelectValue, supplierSelectValue);
+    }
+    goPage = () => {
+        this.props.history.push(`/resource/vim/1/host/info`)
+    }
+    goLink(url) {
+        this.props.history.push(url)
     }
     render() {
         let { match } = this.props;
@@ -70,6 +77,12 @@ class Server extends React.Component<any, any> {
                                     查询
                             </Button>
                             </div>
+                            <CompactTable
+                                goPage={this.goPage.bind(this)} // 翻页
+                                goLink={this.goLink.bind(this)}
+                                data={null}
+                                actionAuth={[]}
+                            />
                         </div>
                     </div>
                 )} />
