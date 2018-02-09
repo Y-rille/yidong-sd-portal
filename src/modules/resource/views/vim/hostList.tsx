@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import ResourceTable from '../../../../components/ResourceTable/'
+// import ResourceTable from '../../../../components/ResourceTable/'
 import CompactTable from '../../../../components/CompactTable/'
 import HostInfo from '../../container/vim/hostInfo'
 import { Row, Col, Breadcrumb, Icon, Radio, Spin, Select, Button, Tabs } from 'antd';
@@ -51,7 +51,7 @@ class Host extends React.Component<any, any> {
         const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         return (
             <div>
-                <ResourceTable
+                {/* <ResourceTable
                     goDelete={this.goDelete.bind(this)}
                     goEdit={this.goEdit.bind(this)}
                     goPage={this.goPage.bind(this)} // 翻页
@@ -60,12 +60,13 @@ class Host extends React.Component<any, any> {
                     showAuth={['id', 'mobile', 'name', 'email']}
                     actionAuth={[]}
                 />
-                <br />
+                <br /> */}
                 <CompactTable
                     goPage={this.goPage.bind(this)} // 翻页
                     goLink={this.goLink.bind(this)}
                     data={null}
                     actionAuth={[]}
+                    pageAuth={false}
                 />
             </div>
 

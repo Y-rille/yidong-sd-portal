@@ -108,7 +108,7 @@ var tData = {
         }
     ]
 }
-export interface UserTableProps {
+export interface CompactTableProps {
     goEdit?
     // showModal?
     data?
@@ -118,9 +118,10 @@ export interface UserTableProps {
     goLink?
     goDelete?
     actionAuth?
+    pageAuth?
 }
 
-export default class CompacteTable extends React.PureComponent<UserTableProps, any> {
+export default class CompacteTable extends React.PureComponent<CompactTableProps, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -217,14 +218,14 @@ export default class CompacteTable extends React.PureComponent<UserTableProps, a
         )
     }
     render() {
-        let { data, goPage } = this.props
+        let { data, goPage, pageAuth } = this.props
         let { page_size, page_num } = this.state
         let count = data ? data.count : tData.count
         return (
             <div className={styles.compactTable}>
                 {this.renderTable()}
                 <div className={styles.tfooter}>
-                    <div>* 底部信息</div>
+                    {/* <div>* 底部信息</div> */}
                     {count > 10 ? (
                         <div>
                             <Pagination size="small"
