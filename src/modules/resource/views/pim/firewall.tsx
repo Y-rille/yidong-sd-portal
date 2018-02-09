@@ -29,6 +29,9 @@ class Firewall extends React.Component<any, any> {
             supplierValue: value
         })
     }
+    goLink(url) {
+        this.props.history.push(url)
+    }
     render() {
         let { match } = this.props;
         const { dataCenterValue, supplierValue } = this.state;
@@ -138,12 +141,9 @@ class Firewall extends React.Component<any, any> {
                                 />
                                 <Button type="primary">查询</Button>
                             </div>
-                        </div>
-                        <div style={{ padding: '20px' }}>
                             <CompactTable
                                 // goPage={this.goPage.bind(this)} // 翻页
-                                // goLink={this.goLink.bind(this)}
-                                // data={null}
+                                goLink={this.goLink.bind(this)}
                                 actionAuth={['delete']}
                                 pageAuth={false}
                             />
