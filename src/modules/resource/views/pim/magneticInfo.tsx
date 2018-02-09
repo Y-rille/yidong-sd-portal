@@ -349,8 +349,6 @@ class MageneticInfo extends React.Component<any, any> {
                         </TabPane>
                     </Tabs>
                 </div>
-                {/* <DynamicPropertiesPanel attributes={attributes} data={data} /> */}
-
             </div>
         )
     }
