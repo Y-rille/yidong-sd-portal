@@ -17,7 +17,7 @@ const getConfig = require('./webpack-config');
 
 const proxy = require('http-proxy-middleware');
 var options = {
-    target: 'http://127.0.0.1:3000/', // target host
+    target: 'http://47.94.4.45:8090/', // target host
     secure: false,
     changeOrigin: true,               // needed for virtual hosted sites
     ws: true,                         // proxy websockets
