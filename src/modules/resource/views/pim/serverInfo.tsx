@@ -6,6 +6,8 @@ import { Switch, Route, Redirect, matchPath } from 'react-router-dom'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
+import Headline from '../../../../components/Headline';
+import Summaries from '../../../../components/Summaries'
 import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel';
 import CompactTable from '../../../../components/CompactTable/'
 const attributes = [
@@ -273,7 +275,40 @@ class ServerInfo extends React.Component<any, any> {
             }
         })
     }
+    renderOther() {
+        let self = this;
+        return (
+            <div>
+                <Headline title="PCIe槽内信息" />
+                <CompactTable
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    // data={null}
+                    actionAuth={['delete']}
+                    pageAuth={false}
+                />
 
+                <div style={{ marginTop: '20px' }}>
+                    <Headline title="阵列卡信息" />
+                    <Summaries colNum={5} />
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <Headline title="逻辑盘信息" />
+                    <CompactTable
+                        // goPage={this.goPage.bind(this)} // 翻页
+                        // goLink={this.goLink.bind(this)}
+                        // data={null}
+                        actionAuth={['delete']}
+                        pageAuth={false}
+                    />
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <Headline title="其他信息" />
+                    <Summaries colNum={5} />
+                </div>
+            </div>
+        )
+    }
     renderBtns() {
         return (
             <div className={styles.btn}>
@@ -302,12 +337,13 @@ class ServerInfo extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div className={styles.tabCont}>
-                    <Tabs onChange={this.callback} type="card">
+                    <Tabs onChange={this.callback} type="card" animated={false} >
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
                                 onChange={this.tabInfo}
+                                animated={false}
                                 tabBarExtraContent={this.renderBtns()}>
                                 <TabPane tab="概况" key="1">
                                     <DynamicPropertiesPanel attributes={attributes} data={data} />
@@ -319,6 +355,7 @@ class ServerInfo extends React.Component<any, any> {
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
+                                animated={false}
                                 onChange={this.tabConnect}>
                                 <TabPane tab="处理器信息" key="1" style={{ padding: '20px 0' }}>
                                     <CompactTable
@@ -375,13 +412,7 @@ class ServerInfo extends React.Component<any, any> {
                                     />
                                 </TabPane>
                                 <TabPane tab="其它信息" key="7" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                        pageAuth={false}
-                                    />
+                                    {this.renderOther()}
                                 </TabPane>
                             </Tabs>
                         </TabPane>
