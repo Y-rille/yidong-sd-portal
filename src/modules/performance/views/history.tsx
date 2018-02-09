@@ -39,7 +39,7 @@ class History extends React.Component<any, any> {
 
     }
 
-    getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(1, 'days').valueOf(), endtime = moment().tz('Asia/Shanghai').valueOf(), timeFilter = this.state.timeFilter) {
+    getData(facts, begintime = this.state.begintime, endtime = this.state.endtime, timeFilter = this.state.timeFilter) {
         let nodeInfo = this.props.nodeInfo
         let wheredim = `${nodeInfo.bizFields.moDimensionId},eq,${nodeInfo.nodeName}`
         let DataParams = {

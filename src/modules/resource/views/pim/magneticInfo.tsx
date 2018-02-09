@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
+import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel';
+import DetailInfoTitle from '../../../../components/DetailInfoTitle';
+import DetailInfoContent from '../../../../components/DetailInfoContent'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
@@ -309,19 +311,11 @@ class MageneticInfo extends React.Component<any, any> {
         })
 
     }
-    renderTitle = (title) => {
-        return (
-            <div className={styles.nodeTitle}>
-                <span className={styles.nodeTitle1}></span>
-                <span className={styles.nodeTitle2}>{title}</span>
-            </div>
-        )
-    }
     renderPerformance() {
         return (
             <div>
-                {this.renderTitle('节点信息')}
-                <div className={styles.nodeInfo}>
+                <DetailInfoTitle title="节点信息" />
+                {/* <div className={styles.nodeInfo}>
                     <Row className={styles.nodeRow}>
                         <Col span={6}>平均IO时延:&nbsp;&nbsp;0.367</Col>
                         <Col span={6}>总带宽(Mbps):&nbsp;&nbsp;3.798</Col>
@@ -334,7 +328,8 @@ class MageneticInfo extends React.Component<any, any> {
                         <Col span={6}>读次数(IOps):&nbsp;&nbsp;153</Col>
                         <Col span={6}>写次数(IOps):&nbsp;&nbsp;153</Col>
                     </Row>
-                </div>
+                </div> */}
+                <DetailInfoContent colNum={4} />
             </div>
         )
     }

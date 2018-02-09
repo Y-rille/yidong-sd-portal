@@ -1,15 +1,81 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Row, Col, Breadcrumb, Icon, Tabs } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Modal } from 'antd';
 const TabPane = Tabs.TabPane;
+const confirm = Modal.confirm;
 
 import styles from '../../style/index.less'
 class HostInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            status: 'up',
+            reset: false
+        }
     }
     onChange() {
 
+    }
+    confirmRest = () => {
+        let self = this
+        let content = '服务器正在运行，确定复位吗？'
+        confirm({
+            title: content,
+            content: '',
+            okText: '确认',
+            cancelText: '取消',
+            iconType: 'exclamation-circle',
+            onOk() {
+                self.setState({
+                    reset: true
+                })
+            },
+            onCancel() {
+                // self.setState({
+                //     reset: false
+                // })
+            }
+        })
+    }
+    confirmUpOrDown = (e) => {
+        // let title = '上电'
+        let content = '服务器正在运行，确定上电吗？'
+        if (this.state.status === 'down') {
+            // title = '上电'
+            content = '服务器正在运行，确定上电吗？'
+        } else if (this.state.status === 'up') {
+            // title = '下电'
+            content = '服务器正在运行，确定下电吗？'
+        }
+        let self = this
+        confirm({
+            title: content,
+            content: '',
+            okText: '确认',
+            cancelText: '取消',
+            iconType: 'exclamation-circle',
+            onOk() {
+                self.setState({
+                    status: self.state.status === 'down' ? 'up' : 'down'
+                })
+            },
+            onCancel() {
+            }
+        })
+
+    }
+    renderBtns() {
+        return (
+            <div className={styles.btn}>
+                <Button
+                    type="primary" ghost
+                    icon="dingding"
+                    style={{ margin: '0px 10px 0px 0' }}
+                    onClick={this.confirmUpOrDown}
+                >{this.state.status === 'down' ? '上电' : '下电'}</Button>
+                <Button type="primary" ghost icon="retweet" onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+            </div>
+        )
     }
     render() {
         return (
@@ -23,10 +89,13 @@ class HostInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>主机管理</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div style={{ padding: '20px' }}>
+                <div className={styles.tabCont}>
                     <Tabs onChange={this.onChange.bind(this)} type="card">
                         <TabPane tab="资源详情" key="1">
-                            <Tabs onChange={this.onChange.bind(this)}>
+                            <Tabs
+                                onChange={this.onChange.bind(this)}
+                                size="small"
+                                tabBarExtraContent={this.renderBtns()}>
                                 <TabPane tab="概况" key="11">概况</TabPane>
                                 {/* <TabPane tab="日志" key="12">日志</TabPane> */}
                             </Tabs>
