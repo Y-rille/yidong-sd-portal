@@ -35,8 +35,11 @@ class Switchboard extends React.Component<any, any> {
     goPage = () => {
 
     }
-    goLink(url) {
-        this.props.history.push(url)
+    goLink(key, obj) {
+        let { match } = this.props
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
     }
     render() {
         let tdata = {
@@ -45,7 +48,7 @@ class Switchboard extends React.Component<any, any> {
                 key: 'id',
                 title: '编号',
                 fixed: true,
-                link: '/resource/pim/3/switchboard/info',
+                link: true,
             }, {
                 key: 'name',
                 title: '姓名',

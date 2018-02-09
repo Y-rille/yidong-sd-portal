@@ -16,6 +16,7 @@ export interface CompactTableProps {
     actionAuth?
     pageAuth?
     footInfoAuth?
+    outStyle?
 }
 
 export default class CompacteTable extends React.PureComponent<CompactTableProps, any> {
@@ -33,11 +34,12 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                 key: 'id',
                 title: '编号',
                 fixed: true,
-                link: '/resource/vim/1/host/info',
+                link: true,
             }, {
                 key: 'name',
                 title: '姓名',
                 fixed: true,
+                link: true,
             }, {
                 key: 'mobile',
                 title: '电话',
@@ -157,8 +159,8 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
             this.props.goPage(current)
         }
     }
-    goLink(link, id) {
-        this.props.goLink(`${link}/${id}`)
+    goLink(key, obj) {
+        this.props.goLink(key, obj)
     }
     renderTable() {
         let { actionAuth, data } = this.props
@@ -175,7 +177,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                 // sorter: header[i].sorter ? (a, b) => a[header[i].key] - b[header[i].key] : null,
             }
             if (header[i].link) {
-                obj.render = (text, record) => <a href="javascript:;" onClick={this.goLink.bind(this, header[i].link, record.id)}>{text}</a>
+                obj.render = (text, record) => <a href="javascript:;" onClick={this.goLink.bind(this, header[i].key, record)}>{text}</a>
             }
             columns.push(obj)
         }
@@ -221,11 +223,11 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         )
     }
     render() {
-        let { data, goPage, pageAuth, footInfoAuth } = this.props
+        let { data, goPage, pageAuth, footInfoAuth, outStyle } = this.props
         let { page_size, page_num } = this.state
         let count = data.count
         return (
-            <div className={styles.compactTable}>
+            <div className={styles.compactTable} style={outStyle}>
                 {this.renderTable()}
                 <div className={styles.tfooter}>
                     {footInfoAuth ? (<div>* 底部信息</div>) : ''}
