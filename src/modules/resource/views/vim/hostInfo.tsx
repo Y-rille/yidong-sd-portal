@@ -105,7 +105,7 @@ class HostInfo extends React.Component<any, any> {
                                 <TabPane tab="处理器信息" key="21">处理器信息</TabPane>
                                 <TabPane tab="内存信息" key="22">内存信息</TabPane>
                                 <TabPane tab="端口信息" key="23">端口信息</TabPane>
-                                <TabPane tab="LLDP信息" key="23">LLDP信息</TabPane>
+                                <TabPane tab="LLDP信息" key="24">LLDP信息</TabPane>
                             </Tabs>
                         </TabPane>
                         <TabPane tab="下级资源" key="3">
