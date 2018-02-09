@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import { Collapse, Button, Form, Row, Col, Input } from 'antd';
+import styles from './index.less'
 
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
@@ -50,7 +51,7 @@ const PanelButton = ({group, target, list, action}) => {
 
     if (isEditor) {
         return (
-            <div style={{textAlign: 'right', paddingTop: '16px', borderTop: '1px solid #eee'}}>
+            <div style={{textAlign: 'left', padding: '16px 0'}}>
                 <Button onClick={(evt) => {
                     evt.stopPropagation();
                     action(evt.target, target)
@@ -68,7 +69,7 @@ const PanelItem = ({group, list}) => {
 
     data.map((item, i) => (
         items.push(
-            <Col span={12} key={i}>
+            <Col span={8} key={i}>
                 <FormItem label={item.key}>
                     {item.ediable ? <Input defaultValue={item.values} readOnly={true} name={item.attributeName}/> : <p>{item.values}</p>}
                 </FormItem>
@@ -87,7 +88,9 @@ export default class DynamicPropertiesPanel extends React.PureComponent<DynamicP
         };
         this.editor = this.editor.bind(this);
     }
+    componentWillMount() {
 
+    }
     componentDidMount() {
     }
 
@@ -114,10 +117,12 @@ export default class DynamicPropertiesPanel extends React.PureComponent<DynamicP
 
     render() {
         return (
-            <div className="dynamicPropertiesPanel" style={{padding: '20px'}}>
-                {
+            <div className="dynamicPropertiesPanel" style={{padding: '20px' ,
+            'background-color': '#fbfcfd'
+        }}>
+                {   
                     this.state.data.groups.map((group, index) => (
-                        <Collapse defaultActiveKey={['0']}>
+                        <Collapse defaultActiveKey={['0']} className={styles.collapse}>
                             <Panel
                                 header={group}
                                 key={index}
