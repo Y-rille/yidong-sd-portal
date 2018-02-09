@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Button, Form, Row, Col, Input } from 'antd';
+import { Tooltip, Button, Form, Row, Col, Input } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -12,11 +12,11 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
     constructor(props) {
         super(props);
         this.state = {
-            data: '',
             isEdit: false
         };
     }
     handleEdit() {
+        // console.log(this.props.data, '==========>data')
         if (this.state.isEdit) {
             let dataaaaa = this.props.form.getFieldsValue()
             // console.log(dataaaaa, '==========>dataaaaaaaaa')
@@ -41,7 +41,10 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                 <Col span={8} key={index}>
                 <FormItem label={item.key} >
                 {getFieldDecorator(`${item.key}`, {initialValue: item.values})(
-                    item.ediable && this.state.isEdit ? <Input readOnly={!this.state.isEdit} name={item.attributeName} /> : <p>{item.values}</p>
+                    item.ediable && this.state.isEdit ? <Input readOnly={!this.state.isEdit}  
+                    name={item.attributeName} /> : (item.values.length > 25 ? <Tooltip placement="topLeft" title={item.values} arrowPointAtCenter>
+                        <p>{item.values.slice(0, 24)}...</p>
+                        </Tooltip> : <p>{item.values}</p>)
                 )}
                 </FormItem>
             </Col>
