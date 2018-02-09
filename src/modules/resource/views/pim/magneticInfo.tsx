@@ -207,7 +207,7 @@ const data = {
 };
 const testdata = [
     {
-        group: '基本信息', 
+        group: '基本信息',
         data: {
             '名称': 'XXXXXX',
             'Cache容量': 'ZJHZ-NFV3-B-XSCYY1H2F-D1',
@@ -231,13 +231,13 @@ const testdata = [
     },
     {
         group: '位置信息',
-        data: {            
+        data: {
             '数据中心': '浙江移动数据中心',
             '机房': 'ZJHZ',
             '机柜': 'ZJHZ',
             '安装槽位': 'ZJHZ',
         }
-    }, 
+    },
     {
         group: '维护信息',
         data: {
@@ -245,7 +245,7 @@ const testdata = [
             '投产时间': '计算节点',
             '资产来源': '借用',
             '资产状态': '已使用',
-         
+
         }
     }
 ]
@@ -254,19 +254,60 @@ class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            visible: false,
-            status: 'up'
+            status: 'up',
+            reset: false
         }
     }
     callback = () => { }
     tabInfo = () => { }
     tabConnect = () => { }
-    showModel = (e) => {
-        this.setState({
-            visible: true,
-            status: e,
-        });
-        this.renderModel();
+    confirmRest = () => {
+        let self = this
+        let content = '服务器正在运行，确定复位吗？'
+        confirm({
+            title: content,
+            content: '',
+            okText: '确认',
+            cancelText: '取消',
+            iconType: 'exclamation-circle',
+            onOk() {
+                self.setState({
+                    reset: true
+                })
+            },
+            onCancel() {
+                // self.setState({
+                //     reset: false
+                // })
+            }
+        })
+    }
+    confirmUpOrDown = (e) => {
+        // let title = '上电'
+        let content = '服务器正在运行，确定上电吗？'
+        if (this.state.status === 'down') {
+            // title = '上电'
+            content = '服务器正在运行，确定上电吗？'
+        } else if (this.state.status === 'up') {
+            // title = '下电'
+            content = '服务器正在运行，确定下电吗？'
+        }
+        let self = this
+        confirm({
+            title: content,
+            content: '',
+            okText: '确认',
+            cancelText: '取消',
+            iconType: 'exclamation-circle',
+            onOk() {
+                self.setState({
+                    status: self.state.status === 'down' ? 'up' : 'down'
+                })
+            },
+            onCancel() {
+            }
+        })
+
     }
     renderTitle = (title) => {
         return (
@@ -304,42 +345,13 @@ class MageneticInfo extends React.Component<any, any> {
                     type="primary" ghost
                     icon="dingding"
                     style={{ margin: '0px 10px 0px 0' }}
-                    onClick={this.showModel.bind(this, this.state.status === 'down' ? 'up' : 'down')}
+                    onClick={this.confirmUpOrDown}
                 >{this.state.status === 'down' ? '上电' : '下电'}</Button>
-                <Button type="primary" ghost icon="retweet" onClick={this.showModel.bind(this, 'reset')}>复位</Button>
+                <Button type="primary" ghost icon="retweet" onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
             </div>
         )
     }
-    renderModel() {
-        // let title = '上电'
-        let content = '服务器正在运行，确定上电吗？'
-        if (this.state.status === 'up') {
-            // title = '上电'
-            content = '服务器正在运行，确定上电吗？'
-        } else if (this.state.status === 'down') {
-            // title = '下电'
-            content = '服务器正在运行，确定下电吗？'
-        } else {
-            // title = '复位'
-            content = '服务器正在运行，确定复位吗？'
-        }
-        let self = this
-        confirm({
-            title: content,
-            content: '',
-            okText: '确认',
-            cancelText: '取消',
-            iconType: 'exclamation-circle',
-            onOk() {
-            },
-            onCancel() {
-                self.setState({
-                    status: self.state.status === 'down' ? 'up' : 'down'
-                })
-            }
-        })
 
-    }
     render() {
         return (
             <div>
