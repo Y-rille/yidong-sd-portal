@@ -24,9 +24,11 @@ class Magnetic extends React.Component<any, any> {
     goPage = () => {
         // this.props.history.push(`/resource/vim/1/host/info`)
     }
-    goLink(url) {
+    goLink(key, obj) {
         let { match } = this.props
-        this.props.history.push(`${match}/info/1`)
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
     }
     render() {
         const DataCenter = [{
