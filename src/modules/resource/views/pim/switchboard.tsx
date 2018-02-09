@@ -33,7 +33,7 @@ class Switchboard extends React.Component<any, any> {
         // console.log(dataValue, nameValue)
     }
     goPage = () => {
-        
+
     }
     goLink(url) {
         this.props.history.push(url)
@@ -112,7 +112,7 @@ class Switchboard extends React.Component<any, any> {
         }];
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={SwitchboardInfo} />
+                <Route path={`${match.url}/info/:id`} component={SwitchboardInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

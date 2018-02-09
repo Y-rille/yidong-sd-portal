@@ -37,7 +37,7 @@ class Az extends React.Component<any, any> {
         return (
             <div>
                 <Switch>
-                    <Route path={`${match.url}/info`} component={AzInfo} />
+                    <Route path={`${match.url}/info/:azId`} component={AzInfo} />
                     <Route render={() => (
                         <div>
                             <div className={styles.header}>

@@ -39,7 +39,7 @@ class Host extends React.Component<any, any> {
         }
     }
     goPage = () => {
-        this.props.history.push(`/resource/vim/1/host/info`)
+        // this.props.history.push(`/resource/vim/1/host/info`)
     }
     goLink(url) {
         this.props.history.push(url)

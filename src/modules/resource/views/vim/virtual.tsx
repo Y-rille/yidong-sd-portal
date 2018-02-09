@@ -56,7 +56,7 @@ class Virtual extends React.Component<any, any> {
         const { menuValue, secondMenuValue, thiredMenuValue, fourthMenuValue } = this.state;
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={VirtualInfo} />
+                <Route path={`${match.url}/info/:id`} component={VirtualInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
