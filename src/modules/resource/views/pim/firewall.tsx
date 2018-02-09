@@ -5,6 +5,9 @@ import { matchPath } from 'react-router'
 import FirewallInfo from '../../container/pim/firewallInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader } from 'antd';
 import styles from '../../style/index.less'
+
+import CompactTable from '../../../../components/CompactTable'
+
 class Firewall extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -135,6 +138,15 @@ class Firewall extends React.Component<any, any> {
                                 />
                                 <Button type="primary">查询</Button>
                             </div>
+                        </div>
+                        <div style={{ padding: '20px' }}>
+                            <CompactTable
+                                // goPage={this.goPage.bind(this)} // 翻页
+                                // goLink={this.goLink.bind(this)}
+                                data={null}
+                                actionAuth={['delete']}
+                                pageAuth={false}
+                            />
                         </div>
                     </div>
                 )} />
