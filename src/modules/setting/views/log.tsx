@@ -10,7 +10,7 @@ const Search = Input.Search
 
 import moment from '../../../common/moment';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
-import 'moment/locale/zh-cn';
+// import 'moment/locale/zh-cn';
 
 import LogTable from '../../../components/LogTable/'
 declare let global: any;
