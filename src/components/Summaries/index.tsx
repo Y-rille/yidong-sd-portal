@@ -5,7 +5,7 @@ import styles from './index.less';
 import { Row, Col } from 'antd'
 declare let global: any;
 
-export interface DetailInfoContentProps {
+export interface SummariesProps {
     data?
     colNum?
 }
@@ -14,36 +14,36 @@ export interface DetailInfoContentProps {
  * 详情信息
  * 
  * @export
- * @class DetailInfoTitle
- * @extends {React.PureComponent<DetailInfoContentProps, any>}
+ * @class Summaries
+ * @extends {React.PureComponent<SummariesProps, any>}
  */
 
-export default class DetailInfoContent extends React.PureComponent<DetailInfoContentProps, any> {
+export default class Summaries extends React.PureComponent<SummariesProps, any> {
     constructor(props) {
         super(props);
     }
     static defaultProps = {
         data: [
             {
-                attr: '平均IO时延: ',
+                attr: '平均IO时延',
                 value: 0.367
             }, {
-                attr: '总带宽(Mbps): ',
+                attr: '总带宽(Mbps)',
                 value: 3.798
             }, {
-                attr: '读带宽(Mbps): ',
+                attr: '读带宽(Mbps)',
                 value: 3.798
             }, {
-                attr: '写带宽(Mbps): ',
+                attr: '写带宽(Mbps)',
                 value: 3.798
             }, {
-                attr: '总次数(IOps): ',
+                attr: '总次数(IOps)',
                 value: 153
             }, {
-                attr: '读次数(IOps): ',
+                attr: '读次数(IOps)',
                 value: 153
             }, {
-                attr: '写次数(IOps): ',
+                attr: '写次数(IOps)',
                 value: 153
             }
         ]
@@ -52,15 +52,19 @@ export default class DetailInfoContent extends React.PureComponent<DetailInfoCon
         const { data, colNum } = this.props;
         if (colNum === 4) {
             return _.map(data, (item) => {
-                return <Col span={6}>{item.attr}{item.value}</Col>
+                return <Col span={6} style={{ marginBottom: '5px' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />{item.value}</Col>
             })
         }
         if (colNum === 3) {
             return _.map(data, (item) => {
-                return <Col span={8}>{item.attr}{item.value}</Col>
+                return <Col span={8} style={{ marginBottom: '5px' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />{item.value}</Col>
             })
         }
-
+        if (colNum === 5) {
+            return _.map(data, (item) => {
+                return <Col span={4} style={{ marginBottom: '20px', marginRight: '32px' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />{item.value}</Col>
+            })
+        }
     }
     render() {
         return (
