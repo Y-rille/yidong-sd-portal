@@ -5,19 +5,28 @@ import { matchPath } from 'react-router'
 import MagneticInfo from '../../container/pim/magneticInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader } from 'antd';
 import styles from '../../style/index.less'
+import CompactTable from '../../../../components/CompactTable/'
 
 class Magnetic extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
     goInfo = () => {
-        this.props.history.push(`/resource/pim/1/magnetic/info`)
+        let { match } = this.props
+        this.props.history.push(`${match}/info/1`)
     }
     onChangeDataCenter(value) {
         // console.log(value, 'ppp')
     }
     onChangeSupplier(value) {
         // console.log(value, 'ooo')
+    }
+    goPage = () => {
+        // this.props.history.push(`/resource/vim/1/host/info`)
+    }
+    goLink(url) {
+        // let { match } = this.props
+        // this.props.history.push(`${match}/info/1`)
     }
     render() {
         const DataCenter = [{
@@ -99,7 +108,7 @@ class Magnetic extends React.Component<any, any> {
         let { match } = this.props
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={MagneticInfo} />
+                <Route path={`${match.url}/info/:magneticId`} component={MagneticInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
@@ -111,12 +120,21 @@ class Magnetic extends React.Component<any, any> {
                                 <Breadcrumb.Item>磁阵管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
-                        <div style={{ padding: '20px' }}>
+                        <div style={{ padding: '20px 20px 0px' }}>
                             <div className={styles.queryBar}>
                                 <Cascader options={DataCenter} onChange={this.onChangeDataCenter.bind(this)} placeholder="数据中心" />
                                 <Cascader options={Supplier} onChange={this.onChangeSupplier.bind(this)} placeholder="供应商" />
                                 <Button type="primary">查询</Button>
                             </div>
+                        </div>
+                        <div style={{ padding: '0px 20px 20px' }}>
+                            <CompactTable
+                                goPage={this.goPage.bind(this)} // 翻页
+                                goLink={this.goLink.bind(this)}
+                                data={null}
+                                actionAuth={[]}
+                                pageAuth={false}
+                            />
                         </div>
                     </div>
                 )} />
