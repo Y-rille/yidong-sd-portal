@@ -461,7 +461,7 @@ class MageneticInfo extends React.Component<any, any> {
                                     </div>
                                 </TabPane>
                                 <TabPane tab="性能信息" key="5">{this.renderPerformance()}</TabPane>
-                                <TabPane tab="告警" key="6">告警信息
+                                <TabPane tab="告警" key="6">
                                 </TabPane>
                                 <TabPane tab="其它信息" key="7">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
