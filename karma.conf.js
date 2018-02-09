@@ -32,6 +32,7 @@ module.exports = function (config) {
         },
         proxies: {
             '/api/': 'http://127.0.0.1:3000/',
+            '/api_performance/': 'http://47.94.4.45:8090/',
             '/api_setting/': 'http://47.94.4.45:8067/'
         },
         // reporters: ['progress', 'coverage'],

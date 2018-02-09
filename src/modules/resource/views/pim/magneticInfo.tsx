@@ -256,19 +256,60 @@ class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            visible: false,
-            status: 'up'
+            status: 'up',
+            reset: false
         }
     }
     callback = () => { }
     tabInfo = () => { }
     tabConnect = () => { }
-    showModel = (e) => {
-        this.setState({
-            visible: true,
-            status: e,
-        });
-        this.renderModel();
+    confirmRest = () => {
+        let self = this
+        let content = '服务器正在运行，确定复位吗？'
+        confirm({
+            title: content,
+            content: '',
+            okText: '确认',
+            cancelText: '取消',
+            iconType: 'exclamation-circle',
+            onOk() {
+                self.setState({
+                    reset: true
+                })
+            },
+            onCancel() {
+                // self.setState({
+                //     reset: false
+                // })
+            }
+        })
+    }
+    confirmUpOrDown = (e) => {
+        // let title = '上电'
+        let content = '服务器正在运行，确定上电吗？'
+        if (this.state.status === 'down') {
+            // title = '上电'
+            content = '服务器正在运行，确定上电吗？'
+        } else if (this.state.status === 'up') {
+            // title = '下电'
+            content = '服务器正在运行，确定下电吗？'
+        }
+        let self = this
+        confirm({
+            title: content,
+            content: '',
+            okText: '确认',
+            cancelText: '取消',
+            iconType: 'exclamation-circle',
+            onOk() {
+                self.setState({
+                    status: self.state.status === 'down' ? 'up' : 'down'
+                })
+            },
+            onCancel() {
+            }
+        })
+
     }
     renderPerformance() {
         return (
@@ -299,42 +340,13 @@ class MageneticInfo extends React.Component<any, any> {
                     type="primary" ghost
                     icon="dingding"
                     style={{ margin: '0px 10px 0px 0' }}
-                    onClick={this.showModel.bind(this, this.state.status === 'down' ? 'up' : 'down')}
+                    onClick={this.confirmUpOrDown}
                 >{this.state.status === 'down' ? '上电' : '下电'}</Button>
-                <Button type="primary" ghost icon="retweet" onClick={this.showModel.bind(this, 'reset')}>复位</Button>
+                <Button type="primary" ghost icon="retweet" onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
             </div>
         )
     }
-    renderModel() {
-        // let title = '上电'
-        let content = '服务器正在运行，确定上电吗？'
-        if (this.state.status === 'up') {
-            // title = '上电'
-            content = '服务器正在运行，确定上电吗？'
-        } else if (this.state.status === 'down') {
-            // title = '下电'
-            content = '服务器正在运行，确定下电吗？'
-        } else {
-            // title = '复位'
-            content = '服务器正在运行，确定复位吗？'
-        }
-        let self = this
-        confirm({
-            title: content,
-            content: '',
-            okText: '确认',
-            cancelText: '取消',
-            iconType: 'exclamation-circle',
-            onOk() {
-            },
-            onCancel() {
-                self.setState({
-                    status: self.state.status === 'down' ? 'up' : 'down'
-                })
-            }
-        })
 
-    }
     render() {
         return (
             <div>

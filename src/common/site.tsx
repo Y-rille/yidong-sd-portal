@@ -119,7 +119,7 @@ class Site extends React.Component<SiteProps, any> {
         })
         if (!matchPath('/login', { path: this.props.location.pathname })
             && !this.props.tree) {
-            this.props.actions.querytree('0')
+            this.props.actions.querytree('1')
         }
         if (!this.props.currentUser) {
             if (this.props.location.pathname.indexOf('/login') < 0) {
@@ -135,7 +135,7 @@ class Site extends React.Component<SiteProps, any> {
     componentWillReceiveProps(nextProps: any) {
         let { pathname } = nextProps.location
         if (!nextProps.tree && nextProps.currentUser) {
-            this.props.actions.querytree('0')
+            this.props.actions.querytree('1')
         }
         this.state = {
             activeKey: _.compact([

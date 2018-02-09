@@ -131,14 +131,14 @@ class Home extends React.Component<HomeProps, any> {
                     split="vertical"
                     minSize={100}
                     maxSize={300}
-                    defaultSize={200}
+                    defaultSize={260}
                     onChange={this.triggerResize.bind(this)} >
                     <div className={styles.tree}>
-                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} searchValue={initSearchValue} dExpandedKeys={this.state.defaultNodeId} onSearch={this.handleSearch.bind(this)}/>
+                        <TreeSelect onSelect={this.onTreeSelect.bind(this)} data={this.props.tree} searchValue={initSearchValue} dExpandedKeys={this.state.defaultNodeId} onSearch={this.handleSearch.bind(this)} />
                     </div>
                     <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
-                            <Route path={`${match.url}/search/:querykey`} render={() => <Result {...this.props} datas={this.state.searchValue}/>} />
+                            <Route path={`${match.url}/search/:querykey`} render={() => <Result {...this.props} datas={this.state.searchValue} />} />
                             <Route path={`${match.url}/:nodeId`} component={Info} />
                             <Route render={() => (
                                 <div></div>

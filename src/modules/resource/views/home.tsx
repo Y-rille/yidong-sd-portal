@@ -29,11 +29,11 @@ class Home extends React.Component<any, any> {
     componentDidMount() {
 
     }
-    renderSider() {
+    renderSider(match) {
         let route = this.props.location.pathname.replace('/resource/', '')
         let current = route.replace('/info', '')
         if (current.indexOf('resource') < 0) {
-            return <SideBar pathname={this.props.location.pathname} current={current} onLinkHandleClick={this.handleClick} />
+            return <SideBar match={match} pathname={this.props.location.pathname} onLinkHandleClick={this.handleClick} />
         } else {
             return <div />
         }
@@ -48,7 +48,7 @@ class Home extends React.Component<any, any> {
                     maxSize={300}
                     defaultSize={200} >
                     <div>
-                        {this.renderSider()}
+                        {this.renderSider(match)}
                     </div>
                     <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
