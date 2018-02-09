@@ -298,7 +298,6 @@ class SwitchboardInfo extends React.Component<any, any> {
                                         title="接口信息（按端口统计）"
                                     />
                                     <CompactTable
-                                        outStyle={{ marginTop: '20px' }}
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
                                         // data={null}
