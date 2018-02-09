@@ -129,10 +129,10 @@ class Magnetic extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '0px 20px 20px' }}>
                             <CompactTable
-                                goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                data={null}
-                                actionAuth={[]}
+                                // goPage={this.goPage.bind(this)} // 翻页
+                                // goLink={this.goLink.bind(this)}
+                                // data={null}
+                                actionAuth={['delete']}
                                 pageAuth={false}
                             />
                         </div>
