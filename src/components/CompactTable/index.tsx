@@ -5,15 +5,15 @@ import moment from '../../common/moment'
 import * as _ from 'lodash';
 
 var tData = {
-    'count': 7,
+    'count': 17,
     'header': [{
         key: 'id',
         title: '编号',
-        fixed: true
+        fixed: true,
+        link: '/resource/vim/1/host/info',
     }, {
         key: 'name',
         title: '姓名',
-        link: '/resource/vim/1/host/info',
         fixed: true,
     }, {
         key: 'mobile',
