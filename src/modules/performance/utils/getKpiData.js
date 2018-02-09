@@ -1,6 +1,7 @@
 import moment from '../../../common/moment'
 
 function getKpiData(moTypeKpis, moInstKpiThresholds, kpidata, facts) { 
+    if(kpidata=='' ||  kpidata.values.length==0) return []
     //  格式化指标数据成一个object
     let formatkpidate = (kpidate) => { 
         let headers = kpidata.headers

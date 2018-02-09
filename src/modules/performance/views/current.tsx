@@ -77,7 +77,8 @@ class Current extends React.Component<any, any> {
             begintime,
             endtime,
             wheredim,
-            dims: 'T_HOST'
+            dims: 'T_HOST',
+            granularity: 15
         }
         let moInstKpiThresholds = this.props.moInstKpiThresholds
         let moTypeKpis = this.props.moTypeKpis
