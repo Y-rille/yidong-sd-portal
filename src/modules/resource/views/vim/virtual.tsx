@@ -50,8 +50,11 @@ class Virtual extends React.Component<any, any> {
     }
     goPage() {
     }
-    goLink(url) {
-        this.props.history.push(url)
+    goLink(key, obj) {
+        let { match } = this.props
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
     }
     render() {
         let tData = {
@@ -60,7 +63,7 @@ class Virtual extends React.Component<any, any> {
                 key: 'id',
                 title: '编号',
                 fixed: true,
-                link: '/resource/vim/2/virtual/info',
+                link: true,
             }, {
                 key: 'name',
                 title: '姓名',
