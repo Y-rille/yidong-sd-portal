@@ -43,7 +43,7 @@ class Server extends React.Component<any, any> {
         const { dataSelectValue, supplierSelectValue } = this.state;
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={ServerInfo} />
+                <Route path={`${match.url}/info/:id`} component={ServerInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

@@ -10,6 +10,7 @@ import {
     Button,
     Input
 } from 'antd';
+import CompactTable from '../../../../components/CompactTable/'
 import styles from '../../style/index.less'
 const Option = Select.Option;
 class AzInfo extends React.Component<any, any> {
@@ -42,7 +43,7 @@ class AzInfo extends React.Component<any, any> {
             </div>
         )
     }
-
+    goPage() { }
     render() {
         const { HostInputValue, AZSelectValue } = this.state;
         return (
@@ -96,7 +97,14 @@ class AzInfo extends React.Component<any, any> {
                         </div>
                     </div>
                     <div>
-                        table区域
+                        <CompactTable
+                            goPage={this.goPage.bind(this)} // 翻页
+                            // goLink={this.goLink.bind(this)}
+                            // data={null}
+                            actionAuth={[]}
+                            pageAuth={false}
+                            footInfoAuth={false}
+                        />
                     </div>
                 </div>
             </div>

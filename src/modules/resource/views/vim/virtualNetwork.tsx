@@ -16,7 +16,7 @@ class VirtualNetwork extends React.Component<any, any> {
         let { match } = this.props
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={VirtualNetworkInfo} />
+                <Route path={`${match.url}/info/:id`} component={VirtualNetworkInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

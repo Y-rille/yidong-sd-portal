@@ -120,7 +120,7 @@ class Host extends React.Component<any, any> {
                                     查询
                                 </Button>
                             </div>
-                            <Tabs onChange={this.onChange.bind(this)} type="card" activeKey={activeKey}>
+                            <Tabs onChange={this.onChange.bind(this)} type="card" activeKey={activeKey} animated={false}>
                                 <TabPane tab="控制节点" key="control"></TabPane>
                                 <TabPane tab="计算节点" key="calculate"></TabPane>
                                 <TabPane tab="存储节点" key="storage"></TabPane>

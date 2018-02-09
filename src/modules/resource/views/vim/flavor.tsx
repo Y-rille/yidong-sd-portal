@@ -16,7 +16,7 @@ class Flavor extends React.Component<any, any> {
         let { match } = this.props
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={FlavorInfo} />
+                <Route path={`${match.url}/info/:flavorId`} component={FlavorInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
