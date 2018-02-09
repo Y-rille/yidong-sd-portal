@@ -17,14 +17,14 @@ describe('Kpi actions', () => {
             done()
         })
     })
-    it('assert get packages data', (done) => {
-        const store = mockStore({});
-        store.dispatch(getPackages(null)).then(() => {
-            const actions = store.getActions()
-            assert.isNotNull(actions[0].nfvdPm)
-            done()
-        })
-    })
+    // it('assert get packages data', (done) => {
+    //     const store = mockStore({});
+    //     store.dispatch(getPackages(null)).then(() => {
+    //         const actions = store.getActions()
+    //         assert.isNotNull(actions[0].nfvdPm)
+    //         done()
+    //     })
+    // })
     it('assert get getMoInstKpiThresholds data', (done) => {
         const store = mockStore({});
         store.dispatch(getMoInstKpiThresholds(1, 1, null)).then(() => {

@@ -53,6 +53,10 @@ export interface DataParams {
    * 时间过滤条件ID
    */
   timeFilter?: number
+  /**
+   * 维度Id
+   */
+  dims
 }
 
 class KpiAPI {
