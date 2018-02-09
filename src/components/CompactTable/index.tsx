@@ -224,7 +224,7 @@ export default class CompacteTable extends React.PureComponent<UserTableProps, a
             <div className={styles.compactTable}>
                 {this.renderTable()}
                 <div className={styles.tfooter}>
-                    <div>* 底部信息</div>
+                    {/* <div>* 底部信息</div> */}
                     {count > 10 ? (
                         <div>
                             <Pagination size="small"
