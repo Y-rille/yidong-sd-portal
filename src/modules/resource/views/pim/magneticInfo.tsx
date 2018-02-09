@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel';
-import DetailInfoTitle from '../../../../components/DetailInfoTitle';
-import DetailInfoContent from '../../../../components/DetailInfoContent'
+import Headline from '../../../../components/Headline';
+import Summaries from '../../../../components/Summaries'
+import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
@@ -95,7 +95,7 @@ const attributes = [
         'physicalTablefield': 'Hostname',
         'state': 1,
         'version': '1.0',
-        'ediable': 0,
+        'ediable': 1,
         'visible': 1,
         'attributeGroup': '位置信息'
     },
@@ -108,7 +108,7 @@ const attributes = [
         'physicalTablefield': 'Hostname',
         'state': 1,
         'version': '1.0',
-        'ediable': 0,
+        'ediable': 1,
         'visible': 1,
         'attributeGroup': '位置信息'
     },
@@ -160,7 +160,8 @@ const data = {
         '磁阵License信息',
         '磁阵软件版本',
         '磁阵运行状态',
-        '磁阵资产状态'
+        '磁阵资产状态',
+        'Hostname',
     ],
     'columns': [
         'ID',
@@ -181,7 +182,8 @@ const data = {
         'License',
         'SoftwareVersion',
         'OperationingStatus',
-        'PropertyState'
+        'PropertyState',
+        'Hostname'
     ],
     'values': [
         [
@@ -203,7 +205,8 @@ const data = {
             '',
             '3.20.06.102',
             'OK',
-            'Used'
+            'Used',
+            'huawei'
         ],
     ]
 };
@@ -314,7 +317,7 @@ class MageneticInfo extends React.Component<any, any> {
     renderPerformance() {
         return (
             <div>
-                <DetailInfoTitle title="节点信息" />
+                <Headline title="节点信息" />
                 {/* <div className={styles.nodeInfo}>
                     <Row className={styles.nodeRow}>
                         <Col span={6}>平均IO时延:&nbsp;&nbsp;0.367</Col>
@@ -329,7 +332,7 @@ class MageneticInfo extends React.Component<any, any> {
                         <Col span={6}>写次数(IOps):&nbsp;&nbsp;153</Col>
                     </Row>
                 </div> */}
-                <DetailInfoContent colNum={4} />
+                <Summaries colNum={5} />
             </div>
         )
     }
@@ -388,7 +391,8 @@ class MageneticInfo extends React.Component<any, any> {
                         </TabPane>
                     </Tabs>
                 </div>
-                <DynamicPropertiesPanel attributes={attributes} data={data} />
+                {/* <DynamicPropertiesPanel attributes={attributes} data={data} /> */}
+                <DynamicPropertiesCollapse attributes={attributes} data={data} />
             </div>
         )
     }

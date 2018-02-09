@@ -9,11 +9,11 @@ var tData = {
     'header': [{
         key: 'id',
         title: '编号',
-        fixed: true
+        fixed: true,
+        link: '/resource/vim/1/host/info',
     }, {
         key: 'name',
         title: '姓名',
-        link: '/resource/vim/1/host/info',
         fixed: true,
     }, {
         key: 'mobile',
@@ -225,8 +225,8 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
             <div className={styles.compactTable}>
                 {this.renderTable()}
                 <div className={styles.tfooter}>
-                    <div>* 底部信息</div>
-                    {(pageAuth && count > page_size) ? (
+                    {/* <div>* 底部信息</div> */}
+                    {count > 10 ? (
                         <div>
                             <Pagination size="small"
                                 className={styles.pagination}

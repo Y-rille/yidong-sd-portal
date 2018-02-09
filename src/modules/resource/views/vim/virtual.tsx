@@ -5,6 +5,7 @@ import { matchPath } from 'react-router'
 import VirtualInfo from '../../container/vim/virtualInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select } from 'antd';
 import styles from '../../style/index.less'
+import CompactTable from '../../../../components/CompactTable/'
 const Option = Select.Option;
 class Virtual extends React.Component<any, any> {
     constructor(props) {
@@ -45,6 +46,10 @@ class Virtual extends React.Component<any, any> {
     handleClick() {
         const { menuValue, secondMenuValue, thiredMenuValue, fourthMenuValue } = this.state;
         // console.log("selectValue:", menuValue, secondMenuValue, thiredMenuValue)
+    }
+    goPage() {
+    }
+    goLink() {
     }
     render() {
         let { match } = this.props;
@@ -100,6 +105,13 @@ class Virtual extends React.Component<any, any> {
                                     查询
                             </Button>
                             </div>
+                            <CompactTable
+                                goPage={this.goPage.bind(this)} // 翻页
+                                goLink={this.goLink.bind(this)}
+                                data={null}
+                                pageAuth={false}
+                                actionAuth={[]}
+                            />
                         </div>
                     </div>
                 )} />

@@ -5,7 +5,7 @@ import styles from './index.less';
 
 declare let global: any;
 
-export interface DetailInfoTitleProps {
+export interface HeadlineProps {
     title?
 }
 
@@ -13,11 +13,11 @@ export interface DetailInfoTitleProps {
  * 详情信息
  * 
  * @export
- * @class DetailInfoTitle
- * @extends {React.PureComponent<DetailInfoTitleProps, any>}
+ * @class Headline
+ * @extends {React.PureComponent<HeadlineProps, any>}
  */
 
-export default class DetailInfoTitle extends React.PureComponent<DetailInfoTitleProps, any> {
+export default class Headline extends React.PureComponent<HeadlineProps, any> {
     constructor(props) {
         super(props);
 
