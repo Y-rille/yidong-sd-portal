@@ -11,25 +11,25 @@ import styles from '../../style/index.less'
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
 
-var tData = {
-    'count': 8,
-    'header': [{
-        key: 'name',
-        title: '姓名',
-        link: '/resource/vim/1/host/info'
-    }, {
-        key: 'mobile',
-        title: '电话',
-    }, {
-        key: 'email',
-        title: '邮箱',
-    }],
-    'body': [
-        { 'id': 10000077, 'email': 'zhan21@hpe.com', 'roles': 'admin,alarm', 'name': '张三21', 'mobile': '15811001101', 'remark': '新建功能，试一试~', 'create_time': '2018-02-07 13:38:50' },
-        { 'id': 10000056, 'email': 'dandan', 'roles': 'admin', 'name': 'admin', 'mobile': '13211111111', 'remark': 'some remark', 'create_time': '2018-02-06 18:24:59' },
-        { 'id': 10000003, 'email': 'admin@cmp.com', 'roles': 'admin', 'name': '管理员', 'mobile': '13211111111', 'remark': 'some remark', 'create_time': '2018-02-03 10:47:07' }
-    ]
-}
+// var tData = {
+//     'count': 8,
+//     'header': [{
+//         key: 'name',
+//         title: '姓名',
+//         link: '/resource/vim/1/host/info'
+//     }, {
+//         key: 'mobile',
+//         title: '电话',
+//     }, {
+//         key: 'email',
+//         title: '邮箱',
+//     }],
+//     'body': [
+//         { 'id': 10000077, 'email': 'zhan21@hpe.com', 'roles': 'admin,alarm', 'name': '张三21', 'mobile': '15811001101', 'remark': '新建功能，试一试~', 'create_time': '2018-02-07 13:38:50' },
+//         { 'id': 10000056, 'email': 'dandan', 'roles': 'admin', 'name': 'admin', 'mobile': '13211111111', 'remark': 'some remark', 'create_time': '2018-02-06 18:24:59' },
+//         { 'id': 10000003, 'email': 'admin@cmp.com', 'roles': 'admin', 'name': '管理员', 'mobile': '13211111111', 'remark': 'some remark', 'create_time': '2018-02-03 10:47:07' }
+//     ]
+// }
 
 class Host extends React.Component<any, any> {
     constructor(props) {
