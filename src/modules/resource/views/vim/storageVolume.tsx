@@ -17,7 +17,7 @@ class StorageVolume extends React.Component<any, any> {
         return (
 
             <Switch>
-                <Route path={`${match.url}/info`} component={StorageVolumeInfo} />
+                <Route path={`${match.url}/info/:id`} component={StorageVolumeInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

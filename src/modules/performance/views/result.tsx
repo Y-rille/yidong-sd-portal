@@ -32,16 +32,10 @@ export default class Result extends React.Component<ResultProps, any> {
 
     _.forEach(groups, function (value, key) {
         list.push({
-            title: key.split(','),
             description: groups[key]
         })
     });
 
-    list = list.map(item => {
-        item.title = this.getTitle(item.title, data);
-
-        return item;
-    })
     list = list.map(item => {
       item.description = _.uniq(item.description)
 
@@ -51,38 +45,24 @@ export default class Result extends React.Component<ResultProps, any> {
     return list;
 };
 
-getTitle(list, data) {
-    let title = [];
-
-    list.map(id => {
-        const temp = data.find(item => (item.nodeId === id));
-        title.push(temp.nodeLabel)
-    });
-
-    return title.join(' / ')
-};
-
 ListDescription({ list }) {
     return list.map((item, index) => {
         return <a key={index} style={{ marginRight: '20px' }}>{item.nodeLabel}</ a>
     })
 }
 goDetail(e) {
-  // console.log(e.currentTarget.getAttribute('data-key'), '==========>godetail')
   let { match, history } = this.props
   let nodeId = e.currentTarget.getAttribute('data-key')
   history.push(`${match.url}/${nodeId}`)
 }
 
 renderList(data) {
-    // console.log(data, '===============> fdata')
     let dataSource = this.fmtData(data.selectedKeys, data.data)
     let fmtResData = []
     dataSource.map((item, index) => {
       item.description.map((innerItem) => {
         fmtResData.push({
-          title: item.title,
-          description: innerItem.nodeLabel,
+          description: innerItem.lablePath,
           nodeId: innerItem.nodeId
         })
       })
@@ -96,7 +76,6 @@ renderList(data) {
         <List.Item
         actions={[<a onClick={this.goDetail.bind(this)} data-key={item.nodeId} key={item.nodeId}>查看详情</a>]}>
           <List.Item.Meta
-            title={item.title}
             description={item.description}            
           />
         </List.Item>
