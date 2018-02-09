@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
+import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel';
+import DetailInfoTitle from '../../../../components/DetailInfoTitle';
+import DetailInfoContent from '../../../../components/DetailInfoContent'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
@@ -207,7 +209,7 @@ const data = {
 };
 const testdata = [
     {
-        group: '基本信息', 
+        group: '基本信息',
         data: {
             '名称': 'XXXXXX',
             'Cache容量': 'ZJHZ-NFV3-B-XSCYY1H2F-D1',
@@ -231,13 +233,13 @@ const testdata = [
     },
     {
         group: '位置信息',
-        data: {            
+        data: {
             '数据中心': '浙江移动数据中心',
             '机房': 'ZJHZ',
             '机柜': 'ZJHZ',
             '安装槽位': 'ZJHZ',
         }
-    }, 
+    },
     {
         group: '维护信息',
         data: {
@@ -245,7 +247,7 @@ const testdata = [
             '投产时间': '计算节点',
             '资产来源': '借用',
             '资产状态': '已使用',
-         
+
         }
     }
 ]
@@ -268,19 +270,11 @@ class MageneticInfo extends React.Component<any, any> {
         });
         this.renderModel();
     }
-    renderTitle = (title) => {
-        return (
-            <div className={styles.nodeTitle}>
-                <span className={styles.nodeTitle1}></span>
-                <span className={styles.nodeTitle2}>{title}</span>
-            </div>
-        )
-    }
     renderPerformance() {
         return (
             <div>
-                {this.renderTitle('节点信息')}
-                <div className={styles.nodeInfo}>
+                <DetailInfoTitle title="节点信息" />
+                {/* <div className={styles.nodeInfo}>
                     <Row className={styles.nodeRow}>
                         <Col span={6}>平均IO时延:&nbsp;&nbsp;0.367</Col>
                         <Col span={6}>总带宽(Mbps):&nbsp;&nbsp;3.798</Col>
@@ -293,7 +287,8 @@ class MageneticInfo extends React.Component<any, any> {
                         <Col span={6}>读次数(IOps):&nbsp;&nbsp;153</Col>
                         <Col span={6}>写次数(IOps):&nbsp;&nbsp;153</Col>
                     </Row>
-                </div>
+                </div> */}
+                <DetailInfoContent colNum={4} />
             </div>
         )
     }
