@@ -12,7 +12,7 @@ declare const sinon;
 describe('Common actions', () => {
   it('assert get common tree data', (done) => {
     const store = mockStore({});
-    store.dispatch(querytree(0, null)).then(() => {
+    store.dispatch(querytree(1, null)).then(() => {
       const actions = store.getActions()
       assert.isNotNull(actions[0].tree)
       done()

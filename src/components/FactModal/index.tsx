@@ -49,9 +49,9 @@ export default class FactModal extends React.PureComponent<FactModalProps, any> 
         })
     }
     getDefaultKpi() {
-        let facts = this.props.facts;
+        let facts = this.props.facts.split(',');
         let defaultKpis = _.compact(_.map(this.kpis, (item, index) => {
-            if (facts.indexOf(item.kpiId) > -1) {
+            if (facts.indexOf(item.kpiId.toString()) > -1) {
                 return item;
             }
         }))

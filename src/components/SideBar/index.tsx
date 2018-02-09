@@ -7,9 +7,9 @@ import styles from './index.less';
 import { matchPath } from 'react-router'
 export interface SideBarProps {
     onLinkHandleClick?
-    current?
     data?: any
     pathname?
+    match?
 }
 
 export default class SideBar extends React.PureComponent<SideBarProps, any> {
@@ -85,7 +85,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
     }
 
     render() {
-        let { pathname } = this.props
+        let { pathname, match } = this.props
         let data = this.props.data || ''
         let keys = ['/resource/dashboard']
         data.vim.map(function (item) {
@@ -113,6 +113,12 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
             if (mp_node) {
                 selectedKeys.push(key)
             }
+            // const node: any = matchPath(pathname, {
+            //     path: `${match.url}/:nodeId`
+            // })
+            // if (node) {
+            //     console.log(node, 'kkkkk');
+            // }
         })
         return (
             <div className="sideBar">
@@ -123,7 +129,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     defaultSelectedKeys={selectedKeys}
                     mode="inline"
                 >
-                    <Menu.Item key="dashboard">
+                    <Menu.Item key="/resource/dashboard">
                         <Icon type="inbox" />
                         <span>概览</span>
                     </Menu.Item >
