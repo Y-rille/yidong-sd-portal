@@ -102,7 +102,7 @@ class AzInfo extends React.Component<any, any> {
                             // goLink={this.goLink.bind(this)}
                             // data={null}
                             actionAuth={[]}
-                            pageAuth={false}
+                            pageAuth={true}
                             footInfoAuth={false}
                         />
                     </div>

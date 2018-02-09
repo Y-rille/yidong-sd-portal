@@ -184,7 +184,7 @@ class Ha extends React.Component<any, any> {
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
                                 data={tdata}
-                                pageAuth={false}
+                                pageAuth={true}
                                 actionAuth={[]}
                             />
                         </div>
