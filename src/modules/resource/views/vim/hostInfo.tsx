@@ -306,7 +306,6 @@ class HostInfo extends React.Component<any, any> {
                                 <TabPane tab="概况" key="11">
                                     <DynamicPropertiesCollapse attributes={attributes} data={data} />
                                 </TabPane>
-                                {/* <TabPane tab="日志" key="12">日志</TabPane> */}
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="2">
@@ -318,7 +317,7 @@ class HostInfo extends React.Component<any, any> {
                                     <CompactTable
                                         // goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         actionAuth={[]}
                                         pageAuth={false}
                                     />
@@ -327,7 +326,7 @@ class HostInfo extends React.Component<any, any> {
                                     <CompactTable
                                         // goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         actionAuth={[]}
                                         pageAuth={false}
                                     />
@@ -336,7 +335,7 @@ class HostInfo extends React.Component<any, any> {
                                     <CompactTable
                                         // goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         actionAuth={[]}
                                         pageAuth={false}
                                     />

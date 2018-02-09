@@ -39,7 +39,7 @@ class Host extends React.Component<any, any> {
         }
     }
     goPage = () => {
-        this.props.history.push(`/resource/vim/1/host/info`)
+        // this.props.history.push(`/resource/vim/1/host/info`)
     }
     goLink(url) {
         this.props.history.push(url)
@@ -64,7 +64,7 @@ class Host extends React.Component<any, any> {
                 <CompactTable
                     goPage={this.goPage.bind(this)} // 翻页
                     goLink={this.goLink.bind(this)}
-                    data={null}
+                    // data={null}
                     actionAuth={[]}
                     pageAuth={false}
                 />

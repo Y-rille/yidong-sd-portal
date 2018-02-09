@@ -130,7 +130,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     onClick={this.handleClick}
                     style={{ height: window.innerHeight - 64 }}
                     defaultOpenKeys={selectedKeys}
-                    defaultSelectedKeys={selectedKeys}
+                    selectedKeys={selectedKeys}
                     mode="inline"
                 >
                     <Menu.Item key="/resource/dashboard">

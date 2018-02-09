@@ -16,7 +16,7 @@ class VolumeType extends React.Component<any, any> {
         let { match } = this.props
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={VolumeTypeInfo} />
+                <Route path={`${match.url}/info/:id`} component={VolumeTypeInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

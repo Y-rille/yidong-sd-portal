@@ -50,7 +50,8 @@ const generateList = (data) => {
             'nodeLabel': node.nodeLabel,
             'nodeId': node.nodeId,
             'idPath': node.idPath,
-            'dataType': node.dataType
+            'dataType': node.dataType,
+            'lablePath': node.lablePath
         });
 
         if (node.children) {

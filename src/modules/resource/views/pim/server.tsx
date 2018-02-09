@@ -5,6 +5,7 @@ import { matchPath } from 'react-router'
 import ServerInfo from '../../container/pim/serverInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select } from 'antd';
 import styles from '../../style/index.less'
+import CompactTable from '../../../../components/CompactTable/'
 const Option = Select.Option;
 class Server extends React.Component<any, any> {
     constructor(props) {
@@ -15,7 +16,7 @@ class Server extends React.Component<any, any> {
         }
     }
     goInfo = () => {
-        this.props.history.push(`/resource/pim/1/server/info`)
+        this.props.history.push(`/resource/pim/3/server/info`)
     }
     dataSelectChange(value) {
         this.setState({
@@ -31,12 +32,21 @@ class Server extends React.Component<any, any> {
         const { dataSelectValue, supplierSelectValue } = this.state;
         // console.log(dataSelectValue, supplierSelectValue);
     }
+    goPage = () => {
+        // this.props.history.push(`/resource/pim/1/server/info`)
+    }
+    goLink(key, obj) {
+        let { match } = this.props
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
+    }
     render() {
         let { match } = this.props;
         const { dataSelectValue, supplierSelectValue } = this.state;
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={ServerInfo} />
+                <Route path={`${match.url}/info/:id`} component={ServerInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
@@ -70,6 +80,13 @@ class Server extends React.Component<any, any> {
                                     查询
                             </Button>
                             </div>
+                            <CompactTable
+                                // goPage={this.goPage.bind(this)} // 翻页
+                                goLink={this.goLink.bind(this)}
+                                // data={null}
+                                actionAuth={['delete']}
+                                pageAuth={false}
+                            />
                         </div>
                     </div>
                 )} />

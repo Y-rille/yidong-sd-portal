@@ -4,7 +4,8 @@ import Headline from '../../../../components/Headline';
 import Summaries from '../../../../components/Summaries'
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
-import styles from '../../style/index.less'
+import styles from '../../style/index.less';
+import CompactTable from '../../../../components/CompactTable/'
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
 const attributes = [
@@ -95,7 +96,7 @@ const attributes = [
         'physicalTablefield': 'Hostname',
         'state': 1,
         'version': '1.0',
-        'ediable': 1,
+        'ediable': 0,
         'visible': 1,
         'attributeGroup': '位置信息'
     },
@@ -108,7 +109,7 @@ const attributes = [
         'physicalTablefield': 'Hostname',
         'state': 1,
         'version': '1.0',
-        'ediable': 1,
+        'ediable': 0,
         'visible': 1,
         'attributeGroup': '位置信息'
     },
@@ -210,50 +211,6 @@ const data = {
         ],
     ]
 };
-const testdata = [
-    {
-        group: '基本信息',
-        data: {
-            '名称': 'XXXXXX',
-            'Cache容量': 'ZJHZ-NFV3-B-XSCYY1H2F-D1',
-            'License信息': '2102310YJA10H6003708',
-            '制造商': 'Huawei',
-            '供应商': 'Huawei',
-            '资产编号': 'BC11HGSA',
-            '磁阵型号': 'RH2288H V3',
-            '软件版本': 'v1.2.32',
-            '序列号': 'v1.2.32',
-            '管理IP': '36',
-            '温度(℃）': '36',
-            '健康及运行状态': 'runnning',
-            '上下电状态': 'OK',
-            '未用容量/总容量(TB)': '18/32',
-            'LUN未用容量/总容量(TB)': '18/32',
-            '硬盘容量': '18/32',
-            '磁阵块大小': '23',
-            '未用块数量/总块数量': '12'
-        }
-    },
-    {
-        group: '位置信息',
-        data: {
-            '数据中心': '浙江移动数据中心',
-            '机房': 'ZJHZ',
-            '机柜': 'ZJHZ',
-            '安装槽位': 'ZJHZ',
-        }
-    },
-    {
-        group: '维护信息',
-        data: {
-            '维护状态': 'running',
-            '投产时间': '计算节点',
-            '资产来源': '借用',
-            '资产状态': '已使用',
-
-        }
-    }
-]
 
 class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
@@ -314,7 +271,15 @@ class MageneticInfo extends React.Component<any, any> {
         })
 
     }
+    goPage = () => {
+        // this.props.history.push(`/resource/vim/1/host/info`)
+    }
+    goLink(url) {
+        // let { match } = this.props
+        // this.props.history.push(`${match}/info/1`)
+    }
     renderPerformance() {
+        let self = this;
         return (
             <div>
                 <Headline title="节点信息" />
@@ -333,6 +298,36 @@ class MageneticInfo extends React.Component<any, any> {
                     </Row>
                 </div> */}
                 <Summaries colNum={5} />
+                <div style={{ marginTop: '20px' }}>
+                    <Headline title="LUN性能信息" />
+                    <CompactTable
+                        // goPage={self.goPage.bind(self)} // 翻页
+                        // goLink={self.goLink.bind(self)}
+                        // data={null}
+                        actionAuth={['delete']}
+                        pageAuth={false}
+                    />
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <Headline title="前端业务端口信息" />
+                    <CompactTable
+                        // goPage={self.goPage.bind(self)} // 翻页
+                        // goLink={self.goLink.bind(self)}
+                        // data={null}
+                        actionAuth={['delete']}
+                        pageAuth={false}
+                    />
+                </div>
+                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                    <Headline title="磁盘框温度" />
+                    <CompactTable
+                        // goPage={self.goPage.bind(self)} // 翻页
+                        // goLink={self.goLink.bind(self)}
+                        // data={null}
+                        actionAuth={['delete']}
+                        pageAuth={false}
+                    />
+                </div>
             </div>
         )
     }
@@ -349,7 +344,88 @@ class MageneticInfo extends React.Component<any, any> {
             </div>
         )
     }
-
+    renderRAID() {
+        return (
+            <CompactTable
+                // goPage={this.goPage.bind(this)} // 翻页
+                // goLink={this.goLink.bind(this)}
+                // data={null}
+                actionAuth={['delete']}
+                pageAuth={false}
+            />
+        )
+    }
+    renderLUN() {
+        return (
+            <CompactTable
+                // goPage={this.goPage.bind(this)} // 翻页
+                // goLink={this.goLink.bind(this)}
+                // data={null}
+                actionAuth={['delete']}
+                pageAuth={false}
+            />
+        )
+    }
+    renderISCSI() {
+        return (
+            <CompactTable
+                // goPage={this.goPage.bind(this)} // 翻页
+                // goLink={this.goLink.bind(this)}
+                // data={null}
+                actionAuth={['delete']}
+                pageAuth={false}
+            />
+        )
+    }
+    renderHardware() {
+        return (
+            <CompactTable
+                // goPage={this.goPage.bind(this)} // 翻页
+                // goLink={this.goLink.bind(this)}
+                // data={null}
+                actionAuth={['delete']}
+                pageAuth={false}
+            />
+        )
+    }
+    renderOthers() {
+        return (
+            <div>
+                <Headline title="BBU信息" />
+                <CompactTable
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    // data={null}
+                    actionAuth={['delete']}
+                    pageAuth={false}
+                />
+                <Headline title="风扇信息" />
+                <CompactTable
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    // data={null}
+                    actionAuth={['delete']}
+                    pageAuth={false}
+                />
+                <Headline title="电源信息" />
+                <CompactTable
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    // data={null}
+                    actionAuth={['delete']}
+                    pageAuth={false}
+                />
+                <Headline title="控制器信息" />
+                <CompactTable
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    // data={null}
+                    actionAuth={['delete']}
+                    pageAuth={false}
+                />
+            </div>
+        )
+    }
     render() {
         return (
             <div>
@@ -364,14 +440,16 @@ class MageneticInfo extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div className={styles.tabCont}>
-                    <Tabs onChange={this.callback} type="card">
+                    <Tabs onChange={this.callback} type="card" animated={false}>
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
                                 onChange={this.tabInfo}
                                 tabBarExtraContent={this.renderBtns()}>
-                                <TabPane tab="概况" key="1"></TabPane>
+                                <TabPane tab="概况" key="1">
+                                    <DynamicPropertiesCollapse attributes={attributes} data={data} />
+                                </TabPane>
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
                         </TabPane>
@@ -380,19 +458,38 @@ class MageneticInfo extends React.Component<any, any> {
                                 defaultActiveKey="1"
                                 size="small"
                                 onChange={this.tabConnect}>
-                                <TabPane tab="RAID信息" key="1">RAID信息</TabPane>
-                                <TabPane tab="LUN信息" key="2">LUN信息</TabPane>
-                                <TabPane tab="ISCSI信息" key="3">ISCSI信息</TabPane>
-                                <TabPane tab="硬盘信息" key="4">硬盘信息</TabPane>
+                                <TabPane tab="RAID信息" key="1">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderRAID()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="LUN信息" key="2">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderLUN()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="ISCSI信息" key="3">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderISCSI()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="硬盘信息" key="4">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderHardware()}
+                                    </div>
+                                </TabPane>
                                 <TabPane tab="性能信息" key="5">{this.renderPerformance()}</TabPane>
-                                <TabPane tab="告警" key="6">告警</TabPane>
-                                <TabPane tab="其它信息" key="7">其它信息</TabPane>
+                                <TabPane tab="告警" key="6">告警信息
+                                </TabPane>
+                                <TabPane tab="其它信息" key="7">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderOthers()}
+                                    </div>
+                                </TabPane>
                             </Tabs>
                         </TabPane>
                     </Tabs>
                 </div>
-                {/* <DynamicPropertiesPanel attributes={attributes} data={data} /> */}
-                <DynamicPropertiesCollapse attributes={attributes} data={data} />
             </div>
         )
     }

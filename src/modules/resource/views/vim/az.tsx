@@ -33,10 +33,13 @@ class Az extends React.Component<any, any> {
         // console.log(AZInputValue, AZSelectValue)
     }
     goPage = () => {
-        
+
     }
-    goLink(url) {
-        this.props.history.push(url)
+    goLink(key, obj) {
+        let { match } = this.props
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
     }
     render() {
         let tdata = {
@@ -45,7 +48,7 @@ class Az extends React.Component<any, any> {
                 key: 'id',
                 title: '编号',
                 fixed: true,
-                link: '/resource/vim/2/az/info',
+                link: true,
             }, {
                 key: 'name',
                 title: '姓名',
@@ -148,7 +151,7 @@ class Az extends React.Component<any, any> {
         return (
             <div>
                 <Switch>
-                    <Route path={`${match.url}/info`} component={AzInfo} />
+                    <Route path={`${match.url}/info/:azId`} component={AzInfo} />
                     <Route render={() => (
                         <div>
                             <div className={styles.header}>
