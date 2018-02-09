@@ -16,10 +16,13 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
         };
     }
     handleEdit() {
-        // console.log(this.props.data, '==========>data')
         if (this.state.isEdit) {
-            let dataaaaa = this.props.form.getFieldsValue()
-            // console.log(dataaaaa, '==========>dataaaaaaaaa')
+            let submitData = this.props.form.getFieldsValue()
+            let editedData = this.props.data
+            _.forOwn(submitData, (value, key) => {
+                let _index = _.findIndex(this.props.data, item => (item.key === key))
+                editedData[_index].values = value
+            })
         }
         this.setState({
             isEdit: !this.state.isEdit
@@ -35,7 +38,6 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
         let self = this
         let items = []
         const { getFieldDecorator } = this.props.form;
-        // console.log(data, '============>data')
         data.map((item, index) => {
             items.push(
                 <Col span={8} key={index}>
