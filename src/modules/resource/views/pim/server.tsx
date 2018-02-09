@@ -16,7 +16,7 @@ class Server extends React.Component<any, any> {
         }
     }
     goInfo = () => {
-        this.props.history.push(`/resource/pim/1/server/info`)
+        this.props.history.push(`/resource/pim/3/server/info`)
     }
     dataSelectChange(value) {
         this.setState({
@@ -33,7 +33,7 @@ class Server extends React.Component<any, any> {
         // console.log(dataSelectValue, supplierSelectValue);
     }
     goPage = () => {
-        this.props.history.push(`/resource/vim/1/host/info`)
+        this.props.history.push(`/resource/pim/1/server/info`)
     }
     goLink(url) {
         this.props.history.push(url)
@@ -78,10 +78,11 @@ class Server extends React.Component<any, any> {
                             </Button>
                             </div>
                             <CompactTable
-                                goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                data={null}
-                                actionAuth={[]}
+                                // goPage={this.goPage.bind(this)} // 翻页
+                                // goLink={this.goLink.bind(this)}
+                                // data={null}
+                                actionAuth={['delete']}
+                                pageAuth={false}
                             />
                         </div>
                     </div>
