@@ -8,6 +8,9 @@ const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
 import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel';
 import CompactTable from '../../../../components/CompactTable/'
+import Headline from '../../../../components/Headline';
+import Summaries from '../../../../components/Summaries'
+
 const attributes = [
     {
         'moAttributeId': 1,
@@ -287,6 +290,41 @@ class ServerInfo extends React.Component<any, any> {
             </div>
         )
     }
+    renderOther() {
+        let self = this;
+        return (
+            <div>
+                <Headline title="PCIe槽内信息" />
+                <CompactTable
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    // data={null}
+                    actionAuth={['delete']}
+                    pageAuth={false}
+                />
+
+                <div style={{ marginTop: '20px' }}>
+                    <Headline title="阵列卡信息" />
+                    <Summaries colNum={5} />
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <Headline title="逻辑盘信息" />
+                    <CompactTable
+                        // goPage={this.goPage.bind(this)} // 翻页
+                        // goLink={this.goLink.bind(this)}
+                        // data={null}
+                        actionAuth={['delete']}
+                        pageAuth={false}
+                    />
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <Headline title="其他信息" />
+                    <Summaries colNum={5} />
+                </div>
+            </div>
+        )
+    }
+
     render() {
         let { match } = this.props;
         return (
@@ -302,11 +340,12 @@ class ServerInfo extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px 20px 0 20px' }}>
-                    <Tabs onChange={this.callback} type="card">
+                    <Tabs onChange={this.callback} type="card" animated={false}>
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
+                                animated={false}
                                 onChange={this.tabInfo}
                                 tabBarExtraContent={this.renderBtns()}>
                                 <TabPane tab="概况" key="1">
@@ -319,6 +358,7 @@ class ServerInfo extends React.Component<any, any> {
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
+                                animated={false}
                                 onChange={this.tabConnect}>
                                 <TabPane tab="处理器信息" key="1" style={{ padding: '20px 0' }}>
                                     <CompactTable
@@ -375,13 +415,7 @@ class ServerInfo extends React.Component<any, any> {
                                     />
                                 </TabPane>
                                 <TabPane tab="其它信息" key="7" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                        pageAuth={false}
-                                    />
+                                    {this.renderOther()}
                                 </TabPane>
                             </Tabs>
                         </TabPane>
