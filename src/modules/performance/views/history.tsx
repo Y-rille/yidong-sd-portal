@@ -45,7 +45,8 @@ class History extends React.Component<any, any> {
             begintime,
             endtime,
             wheredim,
-            timeFilter
+            timeFilter,
+            dims: 'T_HOST'
         }
         let moInstKpiThresholds = this.props.moInstKpiThresholds
         let moTypeKpis = this.props.moTypeKpis
