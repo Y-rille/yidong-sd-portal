@@ -226,18 +226,6 @@ class SwitchboardInfo extends React.Component<any, any> {
     goLink() {
 
     }
-
-    renderCompactTable() {
-        return (
-            <CompactTable
-                goPage={this.goPage.bind(this)} // 翻页
-                goLink={this.goLink.bind(this)}
-                // data={null}
-                pageAuth={true}
-                actionAuth={[]}
-            />
-        )
-    }
     render() {
         return (
             <div>
@@ -264,20 +252,58 @@ class SwitchboardInfo extends React.Component<any, any> {
                         <TabPane tab="资源关系" key="2">
                             <Tabs defaultActiveKey="1" animated={false} size="small">
                                 <TabPane tab="主板信息" key="1">
-                                    {this.renderCompactTable()}
+                                    <CompactTable
+                                        outStyle={{ marginTop: '20px' }}
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        pageAuth={true}
+                                        actionAuth={[]}
+                                    />
                                 </TabPane>
                                 <TabPane tab="端口信息" key="2">
-                                    {this.renderCompactTable()}
+                                    <CompactTable
+                                        outStyle={{ marginTop: '20px' }}
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        pageAuth={true}
+                                        actionAuth={[]}
+                                    />
                                 </TabPane>
                                 <TabPane tab="电源信息" key="3">
-                                    {this.renderCompactTable()}
+                                    <CompactTable
+                                        outStyle={{ marginTop: '20px' }}
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        pageAuth={true}
+                                        actionAuth={[]}
+                                    />
                                 </TabPane>
                                 <TabPane tab="风扇信息" key="4">
-                                    {this.renderCompactTable()}
+                                    <CompactTable
+                                        outStyle={{ marginTop: '20px' }}
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        pageAuth={true}
+                                        actionAuth={[]}
+                                    />
                                 </TabPane>
                                 <TabPane tab="性能信息" key="5">
-                                    {this.renderCompactTable()}
-                                </TabPane>
+                                    <Headline title="系统信息" />
+                                    <Summaries colNum={5} />
+                                    <Headline
+                                        title="接口信息（按端口统计）"
+                                    />
+                                    <CompactTable
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        pageAuth={true}
+                                        actionAuth={[]}
+                                    /></TabPane>
                                 <TabPane tab="告警信息" key="6">告警信息</TabPane>
                             </Tabs>
                         </TabPane>
