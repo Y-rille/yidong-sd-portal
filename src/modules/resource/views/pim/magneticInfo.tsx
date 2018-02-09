@@ -364,7 +364,7 @@ class MageneticInfo extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div className={styles.tabCont}>
-                    <Tabs onChange={this.callback} type="card">
+                    <Tabs onChange={this.callback} type="card" animated={false}>
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
                                 defaultActiveKey="1"
