@@ -306,7 +306,6 @@ class HostInfo extends React.Component<any, any> {
                                 <TabPane tab="概况" key="11">
                                     <DynamicPropertiesCollapse attributes={attributes} data={data} />
                                 </TabPane>
-                                {/* <TabPane tab="日志" key="12">日志</TabPane> */}
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="2">

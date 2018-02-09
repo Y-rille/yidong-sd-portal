@@ -50,23 +50,23 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
     render() {
         if (this.state.data) {
             return (
-                <div className="dynamicPropertiesPanel" style={{'padding': '20px', 'background-color': '#fbfcfd'}}>
-                    <Collapse defaultActiveKey={['0', '1' , '2']}>
+                <div className="dynamicPropertiesPanel" style={{ 'padding': '20px 0' }}>
+                    <Collapse defaultActiveKey={['0', '1', '2']}>
                         {
                             this.state.data.groups.map((group, index) => {
-                            let sindex = index.toString()
-                            const formData = this.state.data.list.filter(item => (item.attributeGroup === group && item.visible))
-                            return <Panel
-                                header={group}
-                                key={sindex}
-                                style={{'margin-bottom': '20px'}}
-                                 >
-                                <DynamicPropertiesCollapseForm data={formData} />
-                            </Panel>
+                                let sindex = index.toString()
+                                const formData = this.state.data.list.filter(item => (item.attributeGroup === group && item.visible))
+                                return <Panel
+                                    header={group}
+                                    key={sindex}
+                                    style={{ 'margin-bottom': '20px' }}
+                                >
+                                    <DynamicPropertiesCollapseForm data={formData} />
+                                </Panel>
                             })
-                       }
+                        }
                     </Collapse>
-                    
+
                 </div>
             )
         }
