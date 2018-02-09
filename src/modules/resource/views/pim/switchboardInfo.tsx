@@ -226,6 +226,18 @@ class SwitchboardInfo extends React.Component<any, any> {
     goLink() {
 
     }
+
+    renderCompactTable() {
+        return (
+            <CompactTable
+                goPage={this.goPage.bind(this)} // 翻页
+                goLink={this.goLink.bind(this)}
+                // data={null}
+                pageAuth={true}
+                actionAuth={[]}
+            />
+        )
+    }
     render() {
         return (
             <div>
@@ -240,9 +252,9 @@ class SwitchboardInfo extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} type="card">
+                    <Tabs onChange={this.onChange.bind(this)} animated={false} type="card">
                         <TabPane tab="资源详情" key="1">
-                            <Tabs defaultActiveKey="1" size="small">
+                            <Tabs defaultActiveKey="1" animated={false} size="small">
                                 <TabPane tab="概况" key="1">
                                     <DynamicPropertiesCollapse attributes={attributes} data={data} />
                                 </TabPane>
@@ -250,56 +262,22 @@ class SwitchboardInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="2">
-                            <Tabs defaultActiveKey="1" size="small">
+                            <Tabs defaultActiveKey="1" animated={false} size="small">
                                 <TabPane tab="主板信息" key="1">
-                                    <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        pageAuth={true}
-                                        actionAuth={[]}
-                                    />
+                                    {this.renderCompactTable()}
                                 </TabPane>
                                 <TabPane tab="端口信息" key="2">
-                                    <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        pageAuth={true}
-                                        actionAuth={[]}
-                                    />
+                                    {this.renderCompactTable()}
                                 </TabPane>
                                 <TabPane tab="电源信息" key="3">
-                                    <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        pageAuth={true}
-                                        actionAuth={[]}
-                                    />
+                                    {this.renderCompactTable()}
                                 </TabPane>
                                 <TabPane tab="风扇信息" key="4">
-                                    <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        pageAuth={true}
-                                        actionAuth={[]}
-                                    />
+                                    {this.renderCompactTable()}
                                 </TabPane>
                                 <TabPane tab="性能信息" key="5">
-                                    <Headline title="系统信息" />
-                                    <Summaries colNum={5} />
-                                    <Headline
-                                        title="接口信息（按端口统计）"
-                                    />
-                                    <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        pageAuth={true}
-                                        actionAuth={[]}
-                                    /></TabPane>
+                                    {this.renderCompactTable()}
+                                </TabPane>
                                 <TabPane tab="告警信息" key="6">告警信息</TabPane>
                             </Tabs>
                         </TabPane>
