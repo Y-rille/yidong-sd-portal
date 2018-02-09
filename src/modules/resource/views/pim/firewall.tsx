@@ -110,7 +110,7 @@ class Firewall extends React.Component<any, any> {
         }]
         return (
             <Switch>
-                <Route path={`${match.url}/info`} component={FirewallInfo} />
+                <Route path={`${match.url}/info/:id`} component={FirewallInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

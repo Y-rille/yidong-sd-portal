@@ -4,6 +4,9 @@ import * as _ from 'lodash';
 import { Breadcrumb, Icon, Tabs } from 'antd';
 import styles from '../../style/index.less'
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
+import CompactTable from '../../../../components/CompactTable/'
+import Headline from '../../../../components/Headline/'
+import Summaries from '../../../../components/Summaries/'
 
 const TabPane = Tabs.TabPane;
 
@@ -217,6 +220,12 @@ class SwitchboardInfo extends React.Component<any, any> {
     onChange() {
 
     }
+    goPage() {
+
+    }
+    goLink() {
+
+    }
     render() {
         return (
             <div>
@@ -242,11 +251,55 @@ class SwitchboardInfo extends React.Component<any, any> {
                         </TabPane>
                         <TabPane tab="资源关系" key="2">
                             <Tabs defaultActiveKey="1" size="small">
-                                <TabPane tab="主板信息" key="1">主板信息</TabPane>
-                                <TabPane tab="端口信息" key="2">端口信息</TabPane>
-                                <TabPane tab="电源信息" key="3">电源信息</TabPane>
-                                <TabPane tab="风扇信息" key="4">风扇信息</TabPane>
-                                <TabPane tab="性能信息" key="5">性能信息</TabPane>
+                                <TabPane tab="主板信息" key="1">
+                                    <CompactTable
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        data={null}
+                                        pageAuth={false}
+                                        actionAuth={[]}
+                                    />
+                                </TabPane>
+                                <TabPane tab="端口信息" key="2">
+                                    <CompactTable
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        data={null}
+                                        pageAuth={false}
+                                        actionAuth={[]}
+                                    />
+                                </TabPane>
+                                <TabPane tab="电源信息" key="3">
+                                    <CompactTable
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        data={null}
+                                        pageAuth={false}
+                                        actionAuth={[]}
+                                    />
+                                </TabPane>
+                                <TabPane tab="风扇信息" key="4">
+                                    <CompactTable
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        data={null}
+                                        pageAuth={false}
+                                        actionAuth={[]}
+                                    />
+                                </TabPane>
+                                <TabPane tab="性能信息" key="5">
+                                    <Headline title="系统信息" />
+                                    <Summaries colNum={5} />
+                                    <Headline
+                                        title="接口信息（按端口统计）"
+                                    />
+                                    <CompactTable
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        data={null}
+                                        pageAuth={false}
+                                        actionAuth={[]}
+                                    /></TabPane>
                                 <TabPane tab="告警信息" key="6">告警信息</TabPane>
                             </Tabs>
                         </TabPane>
