@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import styles from '../../style/index.less'
 const Option = Select.Option;
-class AzInfo extends React.Component < any, any > {
+class AzInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +21,7 @@ class AzInfo extends React.Component < any, any > {
         }
     }
     handleClick() {
-        const {HostInputValue, AZSelectValue} = this.state;
+        const { HostInputValue, AZSelectValue } = this.state;
         // console.log(HostInputValue, AZSelectValue)
     }
     AZSelectChange(value) {
@@ -31,7 +31,7 @@ class AzInfo extends React.Component < any, any > {
     }
     HostInputChange(e) {
         this.setState({
-            HostInputValue: e.target.value 
+            HostInputValue: e.target.value
         })
     }
     renderTitle = (title) => {
@@ -50,17 +50,17 @@ class AzInfo extends React.Component < any, any > {
                 <div className={styles.header}>
                     <h1 className={styles.title}>AZ详情</h1>
                     <Breadcrumb>
-                        <Breadcrumb.Item><Icon type="home"/></Breadcrumb.Item>
+                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                         <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
                         <Breadcrumb.Item>AZ管理</Breadcrumb.Item>
                         <Breadcrumb.Item>AZ详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div style={{ padding: '20px'}}>
+                <div style={{ padding: '20px' }}>
                     <div>
                         {this.renderTitle('基本信息')}
-                        <div className={styles.nodeInfo} style={{marginBottom: '20px'}}>
+                        <div className={styles.nodeInfo} style={{ marginBottom: '20px' }}>
                             <Row className={styles.nodeRow}>
                                 <Col span={8}>HA数:&nbsp;&nbsp;12312</Col>
                                 <Col span={8}>Host数:&nbsp;&nbsp;12312</Col>
@@ -81,20 +81,16 @@ class AzInfo extends React.Component < any, any > {
                                 type="text"
                                 placeholder="主机名称"
                                 onChange={this.HostInputChange.bind(this)}
-                                style={{
-                                width: 120,
-                                
-                            }}/>    
+                            />
                             <Select
                                 value={AZSelectValue}
                                 onChange={this.AZSelectChange.bind(this)}
-                                style={{width: 120, marginLeft: 10 }}>
+                            >
                                 <Option value="region">Region</Option>
                             </Select>
-                            
+
                             <Button
                                 type="primary"
-                                style={{marginLeft: 10}}
                                 onClick={this.handleClick.bind(this)}>查询
                             </Button>
                         </div>

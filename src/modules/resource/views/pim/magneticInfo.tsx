@@ -264,12 +264,14 @@ class MageneticInfo extends React.Component<any, any> {
     }
     renderBtns() {
         return (
-            <div>
+            <div className={styles.btn}>
                 <Button
+                    type="primary" ghost
+                    icon="dingding"
                     style={{ margin: '0px 10px 0px 0' }}
                     onClick={this.showModel.bind(this, this.state.status === 'down' ? 'up' : 'down')}
                 >{this.state.status === 'down' ? '上电' : '下电'}</Button>
-                <Button onClick={this.showModel.bind(this, 'reset')}>复位</Button>
+                <Button type="primary" ghost icon="retweet" onClick={this.showModel.bind(this, 'reset')}>复位</Button>
             </div>
         )
     }
@@ -314,7 +316,7 @@ class MageneticInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>磁阵详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div style={{ padding: '20px' }}>
+                <div className={styles.tabCont}>
                     <Tabs onChange={this.callback} type="card">
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
@@ -322,8 +324,8 @@ class MageneticInfo extends React.Component<any, any> {
                                 size="small"
                                 onChange={this.tabInfo}
                                 tabBarExtraContent={this.renderBtns()}>
-                                <TabPane tab="概况" key="1">概况</TabPane>
-                                <TabPane tab="日志" key="2">日志</TabPane>
+                                <TabPane tab="概况" key="1"></TabPane>
+                                <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="2">

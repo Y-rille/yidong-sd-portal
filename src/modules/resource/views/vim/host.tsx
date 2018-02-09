@@ -95,27 +95,26 @@ class Host extends React.Component<any, any> {
                                 <Select
                                     value={menuValue}
                                     onChange={this.menuChange.bind(this)}
-                                    style={{ width: 120 }}>
+                                >
                                     <Option value="region">Region</Option>
                                 </Select>
 
                                 <Select
                                     value={secondMenuValue}
                                     onChange={this.secondMenuChange.bind(this)}
-                                    style={{ width: 120, marginLeft: 10 }}>
+                                >
                                     <Option value="az">AZ</Option>
                                 </Select>
 
                                 <Select
                                     value={thiredMenuValue}
                                     onChange={this.thiredMenuChange.bind(this)}
-                                    style={{ width: 120, marginLeft: 10 }}>
+                                >
                                     <Option value="ha">HA</Option>
                                 </Select>
 
                                 <Button
                                     type="primary"
-                                    style={{ marginLeft: 10 }}
                                     onClick={this.handleClick.bind(this)}
                                 >
                                     查询
