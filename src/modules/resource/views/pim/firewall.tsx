@@ -29,8 +29,11 @@ class Firewall extends React.Component<any, any> {
             supplierValue: value
         })
     }
-    goLink(url) {
-        this.props.history.push(url)
+    goLink(key, obj) {
+        let { match } = this.props
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
     }
     render() {
         let { match } = this.props;
@@ -146,6 +149,7 @@ class Firewall extends React.Component<any, any> {
                                 goLink={this.goLink.bind(this)}
                                 actionAuth={['delete']}
                                 pageAuth={false}
+                                outStyle={{ 'marginTop': '20px' }}
                             />
                         </div>
                     </div>
