@@ -255,7 +255,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                     <CompactTable
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         pageAuth={false}
                                         actionAuth={[]}
                                     />
@@ -264,7 +264,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                     <CompactTable
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         pageAuth={false}
                                         actionAuth={[]}
                                     />
@@ -273,7 +273,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                     <CompactTable
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         pageAuth={false}
                                         actionAuth={[]}
                                     />
@@ -282,7 +282,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                     <CompactTable
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         pageAuth={false}
                                         actionAuth={[]}
                                     />
@@ -296,7 +296,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                     <CompactTable
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
-                                        data={null}
+                                        // data={null}
                                         pageAuth={false}
                                         actionAuth={[]}
                                     /></TabPane>
