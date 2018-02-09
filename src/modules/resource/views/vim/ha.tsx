@@ -36,8 +36,11 @@ class Ha extends React.Component<any, any> {
     goPage() {
 
     }
-    goLink(url) {
-        this.props.history.push(url)
+    goLink(key, obj) {
+        let { match } = this.props
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
     }
     render() {
         let { match } = this.props;
@@ -48,7 +51,7 @@ class Ha extends React.Component<any, any> {
                 key: 'id',
                 title: '编号',
                 fixed: true,
-                link: '/resource/vim/1/ha/info',
+                link: true,
             }, {
                 key: 'name',
                 title: '姓名',

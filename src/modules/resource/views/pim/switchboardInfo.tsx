@@ -240,9 +240,9 @@ class SwitchboardInfo extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} type="card">
+                    <Tabs onChange={this.onChange.bind(this)} animated={false} type="card">
                         <TabPane tab="资源详情" key="1">
-                            <Tabs defaultActiveKey="1" size="small">
+                            <Tabs defaultActiveKey="1" animated={false} size="small">
                                 <TabPane tab="概况" key="1">
                                     <DynamicPropertiesCollapse attributes={attributes} data={data} />
                                 </TabPane>
@@ -250,9 +250,10 @@ class SwitchboardInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="2">
-                            <Tabs defaultActiveKey="1" size="small">
+                            <Tabs defaultActiveKey="1" animated={false} size="small">
                                 <TabPane tab="主板信息" key="1">
                                     <CompactTable
+                                        outStyle={{ marginTop: '20px' }}
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
                                         // data={null}
@@ -262,6 +263,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                 </TabPane>
                                 <TabPane tab="端口信息" key="2">
                                     <CompactTable
+                                        outStyle={{ marginTop: '20px' }}
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
                                         // data={null}
@@ -271,6 +273,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                 </TabPane>
                                 <TabPane tab="电源信息" key="3">
                                     <CompactTable
+                                        outStyle={{ marginTop: '20px' }}
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
                                         // data={null}
@@ -280,6 +283,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                 </TabPane>
                                 <TabPane tab="风扇信息" key="4">
                                     <CompactTable
+                                        outStyle={{ marginTop: '20px' }}
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
                                         // data={null}
@@ -294,6 +298,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                         title="接口信息（按端口统计）"
                                     />
                                     <CompactTable
+                                        outStyle={{ marginTop: '20px' }}
                                         goPage={this.goPage.bind(this)} // 翻页
                                         goLink={this.goLink.bind(this)}
                                         // data={null}
