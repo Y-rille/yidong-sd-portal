@@ -5,7 +5,8 @@ import Summaries from '../../../../components/Summaries'
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
-import styles from '../../style/index.less'
+import styles from '../../style/index.less';
+import CompactTable from '../../../../components/CompactTable/'
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
 const attributes = [
@@ -315,7 +316,15 @@ class MageneticInfo extends React.Component<any, any> {
         })
 
     }
+    goPage = () => {
+        // this.props.history.push(`/resource/vim/1/host/info`)
+    }
+    goLink(url) {
+        // let { match } = this.props
+        // this.props.history.push(`${match}/info/1`)
+    }
     renderPerformance() {
+        let self = this;
         return (
             <div>
                 <Headline title="节点信息" />
@@ -334,6 +343,36 @@ class MageneticInfo extends React.Component<any, any> {
                     </Row>
                 </div> */}
                 <Summaries colNum={5} />
+                <div style={{ marginTop: '20px' }}>
+                    <Headline title="LUN性能信息" />
+                    <CompactTable
+                        goPage={self.goPage.bind(self)} // 翻页
+                        goLink={self.goLink.bind(self)}
+                        data={null}
+                        actionAuth={[]}
+                        pageAuth={false}
+                    />
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <Headline title="前端业务端口信息" />
+                    <CompactTable
+                        goPage={self.goPage.bind(self)} // 翻页
+                        goLink={self.goLink.bind(self)}
+                        data={null}
+                        actionAuth={[]}
+                        pageAuth={false}
+                    />
+                </div>
+                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                    <Headline title="磁盘框温度" />
+                    <CompactTable
+                        goPage={self.goPage.bind(self)} // 翻页
+                        goLink={self.goLink.bind(self)}
+                        data={null}
+                        actionAuth={[]}
+                        pageAuth={false}
+                    />
+                </div>
             </div>
         )
     }
@@ -350,7 +389,88 @@ class MageneticInfo extends React.Component<any, any> {
             </div>
         )
     }
-
+    renderRAID() {
+        return (
+            <CompactTable
+                goPage={this.goPage.bind(this)} // 翻页
+                goLink={this.goLink.bind(this)}
+                data={null}
+                actionAuth={[]}
+                pageAuth={false}
+            />
+        )
+    }
+    renderLUN() {
+        return (
+            <CompactTable
+                goPage={this.goPage.bind(this)} // 翻页
+                goLink={this.goLink.bind(this)}
+                data={null}
+                actionAuth={[]}
+                pageAuth={false}
+            />
+        )
+    }
+    renderISCSI() {
+        return (
+            <CompactTable
+                goPage={this.goPage.bind(this)} // 翻页
+                goLink={this.goLink.bind(this)}
+                data={null}
+                actionAuth={[]}
+                pageAuth={false}
+            />
+        )
+    }
+    renderHardware() {
+        return (
+            <CompactTable
+                goPage={this.goPage.bind(this)} // 翻页
+                goLink={this.goLink.bind(this)}
+                data={null}
+                actionAuth={[]}
+                pageAuth={false}
+            />
+        )
+    }
+    renderOthers() {
+        return (
+            <div>
+                <Headline title="BBU信息" />
+                <CompactTable
+                    goPage={this.goPage.bind(this)} // 翻页
+                    goLink={this.goLink.bind(this)}
+                    data={null}
+                    actionAuth={[]}
+                    pageAuth={false}
+                />
+                <Headline title="风扇信息" />
+                <CompactTable
+                    goPage={this.goPage.bind(this)} // 翻页
+                    goLink={this.goLink.bind(this)}
+                    data={null}
+                    actionAuth={[]}
+                    pageAuth={false}
+                />
+                <Headline title="电源信息" />
+                <CompactTable
+                    goPage={this.goPage.bind(this)} // 翻页
+                    goLink={this.goLink.bind(this)}
+                    data={null}
+                    actionAuth={[]}
+                    pageAuth={false}
+                />
+                <Headline title="控制器信息" />
+                <CompactTable
+                    goPage={this.goPage.bind(this)} // 翻页
+                    goLink={this.goLink.bind(this)}
+                    data={null}
+                    actionAuth={[]}
+                    pageAuth={false}
+                />
+            </div>
+        )
+    }
     render() {
         return (
             <div>
@@ -372,7 +492,9 @@ class MageneticInfo extends React.Component<any, any> {
                                 size="small"
                                 onChange={this.tabInfo}
                                 tabBarExtraContent={this.renderBtns()}>
-                                <TabPane tab="概况" key="1"></TabPane>
+                                <TabPane tab="概况" key="1">
+                                    <DynamicPropertiesCollapse attributes={attributes} data={data} />
+                                </TabPane>
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
                         </TabPane>
@@ -381,19 +503,38 @@ class MageneticInfo extends React.Component<any, any> {
                                 defaultActiveKey="1"
                                 size="small"
                                 onChange={this.tabConnect}>
-                                <TabPane tab="RAID信息" key="1">RAID信息</TabPane>
-                                <TabPane tab="LUN信息" key="2">LUN信息</TabPane>
-                                <TabPane tab="ISCSI信息" key="3">ISCSI信息</TabPane>
-                                <TabPane tab="硬盘信息" key="4">硬盘信息</TabPane>
+                                <TabPane tab="RAID信息" key="1">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderRAID()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="LUN信息" key="2">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderLUN()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="ISCSI信息" key="3">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderISCSI()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="硬盘信息" key="4">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderHardware()}
+                                    </div>
+                                </TabPane>
                                 <TabPane tab="性能信息" key="5">{this.renderPerformance()}</TabPane>
-                                <TabPane tab="告警" key="6">告警</TabPane>
-                                <TabPane tab="其它信息" key="7">其它信息</TabPane>
+                                <TabPane tab="告警" key="6">告警信息
+                                </TabPane>
+                                <TabPane tab="其它信息" key="7">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderOthers()}
+                                    </div>
+                                </TabPane>
                             </Tabs>
                         </TabPane>
                     </Tabs>
                 </div>
-                {/* <DynamicPropertiesPanel attributes={attributes} data={data} /> */}
-                <DynamicPropertiesCollapse attributes={attributes} data={data} />
             </div>
         )
     }
