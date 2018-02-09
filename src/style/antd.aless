@@ -222,6 +222,7 @@
 
 .ant-tabs.ant-tabs-card {
   &>.ant-tabs-bar {
+      margin: 0;
       .ant-tabs-ink-bar {
         left: 0px;
         right: 0;
@@ -241,11 +242,14 @@
       }
   }
   &>.ant-tabs-content {
+    .ant-tabs-bar {
+      margin: 0;
+    }
     .ant-tabs-ink-bar { 
       height: 3px;
     }
-    .ant-tabs-tab {
-      padding: 16px;
+    .ant-tabs-small .ant-tabs-tab{
+      padding: 16px 16px;
     }
   }
 }
