@@ -27,11 +27,12 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     { pageName: '虚拟机管理', page: 'virtual' },
                     { pageName: 'AZ管理', page: 'az' },
                     { pageName: 'HA管理', page: 'ha' },
-                    { pageName: 'Flavor管理', page: 'flavor' },
-                    { pageName: '镜像管理', page: 'mirror' },
-                    { pageName: '虚拟网络管理', page: 'virtual_network' },
-                    { pageName: '存储卷管理', page: 'storage_volume' },
-                    { pageName: '卷类型管理', page: 'volume_type' }]
+                        // { pageName: 'Flavor管理', page: 'flavor' },
+                        // { pageName: '镜像管理', page: 'mirror' },
+                        // { pageName: '虚拟网络管理', page: 'virtual_network' },
+                        // { pageName: '存储卷管理', page: 'storage_volume' },
+                        // { pageName: '卷类型管理', page: 'volume_type' }
+                    ]
                 },
                 {
                     id: 2,
@@ -40,11 +41,12 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     { pageName: '虚拟机管理', page: 'virtual' },
                     { pageName: 'AZ管理', page: 'az' },
                     { pageName: 'HA管理', page: 'ha' },
-                    { pageName: 'Flavor管理', page: 'flavor' },
-                    { pageName: '镜像管理', page: 'mirror' },
-                    { pageName: '虚拟网络管理', page: 'virtual_network' },
-                    { pageName: '存储卷管理', page: 'storage_volume' },
-                    { pageName: '卷类型管理', page: 'volume_type' }]
+                        // { pageName: 'Flavor管理', page: 'flavor' },
+                        // { pageName: '镜像管理', page: 'mirror' },
+                        // { pageName: '虚拟网络管理', page: 'virtual_network' },
+                        // { pageName: '存储卷管理', page: 'storage_volume' },
+                        // { pageName: '卷类型管理', page: 'volume_type' }
+                    ]
                 },
             ],
             pim: [
