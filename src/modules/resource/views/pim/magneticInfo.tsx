@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
@@ -93,7 +94,7 @@ const attributes = [
         'physicalTablefield': 'Hostname',
         'state': 1,
         'version': '1.0',
-        'ediable': 0,
+        'ediable': 1,
         'visible': 1,
         'attributeGroup': '位置信息'
     },
@@ -106,7 +107,7 @@ const attributes = [
         'physicalTablefield': 'Hostname',
         'state': 1,
         'version': '1.0',
-        'ediable': 0,
+        'ediable': 1,
         'visible': 1,
         'attributeGroup': '位置信息'
     },
@@ -158,7 +159,8 @@ const data = {
         '磁阵License信息',
         '磁阵软件版本',
         '磁阵运行状态',
-        '磁阵资产状态'
+        '磁阵资产状态',
+        'Hostname',
     ],
     'columns': [
         'ID',
@@ -179,7 +181,8 @@ const data = {
         'License',
         'SoftwareVersion',
         'OperationingStatus',
-        'PropertyState'
+        'PropertyState',
+        'Hostname'
     ],
     'values': [
         [
@@ -201,7 +204,8 @@ const data = {
             '',
             '3.20.06.102',
             'OK',
-            'Used'
+            'Used',
+            'huawei'
         ],
     ]
 };
@@ -381,7 +385,8 @@ class MageneticInfo extends React.Component<any, any> {
                         </TabPane>
                     </Tabs>
                 </div>
-                <DynamicPropertiesPanel attributes={attributes} data={data} />
+                {/* <DynamicPropertiesPanel attributes={attributes} data={data} /> */}
+                <DynamicPropertiesCollapse attributes={attributes} data={data} />              
             </div>
         )
     }
