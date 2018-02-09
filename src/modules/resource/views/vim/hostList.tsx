@@ -42,9 +42,12 @@ class Host extends React.Component<any, any> {
         // this.props.history.push(`/resource/vim/1/host/info`)
     }
     goLink(key, obj) {
-        let { match } = this.props
+        let { pathname } = this.props.location
+        const mp_node: any = matchPath(pathname, {
+            path: '/resource/vim/:id'
+        })
         if (key === 'id') {
-            this.props.history.push(`${match.url}/info/${obj.id}`)
+            this.props.history.replace(`/resource/vim/${mp_node.params.id}/host/info/${obj.id}`)
         }
     }
     goDelete = () => { }
