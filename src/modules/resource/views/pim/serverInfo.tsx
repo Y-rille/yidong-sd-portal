@@ -273,18 +273,7 @@ class ServerInfo extends React.Component<any, any> {
             }
         })
     }
-    // renderBtn() {
-    //     return (
-    //         <div style={{ marginTop: '5px' }}>
-    //             <Button
-    //                 type="primary" ghost
-    //                 icon="dingding"
-    //                 style={{ margin: '0px 10px 0px 0' }}
-    //                 onClick={this.confirmUpOrDown}
-    //             >{this.state.status === 'down' ? '上电' : '下电'}</Button>
-    //         </div>
-    //     )
-    // }
+
     renderBtns() {
         return (
             <div className={styles.btn}>
@@ -305,9 +294,11 @@ class ServerInfo extends React.Component<any, any> {
                 <div className={styles.header}>
                     <h1 className={styles.title}>磁阵详情</h1>
                     <Breadcrumb>
+                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
-                        <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+                        <Breadcrumb.Item>物理部署组织</Breadcrumb.Item>
+                        <Breadcrumb.Item>服务器管理</Breadcrumb.Item>
+                        <Breadcrumb.Item>服务器详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div className={styles.tabCont}>
@@ -320,7 +311,6 @@ class ServerInfo extends React.Component<any, any> {
                                 tabBarExtraContent={this.renderBtns()}>
                                 <TabPane tab="概况" key="1">
                                     <DynamicPropertiesPanel attributes={attributes} data={data} />
-
                                 </TabPane>
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
@@ -332,58 +322,65 @@ class ServerInfo extends React.Component<any, any> {
                                 onChange={this.tabConnect}>
                                 <TabPane tab="处理器信息" key="1" style={{ padding: '20px 0' }}>
                                     <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        data={null}
-                                        actionAuth={[]}
+                                        // goPage={this.goPage.bind(this)} // 翻页
+                                        // goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        actionAuth={['delete']}
+                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="内存信息" key="2" style={{ padding: '20px 0' }}>
                                     <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        data={null}
-                                        actionAuth={[]}
+                                        // goPage={this.goPage.bind(this)} // 翻页
+                                        // goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        actionAuth={['delete']}
+                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="网卡信息" key="3" style={{ padding: '20px 0' }}>
                                     <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        data={null}
-                                        actionAuth={[]}
+                                        // goPage={this.goPage.bind(this)} // 翻页
+                                        // goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        actionAuth={['delete']}
+                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="硬盘信息" key="4" style={{ padding: '20px 0' }}>
                                     <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        data={null}
-                                        actionAuth={[]}
+                                        // goPage={this.goPage.bind(this)} // 翻页
+                                        // goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        actionAuth={['delete']}
+                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="风扇信息" key="5" style={{ padding: '20px 0' }}>
                                     <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        data={null}
-                                        actionAuth={[]}
+                                        // goPage={this.goPage.bind(this)} // 翻页
+                                        // goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        actionAuth={['delete']}
+                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="电源信息" key="6" style={{ padding: '20px 0' }}>
                                     <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        data={null}
-                                        actionAuth={[]}
+                                        // goPage={this.goPage.bind(this)} // 翻页
+                                        // goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        actionAuth={['delete']}
+                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="其它信息" key="7" style={{ padding: '20px 0' }}>
                                     <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        data={null}
-                                        actionAuth={[]}
+                                        // goPage={this.goPage.bind(this)} // 翻页
+                                        // goLink={this.goLink.bind(this)}
+                                        // data={null}
+                                        actionAuth={['delete']}
+                                        pageAuth={false}
                                     />
                                 </TabPane>
                             </Tabs>

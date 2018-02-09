@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Row, Breadcrumb, Icon } from 'antd';
+import { Row, Breadcrumb, Icon, Button } from 'antd';
 import styles from '../style/index.less'
 
 import VimSummary from '../../../components/VimSummary'
@@ -9,29 +9,30 @@ import VimEdit from '../../../components/VimEdit/'
 
 let editRef = null
 let vimInfo = {
-    id: '1',
-    name: 'vim',
-    url: 'http://www.baidu',
-    position: '北京',
-    description: '描述描述描述'
+    id: 'A12WED34212344RED',
+    name: 'vimxxxx',
+    url: 'http://www.hpe.com/kkkk',
+    position: '北京futong',
+    description: '这里是一段资源结构组织的描述描述描述'
 }
 class Dashboard extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            currentId: false
+            vimInfo: vimInfo
         }
     }
     showModal() {
         this.setState({
             visible: true,
+            vimInfo: null
         })
     }
     goEdit() {
         this.setState({
             visible: true,
-            currentId: true
+            vimInfo: vimInfo
         })
     }
     handleOk(data) {
@@ -58,18 +59,25 @@ class Dashboard extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div className={styles.card}>
-                    <p className={styles.summary}>资源结构组织</p>
+                    <div className={styles.summary}>
+                        <span >资源结构组织</span>
+                        <Button className={styles.btn} onClick={this.showModal.bind(this)} type="primary">新建VIM</Button>
+                    </div>
+
                     <VimSummary goEdit={this.goEdit.bind(this)} />
                     <p className={styles.summary}>物理部署组织</p>
                     <PimSummary />
                 </div>
-                <VimEdit
-                    data={this.state.currentId ? vimInfo : null}
-                    visible={this.state.visible}
-                    handleOk={this.handleOk.bind(this)}
-                    handleCancel={this.handleCancel.bind(this)}
-                    ref={(node) => { editRef = node }}
-                />
+                {this.state.visible ? (
+                    <VimEdit
+                        data={this.state.vimInfo}
+                        visible={true}
+                        handleOk={this.handleOk.bind(this)}
+                        handleCancel={this.handleCancel.bind(this)}
+                        ref={(node) => { editRef = node }}
+                    />
+                ) : ''}
+
             </div>
         );
     }

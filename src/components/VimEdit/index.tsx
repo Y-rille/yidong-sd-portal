@@ -19,13 +19,17 @@ export default class VimEdit extends React.PureComponent<VimEditProps, any> {
     }
     handleOk() {
         let formdata = this.formRef.getData()
-        if (this.props.handleOk) {
-            this.props.handleOk(formdata)
+        if (formdata) {
+            let { handleOk } = this.props
+            if (handleOk) {
+                handleOk(formdata)
+            }
         }
     }
     handleCancel() {
-        if (this.props.handleCancel) {
-            this.props.handleCancel()
+        let { handleCancel } = this.props
+        if (handleCancel) {
+            handleCancel()
         }
     }
     render() {

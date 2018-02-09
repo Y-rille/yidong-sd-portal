@@ -301,30 +301,30 @@ class MageneticInfo extends React.Component<any, any> {
                 <div style={{ marginTop: '20px' }}>
                     <Headline title="LUN性能信息" />
                     <CompactTable
-                        goPage={self.goPage.bind(self)} // 翻页
-                        goLink={self.goLink.bind(self)}
-                        data={null}
-                        actionAuth={[]}
+                        // goPage={self.goPage.bind(self)} // 翻页
+                        // goLink={self.goLink.bind(self)}
+                        // data={null}
+                        actionAuth={['delete']}
                         pageAuth={false}
                     />
                 </div>
                 <div style={{ marginTop: '20px' }}>
                     <Headline title="前端业务端口信息" />
                     <CompactTable
-                        goPage={self.goPage.bind(self)} // 翻页
-                        goLink={self.goLink.bind(self)}
-                        data={null}
-                        actionAuth={[]}
+                        // goPage={self.goPage.bind(self)} // 翻页
+                        // goLink={self.goLink.bind(self)}
+                        // data={null}
+                        actionAuth={['delete']}
                         pageAuth={false}
                     />
                 </div>
                 <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                     <Headline title="磁盘框温度" />
                     <CompactTable
-                        goPage={self.goPage.bind(self)} // 翻页
-                        goLink={self.goLink.bind(self)}
-                        data={null}
-                        actionAuth={[]}
+                        // goPage={self.goPage.bind(self)} // 翻页
+                        // goLink={self.goLink.bind(self)}
+                        // data={null}
+                        actionAuth={['delete']}
                         pageAuth={false}
                     />
                 </div>
@@ -347,10 +347,10 @@ class MageneticInfo extends React.Component<any, any> {
     renderRAID() {
         return (
             <CompactTable
-                goPage={this.goPage.bind(this)} // 翻页
-                goLink={this.goLink.bind(this)}
-                data={null}
-                actionAuth={[]}
+                // goPage={this.goPage.bind(this)} // 翻页
+                // goLink={this.goLink.bind(this)}
+                // data={null}
+                actionAuth={['delete']}
                 pageAuth={false}
             />
         )
@@ -358,10 +358,10 @@ class MageneticInfo extends React.Component<any, any> {
     renderLUN() {
         return (
             <CompactTable
-                goPage={this.goPage.bind(this)} // 翻页
-                goLink={this.goLink.bind(this)}
-                data={null}
-                actionAuth={[]}
+                // goPage={this.goPage.bind(this)} // 翻页
+                // goLink={this.goLink.bind(this)}
+                // data={null}
+                actionAuth={['delete']}
                 pageAuth={false}
             />
         )
@@ -369,10 +369,10 @@ class MageneticInfo extends React.Component<any, any> {
     renderISCSI() {
         return (
             <CompactTable
-                goPage={this.goPage.bind(this)} // 翻页
-                goLink={this.goLink.bind(this)}
-                data={null}
-                actionAuth={[]}
+                // goPage={this.goPage.bind(this)} // 翻页
+                // goLink={this.goLink.bind(this)}
+                // data={null}
+                actionAuth={['delete']}
                 pageAuth={false}
             />
         )
@@ -380,10 +380,10 @@ class MageneticInfo extends React.Component<any, any> {
     renderHardware() {
         return (
             <CompactTable
-                goPage={this.goPage.bind(this)} // 翻页
-                goLink={this.goLink.bind(this)}
-                data={null}
-                actionAuth={[]}
+                // goPage={this.goPage.bind(this)} // 翻页
+                // goLink={this.goLink.bind(this)}
+                // data={null}
+                actionAuth={['delete']}
                 pageAuth={false}
             />
         )
@@ -393,34 +393,34 @@ class MageneticInfo extends React.Component<any, any> {
             <div>
                 <Headline title="BBU信息" />
                 <CompactTable
-                    goPage={this.goPage.bind(this)} // 翻页
-                    goLink={this.goLink.bind(this)}
-                    data={null}
-                    actionAuth={[]}
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    // data={null}
+                    actionAuth={['delete']}
                     pageAuth={false}
                 />
                 <Headline title="风扇信息" />
                 <CompactTable
-                    goPage={this.goPage.bind(this)} // 翻页
-                    goLink={this.goLink.bind(this)}
-                    data={null}
-                    actionAuth={[]}
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    // data={null}
+                    actionAuth={['delete']}
                     pageAuth={false}
                 />
                 <Headline title="电源信息" />
                 <CompactTable
-                    goPage={this.goPage.bind(this)} // 翻页
-                    goLink={this.goLink.bind(this)}
-                    data={null}
-                    actionAuth={[]}
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    // data={null}
+                    actionAuth={['delete']}
                     pageAuth={false}
                 />
                 <Headline title="控制器信息" />
                 <CompactTable
-                    goPage={this.goPage.bind(this)} // 翻页
-                    goLink={this.goLink.bind(this)}
-                    data={null}
-                    actionAuth={[]}
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    // data={null}
+                    actionAuth={['delete']}
                     pageAuth={false}
                 />
             </div>
