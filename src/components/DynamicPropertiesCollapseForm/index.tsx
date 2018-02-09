@@ -52,12 +52,16 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
     render() {
         // console.log(this.state.ediable, '=======>this.state.ediable')
         if (this.props.data) {
+            let isEditor = false;
+            if (_.find(this.props.data, { ediable: 1 })) {
+                isEditor = true;
+            }
             return (
                 <Form className="ant-advanced-search-form">
                     <Row gutter={24}>
                         {this.renderForm(this.props.data)}    
                     </Row>
-                    <Row>
+                    {isEditor ? <Row>
                         <Col span={24} style={{ textAlign: 'left' }}>
                             <Button style={{ marginLeft: 8 }} onClick={this.handleEdit.bind(this)} type="primary">
                                 {this.state.isEdit ? '保存' : '修改'}
@@ -67,7 +71,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                                     重置
                                 </Button> : null}
                       </Col>
-                    </Row>
+                    </Row> : null }
                 </Form>
             )
         }
