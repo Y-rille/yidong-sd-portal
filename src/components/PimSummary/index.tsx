@@ -56,7 +56,7 @@ export default class PimSummary extends React.PureComponent<PimSummaryProps, any
         return (
             <div className={styles.pim}>
                 <div className={styles._card_bj}>
-                    <Card className={styles._card}>
+                    <Card className={styles._card} bordered={false}>
                         <div className={styles._card_titile}>
                             <span>资源分配情况</span>
                             <Button className={styles._card_bn} size="small">查看</Button>
@@ -65,7 +65,7 @@ export default class PimSummary extends React.PureComponent<PimSummaryProps, any
                         <p className={styles._card_qus}>内存(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
                         <p className={styles._card_qus}>硬盘(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
                     </Card>
-                    <Card className={styles._card2}>
+                    <Card className={styles._card2} bordered={false}>
                         <div className={styles.pie}>
                             <div className={styles.pie_left}>
                                 <div className={styles._card_titile}>
@@ -94,7 +94,7 @@ export default class PimSummary extends React.PureComponent<PimSummaryProps, any
                             </div>
                         </div>
                     </Card>
-                    <Card className={styles._card}>
+                    <Card className={styles._card} bordered={false}>
                         <div className={styles._card_titile}>
                             <span>虚拟机健康状态</span>
                             <Button className={styles._card_bn} size="small">查看</Button>

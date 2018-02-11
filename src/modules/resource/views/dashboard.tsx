@@ -7,6 +7,8 @@ import VimSummary from '../../../components/VimSummary'
 import PimSummary from '../../../components/PimSummary'
 import VimEdit from '../../../components/VimEdit/'
 
+import Headline from '../../../components/Headline'
+
 let editRef = null
 let vimInfo = {
     id: 'A12WED34212344RED',
@@ -59,13 +61,11 @@ class Dashboard extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div className={styles.card}>
-                    <div className={styles.summary}>
-                        <span >资源结构组织</span>
-                        <Button className={styles.btn} onClick={this.showModal.bind(this)} type="primary">新建VIM</Button>
-                    </div>
-
+                    <Headline title="资源结构组织">
+                        <Button onClick={this.showModal.bind(this)} type="primary">新建VIM</Button>
+                    </Headline>
                     <VimSummary goEdit={this.goEdit.bind(this)} />
-                    <p className={styles.summary}>物理部署组织</p>
+                    <Headline title="物理部署组织" />
                     <PimSummary />
                 </div>
                 {this.state.visible ? (

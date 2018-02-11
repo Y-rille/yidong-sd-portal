@@ -23,7 +23,7 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
                         <a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>
                     </div>
                     <div className={styles._card_bj}>
-                        <Card className={styles._card}>
+                        <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
                                 <span>资源分配情况</span>
                                 <Button className={styles._card_bn} size="small">查看</Button>
@@ -32,7 +32,7 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
                             <p className={styles._card_qus}>内存(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
                             <p className={styles._card_qus}>硬盘(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
                         </Card>
-                        <Card className={styles._card}>
+                        <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
                                 <span>告警</span>
                                 <Button className={styles._card_bn} size="small">查看</Button>
@@ -48,7 +48,7 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
                                 <span className={styles._card_right_orange}>个</span>
                             </p>
                         </Card>
-                        <Card className={styles._card}>
+                        <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
                                 <span>虚拟机电源状态</span>
                                 <Button className={styles._card_bn} size="small">查看</Button>
@@ -69,7 +69,7 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
                                 <span className={styles._card_right_green}>个</span>
                             </p>
                         </Card>
-                        <Card className={styles._card}>
+                        <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
                                 <span>虚拟机健康状态</span>
                                 <Button className={styles._card_bn} size="small">查看</Button>
@@ -98,7 +98,7 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
                         <a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>
                     </div>
                     <div className={styles._card_bj}>
-                        <Card className={styles._card}>
+                        <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
                                 <span>资源分配情况</span>
                                 <Button className={styles._card_bn} size="small">查看</Button>
@@ -107,7 +107,7 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
                             <p className={styles._card_qus}>内存(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
                             <p className={styles._card_qus}>硬盘(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
                         </Card>
-                        <Card className={styles._card}>
+                        <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
                                 <span>告警</span>
                                 <Button className={styles._card_bn} size="small">查看</Button>
@@ -123,7 +123,7 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
                                 <span className={styles._card_right_orange}>个</span>
                             </p>
                         </Card>
-                        <Card className={styles._card}>
+                        <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
                                 <span>虚拟机电源状态</span>
                                 <Button className={styles._card_bn} size="small">查看</Button>
@@ -144,7 +144,7 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
                                 <span className={styles._card_right_green}>个</span>
                             </p>
                         </Card>
-                        <Card className={styles._card}>
+                        <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
                                 <span>虚拟机健康状态</span>
                                 <Button className={styles._card_bn} size="small">查看</Button>
