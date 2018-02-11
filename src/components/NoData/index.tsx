@@ -11,7 +11,7 @@ export default class NoData extends React.PureComponent<NoDataProps, any> {
         return (
             <div className={styles.noData}>
                 <img src={require('../../img/noData.png')} alt="" />
-                <br /><br />
+                <br />
                 <span>当前页面暂无相关数据！</span>
             </div>
         )

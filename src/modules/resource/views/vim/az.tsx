@@ -126,7 +126,7 @@ class Az extends React.Component<any, any> {
                                     goLink={this.goLink.bind(this)}
                                     data={tdata}
                                     pageAuth={true}
-                                    actionAuth={['delete']}
+                                    actionAuth={[]}
                                 />
                             </div>
                         </div>
