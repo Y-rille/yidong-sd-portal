@@ -46,7 +46,8 @@ export default class Summaries extends React.PureComponent<SummariesProps, any> 
                 attr: '写次数(IOps)',
                 value: 153
             }
-        ]
+        ],
+        colNum: 5
     }
     renderContent() {
         const { data, colNum } = this.props;

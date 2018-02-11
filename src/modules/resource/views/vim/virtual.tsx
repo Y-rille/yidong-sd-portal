@@ -89,7 +89,7 @@ class Virtual extends React.Component<any, any> {
             }],
             'body': [
                 {
-                    'id': 'whj_train',
+                    'id': 'whj_train1',
                     'email': 'whj_train',
                     'name': 'p3tenant_c119699c',
                     'mobile': 'win2012',
@@ -99,7 +99,7 @@ class Virtual extends React.Component<any, any> {
                     'vm': 20
                 },
                 {
-                    'id': 'whj_train',
+                    'id': 'whj_train2',
                     'email': 'whj_train',
                     'name': 'p3tenant_c119699c',
                     'mobile': 'win2012',
@@ -109,7 +109,7 @@ class Virtual extends React.Component<any, any> {
                     'vm': 20
                 },
                 {
-                    'id': 'whj_train',
+                    'id': 'whj_train3',
                     'email': 'whj_train',
                     'name': 'p3tenant_c119699c',
                     'mobile': 'win2012',
@@ -119,7 +119,7 @@ class Virtual extends React.Component<any, any> {
                     'vm': 20
                 },
                 {
-                    'id': 'whj_train',
+                    'id': 'whj_train4',
                     'email': 'whj_train',
                     'name': 'p3tenant_c119699c',
                     'mobile': 'win2012',
@@ -129,7 +129,7 @@ class Virtual extends React.Component<any, any> {
                     'vm': 20
                 },
                 {
-                    'id': 'whj_train',
+                    'id': 'whj_train5',
                     'email': 'whj_train',
                     'name': 'p3tenant_c119699c',
                     'mobile': 'win2012',
@@ -139,7 +139,7 @@ class Virtual extends React.Component<any, any> {
                     'vm': 20
                 },
                 {
-                    'id': 'whj_train',
+                    'id': 'whj_train6',
                     'email': 'whj_train',
                     'name': 'p3tenant_c119699c',
                     'mobile': 'win2012',
@@ -149,7 +149,7 @@ class Virtual extends React.Component<any, any> {
                     'vm': 20
                 },
                 {
-                    'id': 'whj_train',
+                    'id': 'whj_train7',
                     'email': 'whj_train',
                     'name': 'p3tenant_c119699c',
                     'mobile': 'win2012',
@@ -159,7 +159,7 @@ class Virtual extends React.Component<any, any> {
                     'vm': 20
                 },
                 {
-                    'id': 'whj_train',
+                    'id': 'whj_train8',
                     'email': 'whj_train',
                     'name': 'p3tenant_c119699c',
                     'mobile': 'win2012',

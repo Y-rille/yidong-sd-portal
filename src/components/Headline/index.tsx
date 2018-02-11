@@ -26,9 +26,14 @@ export default class Headline extends React.PureComponent<HeadlineProps, any> {
     render() {
         let { title } = this.props;
         return (
-            <div className={styles.nodeTitle}>
-                <span className={styles.nodeTitle1}></span>
-                <span className={styles.nodeTitle2}>{title}</span>
+            <div className={styles.node}>
+                <span className={styles.nodeTitle}>
+                    <span className={styles.nodeTitle1}></span>
+                    <span className={styles.nodeTitle2}>{title}</span>
+                </span>
+                <div>
+                    {this.props.children}
+                </div>
             </div>
         );
     }
