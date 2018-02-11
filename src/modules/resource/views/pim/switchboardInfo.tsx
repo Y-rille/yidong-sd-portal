@@ -283,7 +283,23 @@ class SwitchboardInfo extends React.Component<any, any> {
         return (
             <div>
                 <Headline title="系统信息" />
-                <Summaries colNum={5} />
+                <Summaries
+                    data={[
+                        {
+                            attr: 'CPU利用率',
+                            value: '78%'
+                        }, {
+                            attr: 'CPU利用率峰值',
+                            value: '80%'
+                        }, {
+                            attr: '内存利用率',
+                            value: '78%'
+                        }, {
+                            attr: '缓存利用率',
+                            value: '80%'
+                        }
+                    ]}
+                    colNum={2} />
                 <Headline
                     title="接口信息（按端口统计）"
                 />
