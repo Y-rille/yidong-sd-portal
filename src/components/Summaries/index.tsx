@@ -68,7 +68,7 @@ export default class Summaries extends React.PureComponent<SummariesProps, any> 
         }
         if (colNum === 5) {
             return _.map(data, (item) => {
-                return <Col span={4} style={{ marginBottom: '20px', marginRight: '32px' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />{item.value}</Col>
+                return <Col span={4} style={{ marginBottom: '20px', marginRight: '28px' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />{item.value}</Col>
             })
         }
     }
