@@ -62,7 +62,7 @@ class Dashboard extends React.Component<any, any> {
                 </div>
                 <div className={styles.card}>
                     <Headline title="资源结构组织">
-                        <Button onClick={this.showModal.bind(this)}><Icon type="plus" />新建VIM</Button>
+                        <Button onClick={this.showModal.bind(this)}><Icon type="codepen" />新建VIM</Button>
                     </Headline>
                     <VimSummary goEdit={this.goEdit.bind(this)} />
                     <Headline title="物理部署组织" />
