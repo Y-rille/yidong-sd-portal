@@ -71,7 +71,11 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
                         onChange={this.onRangePickerChange.bind(this)}
                     />
                 </LocaleProvider>
-                <Select value={selectValue} style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
+                <Select
+                    value={selectValue}
+                    style={{ width: 200, marginLeft: 10, marginRight: 10 }}
+                    onChange={this.onSelectChange.bind(this)}
+                >
                     <Option value="">无</Option>
                     {
                         timeFilter.map((item, index) => {

@@ -282,7 +282,7 @@ class MageneticInfo extends React.Component<any, any> {
         let self = this;
         return (
             <div>
-                <Headline title="节点信息" />
+                <Headline title="节点信息" ></Headline>
                 <Summaries colNum={5} />
                 <Headline title="LUN性能信息" />
                 <CompactTable
