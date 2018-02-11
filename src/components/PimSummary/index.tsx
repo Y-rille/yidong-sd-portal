@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Row, Col, Card } from 'antd';
+import { Card, Button } from 'antd';
 
 import styles from './index.less';
 
@@ -31,25 +31,11 @@ export default class PimSummary extends React.PureComponent<PimSummaryProps, any
                 pie: {
                     allowPointSelect: false,
                     cursor: 'pointer',
-                    colors: ['red', 'blue', 'black'],
+                    colors: ['#879dbb', '#ffe780', '#7cd8ba'],
                     dataLabels: {
                         enabled: false
                     },
-                    showInLegend: true,
-                    size: 100,
-                    center: ['20%', '50%']
                 }
-            },
-            legend: {
-                align: 'right',
-                x: 0,
-                verticalAlign: 'middle',
-                y: 0,
-                floating: true,
-                shadow: false,
-                layout: 'vertical',
-                itemStyle: { cursor: 'pointer', color: '#3E576F', fontSize: '14px' },
-                symbolRadius: 3
             },
             credits: {  // 版权信息，不显示
                 enabled: false
@@ -58,9 +44,9 @@ export default class PimSummary extends React.PureComponent<PimSummaryProps, any
                 type: 'pie',
                 name: '浏览器访问量占比',
                 data: [
-                    ['计算节点', 45.0],
-                    ['控制节点', 26.8],
-                    ['存储节点', 12.8]
+                    ['计算节点', 50],
+                    ['控制节点', 15],
+                    ['存储节点', 35]
                 ]
             }]
         }
@@ -69,27 +55,67 @@ export default class PimSummary extends React.PureComponent<PimSummaryProps, any
     renderPim() {
         return (
             <div className={styles.pim}>
-                <Row gutter={20}>
-                    <Col span={12}>
-                        <Card>
-                            <p>资源分配情况</p>
-                            <p>未完成</p>
-                            <p>占位符</p>
-                        </Card>
-                    </Col>
-                    <Col span={8}>
-                        <Card>
-                            <div ref={(node) => { this.pie = node }} ></div>
-                        </Card>
-                    </Col>
-                    <Col span={4}>
-                        <Card>
-                            <p>告警</p>
-                            <p>未完成</p>
-                            <p>占位符</p>
-                        </Card>
-                    </Col>
-                </Row>
+                <div className={styles._card_bj}>
+                    <Card className={styles._card}>
+                        <div className={styles._card_titile}>
+                            <span>资源分配情况</span>
+                            <Button className={styles._card_bn} size="small">查看</Button>
+                        </div>
+                        <p className={styles._card_qus}>VCPU(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
+                        <p className={styles._card_qus}>内存(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
+                        <p className={styles._card_qus}>硬盘(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
+                    </Card>
+                    <Card className={styles._card2}>
+                        <div className={styles.pie}>
+                            <div className={styles.pie_left}>
+                                <div className={styles._card_titile}>
+                                    <span>服务器</span>
+                                </div>
+                                <p className={styles._card_qus}>总（台）<span className={styles._card_ans}>：21</span></p>
+                                <p className={styles._card_qus}>未分配裸机（台）<span className={styles._card_ans}>：26</span></p>
+                            </div>
+                            <div className={styles.pie_center} ref={(node) => { this.pie = node }} ></div>
+                            <div className={styles.pie_right}>
+                                <p className={styles._card_left_grey}>
+                                    <span className={styles.icon_grey}></span>控制节点：
+                                <span className={styles._card_center_grey}>50</span>
+                                    <span className={styles._card_right_grey}>个</span>
+                                </p>
+                                <p className={styles._card_left_yellow}>
+                                    <span className={styles.icon_yellow}></span>存储节点：
+                                <span className={styles._card_center_yellow}>15</span>
+                                    <span className={styles._card_right_yellow}>个</span>
+                                </p>
+                                <p className={styles._card_left_green}>
+                                    <span className={styles.icon_green}></span>计算节点：
+                                <span className={styles._card_center_green}>35</span>
+                                    <span className={styles._card_right_green}>个</span>
+                                </p>
+                            </div>
+                        </div>
+                    </Card>
+                    <Card className={styles._card}>
+                        <div className={styles._card_titile}>
+                            <span>虚拟机健康状态</span>
+                            <Button className={styles._card_bn} size="small">查看</Button>
+                        </div>
+                        <p className={styles._card_left_blue}>
+                            <span className={styles.icon_blue}></span>总数：
+                                <span className={styles._card_center_blue}>280</span>
+                            <span className={styles._card_right_blue}>个</span>
+                        </p>
+                        <p className={styles._card_left_grey}>
+                            <span className={styles.icon_grey}></span>关机：
+                                <span className={styles._card_center_grey}>10</span>
+                            <span className={styles._card_right_grey}>个</span>
+                        </p>
+                        <p className={styles._card_left_green}>
+                            <span className={styles.icon_green}></span>运行：
+                                <span className={styles._card_center_green}>280</span>
+                            <span className={styles._card_right_green}>个</span>
+                        </p>
+                    </Card>
+                </div>
             </div>
         )
     }
