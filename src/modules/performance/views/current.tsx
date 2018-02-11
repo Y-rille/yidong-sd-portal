@@ -14,6 +14,7 @@ import styles from '../style/index.less'
 import deepPick from '../utils/deepPick'
 import getKpiData from '../utils/getKpiData'
 import moment from '../../../common/moment'
+import NoData from '../../../components/NoData/'
 
 let testData = [
     {
@@ -126,6 +127,7 @@ class Current extends React.Component<any, any> {
                         <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} nodeName={nodeName} hideFacts={this.props.hideFacts} />
                     )
                 })}
+                <NoData />
             </Row>
         )
     }
