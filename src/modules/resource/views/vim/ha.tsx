@@ -51,7 +51,7 @@ class Ha extends React.Component<any, any> {
                 key: 'id',
                 title: 'HA名称',
                 // fixed: true,
-                // link: true,
+                link: true,
             }, {
                 key: 'name',
                 title: 'Metadata',
