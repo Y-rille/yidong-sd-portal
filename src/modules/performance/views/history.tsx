@@ -10,6 +10,7 @@ import { Row, Col, Spin } from 'antd';
 import styles from '../style/index.less'
 import TimeSelect from '../../../components/TimeSelect/';
 import LineChartCard from '../../../components/LineChartCard/'
+import NoData from '../../../components/NoData'
 import moment from '../../../common/moment'
 import getKpiData from '../utils/getKpiData'
 
@@ -97,7 +98,7 @@ class History extends React.Component<any, any> {
                                 )
                             })}
                         </Row>) : (
-                            <div>暂无数据</div>
+                            <NoData/>
                         )
                 }
             </div>
