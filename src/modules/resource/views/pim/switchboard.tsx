@@ -46,103 +46,75 @@ class Switchboard extends React.Component<any, any> {
             'count': 17,
             'header': [{
                 key: 'id',
-                title: '编号',
-                fixed: true,
+                title: '序号',
                 link: true,
             }, {
                 key: 'name',
-                title: '姓名',
-                fixed: true,
+                title: '磁阵名称',
             }, {
                 key: 'mobile',
-                title: '电话',
+                title: '资产编号',
             }, {
-                key: 'vm',
-                title: 'VM值'
+                key: 'ip',
+                title: '管理IP'
             },
             {
                 key: 'email',
-                title: '邮箱',
+                title: '设备类型',
             }, {
                 key: 'cpu',
-                title: 'CPU'
-            }, {
-                key: 'memory',
-                title: '内存'
-            }, {
-                key: 'role',
-                title: '角色',
+                title: '型号'
             }],
             'body': [
                 {
-                    'id': 100077,
-                    'email': 'zhan21@hpe.com',
-                    'name': '张三21',
-                    'mobile': '15811001101',
-                    'cpu': '1/10',
-                    'memory': '50%',
-                    'role': '管理员',
-                    'vm': 20
-                },
-                {
-                    'id': 100056,
-                    'email': 'dandan',
-                    'name': '用户1',
-                    'mobile': '13211111111',
-                    'cpu': '1/10',
-                    'memory': '70%',
-                    'role': '普通会员',
-                    'vm': 25
-                },
-                {
-                    'id': 100003,
-                    'email': 'admin@cmp.com',
-                    'name': '管理员',
-                    'mobile': '13211117890',
-                    'cpu': '1/10',
-                    'memory': '40%',
-                    'role': 'VIP',
-                    'vm': 15
-                },
-                {
-                    'id': 100005,
-                    'email': 'admin@cmp.com',
-                    'name': '会员6',
-                    'mobile': '13211127890',
-                    'cpu': '3/10',
-                    'memory': '55%',
-                    'role': '普通会员',
-                    'vm': 13
-                },
-                {
-                    'id': 100025,
-                    'email': 'admin3@cmp.com',
-                    'name': '会员1',
-                    'mobile': '13311127890',
-                    'cpu': '3/10',
-                    'memory': '65%',
-                    'role': '普通会员',
-                    'vm': 13
-                },
-                {
-                    'id': 100075,
-                    'email': 'admin3@cmp.com',
-                    'name': '会员8',
-                    'mobile': '13911127890',
-                    'cpu': '4/10',
-                    'memory': '25%',
-                    'role': '普通会员',
-                    'vm': 21
-                },
-                {
-                    'id': 100575,
-                    'email': 'admin8@cmp.com',
-                    'name': '会员10',
-                    'mobile': '18811127890',
-                    'cpu': '4/10',
-                    'memory': '45%',
-                    'role': '普通会员',
-                    'vm': 22
+                    'id': 1,
+                    'name': 'D19-COMP06',
+                    'mobile': '0000',
+                    'ip': '188.103.21',
+                    'email': '123124124214214',
+                    'cpu': 'HPProLlant DL380',
+                }, {
+                    'id': 2,
+                    'name': 'D19-COMP06',
+                    'mobile': '0000',
+                    'ip': '188.103.21',
+                    'email': '123124124214214',
+                    'cpu': 'HPProLlant DL380',
+                }, {
+                    'id': 3,
+                    'name': 'D19-COMP06',
+                    'mobile': '0000',
+                    'ip': '188.103.21',
+                    'email': '123124124214214',
+                    'cpu': 'HPProLlant DL380',
+                }, {
+                    'id': 4,
+                    'name': 'D19-COMP06',
+                    'mobile': '0000',
+                    'ip': '188.103.21',
+                    'email': '123124124214214',
+                    'cpu': 'HPProLlant DL380',
+                }, {
+                    'id': 5,
+                    'name': 'D19-COMP06',
+                    'mobile': '0000',
+                    'ip': '188.103.21',
+                    'email': '123124124214214',
+                    'cpu': 'HPProLlant DL380',
+                }, {
+                    'id': 6,
+                    'name': 'D19-COMP06',
+                    'mobile': '0000',
+                    'ip': '188.103.21',
+                    'email': '123124124214214',
+                    'cpu': 'HPProLlant DL380',
+                }, {
+                    'id': 7,
+                    'name': 'D19-COMP06',
+                    'mobile': '0000',
+                    'ip': '188.103.21',
+                    'email': '123124124214214',
+                    'cpu': 'HPProLlant DL380',
                 }
             ]
         }
