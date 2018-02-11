@@ -10,11 +10,11 @@ import { Row, Col, Icon } from 'antd';
 
 import InstrumentPanel from '../../../components/InstrumentPanel'
 import InstrumentCard from '../../../components/InstrumentCard'
+import NoData from '../../../components/NoData'
 import styles from '../style/index.less'
 import deepPick from '../utils/deepPick'
 import getKpiData from '../utils/getKpiData'
 import moment from '../../../common/moment'
-import NoData from '../../../components/NoData/'
 
 let testData = [
     {
@@ -128,7 +128,7 @@ class Current extends React.Component<any, any> {
                         )
                     })}
                 </Row>) : (
-                    <div>暂无数据</div>
+                    <NoData/>
                 )
         )
 
