@@ -296,20 +296,21 @@ class HostInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>主机管理</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div className={styles.tabCont}>
-                    <Tabs onChange={this.onChange.bind(this)} type="card">
+                <div style={{ padding: '20px' }}>
+                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
                         <TabPane tab="资源详情" key="1">
                             <Tabs
                                 onChange={this.onChange.bind(this)}
                                 size="small"
-                                tabBarExtraContent={this.renderBtns()}>
+                                tabBarExtraContent={this.renderBtns()}
+                                animated={false}>
                                 <TabPane tab="概况" key="11">
                                     <DynamicPropertiesCollapse attributes={attributes} data={data} />
                                 </TabPane>
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="2">
-                            <Tabs onChange={this.onChange.bind(this)}>
+                            <Tabs size="small" onChange={this.onChange.bind(this)} animated={false}>
                                 <TabPane tab="处理器信息" key="21">
                                     <DynamicPropertiesCollapse attributes={attributes} data={data} />
                                 </TabPane>
@@ -317,33 +318,33 @@ class HostInfo extends React.Component<any, any> {
                                     <CompactTable
                                         // goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
-                                        // data={null}
                                         actionAuth={[]}
                                         pageAuth={false}
+                                        outStyle={{ 'marginTop': '20px' }}
                                     />
                                 </TabPane>
                                 <TabPane tab="端口信息" key="23">
                                     <CompactTable
                                         // goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
-                                        // data={null}
                                         actionAuth={[]}
                                         pageAuth={false}
+                                        outStyle={{ 'marginTop': '20px' }}
                                     />
                                 </TabPane>
                                 <TabPane tab="LLDP信息" key="24">
                                     <CompactTable
                                         // goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
-                                        // data={null}
                                         actionAuth={[]}
                                         pageAuth={false}
+                                        outStyle={{ 'marginTop': '20px' }}
                                     />
                                 </TabPane>
                             </Tabs>
                         </TabPane>
                         <TabPane tab="下级资源" key="3">
-                            <Tabs onChange={this.onChange.bind(this)}>
+                            <Tabs size="small" onChange={this.onChange.bind(this)} animated={false}>
                                 <TabPane tab="概况" key="31">概况</TabPane>
                             </Tabs>
                         </TabPane>

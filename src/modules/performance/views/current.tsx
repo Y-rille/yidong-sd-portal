@@ -14,6 +14,7 @@ import styles from '../style/index.less'
 import deepPick from '../utils/deepPick'
 import getKpiData from '../utils/getKpiData'
 import moment from '../../../common/moment'
+import NoData from '../../../components/NoData/'
 
 let testData = [
     {
@@ -118,16 +119,19 @@ class Current extends React.Component<any, any> {
         // } else {
         //     return <div></div>
         // }
-
         return (
-            <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
-                {this.state.result.map((item, index) => {
-                    return (
-                        <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} nodeName={nodeName} hideFacts={this.props.hideFacts} />
-                    )
-                })}
-            </Row>
+            this.state.result.length > 0 ? (
+                <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
+                    {this.state.result.map((item, index) => {
+                        return (
+                            <InstrumentCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} nodeName={nodeName} hideFacts={this.props.hideFacts} />
+                        )
+                    })}
+                </Row>) : (
+                    <div>暂无数据</div>
+                )
         )
+
     }
 }
 

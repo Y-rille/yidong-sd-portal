@@ -60,7 +60,7 @@ class AzInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>AZ详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div style={{ padding: '20px' }}>
+                <div style={{ padding: '0 20px 20px 20px' }}>
                     <div>
                         <Headline title="系统信息" />
                         <Summaries
@@ -107,6 +107,7 @@ class AzInfo extends React.Component<any, any> {
 
                     <div>
                         <CompactTable
+                            outStyle={{ marginTop: '20px' }}
                             goPage={this.goPage.bind(this)} // 翻页
                             // goLink={this.goLink.bind(this)}
                             // data={null}

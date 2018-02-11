@@ -2,23 +2,132 @@
 @import "../../style/index.less";
 
 .vim{
-    padding-top: 10px;
-    padding-bottom: 20px;
-    border-top: 1px dashed #e2e4e9;
+    margin-bottom: 10px;
+    background-color: #f5f7f9;
+    padding: 20px; 
     .title{
-        margin-bottom: 5px;
-        display: flow-root;
+        margin-bottom: 20px;
         .title_header{
             color: #000;
             margin-right: 10px;
             font-weight: bold;
         }
-        .edit{
-            margin-left: 10px;
-            font-size: 13px;
+    };
+    ._card_bj{
+        display: flex;
+        align-items: stretch;
+        ._card {
+            flex: 1;
+            margin-right: @margin-base;
+            &:last-child {
+                margin-right: 0;
+            }
+            ._card_titile{
+                font-size: 16px;
+                margin-bottom: 20px;
+                font-weight: bold;
+                ._card_bn{
+                    background-color: #f7fafc;
+                    float: right
+                }
+            }
+            ._card_qus{
+                margin-top: 10px;
+            }
+            ._card_ans{
+                color: #000;
+            }
+            ._card_left_blue{
+                margin-top: 10px;
+                color: #000;
+            }
+            ._card_center_blue{
+                color: #6fbdf3;
+                font-size: 18px;
+            }
+            ._card_right_blue{
+                color: #6fbdf3;
+                font-size: 12px;
+            }
+            ._card_left_orange{
+                margin-top: 10px;
+                color: #000;
+            }
+            ._card_center_orange{
+                color: #fba277;
+                font-size: 18px;
+            }
+            ._card_right_orange{
+                color: #fba277;
+                font-size: 12px;
+            }
+            ._card_left_grey{
+                margin-top: 10px;
+                color: #000;
+            }
+            ._card_center_grey{
+                color: #b2becd;
+                font-size: 18px;
+            }
+            ._card_right_grey{
+                color: #b2becd;
+                font-size: 12px;
+            }
+            ._card_left_green{
+                margin-top: 10px;
+                color: #000;
+            }
+            ._card_center_green{
+                color: #7cd8ba;
+                font-size: 18px;
+            }
+            ._card_right_green{
+                color: #7cd8ba;
+                font-size: 12px;
+            }
+            .icon_blue{
+                margin-right: 5px;
+                display: inline-block;
+                width: 13px;
+                height: 13px;
+                background-color: #6fbdf3;
+                border-radius: 50%;
+                -moz-border-radius: 50%;
+                -webkit-border-radius: 50%;
+            }
+            .icon_grey{
+                margin-right: 5px;
+                display: inline-block;
+                width: 13px;
+                height: 13px;
+                background-color: #b2becd;
+                border-radius: 50%;
+                -moz-border-radius: 50%;
+                -webkit-border-radius: 50%;
+            }
+            .icon_green{
+                margin-right: 5px;
+                display: inline-block;
+                width: 13px;
+                height: 13px;
+                background-color: #7cd8ba;
+                border-radius: 50%;
+                -moz-border-radius: 50%;
+                -webkit-border-radius: 50%;
+            }
+            .icon_orange{
+                margin-right: 5px;
+                display: inline-block;
+                width: 13px;
+                height: 13px;
+                background-color: #fba277;
+                border-radius: 50%;
+                -moz-border-radius: 50%;
+                -webkit-border-radius: 50%;
+            }
         }
     }
-}
-.header{
-    padding-bottom: 10px;
+    &:last-child {
+        margin-bottom: 20px;
+    }
 }

@@ -65,7 +65,7 @@ class History extends React.Component<any, any> {
         if (this.props.kpis) {
             this.getData(this.props.kpis)
         }
-        
+
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.kpis !== this.props.kpis) {
@@ -88,16 +88,21 @@ class History extends React.Component<any, any> {
                 <div className={styles.toolBar} style={{ backgroundColor: '#FFF' }}>
                     <TimeSelect timeFilter={this.props.timeFilter} defaultValue={[this.state.begintime, this.state.endtime, this.state.timeFilter]} inquire={this.inquire.bind(this)} />
                 </div>
-                <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
-                    {this.state.result.map((item, index) => {
-                        return (
-                            <LineChartCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} nodeName={nodeName} hideFacts={this.props.hideFacts} />
+                {
+                    this.state.result.length > 0 ? (
+                        <Row gutter={20} style={{ padding: '0 20px 10px', marginTop: '-10px' }} className={styles.current}>
+                            {this.state.result.map((item, index) => {
+                                return (
+                                    <LineChartCard deleteCard={this.deleteCard.bind(this)} key={item.kpiId} data={item} nodeName={nodeName} hideFacts={this.props.hideFacts} />
+                                )
+                            })}
+                        </Row>) : (
+                            <div>暂无数据</div>
                         )
-                    })}
-                </Row>
+                }
             </div>
         )
-
+        
     }
 }
 

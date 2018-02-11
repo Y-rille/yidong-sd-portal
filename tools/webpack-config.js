@@ -72,7 +72,7 @@ module.exports = (type) => {
             'react-dom': 'ReactDOM',
             'react-router-dom': 'ReactRouterDOM',
             'react-redux': 'ReactRedux',
-            // 'lodash': '_',
+            'lodash': '_',
         },
         plugins: _.compact([
             // isDist && new ManifestPlugin({
@@ -94,7 +94,7 @@ module.exports = (type) => {
             // }),
             isDev && new webpack.HotModuleReplacementPlugin(),
             isDist && new webpack.optimize.UglifyJsPlugin(),
-            isDist && new webpack.optimize.AggressiveMergingPlugin(),
+            // isDist && new webpack.optimize.AggressiveMergingPlugin(),
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: JSON.stringify(type === 'dist' ? 'production' : type),
@@ -105,7 +105,7 @@ module.exports = (type) => {
             extractApp,
             new webpack.optimize.CommonsChunkPlugin({
                 name: `common`,
-                minChunks: function (module) {
+                minChunks: function (module, count) {
                     return module.context && module.context.indexOf('node_modules') !== -1;
                 }
             }),
@@ -134,7 +134,7 @@ module.exports = (type) => {
             }),
             new HtmlWebpackIncludeAssetsPlugin({
                 assets: [
-                    // 'lib/lodash.min.js',
+                    'lib/lodash.min.js',
                     'lib/react.production.min.js',
                     'lib/react-dom.production.min.js',
                     'lib/react-router-dom.min.js',

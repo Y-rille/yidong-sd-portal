@@ -2,7 +2,7 @@ import React from 'react';
 import { LocaleProvider } from 'antd';
 import moment from '../../common/moment';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
-import 'moment/locale/zh-cn';
+// import 'moment/locale/zh-cn';
 import emitter from '../../common/emitter'
 
 import { DatePicker, Input, Select, Button } from 'antd';
@@ -71,7 +71,11 @@ export default class TimeSelect extends React.PureComponent<TimeSelectProps, any
                         onChange={this.onRangePickerChange.bind(this)}
                     />
                 </LocaleProvider>
-                <Select value={selectValue} style={{ width: 180, marginLeft: 10, marginRight: 10 }} onChange={this.onSelectChange.bind(this)}>
+                <Select
+                    value={selectValue}
+                    style={{ width: 200, marginLeft: 10, marginRight: 10 }}
+                    onChange={this.onSelectChange.bind(this)}
+                >
                     <Option value="">无</Option>
                     {
                         timeFilter.map((item, index) => {
