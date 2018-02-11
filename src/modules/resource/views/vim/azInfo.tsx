@@ -63,7 +63,26 @@ class AzInfo extends React.Component<any, any> {
                 <div style={{ padding: '20px' }}>
                     <div>
                         <Headline title="系统信息" />
-                        <Summaries colNum={5} />
+                        <Summaries
+                            data={[
+                                {
+                                    attr: 'HA数',
+                                    value: 12312
+                                }, {
+                                    attr: 'Host数',
+                                    value: 12312
+                                }, {
+                                    attr: 'VCPU（未使用/总）',
+                                    value: '21GB/26GB'
+                                }, {
+                                    attr: '内   存（未使用/总）',
+                                    value: '21GB/26GB'
+                                }, {
+                                    attr: '硬   盘（未使用/总）',
+                                    value: '21GB/26GB'
+                                }
+                            ]}
+                            colNum={3} />
                         <Headline title="主机" />
                         <div className={styles.queryBar}>
                             <Input
