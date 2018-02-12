@@ -133,7 +133,128 @@ class Magnetic extends React.Component<any, any> {
                             <CompactTable
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
-                                // data={null}
+                                data={{
+                                    'count': 10,
+                                    'header': [{
+                                        key: 'id',
+                                        title: '序号',
+
+                                        link: true,
+                                    }, {
+                                        key: 'name',
+                                        title: '磁阵名称',
+
+                                        link: true,
+                                    }, {
+                                        key: 'mobile',
+                                        title: '资产编号',
+                                    }, {
+                                        key: 'vm',
+                                        title: '管理IP'
+                                    },
+                                    {
+                                        key: 'email',
+                                        title: '序列号',
+                                    }, {
+                                        key: 'cpu',
+                                        title: '型号'
+                                    }, {
+                                        key: 'memory',
+                                        title: '供应商'
+                                    }],
+                                    'body': [
+                                        {
+                                            'id': 1,
+                                            'name': 'D19-COMP06',
+                                            'mobile': '0000',
+                                            'vm': '188.103.21',
+                                            'email': '123124124214214',
+                                            'cpu': 'HPProLIant DL380',
+                                            'memory': '上电',
+                                        },
+                                        {
+                                            'id': 2,
+                                            'name': 'ZJHZ-NFV3-SQ5-3F',
+                                            'mobile': '0000',
+                                            'vm': '188.103.21',
+                                            'email': '123124124214214',
+                                            'cpu': 'HPProLIant DL380',
+                                            'memory': 'HPE',
+                                        },
+                                        {
+                                            'id': 3,
+                                            'name': 'ZJHZ-NFV3-SQ5-3F',
+                                            'mobile': '0000',
+                                            'vm': '188.103.21',
+                                            'email': '123124124214214',
+                                            'cpu': 'HPProLIant DL380',
+                                            'memory': 'HPE',
+                                        },
+                                        {
+                                            'id': 4,
+                                            'name': 'ZJHZ-NFV3-SQ5-3F',
+                                            'mobile': '0000',
+                                            'vm': '188.103.21',
+                                            'email': '123124124214214',
+                                            'cpu': 'HPProLIant DL380',
+                                            'memory': 'HPE',
+                                        },
+                                        {
+                                            'id': 5,
+                                            'name': 'ZJHZ-NFV3-SQ5-3F',
+                                            'mobile': '0000',
+                                            'vm': '188.103.21',
+                                            'email': '123124124214214',
+                                            'cpu': 'HPProLIant DL380',
+                                            'memory': 'HPE',
+                                        },
+                                        {
+                                            'id': 6,
+                                            'name': 'ZJHZ-NFV3-SQ5-3F',
+                                            'mobile': '0000',
+                                            'vm': '188.103.21',
+                                            'email': '123124124214214',
+                                            'cpu': 'HPProLIant DL380',
+                                            'memory': '华为',
+                                        },
+                                        {
+                                            'id': 7,
+                                            'name': 'ZJHZ-NFV3-SQ5-3F',
+                                            'mobile': '0000',
+                                            'vm': '188.103.21',
+                                            'email': '123124124214214',
+                                            'cpu': 'HPProLIant DL380',
+                                            'memory': '华为',
+                                        },
+                                        {
+                                            'id': 8,
+                                            'name': 'ZJHZ-NFV3-SQ5-3F',
+                                            'mobile': '0000',
+                                            'vm': '188.103.21',
+                                            'email': '123124124214214',
+                                            'cpu': 'HPProLIant DL380',
+                                            'memory': '华为',
+                                        },
+                                        {
+                                            'id': 9,
+                                            'name': 'ZJHZ-NFV3-SQ5-3F',
+                                            'mobile': '0000',
+                                            'vm': '188.103.21',
+                                            'email': '123124124214214',
+                                            'cpu': 'HPProLIant DL380',
+                                            'memory': '华为',
+                                        },
+                                        {
+                                            'id': 10,
+                                            'name': 'ZJHZ-NFV3-SQ5-3F',
+                                            'mobile': '0000',
+                                            'vm': '188.103.21',
+                                            'email': '123124124214214',
+                                            'cpu': 'HPProLIant DL380',
+                                            'memory': '华为',
+                                        }
+                                    ]
+                                }}
                                 actionAuth={['delete']}
                                 pageAuth={false}
                             />
