@@ -43,17 +43,17 @@ class Host extends React.Component<any, any> {
     }
     goLink(key, obj) {
         let { pathname } = this.props.location
-        const mp_node: any = matchPath(pathname, {
+        const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
-        if (key === 'id') {
-            this.props.history.replace(`/resource/vim/${mp_node.params.id}/host/info/${obj.id}`)
+        if (key === 'name') {
+            this.props.history.replace(`/resource/vim/${mp_node.params.id}/host/info/${obj.name}`)
         }
     }
     goDelete = () => { }
     goEdit = () => { }
     render() {
-        let { match } = this.props;
+        let { match, data } = this.props;
         const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         return (
             <div>
@@ -70,7 +70,7 @@ class Host extends React.Component<any, any> {
                 <CompactTable
                     goPage={this.goPage.bind(this)} // 翻页
                     goLink={this.goLink.bind(this)}
-                    // data={null}
+                    data={data}
                     actionAuth={[]}
                     pageAuth={false}
                     outStyle={{ 'marginTop': '20px' }}
