@@ -76,6 +76,243 @@ class Host extends React.Component<any, any> {
     render() {
         let { match } = this.props;
         const { menuValue, secondMenuValue, thiredMenuValue, activeKey } = this.state;
+        let control_tdata = {
+            'count': 17,
+            'header': [{
+                key: 'name',
+                title: '主机名称',
+                link: true,
+            }, {
+                key: 'roles',
+                title: '角色',
+            }, {
+                key: 'cpu',
+                title: 'CPU(使用/全部)',
+            }, {
+                key: 'memory',
+                title: '内存(使用/全部)'
+            },
+            {
+                key: 'az',
+                title: '所属AZ',
+            }, {
+                key: 'ha',
+                title: '所属HA'
+            }, {
+                key: 'up',
+                title: '上下电状态'
+            }, {
+                key: 'maintain',
+                title: '维护状态'
+            }, {
+                key: 'run',
+                title: '运行时长'
+            }, {
+                key: 'vm',
+                title: 'VM数'
+            }],
+            'body': [
+                {
+                    'id': 1,
+                    'name': '10.255.242.215',
+                    'roles': '主',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 2,
+                    'name': '10.255.242.215',
+                    'roles': '主',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 3,
+                    'name': '10.255.242.215',
+                    'roles': '主',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 4,
+                    'name': '10.255.242.215',
+                    'roles': '主',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 5,
+                    'name': '10.255.242.215',
+                    'roles': '主',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 6,
+                    'name': '10.255.242.215',
+                    'roles': '主',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 7,
+                    'name': '10.255.242.215',
+                    'roles': '主',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }
+            ]
+        }
+
+        let calculate_tdata = {
+            'count': 17,
+            'header': [{
+                key: 'name',
+                title: '主机名称',
+                link: true,
+            }, {
+                key: 'cpu',
+                title: 'CPU(使用/全部)',
+            }, {
+                key: 'memory',
+                title: '内存(使用/全部)'
+            },
+            {
+                key: 'az',
+                title: '所属AZ',
+            }, {
+                key: 'ha',
+                title: '所属HA'
+            }, {
+                key: 'up',
+                title: '上下电状态'
+            }, {
+                key: 'maintain',
+                title: '维护状态'
+            }, {
+                key: 'run',
+                title: '运行时长'
+            }, {
+                key: 'vm',
+                title: 'VM数'
+            }],
+            'body': [
+                {
+                    'id': 1,
+                    'name': '10.255.242.215',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 2,
+                    'name': '10.255.242.215',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 3,
+                    'name': '10.255.242.215',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 4,
+                    'name': '10.255.242.215',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 5,
+                    'name': '10.255.242.215',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 6,
+                    'name': '10.255.242.215',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }, {
+                    'id': 7,
+                    'name': '10.255.242.215',
+                    'cpu': '6/13',
+                    'memory': '1/1',
+                    'az': 'xasa,AAAAS',
+                    'ha': 'xasa',
+                    'up': '上电',
+                    'maintain': 'running',
+                    'run': '14天24小时',
+                    'vm': '15'
+                }
+            ]
+        }
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={HostInfo} />
@@ -127,9 +364,9 @@ class Host extends React.Component<any, any> {
                             </Tabs>
                             <Switch>
                                 <Redirect from={`${match.url}`} to={`${match.url}/control`} exact />
-                                <Route path={`${match.url}/control`} component={HostList} />
-                                <Route path={`${match.url}/calculate`} component={HostList} />
-                                <Route path={`${match.url}/storage`} component={HostList} />
+                                <Route path={`${match.url}/control`} render={() => <HostList {...this.props} data={control_tdata} />} />
+                                <Route path={`${match.url}/calculate`} render={() => <HostList {...this.props} data={calculate_tdata} />} />
+                                <Route path={`${match.url}/storage`} render={() => <HostList {...this.props} data={calculate_tdata} />} />
                             </Switch>
                         </div>
                     </div>
