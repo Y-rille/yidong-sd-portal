@@ -228,12 +228,51 @@ class SwitchboardInfo extends React.Component<any, any> {
     }
 
     renderBoardTable() {
+        let board_data = {
+            'count': 17,
+            'header': [{
+                key: 'id',
+                title: '主板编号',
+                // fixed: true,
+                // link: true,
+            }, {
+                key: 'name',
+                title: '序列号',
+                // fixed: true,
+            }, {
+                key: 'mobile',
+                title: '软件版本',
+            }, {
+                key: 'vm',
+                title: '内存'
+            },
+            {
+                key: 'email',
+                title: '闪存',
+            }],
+            'body': [
+                {
+                    'id': 1,
+                    'name': '2c55-:d357-612de-32',
+                    'mobile': 'CMWDERF VER B',
+                    'vm': '2048Mbytes',
+                    'email': '2048Mbytes',
+                },
+                {
+                    'id': 2,
+                    'name': '2c55-:d357-612de-32',
+                    'mobile': 'CMWDERF VER B',
+                    'vm': '2048Mbytes',
+                    'email': '2048Mbytes',
+                }
+            ]
+        }
         return (
             <CompactTable
                 outStyle={{ marginTop: '20px' }}
                 goPage={this.goPage.bind(this)} // 翻页
                 goLink={this.goLink.bind(this)}
-                // data={null}
+                data={board_data}
                 pageAuth={true}
                 actionAuth={[]}
             />
