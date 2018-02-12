@@ -46,6 +46,65 @@ class AzInfo extends React.Component<any, any> {
         )
     }
     goPage() { }
+    renderTable() { 
+        let tdata = {
+            'count': 17,
+            'header': [
+                {
+                key: 'id',
+                title: '名称',
+                // fixed: true,
+                link: true,
+            }, {
+                key: 'name',
+                title: '内存',
+                // fixed: true,
+                // link: true,
+            }, {
+                key: 'mobile',
+                title: 'CPU',
+            }, {
+                key: 'vm',
+                title: '所属HA'
+            },
+            {
+                key: 'email',
+                title: '维护状态',
+            }, {
+                key: 'cpu',
+                title: 'VM数'
+            }],
+            'body': [
+                {
+                    'id': 'xiaojindian4',
+                    'name': '2c55-:d357-612de-32',
+                    'mobile': '13',
+                    'vm': 20,
+                    'email': '1',
+                    'cpu': '12',
+                },
+                {
+                    'id': 'xiaojindian',
+                    'name': '2c55-:d357-612de-32',
+                    'mobile': '13',
+                    'vm': 20,
+                    'email': '2',
+                    'cpu': '12',
+                },
+            ]
+        }
+        return (
+            <CompactTable
+                            outStyle={{ marginTop: '20px' }}
+                            goPage={this.goPage.bind(this)} // 翻页
+                            // goLink={this.goLink.bind(this)}
+                            data={tdata}
+                            actionAuth={[]}
+                            pageAuth={true}
+                            footInfoAuth={false}
+                        />
+        )
+    }
     render() {
         const { HostInputValue, AZSelectValue } = this.state;
         return (
@@ -104,18 +163,8 @@ class AzInfo extends React.Component<any, any> {
                             </Button>
                         </div>
                     </div>
+                    {this.renderTable()}
 
-                    <div>
-                        <CompactTable
-                            outStyle={{ marginTop: '20px' }}
-                            goPage={this.goPage.bind(this)} // 翻页
-                            // goLink={this.goLink.bind(this)}
-                            // data={null}
-                            actionAuth={[]}
-                            pageAuth={true}
-                            footInfoAuth={false}
-                        />
-                    </div>
                 </div>
             </div>
         );
