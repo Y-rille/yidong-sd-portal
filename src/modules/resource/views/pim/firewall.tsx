@@ -8,6 +8,142 @@ import styles from '../../style/index.less'
 
 import CompactTable from '../../../../components/CompactTable'
 
+const data = {
+    'count': 17,
+    'header': [{
+        key: 'id',
+        title: '序号',
+        fixed: true,
+        link: true,
+    }, {
+        key: 'name',
+        title: '名称',
+        fixed: true,
+        link: true,
+    }, {
+        key: 'mobile',
+        title: '资产编号',
+    }, {
+        key: 'vm',
+        title: '管理IP'
+    },
+    {
+        key: 'email',
+        title: '型号',
+    }, {
+        key: 'cpu',
+        title: '供应商'
+    }, {
+        key: 'memory',
+        title: '软件版本'
+    }, {
+        key: 'role',
+        title: '序列号',
+    }],
+    'body': [
+        {
+            'id': 1,
+            'name': '防火墙A',
+            'mobile': '1083',
+            'vm': '188.103.2.123',
+            'email': 'HPProLlant DL380',
+            'cpu': '华为',
+            'memory': 'v1.2.3',
+            'role': 1231233465
+        },
+        {
+            'id': 2,
+            'name': '防火墙B',
+            'mobile': '1083',
+            'vm': '188.103.2.123',
+            'email': 'HPProLlant DL380',
+            'cpu': 'HPE',
+            'memory': 'v1.2.3',
+            'role': 1231233465
+        },
+        {
+            'id': 3,
+            'name': '防火墙C',
+            'mobile': '1083',
+            'vm': '188.103.2.123',
+            'email': 'HPProLlant DL380',
+            'cpu': '华为',
+            'memory': 'v1.2.3',
+            'role': 1231233465
+        },
+        {
+            'id': 4,
+            'name': '防火墙A',
+            'mobile': '1083',
+            'vm': '188.103.2.123',
+            'email': 'HPProLlant DL380',
+            'cpu': 'HPE',
+            'memory': 'v1.2.3',
+            'role': 1231233465
+        },
+        {
+            'id': 5,
+            'name': '防火墙A',
+            'mobile': '1083',
+            'vm': '188.103.2.123',
+            'email': 'HPProLlant DL380',
+            'cpu': '华为',
+            'memory': 'v1.2.3',
+            'role': 1231233465
+        },
+        {
+            'id': 6,
+            'name': '防火墙A',
+            'mobile': '1083',
+            'vm': '188.103.2.123',
+            'email': 'HPProLlant DL380',
+            'cpu': 'HPE',
+            'memory': 'v1.2.3',
+            'role': 1231233465
+        },
+        {
+            'id': 7,
+            'name': '防火墙A',
+            'mobile': '1083',
+            'vm': '188.103.2.123',
+            'email': 'HPProLlant DL380',
+            'cpu': '华为',
+            'memory': 'v1.2.3',
+            'role': 1231233465
+        },
+        {
+            'id': 8,
+            'name': '防火墙A',
+            'mobile': '1083',
+            'vm': '188.103.2.123',
+            'email': 'HPProLlant DL380',
+            'cpu': 'HPE',
+            'memory': 'v1.2.3',
+            'role': 1231233465
+        },
+        {
+            'id': 9,
+            'name': '防火墙A',
+            'mobile': '1083',
+            'vm': '188.103.2.123',
+            'email': 'HPProLlant DL380',
+            'cpu': '华为',
+            'memory': 'v1.2.3',
+            'role': 1231233465
+        },
+        {
+            'id': 10,
+            'name': '防火墙A',
+            'mobile': '1083',
+            'vm': '188.103.2.123',
+            'email': 'HPProLlant DL380',
+            'cpu': 'HPE',
+            'memory': 'v1.2.3',
+            'role': 1231233465
+        }
+    ]
+}
+
 class Firewall extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -150,6 +286,7 @@ class Firewall extends React.Component<any, any> {
                                 actionAuth={['delete']}
                                 pageAuth={false}
                                 outStyle={{ 'marginTop': '20px' }}
+                                data={data}
                             />
                         </div>
                     </div>
