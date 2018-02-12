@@ -280,12 +280,87 @@ class SwitchboardInfo extends React.Component<any, any> {
     }
 
     renderPortTable() {
+        let port_data = {
+            'count': 17,
+            'header': [{
+                key: 'id',
+                title: '名称',
+                // fixed: true,
+                // link: true,
+            }, {
+                key: 'name',
+                title: '描述',
+                // fixed: true,
+            }, {
+                key: 'mobile',
+                title: '类型',
+            }, {
+                key: 'vm',
+                title: '速率'
+            },
+            {
+                key: 'email',
+                title: '物理状态',
+            },
+            {
+                key: 'luoji',
+                title: '逻辑状态',
+            },
+            {
+                key: 'mac',
+                title: '绑定MAC地址',
+            },
+            {
+                key: 'portmac',
+                title: '端口实际连接MAC地址'
+            },
+            {
+                key: 'portIp',
+                title: '端口所连设备IP地址',
+            },
+            {
+                key: 'vlan',
+                title: 'VLAN信息',
+            },
+            {
+                key: 'port',
+                title: '对端端口唯一标识'
+            }],
+            'body': [
+                {
+                    'id': 'c119699c',
+                    'name': 'c119699c',
+                    'mobile': '标准物理接口',
+                    'vm': 0,
+                    'email': 'up',
+                    'luoji': 'up',
+                    'mac': '2c:55:d3:576:12:de:32',
+                    'portmac': '2c:55:d3:576:12:de:32',
+                    'portIp': '188.103.13.21',
+                    'vlan': 0,
+                    'port': '2c:55:d3:576:12:de:32'
+                },
+                {
+                    'id': '-39cb-400d',
+                    'name': 'c119699c',
+                    'mobile': '标准物理接口',
+                    'vm': 0,
+                    'email': 'up',
+                    'luoji': 'up',
+                    'mac': '2c:55:d3:576:12:de:32',
+                    'portmac': '2c:55:d3:576:12:de:32',
+                    'portIp': '188.103.13.21',
+                    'vlan': 0,
+                    'port': '2c:55:d3:576:12:de:32'
+                }
+            ]
+        }
         return (
             <CompactTable
                 outStyle={{ marginTop: '20px' }}
                 goPage={this.goPage.bind(this)} // 翻页
                 goLink={this.goLink.bind(this)}
-                // data={null}
+                data={port_data}
                 pageAuth={true}
                 actionAuth={[]}
             />
@@ -293,12 +368,36 @@ class SwitchboardInfo extends React.Component<any, any> {
     }
 
     renderPowerTable() {
+        let power_data = {
+            'count': 17,
+            'header': [{
+                key: 'id',
+                title: '编号',
+                // fixed: true,
+                // link: true,
+            }, {
+                key: 'name',
+                title: '电源状态',
+                // fixed: true,
+            }],
+            'body': [
+                {
+                    'id': 1,
+                    'name': '电源正在供电',
+
+                },
+                {
+                    'id': 2,
+                    'name': '电源正在供电',
+                }
+            ]
+        }
         return (
             <CompactTable
                 outStyle={{ marginTop: '20px' }}
                 goPage={this.goPage.bind(this)} // 翻页
                 goLink={this.goLink.bind(this)}
-                // data={null}
+                data={power_data}
                 pageAuth={true}
                 actionAuth={[]}
             />
@@ -306,12 +405,40 @@ class SwitchboardInfo extends React.Component<any, any> {
     }
 
     renderFanTable() {
+        let fan_data = {
+            'count': 17,
+            'header': [{
+                key: 'id',
+                title: '编号',
+                // fixed: true,
+                // link: true,
+            }, {
+                key: 'name',
+                title: '转速（%）',
+                // fixed: true,
+            }, {
+                key: 'mobile',
+                title: '风扇状态',
+            }],
+            'body': [
+                {
+                    'id': 'c119699c',
+                    'name': 40,
+                    'mobile': '正常',
+                },
+                {
+                    'id': '-39cb-400d',
+                    'name': 40,
+                    'mobile': '正常',
+                }
+            ]
+        }
         return (
             <CompactTable
                 outStyle={{ marginTop: '20px' }}
                 goPage={this.goPage.bind(this)} // 翻页
                 goLink={this.goLink.bind(this)}
-                // data={null}
+                data={fan_data}
                 pageAuth={true}
                 actionAuth={[]}
             />
@@ -319,6 +446,135 @@ class SwitchboardInfo extends React.Component<any, any> {
     }
 
     renderPerformanceTable() {
+        let performance_data = {
+            'count': 17,
+            'header': [{
+                key: 'id',
+                title: '主板名称',
+                // fixed: true,
+                // link: true,
+            }, {
+                key: 'name',
+                title: '端口名称',
+                // fixed: true,
+            }, {
+                key: 'mobile',
+                title: '出字节数',
+            }, {
+                key: 'vm',
+                title: '入字节数'
+            },
+            {
+                key: 'email',
+                title: '出错包数',
+            },
+            {
+                key: 'luoji',
+                title: '入错包数',
+            },
+            {
+                key: 'mac',
+                title: '错包率',
+            },
+            {
+                key: 'portmac',
+                title: '出丢包数'
+            },
+            {
+                key: 'portIp',
+                title: '入丢包数',
+            },
+            {
+                key: 'vlan',
+                title: '丢包率',
+            },
+            {
+                key: 'port',
+                title: '出单播包数'
+            },
+            {
+                key: 'rudan',
+                title: '入单播包数'
+            },
+            {
+                key: 'chuzu',
+                title: '出组播包数'
+            },
+            {
+                key: 'ruzu',
+                title: '入组播包数'
+            },
+            {
+                key: 'chuguang',
+                title: '出广播包数'
+            },
+            {
+                key: 'ruguang',
+                title: '入广播包数'
+            },
+            {
+                key: 'chusu',
+                title: '出速率'
+            },
+            {
+                key: 'rusu',
+                title: '入速率'
+            },
+            {
+                key: 'chudai',
+                title: '出宽带'
+            },
+            {
+                key: 'rudai',
+                title: '入宽带'
+            }],
+            'body': [
+                {
+                    'id': 1,
+                    'name': 'NULL0',
+                    'mobile': 0,
+                    'vm': 0,
+                    'email': 0,
+                    'luoji': 0,
+                    'mac': 0,
+                    'portmac': 0,
+                    'portIp': 0,
+                    'vlan': 0,
+                    'port': 0,
+                    'rudan': 0,
+                    'chuzu': 0,
+                    'ruzu': 0,
+                    'chuguang': 0,
+                    'ruguang': 0,
+                    'chusu': 0,
+                    'rusu': 0,
+                    'chudai': 0,
+                    'rudai': 0
+                },
+                {
+                    'id': 2,
+                    'name': 'NULL0',
+                    'mobile': 1000,
+                    'vm': 1000,
+                    'email': 1000,
+                    'luoji': 1000,
+                    'mac': 1000,
+                    'portmac': 1000,
+                    'portIp': 1000,
+                    'vlan': 1000,
+                    'port': 1000,
+                    'rudan': 1000,
+                    'chuzu': 1000,
+                    'ruzu': 1000,
+                    'chuguang': 1000,
+                    'ruguang': 1000,
+                    'chusu': 1000,
+                    'rusu': 1000,
+                    'chudai': 1000,
+                    'rudai': 1000
+                }
+            ]
+        }
         return (
             <div>
                 <Headline title="系统信息" />
@@ -345,7 +601,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                 <CompactTable
                     goPage={this.goPage.bind(this)} // 翻页
                     goLink={this.goLink.bind(this)}
-                    // data={null}
+                    data={performance_data}
                     pageAuth={true}
                     actionAuth={[]}
                 />
