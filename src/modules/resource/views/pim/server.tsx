@@ -42,6 +42,105 @@ class Server extends React.Component<any, any> {
         }
     }
     render() {
+        let tdata = {
+            'count': 17,
+            'header': [{
+                key: 'id',
+                title: '序号',
+                link: true,
+            }, {
+                key: 'name',
+                title: '服务器A',
+            }, {
+                key: 'assets',
+                title: '1083',
+            }, {
+                key: 'ip',
+                title: '188.103.2.123'
+            }, {
+                key: 'cpu',
+                title: 'HPProLlant DL380'
+            }, {
+                key: 'suppliert',
+                title: '华为'
+            }, {
+                key: 'equipment',
+                title: '机架式服务器'
+            },
+            {
+                key: 'distribution',
+                title: '待用',
+            },
+            {
+                key: 'power',
+                title: '开机',
+            },
+            {
+                key: 'action',
+                title: '操作',
+            }],
+            'body': [
+                {
+                    'id': 1,
+                    'name': 'D19-COMP06',
+                    'assets': '0000',
+                    'ip': '188.103.21',
+                    'cpu': 'HPProLlant DL380',
+                    'suppliert': 'HPProLlant DL380',
+                    'equipment': 'HPProLlant DL380',
+                    'distribution': 'HPProLlant DL380',
+                    'power': 'HPProLlant DL380',
+                    'action': ' ',
+                },
+                {
+                    'id': 2,
+                    'name': 'D19-COMP06',
+                    'assets': '0000',
+                    'ip': '188.103.21',
+                    'cpu': 'HPProLlant DL380',
+                    'suppliert': 'HPProLlant DL380',
+                    'equipment': 'HPProLlant DL380',
+                    'distribution': 'HPProLlant DL380',
+                    'power': 'HPProLlant DL380',
+                    'action': ' ',
+                },
+                {
+                    'id': 3,
+                    'name': 'D19-COMP06',
+                    'assets': '0000',
+                    'ip': '188.103.21',
+                    'cpu': 'HPProLlant DL380',
+                    'suppliert': 'HPProLlant DL380',
+                    'equipment': 'HPProLlant DL380',
+                    'distribution': 'HPProLlant DL380',
+                    'power': 'HPProLlant DL380',
+                    'action': ' ',
+                }, {
+                    'id': 4,
+                    'name': 'D19-COMP06',
+                    'assets': '0000',
+                    'ip': '188.103.21',
+                    'cpu': 'HPProLlant DL380',
+                    'suppliert': 'HPProLlant DL380',
+                    'equipment': 'HPProLlant DL380',
+                    'distribution': 'HPProLlant DL380',
+                    'power': 'HPProLlant DL380',
+                    'action': ' ',
+                }
+                , {
+                    'id': 5,
+                    'name': 'D19-COMP06',
+                    'assets': '0000',
+                    'ip': '188.103.21',
+                    'cpu': 'HPProLlant DL380',
+                    'suppliert': 'HPProLlant DL380',
+                    'equipment': 'HPProLlant DL380',
+                    'distribution': 'HPProLlant DL380',
+                    'power': 'HPProLlant DL380',
+                    'action': ' ',
+                }
+            ]
+        }
         let { match } = this.props;
         const { dataSelectValue, supplierSelectValue } = this.state;
         return (
@@ -83,7 +182,7 @@ class Server extends React.Component<any, any> {
                             <CompactTable
                                 // goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
-                                // data={null}
+                                data={tdata}
                                 actionAuth={['delete']}
                                 pageAuth={false}
                             />
