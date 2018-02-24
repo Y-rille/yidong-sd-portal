@@ -153,7 +153,7 @@ export default class ResourceTable extends React.PureComponent<UserTableProps, a
         // }];
         let dataList = data.body
 
-        _.map(dataList, function (item, index) {
+        _.map(dataList, function (item: any, index) {
 
             // item._roles = _roles.toString()
             // item.create_time = moment.tz(item.create_time, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
