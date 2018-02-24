@@ -615,14 +615,14 @@ let querytree = {
         "nodeLabel": "厂家资源树",
         "nodeId": "1",
         "nodeName": "verdorRes",
-        "lablePath": "厂家资源树",
+        "labelPath": "厂家资源树",
         "dataType": 0,
         "children": [
           {
             "nodeLabel": "主机",
             "nodeId": "2",
             "nodeName": "HOST",
-            "lablePath": "厂家资源树/主机",
+            "labelPath": "厂家资源树/主机",
             "dataType": 1,
             "queryUri": "/datashare-svr/api/moinst/1/querydata",
             "queryMethod": "POST",
@@ -631,7 +631,7 @@ let querytree = {
                 "nodeLabel": "华为",
                 "nodeId": "3",
                 "nodeName": "VENDOR",
-                "lablePath": "厂家资源树/主机/华为",
+                "labelPath": "厂家资源树/主机/华为",
                 "dataType": 1,
                 "queryParams": {
                   "VENDOR": "华为"
@@ -643,7 +643,7 @@ let querytree = {
                     "nodeLabel": "D04-hpeDL380-COMP09",
                     "nodeId": "4",
                     "nodeName": "D04-hpeDL380-COMP09",
-                    "lablePath": "厂家资源树/主机/华为/D04-hpeDL380-COMP09",
+                    "labelPath": "厂家资源树/主机/华为/D04-hpeDL380-COMP09",
                     "dataType": 2,
                     "bizFields": {
                       "moTypeId": "1",
@@ -658,7 +658,7 @@ let querytree = {
                     "nodeLabel": "D04-hpeDL380-COMP19",
                     "nodeId": "5",
                     "nodeName": "D04-hpeDL380-COMP19",
-                    "lablePath": "厂家资源树/主机/华为/D04-hpeDL380-COMP19",
+                    "labelPath": "厂家资源树/主机/华为/D04-hpeDL380-COMP19",
                     "dataType": 2,
                     "bizFields": {
                       "moTypeId": "2",
@@ -675,7 +675,7 @@ let querytree = {
                 "nodeLabel": "IBM",
                 "nodeId": "6",
                 "nodeName": "VENDOR",
-                "lablePath": "厂家资源树/主机/IBM",
+                "labelPath": "厂家资源树/主机/IBM",
                 "dataType": 1,
                 "queryParams": {
                   "VENDOR": "IBM"
@@ -687,7 +687,7 @@ let querytree = {
                     "nodeLabel": "D04-hpeDL380-COMP20",
                     "nodeId": "7",
                     "nodeName": "D04-hpeDL380-COMP20",
-                    "lablePath": "厂家资源树/主机/IBM/D04-hpeDL380-COMP0920",
+                    "labelPath": "厂家资源树/主机/IBM/D04-hpeDL380-COMP0920",
                     "dataType": 2,
                     "bizFields": {
                       "moTypeId": "3",
@@ -702,7 +702,7 @@ let querytree = {
                     "nodeLabel": "D04-hpeDL380-COMP29",
                     "nodeId": "8",
                     "nodeName": "D04-hpeDL380-COMP29",
-                    "lablePath": "厂家资源树/主机/IBM/D04-hpeDL380-COMP29",
+                    "labelPath": "厂家资源树/主机/IBM/D04-hpeDL380-COMP29",
                     "dataType": 2,
                     "bizFields": {
                       "moTypeId": "4",

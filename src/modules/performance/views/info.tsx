@@ -177,7 +177,7 @@ export default class Info extends React.Component<InfoProps, any> {
     let { match, moTypeKpis } = this.props
     let { activeKey } = this.state
     if (this.props.nodeInfo) {
-      let lablePathArr = this.props.nodeInfo.lablePath.split('/')
+      let labelPathArr = this.props.nodeInfo.labelPath.split('/')
       return (
         <div>
           <div className={styles.header}>
@@ -186,7 +186,7 @@ export default class Info extends React.Component<InfoProps, any> {
               <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
               <Breadcrumb.Item>性能监控</Breadcrumb.Item>
               {
-                lablePathArr.map((item, index) => {
+                labelPathArr.map((item, index) => {
                   return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                 })
               }
