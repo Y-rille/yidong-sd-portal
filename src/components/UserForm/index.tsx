@@ -85,10 +85,10 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入邮箱" />
-                                )}
+                            )}
                         </Form.Item>
                         {
-                            this.props.userInfo ? '' : <FormItem
+                            this.props.id ? '' : <FormItem
                                 {...formItemLayout}
                                 label="密码设置"
                             >
@@ -98,7 +98,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                                     }],
                                 })(
                                     <Input type="password" placeholder="请输入密码" />
-                                    )}
+                                )}
                             </FormItem>
                         }
                         <Form.Item
@@ -119,7 +119,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                                 >
                                     {children}
                                 </Select>
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -134,7 +134,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入真实姓名" />
-                                )}
+                            )}
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
@@ -146,7 +146,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入手机号码" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                 </Row>
@@ -162,7 +162,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
                                 }],
                             })(
                                 <TextArea rows={5} />
-                                )}
+                            )}
                         </FormItem>
                     </Col>
                 </Row>

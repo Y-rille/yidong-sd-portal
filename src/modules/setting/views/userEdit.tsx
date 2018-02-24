@@ -102,6 +102,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                 </div>
                 <div className={styles.tb}>
                     <UserForm
+                        id={id}
                         userInfo={this.props.userInfo}
                         wrappedComponentRef={(node) => { this.formRef = node }}
                     />
