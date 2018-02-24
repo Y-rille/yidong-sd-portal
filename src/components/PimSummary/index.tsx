@@ -34,8 +34,19 @@ export default class PimSummary extends React.PureComponent<PimSummaryProps, any
                     cursor: 'pointer',
                     colors: ['#879dbb', '#ffe780', '#7cd8ba'],
                     dataLabels: {
-                        enabled: false
+                        enabled: true,
+                        distance: -20,
+                        style: {
+                            fontSize: '9px',
+                            color: 'white'
+                        },
+                        format: '{point.percentage:.1f}%'
                     },
+                    states: {
+                        hover: {
+                            enabled: false
+                        }
+                    }
                 }
             },
             credits: {  // 版权信息，不显示
@@ -45,9 +56,9 @@ export default class PimSummary extends React.PureComponent<PimSummaryProps, any
                 type: 'pie',
                 name: '浏览器访问量占比',
                 data: [
-                    ['计算节点', 50 / (50 + 15 + 35)],
-                    ['控制节点', 15 / (50 + 15 + 35)],
-                    ['存储节点', 35 / (50 + 15 + 35)]
+                    ['计算节点', 50],
+                    ['控制节点', 15],
+                    ['存储节点', 35]
                 ]
             }]
         }

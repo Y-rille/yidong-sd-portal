@@ -51,7 +51,7 @@ const generateList = (data) => {
             'nodeId': node.nodeId,
             'idPath': node.idPath,
             'dataType': node.dataType,
-            'lablePath': node.lablePath
+            'labelPath': node.labelPath
         });
 
         if (node.children) {
@@ -108,7 +108,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
     }
     componentDidMount() {
         if (this.props.searchValue) {
-            this.onSearch() 
+            this.onSearch()
         }
     }
 
@@ -159,7 +159,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
             }
             this.setState({
                 result: result
-            })  
+            })
         } else {
             this.setState({
                 expandedKeys: this.props.dExpandedKeys ? this.props.dExpandedKeys : [],
@@ -215,7 +215,7 @@ export default class TreeSelect extends React.PureComponent<TreeSelectProps, any
         });
         return (
             <div className="treeSelect">
-                <Search placeholder={this.props.searchValue ? this.props.searchValue : 'Search'} onChange={this.onChange} onSearch={this.onSearch.bind(this)}/>
+                <Search placeholder={this.props.searchValue ? this.props.searchValue : 'Search'} onChange={this.onChange} onSearch={this.onSearch.bind(this)} />
                 <Tree
                     onExpand={this.onExpand}
                     expandedKeys={expandedKeys}
