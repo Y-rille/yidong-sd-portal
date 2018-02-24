@@ -74,10 +74,6 @@ class Server extends React.Component<any, any> {
             {
                 key: 'power',
                 title: '开机',
-            },
-            {
-                key: 'action',
-                title: '操作',
             }],
             'body': [
                 {

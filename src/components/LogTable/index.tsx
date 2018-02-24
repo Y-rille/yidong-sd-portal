@@ -65,7 +65,6 @@ export default class LogTable extends React.PureComponent<LogTableProps, any> {
                 name: item.user.name,
                 action: item.action,
                 create_time: timeshow,
-                id: item.id,
             }
             arr.push(obj)
         })
