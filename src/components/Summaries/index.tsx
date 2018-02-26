@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import styles from './index.less';
-import { Row, Col } from 'antd'
+import { Row, Col, Tooltip } from 'antd'
 declare let global: any;
 
 export interface SummariesProps {
@@ -53,22 +53,39 @@ export default class Summaries extends React.PureComponent<SummariesProps, any> 
         const { data, colNum } = this.props;
         if (colNum === 2) {
             return _.map(data, (item) => {
-                return <Col span={12} style={{ marginBottom: '20px' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />{item.value}</Col>
+                return (
+                    <Col span={12} style={{ marginBottom: '20px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />
+                        <Tooltip title={item.value}><span>{item.value}</span></Tooltip>
+                    </Col>
+                )
             })
         }
         if (colNum === 3) {
             return _.map(data, (item) => {
-                return <Col span={8} style={{ marginBottom: '20px' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />{item.value}</Col>
+                return (
+                    <Col span={8} style={{ marginBottom: '20px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />
+                        <Tooltip title={item.value}><span>{item.value}</span></Tooltip>
+                    </Col>
+                )
             })
         }
         if (colNum === 4) {
             return _.map(data, (item) => {
-                return <Col span={6} style={{ marginBottom: '20px' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />{item.value}</Col>
+                return (
+                    <Col span={6} style={{ marginBottom: '20px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />
+                        <Tooltip title={item.value}><span>{item.value}</span></Tooltip>
+                    </Col>
+                )
             })
         }
         if (colNum === 5) {
             return _.map(data, (item) => {
-                return <Col span={4} style={{ marginBottom: '20px', marginRight: '28px' }}>{item.attr}:<span style={{ display: 'inline-block', width: '10px' }} />{item.value}</Col>
+                return (
+                    <Col span={4} style={{ marginBottom: '20px', marginRight: '28px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{item.attr}:
+                <span style={{ display: 'inline-block', width: '10px' }} />
+                        <Tooltip title={item.value}><span>{item.value}</span></Tooltip>
+                    </Col>
+                )
             })
         }
     }
