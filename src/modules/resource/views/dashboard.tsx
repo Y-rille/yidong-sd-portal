@@ -65,6 +65,7 @@ class Dashboard extends React.Component<any, any> {
                         <Button onClick={this.showModal.bind(this)}><Icon type="codepen" />新建VIM</Button>
                     </Headline>
                     <VimSummary goEdit={this.goEdit.bind(this)} />
+                    <VimSummary goEdit={this.goEdit.bind(this)} />
                     <Headline title="物理部署组织" />
                     <PimSummary />
                 </div>
