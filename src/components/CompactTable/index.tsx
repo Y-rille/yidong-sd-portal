@@ -214,8 +214,20 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
             item.key = item.id
         })
 
+        let area: any = {}
+        switch (true) {
+            case header.length > 6 && header.length <= 10:
+                area = { x: 1100 }
+                break;
+            case header.length > 10:
+                area = { x: 1800 }
+                break;
+            default:
+                break;
+        }
+
         return (
-            <Table size="small" scroll={{ x: 1000 }}
+            <Table size="small" scroll={area}
                 pagination={false}
                 className={styles.smalltable}
                 columns={columns}
