@@ -50,7 +50,7 @@ class Flavor extends React.Component<any, any> {
             'header': [{
                 key: 'id',
                 title: 'Flavor名称',
-                link: true,
+                // link: true,
             }, {
                 key: 'vCPU',
                 title: 'vCPU',
