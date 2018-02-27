@@ -72,7 +72,7 @@ class Host extends React.Component<any, any> {
                     goLink={this.goLink.bind(this)}
                     data={data}
                     actionAuth={[]}
-                    pageAuth={false}
+                    pageAuth={true}
                     outStyle={{ 'marginTop': '20px' }}
                 />
             </div>
