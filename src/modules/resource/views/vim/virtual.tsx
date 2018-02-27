@@ -17,9 +17,6 @@ class Virtual extends React.Component<any, any> {
             fourthMenuValue: 'host'
         }
     }
-    goInfo = () => {
-        this.props.history.push(`/resource/vim/1/virtual/info`)
-    }
     menuChange(value) {
         this.setState({
             menuValue: value
