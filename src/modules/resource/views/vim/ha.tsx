@@ -2,8 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-// import HaInfo from '../../container/vim/haInfo'
-import AzInfo from '../../container/vim/azInfo'
+import HaInfo from '../../container/vim/haInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'antd';
 import styles from '../../style/index.less';
 import CompactTable from '../../../../components/CompactTable/'
@@ -117,7 +116,7 @@ class Ha extends React.Component<any, any> {
         }
         return (
             <Switch>
-                <Route path={`${match.url}/info/:id`} component={AzInfo} />
+                <Route path={`${match.url}/info/:id`} component={HaInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

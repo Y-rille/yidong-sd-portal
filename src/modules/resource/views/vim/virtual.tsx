@@ -2,8 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-// import VirtualInfo from '../../container/vim/virtualInfo'
-import AzInfo from '../../container/vim/azInfo'
+import VirtualInfo from '../../container/vim/virtualInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
@@ -62,6 +61,7 @@ class Virtual extends React.Component<any, any> {
             'header': [{
                 key: 'id',
                 title: '虚拟机名称',
+                link: true,
                 fixed: true,
             }, {
                 key: 'name',
@@ -175,7 +175,7 @@ class Virtual extends React.Component<any, any> {
         const { menuValue, secondMenuValue, thiredMenuValue, fourthMenuValue } = this.state;
         return (
             <Switch>
-                <Route path={`${match.url}/info/:id`} component={AzInfo} />
+                <Route path={`${match.url}/info/:id`} component={VirtualInfo} />
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
