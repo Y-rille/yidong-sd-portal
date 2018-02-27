@@ -20,7 +20,7 @@ class HaInfo extends React.Component<any, any> {
         super(props);
         this.state = {
             HostInputValue: '',
-            HASelectValue: 'HA'
+            HASelectValue: 'AZ'
         }
     }
     handleClick() {
@@ -65,7 +65,7 @@ class HaInfo extends React.Component<any, any> {
                     title: 'CPU',
                 }, {
                     key: 'vm',
-                    title: '所属HA'
+                    title: '所属AZ'
                 },
                 {
                     key: 'email',
