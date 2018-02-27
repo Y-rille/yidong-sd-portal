@@ -20,16 +20,16 @@ class AzInfo extends React.Component<any, any> {
         super(props);
         this.state = {
             HostInputValue: '',
-            AZSelectValue: 'AZ'
+            HZSelectValue: 'HZ'
         }
     }
     handleClick() {
-        const { HostInputValue, AZSelectValue } = this.state;
-        // console.log(HostInputValue, AZSelectValue)
+        const { HostInputValue, HZSelectValue } = this.state;
+        // console.log(HostInputValue, HZSelectValue)
     }
-    AZSelectChange(value) {
+    HZSelectChange(value) {
         this.setState({
-            AZSelectValue: value
+            HZSelectValue: value
         })
     }
     HostInputChange(e) {
@@ -106,7 +106,7 @@ class AzInfo extends React.Component<any, any> {
         )
     }
     render() {
-        const { HostInputValue, AZSelectValue } = this.state;
+        const { HostInputValue, HZSelectValue } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -151,8 +151,8 @@ class AzInfo extends React.Component<any, any> {
                                 onChange={this.HostInputChange.bind(this)}
                             />
                             <Select
-                                value={AZSelectValue}
-                                onChange={this.AZSelectChange.bind(this)}
+                                value={HZSelectValue}
+                                onChange={this.HZSelectChange.bind(this)}
                             >
                                 <Option value="region">Region</Option>
                             </Select>

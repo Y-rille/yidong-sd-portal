@@ -12,21 +12,24 @@ import {
 } from 'antd';
 const Option = Select.Option;
 import styles from '../../style/index.less'
+import CompactTable from '../../../../components/CompactTable/'
+import Headline from '../../../../components/Headline/'
+import Summaries from '../../../../components/Summaries/'
 class HaInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
             HostInputValue: '',
-            HZSelectValue: 'HZ'
+            HASelectValue: 'AZ'
         }
     }
     handleClick() {
-        const { HostInputValue, HZSelectValue } = this.state;
+        const { HostInputValue, HASelectValue } = this.state;
         // console.log(HostInputValue, HZSelectValue)
     }
-    HZSelectChange(value) {
+    HASelectChange(value) {
         this.setState({
-            HZSelectValue: value
+            HASelectValue: value
         })
     }
     HostInputChange(e) {
@@ -42,9 +45,68 @@ class HaInfo extends React.Component<any, any> {
             </div>
         )
     }
-
+    goPage() { }
+    renderTable() {
+        let tdata = {
+            'count': 17,
+            'header': [
+                {
+                    key: 'id',
+                    title: '名称',
+                    // fixed: true,
+                    link: true,
+                }, {
+                    key: 'name',
+                    title: '内存',
+                    // fixed: true,
+                    // link: true,
+                }, {
+                    key: 'mobile',
+                    title: 'CPU',
+                }, {
+                    key: 'vm',
+                    title: '所属AZ'
+                },
+                {
+                    key: 'email',
+                    title: '维护状态',
+                }, {
+                    key: 'cpu',
+                    title: 'VM数'
+                }],
+            'body': [
+                {
+                    'id': 'xiaojindian4',
+                    'name': '2c55-:d357-612de-32',
+                    'mobile': '13',
+                    'vm': 20,
+                    'email': '1',
+                    'cpu': '12',
+                },
+                {
+                    'id': 'xiaojindian',
+                    'name': '2c55-:d357-612de-32',
+                    'mobile': '13',
+                    'vm': 20,
+                    'email': '2',
+                    'cpu': '12',
+                },
+            ]
+        }
+        return (
+            <CompactTable
+                outStyle={{ marginTop: '20px' }}
+                goPage={this.goPage.bind(this)} // 翻页
+                // goLink={this.goLink.bind(this)}
+                data={tdata}
+                actionAuth={[]}
+                pageAuth={true}
+                footInfoAuth={false}
+            />
+        )
+    }
     render() {
-        const { HostInputValue, HZSelectValue } = this.state;
+        const { HostInputValue, HASelectValue } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -57,24 +119,30 @@ class HaInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>HA详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div style={{ padding: '20px' }}>
+                <div style={{ padding: '0 20px 20px 20px' }}>
                     <div>
-                        {this.renderTitle('基本信息')}
-                        <div className={styles.nodeInfo} style={{ marginBottom: '20px' }}>
-                            <Row className={styles.nodeRow}>
-                                <Col span={8}>HA数:&nbsp;&nbsp;12312</Col>
-                                <Col span={8}>Host数:&nbsp;&nbsp;12312</Col>
-                                <Col span={8}></Col>
-                            </Row>
-                            <Row className={styles.nodeRow}>
-                                <Col span={8}>VCPU（未使用/总）:&nbsp;&nbsp;21GB/26GB</Col>
-                                <Col span={8}>内存（未使用/总）:&nbsp;&nbsp;21GB/26GB</Col>
-                                <Col span={8}>硬盘（未使用/总）:&nbsp;&nbsp;21GB/26GB</Col>
-                            </Row>
-                        </div>
-                    </div>
-                    <div>
-                        {this.renderTitle('主机')}
+                        <Headline title="系统信息" />
+                        <Summaries
+                            data={[
+                                {
+                                    attr: 'HA数',
+                                    value: 12312
+                                }, {
+                                    attr: 'Host数',
+                                    value: 12312
+                                }, {
+                                    attr: 'VCPU（未使用/总）',
+                                    value: '21GB/26GB'
+                                }, {
+                                    attr: '内   存（未使用/总）',
+                                    value: '21GB/26GB'
+                                }, {
+                                    attr: '硬   盘（未使用/总）',
+                                    value: '21GB/26GB'
+                                }
+                            ]}
+                            colNum={3} />
+                        <Headline title="主机" />
                         <div className={styles.queryBar}>
                             <Input
                                 value={HostInputValue}
@@ -83,8 +151,8 @@ class HaInfo extends React.Component<any, any> {
                                 onChange={this.HostInputChange.bind(this)}
                             />
                             <Select
-                                value={HZSelectValue}
-                                onChange={this.HZSelectChange.bind(this)}
+                                value={HASelectValue}
+                                onChange={this.HASelectChange.bind(this)}
                             >
                                 <Option value="region">Region</Option>
                             </Select>
@@ -95,9 +163,8 @@ class HaInfo extends React.Component<any, any> {
                             </Button>
                         </div>
                     </div>
-                    <div>
-                        table区域
-                    </div>
+                    {this.renderTable()}
+
                 </div>
             </div>
         );
