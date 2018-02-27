@@ -46,8 +46,9 @@ class Mirror extends React.Component<any, any> {
                 //     fixed: true,
                 // },
                 {
-                    key: 'mobile',
+                    key: 'id',
                     title: '项目',
+                    link: true,
                 }, {
                     key: 'name',
                     title: '名称',
@@ -77,7 +78,7 @@ class Mirror extends React.Component<any, any> {
                 }],
             'body': [
                 {
-                    'mobile': 'xiaojindian4',
+                    'id': 'xiaojindian4',
                     'name': 'cirros',
                     'type': '镜像',
                     'memory': '运行',
@@ -88,7 +89,7 @@ class Mirror extends React.Component<any, any> {
                     'size': '18'
                 },
                 {
-                    'mobile': '213cluster',
+                    'id': '213cluster',
                     'name': 'cirros',
                     'type': '镜像',
                     'memory': '运行',
@@ -99,7 +100,7 @@ class Mirror extends React.Component<any, any> {
                     'size': '18'
                 },
                 {
-                    'mobile': 'xiaojindian4',
+                    'id': '213cluster-123',
                     'name': 'cirros',
                     'type': '镜像',
                     'memory': '运行',
@@ -110,7 +111,7 @@ class Mirror extends React.Component<any, any> {
                     'size': '18'
                 },
                 {
-                    'mobile': '213cluster',
+                    'id': 'lijianguo',
                     'name': 'cirros',
                     'type': '镜像',
                     'memory': '运行',
@@ -121,7 +122,7 @@ class Mirror extends React.Component<any, any> {
                     'size': '18'
                 },
                 {
-                    'mobile': 'xiaojindian4',
+                    'id': 'zhangjianjun',
                     'name': 'cirros',
                     'type': '镜像',
                     'memory': '运行',
@@ -132,7 +133,7 @@ class Mirror extends React.Component<any, any> {
                     'size': '18'
                 },
                 {
-                    'mobile': '213cluster',
+                    'id': '213cluster',
                     'name': 'cirros',
                     'type': '镜像',
                     'memory': '运行',
@@ -143,7 +144,7 @@ class Mirror extends React.Component<any, any> {
                     'size': '18'
                 },
                 {
-                    'mobile': 'xiaojindian4',
+                    'id': 'xiaojindian4',
                     'name': 'cirros',
                     'type': '镜像',
                     'memory': '运行',
@@ -154,7 +155,7 @@ class Mirror extends React.Component<any, any> {
                     'size': '18'
                 },
                 {
-                    'mobile': '213cluster',
+                    'id': '213cluster',
                     'name': 'cirros',
                     'type': '镜像',
                     'memory': '运行',

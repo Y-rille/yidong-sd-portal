@@ -212,7 +212,7 @@ const data = {
 };
 
 const lower_resources_data = {
-    'count': 1,
+    'count': 18,
     'header': [{
         key: 'id',
         title: '虚拟机名称',
@@ -397,20 +397,14 @@ class HostInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="下级资源" key="3">
-                            <Tabs
-                                size="small"
-                                animated={false}>
-                                <TabPane tab="" key="31">
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        actionAuth={[]}
-                                        pageAuth={false}
-                                        data={lower_resources_data}
-                                        outStyle={{ 'marginTop': '20px' }}
-                                    />
-                                </TabPane>
-                            </Tabs>
+                            <CompactTable
+                                // goPage={this.goPage.bind(this)} // 翻页
+                                // goLink={this.goLink.bind(this)}
+                                actionAuth={[]}
+                                pageAuth={true}
+                                data={lower_resources_data}
+                                outStyle={{ 'marginTop': '20px' }}
+                            />
                         </TabPane>
                     </Tabs>
                 </div>

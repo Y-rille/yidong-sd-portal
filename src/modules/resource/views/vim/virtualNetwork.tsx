@@ -45,8 +45,9 @@ class VirtualNetwork extends React.Component<any, any> {
                 //     fixed: true,
                 // },
                 {
-                    key: 'mobile',
+                    key: 'id',
                     title: '项目',
+                    link: true,
                 }, {
                     key: 'name',
                     title: '网络名称 ',
@@ -71,7 +72,7 @@ class VirtualNetwork extends React.Component<any, any> {
                 }],
             'body': [
                 {
-                    'mobile': 'xiaojindian4',
+                    'id': 'xiaojindian4',
                     'name': '13',
                     'subnet': 'sub-text-vlan24.10.34.24.0',
                     'DHCP': '5',
@@ -81,7 +82,7 @@ class VirtualNetwork extends React.Component<any, any> {
                     'magstute': 'up'
                 },
                 {
-                    'mobile': '213cluster',
+                    'id': '213cluster',
                     'name': '13',
                     'subnet': 'sub-text-vlan24.10.34.24.0',
                     'DHCP': '5',
@@ -91,7 +92,7 @@ class VirtualNetwork extends React.Component<any, any> {
                     'magstute': 'up'
                 },
                 {
-                    'mobile': 'xiaojindian4',
+                    'id': '213cluster-123',
                     'name': '13',
                     'subnet': 'sub-text-vlan24.10.34.24.0',
                     'DHCP': '5',
@@ -101,7 +102,7 @@ class VirtualNetwork extends React.Component<any, any> {
                     'magstute': 'up'
                 },
                 {
-                    'mobile': '213cluster',
+                    'id': 'lijianguo',
                     'name': '13',
                     'subnet': 'sub-text-vlan24.10.34.24.0',
                     'DHCP': '5',
@@ -111,7 +112,7 @@ class VirtualNetwork extends React.Component<any, any> {
                     'magstute': 'up'
                 },
                 {
-                    'mobile': 'xiaojindian4',
+                    'id': 'zhangjianjun',
                     'name': '13',
                     'subnet': 'sub-text-vlan24.10.34.24.0',
                     'DHCP': '5',
@@ -121,7 +122,7 @@ class VirtualNetwork extends React.Component<any, any> {
                     'magstute': 'up'
                 },
                 {
-                    'mobile': '213cluster',
+                    'id': '213cluster',
                     'name': '13',
                     'subnet': 'sub-text-vlan24.10.34.24.0',
                     'DHCP': '5',
@@ -131,7 +132,7 @@ class VirtualNetwork extends React.Component<any, any> {
                     'magstute': 'up'
                 },
                 {
-                    'mobile': 'xiaojindian4',
+                    'id': 'xiaojindian4',
                     'name': '13',
                     'subnet': 'sub-text-vlan24.10.34.24.0',
                     'DHCP': '5',
@@ -141,7 +142,7 @@ class VirtualNetwork extends React.Component<any, any> {
                     'magstute': 'up'
                 },
                 {
-                    'mobile': '213cluster',
+                    'id': '213cluster',
                     'name': '13',
                     'subnet': 'sub-text-vlan24.10.34.24.0',
                     'DHCP': '5',
