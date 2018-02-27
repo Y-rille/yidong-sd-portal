@@ -3,17 +3,123 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import VolumeTypeInfo from '../../container/vim/volumeTypeInfo'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'antd';
+const Option = Select.Option;
 import styles from '../../style/index.less'
+import CompactTable from '../../../../components/CompactTable/'
 class VolumeType extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            volumeTypeInputValue: '',
+            volumeTypeSelectValue: 'project'
+        }
     }
     goInfo = () => {
         this.props.history.push(`/resource/vim/1/volume_type/info`)
     }
+    volumeTypeSelectChange(value) {
+        this.setState({
+            storageVolume: value
+        })
+    }
+    volumeTypeInputChange(value) {
+        this.setState({
+            volumeTypeInputValue: value
+        })
+    }
+    handleClick() {
+        const { volumeTypeInputValue, volumeTypeSelectValue } = this.state;
+        // console.log(volumeTypeInputValue, volumeTypeSelectValue, 'ppp')
+    }
+    goPage() {
+
+    }
+    goLink(key, obj) {
+        let { match } = this.props
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
+    }
     render() {
         let { match } = this.props
+        const { volumeTypeInputValue, volumeTypeSelectValue } = this.state;
+        let tdata = {
+            'count': 17,
+            'header': [{
+                key: 'id',
+                title: '名称',
+                // fixed: true,
+                link: true,
+            }, {
+                key: 'description',
+                title: '描述',
+                // fixed: true,
+            }, {
+                key: 'Qos',
+                title: '相关QoS Spec',
+            }, {
+                key: 'isEncrypt',
+                title: '是否加密'
+            }
+            ],
+            'body': [
+                {
+                    'id': 'xiaojindian4',
+                    'description': '1',
+                    'Qos': 'sub-text-vlan24.10.34.24.0',
+                    'isEncrypt': '是',
+                },
+                {
+                    'id': '213cluster',
+                    'description': '10',
+                    'Qos': 'sub-text-vlan24.10.34.24.0',
+                    'isEncrypt': '是',
+                }, {
+                    'id': '213cluster-123',
+                    'description': '13',
+                    'Qos': 'sub-text-vlan24.10.34.24.0',
+                    'isEncrypt': '是',
+                }, {
+                    'id': 'lijianguo',
+                    'description': '13',
+                    'Qos': 'sub-text-vlan24.10.34.24.0',
+                    'isEncrypt': '是',
+                }, {
+                    'id': 'zhangjianjun',
+                    'description': '13',
+                    'Qos': 'sub-text-vlan24.10.34.24.0',
+                    'isEncrypt': '是',
+                }, {
+                    'id': 'xiaojindian4',
+                    'description': '13',
+                    'Qos': 'sub-text-vlan24.10.34.24.0',
+                    'isEncrypt': '是',
+                }, {
+                    'id': '213cluster-123',
+                    'description': '13',
+                    'Qos': 'sub-text-vlan24.10.34.24.0',
+                    'isEncrypt': '是',
+                }, {
+                    'id': '213cluster-123',
+                    'description': '13',
+                    'Qos': 'sub-text-vlan24.10.34.24.0',
+                    'isEncrypt': '是',
+                },
+                {
+                    'id': '213cluster-123',
+                    'description': '13',
+                    'Qos': 'sub-text-vlan24.10.34.24.0',
+                    'isEncrypt': '是',
+                },
+                {
+                    'id': '213cluster-123',
+                    'description': '13',
+                    'Qos': 'sub-text-vlan24.10.34.24.0',
+                    'isEncrypt': '是',
+                }
+            ]
+        }
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={VolumeTypeInfo} />
@@ -28,8 +134,34 @@ class VolumeType extends React.Component<any, any> {
                                 <Breadcrumb.Item>卷类型管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
-                        <div className={styles.queryBar}>
-                            queryBar
+                        <div style={{ padding: '20px' }}>
+                            <div className={styles.queryBar}>
+                                <Select
+                                    value={volumeTypeSelectValue}
+                                    onChange={this.volumeTypeSelectChange.bind(this)}
+                                >
+                                    <Option value="project">project</Option>
+                                </Select>
+                                <Input
+                                    placeholder="卷类型名称"
+                                    value={volumeTypeInputValue} type="text"
+                                    onChange={e => this.volumeTypeInputChange(e.target.value)}
+                                />
+                                <Button
+                                    type="primary"
+                                    onClick={this.handleClick.bind(this)}
+                                >
+                                    查询
+                            </Button>
+                                <Button type="primary" style={{ float: 'right' }}>管理</Button>
+                            </div>
+                            <CompactTable
+                                goPage={this.goPage.bind(this)} // 翻页
+                                goLink={this.goLink.bind(this)}
+                                data={tdata}
+                                pageAuth={true}
+                                actionAuth={[]}
+                            />
                         </div>
                     </div>
                 )} />
