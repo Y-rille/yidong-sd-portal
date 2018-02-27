@@ -15,9 +15,6 @@ class Az extends React.Component<any, any> {
             AZSelectValue: 'region'
         }
     }
-    goInfo = () => {
-        this.props.history.push(`/resource/vim/1/az/info`)
-    }
     AZSelectChange(value) {
         this.setState({
             AZSelectValue: value
