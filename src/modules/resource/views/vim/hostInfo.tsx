@@ -211,6 +211,59 @@ const data = {
     ]
 };
 
+const lower_resources_data = {
+    'count': 1,
+    'header': [{
+        key: 'id',
+        title: '虚拟机名称',
+        fixed: true,
+        link: true,
+    }, {
+        key: 'name',
+        title: '项目',
+    }, {
+        key: 'mobile',
+        title: '主机',
+    }, {
+        key: 'vm',
+        title: 'cpu数'
+    },
+    {
+        key: 'email',
+        title: '镜像',
+    }, {
+        key: 'cpu',
+        title: 'IP地址'
+    }, {
+        key: 'memory',
+        title: '状态'
+    }, {
+        key: 'role',
+        title: '运行时间',
+    }],
+    'body': [
+        {
+            'id': 'whj_train1',
+            'name': 'p3tenant_c119699c-39cb-400d-8f06-6a85b31f7eb9',
+            'mobile': 'TO:XSYY1B2F-E01-hp',
+            'vm': '93',
+            'email': 'win2012',
+            'cpu': 'HW-Volte-Test-Busi-V1175188.103.19.171',
+            'memory': 'running',
+            'role': '14天24小时'
+        },
+        {
+            'id': 'whj_train2',
+            'name': 'p3tenant_c119699c-39cb-400d-8f06-6a85b31f7eb9',
+            'mobile': 'TO:XSYY1B2F-E01-hp',
+            'vm': '93',
+            'email': 'win2012',
+            'cpu': 'HW-Volte-Test-Busi-V1175188.103.19.171',
+            'memory': 'running',
+            'role': '14天24小时'
+        }
+    ]
+}
 import styles from '../../style/index.less'
 class HostInfo extends React.Component<any, any> {
     constructor(props) {
@@ -344,8 +397,19 @@ class HostInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="下级资源" key="3">
-                            <Tabs size="small" onChange={this.onChange.bind(this)} animated={false}>
-                                <TabPane tab="概况" key="31">概况</TabPane>
+                            <Tabs
+                                size="small"
+                                animated={false}>
+                                <TabPane tab="" key="31">
+                                    <CompactTable
+                                        // goPage={this.goPage.bind(this)} // 翻页
+                                        // goLink={this.goLink.bind(this)}
+                                        actionAuth={[]}
+                                        pageAuth={false}
+                                        data={lower_resources_data}
+                                        outStyle={{ 'marginTop': '20px' }}
+                                    />
+                                </TabPane>
                             </Tabs>
                         </TabPane>
                     </Tabs>
