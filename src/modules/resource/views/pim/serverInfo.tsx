@@ -11,6 +11,8 @@ import CompactTable from '../../../../components/CompactTable/'
 import Headline from '../../../../components/Headline';
 import Summaries from '../../../../components/Summaries'
 
+import LogShine from '../../../../components/LogShine/'
+
 const attributes = [
     {
         'moAttributeId': 1,
@@ -211,12 +213,25 @@ const data = {
         ],
     ]
 };
+
 class ServerInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        const log = []
+        for (let i = 0; i < 30; i++) {
+            let item = {
+                id: i,
+                generated_at: '2018-02-27 15:40:00',
+                hostname: 'quent.in',
+                program: 'codedeploy-agent.log',
+                message: 'INFO codedeploy-agent.log'
+            }
+            log.push(item)
+        }
         this.state = {
             status: 'up',
-            reset: false
+            reset: false,
+            events: log
         }
     }
     confirmUpOrDown = (e) => {
@@ -324,9 +339,26 @@ class ServerInfo extends React.Component<any, any> {
             </div>
         )
     }
+    componentDidMount() {
+        let { events } = this.state
+        let item = {
+            id: 0,
+            generated_at: '2018-02-27 15:40:00',
+            hostname: 'ERROR',
+            program: 'codedeploy-agent.log',
+            message: 'INFO codedeploy-agent.log INFO codedeploy-agent.log INFO codedeploy-agent.log INFO codedeploy-agent.logINFO codedeploy-agent.log INFO codedeploy-agent.log'
+        }
+        setTimeout(() => {
+            this.setState({
+                events: [...events, item, item, item, item, item]
+            })
+        }, 4000)
+    }
 
     render() {
         let { match } = this.props;
+        let { events } = this.state
+
         return (
             <div>
                 <div className={styles.header}>
@@ -351,7 +383,9 @@ class ServerInfo extends React.Component<any, any> {
                                 <TabPane tab="概况" key="1">
                                     <DynamicPropertiesPanel attributes={attributes} data={data} />
                                 </TabPane>
-                                <TabPane tab="日志" key="2"></TabPane>
+                                <TabPane tab="日志" key="2">
+                                    <LogShine events={events} />
+                                </TabPane>
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="2">
