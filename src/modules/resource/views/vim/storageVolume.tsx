@@ -37,9 +37,9 @@ class StorageVolume extends React.Component<any, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
-        if (key === 'id') {
-            this.props.history.push(`${match.url}/info/${obj.id}`)
-        }
+        // if (key === 'id') {
+        //     this.props.history.push(`${match.url}/info/${obj.id}`)
+        // }
     }
     render() {
         let { match } = this.props;
@@ -50,7 +50,7 @@ class StorageVolume extends React.Component<any, any> {
                 key: 'id',
                 title: '项目',
                 // fixed: true,
-                link: true,
+                // link: true,
             }, {
                 key: 'main',
                 title: '主机',
