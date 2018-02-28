@@ -386,7 +386,7 @@ class ServerInfo extends React.Component<any, any> {
                     <Tabs onChange={this.callback} type="card" animated={false}>
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
-                                defaultActiveKey="1"
+                                defaultActiveKey="overview"
                                 size="small"
                                 animated={false}
                                 onChange={this.tabInfo}
