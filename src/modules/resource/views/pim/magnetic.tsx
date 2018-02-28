@@ -6,6 +6,7 @@ import MagneticInfo from '../../container/pim/magneticInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
+import MagneticTable from '../../../../components/MagneticTable/'
 
 class Magnetic extends React.Component<any, any> {
     constructor(props) {
@@ -148,7 +149,7 @@ class Magnetic extends React.Component<any, any> {
                                     footer={null}
                                     width="60%"
                                 >
-                                    <p>Some contentsSome contents...</p>
+                                    <MagneticTable />
                                 </Modal>
                             </div>
                         </div>
