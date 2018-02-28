@@ -297,7 +297,7 @@ class ServerInfo extends React.Component<any, any> {
         })
     }
     goHost() {
-
+        this.props.history.replace('/resource/vim/1/host/info/1')
     }
     renderBtns() {
         let { showBtn } = this.state
@@ -373,7 +373,7 @@ class ServerInfo extends React.Component<any, any> {
         return (
             <div>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>磁阵详情</h1>
+                    <h1 className={styles.title}>服务器详情</h1>
                     <Breadcrumb>
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
