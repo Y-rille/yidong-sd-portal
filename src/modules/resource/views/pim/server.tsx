@@ -6,6 +6,7 @@ import ServerInfo from '../../container/pim/serverInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Modal } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
+import FilterServerForm from '../../../../components/FilterServerForm'
 const Option = Select.Option;
 class Server extends React.Component<any, any> {
     constructor(props) {
@@ -17,7 +18,9 @@ class Server extends React.Component<any, any> {
 
         }
     }
-
+    getData(data) {
+        // console.log(data, '=======================>data');
+    }
     goInfo = () => {
         this.props.history.push(`/resource/pim/3/server/info`)
     }
@@ -45,6 +48,11 @@ class Server extends React.Component<any, any> {
             visible: false,
         });
     }
+    addData = () => {
+        this.setState({
+            visible: false,
+        });
+    }
     goPage = () => {
         // this.props.history.push(`/resource/pim/1/server/info`)
     }
@@ -53,6 +61,53 @@ class Server extends React.Component<any, any> {
         if (key === 'id') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
+    }
+    renderAddData() {
+        let filterDate = {
+            'count': 17,
+            'header': [{
+                key: 'ip',
+                title: '管理Ip',
+            }, {
+                key: 'name',
+                title: '用户名',
+            }, {
+                key: 'password',
+                title: '用户密码',
+            }, {
+                key: 'brand',
+                title: '品牌',
+            }, {
+                key: 'number',
+                title: '序列号'
+            }, {
+                key: 'status',
+                title: '添加状态'
+            }],
+            'body': [{
+                'id': '0',
+                'ip': '10.4.152.2',
+                'name': 'admin',
+                'password': '123123',
+                'brand': 'hp',
+                'number': 'hhhh2',
+                'status': '成功发现',
+            }]
+        }
+        return (
+            <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+                <CompactTable
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    data={filterDate}
+                    actionAuth=""
+                    pageAuth={false}
+                />
+                <div className="btn" style={{ textAlign: 'right', height: '40px', marginTop: '10px' }}>
+                    <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                    <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                </div>
+            </div >
+        )
     }
     render() {
         let tdata = {
@@ -150,6 +205,7 @@ class Server extends React.Component<any, any> {
                 }
             ]
         }
+
         let { match } = this.props;
         const { dataSelectValue, supplierSelectValue } = this.state;
         return (
@@ -193,9 +249,12 @@ class Server extends React.Component<any, any> {
                                     visible={this.state.visible}
                                     onCancel={this.handleCancel}
                                     footer={null}
-                                    width="60%"
+                                    width="70%"
                                 >
-                                    <p>Some contentsSome contents...</p>
+                                    <FilterServerForm
+                                        getData={this.getData.bind(this)}
+                                    />
+                                    {this.renderAddData()}
                                 </Modal>
                             </div>
                             <CompactTable
