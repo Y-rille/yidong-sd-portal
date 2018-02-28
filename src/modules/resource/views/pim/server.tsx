@@ -62,6 +62,7 @@ class Server extends React.Component<any, any> {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
     }
+    selectRow = () => { }
     renderAddData() {
         let filterDate = {
             'count': 17,
@@ -100,7 +101,8 @@ class Server extends React.Component<any, any> {
                     // goPage={this.goPage.bind(this)} // 翻页
                     data={filterDate}
                     actionAuth=""
-                    pageAuth={false}
+                    selectAuth={true}
+                    selectRow={this.selectRow.bind(this)}
                 />
                 <div className="btn" style={{ textAlign: 'right', height: '40px', marginTop: '10px' }}>
                     <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
