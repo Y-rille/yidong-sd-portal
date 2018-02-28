@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SwitchboardInfo from '../../container/pim/switchboardInfo'
 import CompactTable from '../../../../components/CompactTable'
+import FilterSwitchBoardForm from '../../../../components/FilterSwitchBoardForm'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Input, Modal } from 'antd';
 import styles from '../../style/index.less'
 
@@ -240,7 +241,7 @@ class Switchboard extends React.Component<any, any> {
                                     footer={null}
                                     width="60%"
                                 >
-                                    <p>Some contentsSome contents...</p>
+                                    <FilterSwitchBoardForm />
                                 </Modal>
                             </div>
                             <CompactTable

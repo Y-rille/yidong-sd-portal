@@ -129,7 +129,7 @@ class Az extends React.Component<any, any> {
                                     data={tdata}
                                     pageSize={5}
                                     selectAuth={true}
-                                    actionAuth={[]}
+                                    // actionAuth={['edit']}
                                     selectRow={this.selectRow.bind(this)}
                                 />
                             </div>

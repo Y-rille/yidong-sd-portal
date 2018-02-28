@@ -184,7 +184,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
             }
             columns.push(obj)
         }
-        if (actionAuth.length > 0) {
+        if (actionAuth && actionAuth.length > 0) {
             columns.push({
                 title: '操作',
                 key: 'action',
