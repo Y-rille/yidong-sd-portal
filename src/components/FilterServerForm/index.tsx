@@ -39,7 +39,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <Form className={styles.filter_server_form}>
+            <Form className="filterServerForm">
                 <Row gutter={24}>
                     <Col span={8}>
                         <Form.Item
@@ -68,7 +68,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {getFieldDecorator('start_ip', {
                                 initialValue: '',
                                 rules: [{
-                                    required: true, message: '',
+                                    required: true, message: '请输入开始IP',
                                 }],
                             })(
                                 <Input placeholder="" />
@@ -83,7 +83,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {getFieldDecorator('end_ip', {
                                 initialValue: '',
                                 rules: [{
-                                    required: true, message: '',
+                                    required: true, message: '请输入结束IP',
                                 }],
                             })(
                                 <Input placeholder="" />
@@ -100,7 +100,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {getFieldDecorator('name', {
                                 initialValue: '',
                                 rules: [{
-                                    required: true,
+                                    required: true, message: '请输入用户名'
                                 }],
                             })(
                                 <Input placeholder="" />
@@ -115,7 +115,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {getFieldDecorator('password', {
                                 initialValue: '',
                                 rules: [{
-                                    required: true, message: '',
+                                    required: true, message: '请输入密码'
                                 }],
                             })(
                                 <Input type="password" placeholder="" />
@@ -130,7 +130,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {getFieldDecorator('gateway', {
                                 initialValue: '',
                                 rules: [{
-                                    required: true, message: '',
+                                    required: true, message: '请输入网关',
                                 }],
                             })(
                                 <Input placeholder="" />
@@ -147,7 +147,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {getFieldDecorator('subnet_mask', {
                                 initialValue: '',
                                 rules: [{
-                                    required: true,
+                                    required: true, message: '请输入子网掩码',
                                 }],
                             })(
                                 <Input placeholder="" />
@@ -167,8 +167,8 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                         </Form.Item>
                     </Col>
                 </Row>
-                <div className={styles.bn}>
-                    <Button className={styles.bn_ok} type="primary" onClick={this.getData.bind(this)}>确定</Button>
+                <div className={styles.btn}>
+                    <Button className={styles.btn_ok} type="primary" onClick={this.getData.bind(this)}>确定</Button>
                     <Button onClick={this.resetForm.bind(this)}>重置</Button>
                 </div>
             </Form>
