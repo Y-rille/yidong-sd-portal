@@ -17,20 +17,8 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
     constructor(props: any) {
         super(props)
         this.state = {
-            // menuValue: '廊坊发现纳管',
-            // secondMenuValue: 'H3C'
         }
     }
-    // menuChange(value) {
-    //     this.setState({
-    //         menuValue: value
-    //     })
-    // }
-    // secondMenuChange(value) {
-    //     this.setState({
-    //         secondMenuValue: value
-    //     })
-    // }
     getData() {
         let data = null
         this.props.form.validateFields((err, values) => {
@@ -49,7 +37,6 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
     }
 
     render() {
-        // let fireWallInfo = this.props.data || ''
         const { menuValue, secondMenuValue } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
@@ -95,7 +82,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             {...formItemLayout}
                             label="子网掩码"
                         >
-                            {getFieldDecorator('name', {
+                            {getFieldDecorator('subnet', {
                                 // initialValue: fireWallInfo.name,
                                 rules: [{
                                     required: true, message: '请输入子网掩码！',
@@ -110,7 +97,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             {...formItemLayout}
                             label="开始IP"
                         >
-                            {getFieldDecorator('supplier', {
+                            {getFieldDecorator('startIP', {
                                 rules: [{
                                     required: true, message: '请输入开始IP！',
                                 }],
@@ -135,7 +122,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             {...formItemLayout}
                             label="DNS"
                         >
-                            {getFieldDecorator('password', {
+                            {getFieldDecorator('dns', {
 
                                 rules: [{
                                     required: false, message: '请输入DNS！',
@@ -150,7 +137,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             {...formItemLayout}
                             label="结束IP"
                         >
-                            {getFieldDecorator('ip', {
+                            {getFieldDecorator('endIP', {
                                 rules: [{
                                     required: true, message: '请输入结束IP！',
                                 }],
