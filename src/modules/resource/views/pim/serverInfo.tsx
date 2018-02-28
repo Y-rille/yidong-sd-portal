@@ -231,7 +231,8 @@ class ServerInfo extends React.Component<any, any> {
         this.state = {
             status: 'up',
             reset: false,
-            events: log
+            events: log,
+            showBtn: true
         }
     }
     confirmUpOrDown = (e) => {
@@ -262,7 +263,11 @@ class ServerInfo extends React.Component<any, any> {
 
     }
     callback = () => { }
-    tabInfo = () => { }
+    tabInfo = (key) => {
+        this.setState({
+            showBtn: key === 'log' ? false : true
+        })
+    }
     tabConnect = () => { }
     goPage = () => {
         this.props.history.push(`/resource/vim/1/server/info`)
@@ -291,19 +296,25 @@ class ServerInfo extends React.Component<any, any> {
             }
         })
     }
+    goHost() {
 
+    }
     renderBtns() {
-        return (
-            <div className={styles.btn}>
-                <Button
-                    type="primary" ghost
-                    icon="dingding"
-                    style={{ margin: '0px 10px 0px 0' }}
-                    onClick={this.confirmUpOrDown}
-                >{this.state.status === 'down' ? '上电' : '下电'}</Button>
-                <Button type="primary" ghost icon="retweet" onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
-            </div>
-        )
+        let { showBtn } = this.state
+        if (showBtn) {
+            return (
+                <div className={styles.btn}>
+                    <Button
+                        type="primary" ghost
+                        icon="dingding"
+                        style={{ margin: '0px 10px 0px 0' }}
+                        onClick={this.confirmUpOrDown}
+                    >{this.state.status === 'down' ? '上电' : '下电'}</Button>
+                    <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet" onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                    <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
+                </div>
+            )
+        }
     }
     renderOther() {
         let self = this;
@@ -380,10 +391,10 @@ class ServerInfo extends React.Component<any, any> {
                                 animated={false}
                                 onChange={this.tabInfo}
                                 tabBarExtraContent={this.renderBtns()}>
-                                <TabPane tab="概况" key="1">
+                                <TabPane tab="概况" key="overview">
                                     <DynamicPropertiesPanel attributes={attributes} data={data} />
                                 </TabPane>
-                                <TabPane tab="日志" key="2">
+                                <TabPane tab="日志" key="log">
                                     <LogShine events={events} />
                                 </TabPane>
                             </Tabs>
