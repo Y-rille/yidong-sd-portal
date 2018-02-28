@@ -157,6 +157,9 @@ class Firewall extends React.Component<any, any> {
     goInfo = () => {
         this.props.history.push(`/resource/pim/1/firewall/info`)
     }
+    getData(formData) {
+        // console.log(formData, '-----formData')
+    }
     onChangeDataCenter(value) {
         this.setState({
             dataCenterValue: value
@@ -299,7 +302,9 @@ class Firewall extends React.Component<any, any> {
                                     footer={null}
                                     width="60%"
                                 >
-                                    <FilterFireWallForm />
+                                    <FilterFireWallForm
+                                        getData={this.getData.bind(this)}
+                                    />
                                 </Modal>
                             </div>
                             <CompactTable

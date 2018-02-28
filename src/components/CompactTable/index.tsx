@@ -8,15 +8,18 @@ export interface CompactTableProps {
     goEdit?
     // showModal?
     data?
-    page_num?
-    page_size?
+    // page_num?
+    // page_size?
     goPage?
     goLink?
     goDelete?
-    actionAuth?
-    pageAuth?
-    footInfoAuth?
+    actionAuth? // 操作权限
+    // pageAuth?
+    footInfoAuth? // 页脚信息
     outStyle?
+    selectAuth? // 选择权限
+    selectRow?
+    pageSize?
 }
 
 export default class CompacteTable extends React.PureComponent<CompactTableProps, any> {
@@ -24,7 +27,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         super(props);
         this.state = {
             page_num: 1,
-            page_size: 10,
+            page_size: this.props.pageSize ? this.props.pageSize : 10,
         };
     }
     static defaultProps = {
@@ -163,7 +166,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         this.props.goLink(key, obj)
     }
     renderTable() {
-        let { actionAuth, data } = this.props
+        let { actionAuth, data, selectAuth, selectRow } = this.props
         let header = data.header
         let dataList = data.body
         let columns = []
@@ -225,9 +228,21 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
             default:
                 break;
         }
-
+        let rowSelection = null
+        if (selectAuth) {
+            rowSelection = {
+                onChange: (selectedRowKeys, selectedRows) => {
+                    if (selectRow) {
+                        selectRow(selectedRows)
+                    }
+                },
+                getCheckboxProps: record => ({
+                    disabled: record.hasChecked, // Column configuration not to be checked
+                }),
+            }
+        }
         return (
-            <Table size="small" scroll={area}
+            <Table size="small" scroll={area} rowSelection={rowSelection}
                 pagination={false}
                 className={styles.smalltable}
                 columns={columns}
@@ -235,7 +250,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         )
     }
     render() {
-        let { data, goPage, pageAuth, footInfoAuth, outStyle } = this.props
+        let { data, goPage, footInfoAuth, outStyle } = this.props
         let { page_size, page_num } = this.state
         let count = data.count
         return (
@@ -243,7 +258,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                 {this.renderTable()}
                 <div className={styles.tfooter}>
                     {footInfoAuth ? (<div>* 底部信息</div>) : ''}
-                    {(pageAuth && count > page_size) ? (
+                    {(count > page_size) ? (
                         <div>
                             <Pagination size="small"
                                 className={styles.pagination}
