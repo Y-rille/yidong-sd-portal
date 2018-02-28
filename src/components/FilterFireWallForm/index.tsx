@@ -141,7 +141,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                 <Row>
                     <Col span={24} style={{ textAlign: 'right' }}>
                         <Button type="primary" onClick={this.getData.bind(this)}>确定</Button>
-                        <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>重置</Button>
+                        <Button style={{ marginLeft: 10 }} onClick={this.handleReset.bind(this)}>重置</Button>
                     </Col>
                 </Row>
             </Form>
