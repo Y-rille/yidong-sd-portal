@@ -196,7 +196,7 @@ class Server extends React.Component<any, any> {
                                     visible={this.state.visible}
                                     onCancel={this.handleCancel}
                                     footer={null}
-                                    width="60%"
+                                    width="70%"
                                 >
                                     <FilterServerForm
                                         getData={this.getData.bind(this)}
