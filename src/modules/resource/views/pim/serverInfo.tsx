@@ -10,6 +10,7 @@ import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPane
 import CompactTable from '../../../../components/CompactTable/'
 import Headline from '../../../../components/Headline';
 import Summaries from '../../../../components/Summaries'
+import ServerNetworkCard from '../../../../components/ServerNetworkCard'
 
 import LogShine from '../../../../components/LogShine/'
 
@@ -386,7 +387,7 @@ class ServerInfo extends React.Component<any, any> {
                     <Tabs onChange={this.callback} type="card" animated={false}>
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
-                                defaultActiveKey="1"
+                                defaultActiveKey="overview"
                                 size="small"
                                 animated={false}
                                 onChange={this.tabInfo}
@@ -424,13 +425,7 @@ class ServerInfo extends React.Component<any, any> {
                                     />
                                 </TabPane>
                                 <TabPane tab="网卡信息" key="3" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                        pageAuth={false}
-                                    />
+                                    <ServerNetworkCard />
                                 </TabPane>
                                 <TabPane tab="硬盘信息" key="4" style={{ padding: '20px 0' }}>
                                     <CompactTable

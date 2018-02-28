@@ -6,6 +6,7 @@ import ServerInfo from '../../container/pim/serverInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Modal } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
+import FilterServerForm from '../../../../components/FilterServerForm'
 const Option = Select.Option;
 class Server extends React.Component<any, any> {
     constructor(props) {
@@ -17,7 +18,9 @@ class Server extends React.Component<any, any> {
 
         }
     }
-
+    getData(data) {
+        // console.log(data, '=======================>data');
+    }
     goInfo = () => {
         this.props.history.push(`/resource/pim/3/server/info`)
     }
@@ -193,9 +196,11 @@ class Server extends React.Component<any, any> {
                                     visible={this.state.visible}
                                     onCancel={this.handleCancel}
                                     footer={null}
-                                    width="60%"
+                                    width="70%"
                                 >
-                                    <p>Some contentsSome contents...</p>
+                                    <FilterServerForm
+                                        getData={this.getData.bind(this)}
+                                    />
                                 </Modal>
                             </div>
                             <CompactTable

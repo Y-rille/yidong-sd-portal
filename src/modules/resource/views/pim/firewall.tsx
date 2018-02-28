@@ -6,6 +6,7 @@ import FirewallInfo from '../../container/pim/firewallInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import styles from '../../style/index.less'
 
+import FilterFireWallForm from '../../../../components/FilterFireWallForm'
 import CompactTable from '../../../../components/CompactTable'
 
 const data = {
@@ -156,6 +157,9 @@ class Firewall extends React.Component<any, any> {
     goInfo = () => {
         this.props.history.push(`/resource/pim/1/firewall/info`)
     }
+    getData(formData) {
+        // console.log(formData, '-----formData')
+    }
     onChangeDataCenter(value) {
         this.setState({
             dataCenterValue: value
@@ -298,7 +302,9 @@ class Firewall extends React.Component<any, any> {
                                     footer={null}
                                     width="60%"
                                 >
-                                    <p>Some contentsSome contents...</p>
+                                    <FilterFireWallForm
+                                        getData={this.getData.bind(this)}
+                                    />
                                 </Modal>
                             </div>
                             <CompactTable

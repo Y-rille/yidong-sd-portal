@@ -1,76 +1,67 @@
 import React from 'react';
+import styles from './index.less';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import { FormComponentProps } from 'antd/lib/form/Form';
 
-export interface FireWallFormClsProps extends FormComponentProps {
-
+export interface FilterFireWallFormClsProps extends FormComponentProps {
+    // data?
+    getData?
 }
 const formItemLayout = {
-    labelCol: { span: 4 },
+    labelCol: { span: 7 },
     wrapperCol: { span: 16 },
 };
 
-class FireWallFormCls extends React.PureComponent<FireWallFormClsProps, any> {
+class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsProps, any> {
     constructor(props: any) {
         super(props)
         this.state = {
-            menuValue: '廊坊发现纳管',
-            secondMenuValue: 'H3C'
         }
-    }
-    menuChange(value) {
-        this.setState({
-            menuValue: value
-        })
-    }
-    secondMenuChange(value) {
-        this.setState({
-            secondMenuValue: value
-        })
     }
     getData() {
         let data = null
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                delete values.username
                 data = values
-
             } else {
                 data = null
             }
         })
-        return data
+        if (this.props.getData) {
+            this.props.getData(data)
+        }
     }
-
+    handleReset() {
+        this.props.form.resetFields()
+    }
     render() {
         // let fireWallInfo = this.props.data || ''
         const { menuValue, secondMenuValue } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
-            <Form className={styles.userForm}>
+            <Form className={styles.filterFireWallForm}>
                 <Row>
                     <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
                             label="发现服务"
-                            hasFeedback
-                            required
+                        // hasFeedback
+                        // required
                         >
                             {getFieldDecorator('dServer', {
-                                // initialValue: fireWallInfo.dServer,
+                                initialValue: '廊坊发现纳管',
                                 rules: [{
-                                    type: 'dServer', message: '请选择发现服务',
+                                    required: true, message: '请选择发现服务',
                                 }],
                             })(
                                 <Select
-                                    value={menuValue}
-                                    onChange={this.menuChange.bind(this)}
                                 >
                                     <Option value="廊坊发现纳管">廊坊发现纳管</Option>
+                                    <Option value="发现纳管">望京发现纳管</Option>
                                 </Select>
-                                )}
+                            )}
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
@@ -83,7 +74,7 @@ class FireWallFormCls extends React.PureComponent<FireWallFormClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入用户名" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -92,18 +83,17 @@ class FireWallFormCls extends React.PureComponent<FireWallFormClsProps, any> {
                             label="供应商"
                         >
                             {getFieldDecorator('supplier', {
-                                // initialValue: fireWallInfo.supplier,
+                                initialValue: 'HPE',
                                 rules: [{
                                     required: true, message: '请选择供应商！',
                                 }],
                             })(
                                 <Select
-                                    value={secondMenuValue}
-                                    onChange={this.secondMenuChange.bind(this)}
                                 >
+                                    <Option value="HPE">HPE</Option>
                                     <Option value="H3C">H3C</Option>
                                 </Select>
-                                )}
+                            )}
                         </Form.Item>
                         <FormItem
                             {...formItemLayout}
@@ -116,7 +106,7 @@ class FireWallFormCls extends React.PureComponent<FireWallFormClsProps, any> {
                                 }],
                             })(
                                 <Input type="password" placeholder="请输入密码" />
-                                )}
+                            )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
@@ -131,7 +121,7 @@ class FireWallFormCls extends React.PureComponent<FireWallFormClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入设备IP" />
-                                )}
+                            )}
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
@@ -144,14 +134,20 @@ class FireWallFormCls extends React.PureComponent<FireWallFormClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入协议" />
-                                )}
+                            )}
                         </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24} style={{ textAlign: 'right' }}>
+                        <Button type="primary" onClick={this.getData.bind(this)}>确定</Button>
+                        <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>重置</Button>
                     </Col>
                 </Row>
             </Form>
         )
     }
 }
-const FireWallForm = Form.create<any>()(FireWallFormCls);
+const FilterFireWallForm = Form.create<any>()(FilterFireWallFormCls);
 
-export default FireWallForm;
+export default FilterFireWallForm;
