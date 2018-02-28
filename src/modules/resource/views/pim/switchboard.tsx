@@ -296,7 +296,7 @@ class Switchboard extends React.Component<any, any> {
                                     visible={this.state.visible}
                                     onCancel={this.handleCancel}
                                     footer={null}
-                                    width="60%"
+                                    width="70%"
                                 >
                                     <FilterSwitchBoardForm getData={this.getData.bind(this)} />
                                     {this.renderAddData()}

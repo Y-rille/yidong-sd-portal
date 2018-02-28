@@ -147,7 +147,7 @@ class Magnetic extends React.Component<any, any> {
                                     visible={this.state.visible}
                                     onCancel={this.handleCancel}
                                     footer={null}
-                                    width="60%"
+                                    width="70%"
                                 >
                                     <MagneticTable />
                                 </Modal>
