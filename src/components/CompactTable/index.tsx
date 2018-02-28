@@ -214,7 +214,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
             item.key = item.id
         })
 
-        let area: any = {}
+        let area: any = { x: '100%' }
         switch (true) {
             case header.length > 6 && header.length <= 10:
                 area = { x: 1100 }

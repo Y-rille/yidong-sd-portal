@@ -39,16 +39,10 @@ class Mirror extends React.Component<any, any> {
         let tData = {
             'count': 17,
             'header': [
-                // {
-                //     key: 'id',
-                //     title: '虚拟机名称',
-                //     link: true,
-                //     fixed: true,
-                // },
                 {
                     key: 'id',
                     title: '项目',
-                    link: true,
+                    // link: true,
                 }, {
                     key: 'name',
                     title: '名称',
