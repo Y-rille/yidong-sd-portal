@@ -269,71 +269,24 @@ class HostInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            status: 'up',
             reset: false
         }
     }
     onChange() {
 
     }
-    confirmRest = () => {
-        let self = this
-        let content = '服务器正在运行，确定复位吗？'
-        confirm({
-            title: content,
-            content: '',
-            okText: '确认',
-            cancelText: '取消',
-            iconType: 'exclamation-circle',
-            onOk() {
-                self.setState({
-                    reset: true
-                })
-            },
-            onCancel() {
-                // self.setState({
-                //     reset: false
-                // })
-            }
-        })
-    }
-    confirmUpOrDown = (e) => {
-        // let title = '上电'
-        let content = '服务器正在运行，确定上电吗？'
-        if (this.state.status === 'down') {
-            // title = '上电'
-            content = '服务器正在运行，确定上电吗？'
-        } else if (this.state.status === 'up') {
-            // title = '下电'
-            content = '服务器正在运行，确定下电吗？'
-        }
-        let self = this
-        confirm({
-            title: content,
-            content: '',
-            okText: '确认',
-            cancelText: '取消',
-            iconType: 'exclamation-circle',
-            onOk() {
-                self.setState({
-                    status: self.state.status === 'down' ? 'up' : 'down'
-                })
-            },
-            onCancel() {
-            }
-        })
-
+    
+    showServer = (e) => {
+        this.props.history.replace(`/resource/pim/4/server/info/1`)
     }
     renderBtns() {
         return (
             <div className={styles.btn}>
                 <Button
                     type="primary" ghost
-                    icon="dingding"
-                    style={{ margin: '0px 10px 0px 0' }}
-                    onClick={this.confirmUpOrDown}
-                >{this.state.status === 'down' ? '上电' : '下电'}</Button>
-                <Button type="primary" ghost icon="retweet" onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                    icon="eye-o"
+                    onClick={this.showServer}
+                >查看服务器</Button>
             </div>
         )
     }
