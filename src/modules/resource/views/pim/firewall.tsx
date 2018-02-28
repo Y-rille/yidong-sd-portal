@@ -6,6 +6,7 @@ import FirewallInfo from '../../container/pim/firewallInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import styles from '../../style/index.less'
 
+import FireWallForm from '../../../../components/FireWallForm'
 import CompactTable from '../../../../components/CompactTable'
 
 const data = {
@@ -298,7 +299,7 @@ class Firewall extends React.Component<any, any> {
                                     footer={null}
                                     width="60%"
                                 >
-                                    <p>Some contentsSome contents...</p>
+                                    <FireWallForm />
                                 </Modal>
                             </div>
                             <CompactTable
