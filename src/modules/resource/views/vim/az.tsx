@@ -43,7 +43,7 @@ class Az extends React.Component<any, any> {
     }
     render() {
         let tdata = {
-            'count': 17,
+            'count': 15,
             'header': [{
                 key: 'id',
                 title: 'AZ名称',
@@ -127,7 +127,7 @@ class Az extends React.Component<any, any> {
                                     goPage={this.goPage.bind(this)} // 翻页
                                     goLink={this.goLink.bind(this)}
                                     data={tdata}
-                                    pageAuth={true}
+                                    pageSize={5}
                                     selectAuth={true}
                                     actionAuth={[]}
                                     selectRow={this.selectRow.bind(this)}
