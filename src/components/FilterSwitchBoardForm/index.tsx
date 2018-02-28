@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import styles from './index.less';
+import '../../style/antd.aless'
 import { Row, Col, Form, Select, Input, Button } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -42,7 +43,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <Form onSubmit={this.handleSubmit.bind(this)} className={styles.filter_switchboard_form}>
+            <Form onSubmit={this.handleSubmit.bind(this)} className="filterSwitchBoardForm">
                 <Row>
                     <Col span={8}>
                         <FormItem label="发现服务" {...formItemLayout}>
