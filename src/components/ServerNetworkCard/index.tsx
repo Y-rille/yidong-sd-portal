@@ -3,7 +3,7 @@ import styles from './index.less';
 import CompactTable from '../CompactTable'
 
 export interface ServerNetworkCardProps {
-
+    data?
 }
 
 class ServerNetworkCard extends React.PureComponent<ServerNetworkCardProps, any> {
@@ -13,6 +13,7 @@ class ServerNetworkCard extends React.PureComponent<ServerNetworkCardProps, any>
         }
     }
     render() {
+        let { data } = this.props
         return (
             <div className={styles.serverNetworkCard}>
                 <div className={styles.title}>
@@ -23,9 +24,8 @@ class ServerNetworkCard extends React.PureComponent<ServerNetworkCardProps, any>
                 <CompactTable
                     // goPage={this.goPage.bind(this)} // 翻页
                     // goLink={this.goLink.bind(this)}
-                    // data={null}
-                    actionAuth={['delete']}
-                    pageAuth={false}
+                    data={data}
+                    actionAuth={[]}
                 />
             </div>
         )

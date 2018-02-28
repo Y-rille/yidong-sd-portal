@@ -370,7 +370,28 @@ class ServerInfo extends React.Component<any, any> {
     render() {
         let { match } = this.props;
         let { events } = this.state
-
+        let tdata = {
+            'count': 2,
+            'header': [{
+                key: 'name',
+                title: '网口名称'
+            }, {
+                key: 'address',
+                title: '网口地址',
+            }],
+            'body': [
+                {
+                    'id': 1,
+                    'name': 'Port1NC_MACAdress',
+                    'address': '30:e1:71:6a:81:b4',
+                },
+                {
+                    'id': 2,
+                    'name': 'Port1NC_MACAdress',
+                    'address': '30:e1:71:6a:81:b4',
+                }
+            ]
+        }
         return (
             <div>
                 <div className={styles.header}>
@@ -412,7 +433,6 @@ class ServerInfo extends React.Component<any, any> {
                                         // goLink={this.goLink.bind(this)}
                                         // data={null}
                                         actionAuth={['delete']}
-                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="内存信息" key="2" style={{ padding: '20px 0' }}>
@@ -421,11 +441,11 @@ class ServerInfo extends React.Component<any, any> {
                                         // goLink={this.goLink.bind(this)}
                                         // data={null}
                                         actionAuth={['delete']}
-                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="网卡信息" key="3" style={{ padding: '20px 0' }}>
-                                    <ServerNetworkCard />
+                                    <ServerNetworkCard data={tdata} />
+                                    <ServerNetworkCard data={tdata} />
                                 </TabPane>
                                 <TabPane tab="硬盘信息" key="4" style={{ padding: '20px 0' }}>
                                     <CompactTable
@@ -433,7 +453,6 @@ class ServerInfo extends React.Component<any, any> {
                                         // goLink={this.goLink.bind(this)}
                                         // data={null}
                                         actionAuth={['delete']}
-                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="风扇信息" key="5" style={{ padding: '20px 0' }}>
@@ -442,7 +461,6 @@ class ServerInfo extends React.Component<any, any> {
                                         // goLink={this.goLink.bind(this)}
                                         // data={null}
                                         actionAuth={['delete']}
-                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="电源信息" key="6" style={{ padding: '20px 0' }}>
@@ -451,7 +469,6 @@ class ServerInfo extends React.Component<any, any> {
                                         // goLink={this.goLink.bind(this)}
                                         // data={null}
                                         actionAuth={['delete']}
-                                        pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="其它信息" key="7" style={{ padding: '20px 0' }}>

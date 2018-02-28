@@ -2,12 +2,18 @@
 @import "../../style/index.less";
 
 .serverNetworkCard {
-    //background-color: #f5f7f9;
+    padding: @margin-base @margin-base 12px @margin-base;
+    margin-bottom: @margin-base;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    &:last-child {
+        margin-bottom: 0;
+    }
     .title{
-        margin-bottom: 20px;
+        margin-bottom: @margin-base;
         .title_header{
             color: #000;
-            margin-right: 10px;
+            margin-right: @margin-min;
         }
     };
 }
