@@ -53,6 +53,63 @@ class Switchboard extends React.Component<any, any> {
             visible: false,
         });
     }
+    renderAddData() {
+        let filterDate = {
+            'count': 17,
+            'header': [{
+                key: 'ip',
+                title: '管理Ip',
+            }, {
+                key: 'name',
+                title: '用户名',
+            }, {
+                key: 'password',
+                title: '用户密码',
+            }, {
+                key: 'brand',
+                title: '品牌',
+            }, {
+                key: 'number',
+                title: '型号'
+            }, {
+                key: 'status',
+                title: '添加状态'
+            }],
+            'body': [{
+                'id': '0',
+                'ip': '10.4.152.60',
+                'name': 'admin',
+                'password': 'xiaojindian4@1234',
+                'brand': 'hp',
+                'number': '6cu611xd9v',
+                'status': '成功发现',
+            }]
+        }
+        return (
+            <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+                <CompactTable
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    data={filterDate}
+                    actionAuth=""
+                    selectAuth={true}
+                    selectRow={this.selectRow.bind(this)}
+                />
+                <div className="btn" style={{ textAlign: 'right', height: '40px', marginTop: '10px' }}>
+                    <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                    <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                </div>
+            </div >
+        )
+    }
+    selectRow = () => { }
+    addData = () => {
+        this.setState({
+            visible: false,
+        });
+    }
+    getData(data) {
+        // console.log(data, '=======================>data');
+    }
     render() {
         let tdata = {
             'count': 17,
@@ -241,7 +298,8 @@ class Switchboard extends React.Component<any, any> {
                                     footer={null}
                                     width="60%"
                                 >
-                                    <FilterSwitchBoardForm />
+                                    <FilterSwitchBoardForm getData={this.getData.bind(this)} />
+                                    {this.renderAddData()}
                                 </Modal>
                             </div>
                             <CompactTable

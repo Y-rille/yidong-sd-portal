@@ -258,4 +258,8 @@
         margin-bottom: 10px !important;
     }
 }
-
+.filterSwitchBoardForm{
+.ant-form-item{
+        margin-bottom: 10px !important;
+    }
+}
