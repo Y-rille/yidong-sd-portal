@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import SwitchboardInfo from '../../container/pim/switchboardInfo'
 import CompactTable from '../../../../components/CompactTable'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Input } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Input, Modal } from 'antd';
 import styles from '../../style/index.less'
 
 class Switchboard extends React.Component<any, any> {
@@ -12,7 +12,8 @@ class Switchboard extends React.Component<any, any> {
         super(props);
         this.state = {
             dataValue: ['数据中心'],
-            nameValue: ''
+            nameValue: '',
+            visible: false
         };
     }
     goInfo = () => {
@@ -40,6 +41,16 @@ class Switchboard extends React.Component<any, any> {
         if (key === 'id') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
+    }
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    }
+    handleCancel = () => {
+        this.setState({
+            visible: false,
+        });
     }
     render() {
         let tdata = {
@@ -221,6 +232,16 @@ class Switchboard extends React.Component<any, any> {
                                 >
                                     查询
                                 </Button>
+                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <Modal
+                                    title="发现"
+                                    visible={this.state.visible}
+                                    onCancel={this.handleCancel}
+                                    footer={null}
+                                    width="60%"
+                                >
+                                    <p>Some contentsSome contents...</p>
+                                </Modal>
                             </div>
                             <CompactTable
                                 outStyle={{ marginTop: '20px' }}
