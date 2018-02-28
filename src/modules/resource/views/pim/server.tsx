@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import ServerInfo from '../../container/pim/serverInfo'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Modal } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 const Option = Select.Option;
@@ -12,9 +12,12 @@ class Server extends React.Component<any, any> {
         super(props);
         this.state = {
             dataSelectValue: '1',
-            supplierSelectValue: '1'
+            supplierSelectValue: '1',
+            visible: false
+
         }
     }
+
     goInfo = () => {
         this.props.history.push(`/resource/pim/3/server/info`)
     }
@@ -31,6 +34,16 @@ class Server extends React.Component<any, any> {
     handleClick() {
         const { dataSelectValue, supplierSelectValue } = this.state;
         // console.log(dataSelectValue, supplierSelectValue);
+    }
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    }
+    handleCancel = () => {
+        this.setState({
+            visible: false,
+        });
     }
     goPage = () => {
         // this.props.history.push(`/resource/pim/1/server/info`)
@@ -174,6 +187,16 @@ class Server extends React.Component<any, any> {
                                 >
                                     查询
                             </Button>
+                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <Modal
+                                    title="发现"
+                                    visible={this.state.visible}
+                                    onCancel={this.handleCancel}
+                                    footer={null}
+                                    width="60%"
+                                >
+                                    <p>Some contentsSome contents...</p>
+                                </Modal>
                             </div>
                             <CompactTable
                                 // goPage={this.goPage.bind(this)} // 翻页
