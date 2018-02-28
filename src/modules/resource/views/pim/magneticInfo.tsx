@@ -311,19 +311,6 @@ class MageneticInfo extends React.Component<any, any> {
             </div>
         )
     }
-    renderBtns() {
-        return (
-            <div className={styles.btn}>
-                <Button
-                    type="primary" ghost
-                    icon="dingding"
-                    style={{ margin: '0px 10px 0px 0' }}
-                    onClick={this.confirmUpOrDown}
-                >{this.state.status === 'down' ? '上电' : '下电'}</Button>
-                <Button type="primary" ghost icon="retweet" onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
-            </div>
-        )
-    }
     renderRAID() {
         return (
             <CompactTable
@@ -427,7 +414,7 @@ class MageneticInfo extends React.Component<any, any> {
                                 size="small"
                                 onChange={this.tabInfo}
                                 animated={false}
-                                tabBarExtraContent={this.renderBtns()}>
+                                >
                                 <TabPane tab="概况" key="1">
                                     <DynamicPropertiesCollapse attributes={attributes} data={data} />
                                 </TabPane>

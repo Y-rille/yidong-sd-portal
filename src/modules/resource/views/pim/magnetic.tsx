@@ -3,13 +3,16 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import MagneticInfo from '../../container/pim/magneticInfo'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 
 class Magnetic extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            visible: false
+        };
     }
     goInfo = () => {
         let { match } = this.props
@@ -29,6 +32,16 @@ class Magnetic extends React.Component<any, any> {
         if (key === 'id') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
+    }
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    }
+    handleCancel = () => {
+        this.setState({
+            visible: false,
+        });
     }
     render() {
         const DataCenter = [{
@@ -127,6 +140,16 @@ class Magnetic extends React.Component<any, any> {
                                 <Cascader options={DataCenter} onChange={this.onChangeDataCenter.bind(this)} placeholder="数据中心" />
                                 <Cascader options={Supplier} onChange={this.onChangeSupplier.bind(this)} placeholder="供应商" />
                                 <Button type="primary">查询</Button>
+                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <Modal
+                                    title="发现"
+                                    visible={this.state.visible}
+                                    onCancel={this.handleCancel}
+                                    footer={null}
+                                    width="60%"
+                                >
+                                    <p>Some contentsSome contents...</p>
+                                </Modal>
                             </div>
                         </div>
                         <div style={{ padding: '0px 20px 20px' }}>

@@ -77,10 +77,13 @@ class Home extends React.Component<HomeProps, any> {
                 }
             } else {
                 let firstNode = deepPickFirst(this.props.tree)
-                history.push(`${match.url}/${firstNode.nodeId}`)
-                this.setState({
-                    defaultNodeId: [firstNode.nodeId]
-                })
+                if (firstNode) {
+                    history.push(`${match.url}/${firstNode.nodeId}`)
+                    this.setState({
+                        defaultNodeId: [firstNode.nodeId]
+                    })
+                }
+
             }
             this.setState({
                 searchValue: value
@@ -104,12 +107,15 @@ class Home extends React.Component<HomeProps, any> {
             })
         } else {
             let firstNode = deepPickFirst(this.props.tree)
-            history.replace(`${match.url}/${firstNode.nodeId}`)
-            let defaultNodeIdArr = []
-            defaultNodeIdArr.push(firstNode.nodeId)
-            this.setState({
-                defaultNodeId: defaultNodeIdArr
-            })
+            if (firstNode) {
+                history.replace(`${match.url}/${firstNode.nodeId}`)
+                let defaultNodeIdArr = []
+                defaultNodeIdArr.push(firstNode.nodeId)
+                this.setState({
+                    defaultNodeId: defaultNodeIdArr
+                })
+            }
+
         }
     }
     componentDidMount() {
