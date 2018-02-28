@@ -44,6 +44,9 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
         })
         return data
     }
+    handleReset() {
+        this.props.form.resetFields();
+    }
 
     render() {
         // let fireWallInfo = this.props.data || ''
@@ -108,12 +111,11 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             label="开始IP"
                         >
                             {getFieldDecorator('supplier', {
-                                initialValue: '请输入开始IP',
                                 rules: [{
                                     required: true, message: '请输入开始IP！',
                                 }],
                             })(
-                                <Input placeholder="请输入子网掩码" />
+                                <Input placeholder="请输入开始IP" />
                                 )}
                         </Form.Item>
                         <FormItem
@@ -134,12 +136,12 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             label="DNS"
                         >
                             {getFieldDecorator('password', {
-                                // initialValue: fireWallInfo.password,
+
                                 rules: [{
                                     required: false, message: '请输入DNS！',
                                 }],
                             })(
-                                <Input type="password" placeholder="请输入DNS" />
+                                <Input placeholder="请输入DNS" />
                                 )}
                         </FormItem>
                     </Col>
@@ -149,7 +151,6 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             label="结束IP"
                         >
                             {getFieldDecorator('ip', {
-                                // initialValue: fireWallInfo.ip,
                                 rules: [{
                                     required: true, message: '请输入结束IP！',
                                 }],
@@ -170,6 +171,12 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 <Input placeholder="请输入网关" />
                                 )}
                         </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={24} style={{ textAlign: 'right' }}>
+                        <Button type="primary" htmlType="submit">确定</Button>
+                        <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
                     </Col>
                 </Row>
             </Form>
