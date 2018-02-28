@@ -5,7 +5,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 import { FormComponentProps } from 'antd/lib/form/Form';
 
-export interface FireWallFormClsProps extends FormComponentProps {
+export interface FilterFireWallFormClsProps extends FormComponentProps {
 
 }
 const formItemLayout = {
@@ -13,7 +13,7 @@ const formItemLayout = {
     wrapperCol: { span: 16 },
 };
 
-class FireWallFormCls extends React.PureComponent<FireWallFormClsProps, any> {
+class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsProps, any> {
     constructor(props: any) {
         super(props)
         this.state = {
@@ -44,13 +44,15 @@ class FireWallFormCls extends React.PureComponent<FireWallFormClsProps, any> {
         })
         return data
     }
-
+    handleReset() {
+        this.props.form.resetFields();
+    }
     render() {
         // let fireWallInfo = this.props.data || ''
         const { menuValue, secondMenuValue } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
-            <Form className={styles.userForm}>
+            <Form className={styles.filterFireWallForm}>
                 <Row>
                     <Col span={8}>
                         <Form.Item
@@ -153,11 +155,16 @@ class FireWallFormCls extends React.PureComponent<FireWallFormClsProps, any> {
                         </Form.Item>
                     </Col>
                 </Row>
-
+                <Row>
+                    <Col span={24} style={{ textAlign: 'right' }}>
+                        <Button type="primary" htmlType="submit">确定</Button>
+                        <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
+                    </Col>
+                </Row>
             </Form>
         )
     }
 }
-const FireWallForm = Form.create<any>()(FireWallFormCls);
+const FilterFireWallForm = Form.create<any>()(FilterFireWallFormCls);
 
-export default FireWallForm;
+export default FilterFireWallForm;
