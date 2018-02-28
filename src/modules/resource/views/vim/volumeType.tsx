@@ -37,9 +37,9 @@ class VolumeType extends React.Component<any, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
-        if (key === 'id') {
-            this.props.history.push(`${match.url}/info/${obj.id}`)
-        }
+        // if (key === 'id') {
+        //     this.props.history.push(`${match.url}/info/${obj.id}`)
+        // }
     }
     render() {
         let { match } = this.props
@@ -50,7 +50,7 @@ class VolumeType extends React.Component<any, any> {
                 key: 'id',
                 title: '名称',
                 // fixed: true,
-                link: true,
+                // link: true,
             }, {
                 key: 'description',
                 title: '描述',
