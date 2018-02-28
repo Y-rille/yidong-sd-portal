@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import FirewallInfo from '../../container/pim/firewallInfo'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import styles from '../../style/index.less'
 
 import CompactTable from '../../../../components/CompactTable'
@@ -149,7 +149,8 @@ class Firewall extends React.Component<any, any> {
         super(props);
         this.state = {
             dataCenterValue: '',
-            supplierValue: ''
+            supplierValue: '',
+            visible: false
         }
     }
     goInfo = () => {
@@ -170,6 +171,16 @@ class Firewall extends React.Component<any, any> {
         if (key === 'id') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
+    }
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    }
+    handleCancel = () => {
+        this.setState({
+            visible: false,
+        });
     }
     render() {
         let { match } = this.props;
@@ -279,6 +290,16 @@ class Firewall extends React.Component<any, any> {
                                     placeholder="供应商"
                                 />
                                 <Button type="primary">查询</Button>
+                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <Modal
+                                    title="发现"
+                                    visible={this.state.visible}
+                                    onCancel={this.handleCancel}
+                                    footer={null}
+                                    width="60%"
+                                >
+                                    <p>Some contentsSome contents...</p>
+                                </Modal>
                             </div>
                             <CompactTable
                                 // goPage={this.goPage.bind(this)} // 翻页
