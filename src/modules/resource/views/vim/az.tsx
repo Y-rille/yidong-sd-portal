@@ -38,6 +38,9 @@ class Az extends React.Component<any, any> {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
     }
+    selectRow(selectedRows) {
+        // console.log(selectedRows, 'sss');
+    }
     render() {
         let tdata = {
             'count': 17,
@@ -48,6 +51,7 @@ class Az extends React.Component<any, any> {
             }, {
                 key: 'name',
                 title: 'HA数',
+
             }, {
                 key: 'mobile',
                 title: '主机数',
@@ -65,6 +69,7 @@ class Az extends React.Component<any, any> {
                     'id': 'xiaojindian3',
                     'name': 13,
                     'mobile': 15,
+                    hasChecked: true
                 }, {
                     'id': 'xiaojindian4',
                     'name': 13,
@@ -123,7 +128,9 @@ class Az extends React.Component<any, any> {
                                     goLink={this.goLink.bind(this)}
                                     data={tdata}
                                     pageAuth={true}
+                                    selectAuth={true}
                                     actionAuth={[]}
+                                    selectRow={this.selectRow.bind(this)}
                                 />
                             </div>
                         </div>

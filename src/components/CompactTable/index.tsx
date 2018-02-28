@@ -13,10 +13,12 @@ export interface CompactTableProps {
     goPage?
     goLink?
     goDelete?
-    actionAuth?
+    actionAuth? // 操作权限
     pageAuth?
-    footInfoAuth?
+    footInfoAuth? // 页脚信息
     outStyle?
+    selectAuth? // 选择权限
+    selectRow?
 }
 
 export default class CompacteTable extends React.PureComponent<CompactTableProps, any> {
@@ -163,7 +165,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         this.props.goLink(key, obj)
     }
     renderTable() {
-        let { actionAuth, data } = this.props
+        let { actionAuth, data, selectAuth, selectRow } = this.props
         let header = data.header
         let dataList = data.body
         let columns = []
@@ -225,9 +227,21 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
             default:
                 break;
         }
-
+        let rowSelection = null
+        if (selectAuth) {
+            rowSelection = {
+                onChange: (selectedRowKeys, selectedRows) => {
+                    if (selectRow) {
+                        selectRow(selectedRows)
+                    }
+                },
+                getCheckboxProps: record => ({
+                    disabled: record.hasChecked, // Column configuration not to be checked
+                }),
+            }
+        }
         return (
-            <Table size="small" scroll={area}
+            <Table size="small" scroll={area} rowSelection={rowSelection}
                 pagination={false}
                 className={styles.smalltable}
                 columns={columns}
