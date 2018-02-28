@@ -19,18 +19,13 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
         this.state = {
         }
     }
-    getData() {
-        let data = null
+    handleSubmit(e) {
+        e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                delete values.username
-                data = values
-
-            } else {
-                data = null
+                // console.log(values);
             }
         })
-        return data
     }
     handleReset() {
         this.props.form.resetFields();
@@ -75,7 +70,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入用户名！',
                                 }],
                             })(
-                                <Input placeholder="请输入用户名" />
+                                <Input placeholder="" />
                                 )}
                         </Form.Item>
                         <Form.Item
@@ -88,7 +83,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入子网掩码！',
                                 }],
                             })(
-                                <Input placeholder="请输入子网掩码" />
+                                <Input placeholder="" />
                                 )}
                         </Form.Item>
                     </Col>
@@ -102,7 +97,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入开始IP！',
                                 }],
                             })(
-                                <Input placeholder="请输入开始IP" />
+                                <Input placeholder="" />
                                 )}
                         </Form.Item>
                         <FormItem
@@ -110,12 +105,11 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             label="密码"
                         >
                             {getFieldDecorator('password', {
-                                // initialValue: fireWallInfo.password,
                                 rules: [{
                                     required: true, message: '请输入密码！',
                                 }],
                             })(
-                                <Input type="password" placeholder="请输入密码" />
+                                <Input type="password" placeholder="" />
                                 )}
                         </FormItem>
                         <FormItem
@@ -128,7 +122,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: false, message: '请输入DNS！',
                                 }],
                             })(
-                                <Input placeholder="请输入DNS" />
+                                <Input placeholder="" />
                                 )}
                         </FormItem>
                     </Col>
@@ -142,7 +136,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入结束IP！',
                                 }],
                             })(
-                                <Input placeholder="请输入结束IP" />
+                                <Input placeholder="" />
                                 )}
                         </Form.Item>
                         <Form.Item
@@ -155,15 +149,15 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入网关！',
                                 }],
                             })(
-                                <Input placeholder="请输入网关" />
+                                <Input placeholder="" />
                                 )}
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={24} style={{ textAlign: 'right' }}>
-                        <Button type="primary" htmlType="submit">确定</Button>
-                        <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
+                        <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)}>确定</Button>
+                        <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>重置</Button>
                     </Col>
                 </Row>
             </Form>
