@@ -35,7 +35,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
         const { menuValue, secondMenuValue } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
-            <Form className={styles.userForm}>
+            <Form className={styles.MagneticTable}>
                 <Row>
                     <Col span={8}>
                         <Form.Item
@@ -157,7 +157,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                 <Row>
                     <Col span={24} style={{ textAlign: 'right' }}>
                         <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)}>确定</Button>
-                        <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>重置</Button>
+                        <Button style={{ marginLeft: 10 }} onClick={this.handleReset.bind(this)}>重置</Button>
                     </Col>
                 </Row>
             </Form>
