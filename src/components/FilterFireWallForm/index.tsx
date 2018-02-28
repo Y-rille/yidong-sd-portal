@@ -6,7 +6,8 @@ const Option = Select.Option;
 import { FormComponentProps } from 'antd/lib/form/Form';
 
 export interface FilterFireWallFormClsProps extends FormComponentProps {
-
+    // data?
+    getData?
 }
 const formItemLayout = {
     labelCol: { span: 7 },
@@ -17,35 +18,23 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
     constructor(props: any) {
         super(props)
         this.state = {
-            // menuValue: '廊坊发现纳管',
-            // secondMenuValue: 'H3C'
         }
     }
-    // menuChange(value) {
-    //     this.setState({
-    //         menuValue: value
-    //     })
-    // }
-    // secondMenuChange(value) {
-    //     this.setState({
-    //         secondMenuValue: value
-    //     })
-    // }
     getData() {
         let data = null
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                delete values.username
                 data = values
-
             } else {
                 data = null
             }
         })
-        return data
+        if (this.props.getData) {
+            this.props.getData(data)
+        }
     }
     handleReset() {
-        this.props.form.resetFields();
+        this.props.form.resetFields()
     }
     render() {
         // let fireWallInfo = this.props.data || ''
@@ -68,12 +57,9 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 }],
                             })(
                                 <Select
-                                // value={menuValue}
-                                // defaultValue="廊坊发现纳管"
-                                // onChange={this.menuChange.bind(this)}
                                 >
                                     <Option value="廊坊发现纳管">廊坊发现纳管</Option>
-                                    <Option value="发现纳管">发现纳管</Option>
+                                    <Option value="发现纳管">望京发现纳管</Option>
                                 </Select>
                             )}
                         </Form.Item>
@@ -103,9 +89,6 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 }],
                             })(
                                 <Select
-                                // value={secondMenuValue}
-                                // defaultValue="HPE"
-                                // onChange={this.secondMenuChange.bind(this)}
                                 >
                                     <Option value="HPE">HPE</Option>
                                     <Option value="H3C">H3C</Option>
@@ -157,8 +140,8 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                 </Row>
                 <Row>
                     <Col span={24} style={{ textAlign: 'right' }}>
-                        <Button type="primary" htmlType="submit">确定</Button>
-                        <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
+                        <Button type="primary" onClick={this.getData.bind(this)}>确定</Button>
+                        <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}>重置</Button>
                     </Col>
                 </Row>
             </Form>
