@@ -75,7 +75,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入用户名！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入用户名" />
                                 )}
                         </Form.Item>
                         <Form.Item
@@ -88,7 +88,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入子网掩码！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入子网掩码" />
                                 )}
                         </Form.Item>
                     </Col>
@@ -102,7 +102,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入开始IP！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入开始IP" />
                                 )}
                         </Form.Item>
                         <FormItem
@@ -114,7 +114,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入密码！',
                                 }],
                             })(
-                                <Input type="password" placeholder="" />
+                                <Input type="password" placeholder="请输入密码" />
                                 )}
                         </FormItem>
                         <FormItem
@@ -127,7 +127,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: false, message: '请输入DNS！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入DNS" />
                                 )}
                         </FormItem>
                     </Col>
@@ -141,7 +141,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入结束IP！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入结束IP" />
                                 )}
                         </Form.Item>
                         <Form.Item
@@ -154,7 +154,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入网关！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入网关" />
                                 )}
                         </Form.Item>
                     </Col>

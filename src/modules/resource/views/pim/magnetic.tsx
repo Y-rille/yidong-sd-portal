@@ -51,14 +51,14 @@ class Magnetic extends React.Component<any, any> {
             visible: false,
             filterDate: null
         });
-        this.formRef.resetForm()
+        this.formRef.handleReset()
     }
     addData = () => {
         this.setState({
             visible: false,
             filterDate: null
         });
-        this.formRef.resetForm()
+        this.formRef.handleReset()
     }
     renderAddData() {
         let filterDate = {
