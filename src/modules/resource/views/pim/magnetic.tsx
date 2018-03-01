@@ -124,7 +124,7 @@ class Magnetic extends React.Component<any, any> {
                         // goPage={this.goPage.bind(this)} // 翻页
                         data={filterDate}
                         actionAuth=""
-                        pageAuth={false}
+                        // pageAuth={false} 
                         selectAuth={true}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
@@ -379,7 +379,6 @@ class Magnetic extends React.Component<any, any> {
                                     ]
                                 }}
                                 actionAuth={['delete']}
-                                pageAuth={false}
                             />
                         </div>
                     </div>
