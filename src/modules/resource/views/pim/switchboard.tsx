@@ -9,12 +9,14 @@ import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Input, Modal 
 import styles from '../../style/index.less'
 
 class Switchboard extends React.Component<any, any> {
+    formRef: any;
     constructor(props) {
         super(props);
         this.state = {
             dataValue: ['数据中心'],
             nameValue: '',
-            visible: false
+            visible: false,
+            dataVisible: false
         };
     }
     goInfo = () => {
@@ -51,7 +53,9 @@ class Switchboard extends React.Component<any, any> {
     handleCancel = () => {
         this.setState({
             visible: false,
+            dataVisible: false
         });
+        this.formRef.handleReset()
     }
     renderAddData() {
         let filterDate = {
@@ -85,30 +89,39 @@ class Switchboard extends React.Component<any, any> {
                 'status': '成功发现',
             }]
         }
-        return (
-            <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
-                <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    data={filterDate}
-                    actionAuth=""
-                    selectAuth={true}
-                    selectRow={this.selectRow.bind(this)}
-                />
-                <div className="btn" style={{ textAlign: 'right', height: '40px', marginTop: '10px' }}>
-                    <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
-                    <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
-                </div>
-            </div >
-        )
+        const { dataVisible } = this.state;
+        if (dataVisible === true) {
+            return (
+                <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+                    <CompactTable
+                        // goPage={this.goPage.bind(this)} // 翻页
+                        data={filterDate}
+                        actionAuth=""
+                        selectAuth={true}
+                        selectRow={this.selectRow.bind(this)}
+                    />
+                    <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
+                        <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                        <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                    </div>
+                </div >
+            )
+        } else {
+            return null;
+        }
+
     }
     selectRow = () => { }
     addData = () => {
         this.setState({
             visible: false,
         });
+        this.formRef.handleReset()
     }
     getData(data) {
-        // console.log(data, '=======================>data');
+        this.setState({
+            dataVisible: true
+        })
     }
     render() {
         let tdata = {
@@ -298,7 +311,7 @@ class Switchboard extends React.Component<any, any> {
                                     footer={null}
                                     width="70%"
                                 >
-                                    <FilterSwitchBoardForm getData={this.getData.bind(this)} />
+                                    <FilterSwitchBoardForm getData={this.getData.bind(this)} wrappedComponentRef={(node) => { this.formRef = node }} />
                                     {this.renderAddData()}
                                 </Modal>
                             </div>

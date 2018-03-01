@@ -1,12 +1,12 @@
 /* PAPERTRAIL */
 
-.LogShine .btn-links.lg a:hover, .btn-links.sm a:hover, button:hover, input.submit:hover, p.submission a.button:hover, input.submit.btn:hover, .btn-links a:hover, a.btn-link:hover {
+/*.LogShine .btn-links.lg a:hover, .btn-links.sm a:hover, button:hover, input.submit:hover, p.submission a.button:hover, input.submit.btn:hover, .btn-links a:hover, a.btn-link:hover {
   background-color: #eee;
   background-repeat: repeat-x;
   background-image: -webkit-linear-gradient(#f5f5f5,#ddd);
   background-image: linear-gradient(#f5f5f5,#ddd);
   color: #000;
-}
+}*/
 
 .LogShine textarea:hover, input:hover, textarea:active, input:active, textarea:focus, input:focus {
   outline:0px !important;

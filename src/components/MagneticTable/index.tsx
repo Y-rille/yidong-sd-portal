@@ -6,7 +6,7 @@ const Option = Select.Option;
 import { FormComponentProps } from 'antd/lib/form/Form';
 
 export interface MagneticTableClsProps extends FormComponentProps {
-
+    getData?
 }
 const formItemLayout = {
     labelCol: { span: 7 },
@@ -19,13 +19,18 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
         this.state = {
         }
     }
-    handleSubmit(e) {
-        e.preventDefault();
+    getData() {
+        let data = null
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                // console.log(values);
+                data = values
+            } else {
+                data = null
             }
         })
+        if (this.props.getData) {
+            this.props.getData(data)
+        }
     }
     handleReset() {
         this.props.form.resetFields();
@@ -70,7 +75,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入用户名！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入用户名" />
                                 )}
                         </Form.Item>
                         <Form.Item
@@ -83,7 +88,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入子网掩码！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入子网掩码" />
                                 )}
                         </Form.Item>
                     </Col>
@@ -97,7 +102,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入开始IP！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入开始IP" />
                                 )}
                         </Form.Item>
                         <FormItem
@@ -109,7 +114,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入密码！',
                                 }],
                             })(
-                                <Input type="password" placeholder="" />
+                                <Input type="password" placeholder="请输入密码" />
                                 )}
                         </FormItem>
                         <FormItem
@@ -122,7 +127,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: false, message: '请输入DNS！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入DNS" />
                                 )}
                         </FormItem>
                     </Col>
@@ -136,7 +141,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入结束IP！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入结束IP" />
                                 )}
                         </Form.Item>
                         <Form.Item
@@ -149,14 +154,14 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     required: true, message: '请输入网关！',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入网关" />
                                 )}
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={24} style={{ textAlign: 'right' }}>
-                        <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)}>确定</Button>
+                        <Button type="primary" htmlType="submit" onClick={this.getData.bind(this)}>确定</Button>
                         <Button style={{ marginLeft: 10 }} onClick={this.handleReset.bind(this)}>重置</Button>
                     </Col>
                 </Row>

@@ -11,6 +11,7 @@ declare let global: any;
 
 export interface FilterSwitchBoardFormProps {
     form
+    getData
 }
 
 /**
@@ -28,12 +29,17 @@ const formItemLayout = {
 class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardFormProps, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            visible: false
+        }
     }
     handleSubmit(e) {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        let self = this;
+        self.props.form.validateFields((err, values) => {
             if (!err) {
                 // console.log('Received values of form: ', values);
+                self.props.getData(values);
             }
         });
     }
@@ -48,7 +54,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                     <Col span={8}>
                         <FormItem label="发现服务" {...formItemLayout}>
                             {getFieldDecorator('findService', {
-                                rules: [{ required: true, message: 'Please input your note!' }],
+                                rules: [{ required: true, message: '请输入发现服务！' }],
                                 initialValue: 'langfang'
                             })(
                                 <Select>
@@ -60,7 +66,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                     <Col span={8}>
                         <FormItem label="供应商" {...formItemLayout}>
                             {getFieldDecorator('supplier', {
-                                rules: [{ required: true, message: 'Please input your note!' }],
+                                rules: [{ required: true, message: '请输入供应商！' }],
                                 initialValue: 'huawei'
                             })(
                                 <Select>
@@ -72,7 +78,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                     <Col span={8}>
                         <FormItem label="设备类型" {...formItemLayout}>
                             {getFieldDecorator('equipmentType', {
-                                rules: [{ required: true, message: 'Please input your note!' }],
+                                rules: [{ required: true, message: '请输入设备类型！' }],
                                 initialValue: 'IPSwitchBoard'
                             })(
                                 <Select>
@@ -86,30 +92,30 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                     <Col span={8}>
                         <FormItem label="设备IP" {...formItemLayout}>
                             {getFieldDecorator('equipmentIP', {
-                                rules: [{ required: true, message: 'Please input your note!' }],
+                                rules: [{ required: true, message: '请输入设备IP！' }],
                                 initialValue: ''
                             })(
-                                <Input />
+                                <Input placeholder="请输入设备IP" />
                             )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
                         <FormItem label="用户名" {...formItemLayout}>
                             {getFieldDecorator('username', {
-                                rules: [{ required: true, message: 'Please input your note!' }],
+                                rules: [{ required: true, message: '请输入用户名！' }],
                                 initialValue: ''
                             })(
-                                <Input />
+                                <Input placeholder="请输入用户名" />
                             )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
                         <FormItem label="密码" {...formItemLayout}>
                             {getFieldDecorator('password', {
-                                rules: [{ required: true, message: 'Please input your note!' }],
+                                rules: [{ required: true, message: '请输入密码！' }],
                                 initialValue: ''
                             })(
-                                <Input />
+                                <Input placeholder="请输入密码" />
                             )}
                         </FormItem>
                     </Col>
@@ -118,10 +124,9 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                     <Col span={8}>
                         <FormItem label="协议" {...formItemLayout}>
                             {getFieldDecorator('protocol', {
-                                rules: [{ message: 'Please input your note!' }],
                                 initialValue: ''
                             })(
-                                <Input />
+                                <Input placeholder="请输入协议" />
                             )}
                         </FormItem>
                     </Col>

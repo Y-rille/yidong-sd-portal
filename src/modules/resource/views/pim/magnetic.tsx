@@ -9,15 +9,22 @@ import CompactTable from '../../../../components/CompactTable/'
 import MagneticTable from '../../../../components/MagneticTable/'
 
 class Magnetic extends React.Component<any, any> {
+    formRef: any
     constructor(props) {
         super(props);
         this.state = {
-            visible: false
+            visible: false,
+            filterDate: null
         };
     }
     goInfo = () => {
         let { match } = this.props
         this.props.history.push(`${match}/info/1`)
+    }
+    getData(formData) {
+        this.setState({
+            filterDate: formData
+        })
     }
     onChangeDataCenter(value) {
         // console.log(value, 'ppp')
@@ -42,12 +49,16 @@ class Magnetic extends React.Component<any, any> {
     handleCancel = () => {
         this.setState({
             visible: false,
+            filterDate: null
         });
+        this.formRef.handleReset()
     }
     addData = () => {
         this.setState({
             visible: false,
+            filterDate: null
         });
+        this.formRef.handleReset()
     }
     renderAddData() {
         let filterDate = {
@@ -81,7 +92,7 @@ class Magnetic extends React.Component<any, any> {
                 'status': '成功发现',
             },
             {
-                'id': '1',
+                'id': '2',
                 'ip': '10.4.152.2',
                 'name': 'admin',
                 'password': '123123',
@@ -89,7 +100,7 @@ class Magnetic extends React.Component<any, any> {
                 'number': 'hhhh2',
                 'status': '成功发现',
             }, {
-                'id': '1',
+                'id': '3',
                 'ip': '10.4.152.2',
                 'name': 'admin',
                 'password': '123123',
@@ -97,7 +108,7 @@ class Magnetic extends React.Component<any, any> {
                 'number': 'hhhh2',
                 'status': '成功发现',
             }, {
-                'id': '1',
+                'id': '4',
                 'ip': '10.4.152.2',
                 'name': 'admin',
                 'password': '123123',
@@ -106,20 +117,27 @@ class Magnetic extends React.Component<any, any> {
                 'status': '成功发现',
             }]
         }
-        return (
-            <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
-                <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    data={filterDate}
-                    actionAuth=""
-                    pageAuth={false}
-                />
-                <div className="btn" style={{ textAlign: 'right', height: '40px', marginTop: '10px' }}>
-                    <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
-                    <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
-                </div>
-            </div >
-        )
+        if (this.state.filterDate) {
+            return (
+                <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+                    <CompactTable
+                        // goPage={this.goPage.bind(this)} // 翻页
+                        data={filterDate}
+                        actionAuth=""
+                        // pageAuth={false} 
+                        selectAuth={true}
+                    />
+                    <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
+                        <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                        <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                    </div>
+                </div >
+            )
+        } else {
+            return (
+                <div></div>
+            )
+        }
     }
     render() {
         const DataCenter = [{
@@ -226,7 +244,10 @@ class Magnetic extends React.Component<any, any> {
                                     footer={null}
                                     width="70%"
                                 >
-                                    <MagneticTable />
+                                    <MagneticTable
+                                        getData={this.getData.bind(this)}
+                                        wrappedComponentRef={(node) => { this.formRef = node }}
+                                    />
                                     {this.renderAddData()}
                                 </Modal>
                             </div>
@@ -358,7 +379,6 @@ class Magnetic extends React.Component<any, any> {
                                     ]
                                 }}
                                 actionAuth={['delete']}
-                                pageAuth={false}
                             />
                         </div>
                     </div>
