@@ -265,7 +265,7 @@ class Firewall extends React.Component<any, any> {
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
                         <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
-                        <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                        <Button onClick={this.handleCancel.bind(this)} style={{ marginLeft: '10px' }}>取消</Button>
                     </div>
                 </div >
             )
@@ -383,10 +383,10 @@ class Firewall extends React.Component<any, any> {
                                 />
                                 <Button type="primary">查询</Button>
                                 <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
-                                <Modal
+                                {this.state.visible ? (<Modal
                                     title="发现"
-                                    visible={this.state.visible}
-                                    onCancel={this.handleCancel}
+                                    visible={true}
+                                    onCancel={this.handleCancel.bind(this)}
                                     footer={null}
                                     width="70%"
                                 >
@@ -395,7 +395,7 @@ class Firewall extends React.Component<any, any> {
                                         wrappedComponentRef={(node) => { this.formRef = node }}
                                     />
                                     {this.renderAddData()}
-                                </Modal>
+                                </Modal>) : ''}
                             </div>
                             <CompactTable
                                 // goPage={this.goPage.bind(this)} // 翻页
