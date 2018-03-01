@@ -392,6 +392,7 @@ class Firewall extends React.Component<any, any> {
                                 >
                                     <FilterFireWallForm
                                         getData={this.getData.bind(this)}
+                                        wrappedComponentRef={(node) => { this.formRef = node }}
                                     />
                                     {this.renderAddData()}
                                 </Modal>
