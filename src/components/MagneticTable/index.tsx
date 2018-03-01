@@ -6,7 +6,7 @@ const Option = Select.Option;
 import { FormComponentProps } from 'antd/lib/form/Form';
 
 export interface MagneticTableClsProps extends FormComponentProps {
-
+    getData?
 }
 const formItemLayout = {
     labelCol: { span: 7 },
@@ -19,13 +19,18 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
         this.state = {
         }
     }
-    handleSubmit(e) {
-        e.preventDefault();
+    getData() {
+        let data = null
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                // console.log(values);
+                data = values
+            } else {
+                data = null
             }
         })
+        if (this.props.getData) {
+            this.props.getData(data)
+        }
     }
     handleReset() {
         this.props.form.resetFields();
@@ -156,7 +161,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                 </Row>
                 <Row>
                     <Col span={24} style={{ textAlign: 'right' }}>
-                        <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)}>确定</Button>
+                        <Button type="primary" htmlType="submit" onClick={this.getData.bind(this)}>确定</Button>
                         <Button style={{ marginLeft: 10 }} onClick={this.handleReset.bind(this)}>重置</Button>
                     </Col>
                 </Row>
