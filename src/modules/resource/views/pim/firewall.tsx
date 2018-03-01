@@ -146,18 +146,23 @@ const data = {
 }
 
 class Firewall extends React.Component<any, any> {
+    formRef: any
     constructor(props) {
         super(props);
         this.state = {
             dataCenterValue: '',
             supplierValue: '',
-            visible: false
+            visible: false,
+            filterDate: null
         }
     }
     goInfo = () => {
         this.props.history.push(`/resource/pim/1/firewall/info`)
     }
     getData(formData) {
+        this.setState({
+            filterDate: formData
+        })
         // console.log(formData, '-----formData')
     }
     onChangeDataCenter(value) {
@@ -184,13 +189,18 @@ class Firewall extends React.Component<any, any> {
     handleCancel = () => {
         this.setState({
             visible: false,
+            filterDate: null
         });
+        this.formRef.resetForm()
     }
     addData = () => {
         this.setState({
             visible: false,
+            filterDate: null
         });
+        this.formRef.resetForm()
     }
+    selectRow = () => { }
     renderAddData() {
         let filterDate = {
             'count': 17,
@@ -213,30 +223,56 @@ class Firewall extends React.Component<any, any> {
                 key: 'status',
                 title: '添加状态'
             }],
-            'body': [{
-                'id': '1',
-                'ip': '10.4.152.2',
-                'name': 'admin',
-                'password': '123123',
-                'brand': 'hp',
-                'number': 'hhhh2',
-                'status': '成功发现',
-            }]
+            'body': [
+                {
+                    'id': '1',
+                    'ip': '10.4.152.1',
+                    'name': 'admin',
+                    'password': '123123',
+                    'brand': 'hp',
+                    'number': 'hhhh2',
+                    'status': '成功发现',
+                },
+                {
+                    'id': '2',
+                    'ip': '10.4.152.2',
+                    'name': 'admin',
+                    'password': '111111',
+                    'brand': 'hpe',
+                    'number': 'hhhh2',
+                    'status': '成功发现',
+                },
+                {
+                    'id': '3',
+                    'ip': '10.4.152.3',
+                    'name': 'admin',
+                    'password': '1123456',
+                    'brand': 'hpe',
+                    'number': 'hhhh2',
+                    'status': '成功发现',
+                }
+            ]
         }
-        return (
-            <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
-                <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    data={filterDate}
-                    actionAuth=""
-                    pageAuth={false}
-                />
-                <div className="btn" style={{ textAlign: 'right', height: '40px', marginTop: '10px' }}>
-                    <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
-                    <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
-                </div>
-            </div >
-        )
+        if (this.state.filterDate) {
+            return (
+                <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+                    <CompactTable
+                        // goPage={this.goPage.bind(this)} // 翻页
+                        data={filterDate}
+                        actionAuth=""
+                        selectAuth={true}
+                        selectRow={this.selectRow.bind(this)}
+                    />
+                    <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
+                        <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                        <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                    </div>
+                </div >
+            )
+        } else {
+            return <div />
+        }
+
     }
     render() {
         let { match } = this.props;
@@ -356,6 +392,7 @@ class Firewall extends React.Component<any, any> {
                                 >
                                     <FilterFireWallForm
                                         getData={this.getData.bind(this)}
+                                        wrappedComponentRef={(node) => { this.formRef = node }}
                                     />
                                     {this.renderAddData()}
                                 </Modal>
