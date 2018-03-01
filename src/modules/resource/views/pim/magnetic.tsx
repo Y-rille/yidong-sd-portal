@@ -81,7 +81,7 @@ class Magnetic extends React.Component<any, any> {
                 'status': '成功发现',
             },
             {
-                'id': '1',
+                'id': '2',
                 'ip': '10.4.152.2',
                 'name': 'admin',
                 'password': '123123',
@@ -89,7 +89,7 @@ class Magnetic extends React.Component<any, any> {
                 'number': 'hhhh2',
                 'status': '成功发现',
             }, {
-                'id': '1',
+                'id': '3',
                 'ip': '10.4.152.2',
                 'name': 'admin',
                 'password': '123123',
@@ -97,7 +97,7 @@ class Magnetic extends React.Component<any, any> {
                 'number': 'hhhh2',
                 'status': '成功发现',
             }, {
-                'id': '1',
+                'id': '4',
                 'ip': '10.4.152.2',
                 'name': 'admin',
                 'password': '123123',
@@ -113,8 +113,9 @@ class Magnetic extends React.Component<any, any> {
                     data={filterDate}
                     actionAuth=""
                     pageAuth={false}
+                    selectAuth={true}
                 />
-                <div className="btn" style={{ textAlign: 'right', height: '40px', marginTop: '10px' }}>
+                <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
                     <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
                     <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
                 </div>
