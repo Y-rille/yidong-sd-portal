@@ -191,14 +191,14 @@ class Firewall extends React.Component<any, any> {
             visible: false,
             filterDate: null
         });
-        this.formRef.resetForm()
+        this.formRef.handleReset()
     }
     addData = () => {
         this.setState({
             visible: false,
             filterDate: null
         });
-        this.formRef.resetForm()
+        this.formRef.handleReset()
     }
     selectRow = () => { }
     renderAddData() {
@@ -383,6 +383,7 @@ class Firewall extends React.Component<any, any> {
                                 />
                                 <Button type="primary">查询</Button>
                                 <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                {/* {this.state.visible ? () : ''} */}
                                 <Modal
                                     title="发现"
                                     visible={this.state.visible}
