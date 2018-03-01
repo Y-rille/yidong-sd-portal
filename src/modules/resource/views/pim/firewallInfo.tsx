@@ -255,7 +255,7 @@ class FirewallInfo extends React.Component<any, any> {
                                         // goLink={this.goLink.bind(this)}
                                         // data={null}
                                         actionAuth={['delete']}
-                                        pageAuth={false}
+                                    // pageAuth={false}
                                     />
                                 </TabPane>
                                 <TabPane tab="性能信息" key="2" style={{ padding: '20px 0' }}>

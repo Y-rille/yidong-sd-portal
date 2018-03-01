@@ -401,7 +401,7 @@ class Firewall extends React.Component<any, any> {
                                 // goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
                                 actionAuth={['delete']}
-                                pageAuth={false}
+                                // pageAuth={false}
                                 outStyle={{ 'marginTop': '20px' }}
                                 data={data}
                             />
