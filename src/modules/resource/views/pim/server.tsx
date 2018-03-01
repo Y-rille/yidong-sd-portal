@@ -9,17 +9,22 @@ import CompactTable from '../../../../components/CompactTable/'
 import FilterServerForm from '../../../../components/FilterServerForm'
 const Option = Select.Option;
 class Server extends React.Component<any, any> {
+    formRef: any;
     constructor(props) {
         super(props);
         this.state = {
             dataSelectValue: '1',
             supplierSelectValue: '1',
-            visible: false
+            visible: false,
+            filterData: null
 
         }
     }
     getData(data) {
         // console.log(data, '=======================>data');
+        this.setState({
+            filterData: data
+        })
     }
     goInfo = () => {
         this.props.history.push(`/resource/pim/3/server/info`)
@@ -46,12 +51,16 @@ class Server extends React.Component<any, any> {
     handleCancel = () => {
         this.setState({
             visible: false,
+            filterData: null,
         });
+        this.formRef.resetForm()
     }
     addData = () => {
         this.setState({
             visible: false,
+            filterData: null,
         });
+        this.formRef.resetForm()
     }
     goPage = () => {
         // this.props.history.push(`/resource/pim/1/server/info`)
@@ -95,21 +104,26 @@ class Server extends React.Component<any, any> {
                 'status': '成功发现',
             }]
         }
-        return (
-            <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
-                <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    data={filterDate}
-                    actionAuth=""
-                    selectAuth={true}
-                    selectRow={this.selectRow.bind(this)}
-                />
-                <div className="btn" style={{ textAlign: 'right', height: '40px', marginTop: '10px' }}>
-                    <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
-                    <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
-                </div>
-            </div >
-        )
+        if (this.state.filterData) {
+            return (
+                <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+                    <CompactTable
+                        // goPage={this.goPage.bind(this)} // 翻页
+                        data={filterDate}
+                        actionAuth=""
+                        selectAuth={true}
+                        selectRow={this.selectRow.bind(this)}
+                    />
+                    <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
+                        <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                        <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                    </div>
+                </div >
+            )
+        } else {
+            return <div />
+        }
+
     }
     render() {
         let tdata = {
@@ -254,6 +268,7 @@ class Server extends React.Component<any, any> {
                                     width="70%"
                                 >
                                     <FilterServerForm
+                                        wrappedComponentRef={(node) => { this.formRef = node }}
                                         getData={this.getData.bind(this)}
                                     />
                                     {this.renderAddData()}
