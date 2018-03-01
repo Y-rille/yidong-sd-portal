@@ -82,28 +82,30 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
 
     render() {
         let { pathname, match } = this.props
-        // let data = this.props.data || ''
-        let data = this.props.data || ''
-
+        let data = _.groupBy(this.props.data, 'nodeLabel') || ''
         let keys = ['/resource/dashboard']
-        data[0].children.map(function (item) {
-            keys.push(`/resource/vim/${item.nodeId}`)
-            keys.push(`/resource/vim/${item.nodeId}/host`)
-            keys.push(`/resource/vim/${item.nodeId}/virtual`)
-            keys.push(`/resource/vim/${item.nodeId}/az`)
-            keys.push(`/resource/vim/${item.nodeId}/ha`)
-            keys.push(`/resource/vim/${item.nodeId}/flavor`)
-            keys.push(`/resource/vim/${item.nodeId}/mirror`)
-            keys.push(`/resource/vim/${item.nodeId}/virtual_network`)
-            keys.push(`/resource/vim/${item.nodeId}/storage_volume`)
-            keys.push(`/resource/vim/${item.nodeId}/volume_type`)
+        data['虚拟资源'].map((_item, _key) => {
+            _item.children.map((item, key) => {
+                keys.push(`/resource/vim/${item.nodeId}`)
+                keys.push(`/resource/vim/${item.nodeId}/host`)
+                keys.push(`/resource/vim/${item.nodeId}/virtual`)
+                keys.push(`/resource/vim/${item.nodeId}/az`)
+                keys.push(`/resource/vim/${item.nodeId}/ha`)
+                keys.push(`/resource/vim/${item.nodeId}/flavor`)
+                keys.push(`/resource/vim/${item.nodeId}/mirror`)
+                keys.push(`/resource/vim/${item.nodeId}/virtual_network`)
+                keys.push(`/resource/vim/${item.nodeId}/storage_volume`)
+                keys.push(`/resource/vim/${item.nodeId}/volume_type`)
+            })
         })
-        data[1].children.map(function (item) {
-            keys.push(`/resource/pim/${item.nodeId}`)
-            keys.push(`/resource/pim/${item.nodeId}/server`)
-            keys.push(`/resource/pim/${item.nodeId}/firewall`)
-            keys.push(`/resource/pim/${item.nodeId}/switchboard`)
-            keys.push(`/resource/pim/${item.nodeId}/magnetic`)
+        data['物理资源'].map((_item, _key) => {
+            _item.children.map((item, key) => {
+                keys.push(`/resource/pim/${item.nodeId}`)
+                keys.push(`/resource/pim/${item.nodeId}/server`)
+                keys.push(`/resource/pim/${item.nodeId}/firewall`)
+                keys.push(`/resource/pim/${item.nodeId}/switchboard`)
+                keys.push(`/resource/pim/${item.nodeId}/magnetic`)
+            })
         })
         let selectedKeys = []
         keys.map(function (key) {
@@ -133,29 +135,41 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                         <Icon type="inbox" />
                         <span>概览</span>
                     </Menu.Item >
-                    {data[0].children.map((item, i) => {
-                        let id = item.nodeId
-                        return (<SubMenu key={`/resource/vim/${id}`} title={<span><Icon type="dropbox" /><span>{item.nodeLabel}</span></span>}>
-                            <Menu.Item key={`/resource/vim/${id}/host`} >主机管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/virtual`} >虚拟机管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/az`} >AZ管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/ha`} >HA管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/flavor`} >Flavor管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/mirror`} >镜像管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/virtual_network`} >虚拟网络管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/storage_volume`} >存储卷管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/volume_type`} >卷类型管理</Menu.Item>
-                        </SubMenu>)
-                    })}
-                    {data[1].children.map((item, i) => {
-                        let id = item.nodeId
-                        return (<SubMenu key={`/resource/pim/${id}`} title={<span><Icon type="api" /><span>{item.nodeLabel}</span></span>}>
-                            <Menu.Item key={`/resource/pim/${id}/server`} >服务器管理 </Menu.Item>
-                            <Menu.Item key={`/resource/pim/${id}/firewall`} >防火墙管理 </Menu.Item>
-                            <Menu.Item key={`/resource/pim/${id}/switchboard`} >交换机管理 </Menu.Item>
-                            <Menu.Item key={`/resource/pim/${id}/magnetic`} >磁阵管理</Menu.Item>
-                        </SubMenu>)
-                    })}
+                    {data['虚拟资源'].map((item, i) => {
+                        return item.children.map((_item, _i) => {
+                            let id = _item.nodeId
+                            return (
+                                <SubMenu key={`/resource/vim/${id}`} title={<span><Icon type="dropbox" /><span>{_item.nodeLabel}</span></span>}>
+                                    <Menu.Item key={`/resource/vim/${id}/host`} >主机管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/virtual`} >虚拟机管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/az`} >AZ管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/ha`} >HA管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/flavor`} >Flavor管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/mirror`} >镜像管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/virtual_network`} >虚拟网络管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/storage_volume`} >存储卷管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/volume_type`} >卷类型管理</Menu.Item>
+                                </SubMenu>
+                            )
+                        })
+                    })
+                    }{
+                        data['物理资源'].map((item, i) => {
+                            return item.children.map((_item, _i) => {
+                                let id = _item.nodeId
+                                return (
+                                    <SubMenu key={`/resource/pim/${id}`} title={<span><Icon type="api" /><span>{item.nodeLabel}</span></span>}>
+                                        <Menu.Item key={`/resource/pim/${id}/server`} >服务器管理 </Menu.Item>
+                                        <Menu.Item key={`/resource/pim/${id}/firewall`} >防火墙管理 </Menu.Item>
+                                        <Menu.Item key={`/resource/pim/${id}/switchboard`} >交换机管理 </Menu.Item>
+                                        <Menu.Item key={`/resource/pim/${id}/magnetic`} >磁阵管理</Menu.Item>
+                                    </SubMenu>
+                                )
+
+                            })
+                        })
+                    }
+
                 </Menu>
             </div >
         )
