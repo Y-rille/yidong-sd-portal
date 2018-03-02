@@ -10,6 +10,8 @@ function mapProps(state) {
     return {
         name: state.resourceReducer.name,
         subDataRegion: state.resourceReducer.subDataRegion,
+        subDataAZ: state.resourceReducer.subDataAZ,
+        subDataHA: state.resourceReducer.subDataHA,
     }
 }
 function mapDispatchToProps(dispatch) {
