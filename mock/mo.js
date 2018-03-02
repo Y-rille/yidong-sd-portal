@@ -785,6 +785,84 @@ let querytree = {
   }
 }
 
+/**
+ * 选择项查询
+ */
+let subData = {
+  path: '/datashare-svr/api/dssvr/getSubDataByName/:dsname',
+  method: 'GET',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "data": [
+          {            
+              "value": "1",
+              "text": "AZ1"
+          },
+          {
+              "value": "2",
+              "text": "AZ2"
+          }
+      ]
+    }
+  }
+}
+/** 
+ * 数据列表查询
+*/
+let queryList = {
+  path: '/datashare-svr/api/imds/queryList/:dsname',
+  method: 'GET',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "data": {
+          "header": [
+              {
+                  "key": "name",
+                  "title": "主机名称",
+                  "link": false
+              },
+              {
+                  "key": "role",
+                  "title": "角色",
+                  "link": false
+              },
+              {
+                  "key": "az",
+                  "title": "所属AZ",
+                  "link": false
+              },
+              {
+                  "key": "ha",
+                  "title": "所属HA",
+                  "link": false
+              }
+          ],
+          "dataList": [
+              {
+                  "az": "xasa,AAAAS",
+                  "name": "10.255.242.215",
+                  "hz": "xasa",
+                  "role": "主"
+              },
+              {
+                  "az": "xasa,AAAAS",
+                  "name": "10.255.242.216",
+                  "hz": "xasa",
+                  "role": "主"
+              }
+          ],
+          "pageNo": 1,
+          "pageSize": 10,
+          "totalCount": 2
+      }
+  }
+  }
+}
+
 
 module.exports = {
   activealarms,
@@ -795,5 +873,7 @@ module.exports = {
   moinst,
   morel,
   mgrmoTree,
-  querytree
+  querytree,
+  subData,
+  queryList
 }
