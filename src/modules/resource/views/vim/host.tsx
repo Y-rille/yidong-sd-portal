@@ -111,7 +111,7 @@ class Host extends React.Component<any, any> {
                 key: 'vm',
                 title: 'VM数'
             }],
-            'body': [
+            'dataList': [
                 {
                     'id': 1,
                     'name': '10.255.242.215',
@@ -232,7 +232,7 @@ class Host extends React.Component<any, any> {
                 key: 'vm',
                 title: 'VM数'
             }],
-            'body': [
+            'dataList': [
                 {
                     'id': 1,
                     'name': '10.255.242.215',

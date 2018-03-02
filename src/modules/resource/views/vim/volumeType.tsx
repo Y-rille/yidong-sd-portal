@@ -63,7 +63,7 @@ class VolumeType extends React.Component<any, any> {
                 title: '是否加密'
             }
             ],
-            'body': [
+            'dataList': [
                 {
                     'id': 'xiaojindian4',
                     'description': '1',
