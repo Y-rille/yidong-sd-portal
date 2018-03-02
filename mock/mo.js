@@ -195,7 +195,7 @@ let motypes = {
  * 对象属性查询
  */
 let attributes = {
-  path: '/datashare-svr/api/mo/:moTypeId/attributes',
+  path: '/datashare-svr/api/mo/:moTypeKey/attributes',
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
@@ -214,8 +214,8 @@ let attributes = {
           "ediable": 0,
           "visible": 0,
           "attributeGroup": "基本属性"
-        },
-        {
+      },
+      {
           "moAttributeId": 2,
           "moTypeId": 1,
           "attributeType": 1,
@@ -227,8 +227,8 @@ let attributes = {
           "ediable": 0,
           "visible": 1,
           "attributeGroup": "基本属性"
-        },
-        {
+      },
+      {
           "moAttributeId": 3,
           "moTypeId": 1,
           "attributeType": 1,
@@ -240,8 +240,8 @@ let attributes = {
           "ediable": 0,
           "visible": 0,
           "attributeGroup": "基本属性"
-        },
-        {
+      },
+      {
           "moAttributeId": 4,
           "moTypeId": 1,
           "attributeType": 1,
@@ -253,8 +253,8 @@ let attributes = {
           "ediable": 0,
           "visible": 0,
           "attributeGroup": "基本属性"
-        },
-        {
+      },
+      {
           "moAttributeId": 56,
           "moTypeId": 1,
           "attributeType": 1,
@@ -266,8 +266,8 @@ let attributes = {
           "ediable": 0,
           "visible": 1,
           "attributeGroup": "基本属性"
-        },
-        {
+      },
+      {
           "moAttributeId": 57,
           "moTypeId": 1,
           "attributeType": 1,
@@ -279,7 +279,7 @@ let attributes = {
           "ediable": 0,
           "visible": 1,
           "attributeGroup": "基本属性"
-        }
+      }
       ]
     }
   }
@@ -336,7 +336,7 @@ let relations = {
  * 对象实例列表查询
  */
 let querydata = {
-  path: '/datashare-svr/api/moinst/:moTypeId/querydata',
+  path: '/datashare-svr/api/moinst/:moTypeKey/querydata',
   method: 'POST',
   cache: false,
   template: (params, query, body) => {
@@ -420,7 +420,7 @@ let querydata = {
  * 对象实例详情查询
  */
 let moinst = {
-  path: '/datashare-svr/api/moinst/:moTypeId/:moInstId',
+  path: '/datashare-svr/api/moinst/:moTypeKey/:moInstId',
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
@@ -602,6 +602,68 @@ let morel = {
   }
 }
 
+
+
+/** 
+ * 资源模块树图查询
+*/
+let mgrmoTree = {
+  path: '/datashare-svr/api/querytree/mgrmoTree',
+  method: 'GET',
+  cache: false,
+  template: (params, query, body) => {
+    return [
+      {
+        "nodeLabel": "虚拟资源",
+        "nodeId": "1",
+        "nodeName": "verdorRes",
+        "labelPath": "虚拟资源",
+        "dataType": 0,
+        "children": [
+          {
+            "nodeLabel": "VIM01",
+            "nodeId": "1_1",
+            "nodeName": "VIM01",
+            "labelPath": "虚拟资源/VIM01",
+            "dataType": 1
+          },
+          {
+            "nodeLabel": "VIM02",
+            "nodeId": "1_2",
+            "nodeName": "VIM02",
+            "labelPath": "虚拟资源/VIM02",
+            "dataType": 1
+          }
+        ]
+      },
+      {
+        "nodeLabel": "物理资源",
+        "nodeId": "2",
+        "nodeName": "verdorRes",
+        "labelPath": "物理资源",
+        "dataType": 0,
+        "children": [
+          {
+            "nodeLabel": "PIM01",
+            "nodeId": "2_1",
+            "nodeName": "PIM01",
+            "labelPath": "物理资源/PIM01",
+            "dataType": 1
+          },
+          {
+            "nodeLabel": "PIM02",
+            "nodeId": "2_2",
+            "nodeName": "PIM02",
+            "labelPath": "物理资源/PIM02",
+            "dataType": 1
+          }
+        ]
+      }
+    ]
+  }
+}
+
+
 /**
  * 资源树图查询
  */
@@ -723,6 +785,140 @@ let querytree = {
   }
 }
 
+/**
+ * 选择项查询
+ */
+let subData = {
+  path: '/datashare-svr/api/dssvr/getSubDataByName/:dsname',
+  method: 'GET',
+  cache: false,
+  template: (params, query, body) => {
+    let data
+    switch (params.dsname) {
+      case 'AZ':
+        data = [
+          {
+            "value": "1",
+            "text": "AZ1"
+          },
+          {
+            "value": "2",
+            "text": "AZ2"
+          }
+        ]
+        break; 
+      case 'HA':
+        data = [
+          {
+            "value": "1",
+            "text": "HA1"
+          },
+          {
+            "value": "2",
+            "text": "HA2"
+          }
+        ]
+        break; 
+      case 'Region':
+        data = [
+          {
+            "value": "1",
+            "text": "Region1"
+          },
+          {
+            "value": "2",
+            "text": "Region2"
+          }
+        ]
+        break;
+      case 'Host':
+        data = [
+          {
+            "value": "1",
+            "text": "Host1"
+          },
+          {
+            "value": "2",
+            "text": "Host2"
+          }
+        ]
+        break;
+      case 'Project':
+        data = [
+          {
+            "value": "1",
+            "text": "Project1"
+          },
+          {
+            "value": "2",
+            "text": "Project2"
+          }
+        ]
+        break;
+      default:
+        data = []
+    }
+    return {
+      "code": 1,
+      "data": data
+    }
+  }
+}
+/** 
+ * 数据列表查询
+*/
+let queryList = {
+  path: '/datashare-svr/api/imds/queryList/:dsname',
+  method: 'GET',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "data": {
+          "header": [
+              {
+                  "key": "name",
+                  "title": "主机名称",
+                  "link": false
+              },
+              {
+                  "key": "role",
+                  "title": "角色",
+                  "link": false
+              },
+              {
+                  "key": "az",
+                  "title": "所属AZ",
+                  "link": false
+              },
+              {
+                  "key": "ha",
+                  "title": "所属HA",
+                  "link": false
+              }
+          ],
+          "dataList": [
+              {
+                  "az": "xasa,AAAAS",
+                  "name": "10.255.242.215",
+                  "hz": "xasa",
+                  "role": "主"
+              },
+              {
+                  "az": "xasa,AAAAS",
+                  "name": "10.255.242.216",
+                  "hz": "xasa",
+                  "role": "主"
+              }
+          ],
+          "pageNo": 1,
+          "pageSize": 10,
+          "totalCount": 2
+      }
+  }
+  }
+}
+
 
 module.exports = {
   activealarms,
@@ -732,5 +928,8 @@ module.exports = {
   querydata,
   moinst,
   morel,
-  querytree
+  mgrmoTree,
+  querytree,
+  subData,
+  queryList
 }

@@ -128,9 +128,9 @@ class Az extends React.Component<any, any> {
                                     goLink={this.goLink.bind(this)}
                                     data={tdata}
                                     pageSize={5}
-                                    selectAuth={true}
-                                    // actionAuth={['edit']}
-                                    selectRow={this.selectRow.bind(this)}
+                                // selectAuth={true}
+                                // actionAuth={['edit']}
+                                // selectRow={this.selectRow.bind(this)}
                                 />
                             </div>
                         </div>
