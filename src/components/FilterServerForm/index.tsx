@@ -71,7 +71,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                                     required: true, message: '请输入开始IP',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入开始IP" />
                             )}
                         </Form.Item>
                     </Col>
@@ -86,7 +86,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                                     required: true, message: '请输入结束IP',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入结束IP" />
                             )}
                         </Form.Item>
                     </Col>
@@ -103,7 +103,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                                     required: true, message: '请输入用户名'
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入用户名" />
                             )}
                         </Form.Item>
                     </Col>
@@ -118,7 +118,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                                     required: true, message: '请输入密码'
                                 }],
                             })(
-                                <Input type="password" placeholder="" />
+                                <Input type="password" placeholder="请输入密码" />
                             )}
                         </Form.Item>
                     </Col>
@@ -133,7 +133,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                                     required: true, message: '请输入网关',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入网关" />
                             )}
                         </Form.Item>
                     </Col>
@@ -150,7 +150,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                                     required: true, message: '请输入子网掩码',
                                 }],
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入子网掩码" />
                             )}
                         </Form.Item>
                     </Col>
@@ -162,7 +162,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {getFieldDecorator('dns', {
                                 initialValue: '',
                             })(
-                                <Input placeholder="" />
+                                <Input placeholder="请输入DNS" />
                             )}
                         </Form.Item>
                     </Col>

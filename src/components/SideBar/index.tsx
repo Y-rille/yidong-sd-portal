@@ -18,28 +18,54 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
     }
 
     public static defaultProps: SideBarProps = {
-        data: {
-            vim: [
-                {
-                    id: 1,
-                    name: '资源结构组织',
-                },
-                {
-                    id: 2,
-                    name: '资源结构组织2',
-                },
-            ],
-            pim: [
-                {
-                    id: 3,
-                    name: '物理部署组织',
-                },
-                {
-                    id: 4,
-                    name: '物理部署组织2',
-                },
-            ]
-        }
+        data: [
+            {
+                'nodeLabel': '虚拟资源',
+                'nodeId': '1',
+                'nodeName': 'verdorRes',
+                'labelPath': '虚拟资源',
+                'dataType': 0,
+                'children': [
+                    {
+                        'nodeLabel': 'VIM01',
+                        'nodeId': '1_1',
+                        'nodeName': 'VIM01',
+                        'labelPath': '虚拟资源/VIM01',
+                        'dataType': 1
+                    },
+                    {
+                        'nodeLabel': 'VIM02',
+                        'nodeId': '1_2',
+                        'nodeName': 'VIM02',
+                        'labelPath': '虚拟资源/VIM02',
+                        'dataType': 1
+                    }
+                ]
+            },
+            {
+                'nodeLabel': '物理资源',
+                'nodeId': '2',
+                'nodeName': 'verdorRes',
+                'labelPath': '物理资源',
+                'dataType': 0,
+                'children': [
+                    {
+                        'nodeLabel': 'PIM01',
+                        'nodeId': '2_1',
+                        'nodeName': 'PIM01',
+                        'labelPath': '物理资源/PIM01',
+                        'dataType': 1
+                    },
+                    {
+                        'nodeLabel': 'PIM02',
+                        'nodeId': '2_2',
+                        'nodeName': 'PIM02',
+                        'labelPath': '物理资源/PIM02',
+                        'dataType': 1
+                    }
+                ]
+            }
+        ]
     }
 
     componentWillMount() {
@@ -56,26 +82,30 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
 
     render() {
         let { pathname, match } = this.props
-        let data = this.props.data || ''
+        let data = _.groupBy(this.props.data, 'nodeLabel') || ''
         let keys = ['/resource/dashboard']
-        data.vim.map(function (item) {
-            keys.push(`/resource/vim/${item.id}`)
-            keys.push(`/resource/vim/${item.id}/host`)
-            keys.push(`/resource/vim/${item.id}/virtual`)
-            keys.push(`/resource/vim/${item.id}/az`)
-            keys.push(`/resource/vim/${item.id}/ha`)
-            keys.push(`/resource/vim/${item.id}/flavor`)
-            keys.push(`/resource/vim/${item.id}/mirror`)
-            keys.push(`/resource/vim/${item.id}/virtual_network`)
-            keys.push(`/resource/vim/${item.id}/storage_volume`)
-            keys.push(`/resource/vim/${item.id}/volume_type`)
+        data['虚拟资源'].map((_item, _key) => {
+            _item.children.map((item, key) => {
+                keys.push(`/resource/vim/${item.nodeId}`)
+                keys.push(`/resource/vim/${item.nodeId}/host`)
+                keys.push(`/resource/vim/${item.nodeId}/virtual`)
+                keys.push(`/resource/vim/${item.nodeId}/az`)
+                keys.push(`/resource/vim/${item.nodeId}/ha`)
+                keys.push(`/resource/vim/${item.nodeId}/flavor`)
+                keys.push(`/resource/vim/${item.nodeId}/mirror`)
+                keys.push(`/resource/vim/${item.nodeId}/virtual_network`)
+                keys.push(`/resource/vim/${item.nodeId}/storage_volume`)
+                keys.push(`/resource/vim/${item.nodeId}/volume_type`)
+            })
         })
-        data.pim.map(function (item) {
-            keys.push(`/resource/pim/${item.id}`)
-            keys.push(`/resource/pim/${item.id}/server`)
-            keys.push(`/resource/pim/${item.id}/firewall`)
-            keys.push(`/resource/pim/${item.id}/switchboard`)
-            keys.push(`/resource/pim/${item.id}/magnetic`)
+        data['物理资源'].map((_item, _key) => {
+            _item.children.map((item, key) => {
+                keys.push(`/resource/pim/${item.nodeId}`)
+                keys.push(`/resource/pim/${item.nodeId}/server`)
+                keys.push(`/resource/pim/${item.nodeId}/firewall`)
+                keys.push(`/resource/pim/${item.nodeId}/switchboard`)
+                keys.push(`/resource/pim/${item.nodeId}/magnetic`)
+            })
         })
         let selectedKeys = []
         keys.map(function (key) {
@@ -105,29 +135,41 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                         <Icon type="inbox" />
                         <span>概览</span>
                     </Menu.Item >
-                    {data.vim.map((item, i) => {
-                        let id = item.id
-                        return (<SubMenu key={`/resource/vim/${id}`} title={<span><Icon type="dropbox" /><span>{item.name}</span></span>}>
-                            <Menu.Item key={`/resource/vim/${id}/host`} >主机管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/virtual`} >虚拟机管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/az`} >AZ管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/ha`} >HA管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/flavor`} >Flavor管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/mirror`} >镜像管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/virtual_network`} >虚拟网络管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/storage_volume`} >存储卷管理</Menu.Item>
-                            <Menu.Item key={`/resource/vim/${id}/volume_type`} >卷类型管理</Menu.Item>
-                        </SubMenu>)
-                    })}
-                    {data.pim.map((item, i) => {
-                        let id = item.id
-                        return (<SubMenu key={`/resource/pim/${id}`} title={<span><Icon type="api" /><span>{item.name}</span></span>}>
-                            <Menu.Item key={`/resource/pim/${id}/server`} >服务器管理 </Menu.Item>
-                            <Menu.Item key={`/resource/pim/${id}/firewall`} >防火墙管理 </Menu.Item>
-                            <Menu.Item key={`/resource/pim/${id}/switchboard`} >交换机管理 </Menu.Item>
-                            <Menu.Item key={`/resource/pim/${id}/magnetic`} >磁阵管理</Menu.Item>
-                        </SubMenu>)
-                    })}
+                    {data['虚拟资源'].map((item, i) => {
+                        return item.children.map((_item, _i) => {
+                            let id = _item.nodeId
+                            return (
+                                <SubMenu key={`/resource/vim/${id}`} title={<span><Icon type="dropbox" /><span>{_item.nodeLabel}</span></span>}>
+                                    <Menu.Item key={`/resource/vim/${id}/host`} >主机管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/virtual`} >虚拟机管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/az`} >AZ管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/ha`} >HA管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/flavor`} >Flavor管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/mirror`} >镜像管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/virtual_network`} >虚拟网络管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/storage_volume`} >存储卷管理</Menu.Item>
+                                    <Menu.Item key={`/resource/vim/${id}/volume_type`} >卷类型管理</Menu.Item>
+                                </SubMenu>
+                            )
+                        })
+                    })
+                    }{
+                        data['物理资源'].map((item, i) => {
+                            return item.children.map((_item, _i) => {
+                                let id = _item.nodeId
+                                return (
+                                    <SubMenu key={`/resource/pim/${id}`} title={<span><Icon type="api" /><span>{_item.nodeLabel}</span></span>}>
+                                        <Menu.Item key={`/resource/pim/${id}/server`} >服务器管理 </Menu.Item>
+                                        <Menu.Item key={`/resource/pim/${id}/firewall`} >防火墙管理 </Menu.Item>
+                                        <Menu.Item key={`/resource/pim/${id}/switchboard`} >交换机管理 </Menu.Item>
+                                        <Menu.Item key={`/resource/pim/${id}/magnetic`} >磁阵管理</Menu.Item>
+                                    </SubMenu>
+                                )
+
+                            })
+                        })
+                    }
+
                 </Menu>
             </div >
         )

@@ -95,7 +95,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                                 rules: [{ required: true, message: '请输入设备IP！' }],
                                 initialValue: ''
                             })(
-                                <Input />
+                                <Input placeholder="请输入设备IP" />
                             )}
                         </FormItem>
                     </Col>
@@ -105,7 +105,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                                 rules: [{ required: true, message: '请输入用户名！' }],
                                 initialValue: ''
                             })(
-                                <Input />
+                                <Input placeholder="请输入用户名" />
                             )}
                         </FormItem>
                     </Col>
@@ -115,7 +115,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                                 rules: [{ required: true, message: '请输入密码！' }],
                                 initialValue: ''
                             })(
-                                <Input />
+                                <Input placeholder="请输入密码" />
                             )}
                         </FormItem>
                     </Col>
@@ -126,7 +126,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                             {getFieldDecorator('protocol', {
                                 initialValue: ''
                             })(
-                                <Input />
+                                <Input placeholder="请输入协议" />
                             )}
                         </FormItem>
                     </Col>
