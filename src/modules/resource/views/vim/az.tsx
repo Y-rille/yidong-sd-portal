@@ -7,18 +7,23 @@ import CompactTable from '../../../../components/CompactTable'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'antd';
 import styles from '../../style/index.less'
 const Option = Select.Option;
-class Az extends React.Component<any, any> {
+
+import Selector from '../../../../components/Selector'
+import { ResourceActions } from '../../actions/index'
+export interface AzProps {
+    location?,
+    history?,
+    actions: ResourceActions,
+    match,
+    subDataRegion?,
+}
+
+class Az extends React.Component<AzProps, any> {
     constructor(props) {
         super(props);
         this.state = {
-            AZInputValue: '',
-            AZSelectValue: 'region'
+            AZInputValue: ''
         }
-    }
-    AZSelectChange(value) {
-        this.setState({
-            AZSelectValue: value
-        })
     }
     AZInputChange(value) {
         this.setState({
@@ -26,7 +31,7 @@ class Az extends React.Component<any, any> {
         })
     }
     handleClick() {
-        const { AZInputValue, AZSelectValue } = this.state;
+        const { AZInputValue } = this.state;
         // console.log(AZInputValue, AZSelectValue)
     }
     goPage = () => {
@@ -40,6 +45,9 @@ class Az extends React.Component<any, any> {
     }
     selectRow(selectedRows) {
         // console.log(selectedRows, 'sss');
+    }
+    getData() {
+
     }
     componentDidMount() {
         // 控制节点 imdsQueryListController
@@ -115,12 +123,7 @@ class Az extends React.Component<any, any> {
                             </div>
                             <div style={{ padding: '20px' }}>
                                 <div className={styles.queryBar}>
-                                    <Select
-                                        value={AZSelectValue}
-                                        onChange={this.AZSelectChange.bind(this)}
-                                    >
-                                        <Option value="region">Region</Option>
-                                    </Select>
+                                    <Selector type="Region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} />
                                     <Input
                                         placeholder="AZ名称"
                                         value={AZInputValue} type="text"

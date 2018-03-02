@@ -37,11 +37,11 @@ export default class Selector extends React.PureComponent<SelectorProps, any> {
         })
     }
     render() {
+        let { type } = this.props
         return (
-            <Select defaultValue="" onFocus={this.getOptions.bind(this)} onChange={this.changeHandle.bind(this)}>
-                <Option value="">请选择</Option>
+            <Select onFocus={this.getOptions.bind(this)} onChange={this.changeHandle.bind(this)} placeholder={`请选择${type}`}>
                 {this.renderOptions()}
-            </Select>
+            </Select >
         );
     }
 }
