@@ -8,16 +8,16 @@ import API from '../api/API'
  */
 export const getMoTree = (cb) => (dispatch) => {
     return API.getMoTree().then((res: any) => {
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, resourceTree: res.data }
         dispatch(action);
         if (cb) {
-            cb(null)
+            cb(null, res.data)
         }
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, resourceTree: null }
         dispatch(action);
         if (cb) {
-            cb(err)
+            cb(err, null)
         }
     })
 }

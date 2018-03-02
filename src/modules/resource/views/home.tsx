@@ -27,7 +27,7 @@ class Home extends React.Component<any, any> {
         this.props.history.push(`${key}`)
     }
     componentDidMount() {
-
+        this.props.actions.getMoTree()
     }
     renderSider(match) {
         let route = this.props.location.pathname.replace('/resource/', '')
@@ -39,6 +39,7 @@ class Home extends React.Component<any, any> {
         }
     }
     render() {
+        // console.log(this.props.resourceTree, '0000');
         let { match } = this.props
         return (
             <Row className={styles.resource}>
