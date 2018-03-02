@@ -29,31 +29,14 @@ export const getMoTree = (cb) => (dispatch) => {
 export const getSubDataByName = (dsname, cb) => (dispatch) => {
     return API.getSubDataByName(dsname).then((res: any) => { 
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO }
-        switch (dsname) { 
-            case 'AZ':
-                action['subDataAZ'] = res.data.data
-                break;
-            case 'HA':
-                action['subDataHA'] = res.data.data
-                break;
-            case 'Region':
-                action['subDataRegion'] = res.data.data
-                break;
-            case 'Host':
-                action['subDataHost'] = res.data.data
-                break;
-            case 'Project':
-                action['subDataProject'] = res.data.data
-                break;
-            default:
-                break;    
-        }
+        action[`subData${dsname}`] = res.data.data
         dispatch(action);
         if (cb) {
             cb(null)
         }
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO }
+        action[`subData${dsname}`] = null
         dispatch(action);
         if (cb) {
             cb(err)
