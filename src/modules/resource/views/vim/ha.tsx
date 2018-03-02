@@ -6,6 +6,7 @@ import HaInfo from '../../container/vim/haInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'antd';
 import styles from '../../style/index.less';
 import CompactTable from '../../../../components/CompactTable/'
+import { ResourceActions } from '../../actions/index'
 const Option = Select.Option;
 class Ha extends React.Component<any, any> {
     constructor(props) {

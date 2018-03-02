@@ -27,7 +27,7 @@ export default class Selector extends React.PureComponent<SelectorProps, any> {
     getOptions() {
         let { type, actions, data } = this.props
         if (!data) {
-            this.props.actions.getOptions(type)
+            this.props.actions.getSubDataByName(type)
         }
     }
     renderOptions() {

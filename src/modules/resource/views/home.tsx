@@ -12,7 +12,7 @@ import Dashboard from './dashboard'
 import Vim from '../container/vim/vim'
 import Pim from '../container/pim/pim'
 import styles from '../style/index.less'
-
+import { ResourceActions } from '../actions/index'
 declare let global: any;
 
 class Home extends React.Component<any, any> {
@@ -26,20 +26,21 @@ class Home extends React.Component<any, any> {
     handleClick = (key) => {
         this.props.history.push(`${key}`)
     }
-    componentDidMount() {
+    componentWillMount() {
         this.props.actions.getMoTree()
     }
+
     renderSider(match) {
         let route = this.props.location.pathname.replace('/resource/', '')
+        let resourceTree = this.props.resourceTree
         let current = route.replace('/info', '')
-        if (current.indexOf('resource') < 0) {
-            return <SideBar match={match} pathname={this.props.location.pathname} onLinkHandleClick={this.handleClick} />
+        if (resourceTree && current.indexOf('resource') < 0) {
+            return <SideBar match={match} pathname={this.props.location.pathname} onLinkHandleClick={this.handleClick} resourceTree={resourceTree} />
         } else {
             return <div />
         }
     }
     render() {
-        // console.log(this.props.resourceTree, '0000');
         let { match } = this.props
         return (
             <Row className={styles.resource}>

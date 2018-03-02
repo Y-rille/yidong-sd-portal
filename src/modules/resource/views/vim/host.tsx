@@ -11,8 +11,17 @@ const Option = Select.Option;
 const TabPane = Tabs.TabPane;
 
 import Selector from '../../../../components/Selector'
+import { ResourceActions } from '../../actions/index'
+export interface HostProps {
+    location?,
+    actions: ResourceActions,
+    match,
+    subDataRegion?,
+    subDataAZ?,
+    subDataHA?
+}
 
-class Host extends React.Component<any, any> {
+class Host extends React.Component<HostProps, any> {
     constructor(props) {
         super(props);
         let { match } = this.props
@@ -334,7 +343,7 @@ class Host extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="Region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Selector type="AZ" data={this.props.subDataAZ} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Selector type="HA" data={this.props.subDataHA} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Button

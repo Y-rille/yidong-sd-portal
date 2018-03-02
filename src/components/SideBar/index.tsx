@@ -7,9 +7,10 @@ import styles from './index.less';
 import { matchPath } from 'react-router'
 export interface SideBarProps {
     onLinkHandleClick?
-    data?: any
+    resourceTree?
     pathname?
     match?
+
 }
 
 export default class SideBar extends React.PureComponent<SideBarProps, any> {
@@ -18,54 +19,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
     }
 
     public static defaultProps: SideBarProps = {
-        data: [
-            {
-                'nodeLabel': '虚拟资源',
-                'nodeId': '1',
-                'nodeName': 'verdorRes',
-                'labelPath': '虚拟资源',
-                'dataType': 0,
-                'children': [
-                    {
-                        'nodeLabel': 'VIM01',
-                        'nodeId': '1_1',
-                        'nodeName': 'VIM01',
-                        'labelPath': '虚拟资源/VIM01',
-                        'dataType': 1
-                    },
-                    {
-                        'nodeLabel': 'VIM02',
-                        'nodeId': '1_2',
-                        'nodeName': 'VIM02',
-                        'labelPath': '虚拟资源/VIM02',
-                        'dataType': 1
-                    }
-                ]
-            },
-            {
-                'nodeLabel': '物理资源',
-                'nodeId': '2',
-                'nodeName': 'verdorRes',
-                'labelPath': '物理资源',
-                'dataType': 0,
-                'children': [
-                    {
-                        'nodeLabel': 'PIM01',
-                        'nodeId': '2_1',
-                        'nodeName': 'PIM01',
-                        'labelPath': '物理资源/PIM01',
-                        'dataType': 1
-                    },
-                    {
-                        'nodeLabel': 'PIM02',
-                        'nodeId': '2_2',
-                        'nodeName': 'PIM02',
-                        'labelPath': '物理资源/PIM02',
-                        'dataType': 1
-                    }
-                ]
-            }
-        ]
+
     }
 
     componentWillMount() {
@@ -79,10 +33,10 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
             this.props.onLinkHandleClick(e.key)
         }
     }
-
     render() {
         let { pathname, match } = this.props
-        let data = _.groupBy(this.props.data, 'nodeLabel') || ''
+        let datas = this.props.resourceTree
+        let data = _.groupBy(datas, 'nodeLabel')
         let keys = ['/resource/dashboard']
         data['虚拟资源'].map((_item, _key) => {
             _item.children.map((item, key) => {
