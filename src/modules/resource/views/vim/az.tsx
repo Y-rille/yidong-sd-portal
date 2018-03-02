@@ -49,7 +49,7 @@ class Az extends React.Component<any, any> {
             pageSize: 10,
             pageNo: 1,
         }
-        this.props.actions.queryList('imdsQueryListController')
+        // this.props.actions.queryList('imdsQueryListController')
     }
 
     render() {
@@ -143,10 +143,10 @@ class Az extends React.Component<any, any> {
                                 // actionAuth={['edit']}
                                 // selectRow={this.selectRow.bind(this)}
                                 />
-                                <CompactTable
+                                {/* <CompactTable
                                     outStyle={{ marginTop: '20px' }}
 
-                                />
+                                /> */}
                             </div>
                         </div>
                     )} />
