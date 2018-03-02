@@ -7,21 +7,26 @@ import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'a
 import styles from '../../style/index.less';
 import CompactTable from '../../../../components/CompactTable/'
 const Option = Select.Option;
-class Ha extends React.Component<any, any> {
+
+import Selector from '../../../../components/Selector'
+import { ResourceActions } from '../../actions/index'
+export interface HaProps {
+    location?,
+    history?,
+    actions: ResourceActions,
+    match,
+    subDataRegion?,
+}
+
+class Ha extends React.Component<HaProps, any> {
     constructor(props) {
         super(props);
         this.state = {
             HAInputValue: '',
-            HASelectValue: 'region'
         }
     }
     goInfo = () => {
         this.props.history.push(`/resource/vim/1/ha/info`)
-    }
-    HASelectChange(value) {
-        this.setState({
-            HASelectValue: value
-        })
     }
     HAInputChange(value) {
         this.setState({
@@ -29,7 +34,7 @@ class Ha extends React.Component<any, any> {
         })
     }
     handleClick() {
-        const { HAInputValue, HASelectValue } = this.state;
+        const { HAInputValue } = this.state;
         // console.log(HAInputValue, HASelectValue)
     }
     goPage() {
@@ -40,6 +45,9 @@ class Ha extends React.Component<any, any> {
         if (key === 'id') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
+    }
+    getData() {
+
     }
     render() {
         let { match } = this.props;
@@ -130,12 +138,7 @@ class Ha extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Select
-                                    value={HASelectValue}
-                                    onChange={this.HASelectChange.bind(this)}
-                                >
-                                    <Option value="region">Region</Option>
-                                </Select>
+                                <Selector type="Region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Input
                                     placeholder="HA名称"
                                     value={HAInputValue} type="text"
