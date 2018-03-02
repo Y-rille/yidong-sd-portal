@@ -10,6 +10,7 @@ function mapProps(state) {
     return {
         name: state.resourceReducer.name,
         config: state.resourceReducer.config,
+        subDataProject: state.resourceReducer.subDataProject,
     }
 }
 function mapDispatchToProps(dispatch) {

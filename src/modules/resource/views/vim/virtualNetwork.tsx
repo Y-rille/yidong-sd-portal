@@ -3,30 +3,32 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import VirtualNetworkInfo from '../../container/vim/virtualNetworkInfo'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Select, Input, Spin } from 'antd';
-const Option = Select.Option;
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Spin } from 'antd';
+import Selector from '../../../../components/Selector'
 import CompactTable from '../../../../components/CompactTable/'
 import styles from '../../style/index.less'
-class VirtualNetwork extends React.Component<any, any> {
+import { ResourceActions } from '../../actions/index'
+export interface VirtualNetworkProps {
+    location?,
+    history?,
+    actions: ResourceActions,
+    match,
+    subDataProject?,
+}
+class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     constructor(props) {
         super(props);
-        this.state = {
-            menuValue: 'project'
-        }
     }
     goInfo = () => {
         this.props.history.push(`/resource/vim/1/virtual_network/info`)
     }
-    menuChange(value) {
-        this.setState({
-            menuValue: value
-        })
-    }
     handleClick() {
-        const { menuValue } = this.state;
         // console.log("selectValue:", menuValue)
     }
     goPage() {
+    }
+    getData() {
+
     }
     goLink(key, obj) {
         let { match } = this.props
@@ -148,7 +150,6 @@ class VirtualNetwork extends React.Component<any, any> {
             ]
         }
         let { match } = this.props
-        const { menuValue } = this.state;
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={VirtualNetworkInfo} />
@@ -165,12 +166,7 @@ class VirtualNetwork extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Select
-                                    value={menuValue}
-                                    onChange={this.menuChange.bind(this)}
-                                >
-                                    <Option value="project">project</Option>
-                                </Select>
+                                <Selector type="Project" data={this.props.subDataProject} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Input placeholder="虚拟网络名称" />
                                 <Button
                                     type="primary"
