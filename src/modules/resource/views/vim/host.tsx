@@ -10,6 +10,8 @@ import styles from '../../style/index.less'
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
 
+import Selector from '../../../../components/Selector'
+
 class Host extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -60,6 +62,9 @@ class Host extends React.Component<any, any> {
             ]).toString()
         })
         this.props.history.push(`${match.url}/${key}`)
+    }
+    getData() {
+
     }
     componentWillReceiveProps(nextProps) {
         let { match } = nextProps
@@ -329,27 +334,9 @@ class Host extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Select
-                                    value={menuValue}
-                                    onChange={this.menuChange.bind(this)}
-                                >
-                                    <Option value="region">Region</Option>
-                                </Select>
-
-                                <Select
-                                    value={secondMenuValue}
-                                    onChange={this.secondMenuChange.bind(this)}
-                                >
-                                    <Option value="az">AZ</Option>
-                                </Select>
-
-                                <Select
-                                    value={thiredMenuValue}
-                                    onChange={this.thiredMenuChange.bind(this)}
-                                >
-                                    <Option value="ha">HA</Option>
-                                </Select>
-
+                                <Selector type="region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="AZ" data={this.props.subDataAZ} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="HA" data={this.props.subDataHA} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}
