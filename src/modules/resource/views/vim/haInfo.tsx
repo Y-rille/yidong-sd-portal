@@ -15,6 +15,7 @@ import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 import Headline from '../../../../components/Headline/'
 import Summaries from '../../../../components/Summaries/'
+import { ResourceActions } from '../../actions/index'
 class HaInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);

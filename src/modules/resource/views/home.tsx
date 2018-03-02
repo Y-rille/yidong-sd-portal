@@ -12,7 +12,7 @@ import Dashboard from './dashboard'
 import Vim from '../container/vim/vim'
 import Pim from '../container/pim/pim'
 import styles from '../style/index.less'
-
+import { ResourceActions } from '../actions/index'
 declare let global: any;
 
 class Home extends React.Component<any, any> {

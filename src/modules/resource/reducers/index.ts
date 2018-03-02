@@ -12,6 +12,7 @@ const ResourceState = SI.from({
     subDataHost: null,
     subDataProject: null,
     objAttributes: null,
+    objData: null
 });
 
 let resourceReducer = (state = ResourceState, action = null) => {
