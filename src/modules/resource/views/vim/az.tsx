@@ -41,6 +41,17 @@ class Az extends React.Component<any, any> {
     selectRow(selectedRows) {
         // console.log(selectedRows, 'sss');
     }
+    componentDidMount() {
+        // 控制节点 imdsQueryListController
+        // 计算节点 imdsQueryListHost
+        // 存储节点 imdsQueryListStorage
+        let data = {
+            pageSize: 10,
+            pageNo: 1,
+        }
+        // this.props.actions.queryList('imdsQueryListController')
+    }
+
     render() {
         let tdata = {
             'totalCount': 15,
@@ -132,10 +143,10 @@ class Az extends React.Component<any, any> {
                                 // actionAuth={['edit']}
                                 // selectRow={this.selectRow.bind(this)}
                                 />
-                                <CompactTable
+                                {/* <CompactTable
                                     outStyle={{ marginTop: '20px' }}
 
-                                />
+                                /> */}
                             </div>
                         </div>
                     )} />
