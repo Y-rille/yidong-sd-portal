@@ -7,25 +7,20 @@ import AzInfo from '../../container/vim/azInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Select, Input, Spin } from 'antd';
 const Option = Select.Option;
 import CompactTable from '../../../../components/CompactTable/'
+import Selector from '../../../../components/Selector'
 import styles from '../../style/index.less'
 class Mirror extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            menuValue: 'project'
         }
     }
     goInfo = () => {
         this.props.history.push(`/resource/vim/1/mirror/info`)
     }
-    menuChange(value) {
-        this.setState({
-            menuValue: value
-        })
+    getData(value) {
     }
     handleClick() {
-        const { menuValue } = this.state;
-        // console.log("selectValue:", menuValue)
     }
     goPage() {
     }
@@ -162,7 +157,6 @@ class Mirror extends React.Component<any, any> {
             ]
         }
         let { match } = this.props
-        const { menuValue } = this.state;
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={AzInfo} />
@@ -179,12 +173,7 @@ class Mirror extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Select
-                                    value={menuValue}
-                                    onChange={this.menuChange.bind(this)}
-                                >
-                                    <Option value="project">project</Option>
-                                </Select>
+                            <Selector type="Project" data={this.props.subDataProject} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Input placeholder="镜像名称" />
                                 <Button
                                     type="primary"
@@ -203,7 +192,6 @@ class Mirror extends React.Component<any, any> {
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
                                 data={tData}
-                                pageAuth={true}
                                 actionAuth={[]}
                             />
                         </div>

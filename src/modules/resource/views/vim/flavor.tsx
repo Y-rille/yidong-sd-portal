@@ -7,19 +7,16 @@ import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'a
 const Option = Select.Option;
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
-
+import Selector from '../../../../components/Selector'
 class Flavor extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
             flavorInputValue: '',
-            flavorSelectValue: 'project'
         }
     }
-    flavorSelectChange(value) {
-        this.setState({
-            flavorSelectValue: value
-        })
+    getData(value) {
+        
     }
     flavorInputChange(value) {
         this.setState({
@@ -27,7 +24,7 @@ class Flavor extends React.Component<any, any> {
         })
     }
     handleClick() {
-        const { flavorInputValue, flavorSelectValue } = this.state;
+        const { flavorInputValue } = this.state;
         // console.log(flavorInputValue, flavorSelectValue)
     }
     goPage() {
@@ -44,7 +41,7 @@ class Flavor extends React.Component<any, any> {
     }
     render() {
         let { match } = this.props;
-        const { flavorInputValue, flavorSelectValue } = this.state;
+        const { flavorInputValue } = this.state;
         let tdata = {
             'count': 17,
             'header': [{
@@ -185,12 +182,7 @@ class Flavor extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Select
-                                    value={flavorSelectValue}
-                                    onChange={this.flavorSelectChange.bind(this)}
-                                >
-                                    <Option value="project">project</Option>
-                                </Select>
+                                <Selector type="Project" data={this.props.subDataProject} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Input
                                     placeholder="Flavor名称"
                                     value={flavorInputValue} type="text"
@@ -211,7 +203,6 @@ class Flavor extends React.Component<any, any> {
                                 goPage={this.goPage.bind(this)}
                                 goLink={this.goLink.bind(this)}
                                 data={tdata}
-                                pageAuth={true}
                                 actionAuth={[]}
                             />
                         </div>
