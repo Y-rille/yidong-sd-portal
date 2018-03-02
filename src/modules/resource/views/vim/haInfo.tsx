@@ -74,7 +74,7 @@ class HaInfo extends React.Component<any, any> {
                     key: 'cpu',
                     title: 'VM数'
                 }],
-            'body': [
+            'dataList': [
                 {
                     'id': 'xiaojindian4',
                     'name': '2c55-:d357-612de-32',

@@ -5,7 +5,13 @@ const ResourceState = SI.from({
     name: 'RESOURCE',
     resourceTree: null,
     list: null,
-    config: {}
+    config: {},
+    subDataAZ: null,
+    subDataHA: null,
+    subDataRegion: null,
+    subDataHost: null,
+    subDataProject: null,
+    objAttributes: null,
 });
 
 let resourceReducer = (state = ResourceState, action = null) => {

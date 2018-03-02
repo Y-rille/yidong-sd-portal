@@ -54,7 +54,7 @@ class Az extends React.Component<any, any> {
 
     render() {
         let tdata = {
-            'count': 15,
+            'totalCount': 15,
             'header': [{
                 key: 'id',
                 title: 'AZ名称',
@@ -67,7 +67,7 @@ class Az extends React.Component<any, any> {
                 key: 'mobile',
                 title: '主机数',
             }],
-            'body': [
+            'dataList': [
                 {
                     'id': 'xiaojindian1',
                     'name': 13,
@@ -142,6 +142,10 @@ class Az extends React.Component<any, any> {
                                 // selectAuth={true}
                                 // actionAuth={['edit']}
                                 // selectRow={this.selectRow.bind(this)}
+                                />
+                                <CompactTable
+                                    outStyle={{ marginTop: '20px' }}
+
                                 />
                             </div>
                         </div>

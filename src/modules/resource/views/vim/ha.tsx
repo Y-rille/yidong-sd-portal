@@ -61,9 +61,9 @@ class Ha extends React.Component<any, any> {
             }, {
                 key: 'vm',
                 title: '主机数'
-                }
+            }
             ],
-            'body': [
+            'dataList': [
                 {
                     'id': 'xiaojindian1',
                     'name': 'availability_zone = hw-volte-test-px1',
