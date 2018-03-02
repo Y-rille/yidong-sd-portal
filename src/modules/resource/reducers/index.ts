@@ -4,6 +4,7 @@ import * as SI from 'seamless-immutable';
 const ResourceState = SI.from({
     name: 'RESOURCE',
     resourceTree: null,
+    list: null,
     config: {}
 });
 

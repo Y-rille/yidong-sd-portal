@@ -1,10 +1,15 @@
-import { getMoTree } from './resource'
+import {
+    getMoTree,
+    queryList
+} from './resource'
 const HomeActionCreatorsMap = {
-    getMoTree
+    getMoTree,
+    queryList,
 }
 
 export interface ResourceActions {
     getMoTree: Function
+    queryList: Function
 
 }
 
