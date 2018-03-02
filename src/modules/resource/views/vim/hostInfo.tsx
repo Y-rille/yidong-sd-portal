@@ -275,7 +275,7 @@ class HostInfo extends React.Component<any, any> {
     onChange() {
 
     }
-    
+
     showServer = (e) => {
         this.props.history.replace(`/resource/pim/4/server/info/1`)
     }
@@ -318,7 +318,14 @@ class HostInfo extends React.Component<any, any> {
                         <TabPane tab="资源关系" key="2">
                             <Tabs size="small" onChange={this.onChange.bind(this)} animated={false}>
                                 <TabPane tab="处理器信息" key="21">
-                                    <DynamicPropertiesCollapse attributes={attributes} data={data} />
+                                    <CompactTable
+                                        // goPage={this.goPage.bind(this)} // 翻页
+                                        // goLink={this.goLink.bind(this)}
+                                        actionAuth={[]}
+                                        pageAuth={true}
+                                        data={lower_resources_data}
+                                        outStyle={{ 'marginTop': '20px' }}
+                                    />
                                 </TabPane>
                                 <TabPane tab="内存信息" key="22">
                                     <CompactTable

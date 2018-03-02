@@ -20,16 +20,16 @@ class AzInfo extends React.Component<any, any> {
         super(props);
         this.state = {
             HostInputValue: '',
-            HZSelectValue: 'HZ'
+            HASelectValue: 'HA'
         }
     }
     handleClick() {
-        const { HostInputValue, HZSelectValue } = this.state;
-        // console.log(HostInputValue, HZSelectValue)
+        const { HostInputValue, HASelectValue } = this.state;
+        // console.log(HostInputValue, HASelectValue)
     }
-    HZSelectChange(value) {
+    HASelectChange(value) {
         this.setState({
-            HZSelectValue: value
+            HASelectValue: value
         })
     }
     HostInputChange(e) {
@@ -46,34 +46,34 @@ class AzInfo extends React.Component<any, any> {
         )
     }
     goPage() { }
-    renderTable() { 
+    renderTable() {
         let tdata = {
             'count': 17,
             'header': [
                 {
-                key: 'id',
-                title: '名称',
-                // fixed: true,
-                link: true,
-            }, {
-                key: 'name',
-                title: '内存',
-                // fixed: true,
-                // link: true,
-            }, {
-                key: 'mobile',
-                title: 'CPU',
-            }, {
-                key: 'vm',
-                title: '所属HA'
-            },
-            {
-                key: 'email',
-                title: '维护状态',
-            }, {
-                key: 'cpu',
-                title: 'VM数'
-            }],
+                    key: 'id',
+                    title: '名称',
+                    // fixed: true,
+                    link: true,
+                }, {
+                    key: 'name',
+                    title: '内存',
+                    // fixed: true,
+                    // link: true,
+                }, {
+                    key: 'mobile',
+                    title: 'CPU',
+                }, {
+                    key: 'vm',
+                    title: '所属HA'
+                },
+                {
+                    key: 'email',
+                    title: '维护状态',
+                }, {
+                    key: 'cpu',
+                    title: 'VM数'
+                }],
             'body': [
                 {
                     'id': 'xiaojindian4',
@@ -95,18 +95,17 @@ class AzInfo extends React.Component<any, any> {
         }
         return (
             <CompactTable
-                            outStyle={{ marginTop: '20px' }}
-                            goPage={this.goPage.bind(this)} // 翻页
-                            // goLink={this.goLink.bind(this)}
-                            data={tdata}
-                            actionAuth={[]}
-                            pageAuth={true}
-                            footInfoAuth={false}
-                        />
+                outStyle={{ marginTop: '20px' }}
+                goPage={this.goPage.bind(this)} // 翻页
+                // goLink={this.goLink.bind(this)}
+                data={tdata}
+                actionAuth={[]}
+                footInfoAuth={false}
+            />
         )
     }
     render() {
-        const { HostInputValue, HZSelectValue } = this.state;
+        const { HostInputValue, HASelectValue } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -151,8 +150,8 @@ class AzInfo extends React.Component<any, any> {
                                 onChange={this.HostInputChange.bind(this)}
                             />
                             <Select
-                                value={HZSelectValue}
-                                onChange={this.HZSelectChange.bind(this)}
+                                value={HASelectValue}
+                                onChange={this.HASelectChange.bind(this)}
                             >
                                 <Option value="region">Region</Option>
                             </Select>

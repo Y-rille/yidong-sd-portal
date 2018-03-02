@@ -8,7 +8,6 @@ import { FormComponentProps } from 'antd/lib/form/Form';
 export interface FilterFireWallFormClsProps extends FormComponentProps {
     // data?
     getData?
-    handleCancel?
 }
 const formItemLayout = {
     labelCol: { span: 7 },
@@ -36,11 +35,6 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
     }
     handleReset() {
         this.props.form.resetFields()
-    }
-    handleCancel() {
-        if (this.props.handleCancel) {
-            this.props.handleCancel()
-        }
     }
     render() {
         // let fireWallInfo = this.props.data || ''
