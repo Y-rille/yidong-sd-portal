@@ -10,6 +10,7 @@ const ResourceState = SI.from({
     subDataRegion: null,
     subDataHost: null,
     subDataProject: null,
+    objAttributes: null,
     
 });
 
