@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import ServerInfo from '../../container/pim/serverInfo'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Modal } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Modal, Cascader } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 import FilterServerForm from '../../../../components/FilterServerForm'
@@ -13,7 +13,7 @@ class Server extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            dataSelectValue: '1',
+            dataSelectValue: '',
             supplierSelectValue: '1',
             visible: false,
             filterData: null
@@ -224,6 +224,75 @@ class Server extends React.Component<any, any> {
 
         let { match } = this.props;
         const { dataSelectValue, supplierSelectValue } = this.state;
+        const DataCenter = [{
+            value: '数据中心1',
+            label: '数据中心1',
+            children: [{
+                value: '机房1',
+                label: '机房1',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }, {
+                value: '机房2',
+                label: '机房2',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }, {
+                value: '机房3',
+                label: '机房3',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }],
+        }, {
+            value: '数据中心2',
+            label: '数据中心2',
+            children: [{
+                value: '机房1',
+                label: '机房1',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }, {
+                value: '机房2',
+                label: '机房2',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }, {
+                value: '机房3',
+                label: '机房3',
+                children: [{
+                    value: '机柜1',
+                    label: '机柜1',
+                }, {
+                    value: '机柜2',
+                    label: '机柜2',
+                }],
+            }],
+        }];
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={ServerInfo} />
@@ -240,13 +309,12 @@ class Server extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Select
+                                <Cascader
                                     value={dataSelectValue}
+                                    options={DataCenter}
                                     onChange={this.dataSelectChange.bind(this)}
-                                >
-                                    <Option value="1">数据中心</Option>
-
-                                </Select>
+                                    placeholder="数据中心"
+                                />
                                 <Select
                                     value={supplierSelectValue}
                                     onChange={this.supplierSelectChange.bind(this)}
@@ -279,7 +347,6 @@ class Server extends React.Component<any, any> {
                                 goLink={this.goLink.bind(this)}
                                 data={tdata}
                                 actionAuth={['delete']}
-                                pageAuth={false}
                             />
                         </div>
                     </div>
