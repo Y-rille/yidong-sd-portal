@@ -7,6 +7,7 @@ import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 const Option = Select.Option;
+import Selector from '../../../../components/Selector'
 class Virtual extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -17,28 +18,8 @@ class Virtual extends React.Component<any, any> {
             fourthMenuValue: 'host'
         }
     }
-    menuChange(value) {
-        this.setState({
-            menuValue: value
-        })
-    }
+    getData() {
 
-    secondMenuChange(value) {
-        this.setState({
-            secondMenuValue: value
-        })
-    }
-
-    thiredMenuChange(value) {
-        this.setState({
-            thiredMenuValue: value
-        })
-    }
-
-    fourthMenuChange(value) {
-        this.setState({
-            fourthMenuValue: value
-        })
     }
     handleClick() {
         const { menuValue, secondMenuValue, thiredMenuValue, fourthMenuValue } = this.state;
@@ -186,34 +167,10 @@ class Virtual extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Select
-                                    value={menuValue}
-                                    onChange={this.menuChange.bind(this)}
-                                >
-                                    <Option value="region">Region</Option>
-                                </Select>
-
-                                <Select
-                                    value={secondMenuValue}
-                                    onChange={this.secondMenuChange.bind(this)}
-                                >
-                                    <Option value="az">AZ</Option>
-                                </Select>
-
-                                <Select
-                                    value={thiredMenuValue}
-                                    onChange={this.thiredMenuChange.bind(this)}
-                                >
-                                    <Option value="ha">HA</Option>
-                                </Select>
-
-                                <Select
-                                    value={fourthMenuValue}
-                                    onChange={this.fourthMenuChange.bind(this)}
-                                >
-                                    <Option value="host">Host</Option>
-                                </Select>
-
+                                <Selector type="Region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="AZ" data={this.props.subDataAZ} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="HA" data={this.props.subDataHA} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="Host" data={this.props.subDataHost} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}
@@ -226,7 +183,7 @@ class Virtual extends React.Component<any, any> {
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
                                 data={tData}
-                                pageAuth={true}
+                                // pageAuth={true}
                                 actionAuth={[]}
                             />
                         </div>
