@@ -4,7 +4,13 @@ import * as SI from 'seamless-immutable';
 const ResourceState = SI.from({
     name: 'RESOURCE',
     resourceTree: null,
-    config: {}
+    config: {},
+    subDataAZ: null,
+    subDataHA: null,
+    subDataRegion: null,
+    subDataHost: null,
+    subDataProject: null,
+    
 });
 
 let resourceReducer = (state = ResourceState, action = null) => {
