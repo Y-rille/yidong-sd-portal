@@ -1,10 +1,14 @@
-import { getMoTree } from './resource'
+import { getMoTree, getSubDataByName, getObjAttributes } from './resource'
 const HomeActionCreatorsMap = {
-    getMoTree
+    getMoTree,
+    getSubDataByName,
+    getObjAttributes,
 }
 
 export interface ResourceActions {
-    getMoTree: Function
+    getMoTree: Function,
+    getSubDataByName: Function,
+    getObjAttributes: Function,
 
 }
 

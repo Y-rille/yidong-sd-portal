@@ -70,7 +70,7 @@ class Mirror extends React.Component<any, any> {
                     key: 'size',
                     title: '大小（MB)'
                 }],
-            'body': [
+            'dataList': [
                 {
                     'id': 'xiaojindian4',
                     'name': 'cirros',

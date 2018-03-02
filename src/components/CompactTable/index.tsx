@@ -31,111 +31,51 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         };
     }
     static defaultProps = {
+
         data: {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '编号',
-                fixed: true,
-                link: true,
-            }, {
-                key: 'name',
-                title: '姓名',
-                fixed: true,
-                link: true,
-            }, {
-                key: 'mobile',
-                title: '电话',
-            }, {
-                key: 'vm',
-                title: 'VM值'
-            },
-            {
-                key: 'email',
-                title: '邮箱',
-            }, {
-                key: 'cpu',
-                title: 'CPU'
-            }, {
-                key: 'memory',
-                title: '内存'
-            }, {
-                key: 'role',
-                title: '角色',
-            }],
-            'body': [
+            'header': [
                 {
-                    'id': 100077,
-                    'email': 'zhan21@hpe.com',
-                    'name': '张三21',
-                    'mobile': '15811001101',
-                    'cpu': '1/10',
-                    'memory': '50%',
-                    'role': '管理员',
-                    'vm': 20
+                    'key': 'name',
+                    'title': '主机名称',
+                    'link': false
                 },
                 {
-                    'id': 100056,
-                    'email': 'dandan',
-                    'name': '用户1',
-                    'mobile': '13211111111',
-                    'cpu': '1/10',
-                    'memory': '70%',
-                    'role': '普通会员',
-                    'vm': 25
+                    'key': 'role',
+                    'title': '角色',
+                    'link': false
                 },
                 {
-                    'id': 100003,
-                    'email': 'admin@cmp.com',
-                    'name': '管理员',
-                    'mobile': '13211117890',
-                    'cpu': '1/10',
-                    'memory': '40%',
-                    'role': 'VIP',
-                    'vm': 15
+                    'key': 'az',
+                    'title': '所属AZ',
+                    'link': false
                 },
                 {
-                    'id': 100005,
-                    'email': 'admin@cmp.com',
-                    'name': '会员6',
-                    'mobile': '13211127890',
-                    'cpu': '3/10',
-                    'memory': '55%',
-                    'role': '普通会员',
-                    'vm': 13
-                },
-                {
-                    'id': 100025,
-                    'email': 'admin3@cmp.com',
-                    'name': '会员1',
-                    'mobile': '13311127890',
-                    'cpu': '3/10',
-                    'memory': '65%',
-                    'role': '普通会员',
-                    'vm': 13
-                },
-                {
-                    'id': 100075,
-                    'email': 'admin3@cmp.com',
-                    'name': '会员8',
-                    'mobile': '13911127890',
-                    'cpu': '4/10',
-                    'memory': '25%',
-                    'role': '普通会员',
-                    'vm': 21
-                },
-                {
-                    'id': 100575,
-                    'email': 'admin8@cmp.com',
-                    'name': '会员10',
-                    'mobile': '18811127890',
-                    'cpu': '4/10',
-                    'memory': '45%',
-                    'role': '普通会员',
-                    'vm': 22
+                    'key': 'ha',
+                    'title': '所属HA',
+                    'link': false
                 }
-            ]
+            ],
+            'dataList': [
+                {
+                    'id': 1,
+                    'az': 'xasa AAAAS',
+                    'name': '10.255.242.215',
+                    'ha': 'xasa',
+                    'role': '主'
+                },
+                {
+                    'id': 2,
+                    'az': 'xasa,AAAAS',
+                    'name': '10.255.242.216',
+                    'ha': 'xasa',
+                    'role': '主'
+                }
+            ],
+            'pageNo': 1,
+            'pageSize': 10,
+            'totalCount': 2
         }
+
     }
     goEdit(e) {
         let Id = e.currentTarget.id
@@ -168,7 +108,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
     renderTable() {
         let { actionAuth, data, selectAuth, selectRow } = this.props
         let header = data.header
-        let dataList = data.body
+        let dataList = data.dataList
         let columns = []
         for (let i = 0; i < header.length; i++) {
             let obj: any = {
@@ -252,7 +192,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
     render() {
         let { data, goPage, footInfoAuth, outStyle } = this.props
         let { page_size, page_num } = this.state
-        let count = data.count
+        let count = data.totalCount
         return (
             <div className={styles.compactTable} style={outStyle}>
                 {this.renderTable()}
