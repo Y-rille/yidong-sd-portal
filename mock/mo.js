@@ -195,7 +195,7 @@ let motypes = {
  * 对象属性查询
  */
 let attributes = {
-  path: '/datashare-svr/api/mo/:moTypeId/attributes',
+  path: '/datashare-svr/api/mo/:moTypeKey/attributes',
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
@@ -214,8 +214,8 @@ let attributes = {
           "ediable": 0,
           "visible": 0,
           "attributeGroup": "基本属性"
-        },
-        {
+      },
+      {
           "moAttributeId": 2,
           "moTypeId": 1,
           "attributeType": 1,
@@ -227,8 +227,8 @@ let attributes = {
           "ediable": 0,
           "visible": 1,
           "attributeGroup": "基本属性"
-        },
-        {
+      },
+      {
           "moAttributeId": 3,
           "moTypeId": 1,
           "attributeType": 1,
@@ -240,8 +240,8 @@ let attributes = {
           "ediable": 0,
           "visible": 0,
           "attributeGroup": "基本属性"
-        },
-        {
+      },
+      {
           "moAttributeId": 4,
           "moTypeId": 1,
           "attributeType": 1,
@@ -253,8 +253,8 @@ let attributes = {
           "ediable": 0,
           "visible": 0,
           "attributeGroup": "基本属性"
-        },
-        {
+      },
+      {
           "moAttributeId": 56,
           "moTypeId": 1,
           "attributeType": 1,
@@ -266,8 +266,8 @@ let attributes = {
           "ediable": 0,
           "visible": 1,
           "attributeGroup": "基本属性"
-        },
-        {
+      },
+      {
           "moAttributeId": 57,
           "moTypeId": 1,
           "attributeType": 1,
@@ -279,7 +279,7 @@ let attributes = {
           "ediable": 0,
           "visible": 1,
           "attributeGroup": "基本属性"
-        }
+      }
       ]
     }
   }
@@ -336,7 +336,7 @@ let relations = {
  * 对象实例列表查询
  */
 let querydata = {
-  path: '/datashare-svr/api/moinst/:moTypeId/querydata',
+  path: '/datashare-svr/api/moinst/:moTypeKey/querydata',
   method: 'POST',
   cache: false,
   template: (params, query, body) => {
@@ -420,7 +420,7 @@ let querydata = {
  * 对象实例详情查询
  */
 let moinst = {
-  path: '/datashare-svr/api/moinst/:moTypeId/:moInstId',
+  path: '/datashare-svr/api/moinst/:moTypeKey/:moInstId',
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
