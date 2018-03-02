@@ -9,7 +9,9 @@ import Host from '../../views/vim/host'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
+        subDataRegion: state.resourceReducer.subDataRegion,
+        subDataAZ: state.resourceReducer.subDataAZ,
+        subDataHA: state.resourceReducer.subDataHA,
     }
 }
 function mapDispatchToProps(dispatch) {
