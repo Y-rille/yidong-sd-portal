@@ -14,6 +14,7 @@ export interface VirtualNetworkProps {
     actions: ResourceActions,
     match,
     subDataProject?,
+    nodeInfo?,
 }
 class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     constructor(props) {
@@ -149,7 +150,8 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                 },
             ]
         }
-        let { match } = this.props
+        let { match, nodeInfo } = this.props
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={VirtualNetworkInfo} />
@@ -160,7 +162,11 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                                {
+                                    labelPathArr.map((item, index) => {
+                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                    })
+                                }
                                 <Breadcrumb.Item>虚拟网络管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
