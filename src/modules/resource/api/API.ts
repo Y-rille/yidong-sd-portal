@@ -60,6 +60,10 @@ class API {
     // 1.4   
     return axios.post(`/api_resource/datashare-svr/api/moinst/${moTypeKey}/querydata`)
   }
+  editObjData(moTypeKey, moInstId, editData) {
+    // 1.4   
+    return axios.post(`/api_resource//rms-agent/api/configure/${moTypeKey}/${moInstId}`, editData)
+  }
 }
 
 export default new API()

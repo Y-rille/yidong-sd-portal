@@ -275,9 +275,24 @@ class HostInfo extends React.Component<any, any> {
     onChange() {
 
     }
+    handleEditData(d) {
+        // console.log(d, '=============>hostInfo')
+        this.props.actions.editObjData(1, 1, d, (err, qdata ) => {
+            if (err || qdata.code !== 1) {
+
+            }
+            if (qdata.code === 1) {
+                this.props.actions.getObjData(1)       
+            }
+        })
+    }
 
     showServer = (e) => {
         this.props.history.replace(`/resource/pim/4/server/info/1`)
+    }
+    componentWillMount() {
+        this.props.actions.getObjAttributes(1)
+        this.props.actions.getObjData(1)
     }
     renderBtns() {
         return (
@@ -291,85 +306,90 @@ class HostInfo extends React.Component<any, any> {
         )
     }
     render() {
-        return (
-            <div>
-                <div className={styles.header}>
-                    <h1 className={styles.title}>主机管理</h1>
-                    <Breadcrumb>
-                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                        <Breadcrumb.Item>主机管理</Breadcrumb.Item>
-                    </Breadcrumb>
+        // console.log(this.props.objData, '==============>this.props.objData')
+        if (this.props.objAttributes && this.props.objData) {
+            return (
+                <div>
+                    <div className={styles.header}>
+                        <h1 className={styles.title}>主机管理</h1>
+                        <Breadcrumb>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                            <Breadcrumb.Item>主机管理</Breadcrumb.Item>
+                        </Breadcrumb>
+                    </div>
+                    <div style={{ padding: '20px' }}>
+                        <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
+                            <TabPane tab="资源详情" key="1">
+                                <Tabs
+                                    onChange={this.onChange.bind(this)}
+                                    size="small"
+                                    tabBarExtraContent={this.renderBtns()}
+                                    animated={false}>
+                                    <TabPane tab="概况" key="11">
+                                        <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)}/>
+                                    </TabPane>
+                                </Tabs>
+                            </TabPane>
+                            <TabPane tab="资源关系" key="2">
+                                <Tabs size="small" onChange={this.onChange.bind(this)} animated={false}>
+                                    <TabPane tab="处理器信息" key="21">
+                                        <CompactTable
+                                            // goPage={this.goPage.bind(this)} // 翻页
+                                            // goLink={this.goLink.bind(this)}
+                                            actionAuth={[]}
+                                            pageAuth={true}
+                                            data={lower_resources_data}
+                                            outStyle={{ 'marginTop': '20px' }}
+                                        />
+                                    </TabPane>
+                                    <TabPane tab="内存信息" key="22">
+                                        <CompactTable
+                                            // goPage={this.goPage.bind(this)} // 翻页
+                                            // goLink={this.goLink.bind(this)}
+                                            actionAuth={[]}
+                                            pageAuth={false}
+                                            outStyle={{ 'marginTop': '20px' }}
+                                        />
+                                    </TabPane>
+                                    <TabPane tab="端口信息" key="23">
+                                        <CompactTable
+                                            // goPage={this.goPage.bind(this)} // 翻页
+                                            // goLink={this.goLink.bind(this)}
+                                            actionAuth={[]}
+                                            pageAuth={false}
+                                            outStyle={{ 'marginTop': '20px' }}
+                                        />
+                                    </TabPane>
+                                    <TabPane tab="LLDP信息" key="24">
+                                        <CompactTable
+                                            // goPage={this.goPage.bind(this)} // 翻页
+                                            // goLink={this.goLink.bind(this)}
+                                            actionAuth={[]}
+                                            pageAuth={false}
+                                            outStyle={{ 'marginTop': '20px' }}
+                                        />
+                                    </TabPane>
+                                </Tabs>
+                            </TabPane>
+                            <TabPane tab="下级资源" key="3">
+                                <CompactTable
+                                    // goPage={this.goPage.bind(this)} // 翻页
+                                    // goLink={this.goLink.bind(this)}
+                                    actionAuth={[]}
+                                    pageAuth={true}
+                                    data={lower_resources_data}
+                                    outStyle={{ 'marginTop': '20px' }}
+                                />
+                            </TabPane>
+                        </Tabs>
+                    </div>
                 </div>
-                <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
-                        <TabPane tab="资源详情" key="1">
-                            <Tabs
-                                onChange={this.onChange.bind(this)}
-                                size="small"
-                                tabBarExtraContent={this.renderBtns()}
-                                animated={false}>
-                                <TabPane tab="概况" key="11">
-                                    <DynamicPropertiesCollapse attributes={attributes} data={data} />
-                                </TabPane>
-                            </Tabs>
-                        </TabPane>
-                        <TabPane tab="资源关系" key="2">
-                            <Tabs size="small" onChange={this.onChange.bind(this)} animated={false}>
-                                <TabPane tab="处理器信息" key="21">
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        actionAuth={[]}
-                                        pageAuth={true}
-                                        data={lower_resources_data}
-                                        outStyle={{ 'marginTop': '20px' }}
-                                    />
-                                </TabPane>
-                                <TabPane tab="内存信息" key="22">
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        actionAuth={[]}
-                                        pageAuth={false}
-                                        outStyle={{ 'marginTop': '20px' }}
-                                    />
-                                </TabPane>
-                                <TabPane tab="端口信息" key="23">
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        actionAuth={[]}
-                                        pageAuth={false}
-                                        outStyle={{ 'marginTop': '20px' }}
-                                    />
-                                </TabPane>
-                                <TabPane tab="LLDP信息" key="24">
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        actionAuth={[]}
-                                        pageAuth={false}
-                                        outStyle={{ 'marginTop': '20px' }}
-                                    />
-                                </TabPane>
-                            </Tabs>
-                        </TabPane>
-                        <TabPane tab="下级资源" key="3">
-                            <CompactTable
-                                // goPage={this.goPage.bind(this)} // 翻页
-                                // goLink={this.goLink.bind(this)}
-                                actionAuth={[]}
-                                pageAuth={true}
-                                data={lower_resources_data}
-                                outStyle={{ 'marginTop': '20px' }}
-                            />
-                        </TabPane>
-                    </Tabs>
-                </div>
-            </div>
-        );
+            );
+        } else {
+            return <div></div>
+        }
     }
 }
 export default HostInfo;

@@ -104,3 +104,22 @@ export const getObjData = (moTypeKey, cb) => (dispatch) => {
         }
     })
 }
+
+/**
+ * 修改对象实例列表
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param moInstId MO实例ID
+ * @param editData
+ * @param cb 
+ */
+export const editObjData = (moTypeKey, moInstId, editData, cb) => (dispatch) => {
+    return API.editObjData(moTypeKey, moInstId, editData).then((res: any) => {
+        if (cb) {
+            cb(null, res.data)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}
