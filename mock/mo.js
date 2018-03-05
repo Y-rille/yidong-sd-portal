@@ -919,6 +919,20 @@ let queryList = {
   }
 }
 
+/** 
+ * 新增实例数据
+*/
+let addInstanceData = {
+  path: '/rms-agent/api/add/:moTypeKey',
+  method: 'POST',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "message": ""
+    }
+  }
+}
 
 module.exports = {
   activealarms,
@@ -931,5 +945,6 @@ module.exports = {
   mgrmoTree,
   querytree,
   subData,
-  queryList
+  queryList,
+  addInstanceData
 }
