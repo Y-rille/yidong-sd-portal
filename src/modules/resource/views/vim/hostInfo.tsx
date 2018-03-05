@@ -335,10 +335,16 @@ class HostInfo extends React.Component<any, any> {
             )
         }
     }
+    renderDynamicPropertiesCollapse() {
+        if (this.props.objAttributes && this.props.objData) {
+            return(
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+            )
+        }
+    }
     render() {
         let { list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        if (this.props.objAttributes && this.props.objData) {
             return (
                 <div>
                     <div className={styles.header}>
@@ -365,7 +371,9 @@ class HostInfo extends React.Component<any, any> {
                                     tabBarExtraContent={this.renderBtns()}
                                     animated={false}>
                                     <TabPane tab="概况" key="11">
-                                        <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+                                    {
+                                        this.renderDynamicPropertiesCollapse()
+                                    }
                                     </TabPane>
                                 </Tabs>
                             </TabPane>
@@ -388,9 +396,6 @@ class HostInfo extends React.Component<any, any> {
                     </div>
                 </div>
             );
-        } else {
-            return <div></div>
-        }
     }
 }
 export default HostInfo;
