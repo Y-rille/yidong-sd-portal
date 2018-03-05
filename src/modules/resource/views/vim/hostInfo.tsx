@@ -352,6 +352,7 @@ class HostInfo extends React.Component<any, any> {
                                         return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                                     })
                                 }
+                                <Breadcrumb.Item>主机管理</Breadcrumb.Item>
                                 <Breadcrumb.Item>主机详情</Breadcrumb.Item>
                             </Breadcrumb>
                         ) : ''}
