@@ -38,22 +38,27 @@ class Host extends React.Component<any, any> {
 
         }
     }
-    goPage = () => {
-        // this.props.history.push(`/resource/vim/1/host/info`)
+    goPage = (n) => {
+        if (this.props.goPage) {
+            this.props.goPage(n)
+        }
     }
     goLink(key, obj) {
-        let { pathname } = this.props.location
-        const mp_node: any = matchPath(this.props.match.url, {
-            path: '/resource/vim/:id'
-        })
-        if (key === 'name') {
-            this.props.history.replace(`/resource/vim/${mp_node.params.id}/host/info/${obj.name}`)
+        if (this.props.goLink) {
+            this.props.goLink(key, obj)
         }
+        // let { pathname } = this.props.location
+        // const mp_node: any = matchPath(this.props.match.url, {
+        //     path: '/resource/vim/:id'
+        // })
+        // if (key === 'name') {
+        //     this.props.history.replace(`/resource/vim/${mp_node.params.id}/host/info/${obj.name}`)
+        // }
     }
     goDelete = () => { }
     goEdit = () => { }
     render() {
-        let { match, data } = this.props;
+        let { match, data, pageSize } = this.props;
         const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         return (
             <div>
@@ -72,7 +77,8 @@ class Host extends React.Component<any, any> {
                     goLink={this.goLink.bind(this)}
                     data={data}
                     actionAuth={[]}
-                    pageAuth={true}
+                    pageSize={pageSize}
+                    // pageAuth={true}
                     outStyle={{ 'marginTop': '20px' }}
                 />
             </div>

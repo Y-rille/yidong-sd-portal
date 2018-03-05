@@ -9,7 +9,8 @@ import HostList from '../../container/vim/hostList'
 import styles from '../../style/index.less'
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
-
+var qs = require('querystringify')
+import { stringify } from 'querystringify'
 import Selector from '../../../../components/Selector'
 import { ResourceActions } from '../../actions/index'
 export interface HostProps {
@@ -21,6 +22,7 @@ export interface HostProps {
     subDataAZ?,
     subDataHA?
     nodeInfo?
+    hostList?,
 }
 
 class Host extends React.Component<HostProps, any> {
@@ -28,32 +30,97 @@ class Host extends React.Component<HostProps, any> {
         super(props);
         let { match } = this.props
         let { pathname } = this.props.location
+        let { pageNo, region, az, ha } = qs.parse(this.props.location.search)
+
         this.state = {
             activeKey: _.compact([
                 matchPath(pathname, { path: `${match.url}/control` }) != null && 'control',
                 matchPath(pathname, { path: `${match.url}/calculate` }) != null && 'calculate',
                 matchPath(pathname, { path: `${match.url}/storage` }) != null && 'storage'
-            ]).toString()
+            ]).toString(),
+            tableLoading: false,
+            pageSize: 1,
+            pageNo: pageNo ? pageNo : 1,
+            region: region ? region : '',
+            az: az ? az : '',
+            ha: ha ? ha : '',
         }
     }
-    handleClick() {
 
-    }
+    onChange(key) { // tab切换
 
-    onChange(key) {
         let { match } = this.props
         let { pathname } = this.props.location
+        let { region, az, ha } = this.state
+        let pageNo = 1
         this.setState({
             activeKey: _.compact([
                 matchPath(pathname, { path: '/control' }) != null && 'control',
                 matchPath(pathname, { path: '/calculate' }) != null && 'calculate',
                 matchPath(pathname, { path: '/storage' }) != null && 'storage'
-            ]).toString()
+            ]).toString(),
+            pageNo
         })
-        this.props.history.push(`${match.url}/${key}`)
-    }
-    getData() {
+        let queryObj = { pageNo, region, az, ha }
+        this.props.history.push(`${match.url}/${key}?${stringify(queryObj)}`)
 
+        this.setState({
+            pageNo
+        });
+        this.getTableData(queryObj)
+    }
+    getData(type, value) {  // 查询条件切换
+        let { region, az, ha } = this.state
+        this.setState({
+            region: type === 'Region' ? value : region,
+            az: type === 'AZ' ? value : az,
+            ha: type === 'HA' ? value : ha
+        })
+    }
+    goLink(key, obj) {
+
+    }
+    goPage = (num) => {
+        let { match } = this.props
+        let { region, az, ha, activeKey } = this.state
+        let pageNo = num
+        let queryObj = { pageNo, region, az, ha }
+        this.props.history.push(`${match.url}/${activeKey}?${stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
+    }
+    handleClick() { // 查询按钮
+        let { match } = this.props
+        let pageNo = 1
+        let { region, az, ha, activeKey } = this.state
+        let queryObj = { pageNo, region, az, ha }
+        this.props.history.push(`${match.url}/${activeKey}?${stringify(queryObj)}`)
+        this.setState({
+            pageNo
+        });
+        this.getTableData(queryObj)
+    }
+
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { region, az, ha, pageSize } = this.state
+        this.props.actions.queryList(this.state.activeKey, { pageNo, pageSize, region, az, ha }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
+    componentWillMount() {
+        let { pageNo } = this.state
+        let queryObj = {
+            pageNo
+        }
+        this.getTableData(queryObj)
     }
     componentWillReceiveProps(nextProps) {
         let { match } = nextProps
@@ -68,8 +135,8 @@ class Host extends React.Component<HostProps, any> {
     }
 
     render() {
-        let { match, nodeInfo } = this.props;
-        const { menuValue, secondMenuValue, thiredMenuValue, activeKey } = this.state;
+        let { match, hostList, nodeInfo } = this.props;
+        const { menuValue, secondMenuValue, thiredMenuValue, activeKey, pageSize } = this.state;
         let control_tdata = {
             'count': 17,
             'header': [{
@@ -347,9 +414,9 @@ class Host extends React.Component<HostProps, any> {
                             </Tabs>
                             <Switch>
                                 <Redirect from={`${match.url}`} to={`${match.url}/control`} exact />
-                                <Route path={`${match.url}/control`} render={() => <HostList {...this.props} data={control_tdata} />} />
-                                <Route path={`${match.url}/calculate`} render={() => <HostList {...this.props} data={calculate_tdata} />} />
-                                <Route path={`${match.url}/storage`} render={() => <HostList {...this.props} data={calculate_tdata} />} />
+                                <Route path={`${match.url}/control`} render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} />} />
+                                <Route path={`${match.url}/calculate`} render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} />} />
+                                <Route path={`${match.url}/storage`} render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} />} />
                             </Switch>
                         </div>
                     </div>

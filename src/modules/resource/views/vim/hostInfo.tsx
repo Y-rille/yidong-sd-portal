@@ -278,9 +278,12 @@ class HostInfo extends React.Component<any, any> {
         this.props.actions.queryList('imdsQueryListHostProcessor', { 'host': 1 })
     }
     onChange() {
-
     }
-
+    onTab(key) {
+        let match = this.props.match
+        let id = match.params.id
+        this.props.actions.queryList(key, { 'host': id })
+    }
     showServer = (e) => {
         this.props.history.replace(`/resource/pim/4/server/info/1`)
     }
@@ -297,13 +300,13 @@ class HostInfo extends React.Component<any, any> {
     }
     renderTab() {
         let title = ['处理器信息', '内存信息', '端口信息', 'LLDP信息']
-        let keys = ['imdsQueryListHostProcessor', 'imdsQueryListHostProcessor', 'imdsQueryListHostPort', 'imdsQueryListHostLLDP']
+        let keys = ['imdsQueryListHostProcessor', 'imdsQueryListHostMemory', 'imdsQueryListHostPort', 'imdsQueryListHostLLDP']
         let list = this.props.list
         if (list) {
             return (
-                title.map((item, key) => {
+                keys.map((item, key) => {
                     return (
-                        <TabPane tab={item} key={keys[key]}>
+                        <TabPane tab={title[key]} key={item}>
                             <CompactTable
                                 // goPage={this.goPage.bind(this)} // 翻页
                                 // goLink={this.goLink.bind(this)}
@@ -368,8 +371,8 @@ class HostInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="2">
-                            <Tabs size="small" onChange={this.onChange.bind(this)} animated={false}>
-                                {/* {this.renderTab()} */}
+                            <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
+                                {this.renderTab()}
 
                             </Tabs>
                         </TabPane>

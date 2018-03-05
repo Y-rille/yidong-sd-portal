@@ -13,6 +13,7 @@ const ResourceState = SI.from({
     subDataProject: null,
     objAttributes: null,
     objData: null,
+    hostList: null,
     nodeInfo: null
 });
 
