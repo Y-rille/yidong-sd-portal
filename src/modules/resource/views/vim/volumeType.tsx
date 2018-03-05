@@ -7,21 +7,26 @@ import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'a
 const Option = Select.Option;
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
-class VolumeType extends React.Component<any, any> {
+
+import Selector from '../../../../components/Selector'
+import { ResourceActions } from '../../actions/index'
+export interface VolumeTypeProps {
+    location?,
+    history?,
+    actions: ResourceActions,
+    match,
+    subDataProject?,
+}
+
+class VolumeType extends React.Component<VolumeTypeProps, any> {
     constructor(props) {
         super(props);
         this.state = {
             volumeTypeInputValue: '',
-            volumeTypeSelectValue: 'project'
         }
     }
     goInfo = () => {
         this.props.history.push(`/resource/vim/1/volume_type/info`)
-    }
-    volumeTypeSelectChange(value) {
-        this.setState({
-            storageVolume: value
-        })
     }
     volumeTypeInputChange(value) {
         this.setState({
@@ -29,7 +34,7 @@ class VolumeType extends React.Component<any, any> {
         })
     }
     handleClick() {
-        const { volumeTypeInputValue, volumeTypeSelectValue } = this.state;
+        const { volumeTypeInputValue } = this.state;
         // console.log(volumeTypeInputValue, volumeTypeSelectValue, 'ppp')
     }
     goPage() {
@@ -40,6 +45,9 @@ class VolumeType extends React.Component<any, any> {
         // if (key === 'id') {
         //     this.props.history.push(`${match.url}/info/${obj.id}`)
         // }
+    }
+    getData() {
+
     }
     render() {
         let { match } = this.props
@@ -136,12 +144,7 @@ class VolumeType extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Select
-                                    value={volumeTypeSelectValue}
-                                    onChange={this.volumeTypeSelectChange.bind(this)}
-                                >
-                                    <Option value="project">project</Option>
-                                </Select>
+                                <Selector type="Project" data={this.props.subDataProject} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Input
                                     placeholder="卷类型名称"
                                     value={volumeTypeInputValue} type="text"

@@ -3,25 +3,27 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import StorageVolumeInfo from '../../container/vim/storageVolumeInfo'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'antd';
-const Option = Select.Option;
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Input } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
-class StorageVolume extends React.Component<any, any> {
+import { ResourceActions } from '../../actions/index'
+import Selector from '../../../../components/Selector'
+export interface StorageVolumeProps {
+    location?,
+    history?,
+    actions: ResourceActions,
+    match,
+    subDataProject?,
+}
+class StorageVolume extends React.Component<StorageVolumeProps, any> {
     constructor(props) {
         super(props);
         this.state = {
             storageVolumeInputValue: '',
-            storageVolumeSelectValue: 'project'
         }
     }
     goInfo = () => {
         this.props.history.push(`/resource/vim/1/storage_volume/info`)
-    }
-    storageVolumeSelectChange(value) {
-        this.setState({
-            storageVolume: value
-        })
     }
     storageVolumeInputChange(value) {
         this.setState({
@@ -29,12 +31,13 @@ class StorageVolume extends React.Component<any, any> {
         })
     }
     handleClick() {
-        const { storageVolumeInputValue, storageVolumeSelectValue } = this.state;
+        const { storageVolumeInputValue } = this.state;
         // console.log(storageVolumeInputValue, storageVolumeSelectValue, 'ppp')
     }
     goPage() {
 
     }
+    getData() { }
     goLink(key, obj) {
         let { match } = this.props
         // if (key === 'id') {
@@ -43,7 +46,7 @@ class StorageVolume extends React.Component<any, any> {
     }
     render() {
         let { match } = this.props;
-        const { storageVolumeInputValue, storageVolumeSelectValue } = this.state;
+        const { storageVolumeInputValue } = this.state;
         let tdata = {
             'count': 17,
             'header': [{
@@ -200,12 +203,7 @@ class StorageVolume extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Select
-                                    value={storageVolumeSelectValue}
-                                    onChange={this.storageVolumeSelectChange.bind(this)}
-                                >
-                                    <Option value="project">project</Option>
-                                </Select>
+                                <Selector type="Project" data={this.props.subDataProject} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Input
                                     placeholder="存储卷名称"
                                     value={storageVolumeInputValue} type="text"

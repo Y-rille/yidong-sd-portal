@@ -14,6 +14,7 @@ import Selector from '../../../../components/Selector'
 import { ResourceActions } from '../../actions/index'
 export interface HostProps {
     location?,
+    history?,
     actions: ResourceActions,
     match,
     subDataRegion?,
@@ -27,9 +28,6 @@ class Host extends React.Component<HostProps, any> {
         let { match } = this.props
         let { pathname } = this.props.location
         this.state = {
-            menuValue: 'region',
-            secondMenuValue: 'az',
-            thiredMenuValue: 'ha',
             activeKey: _.compact([
                 matchPath(pathname, { path: `${match.url}/control` }) != null && 'control',
                 matchPath(pathname, { path: `${match.url}/calculate` }) != null && 'calculate',
@@ -37,27 +35,8 @@ class Host extends React.Component<HostProps, any> {
             ]).toString()
         }
     }
-    menuChange(value) {
-        this.setState({
-            menuValue: value
-        })
-    }
-
-    secondMenuChange(value) {
-        this.setState({
-            secondMenuValue: value
-        })
-    }
-
-    thiredMenuChange(value) {
-        this.setState({
-            thiredMenuValue: value
-        })
-    }
-
     handleClick() {
-        const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
-        // console.log("selectValue:", menuValue, secondMenuValue, thiredMenuValue)
+
     }
 
     onChange(key) {
