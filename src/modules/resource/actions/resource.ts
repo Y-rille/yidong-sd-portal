@@ -35,11 +35,16 @@ export const queryList = (dsname, params, cb) => (dispatch) => {
                 data.dataList[i].ha = data.dataList[i].hz
             }
         }
+        data.header[0].link = true
+        data.pageNo = params.pageNo
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, hostList: data }
-        dispatch(action);
-        if (cb) {
-            cb(null, data)
-        }
+        setTimeout(function () {
+            dispatch(action);
+            if (cb) {
+                cb(null, data)
+            }
+        }, 2000)
+
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, hostList: null }
         dispatch(action);
@@ -111,13 +116,13 @@ export const getObjData = (moTypeKey, cb) => (dispatch) => {
         }
     })
 }
+
 /**
  * 根据nodeId返回节点信息
  * getNodeData
  * @param items 整棵树
  * @param nodeId 节点id
  */
-
 export const getNodeData = (nodeId, items, cb) => (dispatch) => {
     let nodeInfo: any = deepPick(nodeId, items)
     if (nodeInfo !== 'undefined') {

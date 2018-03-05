@@ -58,7 +58,7 @@ class Host extends React.Component<any, any> {
     goDelete = () => { }
     goEdit = () => { }
     render() {
-        let { match, data, pageSize } = this.props;
+        let { match, data, pageSize, tableLoading } = this.props;
         const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         return (
             <div>
@@ -78,6 +78,7 @@ class Host extends React.Component<any, any> {
                     data={data}
                     actionAuth={[]}
                     pageSize={pageSize}
+                    loading={tableLoading}
                     // pageAuth={true}
                     outStyle={{ 'marginTop': '20px' }}
                 />
