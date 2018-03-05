@@ -216,7 +216,8 @@ class Magnetic extends React.Component<any, any> {
             value: '供应商2',
             label: '供应商2'
         }]
-        let { match } = this.props
+        let { match, nodeInfo } = this.props
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
                 <Route path={`${match.url}/info/:magneticId`} component={MagneticInfo} />
@@ -224,12 +225,16 @@ class Magnetic extends React.Component<any, any> {
                     <div>
                         <div className={styles.header}>
                             <h1 className={styles.title}>磁阵管理</h1>
-                            <Breadcrumb>
+                            {nodeInfo ? (<Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>物理部署组织</Breadcrumb.Item>
+                                {
+                                    labelPathArr.map((item, index) => {
+                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                    })
+                                }
                                 <Breadcrumb.Item>磁阵管理</Breadcrumb.Item>
-                            </Breadcrumb>
+                            </Breadcrumb>) : ''}
                         </div>
                         <div style={{ padding: '20px 20px 0px' }}>
                             <div className={styles.queryBar}>
