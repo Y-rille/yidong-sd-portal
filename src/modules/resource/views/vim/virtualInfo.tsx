@@ -447,6 +447,7 @@ class VirtualInfo extends React.Component<any, any> {
                                     return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                                 })
                             }
+                            <Breadcrumb.Item>虚拟机管理</Breadcrumb.Item>
                             <Breadcrumb.Item>虚拟机详情</Breadcrumb.Item>
                         </Breadcrumb>
                     ) : ''}

@@ -156,7 +156,9 @@ class Mirror extends React.Component<any, any> {
                 },
             ]
         }
-        let { match } = this.props
+        let { match, nodeInfo } = this.props
+        const { menuValue, secondMenuValue, thiredMenuValue, fourthMenuValue } = this.state;
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={AzInfo} />
@@ -167,13 +169,17 @@ class Mirror extends React.Component<any, any> {
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                                {
+                                    labelPathArr.map((item, index) => {
+                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                    })
+                                }
                                 <Breadcrumb.Item>镜像管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                            <Selector type="Project" data={this.props.subDataProject} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="Project" data={this.props.subDataProject} actions={this.props.actions} getData={this.getData.bind(this)} />
                                 <Input placeholder="镜像名称" />
                                 <Button
                                     type="primary"

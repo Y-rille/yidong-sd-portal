@@ -16,6 +16,7 @@ export interface VolumeTypeProps {
     actions: ResourceActions,
     match,
     subDataProject?,
+    nodeInfo?,
 }
 
 class VolumeType extends React.Component<VolumeTypeProps, any> {
@@ -128,6 +129,8 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
                 }
             ]
         }
+        let { nodeInfo } = this.props
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={VolumeTypeInfo} />
@@ -138,7 +141,11 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                                {
+                                    labelPathArr.map((item, index) => {
+                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                    })
+                                }
                                 <Breadcrumb.Item>卷类型管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
