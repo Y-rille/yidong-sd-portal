@@ -265,6 +265,8 @@ const lower_resources_data = {
     ]
 }
 import styles from '../../style/index.less'
+import Item from 'antd/lib/list/Item';
+
 class HostInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -272,10 +274,16 @@ class HostInfo extends React.Component<any, any> {
             reset: false
         }
     }
-    onChange() {
-
+    componentWillMount() {
+        this.props.actions.queryList('imdsQueryListHostProcessor', { 'host': 1 })
     }
-
+    onChange() {
+    }
+    onTab(key) {
+        let match = this.props.match
+        let id = match.params.id
+        this.props.actions.queryList(key, { 'host': id })
+    }
     showServer = (e) => {
         this.props.history.replace(`/resource/pim/4/server/info/1`)
     }
@@ -290,7 +298,33 @@ class HostInfo extends React.Component<any, any> {
             </div>
         )
     }
+    renderTab() {
+        let title = ['处理器信息', '内存信息', '端口信息', 'LLDP信息']
+        let keys = ['imdsQueryListHostProcessor', 'imdsQueryListHostMemory', 'imdsQueryListHostPort', 'imdsQueryListHostLLDP']
+        let list = this.props.list
+        if (list) {
+            return (
+                keys.map((item, key) => {
+                    return (
+                        <TabPane tab={title[key]} key={item}>
+                            <CompactTable
+                                // goPage={this.goPage.bind(this)} // 翻页
+                                // goLink={this.goLink.bind(this)}
+                                actionAuth={[]}
+                                // pageAuth={true}
+                                data={list}
+                                outStyle={{ 'marginTop': '20px' }}
+                            />
+                        </TabPane>
+                    )
+                })
+
+            )
+        }
+
+    }
     render() {
+        let list = this.props.list
         return (
             <div>
                 <div className={styles.header}>
@@ -304,6 +338,7 @@ class HostInfo extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
+
                         <TabPane tab="资源详情" key="1">
                             <Tabs
                                 onChange={this.onChange.bind(this)}
@@ -316,44 +351,9 @@ class HostInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="2">
-                            <Tabs size="small" onChange={this.onChange.bind(this)} animated={false}>
-                                <TabPane tab="处理器信息" key="21">
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        actionAuth={[]}
-                                        pageAuth={true}
-                                        data={lower_resources_data}
-                                        outStyle={{ 'marginTop': '20px' }}
-                                    />
-                                </TabPane>
-                                <TabPane tab="内存信息" key="22">
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        actionAuth={[]}
-                                        pageAuth={false}
-                                        outStyle={{ 'marginTop': '20px' }}
-                                    />
-                                </TabPane>
-                                <TabPane tab="端口信息" key="23">
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        actionAuth={[]}
-                                        pageAuth={false}
-                                        outStyle={{ 'marginTop': '20px' }}
-                                    />
-                                </TabPane>
-                                <TabPane tab="LLDP信息" key="24">
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        actionAuth={[]}
-                                        pageAuth={false}
-                                        outStyle={{ 'marginTop': '20px' }}
-                                    />
-                                </TabPane>
+                            <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
+                                {this.renderTab()}
+
                             </Tabs>
                         </TabPane>
                         <TabPane tab="下级资源" key="3">

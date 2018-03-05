@@ -3,7 +3,8 @@ import {
     getSubDataByName,
     queryList,
     getObjAttributes,
-    getObjData
+    getObjData,
+    getNodeData
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -11,7 +12,8 @@ const HomeActionCreatorsMap = {
     getSubDataByName,
     queryList,
     getObjAttributes,
-    getObjData
+    getObjData,
+    getNodeData
 }
 
 export interface ResourceActions {
@@ -20,6 +22,7 @@ export interface ResourceActions {
     queryList: Function
     getObjAttributes: Function,
     getObjData: Function,
+    getNodeData: Function,
 }
 
 export default HomeActionCreatorsMap;

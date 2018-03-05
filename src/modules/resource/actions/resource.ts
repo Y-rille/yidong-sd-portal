@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import ActionTypes from '../constants/actionTypes'
 import API from '../api/API'
-// import deepPick from '../utils/deepPick'
+import deepPick from '../utils/deepPick'
 /**
  * 查询资源树
  * @param cb 
@@ -111,3 +111,27 @@ export const getObjData = (moTypeKey, cb) => (dispatch) => {
         }
     })
 }
+/**
+ * 根据nodeId返回节点信息
+ * getNodeData
+ * @param items 整棵树
+ * @param nodeId 节点id
+ */
+
+export const getNodeData = (nodeId, items, cb) => (dispatch) => {
+    let nodeInfo: any = deepPick(nodeId, items)
+    if (nodeInfo !== 'undefined') {
+      let action = { type: ActionTypes.RESOURCE_SAY_HELLO, nodeInfo: nodeInfo }
+      dispatch(action)
+      if (cb) {
+        cb(null, nodeInfo)
+      }
+    } else {
+      let action = { type: ActionTypes.RESOURCE_SAY_HELLO, nodeInfo: null }
+      dispatch(action)
+      if (cb) {
+        cb(new Error(`not found by ${nodeId}`), null)
+      }
+    }
+  
+  }
