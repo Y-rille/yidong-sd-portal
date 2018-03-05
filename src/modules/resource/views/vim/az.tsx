@@ -16,6 +16,7 @@ export interface AzProps {
     actions: ResourceActions,
     match,
     subDataRegion?,
+    nodeInfo
 }
 
 class Az extends React.Component<AzProps, any> {
@@ -104,8 +105,9 @@ class Az extends React.Component<AzProps, any> {
                 }
             ]
         }
-        let { match } = this.props;
+        let { match, nodeInfo } = this.props;
         const { AZInputValue, AZSelectValue } = this.state;
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
                 <Switch>
@@ -114,12 +116,18 @@ class Az extends React.Component<AzProps, any> {
                         <div>
                             <div className={styles.header}>
                                 <h1 className={styles.title}>AZ管理</h1>
-                                <Breadcrumb>
-                                    <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                                    <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                    <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                                    <Breadcrumb.Item>AZ管理</Breadcrumb.Item>
-                                </Breadcrumb>
+                                {nodeInfo ? (
+                                    <Breadcrumb>
+                                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                                        {
+                                            labelPathArr.map((item, index) => {
+                                                return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                            })
+                                        }
+                                        <Breadcrumb.Item>AZ管理</Breadcrumb.Item>
+                                    </Breadcrumb>
+                                ) : ''}
                             </div>
                             <div style={{ padding: '20px' }}>
                                 <div className={styles.queryBar}>

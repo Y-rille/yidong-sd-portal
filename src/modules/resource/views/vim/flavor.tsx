@@ -16,7 +16,7 @@ class Flavor extends React.Component<any, any> {
         }
     }
     getData(value) {
-        
+
     }
     flavorInputChange(value) {
         this.setState({
@@ -40,7 +40,8 @@ class Flavor extends React.Component<any, any> {
         this.props.history.push(`/resource/vim/1/flavor/info`)
     }
     render() {
-        let { match } = this.props;
+        let { match, nodeInfo } = this.props;
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { flavorInputValue } = this.state;
         let tdata = {
             'count': 17,
@@ -176,7 +177,11 @@ class Flavor extends React.Component<any, any> {
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                                {
+                                    labelPathArr.map((item, index) => {
+                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                    })
+                                }
                                 <Breadcrumb.Item>Flavor管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>

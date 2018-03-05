@@ -107,6 +107,8 @@ class HaInfo extends React.Component<any, any> {
         )
     }
     render() {
+        let { nodeInfo } = this.props;
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { HostInputValue, HASelectValue } = this.state;
         return (
             <div>
@@ -115,7 +117,11 @@ class HaInfo extends React.Component<any, any> {
                     <Breadcrumb>
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                        {
+                            labelPathArr.map((item, index) => {
+                                return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                            })
+                        }
                         <Breadcrumb.Item>HA管理</Breadcrumb.Item>
                         <Breadcrumb.Item>HA详情</Breadcrumb.Item>
                     </Breadcrumb>

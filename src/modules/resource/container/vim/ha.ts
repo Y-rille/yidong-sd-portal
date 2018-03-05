@@ -11,6 +11,7 @@ function mapProps(state) {
         name: state.resourceReducer.name,
         config: state.resourceReducer.config,
         subDataRegion: state.resourceReducer.subDataRegion,
+        nodeInfo: state.resourceReducer.nodeInfo,
     }
 }
 function mapDispatchToProps(dispatch) {
