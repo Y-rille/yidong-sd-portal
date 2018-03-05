@@ -274,9 +274,6 @@ class HostInfo extends React.Component<any, any> {
             reset: false
         }
     }
-    componentWillMount() {
-        this.props.actions.queryList('imdsQueryListHostProcessor', { 'host': 1 })
-    }
     onChange() {
     }
     onTab(key) {
@@ -284,8 +281,25 @@ class HostInfo extends React.Component<any, any> {
         let id = match.params.id
         this.props.actions.queryList(key, { 'host': id })
     }
+    handleEditData(d) {
+        // console.log(d, '=============>hostInfo')
+        this.props.actions.editObjData(1, 1, d, (err, qdata) => {
+            if (err || qdata.code !== 1) {
+
+            }
+            if (qdata.code === 1) {
+                this.props.actions.getObjData(1)
+            }
+        })
+    }
     showServer = (e) => {
         this.props.history.replace(`/resource/pim/4/server/info/1`)
+    }
+    componentWillMount() {
+        this.props.actions.getObjAttributes(1)
+        this.props.actions.getObjData(1)
+
+        this.props.actions.queryList('imdsQueryListHostProcessor', { 'host': 1 })
     }
     renderBtns() {
         return (
@@ -318,78 +332,65 @@ class HostInfo extends React.Component<any, any> {
                         </TabPane>
                     )
                 })
-
             )
         }
-
     }
     render() {
         let { list, nodeInfo } = this.props
-        // let headerdata = []
-        // list.header && list.header.map((item, key) => {
-        //     headerdata.push({ key: item.key, name: item.title })
-        // })
-        // let bodydata = []
-        // list.dataList && list.dataList.map((item, key) => {
-        //     bodydata.push({ az: item.az, hz: item.hz, name: item.name, role: item.role })
-        // })
-        // let all = {
-        //     'count': 18,
-        //     'header': headerdata,
-        //     'body': bodydata
-        // }
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        return (
-            <div>
-                <div className={styles.header}>
-                    <h1 className={styles.title}>主机详情</h1>
-                    {nodeInfo ? (
-                        <Breadcrumb>
-                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                            <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                            {
-                                labelPathArr.map((item, index) => {
-                                    return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
-                                })
-                            }
-                            <Breadcrumb.Item>主机详情</Breadcrumb.Item>
-                        </Breadcrumb>
-                    ) : ''}
+        if (this.props.objAttributes && this.props.objData) {
+            return (
+                <div>
+                    <div className={styles.header}>
+                        <h1 className={styles.title}>主机管理</h1>
+                        {nodeInfo ? (
+                            <Breadcrumb>
+                                <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                                <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                                {
+                                    labelPathArr.map((item, index) => {
+                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                    })
+                                }
+                                <Breadcrumb.Item>主机详情</Breadcrumb.Item>
+                            </Breadcrumb>
+                        ) : ''}
+                    </div>
+                    <div style={{ padding: '20px' }}>
+                        <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
+                            <TabPane tab="资源详情" key="1">
+                                <Tabs
+                                    onChange={this.onChange.bind(this)}
+                                    size="small"
+                                    tabBarExtraContent={this.renderBtns()}
+                                    animated={false}>
+                                    <TabPane tab="概况" key="11">
+                                        <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+                                    </TabPane>
+                                </Tabs>
+                            </TabPane>
+                            <TabPane tab="资源关系" key="2">
+                                <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
+                                    {this.renderTab()}
+                                </Tabs>
+                            </TabPane>
+                            <TabPane tab="下级资源" key="3">
+                                <CompactTable
+                                    // goPage={this.goPage.bind(this)} // 翻页
+                                    // goLink={this.goLink.bind(this)}
+                                    actionAuth={[]}
+                                    pageAuth={true}
+                                    data={lower_resources_data}
+                                    outStyle={{ 'marginTop': '20px' }}
+                                />
+                            </TabPane>
+                        </Tabs>
+                    </div>
                 </div>
-                <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
-
-                        <TabPane tab="资源详情" key="1">
-                            <Tabs
-                                onChange={this.onChange.bind(this)}
-                                size="small"
-                                tabBarExtraContent={this.renderBtns()}
-                                animated={false}>
-                                <TabPane tab="概况" key="11">
-                                    <DynamicPropertiesCollapse attributes={attributes} data={data} />
-                                </TabPane>
-                            </Tabs>
-                        </TabPane>
-                        <TabPane tab="资源关系" key="2">
-                            <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
-                                {this.renderTab()}
-
-                            </Tabs>
-                        </TabPane>
-                        <TabPane tab="下级资源" key="3">
-                            <CompactTable
-                                // goPage={this.goPage.bind(this)} // 翻页
-                                // goLink={this.goLink.bind(this)}
-                                actionAuth={[]}
-                                pageAuth={true}
-                                data={lower_resources_data}
-                                outStyle={{ 'marginTop': '20px' }}
-                            />
-                        </TabPane>
-                    </Tabs>
-                </div>
-            </div>
-        );
+            );
+        } else {
+            return <div></div>
+        }
     }
 }
 export default HostInfo;

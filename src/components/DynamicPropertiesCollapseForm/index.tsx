@@ -6,6 +6,7 @@ const FormItem = Form.Item;
 
 interface DynamicPropertiesCollapseFormProps {
     data: object;
+    editData?
 }
 
 class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicPropertiesCollapseFormProps> {
@@ -18,11 +19,14 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
     handleEdit() {
         if (this.state.isEdit) {
             let submitData = this.props.form.getFieldsValue()
-            let editedData = this.props.data
-            _.forOwn(submitData, (value, key) => {
-                let _index = _.findIndex(this.props.data, item => (item.key === key))
-                editedData[_index].values = value
-            })
+            // let editedData = this.props.data
+            // _.forOwn(submitData, (value, key) => {
+            //     let _index = _.findIndex(this.props.data, item => (item.key === key))
+            //     editedData[_index].values = value
+            // })
+            if (this.props.editData) {
+                this.props.editData(submitData)
+            }
         }
         this.setState({
             isEdit: !this.state.isEdit

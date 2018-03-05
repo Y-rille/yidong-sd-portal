@@ -224,7 +224,7 @@ let attributes = {
           "physicalTablefield": "NAME",
           "state": 1,
           "version": "1.0",
-          "ediable": 0,
+          "ediable": 1,
           "visible": 1,
           "attributeGroup": "基本属性"
       },
@@ -276,7 +276,7 @@ let attributes = {
           "physicalTablefield": "Hostname",
           "state": 1,
           "version": "1.0",
-          "ediable": 0,
+          "ediable": 1,
           "visible": 1,
           "attributeGroup": "基本属性"
       }

@@ -9,6 +9,7 @@ const FormItem = Form.Item;
 interface DynamicPropertiesCollapseProps {
     attributes: Array<object>;
     data: object;
+    editData?
 }
 interface DynamicPropertiesPanelState {
 }
@@ -44,7 +45,11 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
             data: conversion(this.props.attributes, this.props.data)
         };
     }
-
+    handleEditData(data) {
+        if (this.props.editData) {
+            this.props.editData(data)
+        }
+    }
     componentDidMount() {
     }
     render() {
@@ -61,7 +66,7 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
                                     key={sindex}
                                     style={{ 'margin-bottom': '20px' }}
                                 >
-                                    <DynamicPropertiesCollapseForm data={formData} />
+                                    <DynamicPropertiesCollapseForm data={formData} editData={this.handleEditData.bind(this)}/>
                                 </Panel>
                             })
                         }
