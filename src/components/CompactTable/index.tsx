@@ -108,7 +108,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
     renderTable() {
         let { actionAuth, data, selectAuth, selectRow } = this.props
         let header = data.header
-        let dataList = data.dataList
+        let dataList: any = _.merge([], data.dataList)
         let columns = []
         for (let i = 0; i < header.length; i++) {
             let obj: any = {
@@ -149,12 +149,12 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         //     render: text => <a href="javascript:;">{text}</a>,
         //     width: '20%'
         // }];
+        let { page_num, page_size } = this.state
 
         _.map(dataList, function (item: any, index) {
-
             // item._roles = _roles.toString()
             // item.create_time = moment.tz(item.create_time, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
-            item.key = item.id
+            item.key = page_num * page_size + index
         })
 
         let area: any = { x: '100%' }
@@ -191,8 +191,13 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
     }
     render() {
         let { data, goPage, footInfoAuth, outStyle } = this.props
+        if (!data) {
+            return (
+                <div />
+            )
+        }
         let { page_size, page_num } = this.state
-        let count = data.totalCount
+        let count = data ? data.totalCount : 0
         return (
             <div className={styles.compactTable} style={outStyle}>
                 {this.renderTable()}
