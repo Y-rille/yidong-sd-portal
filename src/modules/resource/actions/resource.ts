@@ -28,13 +28,20 @@ export const getMoTree = (cb) => (dispatch) => {
  */
 export const queryList = (dsname, params, cb) => (dispatch) => {
     return API.queryList(dsname, params).then((res: any) => {
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: res.data.data }
+        let data = res.data.data
+        for (let i = 0; i < data.dataList.length; i++) {
+
+            if (data.dataList[i].hz) {
+                data.dataList[i].ha = data.dataList[i].hz
+            }
+        }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, hostList: data }
         dispatch(action);
         if (cb) {
-            cb(null, res.data.data)
+            cb(null, data)
         }
     }).catch((err) => {
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: null }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, hostList: null }
         dispatch(action);
         if (cb) {
             cb(err, null)

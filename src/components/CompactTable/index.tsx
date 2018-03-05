@@ -209,7 +209,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                                 className={styles.pagination}
                                 onChange={this.goPage.bind(this)}
                                 total={count}
-                                current={parseInt(page_num, 10)}
+                                current={parseInt(data.pageNo, 10)}
                                 pageSize={page_size}
                                 showQuickJumper />
                         </div>
