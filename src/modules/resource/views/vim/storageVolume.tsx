@@ -14,6 +14,7 @@ export interface StorageVolumeProps {
     actions: ResourceActions,
     match,
     subDataProject?,
+    nodeInfo?,
 }
 class StorageVolume extends React.Component<StorageVolumeProps, any> {
     constructor(props) {
@@ -186,6 +187,8 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                 }
             ]
         }
+        let { nodeInfo } = this.props
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
 
             <Switch>
@@ -197,7 +200,11 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                                {
+                                    labelPathArr.map((item, index) => {
+                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                    })
+                                }
                                 <Breadcrumb.Item>存储卷管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
