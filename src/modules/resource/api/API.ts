@@ -50,7 +50,7 @@ class API {
   }
   queryList(dsname, params?: DataParams) {
     // 4.2
-    return axios.get(`/api_resource//datashare-svr/api/imds/queryList/${dsname}?${stringify(params)}`)
+    return axios.get(`/api_resource/datashare-svr/api/imds/queryList/${dsname}?${stringify(params)}`)
   }
   getObjAttributes(moTypeKey) {
     // 1.2
@@ -62,7 +62,7 @@ class API {
   }
   editObjData(moTypeKey, moInstId, editData) {
     // 1.4   
-    return axios.post(`/api_resource//rms-agent/api/configure/${moTypeKey}/${moInstId}`, editData)
+    return axios.post(`/api_resource/rms-agent/api/configure/${moTypeKey}/${moInstId}`, editData)
   }
 }
 

@@ -136,7 +136,7 @@ class Host extends React.Component<HostProps, any> {
 
     render() {
         let { match, hostList, nodeInfo } = this.props;
-        const { menuValue, secondMenuValue, thiredMenuValue, activeKey, pageSize } = this.state;
+        const { region, az, ha, activeKey, pageSize } = this.state;
         let control_tdata = {
             'count': 17,
             'header': [{
@@ -397,9 +397,9 @@ class Host extends React.Component<HostProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} />
-                                <Selector type="AZ" data={this.props.subDataAZ} actions={this.props.actions} getData={this.getData.bind(this)} />
-                                <Selector type="HA" data={this.props.subDataHA} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="Region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} value={region} />
+                                <Selector type="AZ" data={this.props.subDataAZ} actions={this.props.actions} getData={this.getData.bind(this)} value={az} />
+                                <Selector type="HA" data={this.props.subDataHA} actions={this.props.actions} getData={this.getData.bind(this)} value={ha} />
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}

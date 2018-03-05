@@ -12,6 +12,7 @@ export interface SelectorProps {
     data
     actions
     getData
+    value?
 }
 
 export default class Selector extends React.PureComponent<SelectorProps, any> {
@@ -37,9 +38,9 @@ export default class Selector extends React.PureComponent<SelectorProps, any> {
         })
     }
     render() {
-        let { type } = this.props
+        let { type, value } = this.props
         return (
-            <Select onFocus={this.getOptions.bind(this)} onChange={this.changeHandle.bind(this)} placeholder={`请选择${type}`}>
+            <Select defaultValue={value} onFocus={this.getOptions.bind(this)} onChange={this.changeHandle.bind(this)} placeholder={`请选择${type}`}>
                 {this.renderOptions()}
             </Select >
         );
