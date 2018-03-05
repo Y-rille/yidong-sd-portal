@@ -139,6 +139,11 @@
   margin-top: -12px;
   margin-left: -10px;
 }
+.ant-table-wrapper .ant-spin {
+  top: 0;
+  left: 0;
+  margin-top: 0;
+}
 .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected{
   background-color: @primary-color;
 }

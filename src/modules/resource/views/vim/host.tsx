@@ -77,7 +77,8 @@ class Host extends React.Component<HostProps, any> {
         })
     }
     goLink(key, obj) {
-
+        let { match } = this.props
+        this.props.history.push(`${match.url}/info/1`)
     }
     goPage = (num) => {
         let { match } = this.props
@@ -135,7 +136,7 @@ class Host extends React.Component<HostProps, any> {
 
     render() {
         let { match, hostList } = this.props;
-        const { menuValue, secondMenuValue, thiredMenuValue, activeKey, pageSize } = this.state;
+        const { menuValue, secondMenuValue, thiredMenuValue, activeKey, pageSize, tableLoading } = this.state;
         let control_tdata = {
             'count': 17,
             'header': [{
@@ -406,9 +407,11 @@ class Host extends React.Component<HostProps, any> {
                             </Tabs>
                             <Switch>
                                 <Redirect from={`${match.url}`} to={`${match.url}/control`} exact />
-                                <Route path={`${match.url}/control`} render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} />} />
-                                <Route path={`${match.url}/calculate`} render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} />} />
-                                <Route path={`${match.url}/storage`} render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} />} />
+                                <Route path={`${match.url}/control`}
+                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />}
+                                />
+                                <Route path={`${match.url}/calculate`} render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />} />
+                                <Route path={`${match.url}/storage`} render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />} />
                             </Switch>
                         </div>
                     </div>

@@ -35,11 +35,16 @@ export const queryList = (dsname, params, cb) => (dispatch) => {
                 data.dataList[i].ha = data.dataList[i].hz
             }
         }
+        data.header[0].link = true
+        data.pageNo = params.pageNo
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, hostList: data }
-        dispatch(action);
-        if (cb) {
-            cb(null, data)
-        }
+        setTimeout(function () {
+            dispatch(action);
+            if (cb) {
+                cb(null, data)
+            }
+        }, 2000)
+
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, hostList: null }
         dispatch(action);
@@ -121,17 +126,17 @@ export const getObjData = (moTypeKey, cb) => (dispatch) => {
 export const getNodeData = (nodeId, items, cb) => (dispatch) => {
     let nodeInfo: any = deepPick(nodeId, items)
     if (nodeInfo !== 'undefined') {
-      let action = { type: ActionTypes.RESOURCE_SAY_HELLO, nodeInfo: nodeInfo }
-      dispatch(action)
-      if (cb) {
-        cb(null, nodeInfo)
-      }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, nodeInfo: nodeInfo }
+        dispatch(action)
+        if (cb) {
+            cb(null, nodeInfo)
+        }
     } else {
-      let action = { type: ActionTypes.RESOURCE_SAY_HELLO, nodeInfo: null }
-      dispatch(action)
-      if (cb) {
-        cb(new Error(`not found by ${nodeId}`), null)
-      }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, nodeInfo: null }
+        dispatch(action)
+        if (cb) {
+            cb(new Error(`not found by ${nodeId}`), null)
+        }
     }
-  
-  }
+
+}

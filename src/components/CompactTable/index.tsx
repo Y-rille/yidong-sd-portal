@@ -20,6 +20,7 @@ export interface CompactTableProps {
     selectAuth? // 选择权限
     selectRow?
     pageSize?
+    loading?
 }
 
 export default class CompacteTable extends React.PureComponent<CompactTableProps, any> {
@@ -106,7 +107,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         this.props.goLink(key, obj)
     }
     renderTable() {
-        let { actionAuth, data, selectAuth, selectRow } = this.props
+        let { actionAuth, data, selectAuth, selectRow, loading } = this.props
         let header = data.header
         let dataList: any = _.merge([], data.dataList)
         let columns = []
@@ -186,11 +187,12 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                 pagination={false}
                 className={styles.smalltable}
                 columns={columns}
-                dataSource={dataList} />
+                dataSource={dataList}
+                loading={loading} />
         )
     }
     render() {
-        let { data, goPage, footInfoAuth, outStyle } = this.props
+        let { data, goPage, footInfoAuth, outStyle, loading } = this.props
         if (!data) {
             return (
                 <div />
