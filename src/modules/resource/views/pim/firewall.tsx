@@ -275,7 +275,8 @@ class Firewall extends React.Component<any, any> {
 
     }
     render() {
-        let { match } = this.props;
+        let { match, nodeInfo } = this.props;
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { dataCenterValue, supplierValue } = this.state;
         const DataCenter = [{
             value: '数据中心1',
@@ -352,7 +353,8 @@ class Firewall extends React.Component<any, any> {
         }, {
             value: '供应商2',
             label: '供应商2'
-        }]
+            }]
+        
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={FirewallInfo} />
@@ -363,7 +365,11 @@ class Firewall extends React.Component<any, any> {
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>物理部署组织</Breadcrumb.Item>
+                                {
+                                        labelPathArr.map((item, index) => {
+                                            return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                        })
+                                }
                                 <Breadcrumb.Item>防火墙管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
