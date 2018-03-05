@@ -17,6 +17,7 @@ export interface HaProps {
     actions: ResourceActions,
     match,
     subDataRegion?,
+    nodeInfo
 }
 
 class Ha extends React.Component<HaProps, any> {
@@ -123,6 +124,8 @@ class Ha extends React.Component<HaProps, any> {
                 },
             ]
         }
+        let { nodeInfo } = this.props;
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={HaInfo} />
@@ -133,7 +136,11 @@ class Ha extends React.Component<HaProps, any> {
                             <Breadcrumb>
                                 <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                                 <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
+                                {
+                                    labelPathArr.map((item, index) => {
+                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                    })
+                                }
                                 <Breadcrumb.Item>HA管理</Breadcrumb.Item>
                             </Breadcrumb>
                         </div>
