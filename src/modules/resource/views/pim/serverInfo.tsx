@@ -397,7 +397,8 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
     }
 
     render() {
-        let { match } = this.props;
+        let { match, nodeInfo } = this.props;
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let { events } = this.state
         let tdata = {
             'count': 2,
@@ -428,7 +429,11 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                     <Breadcrumb>
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>物理部署组织</Breadcrumb.Item>
+                        {
+                            labelPathArr.map((item, index) => {
+                                return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                            })
+                        }
                         <Breadcrumb.Item>服务器管理</Breadcrumb.Item>
                         <Breadcrumb.Item>服务器详情</Breadcrumb.Item>
                     </Breadcrumb>

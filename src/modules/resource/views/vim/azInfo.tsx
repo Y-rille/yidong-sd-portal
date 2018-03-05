@@ -106,17 +106,25 @@ class AzInfo extends React.Component<any, any> {
     }
     render() {
         const { HostInputValue, HASelectValue } = this.state;
+        let { nodeInfo } = this.props;
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
                 <div className={styles.header}>
                     <h1 className={styles.title}>AZ详情</h1>
-                    <Breadcrumb>
-                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                        <Breadcrumb.Item>AZ管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>AZ详情</Breadcrumb.Item>
-                    </Breadcrumb>
+                    {nodeInfo ? (
+                        <Breadcrumb>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                            {
+                                labelPathArr.map((item, index) => {
+                                    return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                })
+                            }
+                            <Breadcrumb.Item>AZ管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>AZ详情</Breadcrumb.Item>
+                        </Breadcrumb>
+                    ) : ''}
                 </div>
                 <div style={{ padding: '0 20px 20px 20px' }}>
                     <div>
