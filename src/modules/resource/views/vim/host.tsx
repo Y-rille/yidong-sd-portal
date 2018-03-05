@@ -20,6 +20,7 @@ export interface HostProps {
     subDataRegion?,
     subDataAZ?,
     subDataHA?
+    nodeInfo?
 }
 
 class Host extends React.Component<HostProps, any> {
@@ -67,7 +68,7 @@ class Host extends React.Component<HostProps, any> {
     }
 
     render() {
-        let { match } = this.props;
+        let { match, nodeInfo } = this.props;
         const { menuValue, secondMenuValue, thiredMenuValue, activeKey } = this.state;
         let control_tdata = {
             'count': 17,
@@ -306,6 +307,7 @@ class Host extends React.Component<HostProps, any> {
                 }
             ]
         }
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={HostInfo} />
@@ -313,12 +315,18 @@ class Host extends React.Component<HostProps, any> {
                     <div>
                         <div className={styles.header}>
                             <h1 className={styles.title}>主机管理</h1>
-                            <Breadcrumb>
-                                <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                                <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                                <Breadcrumb.Item>主机管理</Breadcrumb.Item>
-                            </Breadcrumb>
+                            {nodeInfo ? (
+                                <Breadcrumb>
+                                    <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                                    <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                                    {
+                                        labelPathArr.map((item, index) => {
+                                            return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                        })
+                                    }
+                                    <Breadcrumb.Item>主机管理</Breadcrumb.Item>
+                                </Breadcrumb>
+                            ) : ''}
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>

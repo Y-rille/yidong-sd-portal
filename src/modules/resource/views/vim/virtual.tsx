@@ -146,11 +146,12 @@ class Virtual extends React.Component<any, any> {
                     'role': '14天24小时',
                     'vm': 20
                 },
-                
+
             ]
         }
-        let { match } = this.props;
+        let { match, nodeInfo } = this.props;
         const { menuValue, secondMenuValue, thiredMenuValue, fourthMenuValue } = this.state;
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={VirtualInfo} />
@@ -158,12 +159,18 @@ class Virtual extends React.Component<any, any> {
                     <div>
                         <div className={styles.header}>
                             <h1 className={styles.title}>虚拟机管理</h1>
-                            <Breadcrumb>
-                                <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                                <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                                <Breadcrumb.Item>虚拟机管理</Breadcrumb.Item>
-                            </Breadcrumb>
+                            {nodeInfo ? (
+                                <Breadcrumb>
+                                    <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                                    <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                                    {
+                                        labelPathArr.map((item, index) => {
+                                            return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                        })
+                                    }
+                                    <Breadcrumb.Item>虚拟机管理</Breadcrumb.Item>
+                                </Breadcrumb>
+                            ) : ''}
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>

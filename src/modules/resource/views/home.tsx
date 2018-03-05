@@ -26,19 +26,30 @@ class Home extends React.Component<any, any> {
     handleClick = (key) => {
         this.props.history.push(`${key}`)
     }
-    getNodeInfo(nodeId, moTree) {
-        this.props.actions.getNodeData(nodeId, moTree ? moTree : this.props.tree)
+    getNodeInfo(nodeId, resourceTree?) {
+        this.props.actions.getNodeData(nodeId, resourceTree ? resourceTree : this.props.resourceTree)
     }
     componentWillMount() {
         let self = this
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/:type/:id'
         })
-        this.props.actions.getMoTree((err, moTree) => { 
+        this.props.actions.getMoTree((err, resourceTree) => {
             let nodeId = mp_node.params.id
-            self.getNodeInfo(nodeId, moTree)
+            self.getNodeInfo(nodeId, resourceTree)
         })
-        
+
+    }
+    componentWillReceiveProps(nextProps) {
+        const pre_mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/:type/:id'
+        })
+        const next_mp_node: any = matchPath(nextProps.location.pathname, {
+            path: '/resource/:type/:id'
+        })
+        if (pre_mp_node.params.id !== next_mp_node.params.id) {
+            this.getNodeInfo(next_mp_node.params.id)
+        }
     }
     renderSider(match) {
         let route = this.props.location.pathname.replace('/resource/', '')

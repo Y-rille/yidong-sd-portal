@@ -321,7 +321,7 @@ class HostInfo extends React.Component<any, any> {
 
     }
     render() {
-        let list = this.props.list
+        let { list, nodeInfo } = this.props
         // let headerdata = []
         // list.header && list.header.map((item, key) => {
         //     headerdata.push({ key: item.key, name: item.title })
@@ -335,17 +335,23 @@ class HostInfo extends React.Component<any, any> {
         //     'header': headerdata,
         //     'body': bodydata
         // }
-
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>主机管理</h1>
-                    <Breadcrumb>
-                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>资源组织机构</Breadcrumb.Item>
-                        <Breadcrumb.Item>主机管理</Breadcrumb.Item>
-                    </Breadcrumb>
+                    <h1 className={styles.title}>主机详情</h1>
+                    {nodeInfo ? (
+                        <Breadcrumb>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                            {
+                                labelPathArr.map((item, index) => {
+                                    return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                })
+                            }
+                            <Breadcrumb.Item>主机详情</Breadcrumb.Item>
+                        </Breadcrumb>
+                    ) : ''}
                 </div>
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>

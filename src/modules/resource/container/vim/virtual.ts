@@ -14,6 +14,7 @@ function mapProps(state) {
         subDataAZ: state.resourceReducer.subDataAZ,
         subDataHA: state.resourceReducer.subDataHA,
         subDataHost: state.resourceReducer.subDataHost,
+        nodeInfo: state.resourceReducer.nodeInfo,
     }
 }
 function mapDispatchToProps(dispatch) {

@@ -12,6 +12,7 @@ function mapProps(state) {
         config: state.resourceReducer.config,
         objData: state.resourceReducer.objData,
         list: state.resourceReducer.list,
+        nodeInfo: state.resourceReducer.nodeInfo,
     }
 }
 function mapDispatchToProps(dispatch) {
