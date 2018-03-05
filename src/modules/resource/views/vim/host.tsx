@@ -410,8 +410,12 @@ class Host extends React.Component<HostProps, any> {
                                 <Route path={`${match.url}/control`}
                                     render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />}
                                 />
-                                <Route path={`${match.url}/calculate`} render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />} />
-                                <Route path={`${match.url}/storage`} render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />} />
+                                <Route path={`${match.url}/calculate`}
+                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />}
+                                />
+                                <Route path={`${match.url}/storage`}
+                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />}
+                                />
                             </Switch>
                         </div>
                     </div>
