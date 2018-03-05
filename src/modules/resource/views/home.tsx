@@ -26,10 +26,20 @@ class Home extends React.Component<any, any> {
     handleClick = (key) => {
         this.props.history.push(`${key}`)
     }
-    componentWillMount() {
-        this.props.actions.getMoTree()
+    getNodeInfo(nodeId, moTree) {
+        this.props.actions.getNodeData(nodeId, moTree ? moTree : this.props.tree)
     }
-
+    componentWillMount() {
+        let self = this
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/:type/:id'
+        })
+        this.props.actions.getMoTree((err, moTree) => { 
+            let nodeId = mp_node.params.id
+            self.getNodeInfo(nodeId, moTree)
+        })
+        
+    }
     renderSider(match) {
         let route = this.props.location.pathname.replace('/resource/', '')
         let resourceTree = this.props.resourceTree
@@ -41,7 +51,8 @@ class Home extends React.Component<any, any> {
         }
     }
     render() {
-        let { match } = this.props
+        let { match, nodeInfo } = this.props
+        // console.log('nodeInfo: ', nodeInfo);
         return (
             <Row className={styles.resource}>
                 <SplitPane
