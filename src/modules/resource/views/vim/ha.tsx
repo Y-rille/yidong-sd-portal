@@ -146,7 +146,7 @@ class Ha extends React.Component<HaProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} />
                                 <Input
                                     placeholder="HA名称"
                                     value={HAInputValue} type="text"

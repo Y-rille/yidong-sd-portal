@@ -179,7 +179,7 @@ class Mirror extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Project" data={this.props.subDataProject} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} />
                                 <Input placeholder="镜像名称" />
                                 <Button
                                     type="primary"

@@ -793,71 +793,16 @@ let subData = {
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
-    let data
-    switch (params.dsname) {
-      case 'AZ':
-        data = [
-          {
-            "value": "1",
-            "text": "AZ1"
-          },
-          {
-            "value": "2",
-            "text": "AZ2"
-          }
-        ]
-        break; 
-      case 'HA':
-        data = [
-          {
-            "value": "1",
-            "text": "HA1"
-          },
-          {
-            "value": "2",
-            "text": "HA2"
-          }
-        ]
-        break; 
-      case 'Region':
-        data = [
-          {
-            "value": "1",
-            "text": "Region1"
-          },
-          {
-            "value": "2",
-            "text": "Region2"
-          }
-        ]
-        break;
-      case 'Host':
-        data = [
-          {
-            "value": "1",
-            "text": "Host1"
-          },
-          {
-            "value": "2",
-            "text": "Host2"
-          }
-        ]
-        break;
-      case 'Project':
-        data = [
-          {
-            "value": "1",
-            "text": "Project1"
-          },
-          {
-            "value": "2",
-            "text": "Project2"
-          }
-        ]
-        break;
-      default:
-        data = []
-    }
+    let data = [
+      {
+        "value": `${params.dsname}1`,
+        "text": `${params.dsname}1`
+      },
+      {
+        "value": `${params.dsname}2`,
+        "text": `${params.dsname}2`
+      }
+    ]
     return {
       "code": 1,
       "data": data

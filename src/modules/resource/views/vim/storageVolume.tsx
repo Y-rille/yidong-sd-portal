@@ -210,7 +210,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Project" data={this.props.subDataProject} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} />
                                 <Input
                                     placeholder="存储卷名称"
                                     value={storageVolumeInputValue} type="text"

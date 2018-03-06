@@ -409,9 +409,9 @@ class Host extends React.Component<HostProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} value={region} />
-                                <Selector type="AZ" data={this.props.subDataAZ} actions={this.props.actions} getData={this.getData.bind(this)} value={az} />
-                                <Selector type="HA" data={this.props.subDataHA} actions={this.props.actions} getData={this.getData.bind(this)} value={ha} />
+                                <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} value={region} />
+                                <Selector type="AZ" data={this.props.subDataAZ} getData={this.getData.bind(this)} value={az} />
+                                <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} value={ha} />
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}

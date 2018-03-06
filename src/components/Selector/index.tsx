@@ -10,7 +10,6 @@ declare let global: any;
 export interface SelectorProps {
     type
     data
-    actions
     getData
     value?
 }
@@ -25,12 +24,6 @@ export default class Selector extends React.PureComponent<SelectorProps, any> {
             getData(type, value)
         }
     }
-    getOptions() {
-        let { type, actions, data } = this.props
-        if (!data) {
-            this.props.actions.getSubDataByName(type)
-        }
-    }
     renderOptions() {
         let { data } = this.props
         return _.map(data, (item) => {
@@ -40,7 +33,8 @@ export default class Selector extends React.PureComponent<SelectorProps, any> {
     render() {
         let { type, value } = this.props
         return (
-            <Select defaultValue={value} onFocus={this.getOptions.bind(this)} onChange={this.changeHandle.bind(this)} placeholder={`请选择${type}`}>
+            <Select defaultValue={value} onChange={this.changeHandle.bind(this)}>
+                <Option value="">{`请选择${type}`}</Option>
                 {this.renderOptions()}
             </Select >
         );
