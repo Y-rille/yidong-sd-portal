@@ -29,12 +29,7 @@ export const getMoTree = (cb) => (dispatch) => {
 export const queryList = (dsname, params, cb) => (dispatch) => {
     return API.queryList(dsname, params).then((res: any) => {
         let data = res.data.data
-        for (let i = 0; i < data.dataList.length; i++) {
 
-            if (data.dataList[i].hz) {
-                data.dataList[i].ha = data.dataList[i].hz
-            }
-        }
         data.header[0].link = true
         data.pageNo = params.pageNo
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: data }
@@ -52,6 +47,14 @@ export const queryList = (dsname, params, cb) => (dispatch) => {
             cb(err, null)
         }
     })
+}
+
+/**
+ * reset列表
+ * @param cb
+ */
+export const resetList = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, list: null })
 }
 /**
  * 选择项查询
