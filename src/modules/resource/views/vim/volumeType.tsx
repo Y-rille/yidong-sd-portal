@@ -12,7 +12,6 @@ import Selector from '../../../../components/Selector'
 import { ResourceActions } from '../../actions/index'
 
 var qs = require('querystringify')
-import { stringify } from 'querystringify'
 
 export interface VolumeTypeProps {
     location?,
@@ -54,7 +53,7 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         let pageNo = 1
         let { project, vim_id, name } = this.state
         let queryObj = { pageNo, project, vim_id, name }
-        this.props.history.push(`${match.url}/${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}/${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
         });
@@ -65,16 +64,13 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         let { project, vim_id, name } = this.state
         let pageNo = num
         let queryObj = { pageNo, project, vim_id, name }
-        this.props.history.push(`${match.url}/${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}/${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
     }
     goLink(key, obj) {
         let { match } = this.props
-        // if (key === 'id') {
-        //     this.props.history.push(`${match.url}/info/${obj.id}`)
-        // }
     }
     getData(type, value) {  // 查询条件切换
         let { project } = this.state
@@ -86,12 +82,10 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         this.setState({
             tableLoading: true
         });
-        let self = this
-        let { pageNo } = queryObj
-        let { project, vim_id, name, pageSize } = this.state
+        let { project, vim_id, name, pageSize, pageNo } = this.state
         let dsname = 'imdsVolumType'
         this.props.actions.queryList(dsname, { pageNo, pageSize, project, vim_id, name }, () => {
-            self.setState({
+            this.setState({
                 tableLoading: false
             });
         })
