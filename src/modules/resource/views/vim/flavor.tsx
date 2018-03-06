@@ -5,18 +5,34 @@ import { matchPath } from 'react-router'
 import FlavorInfo from '../../container/vim/flavorInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'antd';
 const Option = Select.Option;
+import qs from 'querystringify'
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 import Selector from '../../../../components/Selector'
 class Flavor extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        let { match } = this.props
+        let { pathname } = this.props.location
+        let { pageNo, project, flavorInputValue} = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/vim/:id'
+        })
         this.state = {
-            flavorInputValue: '',
+            flavorInputValue: flavorInputValue ? flavorInputValue : '',
+            tableLoading: false,
+            pageSize: 1,
+            pageNo: pageNo ? pageNo : 1,
+            project: project ? project : '',
+            vim_id: mp_node.params.id
         }
-    }
-    getData(value) {
 
+    }
+    getData(type, value) {
+        let { project } = this.state
+        this.setState({
+            project: type === 'Project' ? value : project,
+        })
     }
     flavorInputChange(value) {
         this.setState({
@@ -24,149 +40,58 @@ class Flavor extends React.Component<any, any> {
         })
     }
     handleClick() {
-        const { flavorInputValue } = this.state;
-        // console.log(flavorInputValue, flavorSelectValue)
-    }
-    goPage() {
+        let { match } = this.props
+        let pageNo = 1
+        let { project, flavorInputValue } = this.state
+        let queryObj = { pageNo, project, flavorInputValue }
+        this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
+        this.setState({
+            pageNo
+        });
+        this.getTableData({pageNo})
 
     }
-    goLink(key, obj) {
+    goPage(num) {
+        let { match } = this.props
+        let { project, flavorInputValue } = this.state
+        let pageNo = num
+        let queryObj = { pageNo, project, flavorInputValue }
+        this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
+    }
+    goLink(key, obj) { 
         let { match } = this.props
         if (key === 'id') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
     }
-    goInfo = () => {
-        this.props.history.push(`/resource/vim/1/flavor/info`)
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { project, pageSize, activeKey, flavorInputValue, vim_id } = this.state
+        this.props.actions.queryList('imdsFlavor', { pageNo, pageSize, project, name: flavorInputValue, vim_id }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
     }
-    render() {
-        let { match, nodeInfo } = this.props;
-        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { flavorInputValue } = this.state;
-        let tdata = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: 'Flavor名称',
-                // link: true,
-            }, {
-                key: 'vCPU',
-                title: 'vCPU',
-            }, {
-                key: 'storage',
-                title: '存储（GB）',
-            }, {
-                key: 'hardDisk',
-                title: '硬盘（GB）'
-            }, {
-                key: 'flashMemory',
-                title: '闪存（GB）'
-            }, {
-                key: 'swapDisk',
-                title: '交换磁盘（MB）'
-            }, {
-                key: 'rt',
-                title: 'RX/TX规格'
-            }, {
-                key: 'open',
-                title: '是否公开'
-            }, {
-                key: 'Metadata',
-                title: 'Metadata'
-
-            }],
-            'body': [
-                {
-                    'id': 'xiaojindian',
-                    'vCPU': '1',
-                    'storage': '10',
-                    'hardDisk': '1',
-                    'flashMemory': '0',
-                    'swapDisk': 'OMB',
-                    'rt': '1.0',
-                    'open': '是',
-                    'Metadata': '是'
-                },
-                {
-                    'id': '213cluster',
-                    'vCPU': '10',
-                    'storage': '10',
-                    'hardDisk': '3',
-                    'flashMemory': '0',
-                    'swapDisk': 'OMB',
-                    'rt': '1.0',
-                    'open': '是',
-                    'Metadata': '是'
-                },
-                {
-                    'id': '213cluster-123',
-                    'vCPU': '13',
-                    'storage': '10',
-                    'hardDisk': '3',
-                    'flashMemory': '0',
-                    'swapDisk': 'OMB',
-                    'rt': '1.0',
-                    'open': '是',
-                    'Metadata': '是'
-                },
-                {
-                    'id': 'lijianguo',
-                    'vCPU': '13',
-                    'storage': '10',
-                    'hardDisk': '4',
-                    'flashMemory': '0',
-                    'swapDisk': 'OMB',
-                    'rt': '1.0',
-                    'open': '是',
-                    'Metadata': '否'
-                },
-                {
-                    'id': 'zhangjianjun',
-                    'vCPU': '13',
-                    'storage': '10',
-                    'hardDisk': '4',
-                    'flashMemory': '0',
-                    'swapDisk': 'OMB',
-                    'rt': '1.0',
-                    'open': '是',
-                    'Metadata': '是'
-                },
-                {
-                    'id': 'lijianguo',
-                    'vCPU': '13',
-                    'storage': '10',
-                    'hardDisk': '4',
-                    'flashMemory': '0',
-                    'swapDisk': 'OMB',
-                    'rt': '1.0',
-                    'open': '否',
-                    'Metadata': '否'
-                },
-                {
-                    'id': 'xiaojindian4',
-                    'vCPU': '13',
-                    'storage': '10',
-                    'hardDisk': '4',
-                    'flashMemory': '0',
-                    'swapDisk': 'OMB',
-                    'rt': '1.0',
-                    'open': '是',
-                    'Metadata': '是'
-                },
-                {
-                    'id': 'lijianguo',
-                    'vCPU': '13',
-                    'storage': '10',
-                    'hardDisk': '4',
-                    'flashMemory': '0',
-                    'swapDisk': 'OMB',
-                    'rt': '1.0',
-                    'open': '否',
-                    'Metadata': '否'
-                }
-
-            ]
+    componentWillMount() {
+        let { pageNo } = this.state
+        let queryObj = {
+            pageNo
         }
+        this.getTableData(queryObj)
+    }
+    
+    render() {
+        let { match, nodeInfo, list } = this.props;
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
+        const { flavorInputValue, project, pageSize, tableLoading } = this.state;
         return (
             <Switch>
                 <Route path={`${match.url}/info/:flavorId`} component={FlavorInfo} />
@@ -187,7 +112,7 @@ class Flavor extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} />
+                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project}/>
                                 <Input
                                     placeholder="Flavor名称"
                                     value={flavorInputValue} type="text"
@@ -207,7 +132,9 @@ class Flavor extends React.Component<any, any> {
                             <CompactTable
                                 goPage={this.goPage.bind(this)}
                                 goLink={this.goLink.bind(this)}
-                                data={tdata}
+                                data={list}
+                                pageSize={pageSize}
+                                loading={tableLoading}
                                 actionAuth={[]}
                             />
                         </div>
