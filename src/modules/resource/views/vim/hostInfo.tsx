@@ -275,8 +275,8 @@ class HostInfo extends React.Component<any, any> {
         }
     }
     onChange(key) {
-        if (key === '资源关系') {
-            this.props.actions.queryList('imdsQueryListHostProcessor', { 'host': 1 })
+        if (key === 'relation') {
+            this.props.actions.queryList('imdsHostProcessor', { 'host': 1 })
         }
     }
     onTab(key) {
@@ -315,7 +315,7 @@ class HostInfo extends React.Component<any, any> {
     }
     renderTab() {
         let title = ['处理器信息', '内存信息', '端口信息', 'LLDP信息']
-        let keys = ['imdsQueryListHostProcessor', 'imdsQueryListHostMemory', 'imdsQueryListHostPort', 'imdsQueryListHostLLDP']
+        let keys = ['imdsHostProcessor', 'imdsHostMemory', 'imdsHostPort', 'imdsHostLLDP']
         let list = this.props.list
         if (list) {
             return (
@@ -366,7 +366,7 @@ class HostInfo extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
-                        <TabPane tab="资源详情" key="1">
+                        <TabPane tab="资源详情" key="detail">
                             <Tabs
                                 onChange={this.onChange.bind(this)}
                                 size="small"
@@ -379,12 +379,12 @@ class HostInfo extends React.Component<any, any> {
                                 </TabPane>
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="资源关系" key="2">
+                        <TabPane tab="资源关系" key="relation">
                             <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
                                 {this.renderTab()}
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="下级资源" key="3">
+                        <TabPane tab="下级资源" key="subordinate">
                             <CompactTable
                                 // goPage={this.goPage.bind(this)} // 翻页
                                 // goLink={this.goLink.bind(this)}
