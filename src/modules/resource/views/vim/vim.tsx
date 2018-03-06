@@ -27,9 +27,10 @@ class Vim extends React.Component<any, any> {
     }
     
     render() {
-        let { match } = this.props
+        let { match, subDataAZ, subDataHA, subDataRegion, subDataHost, subDataProject } = this.props
         return (
-            <div>
+            (subDataAZ && subDataHA && subDataRegion && subDataHost && subDataProject) ? (
+                <div>
                 <Switch>
                     <Redirect from={`${match.url}`} to={`${match.url}/az`} exact />
                     <Route path={`${match.url}/host`} component={Host} />
@@ -42,7 +43,10 @@ class Vim extends React.Component<any, any> {
                     <Route path={`${match.url}/virtual_network`} component={VirtualNetwork} />
                     <Route path={`${match.url}/volume_type`} component={VolumeType} />
                 </Switch>
-            </div>
+            </div>) : (
+                    <div />
+                )
+             
         );
     }
 }
