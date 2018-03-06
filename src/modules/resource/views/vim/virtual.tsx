@@ -8,7 +8,6 @@ import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 const Option = Select.Option;
 import Selector from '../../../../components/Selector'
-import { stringify } from 'querystringify'
 import qs from 'querystringify'
 class Virtual extends React.Component<any, any> {
     constructor(props) {
@@ -42,7 +41,7 @@ class Virtual extends React.Component<any, any> {
         let pageNo = 1
         let { region, az, ha, host, vim_id } = this.state
         let queryObj = { pageNo, region, az, ha, host, vim_id }
-        this.props.history.push(`${match.url}/imdsVM?${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}/imdsVM?${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
         });
@@ -53,7 +52,7 @@ class Virtual extends React.Component<any, any> {
         let { region, az, ha, host, vim_id } = this.state
         let pageNo = num
         let queryObj = { pageNo, region, az, ha, vim_id }
-        this.props.history.push(`${match.url}/imdsVM?${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}/imdsVM?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
