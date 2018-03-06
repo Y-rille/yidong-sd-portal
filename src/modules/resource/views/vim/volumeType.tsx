@@ -51,8 +51,8 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
     handleClick() { // 查询按钮
         let { match } = this.props
         let pageNo = 1
-        let { project, vim_id, name } = this.state
-        let queryObj = { pageNo, project, vim_id, name }
+        let { project, name } = this.state
+        let queryObj = { pageNo, project, name }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -66,7 +66,7 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         this.setState({
             pageNo: pageNo
         });
-        let queryObj = { pageNo, project, vim_id, name }
+        let queryObj = { pageNo, project, name }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
