@@ -9,7 +9,7 @@ import HostList from '../../container/vim/hostList'
 import styles from '../../style/index.less'
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
-var qs = require('querystringify')
+import qs from 'querystringify'
 import { stringify } from 'querystringify'
 import Selector from '../../../../components/Selector'
 import { ResourceActions } from '../../actions/index'
@@ -98,6 +98,10 @@ class Host extends React.Component<HostProps, any> {
     }
 
     getTableData(queryObj, actKey = null) {
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
+        let vim_id = mp_node.params.id
         this.setState({
             tableLoading: true
         });
@@ -105,13 +109,14 @@ class Host extends React.Component<HostProps, any> {
         let { pageNo } = queryObj
         let { region, az, ha, pageSize, activeKey } = this.state
         let act_Key = actKey || activeKey
-        this.props.actions.queryList(act_Key, { pageNo, pageSize, region, az, ha }, () => {
+        this.props.actions.queryList(act_Key, { pageNo, pageSize, region, az, ha, vim_id }, () => {
             self.setState({
                 tableLoading: false
             });
         })
     }
     componentWillMount() {
+
         let { pathname } = this.props.location
 
         if (this.state.activeKey.length > 0) {  // 刷新
@@ -144,7 +149,9 @@ class Host extends React.Component<HostProps, any> {
             activeKey: actKey
         })
     }
-
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
         let { match, list, nodeInfo } = this.props;
         const { region, az, ha, activeKey, pageSize, tableLoading } = this.state;
