@@ -290,14 +290,20 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                             </Button>
                                 <Button type="primary" style={{ float: 'right' }}>管理</Button>
                             </div>
-                            <CompactTable
-                                goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                pageSize={pageSize}
-                                data={list}
-                                tableLoading={tableLoading}
-                                actionAuth={[]}
-                            />
+                            {list ? (
+                                <CompactTable
+                                    goPage={this.goPage.bind(this)} // 翻页
+                                    goLink={this.goLink.bind(this)}
+                                    pageSize={pageSize}
+                                    data={list}
+                                    loading={tableLoading}
+                                    actionAuth={[]}
+                                />
+                                ) : (
+                                    <Spin />
+                                )
+                            }
+
                         </div>
                     </div>
                 )} />
