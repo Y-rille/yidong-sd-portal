@@ -8,6 +8,8 @@ import Selector from '../../../../components/Selector'
 import CompactTable from '../../../../components/CompactTable/'
 import styles from '../../style/index.less'
 import { ResourceActions } from '../../actions/index'
+import qs from 'querystringify'
+import { stringify } from 'querystringify'
 export interface VirtualNetworkProps {
     location?,
     history?,
@@ -15,21 +17,58 @@ export interface VirtualNetworkProps {
     match,
     subDataProject?,
     nodeInfo?,
+    list?
 }
 class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     constructor(props) {
         super(props);
+        let { pageNo, project, vim_id, name } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
+        this.state = {
+            tableLoading: false,
+            pageSize: 1,
+            pageNo: pageNo ? pageNo : 1,
+            project: project ? project : '',
+            vim_id: mp_node ? mp_node.params.id : '',
+            name: name ? name : ''
+        }
     }
     goInfo = () => {
         this.props.history.push(`/resource/vim/1/virtual_network/info`)
     }
+    virtualNetworkInputChange(value) {
+        this.setState({
+            name: value
+        })
+    }
     handleClick() {
-        // console.log("selectValue:", menuValue)
+        let { match } = this.props
+        let pageNo = 1
+        let { project, name } = this.state
+        let queryObj = { pageNo, project, name }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.setState({
+            pageNo
+        });
+        this.getTableData(queryObj)
     }
-    goPage() {
+    goPage = (num) => {
+        let { match } = this.props
+        let { project, name } = this.state
+        let pageNo = num
+        let queryObj = { pageNo, project, name }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
     }
-    getData() {
-
+    getData(type, value) {  // 查询条件切换
+        let { project } = this.state
+        this.setState({
+            project: type === 'Project' ? value : project,
+        })
     }
     goLink(key, obj) {
         let { match } = this.props
@@ -37,121 +76,33 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
     }
-    render() {
-        let tData = {
-            'count': 17,
-            'header': [
-                {
-                    key: 'id',
-                    title: '项目',
-                    // link: true,
-                }, {
-                    key: 'name',
-                    title: '网络名称 ',
-                }, {
-                    key: 'subnet',
-                    title: '子网'
-                }, {
-                    key: 'DHCP',
-                    title: 'DHCP代理'
-                }, {
-                    key: 'public',
-                    title: '是否共享'
-                }, {
-                    key: 'exter',
-                    title: 'external'
-                }, {
-                    key: 'memory',
-                    title: '状态'
-                }, {
-                    key: 'magstute',
-                    title: '管理状态'
-                }],
-            'body': [
-                {
-                    'id': 'xiaojindian4',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': '213cluster',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': '213cluster-123',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': 'lijianguo',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': 'zhangjianjun',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': '213cluster',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': 'xiaojindian4',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': '213cluster',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-            ]
+    getTableData(queryObj, actKey = null) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { pageSize, project, name, vim_id } = this.state
+        this.props.actions.queryList('imdsVirtualLink', { pageNo, pageSize, project, name, vim_id }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
+    componentWillMount() {
+        let { pageNo } = this.state
+        let queryObj = {
+            pageNo
         }
-        let { match, nodeInfo } = this.props
+        this.getTableData(queryObj)
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
+    render() {
+        let { match, list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
+        const { pageSize, tableLoading, project, name } = this.state;
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={VirtualNetworkInfo} />
@@ -172,8 +123,12 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} />
-                                <Input placeholder="虚拟网络名称" />
+                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
+                                <Input
+                                    placeholder="虚拟网络名称"
+                                    type="text"
+                                    value={name}
+                                    onChange={e => this.virtualNetworkInputChange(e.target.value)} />
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}
@@ -186,14 +141,16 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                                     管理
                             </Button>
                             </div>
-                            <CompactTable
+                            {list ? (<CompactTable
                                 outStyle={{ marginTop: '20px' }}
+                                pageSize={pageSize}
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
-                                data={tData}
+                                data={list}
+                                tableLoading={tableLoading}
                                 pageAuth={true}
                                 actionAuth={[]}
-                            />
+                            />) : (<Spin />)}
                         </div>
                     </div>
                 )} />

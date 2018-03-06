@@ -9,20 +9,44 @@ const Option = Select.Option;
 import CompactTable from '../../../../components/CompactTable/'
 import Selector from '../../../../components/Selector'
 import styles from '../../style/index.less'
+import { stringify } from 'querystringify'
+import qs from 'querystringify'
 class Mirror extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        let { match } = this.props
+        let { pageNo, project } = qs.parse(this.props.location.search)
+        let mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
         this.state = {
+            tableLoading: false,
+            pageSize: 1,
+            pageNo: pageNo ? pageNo : 1,
+            project: project ? project : '',
+            name: name ? name : '',
+            vim_id: mp_node ? mp_node.params.id : ''
+
         }
     }
     goInfo = () => {
         this.props.history.push(`/resource/vim/1/mirror/info`)
     }
-    getData(value) {
+    getData(type, value) {
+        let { project } = this.state
+        this.setState({
+            project: type === 'Project' ? value : project,
+        })
     }
-    handleClick() {
-    }
-    goPage() {
+    goPage(num) {
+        let { match } = this.props
+        let { project, name, vim_id } = this.state
+        let pageNo = num
+        let queryObj = { pageNo, project, name, vim_id }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
     }
     goLink(key, obj) {
         let { match } = this.props
@@ -30,134 +54,65 @@ class Mirror extends React.Component<any, any> {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
     }
-    render() {
-        let tData = {
-            'count': 17,
-            'header': [
-                {
-                    key: 'id',
-                    title: '项目',
-                    // link: true,
-                }, {
-                    key: 'name',
-                    title: '名称',
-                }, {
-                    key: 'type',
-                    title: '类型'
-                }, {
-                    key: 'memory',
-                    title: '状态'
-                },
-                {
-                    key: 'cache',
-                    title: 'RAW cache',
-                }, {
-                    key: 'public',
-                    title: '是否公开'
-                }, {
-                    key: 'proteted',
-                    title: '是否proteted ',
-                },
-                {
-                    key: 'format',
-                    title: '格式',
-                }, {
-                    key: 'size',
-                    title: '大小（MB)'
-                }],
-            'dataList': [
-                {
-                    'id': 'xiaojindian4',
-                    'name': 'cirros',
-                    'type': '镜像',
-                    'memory': '运行',
-                    'cache': '不可用',
-                    'public': 'Yes',
-                    'proteted': 'Yes',
-                    'format': 'QCOW2',
-                    'size': '18'
-                },
-                {
-                    'id': '213cluster',
-                    'name': 'cirros',
-                    'type': '镜像',
-                    'memory': '运行',
-                    'cache': '不可用',
-                    'public': 'Yes',
-                    'proteted': 'Yes',
-                    'format': 'QCOW2',
-                    'size': '18'
-                },
-                {
-                    'id': '213cluster-123',
-                    'name': 'cirros',
-                    'type': '镜像',
-                    'memory': '运行',
-                    'cache': '不可用',
-                    'public': 'Yes',
-                    'proteted': 'Yes',
-                    'format': 'QCOW2',
-                    'size': '18'
-                },
-                {
-                    'id': 'lijianguo',
-                    'name': 'cirros',
-                    'type': '镜像',
-                    'memory': '运行',
-                    'cache': '不可用',
-                    'public': 'Yes',
-                    'proteted': 'Yes',
-                    'format': 'QCOW2',
-                    'size': '18'
-                },
-                {
-                    'id': 'zhangjianjun',
-                    'name': 'cirros',
-                    'type': '镜像',
-                    'memory': '运行',
-                    'cache': '不可用',
-                    'public': 'Yes',
-                    'proteted': 'Yes',
-                    'format': 'QCOW2',
-                    'size': '18'
-                },
-                {
-                    'id': '213cluster',
-                    'name': 'cirros',
-                    'type': '镜像',
-                    'memory': '运行',
-                    'cache': '不可用',
-                    'public': 'Yes',
-                    'proteted': 'Yes',
-                    'format': 'QCOW2',
-                    'size': '18'
-                },
-                {
-                    'id': 'xiaojindian4',
-                    'name': 'cirros',
-                    'type': '镜像',
-                    'memory': '运行',
-                    'cache': '不可用',
-                    'public': 'Yes',
-                    'proteted': 'Yes',
-                    'format': 'QCOW2',
-                    'size': '18'
-                },
-                {
-                    'id': '213cluster',
-                    'name': 'cirros',
-                    'type': '镜像',
-                    'memory': '运行',
-                    'cache': '不可用',
-                    'public': 'Yes',
-                    'proteted': 'Yes',
-                    'format': 'QCOW2',
-                    'size': '18'
-                },
-            ]
+    handleClick() {
+        let { match } = this.props
+        let { project, name } = this.state
+        let pageNo = 1
+        let queryObj = { pageNo, project, name }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.setState({
+            pageNo
+        });
+        this.getTableData(queryObj)
+    }
+    mirrorInput(value) {
+        this.setState({
+            name: value
+        })
+    }
+    tableList() {
+        let list = this.props.list
+        if (list) {
+            return (
+                <CompactTable
+                    outStyle={{ marginTop: '20px' }}
+                    goPage={this.goPage.bind(this)} // 翻页
+                    goLink={this.goLink.bind(this)}
+                    data={list}
+                    actionAuth={[]}
+                />
+            )
+        } else {
+            return (
+                <Spin />
+            )
         }
-        let { match, nodeInfo } = this.props
-        const { menuValue, secondMenuValue, thiredMenuValue, fourthMenuValue } = this.state;
+
+    }
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { pageSize, project, name, vim_id } = this.state
+        this.props.actions.queryList('imdsImage', { pageNo, pageSize, project, name, vim_id }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
+    componentWillMount() {
+        let { pageNo } = this.state
+        let queryObj = {
+            pageNo
+        }
+        this.getTableData(queryObj)
+
+    }
+    render() {
+        let { match, list, nodeInfo } = this.props
+        const { pageSize, tableLoading, project, name } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
@@ -179,8 +134,10 @@ class Mirror extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} />
-                                <Input placeholder="镜像名称" />
+                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
+                                <Input placeholder="镜像名称"
+                                    value={name}
+                                    onChange={e => this.mirrorInput(e.target.value)} />
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}
@@ -193,13 +150,7 @@ class Mirror extends React.Component<any, any> {
                                     管理
                             </Button>
                             </div>
-                            <CompactTable
-                                outStyle={{ marginTop: '20px' }}
-                                goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                data={tData}
-                                actionAuth={[]}
-                            />
+                            {this.tableList()}
                         </div>
                     </div>
                 )} />

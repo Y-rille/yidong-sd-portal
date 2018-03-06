@@ -128,16 +128,17 @@ class Ha extends React.Component<HaProps, any> {
                                     onClick={this.handleClick.bind(this)}
                                 >
                                     查询
-                            </Button>
+                                </Button>
                             </div>
-                            <CompactTable
-                                goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                data={list}
-                                pageSize={pageSize}
-                                actionAuth={[]}
-                                loading={tableLoading}
-                            />
+                            {list ?
+                                <CompactTable
+                                    goPage={this.goPage.bind(this)} // 翻页
+                                    goLink={this.goLink.bind(this)}
+                                    data={list}
+                                    pageSize={pageSize}
+                                    actionAuth={[]}
+                                    loading={tableLoading}
+                                /> : <Spin />}
                         </div>
                     </div>
                 )} />

@@ -35,11 +35,10 @@ class Host extends React.Component<any, any> {
     goEdit = () => { }
     render() {
         let { match, data, pageSize, tableLoading } = this.props;
-        const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         return (
             <div>
                 {
-                    this.props.data ? (
+                    data ? (
                         <CompactTable
                             goPage={this.goPage.bind(this)} // 翻页
                             goLink={this.goLink.bind(this)}
