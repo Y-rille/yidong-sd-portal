@@ -34,9 +34,9 @@ class Host extends React.Component<HostProps, any> {
 
         this.state = {
             activeKey: _.compact([
-                matchPath(pathname, { path: `${match.url}/control` }) != null && 'control',
-                matchPath(pathname, { path: `${match.url}/calculate` }) != null && 'calculate',
-                matchPath(pathname, { path: `${match.url}/storage` }) != null && 'storage'
+                matchPath(pathname, { path: `${match.url}/imdsController` }) != null && 'imdsController',
+                matchPath(pathname, { path: `${match.url}/imdsHost` }) != null && 'imdsHost',
+                matchPath(pathname, { path: `${match.url}/imdsStorage` }) != null && 'imdsStorage'
             ]).toString(),
             tableLoading: false,
             pageSize: 1,
@@ -127,9 +127,9 @@ class Host extends React.Component<HostProps, any> {
         let { pathname } = nextProps.location
 
         let actKey = _.compact([
-            matchPath(pathname, { path: `${match.url}/control` }) != null && 'control',
-            matchPath(pathname, { path: `${match.url}/calculate` }) != null && 'calculate',
-            matchPath(pathname, { path: `${match.url}/storage` }) != null && 'storage'
+            matchPath(pathname, { path: `${match.url}/imdsController` }) != null && 'imdsController',
+            matchPath(pathname, { path: `${match.url}/imdsHost` }) != null && 'imdsHost',
+            matchPath(pathname, { path: `${match.url}/imdsStorage` }) != null && 'imdsStorage'
         ]).toString()
 
         if (this.state.activeKey.length === 0 && actKey.length > 0) {    // 第一次进入;info返回；进入info
@@ -149,7 +149,7 @@ class Host extends React.Component<HostProps, any> {
         let { match, list, nodeInfo } = this.props;
         const { region, az, ha, activeKey, pageSize, tableLoading } = this.state;
 
-        let control_tdata = {
+        let imdsController_tdata = {
             'count': 17,
             'header': [{
                 key: 'name',
@@ -273,7 +273,7 @@ class Host extends React.Component<HostProps, any> {
             ]
         }
 
-        let calculate_tdata = {
+        let imdsHost_tdata = {
             'count': 17,
             'header': [{
                 key: 'name',
@@ -420,19 +420,19 @@ class Host extends React.Component<HostProps, any> {
                                 </Button>
                             </div>
                             <Tabs onChange={this.onChange.bind(this)} type="card" activeKey={activeKey} animated={false}>
-                                <TabPane tab="控制节点" key="control"></TabPane>
-                                <TabPane tab="计算节点" key="calculate"></TabPane>
-                                <TabPane tab="存储节点" key="storage"></TabPane>
+                                <TabPane tab="控制节点" key="imdsController"></TabPane>
+                                <TabPane tab="计算节点" key="imdsHost"></TabPane>
+                                <TabPane tab="存储节点" key="imdsStorage"></TabPane>
                             </Tabs>
                             <Switch>
-                                <Redirect from={`${match.url}`} to={`${match.url}/control`} exact />
-                                <Route path={`${match.url}/control`}
+                                <Redirect from={`${match.url}`} to={`${match.url}/imdsController`} exact />
+                                <Route path={`${match.url}/imdsController`}
                                     render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
                                 />
-                                <Route path={`${match.url}/calculate`}
+                                <Route path={`${match.url}/imdsHost`}
                                     render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
                                 />
-                                <Route path={`${match.url}/storage`}
+                                <Route path={`${match.url}/imdsStorage`}
                                     render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
                                 />
                             </Switch>
