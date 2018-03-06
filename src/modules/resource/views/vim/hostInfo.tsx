@@ -274,7 +274,10 @@ class HostInfo extends React.Component<any, any> {
             reset: false
         }
     }
-    onChange() {
+    onChange(key) {
+        if (key === '资源关系') {
+            this.props.actions.queryList('imdsQueryListHostProcessor', { 'host': 1 })
+        }
     }
     onTab(key) {
         let match = this.props.match
@@ -298,8 +301,6 @@ class HostInfo extends React.Component<any, any> {
     componentWillMount() {
         this.props.actions.getObjAttributes(1)
         this.props.actions.getObjData(1)
-
-        this.props.actions.queryList('imdsQueryListHostProcessor', { 'host': 1 })
     }
     renderBtns() {
         return (
@@ -337,7 +338,7 @@ class HostInfo extends React.Component<any, any> {
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
-            return(
+            return (
                 <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
             )
         }
@@ -345,58 +346,58 @@ class HostInfo extends React.Component<any, any> {
     render() {
         let { list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-            return (
-                <div>
-                    <div className={styles.header}>
-                        <h1 className={styles.title}>主机管理</h1>
-                        {nodeInfo ? (
-                            <Breadcrumb>
-                                <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                                <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                {
-                                    labelPathArr.map((item, index) => {
-                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
-                                    })
-                                }
-                                <Breadcrumb.Item>主机管理</Breadcrumb.Item>
-                                <Breadcrumb.Item>主机详情</Breadcrumb.Item>
-                            </Breadcrumb>
-                        ) : ''}
-                    </div>
-                    <div style={{ padding: '20px' }}>
-                        <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
-                            <TabPane tab="资源详情" key="1">
-                                <Tabs
-                                    onChange={this.onChange.bind(this)}
-                                    size="small"
-                                    tabBarExtraContent={this.renderBtns()}
-                                    animated={false}>
-                                    <TabPane tab="概况" key="11">
+        return (
+            <div>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>主机管理</h1>
+                    {nodeInfo ? (
+                        <Breadcrumb>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                            {
+                                labelPathArr.map((item, index) => {
+                                    return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                })
+                            }
+                            <Breadcrumb.Item>主机管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>主机详情</Breadcrumb.Item>
+                        </Breadcrumb>
+                    ) : ''}
+                </div>
+                <div style={{ padding: '20px' }}>
+                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
+                        <TabPane tab="资源详情" key="1">
+                            <Tabs
+                                onChange={this.onChange.bind(this)}
+                                size="small"
+                                tabBarExtraContent={this.renderBtns()}
+                                animated={false}>
+                                <TabPane tab="概况" key="11">
                                     {
                                         this.renderDynamicPropertiesCollapse()
                                     }
-                                    </TabPane>
-                                </Tabs>
-                            </TabPane>
-                            <TabPane tab="资源关系" key="2">
-                                <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
-                                    {this.renderTab()}
-                                </Tabs>
-                            </TabPane>
-                            <TabPane tab="下级资源" key="3">
-                                <CompactTable
-                                    // goPage={this.goPage.bind(this)} // 翻页
-                                    // goLink={this.goLink.bind(this)}
-                                    actionAuth={[]}
-                                    pageAuth={true}
-                                    data={lower_resources_data}
-                                    outStyle={{ 'marginTop': '20px' }}
-                                />
-                            </TabPane>
-                        </Tabs>
-                    </div>
+                                </TabPane>
+                            </Tabs>
+                        </TabPane>
+                        <TabPane tab="资源关系" key="2">
+                            <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
+                                {this.renderTab()}
+                            </Tabs>
+                        </TabPane>
+                        <TabPane tab="下级资源" key="3">
+                            <CompactTable
+                                // goPage={this.goPage.bind(this)} // 翻页
+                                // goLink={this.goLink.bind(this)}
+                                actionAuth={[]}
+                                pageAuth={true}
+                                data={lower_resources_data}
+                                outStyle={{ 'marginTop': '20px' }}
+                            />
+                        </TabPane>
+                    </Tabs>
                 </div>
-            );
+            </div>
+        );
     }
 }
 export default HostInfo;

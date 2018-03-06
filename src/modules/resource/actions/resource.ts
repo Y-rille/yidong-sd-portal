@@ -37,7 +37,7 @@ export const queryList = (dsname, params, cb) => (dispatch) => {
         }
         data.header[0].link = true
         data.pageNo = params.pageNo
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, hostList: data }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: data }
         setTimeout(function () {
             dispatch(action);
             if (cb) {
@@ -46,7 +46,7 @@ export const queryList = (dsname, params, cb) => (dispatch) => {
         }, 2000)
 
     }).catch((err) => {
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, hostList: null }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: null }
         dispatch(action);
         if (cb) {
             cb(err, null)

@@ -22,7 +22,7 @@ export interface HostProps {
     subDataAZ?,
     subDataHA?
     nodeInfo?
-    hostList?,
+    list?,
 }
 
 class Host extends React.Component<HostProps, any> {
@@ -136,7 +136,7 @@ class Host extends React.Component<HostProps, any> {
     }
 
     render() {
-        let { match, hostList, nodeInfo } = this.props;
+        let { match, list, nodeInfo } = this.props;
         const { region, az, ha, activeKey, pageSize, tableLoading } = this.state;
         let control_tdata = {
             'count': 17,
@@ -398,9 +398,9 @@ class Host extends React.Component<HostProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} value={region} />
-                                <Selector type="AZ" data={this.props.subDataAZ} actions={this.props.actions} getData={this.getData.bind(this)} value={az} />
-                                <Selector type="HA" data={this.props.subDataHA} actions={this.props.actions} getData={this.getData.bind(this)} value={ha} />
+                                <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} value={region} />
+                                <Selector type="AZ" data={this.props.subDataAZ} getData={this.getData.bind(this)} value={az} />
+                                <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} value={ha} />
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}
@@ -416,13 +416,13 @@ class Host extends React.Component<HostProps, any> {
                             <Switch>
                                 <Redirect from={`${match.url}`} to={`${match.url}/control`} exact />
                                 <Route path={`${match.url}/control`}
-                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />}
+                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
                                 />
                                 <Route path={`${match.url}/calculate`}
-                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />}
+                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
                                 />
                                 <Route path={`${match.url}/storage`}
-                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={hostList} tableLoading={tableLoading} />}
+                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
                                 />
                             </Switch>
                         </div>
