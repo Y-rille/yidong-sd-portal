@@ -87,7 +87,9 @@ class Flavor extends React.Component<any, any> {
         }
         this.getTableData(queryObj)
     }
-    
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
         let { match, nodeInfo, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
