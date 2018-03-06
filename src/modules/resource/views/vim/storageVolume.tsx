@@ -96,6 +96,9 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
             this.getTableData(queryObj)
         // }
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     // componentWillReceiveProps(nextProps) {
     //     let { match } = nextProps
     //     let { pathname } = nextProps.location
