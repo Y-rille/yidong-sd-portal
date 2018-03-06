@@ -67,10 +67,15 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
             pageNo
         })
     }
-    getData() { }
+    getData(type, value) { 
+        let { project } = this.state
+        this.setState({
+            project: type === 'Project' ? value : project
+        })
+    }
     goLink(key, obj) {
         let { match } = this.props
-        this.props.history.push(`${match.url}/info/1`)
+        // this.props.history.push(`${match.url}/info/1`)
     }
     getTableData(queryObj) {
         this.setState({
@@ -276,7 +281,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} />
+                                <Selector type="Project" value={project} data={this.props.subDataProject} getData={this.getData.bind(this)} />
                                 <Input
                                     placeholder="存储卷名称"
                                     value={name} type="text"
