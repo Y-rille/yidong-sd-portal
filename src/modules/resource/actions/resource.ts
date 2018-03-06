@@ -61,7 +61,27 @@ export const queryList = (dsname, params, cb) => (dispatch) => {
 export const getSubDataByName = (dsname, cb) => (dispatch) => {
     return API.getSubDataByName(dsname).then((res: any) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO }
-        action[`subData${dsname}`] = res.data.data
+        let name = ''
+        switch (dsname) {
+            case 'imdsSelectionAZ':
+                name = 'AZ'
+                break;
+            case 'imdsSelectionHA':
+                name = 'HA'
+                break;
+            case 'imdsSelectionRegion':
+                name = 'Region'
+                break;
+            case 'imdsSelectionHost':
+                name = 'Host'
+                break;
+            case 'imdsSelectionProject':
+                name = 'Project'
+                break;
+            default:
+                name = 'AZ'
+        }
+        action[`subData${name}`] = res.data.data
         dispatch(action);
         if (cb) {
             cb(null)
