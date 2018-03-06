@@ -76,7 +76,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
     }
-    getTableData(queryObj, actKey = null) {
+    getTableData(queryObj) {
         this.setState({
             tableLoading: true
         });
@@ -147,7 +147,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
                                 data={list}
-                                tableLoading={tableLoading}
+                                loading={tableLoading}
                                 pageAuth={true}
                                 actionAuth={[]}
                             />) : (<Spin />)}
