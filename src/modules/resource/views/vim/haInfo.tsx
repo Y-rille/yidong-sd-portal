@@ -16,27 +16,83 @@ import CompactTable from '../../../../components/CompactTable/'
 import Headline from '../../../../components/Headline/'
 import Summaries from '../../../../components/Summaries/'
 import { ResourceActions } from '../../actions/index'
+import Selector from '../../../../components/Selector/index'
+import { stringify } from 'querystringify'
+import { matchPath } from 'react-router'
+var qs = require('querystringify')
 class HaInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        let { pageNo, region, vim_id, name, az } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/:type/:id'
+        })
         this.state = {
-            HostInputValue: '',
-            HASelectValue: 'AZ'
+            tableLoading: false,
+            pageSize: 1,
+            az: az ? az : '',
+            pageNo: pageNo ? pageNo : 1,
+            vim_id: mp_node.params.id,
+            name: name ? name : '',
+            region: region ? region : '',
         }
     }
+    getTableData() {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { region, name, pageSize, vim_id, pageNo, az } = this.state
+        this.props.actions.queryList('imdsHAHost', { pageNo, pageSize, region, name, vim_id, az }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
+    goPage = (num) => {
+        let { match } = this.props
+        let { region, name } = this.state
+        let pageNo = num
+        this.setState({
+            pageNo: num
+        }, () => {
+            this.getTableData()
+            let queryObj = { pageNo, region, name }
+            this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        })
+    }
     handleClick() {
-        const { HostInputValue, HASelectValue } = this.state;
-        // console.log(HostInputValue, HZSelectValue)
+        this.setState({
+            pageNo: 1
+        }, () => {
+            let { match } = this.props
+            const { region, name, pageNo, az } = this.state;
+            let queryObj = { pageNo, region, name, az }
+            this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+            this.getTableData()
+        });
     }
     HASelectChange(value) {
         this.setState({
-            HASelectValue: value
+            az: value
         })
     }
     HostInputChange(e) {
         this.setState({
-            HostInputValue: e.target.value
+            name: e.target.value
         })
+    }
+    getData(type, value) {  // 查询条件切换
+        let { az } = this.state
+        this.setState({
+            az: type === 'AZ' ? value : az
+        })
+    }
+    componentDidMount() {
+        this.getTableData()
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
     }
     renderTitle = (title) => {
         return (
@@ -46,70 +102,11 @@ class HaInfo extends React.Component<any, any> {
             </div>
         )
     }
-    goPage() { }
-    renderTable() {
-        let tdata = {
-            'count': 17,
-            'header': [
-                {
-                    key: 'id',
-                    title: '名称',
-                    // fixed: true,
-                    link: true,
-                }, {
-                    key: 'name',
-                    title: '内存',
-                    // fixed: true,
-                    // link: true,
-                }, {
-                    key: 'mobile',
-                    title: 'CPU',
-                }, {
-                    key: 'vm',
-                    title: '所属AZ'
-                },
-                {
-                    key: 'email',
-                    title: '维护状态',
-                }, {
-                    key: 'cpu',
-                    title: 'VM数'
-                }],
-            'dataList': [
-                {
-                    'id': 'xiaojindian4',
-                    'name': '2c55-:d357-612de-32',
-                    'mobile': '13',
-                    'vm': 20,
-                    'email': '1',
-                    'cpu': '12',
-                },
-                {
-                    'id': 'xiaojindian',
-                    'name': '2c55-:d357-612de-32',
-                    'mobile': '13',
-                    'vm': 20,
-                    'email': '2',
-                    'cpu': '12',
-                },
-            ]
-        }
-        return (
-            <CompactTable
-                outStyle={{ marginTop: '20px' }}
-                goPage={this.goPage.bind(this)} // 翻页
-                // goLink={this.goLink.bind(this)}
-                data={tdata}
-                actionAuth={[]}
-                pageAuth={true}
-                footInfoAuth={false}
-            />
-        )
-    }
+
     render() {
-        let { nodeInfo } = this.props;
+        const { pageSize, tableLoading, az, name } = this.state;
+        let { nodeInfo, list, subDataAZ } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { HostInputValue, HASelectValue } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -152,17 +149,12 @@ class HaInfo extends React.Component<any, any> {
                         <Headline title="主机" />
                         <div className={styles.queryBar}>
                             <Input
-                                value={HostInputValue}
+                                value={name}
                                 type="text"
                                 placeholder="主机名称"
                                 onChange={this.HostInputChange.bind(this)}
                             />
-                            <Select
-                                value={HASelectValue}
-                                onChange={this.HASelectChange.bind(this)}
-                            >
-                                <Option value="region">Region</Option>
-                            </Select>
+                            <Selector type="AZ" data={subDataAZ} getData={this.getData.bind(this)} value={az} />
 
                             <Button
                                 type="primary"
@@ -170,7 +162,13 @@ class HaInfo extends React.Component<any, any> {
                             </Button>
                         </div>
                     </div>
-                    {this.renderTable()}
+                    <CompactTable
+                        goPage={this.goPage.bind(this)} // 翻页
+                        data={list}
+                        pageSize={pageSize}
+                        loading={tableLoading}
+                        outStyle={{ 'marginTop': '20px' }}
+                    />
 
                 </div>
             </div>
