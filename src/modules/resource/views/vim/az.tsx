@@ -134,15 +134,22 @@ class Az extends React.Component<AzProps, any> {
                                         查询
                                     </Button>
                                 </div>
-                                <CompactTable
-                                    goPage={this.goPage.bind(this)} // 翻页
-                                    goLink={this.goLink.bind(this)}
-                                    data={list}
-                                    actionAuth={[]}
-                                    pageSize={pageSize}
-                                    loading={tableLoading}
-                                    outStyle={{ 'marginTop': '20px' }}
-                                />
+
+                                {
+                                    this.props.list ? (
+                                        <CompactTable
+                                            goPage={this.goPage.bind(this)} // 翻页
+                                            goLink={this.goLink.bind(this)}
+                                            data={list}
+                                            actionAuth={[]}
+                                            pageSize={pageSize}
+                                            loading={tableLoading}
+                                            outStyle={{ 'marginTop': '20px' }}
+                                        />
+                                    ) : (
+                                            <Spin />
+                                        )
+                                }
                             </div>
                         </div>
                     )} />
