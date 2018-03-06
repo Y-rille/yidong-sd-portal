@@ -91,7 +91,9 @@ class Az extends React.Component<AzProps, any> {
     componentDidMount() {
         this.getTableData()
     }
-
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
         let { match, nodeInfo, list } = this.props;
         const { name, tableLoading, pageSize, region } = this.state;
