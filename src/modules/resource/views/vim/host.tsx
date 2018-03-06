@@ -58,7 +58,7 @@ class Host extends React.Component<HostProps, any> {
         this.props.history.push(`${match.url}/${key}?${stringify(queryObj)}`)
         this.setState({
             activeKey: key,
-            pageNo
+            // pageNo
         })
 
         this.getTableData(queryObj, key)
@@ -92,7 +92,7 @@ class Host extends React.Component<HostProps, any> {
         let queryObj = { pageNo, region, az, ha }
         this.props.history.push(`${match.url}/${activeKey}?${stringify(queryObj)}`)
         this.setState({
-            pageNo
+            // pageNo
         });
         this.getTableData(queryObj)
     }
