@@ -96,6 +96,9 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         }
         this.getTableData(queryObj)
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
         let { match, list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
