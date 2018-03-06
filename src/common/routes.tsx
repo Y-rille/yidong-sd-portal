@@ -38,6 +38,10 @@ const PerformanceComponent = Loadable({
   loader: () => import(/* webpackChunkName: "performance" */'../modules/performance/routes/index'),
   loading: () => { return <Loading /> }
 })
+const LogComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "log" */'../modules/log/routes/index'),
+  loading: () => { return <Loading /> }
+})
 
 export interface MainRouresProps {
   store?
@@ -67,6 +71,7 @@ export default class MainRoures extends React.PureComponent<MainRouresProps, any
             <Route path="/resource" component={ResourceComponent} />
             <Route path="/alarm" component={AlarmComponent} />
             <Route path="/performance" component={PerformanceComponent} />
+            <Route path="/log" component={LogComponent} />
           </Switch>
         </Site>
       </Router>
