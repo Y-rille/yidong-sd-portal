@@ -36,12 +36,15 @@ class Virtual extends React.Component<any, any> {
             host: type === 'Host' ? value : host
         })
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { region, az, ha, host, vim_id } = this.state
-        let queryObj = { pageNo, region, az, ha, host, vim_id }
-        this.props.history.push(`${match.url}/imdsVM?${qs.stringify(queryObj)}`)
+        let { region, az, ha, host } = this.state
+        let queryObj = { pageNo, region, az, ha, host }
+        this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
         });
@@ -49,13 +52,21 @@ class Virtual extends React.Component<any, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { region, az, ha, host, vim_id } = this.state
+        let { region, az, ha, host } = this.state
         let pageNo = num
-        let queryObj = { pageNo, region, az, ha, vim_id }
-        this.props.history.push(`${match.url}/imdsVM?${qs.stringify(queryObj)}`)
+        let queryObj = { pageNo, region, az, ha }
+        this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
+    }
+    componentWillMount() {
+        let { pathname } = this.props.location
+        let { pageNo } = this.state
+        let queryObj = {
+            pageNo
+        }
+        this.getTableData(queryObj)
     }
     getTableData(queryObj) {
         this.setState({
@@ -72,9 +83,7 @@ class Virtual extends React.Component<any, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
-        if (key === 'id') {
-            this.props.history.push(`${match.url}/info/${obj.id}`)
-        }
+        this.props.history.push(`${match.url}/info/1`)
     }
     render() {
         let { match, nodeInfo, list } = this.props;
@@ -112,17 +121,22 @@ class Virtual extends React.Component<any, any> {
                                 >
                                     查询
                             </Button>
-                            </div>
-                            <CompactTable
-                                outStyle={{ marginTop: '20px' }}
-                                goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                data={list}
-                                pageSize={pageSize}
-                                loading={tableLoading}
-                                // pageAuth={true}
-                                actionAuth={[]}
-                            />
+                            </div>{
+                                list ? (
+                                    <CompactTable
+                                        outStyle={{ marginTop: '20px' }}
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        data={list}
+                                        pageSize={pageSize}
+                                        loading={tableLoading}
+                                        // pageAuth={true}
+                                        actionAuth={[]}
+                                    />) : (
+                                        <Spin />
+                                    )
+                            }
+
                         </div>
                     </div>
                 )} />
