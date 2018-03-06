@@ -54,6 +54,9 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
             {
                 name: '性能监控',
                 route: 'performance',
+            }, {
+                name: '日志管理',
+                route: 'log',
             }
         ],
     };
