@@ -48,6 +48,14 @@ export const queryList = (dsname, params, cb) => (dispatch) => {
         }
     })
 }
+
+/**
+ * reset列表
+ * @param cb
+ */
+export const resetList = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, list: null })
+}
 /**
  * 选择项查询
  * @param dsname 数据订阅名
