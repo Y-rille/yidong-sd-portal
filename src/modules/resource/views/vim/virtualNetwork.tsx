@@ -96,6 +96,9 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         }
         this.getTableData(queryObj)
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
         let { match, list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
@@ -138,7 +141,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                                     管理
                             </Button>
                             </div>
-                            <CompactTable
+                            {list ? (<CompactTable
                                 outStyle={{ marginTop: '20px' }}
                                 pageSize={pageSize}
                                 goPage={this.goPage.bind(this)} // 翻页
@@ -147,7 +150,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                                 tableLoading={tableLoading}
                                 pageAuth={true}
                                 actionAuth={[]}
-                            />
+                            />) : (<Spin />)}
                         </div>
                     </div>
                 )} />
