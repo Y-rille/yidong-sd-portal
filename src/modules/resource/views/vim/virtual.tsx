@@ -8,24 +8,68 @@ import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 const Option = Select.Option;
 import Selector from '../../../../components/Selector'
+import { stringify } from 'querystringify'
+import qs from 'querystringify'
 class Virtual extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        let { pageNo, region, az, ha, host } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
         this.state = {
-            menuValue: 'region',
-            secondMenuValue: 'az',
-            thiredMenuValue: 'ha',
-            fourthMenuValue: 'host'
+            tableLoading: false,
+            pageSize: 1,
+            pageNo: pageNo ? pageNo : 1,
+            region: region ? region : '',
+            az: az ? az : '',
+            ha: ha ? ha : '',
+            host: host ? host : '',
+            vim_id: mp_node.params.id ? mp_node.params.id : ''
         }
     }
-    getData() {
-
+    getData(type, value) {
+        let { region, az, ha, host } = this.state
+        this.setState({
+            region: type === 'Region' ? value : region,
+            az: type === 'AZ' ? value : az,
+            ha: type === 'HA' ? value : ha,
+            host: type === 'Host' ? value : host
+        })
     }
     handleClick() {
-        const { menuValue, secondMenuValue, thiredMenuValue, fourthMenuValue } = this.state;
-        // console.log("selectValue:", menuValue, secondMenuValue, thiredMenuValue)
+        let { match } = this.props
+        let pageNo = 1
+        let { region, az, ha, host, vim_id } = this.state
+        let queryObj = { pageNo, region, az, ha, host, vim_id }
+        this.props.history.push(`${match.url}/imdsVM?${stringify(queryObj)}`)
+        this.setState({
+            pageNo
+        });
+        this.getTableData(queryObj)
     }
-    goPage() {
+    goPage = (num) => {
+        let { match } = this.props
+        let { region, az, ha, host, vim_id } = this.state
+        let pageNo = num
+        let queryObj = { pageNo, region, az, ha, vim_id }
+        this.props.history.push(`${match.url}/imdsVM?${stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
+    }
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { region, az, ha, host, pageSize, vim_id } = this.state
+        this.props.actions.queryList('imdsVM', { pageNo, pageSize, region, az, ha, host, vim_id }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
     }
     goLink(key, obj) {
         let { match } = this.props
@@ -34,123 +78,8 @@ class Virtual extends React.Component<any, any> {
         }
     }
     render() {
-        let tData = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '虚拟机名称',
-                link: true,
-                fixed: true,
-            }, {
-                key: 'name',
-                title: '主机',
-                fixed: true,
-            }, {
-                key: 'mobile',
-                title: '项目',
-            }, {
-                key: 'vm',
-                title: '镜像'
-            },
-            {
-                key: 'email',
-                title: 'IP地址',
-            }, {
-                key: 'cpu',
-                title: 'CPU数'
-            }, {
-                key: 'memory',
-                title: '状态'
-            }, {
-                key: 'role',
-                title: '运行时间',
-            }],
-            'body': [
-                {
-                    'id': 'whj_train1',
-                    'email': 'whj_train',
-                    'name': 'p3tenant_c119699c',
-                    'mobile': 'win2012',
-                    'cpu': 'HW-Volte-Test-Busi-V1175 188.103.19.171',
-                    'memory': '42134',
-                    'role': '14天24小时',
-                    'vm': 20
-                },
-                {
-                    'id': 'whj_train2',
-                    'email': 'whj_train',
-                    'name': 'p3tenant_c119699c',
-                    'mobile': 'win2012',
-                    'cpu': 'HW-Volte-Test-Busi-V1175 188.103.19.171',
-                    'memory': '42134',
-                    'role': '14天24小时',
-                    'vm': 20
-                },
-                {
-                    'id': 'whj_train3',
-                    'email': 'whj_train',
-                    'name': 'p3tenant_c119699c',
-                    'mobile': 'win2012',
-                    'cpu': 'HW-Volte-Test-Busi-V1175 188.103.19.171',
-                    'memory': '42134',
-                    'role': '14天24小时',
-                    'vm': 20
-                },
-                {
-                    'id': 'whj_train4',
-                    'email': 'whj_train',
-                    'name': 'p3tenant_c119699c',
-                    'mobile': 'win2012',
-                    'cpu': 'HW-Volte-Test-Busi-V1175 188.103.19.171',
-                    'memory': '42134',
-                    'role': '14天24小时',
-                    'vm': 20
-                },
-                {
-                    'id': 'whj_train5',
-                    'email': 'whj_train',
-                    'name': 'p3tenant_c119699c',
-                    'mobile': 'win2012',
-                    'cpu': 'HW-Volte-Test-Busi-V1175 188.103.19.171',
-                    'memory': '42134',
-                    'role': '14天24小时',
-                    'vm': 20
-                },
-                {
-                    'id': 'whj_train6',
-                    'email': 'whj_train',
-                    'name': 'p3tenant_c119699c',
-                    'mobile': 'win2012',
-                    'cpu': 'HW-Volte-Test-Busi-V1175 188.103.19.171',
-                    'memory': '42134',
-                    'role': '14天24小时',
-                    'vm': 20
-                },
-                {
-                    'id': 'whj_train7',
-                    'email': 'whj_train',
-                    'name': 'p3tenant_c119699c',
-                    'mobile': 'win2012',
-                    'cpu': 'HW-Volte-Test-Busi-V1175 188.103.19.171',
-                    'memory': '42134',
-                    'role': '14天24小时',
-                    'vm': 20
-                },
-                {
-                    'id': 'whj_train8',
-                    'email': 'whj_train',
-                    'name': 'p3tenant_c119699c',
-                    'mobile': 'win2012',
-                    'cpu': 'HW-Volte-Test-Busi-V1175 188.103.19.171',
-                    'memory': '42134',
-                    'role': '14天24小时',
-                    'vm': 20
-                },
-
-            ]
-        }
-        let { match, nodeInfo } = this.props;
-        const { menuValue, secondMenuValue, thiredMenuValue, fourthMenuValue } = this.state;
+        let { match, nodeInfo, list } = this.props;
+        const { region, az, ha, host, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
@@ -174,10 +103,10 @@ class Virtual extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} />
-                                <Selector type="AZ" data={this.props.subDataAZ} getData={this.getData.bind(this)} />
-                                <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} />
-                                <Selector type="Host" data={this.props.subDataHost} getData={this.getData.bind(this)} />
+                                <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} value={region} />
+                                <Selector type="AZ" data={this.props.subDataAZ} getData={this.getData.bind(this)} value={az} />
+                                <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} value={ha} />
+                                <Selector type="Host" data={this.props.subDataHost} getData={this.getData.bind(this)} value={host} />
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}
@@ -189,7 +118,9 @@ class Virtual extends React.Component<any, any> {
                                 outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
-                                data={tData}
+                                data={list}
+                                pageSize={pageSize}
+                                loading={tableLoading}
                                 // pageAuth={true}
                                 actionAuth={[]}
                             />
