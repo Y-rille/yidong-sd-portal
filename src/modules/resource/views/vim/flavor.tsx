@@ -43,7 +43,7 @@ class Flavor extends React.Component<any, any> {
         let { match } = this.props
         let pageNo = 1
         let { project, flavorInputValue } = this.state
-        let queryObj = { pageNo, project, flavorInputValue }
+        let queryObj = { pageNo, project, name: flavorInputValue }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -55,7 +55,7 @@ class Flavor extends React.Component<any, any> {
         let { match } = this.props
         let { project, flavorInputValue } = this.state
         let pageNo = num
-        let queryObj = { pageNo, project, flavorInputValue }
+        let queryObj = { pageNo, project, name: flavorInputValue }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
@@ -129,14 +129,20 @@ class Flavor extends React.Component<any, any> {
                                     style={{ 'float': 'right' }}
                                 >管理</Button>
                             </div>
-                            <CompactTable
-                                goPage={this.goPage.bind(this)}
-                                goLink={this.goLink.bind(this)}
-                                data={list}
-                                pageSize={pageSize}
-                                loading={tableLoading}
-                                actionAuth={[]}
-                            />
+                            {
+                                list ? (
+                                    <CompactTable
+                                            goPage={this.goPage.bind(this)}
+                                            goLink={this.goLink.bind(this)}
+                                            data={list}
+                                            pageSize={pageSize}
+                                            loading={tableLoading}
+                                            actionAuth={[]}
+                                        />
+                                ) : (
+                                        <Spin />
+                                    )
+                            }
                         </div>
                     </div>
                 )} />
