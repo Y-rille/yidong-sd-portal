@@ -16,27 +16,64 @@ import Summaries from '../../../../components/Summaries/'
 import styles from '../../style/index.less'
 import Selector from '../../../../components/Selector/index'
 import { stringify } from 'querystringify'
+import { matchPath } from 'react-router'
 var qs = require('querystringify')
 const Option = Select.Option;
 class AzInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        let { vim_id, name, ha } = qs.parse(this.props.location.search)
+        let { pageNo, region, vim_id, name, ha } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/:type/:id'
+        })
         this.state = {
-            HostInputValue: '',
-            HASelectValue: 'HA',
+            tableLoading: false,
+            pageSize: 1,
             ha: ha ? ha : '',
-            vim_id: vim_id ? vim_id : '',
-            name: name ? name : ''
+            pageNo: pageNo ? pageNo : 1,
+            vim_id: mp_node.params.id,
+            name: name ? name : '',
+            region: region ? region : '',
         }
     }
+    getTableData() {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { region, name, pageSize, vim_id, pageNo, ha } = this.state
+        this.props.actions.queryList('imdsAZHost', { pageNo, pageSize, region, name, vim_id, ha }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
+    goPage = (num) => {
+        let { match } = this.props
+        let { region, name } = this.state
+        let pageNo = num
+        this.setState({
+            pageNo: num
+        }, () => {
+            this.getTableData()
+            let queryObj = { pageNo, region, name }
+            this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        })
+    }
     handleClick() {
-        const { HostInputValue, HASelectValue } = this.state;
-        // console.log(HostInputValue, HASelectValue)
+        this.setState({
+            pageNo: 1
+        }, () => {
+            let { match } = this.props
+            const { region, name, pageNo, ha } = this.state;
+            let queryObj = { pageNo, region, name, ha }
+            this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+            this.getTableData()
+        });
     }
     HASelectChange(value) {
         this.setState({
-            HASelectValue: value
+            ha: value
         })
     }
     getData(type, value) {  // 查询条件切换
@@ -47,7 +84,7 @@ class AzInfo extends React.Component<any, any> {
     }
     HostInputChange(e) {
         this.setState({
-            HostInputValue: e.target.value
+            name: e.target.value
         })
     }
     renderTitle = (title) => {
@@ -58,68 +95,15 @@ class AzInfo extends React.Component<any, any> {
             </div>
         )
     }
-    goPage() { }
-    renderTable() {
-        let tdata = {
-            'count': 17,
-            'header': [
-                {
-                    key: 'id',
-                    title: '名称',
-                    // fixed: true,
-                    link: true,
-                }, {
-                    key: 'name',
-                    title: '内存',
-                    // fixed: true,
-                    // link: true,
-                }, {
-                    key: 'mobile',
-                    title: 'CPU',
-                }, {
-                    key: 'vm',
-                    title: '所属HA'
-                },
-                {
-                    key: 'email',
-                    title: '维护状态',
-                }, {
-                    key: 'cpu',
-                    title: 'VM数'
-                }],
-            'body': [
-                {
-                    'id': 'xiaojindian4',
-                    'name': '2c55-:d357-612de-32',
-                    'mobile': '13',
-                    'vm': 20,
-                    'email': '1',
-                    'cpu': '12',
-                },
-                {
-                    'id': 'xiaojindian',
-                    'name': '2c55-:d357-612de-32',
-                    'mobile': '13',
-                    'vm': 20,
-                    'email': '2',
-                    'cpu': '12',
-                },
-            ]
-        }
-        return (
-            <CompactTable
-                outStyle={{ marginTop: '20px' }}
-                goPage={this.goPage.bind(this)} // 翻页
-                // goLink={this.goLink.bind(this)}
-                data={tdata}
-                actionAuth={[]}
-                footInfoAuth={false}
-            />
-        )
+    componentDidMount() {
+        this.getTableData()
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
     }
     render() {
-        const { HostInputValue, HASelectValue, ha, name } = this.state;
-        let { nodeInfo } = this.props;
+        const { pageSize, tableLoading, ha, name } = this.state;
+        let { nodeInfo, list, subDataHA } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -170,7 +154,7 @@ class AzInfo extends React.Component<any, any> {
                                 placeholder="主机名称"
                                 onChange={this.HostInputChange.bind(this)}
                             />
-                            <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} value={ha} />
+                            <Selector type="HA" data={subDataHA} getData={this.getData.bind(this)} value={ha} />
 
                             <Button
                                 type="primary"
@@ -178,7 +162,13 @@ class AzInfo extends React.Component<any, any> {
                             </Button>
                         </div>
                     </div>
-                    {this.renderTable()}
+                    <CompactTable
+                        goPage={this.goPage.bind(this)} // 翻页
+                        data={list}
+                        pageSize={pageSize}
+                        loading={tableLoading}
+                        outStyle={{ 'marginTop': '20px' }}
+                    />
 
                 </div>
             </div>
