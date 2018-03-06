@@ -174,10 +174,10 @@ class Virtual extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Region" data={this.props.subDataRegion} actions={this.props.actions} getData={this.getData.bind(this)} />
-                                <Selector type="AZ" data={this.props.subDataAZ} actions={this.props.actions} getData={this.getData.bind(this)} />
-                                <Selector type="HA" data={this.props.subDataHA} actions={this.props.actions} getData={this.getData.bind(this)} />
-                                <Selector type="Host" data={this.props.subDataHost} actions={this.props.actions} getData={this.getData.bind(this)} />
+                                <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} />
+                                <Selector type="AZ" data={this.props.subDataAZ} getData={this.getData.bind(this)} />
+                                <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} />
+                                <Selector type="Host" data={this.props.subDataHost} getData={this.getData.bind(this)} />
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}
