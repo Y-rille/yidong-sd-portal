@@ -16,6 +16,16 @@ class Vim extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
+    
+    componentWillMount() {
+        // 选择项查询
+        let selectKey = ['AZ', 'HA', 'Region', 'Host', 'Project']
+        let self = this
+        selectKey.forEach(item => {
+            self.props.actions.getSubDataByName(item)
+        })
+    }
+    
     render() {
         let { match } = this.props
         return (
