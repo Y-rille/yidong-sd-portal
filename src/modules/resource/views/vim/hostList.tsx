@@ -59,19 +59,8 @@ class Host extends React.Component<any, any> {
     goEdit = () => { }
     render() {
         let { match, data, pageSize, tableLoading } = this.props;
-        const { menuValue, secondMenuValue, thiredMenuValue } = this.state;
         return (
             <div>
-                {/* <ResourceTable
-                    goDelete={this.goDelete.bind(this)}
-                    goEdit={this.goEdit.bind(this)}
-                    goPage={this.goPage.bind(this)} // 翻页
-                    goLink={this.goLink.bind(this)}
-                    data={tData}
-                    showAuth={['id', 'mobile', 'name', 'email']}
-                    actionAuth={[]}
-                />
-                <br /> */}
                 <CompactTable
                     goPage={this.goPage.bind(this)} // 翻页
                     goLink={this.goLink.bind(this)}
@@ -79,7 +68,6 @@ class Host extends React.Component<any, any> {
                     actionAuth={[]}
                     pageSize={pageSize}
                     loading={tableLoading}
-                    // pageAuth={true}
                     outStyle={{ 'marginTop': '20px' }}
                 />
             </div>
