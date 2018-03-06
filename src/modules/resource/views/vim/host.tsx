@@ -45,6 +45,7 @@ class Host extends React.Component<HostProps, any> {
             az: az ? az : '',
             ha: ha ? ha : '',
         }
+
     }
 
     onChange(key) { // tab切换
@@ -53,21 +54,14 @@ class Host extends React.Component<HostProps, any> {
         let { pathname } = this.props.location
         let { region, az, ha } = this.state
         let pageNo = 1
-        this.setState({
-            activeKey: _.compact([
-                matchPath(pathname, { path: '/control' }) != null && 'control',
-                matchPath(pathname, { path: '/calculate' }) != null && 'calculate',
-                matchPath(pathname, { path: '/storage' }) != null && 'storage'
-            ]).toString(),
-            pageNo
-        })
         let queryObj = { pageNo, region, az, ha }
         this.props.history.push(`${match.url}/${key}?${stringify(queryObj)}`)
-
         this.setState({
+            activeKey: key,
             pageNo
-        });
-        this.getTableData(queryObj)
+        })
+
+        this.getTableData(queryObj, key)
     }
     getData(type, value) {  // 查询条件切换
         let { region, az, ha } = this.state
@@ -103,41 +97,58 @@ class Host extends React.Component<HostProps, any> {
         this.getTableData(queryObj)
     }
 
-    getTableData(queryObj) {
+    getTableData(queryObj, actKey = null) {
         this.setState({
             tableLoading: true
         });
         let self = this
         let { pageNo } = queryObj
-        let { region, az, ha, pageSize } = this.state
-        this.props.actions.queryList(this.state.activeKey, { pageNo, pageSize, region, az, ha }, () => {
+        let { region, az, ha, pageSize, activeKey } = this.state
+        let act_Key = actKey || activeKey
+        this.props.actions.queryList(act_Key, { pageNo, pageSize, region, az, ha }, () => {
             self.setState({
                 tableLoading: false
             });
         })
     }
     componentWillMount() {
-        let { pageNo } = this.state
-        let queryObj = {
-            pageNo
+        let { pathname } = this.props.location
+
+        if (this.state.activeKey.length > 0) {  // 刷新
+            let { pageNo } = this.state
+            let queryObj = {
+                pageNo
+            }
+            this.getTableData(queryObj)
         }
-        this.getTableData(queryObj)
     }
     componentWillReceiveProps(nextProps) {
         let { match } = nextProps
         let { pathname } = nextProps.location
+
+        let actKey = _.compact([
+            matchPath(pathname, { path: `${match.url}/control` }) != null && 'control',
+            matchPath(pathname, { path: `${match.url}/calculate` }) != null && 'calculate',
+            matchPath(pathname, { path: `${match.url}/storage` }) != null && 'storage'
+        ]).toString()
+
+        if (this.state.activeKey.length === 0 && actKey.length > 0) {    // 第一次进入;info返回；进入info
+
+            let pageNo = qs.parse(nextProps.location.search).pageNo || 1
+            let queryObj = {
+                pageNo
+            }
+            this.getTableData(queryObj, actKey)
+        }
         this.setState({
-            activeKey: _.compact([
-                matchPath(pathname, { path: `${match.url}/control` }) != null && 'control',
-                matchPath(pathname, { path: `${match.url}/calculate` }) != null && 'calculate',
-                matchPath(pathname, { path: `${match.url}/storage` }) != null && 'storage'
-            ]).toString()
+            activeKey: actKey
         })
     }
 
     render() {
         let { match, list, nodeInfo } = this.props;
         const { region, az, ha, activeKey, pageSize, tableLoading } = this.state;
+
         let control_tdata = {
             'count': 17,
             'header': [{
