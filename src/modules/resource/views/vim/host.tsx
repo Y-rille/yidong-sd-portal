@@ -10,7 +10,6 @@ import styles from '../../style/index.less'
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;
 import qs from 'querystringify'
-import { stringify } from 'querystringify'
 import Selector from '../../../../components/Selector'
 import { ResourceActions } from '../../actions/index'
 export interface HostProps {
@@ -55,10 +54,10 @@ class Host extends React.Component<HostProps, any> {
         let { region, az, ha } = this.state
         let pageNo = 1
         let queryObj = { pageNo, region, az, ha }
-        this.props.history.push(`${match.url}/${key}?${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}/${key}?${qs.stringify(queryObj)}`)
         this.setState({
             activeKey: key,
-            pageNo
+            // pageNo
         })
 
         this.getTableData(queryObj, key)
@@ -90,9 +89,9 @@ class Host extends React.Component<HostProps, any> {
         let pageNo = 1
         let { region, az, ha, activeKey } = this.state
         let queryObj = { pageNo, region, az, ha }
-        this.props.history.push(`${match.url}/${activeKey}?${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
         this.setState({
-            pageNo
+            // pageNo
         });
         this.getTableData(queryObj)
     }

@@ -6,8 +6,8 @@ import HaInfo from '../../container/vim/haInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'antd';
 import styles from '../../style/index.less';
 import CompactTable from '../../../../components/CompactTable/'
-import { ResourceActions } from '../../actions/index'
 const Option = Select.Option;
+import qs from 'querystringify'
 
 import Selector from '../../../../components/Selector'
 import { ResourceActions } from '../../actions/index'
@@ -17,114 +17,85 @@ export interface HaProps {
     actions: ResourceActions,
     match,
     subDataRegion?,
-    nodeInfo
+    nodeInfo,
+    list?
 }
 
 class Ha extends React.Component<HaProps, any> {
     constructor(props) {
         super(props);
+        let { pageNo, region, name } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
         this.state = {
-            HAInputValue: '',
+            tableLoading: false,
+            pageSize: 1,
+            pageNo: pageNo ? pageNo : 1,
+            region: region ? region : '',
+            vim_id: mp_node ? mp_node.params.id : '',
+            name: name ? name : '',
         }
-    }
-    goInfo = () => {
-        this.props.history.push(`/resource/vim/1/ha/info`)
     }
     HAInputChange(value) {
         this.setState({
-            HAInputValue: value
+            name: value
         })
     }
     handleClick() {
-        const { HAInputValue } = this.state;
-        // console.log(HAInputValue, HASelectValue)
+        let pageNo = 1
+        this.setState({
+            pageNo
+        }, () => {
+            let { match } = this.props
+            let { region, name } = this.state
+            let queryObj = { pageNo, region, name }
+            this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
+            this.getTableData()
+        });
     }
-    goPage() {
-
+    goPage(num) {
+        this.setState({
+            pageNo: num
+        }, () => {
+            let { match } = this.props
+            let { region, name } = this.state
+            let pageNo = num
+            let queryObj = { pageNo, region, name }
+            this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
+            this.getTableData()
+        })
     }
     goLink(key, obj) {
         let { match } = this.props
-        if (key === 'id') {
-            this.props.history.push(`${match.url}/info/${obj.id}`)
-        }
+        this.props.history.push(`${match.url}/info/1`)
     }
-    getData() {
-
+    getData(value) {
+        let { region } = this.state
+        this.setState({
+            region: value
+        })
+    }
+    getTableData() {
+        this.setState({
+            tableLoading: true
+        });
+        let { region, pageSize, pageNo, vim_id, name } = this.state
+        this.props.actions.queryList('imdsHA', { pageNo, pageSize, region, vim_id, name }, () => {
+            this.setState({
+                tableLoading: false
+            });
+        })
+    }
+    componentWillMount() {
+        this.getTableData()
+    }
+    componentWillUnMount() {
+        this.props.actions.resetList()
     }
     render() {
-        let { match } = this.props;
-        const { HAInputValue, HASelectValue } = this.state;
-        let tdata = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: 'HA名称',
-                // fixed: true,
-                link: true,
-            }, {
-                key: 'name',
-                title: 'Metadata',
-                // fixed: true,
-            }, {
-                key: 'mobile',
-                title: '所属AZ',
-            }, {
-                key: 'vm',
-                title: '主机数'
-            }
-            ],
-            'dataList': [
-                {
-                    'id': 'xiaojindian1',
-                    'name': 'availability_zone = hw-volte-test-px1',
-                    'mobile': 'XXXX',
-                    'vm': '15',
-                },
-                {
-                    'id': 'xiaojindian2',
-                    'name': 'availability_zone = hw-volte-test-px1',
-                    'mobile': 'XXXX',
-                    'vm': '15',
-                },
-                {
-                    'id': 'xiaojindian3',
-                    'name': 'availability_zone = hw-volte-test-px1',
-                    'mobile': 'XXXX',
-                    'vm': '15',
-                },
-                {
-                    'id': 'xiaojindian4',
-                    'name': 'availability_zone = hw-volte-test-px1',
-                    'mobile': 'XXXX',
-                    'vm': '15',
-                },
-                {
-                    'id': 'xiaojindian5',
-                    'name': 'availability_zone = hw-volte-test-px1',
-                    'mobile': 'XXXX',
-                    'vm': '15',
-                },
-                {
-                    'id': 'xiaojindian6',
-                    'name': 'availability_zone = hw-volte-test-px1',
-                    'mobile': 'XXXX',
-                    'vm': '15',
-                },
-                {
-                    'id': 'xiaojindian7',
-                    'name': 'availability_zone = hw-volte-test-px1',
-                    'mobile': 'XXXX',
-                    'vm': '15',
-                },
-                {
-                    'id': 'xiaojindian8',
-                    'name': 'availability_zone = hw-volte-test-px1',
-                    'mobile': 'XXXX',
-                    'vm': '15',
-                },
-            ]
-        }
-        let { nodeInfo } = this.props;
+        let { match, nodeInfo, list } = this.props;
+        const { name, region, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
@@ -146,10 +117,10 @@ class Ha extends React.Component<HaProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} />
+                                <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} value={region} />
                                 <Input
                                     placeholder="HA名称"
-                                    value={HAInputValue} type="text"
+                                    value={name} type="text"
                                     onChange={e => this.HAInputChange(e.target.value)}
                                 />
                                 <Button
@@ -157,15 +128,17 @@ class Ha extends React.Component<HaProps, any> {
                                     onClick={this.handleClick.bind(this)}
                                 >
                                     查询
-                            </Button>
+                                </Button>
                             </div>
-                            <CompactTable
-                                goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                data={tdata}
-                                pageAuth={true}
-                                actionAuth={[]}
-                            />
+                            {list ?
+                                <CompactTable
+                                    goPage={this.goPage.bind(this)} // 翻页
+                                    goLink={this.goLink.bind(this)}
+                                    data={list}
+                                    pageSize={pageSize}
+                                    actionAuth={[]}
+                                    loading={tableLoading}
+                                /> : <Spin />}
                         </div>
                     </div>
                 )} />

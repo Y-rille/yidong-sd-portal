@@ -51,9 +51,9 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
     handleClick() { // 查询按钮
         let { match } = this.props
         let pageNo = 1
-        let { project, vim_id, name } = this.state
-        let queryObj = { pageNo, project, vim_id, name }
-        this.props.history.push(`${match.url}/${qs.stringify(queryObj)}`)
+        let { project, name } = this.state
+        let queryObj = { pageNo, project, name }
+        this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
         });
@@ -63,8 +63,11 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         let { match } = this.props
         let { project, vim_id, name } = this.state
         let pageNo = num
-        let queryObj = { pageNo, project, vim_id, name }
-        this.props.history.push(`${match.url}/${qs.stringify(queryObj)}`)
+        this.setState({
+            pageNo: pageNo
+        });
+        let queryObj = { pageNo, project, name }
+        this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
@@ -82,7 +85,8 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         this.setState({
             tableLoading: true
         });
-        let { project, vim_id, name, pageSize, pageNo } = this.state
+        let { project, vim_id, name, pageSize } = this.state
+        let { pageNo } = queryObj
         let dsname = 'imdsVolumType'
         this.props.actions.queryList(dsname, { pageNo, pageSize, project, vim_id, name }, () => {
             this.setState({
@@ -98,9 +102,12 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         }
         this.getTableData(queryObj)
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
         let { match, list } = this.props
-        const { name, volumeTypeSelectValue, pageSize } = this.state;
+        const { name, volumeTypeSelectValue, pageSize, project, tableLoading } = this.state;
         let tdata = {
             'count': 17,
             'header': [{
@@ -199,7 +206,7 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} />
+                                <Selector type="Project" data={this.props.subDataProject} value={project} getData={this.getData.bind(this)} />
                                 <Input
                                     placeholder="卷类型名称"
                                     value={name} type="text"
@@ -213,14 +220,19 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
                             </Button>
                                 <Button type="primary" style={{ float: 'right' }}>管理</Button>
                             </div>
-                            <CompactTable
-                                goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                pageSize={pageSize}
-                                data={list}
-                                pageAuth={true}
-                                actionAuth={[]}
-                            />
+                            {list ? (
+                                <CompactTable
+                                    goPage={this.goPage.bind(this)} // 翻页
+                                    goLink={this.goLink.bind(this)}
+                                    pageSize={pageSize}
+                                    data={list}
+                                    loading={tableLoading}
+                                    actionAuth={[]}
+                                />
+                            ) : (
+                                    <Spin />
+                                )
+                            }
                         </div>
                     </div>
                 )} />
