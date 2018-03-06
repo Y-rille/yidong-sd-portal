@@ -274,12 +274,12 @@ class HostInfo extends React.Component<any, any> {
             reset: false
         }
     }
-    onChange() {
-    }
-    onTab(key) {
-        if (key === '处理器信息') {
+    onChange(key) {
+        if (key === '资源关系') {
             this.props.actions.queryList('imdsQueryListHostProcessor', { 'host': 1 })
         }
+    }
+    onTab(key) {
         let match = this.props.match
         let id = match.params.id
         this.props.actions.queryList(key, { 'host': id })
