@@ -46,8 +46,8 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { project, name, vim_id } = this.state
-        let queryObj = { pageNo, project, name, vim_id }
+        let { project, name } = this.state
+        let queryObj = { pageNo, project, name }
         this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -56,16 +56,16 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { project, name, vim_id } = this.state
+        let { project, name } = this.state
         let pageNo = num
-        let queryObj = { pageNo, project, name, vim_id }
+        let queryObj = { pageNo, project, name }
         this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
     }
     getData(type, value) {  // 查询条件切换
-        let { project, name, vim_id } = this.state
+        let { project } = this.state
         this.setState({
             project: type === 'Project' ? value : project,
         })
@@ -100,118 +100,6 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         let { match, list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading, project, name } = this.state;
-        let tData = {
-            'count': 17,
-            'header': [
-                {
-                    key: 'id',
-                    title: '项目',
-                    // link: true,
-                }, {
-                    key: 'name',
-                    title: '网络名称 ',
-                }, {
-                    key: 'subnet',
-                    title: '子网'
-                }, {
-                    key: 'DHCP',
-                    title: 'DHCP代理'
-                }, {
-                    key: 'public',
-                    title: '是否共享'
-                }, {
-                    key: 'exter',
-                    title: 'external'
-                }, {
-                    key: 'memory',
-                    title: '状态'
-                }, {
-                    key: 'magstute',
-                    title: '管理状态'
-                }],
-            'body': [
-                {
-                    'id': 'xiaojindian4',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': '213cluster',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': '213cluster-123',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': 'lijianguo',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': 'zhangjianjun',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': '213cluster',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': 'xiaojindian4',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-                {
-                    'id': '213cluster',
-                    'name': '13',
-                    'subnet': 'sub-text-vlan24.10.34.24.0',
-                    'DHCP': '5',
-                    'public': 'Yes',
-                    'exter': 'OMB',
-                    'memory': '运行',
-                    'magstute': 'up'
-                },
-            ]
-        }
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={VirtualNetworkInfo} />
