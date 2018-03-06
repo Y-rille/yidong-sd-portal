@@ -14,13 +14,20 @@ import CompactTable from '../../../../components/CompactTable/'
 import Headline from '../../../../components/Headline/'
 import Summaries from '../../../../components/Summaries/'
 import styles from '../../style/index.less'
+import Selector from '../../../../components/Selector/index'
+import { stringify } from 'querystringify'
+var qs = require('querystringify')
 const Option = Select.Option;
 class AzInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        let { vim_id, name, ha } = qs.parse(this.props.location.search)
         this.state = {
             HostInputValue: '',
-            HASelectValue: 'HA'
+            HASelectValue: 'HA',
+            ha: ha ? ha : '',
+            vim_id: vim_id ? vim_id : '',
+            name: name ? name : ''
         }
     }
     handleClick() {
@@ -30,6 +37,12 @@ class AzInfo extends React.Component<any, any> {
     HASelectChange(value) {
         this.setState({
             HASelectValue: value
+        })
+    }
+    getData(type, value) {  // 查询条件切换
+        let { ha } = this.state
+        this.setState({
+            ha: type === 'HA' ? value : ha
         })
     }
     HostInputChange(e) {
@@ -105,7 +118,7 @@ class AzInfo extends React.Component<any, any> {
         )
     }
     render() {
-        const { HostInputValue, HASelectValue } = this.state;
+        const { HostInputValue, HASelectValue, ha, name } = this.state;
         let { nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -152,17 +165,12 @@ class AzInfo extends React.Component<any, any> {
                         <Headline title="主机" />
                         <div className={styles.queryBar}>
                             <Input
-                                value={HostInputValue}
+                                value={name}
                                 type="text"
                                 placeholder="主机名称"
                                 onChange={this.HostInputChange.bind(this)}
                             />
-                            <Select
-                                value={HASelectValue}
-                                onChange={this.HASelectChange.bind(this)}
-                            >
-                                <Option value="region">Region</Option>
-                            </Select>
+                            <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} value={ha} />
 
                             <Button
                                 type="primary"
