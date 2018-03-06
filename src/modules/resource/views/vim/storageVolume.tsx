@@ -8,6 +8,8 @@ import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 import { ResourceActions } from '../../actions/index'
 import Selector from '../../../../components/Selector'
+import { stringify } from 'querystringify'
+var qs = require('querystringify')
 export interface StorageVolumeProps {
     location?,
     history?,
@@ -15,12 +17,24 @@ export interface StorageVolumeProps {
     match,
     subDataProject?,
     nodeInfo?,
+    list?
 }
 class StorageVolume extends React.Component<StorageVolumeProps, any> {
     constructor(props) {
         super(props);
+        let { match } = this.props
+        let { pathname } = this.props.location
+        let { pageNo, project, name } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
         this.state = {
-            storageVolumeInputValue: '',
+            tableLoading: false,
+            pageSize: 1,
+            pageNo: pageNo ? pageNo : 1,
+            project: project ? project : '',
+            name: name ? name : '',
+            vim_id: mp_node.params.id
         }
     }
     goInfo = () => {
@@ -28,26 +42,78 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
     }
     storageVolumeInputChange(value) {
         this.setState({
-            storageVolumeInputValue: value
+            name: value
         })
     }
     handleClick() {
-        const { storageVolumeInputValue } = this.state;
+        let { match } = this.props
+        let pageNo = 1
+        let { project, name } = this.state
+        let queryObj = { pageNo, project, name }
+        this.props.history.push(`${match.url}/storage_volume?${stringify(queryObj)}`)
+        this.setState({
+            pageNo
+        });
+        this.getTableData(queryObj)
         // console.log(storageVolumeInputValue, storageVolumeSelectValue, 'ppp')
     }
-    goPage() {
-
+    goPage = (num) => {
+        let { match } = this.props
+        let { project, name } = this.state
+        let pageNo = num
+        let queryObj = { pageNo, project, name}
+        this.props.history.push(`${match.url}/storage_volume?${stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
     }
     getData() { }
     goLink(key, obj) {
         let { match } = this.props
-        // if (key === 'id') {
-        //     this.props.history.push(`${match.url}/info/${obj.id}`)
+        this.props.history.push(`${match.url}/info/1`)
+    }
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { project, name, pageSize, vim_id} = this.state
+        this.props.actions.queryList('imdsStorageVolum', { pageNo, pageSize, project, name, vim_id}, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
+    componentWillMount() {
+        let { pathname } = this.props.location
+
+        // if (this.state.activeKey.length > 0) {  // 刷新
+            let { pageNo } = this.state
+            let queryObj = {
+                pageNo
+            }
+            this.getTableData(queryObj)
         // }
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
+    // componentWillReceiveProps(nextProps) {
+    //     let { match } = nextProps
+    //     let { pathname } = nextProps.location
+
+    //     let pageNo = qs.parse(nextProps.location.search).pageNo || 1
+    //     let queryObj = {
+    //         pageNo
+    //     }
+    //     this.getTableData(queryObj)
+
+    // }
     render() {
-        let { match } = this.props;
-        const { storageVolumeInputValue } = this.state;
+        let { match , list} = this.props;
+        const { pageNo, project, name, pageSize, tableLoading } = this.state;
+
         let tdata = {
             'count': 17,
             'header': [{
@@ -213,7 +279,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                                 <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} />
                                 <Input
                                     placeholder="存储卷名称"
-                                    value={storageVolumeInputValue} type="text"
+                                    value={name} type="text"
                                     onChange={e => this.storageVolumeInputChange(e.target.value)}
                                 />
                                 <Button
@@ -227,8 +293,9 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                             <CompactTable
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
-                                data={tdata}
-                                pageAuth={true}
+                                pageSize={pageSize}
+                                data={list}
+                                tableLoading={tableLoading}
                                 actionAuth={[]}
                             />
                         </div>
