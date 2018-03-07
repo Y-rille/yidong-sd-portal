@@ -30,7 +30,7 @@ class Ha extends React.Component<HaProps, any> {
         })
         this.state = {
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             region: region ? region : '',
             vim_id: mp_node ? mp_node.params.id : '',
@@ -68,7 +68,9 @@ class Ha extends React.Component<HaProps, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
-        this.props.history.push(`${match.url}/info/1`)
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
     }
     getData(value) {
         let { region } = this.state

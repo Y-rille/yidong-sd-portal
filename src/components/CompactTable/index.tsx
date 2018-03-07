@@ -90,11 +90,9 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
     //         this.props.showModal(userId)
     //     }
     // }
-    goDelete(e) {
-        let Id = e.currentTarget.id
-
+    goDelete(record) {
         if (this.props.goDelete) {
-            this.props.goDelete(Id)
+            this.props.goDelete(record)
         }
     }
     goPage(current) {
@@ -136,7 +134,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                         ) : ''}
                         {actionAuth.length > 1 ? (<Divider type="vertical" />) : ''}
                         {actionAuth.indexOf('delete') > -1 ? (
-                            <a onClick={this.goDelete.bind(this)} rel={record.name} id={record.id} href="javascript:;" type="vertical">删除</a>
+                            <a onClick={this.goDelete.bind(this, record)} rel={record.name} id={record.id} href="javascript:;" type="vertical">删除</a>
                         ) : ''}
 
                     </span>

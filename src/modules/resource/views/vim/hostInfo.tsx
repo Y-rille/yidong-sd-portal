@@ -277,7 +277,7 @@ class HostInfo extends React.Component<any, any> {
             reset: false,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 1,
+            pageSize: 10,
             activeKey: 'imdsHostProcessor',
             host: match.params.id
         }
@@ -303,12 +303,16 @@ class HostInfo extends React.Component<any, any> {
     }
     handleEditData(d) {
         // console.log(d, '=============>hostInfo')
-        this.props.actions.editObjData(1, 1, d, (err, qdata) => {
+        let moTypeKey = 'host'
+        let match = this.props.match
+        let moInstId = match.params.id
+        // let moInstId = 
+        this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 
             }
             if (qdata.code === 1) {
-                this.props.actions.getObjData(1)
+                this.props.actions.getObjData(moTypeKey)
             }
         })
     }
@@ -336,8 +340,9 @@ class HostInfo extends React.Component<any, any> {
         })
     }
     componentWillMount() {
-        this.props.actions.getObjAttributes(1)
-        this.props.actions.getObjData(1)
+        let moTypeKey = 'host'
+        this.props.actions.getObjAttributes(moTypeKey)
+        this.props.actions.getObjData(moTypeKey)
     }
     renderBtns() {
         return (

@@ -11,18 +11,30 @@ class Pim extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
+    componentWillMount() {
+        // 选择项查询
+        let selectKey = ['imdsSelectionDatacenter', 'imdsSelectionVendor']
+        let self = this
+        selectKey.forEach(item => {
+            self.props.actions.getSubDataByName(item)
+        })
+    }
     render() {
-        let { match } = this.props
+        let { match, subDataCenter, subDataVendor } = this.props
         return (
-            <div>
-                <Switch>
-                    <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact />
-                    <Route path={`${match.url}/magnetic`} component={Magnetic} />
-                    <Route path={`${match.url}/server`} component={Server} />
-                    <Route path={`${match.url}/switchboard`} component={Switchboard} />
-                    <Route path={`${match.url}/firewall`} component={Firewall} />
-                </Switch>
-            </div>
+            (subDataCenter && subDataVendor) ? (
+                <div>
+                    <Switch>
+                        <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact />
+                        <Route path={`${match.url}/magnetic`} component={Magnetic} />
+                        <Route path={`${match.url}/server`} component={Server} />
+                        <Route path={`${match.url}/switchboard`} component={Switchboard} />
+                        <Route path={`${match.url}/firewall`} component={Firewall} />
+                    </Switch>
+                </div>) : (
+                    <div />
+                )
+
         );
     }
 }

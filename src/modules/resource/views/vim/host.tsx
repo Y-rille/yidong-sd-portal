@@ -38,7 +38,7 @@ class Host extends React.Component<HostProps, any> {
                 matchPath(pathname, { path: `${match.url}/imdsStorage` }) != null && 'imdsStorage'
             ]).toString(),
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             region: region ? region : '',
             az: az ? az : '',
@@ -72,7 +72,9 @@ class Host extends React.Component<HostProps, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
-        this.props.history.push(`${match.url}/info/1`)
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj[key]}`)
+        }
     }
     goPage = (num) => {
         let { match } = this.props
@@ -207,180 +209,6 @@ class Host extends React.Component<HostProps, any> {
                     'id': 2,
                     'name': '10.255.242.215',
                     'roles': '主',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 3,
-                    'name': '10.255.242.215',
-                    'roles': '主',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 4,
-                    'name': '10.255.242.215',
-                    'roles': '主',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 5,
-                    'name': '10.255.242.215',
-                    'roles': '主',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 6,
-                    'name': '10.255.242.215',
-                    'roles': '主',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 7,
-                    'name': '10.255.242.215',
-                    'roles': '主',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }
-            ]
-        }
-
-        let imdsHost_tdata = {
-            'count': 17,
-            'header': [{
-                key: 'name',
-                title: '主机名称',
-                link: true,
-            }, {
-                key: 'cpu',
-                title: 'CPU(使用/全部)',
-            }, {
-                key: 'memory',
-                title: '内存(使用/全部)'
-            },
-            {
-                key: 'az',
-                title: '所属AZ',
-            }, {
-                key: 'ha',
-                title: '所属HA'
-            }, {
-                key: 'up',
-                title: '上下电状态'
-            }, {
-                key: 'maintain',
-                title: '维护状态'
-            }, {
-                key: 'run',
-                title: '运行时长'
-            }, {
-                key: 'vm',
-                title: 'VM数'
-            }],
-            'dataList': [
-                {
-                    'id': 1,
-                    'name': '10.255.242.215',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 2,
-                    'name': '10.255.242.215',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 3,
-                    'name': '10.255.242.215',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 4,
-                    'name': '10.255.242.215',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 5,
-                    'name': '10.255.242.215',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 6,
-                    'name': '10.255.242.215',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 7,
-                    'name': '10.255.242.215',
                     'cpu': '6/13',
                     'memory': '1/1',
                     'az': 'xasa,AAAAS',

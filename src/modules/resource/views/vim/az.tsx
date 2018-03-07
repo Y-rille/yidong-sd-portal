@@ -31,7 +31,7 @@ class Az extends React.Component<AzProps, any> {
             region: region ? region : '',
             name: name ? name : '',
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             vim_id: mp_node.params.id
         }
@@ -55,7 +55,9 @@ class Az extends React.Component<AzProps, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
-        this.props.history.push(`${match.url}/info/1`)
+        if (key === 'id') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
+        }
     }
     goPage = (num) => {
         let { match } = this.props
