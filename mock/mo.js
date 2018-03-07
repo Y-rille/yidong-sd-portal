@@ -899,8 +899,8 @@ let queryList = {
           }
         ],
         "dataList": dataList,
-        "pageNo": 1,
-        "pageSize": 10,
+        "pageNo": pageNo,
+        "pageSize": pageSize,
         "totalCount": totalCount
       }
     }
