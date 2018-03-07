@@ -19,7 +19,7 @@ export interface FirewallProps {
     history?,
     actions: ResourceActions,
     match,
-    subDataDatacenter?
+    subDataCenter?
     subDataVendor?,
     nodeInfo?,
     list?
@@ -236,7 +236,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Cascaderor type="DataCenter" data={this.props.subDataDatacenter} getCascaderData={this.getCascaderData.bind(this)} value={dataCenterValue} />
+                                <Cascaderor type="DataCenter" data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={dataCenterValue} />
                                 <Selector type="Vendor" data={this.props.subDataVendor} getData={this.searchData.bind(this)} value={vendor} />
                                 <Button
                                     type="primary"

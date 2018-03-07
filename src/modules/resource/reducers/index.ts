@@ -11,7 +11,7 @@ const ResourceState = SI.from({
     subDataRegion: null,
     subDataHost: null,
     subDataProject: null,
-    subDataDatacenter: null,
+    subDataCenter: null,
     subDataVendor: null,
     objAttributes: null,
     objData: null,
