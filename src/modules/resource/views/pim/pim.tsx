@@ -22,27 +22,27 @@ class Pim extends React.Component<any, any> {
     render() {
         let { match, subDataDatacenter, subDataVendor } = this.props
         return (
-            // (subDataDatacenter && subDataVendor) ? (
-            //     <div>
-            //         <Switch>
-            //             <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact />
-            //             <Route path={`${match.url}/magnetic`} component={Magnetic} />
-            //             <Route path={`${match.url}/server`} component={Server} />
-            //             <Route path={`${match.url}/switchboard`} component={Switchboard} />
-            //             <Route path={`${match.url}/firewall`} component={Firewall} />
-            //         </Switch>
-            //     </div>) : (
-            //         <div />
-            //     )
-            <div>
-                <Switch>
-                    <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact />
-                    <Route path={`${match.url}/magnetic`} component={Magnetic} />
-                    <Route path={`${match.url}/server`} component={Server} />
-                    <Route path={`${match.url}/switchboard`} component={Switchboard} />
-                    <Route path={`${match.url}/firewall`} component={Firewall} />
-                </Switch>
-            </div>
+            (subDataDatacenter && subDataVendor) ? (
+                <div>
+                    <Switch>
+                        <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact />
+                        <Route path={`${match.url}/magnetic`} component={Magnetic} />
+                        <Route path={`${match.url}/server`} component={Server} />
+                        <Route path={`${match.url}/switchboard`} component={Switchboard} />
+                        <Route path={`${match.url}/firewall`} component={Firewall} />
+                    </Switch>
+                </div>) : (
+                    <div />
+                )
+            // <div>
+            //     <Switch>
+            //         <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact />
+            //         <Route path={`${match.url}/magnetic`} component={Magnetic} />
+            //         <Route path={`${match.url}/server`} component={Server} />
+            //         <Route path={`${match.url}/switchboard`} component={Switchboard} />
+            //         <Route path={`${match.url}/firewall`} component={Firewall} />
+            //     </Switch>
+            // </div>
         );
     }
 }
