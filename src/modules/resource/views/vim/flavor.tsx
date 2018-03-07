@@ -21,7 +21,7 @@ class Flavor extends React.Component<any, any> {
         this.state = {
             flavorInputValue: flavorInputValue ? flavorInputValue : '',
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             vim_id: mp_node.params.id

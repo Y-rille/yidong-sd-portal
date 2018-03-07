@@ -33,12 +33,10 @@ export const queryList = (dsname, params, cb) => (dispatch) => {
         data.header[0].link = true
         data.pageNo = params.pageNo
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: data }
-        setTimeout(function () {
-            dispatch(action);
-            if (cb) {
-                cb(null, data)
-            }
-        }, 2000)
+        dispatch(action);
+        if (cb) {
+            cb(null, data)
+        }
 
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: null }
@@ -80,6 +78,12 @@ export const getSubDataByName = (dsname, cb) => (dispatch) => {
                 break;
             case 'imdsSelectionProject':
                 name = 'Project'
+                break;
+            case 'imdsSelectionDatacenter':
+                name = 'Center'
+                break;
+            case 'imdsSelectionVendor':
+                name = 'Vendor'
                 break;
             default:
                 name = 'AZ'

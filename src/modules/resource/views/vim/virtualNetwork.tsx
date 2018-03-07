@@ -148,7 +148,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                                 goLink={this.goLink.bind(this)}
                                 data={list}
                                 loading={tableLoading}
-                                pageAuth={true}
+                                // pageAuth={true}
                                 actionAuth={[]}
                             />) : (<Spin />)}
                         </div>
