@@ -4,163 +4,51 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import FirewallInfo from '../../container/pim/firewallInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
+import Selector from '../../../../components/Selector'
 import styles from '../../style/index.less'
 
 import FilterFireWallForm from '../../../../components/FilterFireWallForm'
 import CompactTable from '../../../../components/CompactTable'
 import Cascaderor from '../../../../components/Cascaderor'
-import Selector from '../../../../components/Selector'
+import { ResourceActions } from '../../actions/index'
+import qs from 'querystringify'
+import { stringify } from 'querystringify'
 
-const data = {
-    'count': 17,
-    'header': [{
-        key: 'id',
-        title: '序号',
-        fixed: true,
-        link: true,
-    }, {
-        key: 'name',
-        title: '名称',
-        fixed: true,
-        link: true,
-    }, {
-        key: 'mobile',
-        title: '资产编号',
-    }, {
-        key: 'vm',
-        title: '管理IP'
-    },
-    {
-        key: 'email',
-        title: '型号',
-    }, {
-        key: 'cpu',
-        title: '供应商'
-    }, {
-        key: 'memory',
-        title: '软件版本'
-    }, {
-        key: 'role',
-        title: '序列号',
-    }],
-    'body': [
-        {
-            'id': 1,
-            'name': '防火墙A',
-            'mobile': '1083',
-            'vm': '188.103.2.123',
-            'email': 'HPProLlant DL380',
-            'cpu': '华为',
-            'memory': 'v1.2.3',
-            'role': 1231233465
-        },
-        {
-            'id': 2,
-            'name': '防火墙B',
-            'mobile': '1083',
-            'vm': '188.103.2.123',
-            'email': 'HPProLlant DL380',
-            'cpu': 'HPE',
-            'memory': 'v1.2.3',
-            'role': 1231233465
-        },
-        {
-            'id': 3,
-            'name': '防火墙C',
-            'mobile': '1083',
-            'vm': '188.103.2.123',
-            'email': 'HPProLlant DL380',
-            'cpu': '华为',
-            'memory': 'v1.2.3',
-            'role': 1231233465
-        },
-        {
-            'id': 4,
-            'name': '防火墙A',
-            'mobile': '1083',
-            'vm': '188.103.2.123',
-            'email': 'HPProLlant DL380',
-            'cpu': 'HPE',
-            'memory': 'v1.2.3',
-            'role': 1231233465
-        },
-        {
-            'id': 5,
-            'name': '防火墙A',
-            'mobile': '1083',
-            'vm': '188.103.2.123',
-            'email': 'HPProLlant DL380',
-            'cpu': '华为',
-            'memory': 'v1.2.3',
-            'role': 1231233465
-        },
-        {
-            'id': 6,
-            'name': '防火墙A',
-            'mobile': '1083',
-            'vm': '188.103.2.123',
-            'email': 'HPProLlant DL380',
-            'cpu': 'HPE',
-            'memory': 'v1.2.3',
-            'role': 1231233465
-        },
-        {
-            'id': 7,
-            'name': '防火墙A',
-            'mobile': '1083',
-            'vm': '188.103.2.123',
-            'email': 'HPProLlant DL380',
-            'cpu': '华为',
-            'memory': 'v1.2.3',
-            'role': 1231233465
-        },
-        {
-            'id': 8,
-            'name': '防火墙A',
-            'mobile': '1083',
-            'vm': '188.103.2.123',
-            'email': 'HPProLlant DL380',
-            'cpu': 'HPE',
-            'memory': 'v1.2.3',
-            'role': 1231233465
-        },
-        {
-            'id': 9,
-            'name': '防火墙A',
-            'mobile': '1083',
-            'vm': '188.103.2.123',
-            'email': 'HPProLlant DL380',
-            'cpu': '华为',
-            'memory': 'v1.2.3',
-            'role': 1231233465
-        },
-        {
-            'id': 10,
-            'name': '防火墙A',
-            'mobile': '1083',
-            'vm': '188.103.2.123',
-            'email': 'HPProLlant DL380',
-            'cpu': 'HPE',
-            'memory': 'v1.2.3',
-            'role': 1231233465
-        }
-    ]
+export interface FirewallProps {
+    location?,
+    history?,
+    actions: ResourceActions,
+    match,
+    subDataDatacenter?
+    subDataVendor?,
+    nodeInfo?,
+    list?
 }
-
-class Firewall extends React.Component<any, any> {
+class Firewall extends React.Component<FirewallProps, any> {
     formRef: any
     constructor(props) {
         super(props);
+        let { pageNo, datacenter, vendor, pim_id } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/pim/:id'
+        })
         this.state = {
             dataCenterValue: [],
             dataVendorValue: '',
             visible: false,
-            filterDate: null
+            filterDate: null,
+            tableLoading: false,
+            pageSize: 1,
+            pageNo: pageNo ? pageNo : 1,
+            datacenter: datacenter ? datacenter : '',
+            vendor: vendor ? vendor : '',
+            pim_id: mp_node ? mp_node.params.id : '',
         }
     }
     goInfo = () => {
         this.props.history.push(`/resource/pim/1/firewall/info`)
     }
+
     getData(formData) {
         this.setState({
             filterDate: formData
@@ -173,6 +61,35 @@ class Firewall extends React.Component<any, any> {
             dataVendorValue: type === 'DataVendor' ? value : dataVendorValue
         })
     }
+
+    handleClick() {
+        let { match } = this.props
+        let pageNo = 1
+        let { datacenter, vendor } = this.state
+        let queryObj = { pageNo, datacenter, vendor }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.setState({
+            pageNo
+        });
+        this.getTableData(queryObj)
+    }
+    goPage = (num) => {
+        let { match } = this.props
+        let { datacenter, vendor } = this.state
+        let pageNo = num
+        let queryObj = { pageNo, datacenter, vendor }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
+    }
+    searchData(type, value) {  // 查询条件切换
+        let { vendor } = this.state
+        this.setState({
+            vendor: type === 'Vendor' ? value : vendor,
+        })
+    }
+
     goLink(key, obj) {
         let { match } = this.props
         if (key === 'id') {
@@ -199,6 +116,29 @@ class Firewall extends React.Component<any, any> {
         this.formRef.handleReset()
     }
     selectRow = () => { }
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { pageSize, datacenter, vendor, pim_id } = this.state
+        this.props.actions.queryList('imdsServerFirewall', { pageNo, pageSize, datacenter, vendor, pim_id }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
+    componentWillMount() {
+        let { pageNo } = this.state
+        let queryObj = {
+            pageNo
+        }
+        this.getTableData(queryObj)
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     renderAddData() {
         let filterDate = {
             'count': 17,
@@ -273,85 +213,9 @@ class Firewall extends React.Component<any, any> {
 
     }
     render() {
-        let { match, nodeInfo } = this.props;
+        let { match, list, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { dataCenterValue, dataVendorValue } = this.state;
-        const DataCenter = [{
-            value: '数据中心11',
-            label: '数据中心11',
-            children: [{
-                value: '机房1',
-                label: '机房1',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房2',
-                label: '机房2',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房3',
-                label: '机房3',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }],
-        }, {
-            value: '数据中心2',
-            label: '数据中心2',
-            children: [{
-                value: '机房1',
-                label: '机房1',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房2',
-                label: '机房2',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房3',
-                label: '机房3',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }],
-        }];
-        const DataVendor = [{
-            value: '供应商1',
-            label: '供应商1'
-        }, {
-            value: '供应商2',
-            label: '供应商2'
-        }]
+        const { pageSize, tableLoading, dataCenterValue, vendor } = this.state;
         return (
             <Switch>
                 <Route path={`${match.url}/info/:id`} component={FirewallInfo} />
@@ -373,8 +237,13 @@ class Firewall extends React.Component<any, any> {
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
                                 <Cascaderor type="DataCenter" data={this.props.subDataDatacenter} getCascaderData={this.getCascaderData.bind(this)} value={dataCenterValue} />
-                                <Selector type="DataVendor" data={DataVendor} getData="" value="" />
-                                <Button type="primary">查询</Button>
+                                <Selector type="Vendor" data={this.props.subDataVendor} getData={this.searchData.bind(this)} value={vendor} />
+                                <Button
+                                    type="primary"
+                                    onClick={this.handleClick.bind(this)}
+                                >
+                                    查询
+                                </Button>
                                 <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
                                 <Modal
                                     title="发现"
@@ -390,14 +259,17 @@ class Firewall extends React.Component<any, any> {
                                     {this.renderAddData()}
                                 </Modal>
                             </div>
-                            <CompactTable
-                                // goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                actionAuth={['delete']}
-                                // pageAuth={false}
+                            {list ? (<CompactTable
                                 outStyle={{ 'marginTop': '20px' }}
-                                data={data}
-                            />
+                                pageSize={pageSize}
+                                goPage={this.goPage.bind(this)} // 翻页
+                                goLink={this.goLink.bind(this)}
+                                data={list}
+                                loading={tableLoading}
+                                actionAuth={['delete']}
+                            // pageAuth={false}                              
+                            />) : (<Spin />)}
+
                         </div>
                     </div>
                 )} />
