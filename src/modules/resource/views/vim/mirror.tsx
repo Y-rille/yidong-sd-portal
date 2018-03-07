@@ -72,10 +72,14 @@ class Mirror extends React.Component<any, any> {
     }
     tableList() {
         let list = this.props.list
+        const { pageSize, tableLoading, project, name } = this.state;
+
         if (list) {
             return (
                 <CompactTable
                     outStyle={{ marginTop: '20px' }}
+                    pageSize={pageSize}
+                    loading={tableLoading}
                     goPage={this.goPage.bind(this)} // 翻页
                     goLink={this.goLink.bind(this)}
                     data={list}
@@ -109,6 +113,9 @@ class Mirror extends React.Component<any, any> {
         }
         this.getTableData(queryObj)
 
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
     }
     render() {
         let { match, list, nodeInfo } = this.props
