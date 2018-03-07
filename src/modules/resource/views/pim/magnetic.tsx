@@ -22,7 +22,7 @@ class Magnetic extends React.Component<any, any> {
             visible: false,
             filterDate: null,
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             datacenter: datacenter ? datacenter : 1,
             vendor: vendor ? vendor : '',
@@ -288,8 +288,6 @@ class Magnetic extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px 20px 0px' }}>
                             <div className={styles.queryBar}>
-                                {/* <Cascader options={DataCenter} onChange={this.onChangeDataCenter.bind(this)} placeholder="数据中心" />
-                                <Cascader options={Supplier} onChange={this.onChangeSupplier.bind(this)} placeholder="供应商" /> */}
                                 <Cascaderor type="DataCenter" data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
                                 <Selector type="DataVendor" data={this.props.subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
                                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
