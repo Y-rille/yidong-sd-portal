@@ -10,6 +10,8 @@ function mapProps(state) {
     return {
         name: state.resourceReducer.name,
         config: state.resourceReducer.config,
+        subDataDatacenter: state.resourceReducer.subDataDatacenter,
+        subDataVendor: state.resourceReducer.subDataVendor,
     }
 }
 function mapDispatchToProps(dispatch) {
