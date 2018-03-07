@@ -23,7 +23,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
     formRef: any;
     constructor(props) {
         super(props);
-        let { pageNo, datacenter, vendor } = qs.parse(this.props.location.search)
+        let { pageNo, datacenter, name } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/pim/:id'
         })
