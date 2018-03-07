@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Modal } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Modal, Spin } from 'antd';
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
 
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable'
+import qs from 'querystringify'
 
 const attributes = [
     {
@@ -270,19 +271,35 @@ import Item from 'antd/lib/list/Item';
 class HostInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        let { match } = this.props
+        let { pageNo } = qs.parse(this.props.location.search)
         this.state = {
-            reset: false
+            reset: false,
+            tableLoading: false,
+            pageNo: pageNo ? pageNo : 1,
+            pageSize: 1,
+            activeKey: 'imdsHostProcessor',
+            host: match.params.id
         }
     }
     onChange(key) {
         if (key === 'relation') {
-            this.props.actions.queryList('imdsHostProcessor', { 'host': 1 })
+            let { pageNo } = this.state
+            let queryObj = {
+                pageNo
+            }
+            this.getTableData(queryObj)
         }
     }
     onTab(key) {
         let match = this.props.match
         let id = match.params.id
-        this.props.actions.queryList(key, { 'host': id })
+        this.setState({
+            pageNo: 1,
+            activeKey: key
+        }, () => {
+            this.getTableData({ pageNo: 1 })
+        })
     }
     handleEditData(d) {
         // console.log(d, '=============>hostInfo')
@@ -297,6 +314,26 @@ class HostInfo extends React.Component<any, any> {
     }
     showServer = (e) => {
         this.props.history.replace(`/resource/pim/4/server/info/1`)
+    }
+    goPage(num) {
+        let pageNo = num
+        let queryObj = { pageNo }
+        this.getTableData({
+            pageNo
+        })
+    }
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { pageSize, activeKey, host } = this.state
+        this.props.actions.queryList(activeKey, { pageNo, pageSize, host }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
     }
     componentWillMount() {
         this.props.actions.getObjAttributes(1)
@@ -313,34 +350,42 @@ class HostInfo extends React.Component<any, any> {
             </div>
         )
     }
-    renderTab() {
-        let title = ['处理器信息', '内存信息', '端口信息', 'LLDP信息']
-        let keys = ['imdsHostProcessor', 'imdsHostMemory', 'imdsHostPort', 'imdsHostLLDP']
-        let list = this.props.list
-        if (list) {
-            return (
-                keys.map((item, key) => {
-                    return (
-                        <TabPane tab={title[key]} key={item}>
-                            <CompactTable
-                                // goPage={this.goPage.bind(this)} // 翻页
-                                // goLink={this.goLink.bind(this)}
-                                actionAuth={[]}
-                                // pageAuth={true}
-                                data={list}
-                                outStyle={{ 'marginTop': '20px' }}
-                            />
-                        </TabPane>
-                    )
-                })
-            )
-        }
-    }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
                 <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
             )
+        }
+    }
+    renderTab() {
+        let title = ['处理器信息', '内存信息', '端口信息', 'LLDP信息']
+        let keys = ['imdsHostProcessor', 'imdsHostMemory', 'imdsHostPort', 'imdsHostLLDP']
+        let list = this.props.list
+        const { pageSize, tableLoading } = this.state;
+        if (list) {
+            return (
+                keys.map((item, key) => {
+                    if (item) {
+                        return (
+                            <TabPane tab={title[key]} key={item}>
+                                <CompactTable
+                                    goPage={this.goPage.bind(this)} // 翻页
+                                    // goLink={this.goLink.bind(this)}
+                                    pageSize={pageSize}
+                                    loading={tableLoading}
+                                    actionAuth={[]}
+                                    // pageAuth={true}
+                                    data={list}
+                                    outStyle={{ 'marginTop': '20px' }}
+                                />
+                            </TabPane>
+                        )
+                    } else {
+                        return (
+                            <Spin />
+                        )
+                    }
+                }))
         }
     }
     render() {
