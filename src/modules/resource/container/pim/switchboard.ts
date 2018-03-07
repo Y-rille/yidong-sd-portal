@@ -12,7 +12,7 @@ function mapProps(state) {
         config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
         subDataCenter: state.resourceReducer.subDataCenter,
-
+        list: state.resourceReducer.list,
     }
 }
 function mapDispatchToProps(dispatch) {

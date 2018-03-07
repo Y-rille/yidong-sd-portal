@@ -310,7 +310,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                     {this.renderAddData()}
                                 </Modal>
                             </div>
-                            <CompactTable
+                            {list ? (<CompactTable
                                 outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
@@ -318,7 +318,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={['delete']}
-                            />
+                            />) : (<Spin />)}
                         </div>
                     </div>
                 )} />
