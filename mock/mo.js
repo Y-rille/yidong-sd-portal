@@ -1,3 +1,5 @@
+var _ = require('lodash')
+var faker = require('faker');
 /**
  * 资源实例活动告警查询
  */
@@ -809,6 +811,31 @@ let subData = {
     }
   }
 }
+
+// 定义一个数据组
+let items = []
+  for (i = 1; i < 101; i++) {
+    items.push(
+      {
+        "id": i,
+        "az": `${faker.internet.userName()},${faker.internet.userName()}`,
+        "name": `${faker.internet.ip()}`,
+        "ha": `${faker.internet.userName()},${faker.internet.userName()}`,
+        "role": `${faker.internet.userName()}`
+      }
+    )
+  }
+// 根据传递的分页参数返回数据
+let getList = (pageSize = 10, pageNo = 1, order_by = 'id', order = 'asc') => {
+  items = _.orderBy(items, [order_by], [order]);
+  let newData = []
+  for (let i = (parseInt(pageNo)-1)  * pageSize; i < pageNo * pageSize; i++){
+    if(items[i]) newData.push(items[i])
+    
+  }
+  return newData
+} 
+
 /** 
  * 数据列表查询
 */
@@ -817,10 +844,39 @@ let queryList = {
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
+    let items_list = []
+    switch (params.dsname) {
+      case 'imdsFlavor':
+        items_list = items.slice(0, 45)
+        break;
+      case 'imdsController':
+        items_list = items.slice(0, 34)
+        break;
+      case 'imdsHost':
+        items_list = items.slice(0, 88)
+        break;
+      case 'imdsStorage':
+        items_list = items.slice(0, 90)
+        break;
+      case 'imdsVM':
+        items_list = items.slice(0, 76)
+        break;
+      default:
+      items_list = items.slice(0, 100)
+    }
+    let totalCount = items_list.length
+    let pageNo = query.pageNo
+    let pageSize = query.pageSize
+    let dataList = getList(pageSize,pageNo)
     return {
       "code": 1,
       "data": {
         "header": [
+          {
+            "key": "id",
+            "title": `ID`,
+            "link": true
+          },
           {
             "key": "name",
             "title": `${params.dsname}`,
@@ -842,23 +898,10 @@ let queryList = {
             "link": false
           }
         ],
-        "dataList": [
-          {
-            "az": "xasa,AAAAS",
-            "name": "10.255.242.215",
-            "ha": "xasa",
-            "role": "主"
-          },
-          {
-            "az": "xasa,AAAAS",
-            "name": "10.255.242.216",
-            "ha": "xasa",
-            "role": "主"
-          }
-        ],
-        "pageNo": 1,
-        "pageSize": 10,
-        "totalCount": 2
+        "dataList": dataList,
+        "pageNo": pageNo,
+        "pageSize": pageSize,
+        "totalCount": totalCount
       }
     }
   }

@@ -7,16 +7,26 @@ import CompactTable from '../../../../components/CompactTable'
 import FilterSwitchBoardForm from '../../../../components/FilterSwitchBoardForm'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Input, Modal } from 'antd';
 import styles from '../../style/index.less'
+import qs from 'querystringify'
 
 class Switchboard extends React.Component<any, any> {
     formRef: any;
     constructor(props) {
         super(props);
+        let { pageNo, datacenter, vendor } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/pim/:id'
+        })
         this.state = {
-            dataValue: ['数据中心'],
-            nameValue: '',
             visible: false,
-            dataVisible: false
+            dataVisible: false,
+            tableLoading: false,
+            datacenter: datacenter ? datacenter : '',
+            pim_id: mp_node ? mp_node.params.id : '',
+            name: name ? name : '',
+            pageSize: 10,
+            pageNo: pageNo ? pageNo : 1,
+
         };
     }
     goInfo = () => {
@@ -24,19 +34,37 @@ class Switchboard extends React.Component<any, any> {
     }
     onDataChange(value) {
         this.setState({
-            dataValue: value
+            datacenter: value
         })
     }
     onNameChange(value) {
         this.setState({
-            nameValue: value
+            name: value
         })
     }
     handleClick() {
-        const { dataValue, nameValue } = this.state;
-        // console.log(dataValue, nameValue)
+        const { datacenter, name } = this.state;
+        let pageNo = 1
+        this.setState({
+            pageNo
+        }, () => {
+            let { match } = this.props
+            let queryObj = { pageNo, datacenter, name }
+            this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
+            this.getTableData()
+        });
     }
-    goPage = () => {
+    goPage = (num) => {
+        this.setState({
+            pageNo: num
+        }, () => {
+            let { match } = this.props
+            let { name, pim_id, datacenter } = this.state
+            let pageNo = num
+            let queryObj = { pageNo, name, datacenter }
+            this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
+            this.getTableData()
+        })
 
     }
     goLink(key, obj) {
@@ -118,91 +146,35 @@ class Switchboard extends React.Component<any, any> {
         });
         this.formRef.handleReset()
     }
-    getData(data) {
+    getData(value) {
+        let { vendor } = this.state
         this.setState({
-            dataVisible: true
+            dataVisible: true,
+            vendor: value
+        })
+
+    }
+    getTableData() {
+        this.setState({
+            tableLoading: true
+        });
+        let { name, datacenter, pageSize, pageNo } = this.state
+        this.props.actions.queryList('imdsSwitch', { name, datacenter, pageNo, pageSize }, () => {
+            this.setState({
+                tableLoading: false
+            });
         })
     }
+    componentWillMount() {
+        this.getTableData()
+    }
+    componentWillUnMount() {
+        this.props.actions.resetList()
+    }
     render() {
-        let tdata = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '序号',
-                link: true,
-            }, {
-                key: 'name',
-                title: '磁阵名称',
-            }, {
-                key: 'mobile',
-                title: '资产编号',
-            }, {
-                key: 'ip',
-                title: '管理IP'
-            },
-            {
-                key: 'email',
-                title: '设备类型',
-            }, {
-                key: 'cpu',
-                title: '型号'
-            }],
-            'body': [
-                {
-                    'id': 1,
-                    'name': 'D19-COMP06',
-                    'mobile': '0000',
-                    'ip': '188.103.21',
-                    'email': '123124124214214',
-                    'cpu': 'HPProLlant DL380',
-                }, {
-                    'id': 2,
-                    'name': 'D19-COMP06',
-                    'mobile': '0000',
-                    'ip': '188.103.21',
-                    'email': '123124124214214',
-                    'cpu': 'HPProLlant DL380',
-                }, {
-                    'id': 3,
-                    'name': 'D19-COMP06',
-                    'mobile': '0000',
-                    'ip': '188.103.21',
-                    'email': '123124124214214',
-                    'cpu': 'HPProLlant DL380',
-                }, {
-                    'id': 4,
-                    'name': 'D19-COMP06',
-                    'mobile': '0000',
-                    'ip': '188.103.21',
-                    'email': '123124124214214',
-                    'cpu': 'HPProLlant DL380',
-                }, {
-                    'id': 5,
-                    'name': 'D19-COMP06',
-                    'mobile': '0000',
-                    'ip': '188.103.21',
-                    'email': '123124124214214',
-                    'cpu': 'HPProLlant DL380',
-                }, {
-                    'id': 6,
-                    'name': 'D19-COMP06',
-                    'mobile': '0000',
-                    'ip': '188.103.21',
-                    'email': '123124124214214',
-                    'cpu': 'HPProLlant DL380',
-                }, {
-                    'id': 7,
-                    'name': 'D19-COMP06',
-                    'mobile': '0000',
-                    'ip': '188.103.21',
-                    'email': '123124124214214',
-                    'cpu': 'HPProLlant DL380',
-                }
-            ]
-        }
-        let { match, nodeInfo } = this.props;
+        const { name, datacenter, pageSize, tableLoading } = this.state;
+        let { match, nodeInfo, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { dataValue, nameValue } = this.state;
         const DataCenter = [{
             value: '数据中心1',
             label: '数据中心1',
@@ -296,12 +268,12 @@ class Switchboard extends React.Component<any, any> {
                                 <Cascader
                                     options={DataCenter}
                                     onChange={this.onDataChange.bind(this)}
-                                    placeholder={dataValue}
+                                    placeholder={datacenter}
                                 />
                                 <Input
                                     placeholder="名称，编号"
-                                    value={nameValue} type="text"
-                                    onChange={this.onNameChange.bind(this)}
+                                    value={name} type="text"
+                                    onChange={e => this.onNameChange(e.target.value)}
                                 />
                                 <Button
                                     type="primary"
@@ -325,8 +297,9 @@ class Switchboard extends React.Component<any, any> {
                                 outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
-                                data={tdata}
-                                // pageAuth={true}
+                                data={list}
+                                pageSize={pageSize}
+                                loading={tableLoading}
                                 actionAuth={['delete']}
                             />
                         </div>

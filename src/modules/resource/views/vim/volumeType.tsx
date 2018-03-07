@@ -33,7 +33,7 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         })
         this.state = {
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             vim_id: mp_node ? mp_node.params.id : '',
