@@ -823,7 +823,7 @@ let queryList = {
         "header": [
           {
             "key": "name",
-            "title": "主机名称",
+            "title": `${params.dsname}`,
             "link": false
           },
           {
