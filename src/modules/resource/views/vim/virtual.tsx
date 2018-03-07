@@ -18,7 +18,7 @@ class Virtual extends React.Component<any, any> {
         })
         this.state = {
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             region: region ? region : '',
             az: az ? az : '',

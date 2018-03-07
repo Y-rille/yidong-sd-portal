@@ -20,9 +20,9 @@ class Pim extends React.Component<any, any> {
         })
     }
     render() {
-        let { match, subDataDatacenter, subDataVendor } = this.props
+        let { match, subDataCenter, subDataVendor } = this.props
         return (
-            (subDataDatacenter && subDataVendor) ? (
+            (subDataCenter && subDataVendor) ? (
                 <div>
                     <Switch>
                         <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact />
