@@ -62,7 +62,7 @@ class API {
   }
   editObjData(moTypeKey, moInstId, editData) {
     // 1.4   
-    return axios.post(`/api_resource/rms-agent/api/configure/${moTypeKey}/${moInstId}`, editData)
+    return axios.post(`/api_agent/rms-agent/api/configure/${moTypeKey}/${moInstId}`, editData)
   }
 }
 
