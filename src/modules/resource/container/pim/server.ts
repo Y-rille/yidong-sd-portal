@@ -12,6 +12,7 @@ function mapProps(state) {
         nodeInfo: state.resourceReducer.nodeInfo,
         subDataVendor: state.resourceReducer.subDataVendor,
         list: state.resourceReducer.list,
+        subDataCenter: state.resourceReducer.subDataCenter,
     }
 }
 function mapDispatchToProps(dispatch) {
