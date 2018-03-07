@@ -54,7 +54,7 @@ class Virtual extends React.Component<any, any> {
         let { match } = this.props
         let { region, az, ha, host } = this.state
         let pageNo = num
-        let queryObj = { pageNo, region, az, ha }
+        let queryObj = { pageNo, region, az, ha, host }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo

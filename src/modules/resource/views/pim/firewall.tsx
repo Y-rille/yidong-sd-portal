@@ -38,7 +38,7 @@ class Firewall extends React.Component<FirewallProps, any> {
             visible: false,
             filterDate: null,
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             datacenter: datacenter ? datacenter : '',
             vendor: vendor ? vendor : '',
