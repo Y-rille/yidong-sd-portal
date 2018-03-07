@@ -11,7 +11,7 @@ function mapProps(state) {
         name: state.resourceReducer.name,
         config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
-        subDataDatacenter: state.resourceReducer.subDataDatacenter,
+        subDataCenter: state.resourceReducer.subDataCenter,
         subDataVendor: state.resourceReducer.subDataVendor,
     }
 }
