@@ -79,7 +79,7 @@ class Host extends React.Component<HostProps, any> {
         let { region, az, ha, activeKey } = this.state
         let pageNo = num
         let queryObj = { pageNo, region, az, ha }
-        this.props.history.push(`${match.url}/${activeKey}?${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
