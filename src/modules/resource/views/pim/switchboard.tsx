@@ -5,11 +5,21 @@ import { matchPath } from 'react-router'
 import SwitchboardInfo from '../../container/pim/switchboardInfo'
 import CompactTable from '../../../../components/CompactTable'
 import FilterSwitchBoardForm from '../../../../components/FilterSwitchBoardForm'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Input, Modal } from 'antd';
+import Cascaderor from '../../../../components/Cascaderor'
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Input, Modal } from 'antd'
 import styles from '../../style/index.less'
 import qs from 'querystringify'
-
-class Switchboard extends React.Component<any, any> {
+import { ResourceActions } from '../../actions/index'
+export interface SwitchboardProps {
+    location?,
+    history?,
+    actions: ResourceActions,
+    match,
+    subDataCenter?
+    nodeInfo?,
+    list?
+}
+class Switchboard extends React.Component<SwitchboardProps, any> {
     formRef: any;
     constructor(props) {
         super(props);
@@ -21,10 +31,11 @@ class Switchboard extends React.Component<any, any> {
             visible: false,
             dataVisible: false,
             tableLoading: false,
-            datacenter: datacenter ? datacenter : '',
+            dataCenterValue: [],
             pim_id: mp_node ? mp_node.params.id : '',
             name: name ? name : '',
             pageSize: 10,
+            datacenter: datacenter ? datacenter : '',
             pageNo: pageNo ? pageNo : 1,
 
         };
@@ -154,6 +165,12 @@ class Switchboard extends React.Component<any, any> {
         })
 
     }
+    getCascaderData(type, value) {
+        let { dataCenterValue } = this.state
+        this.setState({
+            dataCenterValue: type === 'DataCenter' ? value : dataCenterValue,
+        })
+    }
     getTableData() {
         this.setState({
             tableLoading: true
@@ -172,7 +189,7 @@ class Switchboard extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     render() {
-        const { name, datacenter, pageSize, tableLoading } = this.state;
+        const { name, dataCenterValue, pageSize, tableLoading } = this.state;
         let { match, nodeInfo, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const DataCenter = [{
@@ -265,10 +282,10 @@ class Switchboard extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Cascader
-                                    options={DataCenter}
-                                    onChange={this.onDataChange.bind(this)}
-                                    placeholder={datacenter}
+                                <Cascaderor
+                                    type="DataCenter"
+                                    data={this.props.subDataCenter}
+                                    getCascaderData={this.getCascaderData.bind(this)} value={dataCenterValue}
                                 />
                                 <Input
                                     placeholder="名称，编号"
@@ -293,7 +310,7 @@ class Switchboard extends React.Component<any, any> {
                                     {this.renderAddData()}
                                 </Modal>
                             </div>
-                            <CompactTable
+                            {list ? (<CompactTable
                                 outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
@@ -301,7 +318,7 @@ class Switchboard extends React.Component<any, any> {
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={['delete']}
-                            />
+                            />) : (<Spin />)}
                         </div>
                     </div>
                 )} />
