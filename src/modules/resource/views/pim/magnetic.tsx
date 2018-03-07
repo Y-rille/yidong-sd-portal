@@ -7,39 +7,85 @@ import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 import MagneticTable from '../../../../components/MagneticTable/'
-
+import Cascaderor from '../../../../components/Cascaderor'
+import Selector from '../../../../components/Selector'
+import qs from 'querystringify'
 class Magnetic extends React.Component<any, any> {
     formRef: any
     constructor(props) {
         super(props);
+        let { datacenter, vendor, pageNo } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/pim/:id'
+        })
         this.state = {
             visible: false,
-            filterDate: null
+            filterDate: null,
+            tableLoading: false,
+            pageSize: 1,
+            pageNo: pageNo ? pageNo : 1,
+            datacenter: datacenter ? datacenter : 1,
+            vendor: vendor ? vendor : '',
+            pim_id: mp_node.params.id ? mp_node.params.id : ''
         };
-    }
-    goInfo = () => {
-        let { match } = this.props
-        this.props.history.push(`${match}/info/1`)
     }
     getData(formData) {
         this.setState({
-            filterDate: formData
+            filterDate: formData,
         })
     }
-    onChangeDataCenter(value) {
-        // console.log(value, 'ppp')
+    handleClick() {
+        let { match } = this.props
+        let pageNo = 1
+        let { datacenter, vendor } = this.state
+        let queryObj = { pageNo, datacenter, vendor }
+        this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
+        this.setState({
+            pageNo
+        });
+        this.getTableData(queryObj)
     }
-    onChangeSupplier(value) {
-        // console.log(value, 'ooo')
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { datacenter, vendor, pageSize, pim_id } = this.state
+        this.props.actions.queryList('imdsSwitchDiskArray', { pageNo, pageSize, datacenter, vendor, pim_id }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
     }
-    goPage = () => {
-        // this.props.history.push(`/resource/vim/1/host/info`)
+    componentWillMount() {
+        let { pathname } = this.props.location
+        let { pageNo } = this.state
+        let queryObj = {
+            pageNo
+        }
+        this.getTableData(queryObj)
+    }
+    getCascaderData(type, value) {
+        let { dataCenterValue, dataVendorValue } = this.state
+        this.setState({
+            dataCenterValue: type === 'DataCenter' ? value : dataCenterValue,
+            dataVendorValue: type === 'DataVendor' ? value : dataVendorValue
+        })
+    }
+    goPage = (num) => {
+        let { match } = this.props
+        let { datacenter, vendor } = this.state
+        let pageNo = num
+        let queryObj = { pageNo, datacenter, vendor }
+        this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
     }
     goLink(key, obj) {
         let { match } = this.props
-        if (key === 'id') {
-            this.props.history.push(`${match.url}/info/${obj.id}`)
-        }
+        this.props.history.push(`${match.url}/info/1`)
     }
     showModal = () => {
         this.setState({
@@ -59,6 +105,9 @@ class Magnetic extends React.Component<any, any> {
             filterDate: null
         });
         this.formRef.handleReset()
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
     }
     renderAddData() {
         let filterDate = {
@@ -216,7 +265,8 @@ class Magnetic extends React.Component<any, any> {
             value: '供应商2',
             label: '供应商2'
         }]
-        let { match, nodeInfo } = this.props
+        let { match, nodeInfo, list } = this.props;
+        const { datacenter, vendor, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
@@ -238,9 +288,11 @@ class Magnetic extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px 20px 0px' }}>
                             <div className={styles.queryBar}>
-                                <Cascader options={DataCenter} onChange={this.onChangeDataCenter.bind(this)} placeholder="数据中心" />
-                                <Cascader options={Supplier} onChange={this.onChangeSupplier.bind(this)} placeholder="供应商" />
-                                <Button type="primary">查询</Button>
+                                {/* <Cascader options={DataCenter} onChange={this.onChangeDataCenter.bind(this)} placeholder="数据中心" />
+                                <Cascader options={Supplier} onChange={this.onChangeSupplier.bind(this)} placeholder="供应商" /> */}
+                                <Cascaderor type="DataCenter" data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
+                                <Selector type="DataVendor" data={this.props.subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
+                                <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
                                 <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
                                 <Modal
                                     title="发现"
@@ -261,128 +313,9 @@ class Magnetic extends React.Component<any, any> {
                             <CompactTable
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
-                                data={{
-                                    'count': 10,
-                                    'header': [{
-                                        key: 'id',
-                                        title: '序号',
-
-                                        link: true,
-                                    }, {
-                                        key: 'name',
-                                        title: '磁阵名称',
-
-                                        link: true,
-                                    }, {
-                                        key: 'mobile',
-                                        title: '资产编号',
-                                    }, {
-                                        key: 'vm',
-                                        title: '管理IP'
-                                    },
-                                    {
-                                        key: 'email',
-                                        title: '序列号',
-                                    }, {
-                                        key: 'cpu',
-                                        title: '型号'
-                                    }, {
-                                        key: 'memory',
-                                        title: '供应商'
-                                    }],
-                                    'body': [
-                                        {
-                                            'id': 1,
-                                            'name': 'D19-COMP06',
-                                            'mobile': '0000',
-                                            'vm': '188.103.21',
-                                            'email': '123124124214214',
-                                            'cpu': 'HPProLIant DL380',
-                                            'memory': '上电',
-                                        },
-                                        {
-                                            'id': 2,
-                                            'name': 'ZJHZ-NFV3-SQ5-3F',
-                                            'mobile': '0000',
-                                            'vm': '188.103.21',
-                                            'email': '123124124214214',
-                                            'cpu': 'HPProLIant DL380',
-                                            'memory': 'HPE',
-                                        },
-                                        {
-                                            'id': 3,
-                                            'name': 'ZJHZ-NFV3-SQ5-3F',
-                                            'mobile': '0000',
-                                            'vm': '188.103.21',
-                                            'email': '123124124214214',
-                                            'cpu': 'HPProLIant DL380',
-                                            'memory': 'HPE',
-                                        },
-                                        {
-                                            'id': 4,
-                                            'name': 'ZJHZ-NFV3-SQ5-3F',
-                                            'mobile': '0000',
-                                            'vm': '188.103.21',
-                                            'email': '123124124214214',
-                                            'cpu': 'HPProLIant DL380',
-                                            'memory': 'HPE',
-                                        },
-                                        {
-                                            'id': 5,
-                                            'name': 'ZJHZ-NFV3-SQ5-3F',
-                                            'mobile': '0000',
-                                            'vm': '188.103.21',
-                                            'email': '123124124214214',
-                                            'cpu': 'HPProLIant DL380',
-                                            'memory': 'HPE',
-                                        },
-                                        {
-                                            'id': 6,
-                                            'name': 'ZJHZ-NFV3-SQ5-3F',
-                                            'mobile': '0000',
-                                            'vm': '188.103.21',
-                                            'email': '123124124214214',
-                                            'cpu': 'HPProLIant DL380',
-                                            'memory': '华为',
-                                        },
-                                        {
-                                            'id': 7,
-                                            'name': 'ZJHZ-NFV3-SQ5-3F',
-                                            'mobile': '0000',
-                                            'vm': '188.103.21',
-                                            'email': '123124124214214',
-                                            'cpu': 'HPProLIant DL380',
-                                            'memory': '华为',
-                                        },
-                                        {
-                                            'id': 8,
-                                            'name': 'ZJHZ-NFV3-SQ5-3F',
-                                            'mobile': '0000',
-                                            'vm': '188.103.21',
-                                            'email': '123124124214214',
-                                            'cpu': 'HPProLIant DL380',
-                                            'memory': '华为',
-                                        },
-                                        {
-                                            'id': 9,
-                                            'name': 'ZJHZ-NFV3-SQ5-3F',
-                                            'mobile': '0000',
-                                            'vm': '188.103.21',
-                                            'email': '123124124214214',
-                                            'cpu': 'HPProLIant DL380',
-                                            'memory': '华为',
-                                        },
-                                        {
-                                            'id': 10,
-                                            'name': 'ZJHZ-NFV3-SQ5-3F',
-                                            'mobile': '0000',
-                                            'vm': '188.103.21',
-                                            'email': '123124124214214',
-                                            'cpu': 'HPProLIant DL380',
-                                            'memory': '华为',
-                                        }
-                                    ]
-                                }}
+                                pageSize={pageSize}
+                                loading={tableLoading}
+                                data={list}
                                 actionAuth={['delete']}
                             />
                         </div>
