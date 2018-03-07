@@ -29,9 +29,6 @@ export const getMoTree = (cb) => (dispatch) => {
 export const queryList = (dsname, params, cb) => (dispatch) => {
     return API.queryList(dsname, params).then((res: any) => {
         let data = res.data.data
-
-        data.header[0].link = true
-        data.pageNo = params.pageNo
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: data }
         dispatch(action);
         if (cb) {

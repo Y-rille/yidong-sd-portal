@@ -28,7 +28,7 @@ class AzInfo extends React.Component<any, any> {
         })
         this.state = {
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             ha: ha ? ha : '',
             pageNo: pageNo ? pageNo : 1,
             vim_id: mp_node.params.id,

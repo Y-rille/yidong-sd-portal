@@ -30,7 +30,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
         })
         this.state = {
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             name: name ? name : '',
@@ -61,13 +61,13 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
         let { match } = this.props
         let { project, name } = this.state
         let pageNo = num
-        let queryObj = { pageNo, project, name}
+        let queryObj = { pageNo, project, name }
         this.props.history.push(`${match.url}/storage_volume?${stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
     }
-    getData(type, value) { 
+    getData(type, value) {
         let { project } = this.state
         this.setState({
             project: type === 'Project' ? value : project
@@ -83,8 +83,8 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { project, name, pageSize, vim_id} = this.state
-        this.props.actions.queryList('imdsStorageVolum', { pageNo, pageSize, project, name, vim_id}, () => {
+        let { project, name, pageSize, vim_id } = this.state
+        this.props.actions.queryList('imdsStorageVolum', { pageNo, pageSize, project, name, vim_id }, () => {
             self.setState({
                 tableLoading: false
             });
@@ -94,11 +94,11 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
         let { pathname } = this.props.location
 
         // if (this.state.activeKey.length > 0) {  // 刷新
-            let { pageNo } = this.state
-            let queryObj = {
-                pageNo
-            }
-            this.getTableData(queryObj)
+        let { pageNo } = this.state
+        let queryObj = {
+            pageNo
+        }
+        this.getTableData(queryObj)
         // }
     }
     componentWillUnmount() {
@@ -116,7 +116,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
 
     // }
     render() {
-        let { match , list} = this.props;
+        let { match, list } = this.props;
         const { pageNo, project, name, pageSize, tableLoading } = this.state;
 
         let tdata = {
@@ -304,7 +304,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                                     loading={tableLoading}
                                     actionAuth={[]}
                                 />
-                                ) : (
+                            ) : (
                                     <Spin />
                                 )
                             }

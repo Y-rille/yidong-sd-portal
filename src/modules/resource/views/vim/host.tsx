@@ -38,7 +38,7 @@ class Host extends React.Component<HostProps, any> {
                 matchPath(pathname, { path: `${match.url}/imdsStorage` }) != null && 'imdsStorage'
             ]).toString(),
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             region: region ? region : '',
             az: az ? az : '',
