@@ -3,45 +3,60 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import ServerInfo from '../../container/pim/serverInfo'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Modal, Cascader } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Modal, Cascader } from 'antd';
+import qs from 'querystringify'
+import { stringify } from 'querystringify'
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
+import Selector from '../../../../components/Selector'
 import FilterServerForm from '../../../../components/FilterServerForm'
-const Option = Select.Option;
+
 class Server extends React.Component<any, any> {
     formRef: any;
     constructor(props) {
         super(props);
+
+        let { pageNo, vendor, name } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/:type/:id'
+        })
         this.state = {
-            dataSelectValue: '',
-            supplierSelectValue: '1',
+            dataSelectValue: '',    // 数据中心
+            vendor: vendor ? vendor : '',   // 供应商
+            tableLoading: false,
+            pageSize: 10,
+            pageNo: pageNo ? pageNo : 1,
+            pim_id: mp_node.params.id,
             visible: false,
             filterData: null
-
         }
     }
     getData(data) {
-        // console.log(data, '=======================>data');
         this.setState({
             filterData: data
         })
-    }
-    goInfo = () => {
-        this.props.history.push(`/resource/pim/3/server/info`)
     }
     dataSelectChange(value) {
         this.setState({
             dataSelectValue: value
         })
     }
-    supplierSelectChange(value) {
+    // supplierSelectChange(value) {    // 数据中心 
+    //     this.setState({
+    //         supplierSelectValue: value
+    //     })
+    // }
+    handleClick() { // 查询按钮
         this.setState({
-            supplierSelectValue: value
-        })
-    }
-    handleClick() {
-        const { dataSelectValue, supplierSelectValue } = this.state;
-        // console.log(dataSelectValue, supplierSelectValue);
+            pageNo: 1
+        }, () => {
+            let { match } = this.props
+            const { vendor, pageNo } = this.state;
+            let queryObj = { pageNo, vendor }
+            this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+            this.getTableData()
+        });
+
     }
     showModal = () => {
         this.setState({
@@ -62,14 +77,50 @@ class Server extends React.Component<any, any> {
         });
         this.formRef.resetForm()
     }
-    goPage = () => {
-        // this.props.history.push(`/resource/pim/1/server/info`)
+    goPage = (num) => {
+        let { match } = this.props
+        let { vendor } = this.state
+        let pageNo = num
+        this.setState({
+            pageNo: num
+        }, () => {
+            this.getTableData()
+            let queryObj = { pageNo, vendor }
+            this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        })
     }
     goLink(key, obj) {
         let { match } = this.props
-        if (key === 'id') {
-            this.props.history.push(`${match.url}/info/${obj.id}`)
-        }
+        // if (key === 'id') {
+        this.props.history.push(`${match.url}/info/${obj.id}`)
+        // }
+    }
+    getVendorData(type, value) {  // 供应商条件切换
+        let { vendor } = this.state
+        this.setState({
+            vendor: type === 'Vendor' ? value : vendor
+        })
+    }
+    getTableData() {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { vendor, pageSize, pim_id, pageNo } = this.state
+        this.props.actions.queryList('imdsServer', { pageNo, pageSize, vendor, pim_id }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
+    componentDidMount() {
+        this.getTableData()
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
+    goDelete(obj) {
+        // console.log(obj, '---');
     }
     selectRow = () => { }
     renderAddData() {
@@ -222,9 +273,10 @@ class Server extends React.Component<any, any> {
             ]
         }
 
-        let { match, nodeInfo } = this.props;
+        let { match, nodeInfo, subDataVendor, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { dataSelectValue, supplierSelectValue } = this.state;
+        const { dataSelectValue, vendor, pageSize, tableLoading } = this.state;
+
         const DataCenter = [{
             value: '数据中心1',
             label: '数据中心1',
@@ -320,12 +372,7 @@ class Server extends React.Component<any, any> {
                                     onChange={this.dataSelectChange.bind(this)}
                                     placeholder="数据中心"
                                 />
-                                <Select
-                                    value={supplierSelectValue}
-                                    onChange={this.supplierSelectChange.bind(this)}
-                                >
-                                    <Option value="1">供应商</Option>
-                                </Select>
+                                <Selector type="Vendor" data={subDataVendor} getData={this.getVendorData.bind(this)} value={vendor} />
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}
@@ -347,12 +394,21 @@ class Server extends React.Component<any, any> {
                                     {this.renderAddData()}
                                 </Modal>
                             </div>
-                            <CompactTable
-                                // goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                data={tdata}
-                                actionAuth={['delete']}
-                            />
+                            {
+                                this.props.list ? (
+                                    <CompactTable
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        goDelete={this.goDelete.bind(this)}
+                                        data={list}
+                                        loading={tableLoading}
+                                        pageSize={pageSize}
+                                        actionAuth={['delete']}
+                                    />
+                                ) : (
+                                        <Spin />
+                                    )
+                            }
                         </div>
                     </div>
                 )} />
