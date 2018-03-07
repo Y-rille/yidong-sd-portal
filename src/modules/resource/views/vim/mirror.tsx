@@ -21,7 +21,7 @@ class Mirror extends React.Component<any, any> {
         })
         this.state = {
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             name: name ? name : '',

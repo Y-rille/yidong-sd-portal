@@ -431,6 +431,33 @@ class VirtualInfo extends React.Component<any, any> {
     onChange() {
 
     }
+    handleEditData(d) {
+        // console.log(d, '=============>hostInfo')
+        let moTypeKey = 'vm'
+        let match = this.props.match
+        let moInstId = match.params.id
+        // let moInstId = 
+        this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
+            if (err || qdata.code !== 1) {
+
+            }
+            if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey)
+            }
+        })
+    }
+    componentWillMount() {
+        let moTypeKey = 'vm'
+        this.props.actions.getObjAttributes(moTypeKey)
+        this.props.actions.getObjData(moTypeKey)
+    }
+    renderDynamicPropertiesCollapse() {
+        if (this.props.objAttributes && this.props.objData) {
+            return (
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+            )
+        }
+    }
     render() {
         let { nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
@@ -457,7 +484,7 @@ class VirtualInfo extends React.Component<any, any> {
                         <TabPane tab="资源详情" key="1">
                             <Tabs defaultActiveKey="1" animated={false} size="small">
                                 <TabPane tab="资源概况" key="1">
-                                    <DynamicPropertiesCollapse attributes={attributes} data={data} />
+                                    {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
                                 <TabPane tab="日志" key="2">日志</TabPane>
                             </Tabs>

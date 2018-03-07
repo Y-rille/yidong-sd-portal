@@ -23,18 +23,17 @@ var qs = require('querystringify')
 class HaInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        let { pageNo, region, vim_id, name, az } = qs.parse(this.props.location.search)
+        let { pageNo, vim_id, name, az } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/:type/:id'
         })
         this.state = {
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             az: az ? az : '',
             pageNo: pageNo ? pageNo : 1,
             vim_id: mp_node.params.id,
             name: name ? name : '',
-            region: region ? region : '',
         }
     }
     getTableData() {
@@ -42,8 +41,8 @@ class HaInfo extends React.Component<any, any> {
             tableLoading: true
         });
         let self = this
-        let { region, name, pageSize, vim_id, pageNo, az } = this.state
-        this.props.actions.queryList('imdsHAHost', { pageNo, pageSize, region, name, vim_id, az }, () => {
+        let { name, pageSize, vim_id, pageNo, az } = this.state
+        this.props.actions.queryList('imdsHAHost', { pageNo, pageSize, name, vim_id, az }, () => {
             self.setState({
                 tableLoading: false
             });
@@ -51,13 +50,13 @@ class HaInfo extends React.Component<any, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { region, name } = this.state
+        let { name } = this.state
         let pageNo = num
         this.setState({
             pageNo: num
         }, () => {
             this.getTableData()
-            let queryObj = { pageNo, region, name }
+            let queryObj = { pageNo, name }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         })
     }
@@ -66,8 +65,8 @@ class HaInfo extends React.Component<any, any> {
             pageNo: 1
         }, () => {
             let { match } = this.props
-            const { region, name, pageNo, az } = this.state;
-            let queryObj = { pageNo, region, name, az }
+            const { name, pageNo, az } = this.state;
+            let queryObj = { pageNo, name, az }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
             this.getTableData()
         });
