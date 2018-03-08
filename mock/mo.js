@@ -893,7 +893,9 @@ let items = []
         "az": `${faker.internet.userName()},${faker.internet.userName()}`,
         "name": `${faker.internet.ip()}`,
         "ha": `${faker.internet.userName()},${faker.internet.userName()}`,
-        "role": `${faker.internet.userName()}`
+        "role": `${faker.internet.userName()}`,
+        "pim_id": `pim_${i}`,
+        "vim_id": `vim_${i}`,
       }
     )
   }
@@ -945,14 +947,9 @@ let queryList = {
       "data": {
         "header": [
           {
-            "key": "id",
-            "title": `ID`,
-            "link": true
-          },
-          {
             "key": "name",
             "title": `${params.dsname}`,
-            "link": false
+            "link": true
           },
           {
             "key": "role",
