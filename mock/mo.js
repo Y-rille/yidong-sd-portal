@@ -604,7 +604,79 @@ let morel = {
   }
 }
 
+/**
+ * 数据中心下拉选项树
+ */
+let dataTree = {
+  path: '/datashare-svr/api/querytree/dcMachineRoomCabinet',
+  method: 'GET',
+  cache: false,
+  template: (params, query, body) => {
+    return [
+      {
+        "nodeLabel": "数据中心1",
+        "nodeId": "1",
+        "nodeName": "数据中心1",
+        "nodeType": "DataCenter",
+        "labelPath": "数据中心1",
+        "dataType": 0,
+        "children": [
+          {
+            "nodeLabel": "机房1",
+            "nodeId": "1",
+            "nodeName": "机房1",
+            "nodeType": "MachineRoom",
+            "labelPath": "数据中心1/机房1",
+            "dataType": 0,
+            "children": [
+              {
+                "nodeLabel": "机柜1",
+                "nodeId": "1",
+                "nodeName": "机柜1",
+                "nodeType": "CABINET",
+                "labelPath": "数据中心1/机房1/机柜1",
+                "dataType": 0
+              }, {
+                "nodeLabel": "机柜2",
+                "nodeId": "2",
+                "nodeName": "机柜2",
+                "nodeType": "CABINET",
+                "labelPath": "数据中心1/机房1/机柜2",
+                "dataType": 0
 
+              }
+            ]
+          }, {
+            "nodeLabel": "机房2",
+            "nodeId": "2",
+            "nodeName": "机房2",
+            "nodeType": "MachineRoom",
+            "labelPath": "数据中心1/机房2",
+            "dataType": 0,
+            "children": [{}]
+          }
+        ]
+      }, {
+        "nodeLabel": "数据中心2",
+        "nodeId": "2",
+        "nodeName": "数据中心2",
+        "nodeType": "DataCenter",
+        "labelPath": "数据中心2",
+        "dataType": 0,
+        "children": [
+          {
+            "nodeLabel": "机房3",
+            "nodeId": "3",
+            "nodeName": "机房3",
+            "nodeType": "MachineRoom",
+            "labelPath": "数据中心2/机房3",
+            "dataType": 0
+          }
+        ]
+      }
+    ]
+  }
+}
 
 /** 
  * 资源模块树图查询
@@ -922,6 +994,72 @@ let addInstanceData = {
   }
 }
 
+/** 
+ * 自动发现
+*/
+let find = {
+  path: '/rms-agent/api/find/:moTypeKey',
+  method: 'POST',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "data": {
+          "header": [
+              {
+                  "key": "name",
+                  "title": "主机名称",
+                  "link": false
+              },
+              {
+                  "key": "role",
+                  "title": "角色",
+                  "link": false
+              },
+              {
+                  "key": "az",
+                  "title": "所属AZ",
+                  "link": false
+              },
+              {
+                  "key": "ha",
+                  "title": "所属HA",
+                  "link": false
+              }
+          ],
+          "dataList": [
+              {
+                  "az": "xasa,AAAAS",
+                  "name": "10.255.242.215",
+                  "hz": "xasa",
+                  "role": "主"
+              },
+              {
+                  "az": "xasa,AAAAS",
+                  "name": "10.255.242.216",
+                  "hz": "xasa",
+                  "role": "主"
+              }
+          ]
+      }
+  }
+  }
+}
+/** 
+ * 自动发现确认
+*/
+let findconfirm = {
+  path: '/rms-agent/api/findconfirm/:moTypeKey',
+  method: 'POST',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "message": "确认成功"
+      }
+  }
+}
+
 module.exports = {
   activealarms,
   motypes,
@@ -930,9 +1068,12 @@ module.exports = {
   querydata,
   moinst,
   morel,
+  dataTree,
   mgrmoTree,
   querytree,
   subData,
   queryList,
-  addInstanceData
+  addInstanceData,
+  find,
+  findconfirm
 }
