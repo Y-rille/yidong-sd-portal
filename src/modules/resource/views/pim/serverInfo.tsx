@@ -11,8 +11,9 @@ import CompactTable from '../../../../components/CompactTable/'
 import Headline from '../../../../components/Headline';
 import Summaries from '../../../../components/Summaries'
 import ServerNetworkCard from '../../../../components/ServerNetworkCard'
-
 import LogShine from '../../../../components/LogShine/'
+import { stringify } from 'querystringify'
+import qs from 'querystringify'
 
 const attributes = [
     {
@@ -218,6 +219,8 @@ const data = {
 class ServerInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        let { match } = this.props
+        let { pageNo } = qs.parse(this.props.location.search)
         // const log = []
         // for (let i = 0; i < 30; i++) {
         //     let item = {
@@ -233,7 +236,12 @@ class ServerInfo extends React.Component<any, any> {
             status: 'up',
             reset: false,
             events: [],
-            showBtn: true
+            showBtn: true,
+            tableLoading: false,
+            pageNo: pageNo ? pageNo : 1,
+            pageSize: 10,
+            activeKey: 'imdsServerProcessor',
+            serverId: match.params.id
         }
     }
     confirmUpOrDown = (e) => {
@@ -263,16 +271,14 @@ class ServerInfo extends React.Component<any, any> {
         })
 
     }
-    callback = () => { }
     tabInfo = (key) => {
         this.setState({
             showBtn: key === 'log' ? false : true
         })
     }
-    tabConnect = () => { }
-    goPage = () => {
-        this.props.history.push(`/resource/vim/1/server/info`)
-    }
+    // goPage = () => {
+    //     this.props.history.push(`/resource/vim/1/server/info`)
+    // }
     goLink(url) {
         this.props.history.push(url)
     }
@@ -344,40 +350,6 @@ class ServerInfo extends React.Component<any, any> {
             )
         }
     }
-    renderOther() {
-        let self = this;
-        return (
-            <div>
-                <Headline title="PCIe槽内信息" />
-                <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    // goLink={this.goLink.bind(this)}
-                    // data={null}
-                    actionAuth={['delete']}
-                    pageAuth={false}
-                />
-
-                <div style={{ marginTop: '20px' }}>
-                    <Headline title="阵列卡信息" />
-                    <Summaries colNum={5} />
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                    <Headline title="逻辑盘信息" />
-                    <CompactTable
-                        // goPage={this.goPage.bind(this)} // 翻页
-                        // goLink={this.goLink.bind(this)}
-                        // data={null}
-                        actionAuth={['delete']}
-                        pageAuth={false}
-                    />
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                    <Headline title="其他信息" />
-                    <Summaries colNum={5} />
-                </div>
-            </div>
-        )
-    }
     //     正则修改日志字符串  
     fmtData = () => {
         let _str = `Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server reset.
@@ -394,15 +366,12 @@ Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin
 Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
 Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
 Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.`
-
         let patt1 = /\S+\b.*\d\d\:\d\d\:\d\d/
         let patt2 = /(\d{1,3}\.){3}\d{1,3}/
         let patt3 = /\#\S+\b.*\d(?=\:\s)/
         let patt4 = /\d{1,2}\/\S+\b.*/
-
         let info = []
         let arr = _str.split(/\n/)
-
         arr.map(function (item, index) {
             let _info = {
                 generated_at: item.match(patt1)[0],
@@ -414,6 +383,120 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
         })
         return info
         // console.log(info, '===========info')
+    }
+    onChange(key) {
+        if (key === 'relation') {
+            let { pageNo } = this.state
+            let queryObj = {
+                pageNo
+            }
+            this.getTableData(queryObj)
+        }
+    }
+    onTab(key) {
+        let match = this.props.match
+        let id = match.params.id
+        this.setState({
+            pageNo: 1,
+            activeKey: key
+        }, () => {
+            this.getTableData({ pageNo: 1 })
+        })
+    }
+    goPage(num) {
+        let { match } = this.props
+        let pageNo = num
+        let queryObj = { pageNo }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
+    }
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { pageSize, activeKey, serverId } = this.state
+        this.props.actions.queryList(activeKey, { pageNo, pageSize, serverId }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
+    renderTab() {
+        let title = ['处理器信息', '内存信息', '网卡信息', '硬盘信息', '风扇信息', '电源信息', '其他信息']
+        let keys = ['imdsServerProcessor', 'imdsServerMemory', 'imdsServerEthernetinterface', 'imdsServerDisk', 'imdsServerFan', 'imdsServerPower', 'imdsServer15MiKpis']
+        let list = this.props.list
+        const { pageSize, tableLoading } = this.state;
+        if (list) {
+            return (
+                keys.map((item, key) => {
+                    // 网卡未
+                    if (item === 'imdsServerEthernetinterface') {
+                        return (
+                            <TabPane tab={title[key]} key={item}>
+                                <ServerNetworkCard data={list} />
+                                <ServerNetworkCard data={list} />
+                            </TabPane>
+                        )
+                    } else if (item === 'imdsServer15MiKpis') {
+                        // 其他未
+                        var arr = ['imdsServerPCIE', 'imdsServerRaidCard', '']
+                        return (
+                            <TabPane tab={title[key]} key={item}>
+                                {
+                                    // let item = 'imdsServerPCIE'
+
+                                }
+                                <Headline title="PCIe槽内信息" />
+                                <CompactTable
+                                    goPage={this.goPage.bind(this)}
+                                    goLink={this.goLink.bind(this)}
+                                    data={list}
+                                    actionAuth={['delete']}
+                                    pageAuth={false}
+                                />
+
+                                <div style={{ marginTop: '20px' }}>
+                                    <Headline title="阵列卡信息" />
+                                    <Summaries colNum={5} />
+                                </div>
+                                <div style={{ marginTop: '20px' }}>
+                                    <Headline title="逻辑盘信息" />
+                                    <CompactTable
+                                        goPage={this.goPage.bind(this)} // 翻页
+                                        goLink={this.goLink.bind(this)}
+                                        data={list}
+                                        actionAuth={['delete']}
+                                        pageAuth={false}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: '20px' }}>
+                                    <Headline title="其他信息" />
+                                    <Summaries colNum={5} />
+                                </div>
+                            </TabPane>
+                        )
+                    } else {
+                        return (
+                            <TabPane tab={title[key]} key={item}>
+                                <CompactTable
+                                    goPage={this.goPage.bind(this)} // 翻页
+                                    // goLink={this.goLink.bind(this)}
+                                    pageSize={pageSize}
+                                    loading={tableLoading}
+                                    actionAuth={[]}
+                                    // pageAuth={true}
+                                    data={list}
+                                    outStyle={{ 'marginBottom': '20px' }}
+                                />
+                            </TabPane>
+                        )
+                    }
+                }))
+        }
     }
     componentDidMount() {
         setTimeout(() => {
@@ -466,8 +549,8 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px 20px 0 20px' }}>
-                    <Tabs onChange={this.callback} type="card" animated={false}>
-                        <TabPane tab="资源详情" key="1" >
+                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
+                        <TabPane tab="资源详情" key="detail" >
                             <Tabs
                                 defaultActiveKey="overview"
                                 size="small"
@@ -482,13 +565,14 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                 </TabPane>
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="资源关系" key="2">
+                        <TabPane tab="资源关系" key="relation">
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
                                 animated={false}
-                                onChange={this.tabConnect}>
-                                <TabPane tab="处理器信息" key="1" style={{ padding: '20px 0' }}>
+                                onChange={this.onTab.bind(this)}>
+                                {this.renderTab()}
+                                {/* <TabPane tab="处理器信息" key="1" style={{ padding: '20px 0' }}>
                                     <CompactTable
                                         // goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
@@ -534,7 +618,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                 </TabPane>
                                 <TabPane tab="其它信息" key="7" style={{ padding: '20px 0' }}>
                                     {this.renderOther()}
-                                </TabPane>
+                                </TabPane> */}
                             </Tabs>
                         </TabPane>
                     </Tabs>
