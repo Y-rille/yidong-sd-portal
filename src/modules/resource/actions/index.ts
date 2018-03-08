@@ -8,7 +8,9 @@ import {
     getNodeData,
     editObjData,
     operateStatus,
-    autoDiscovery
+    autoDiscovery,
+    getSummary,
+    findConfirm
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -21,7 +23,9 @@ const HomeActionCreatorsMap = {
     getNodeData,
     editObjData,
     operateStatus,
-    autoDiscovery
+    autoDiscovery,
+    getSummary,
+    findConfirm
 }
 
 export interface ResourceActions {
@@ -34,7 +38,9 @@ export interface ResourceActions {
     editObjData: Function,
     resetList: Function,
     operateStatus: Function,
-    autoDiscovery: Function
+    autoDiscovery: Function,
+    getSummary: Function,
+    findConfirm: Function
 }
 
 export default HomeActionCreatorsMap;

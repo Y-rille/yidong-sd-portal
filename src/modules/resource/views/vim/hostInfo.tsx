@@ -6,6 +6,7 @@ const confirm = Modal.confirm;
 
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable'
+import { stringify } from 'querystringify'
 import qs from 'querystringify'
 
 const attributes = [
@@ -274,7 +275,6 @@ class HostInfo extends React.Component<any, any> {
         let { match } = this.props
         let { pageNo } = qs.parse(this.props.location.search)
         this.state = {
-            reset: false,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
             pageSize: 10,
@@ -320,11 +320,14 @@ class HostInfo extends React.Component<any, any> {
         this.props.history.replace(`/resource/pim/4/server/info/1`)
     }
     goPage(num) {
+        let { match } = this.props
         let pageNo = num
         let queryObj = { pageNo }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
+
     }
     getTableData(queryObj) {
         this.setState({

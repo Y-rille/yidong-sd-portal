@@ -5,9 +5,10 @@ import styles from '../../style/index.less'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
-import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel';
+import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable/'
 import Summaries from '../../../../components/Summaries'
+import qs from 'querystringify'
 
 const attributes = [
     {
@@ -211,13 +212,81 @@ const data = {
 class FirewallInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        let { match } = this.props
+        let { pageNo } = qs.parse(this.props.location.search)
+        this.state = {
+            // reset: false,
+            tableLoading: false,
+            pageNo: pageNo ? pageNo : 1,
+            pageSize: 10,
+            activeKey: 'imdsFirewallProcessor',
+            firewall: match.params.id
+        }
     }
     callback = () => { }
     tabInfo = () => { }
-    tabConnect = () => { }
+    tabConnect = (key) => {
+        let match = this.props.match
+        let id = match.params.id
+        this.setState({
+            pageNo: 1,
+            activeKey: key
+        }, () => {
+            this.props.actions.resetList()
+            this.getTableData({ pageNo: 1 })
+        })
+    }
+    goPage(num) {
+        let pageNo = num
+        let queryObj = { pageNo }
+        this.getTableData({
+            pageNo
+        })
+    }
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { pageSize, activeKey, firewall } = this.state
+        this.props.actions.queryList(activeKey, { pageNo, pageSize, firewall }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
+    handleEditData(d) {
+        // console.log(d, '=============>hostInfo')
+        let moTypeKey = 'firewall'
+        let match = this.props.match
+        let moInstId = match.params.id
+        // let moInstId = 
+        this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
+            if (err || qdata.code !== 1) {
+
+            }
+            if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey)
+            }
+        })
+    }
+    componentWillMount() {
+        let moTypeKey = 'firewall'
+        this.props.actions.getObjAttributes(moTypeKey)
+        this.props.actions.getObjData(moTypeKey)
+    }
+    renderDynamicPropertiesCollapse() {
+        if (this.props.objAttributes && this.props.objData) {
+            return (
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+            )
+        }
+    }
     render() {
-        let { nodeInfo } = this.props
+        let { nodeInfo, list } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
+        const { pageSize, tableLoading } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -244,7 +313,7 @@ class FirewallInfo extends React.Component<any, any> {
                                 onChange={this.tabInfo}
                             >
                                 <TabPane tab="概况" key="1">
-                                    <DynamicPropertiesPanel attributes={attributes} data={data} />
+                                    {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
@@ -257,10 +326,12 @@ class FirewallInfo extends React.Component<any, any> {
                                 onChange={this.tabConnect}>
                                 <TabPane tab="主板信息" key="1" style={{ padding: '20px 0' }}>
                                     <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
+                                        goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
-                                        // data={null}
+                                        data={list}
                                         actionAuth={['delete']}
+                                        pageSize={pageSize}
+                                        loading={tableLoading}
                                     // pageAuth={false}
                                     />
                                 </TabPane>
