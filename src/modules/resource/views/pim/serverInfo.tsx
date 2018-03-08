@@ -6,7 +6,7 @@ import { Switch, Route, Redirect, matchPath } from 'react-router-dom'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
-import DynamicPropertiesPanel from '../../../../components/DynamicPropertiesPanel';
+import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable/'
 import Headline from '../../../../components/Headline';
 import Summaries from '../../../../components/Summaries'
@@ -300,6 +300,33 @@ class ServerInfo extends React.Component<any, any> {
     goHost() {
         this.props.history.replace('/resource/vim/1/host/info/1')
     }
+    handleEditData(d) {
+        // console.log(d, '=============>hostInfo')
+        let moTypeKey = 'server'
+        let match = this.props.match
+        let moInstId = match.params.id
+        // let moInstId = 
+        this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
+            if (err || qdata.code !== 1) {
+
+            }
+            if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey)
+            }
+        })
+    }
+    componentWillMount() {
+        let moTypeKey = 'server'
+        this.props.actions.getObjAttributes(moTypeKey)
+        this.props.actions.getObjData(moTypeKey)
+    }
+    renderDynamicPropertiesCollapse() {
+        if (this.props.objAttributes && this.props.objData) {
+            return (
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+            )
+        }
+    }
     renderBtns() {
         let { showBtn } = this.state
         if (showBtn) {
@@ -448,7 +475,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                 onChange={this.tabInfo}
                                 tabBarExtraContent={this.renderBtns()}>
                                 <TabPane tab="概况" key="overview">
-                                    <DynamicPropertiesPanel attributes={attributes} data={data} />
+                                {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
                                 <TabPane tab="日志" key="log">
                                     <LogShine events={events} />
