@@ -286,7 +286,7 @@ class SwitchboardInfo extends React.Component<any, any> {
     renderTab() {
         let title = ['主板信息', '端口信息', '电源信息', '风扇信息', '性能信息']
         let keys = ['imdsSwitchMotherboard', 'imdsSwitchPort', 'imdsSwitchPower', 'imdsSwitchFan', 'imdsSwitchPort15MiKpis']
-        let list = this.props.list
+        let { list, summary } = this.props
         const { pageSize, tableLoading } = this.state;
         if (list) {
             return (
@@ -296,23 +296,9 @@ class SwitchboardInfo extends React.Component<any, any> {
                             <TabPane tab={title[key]} key={item}>
                                 {this.state.disabled ? (<div>
                                     <Headline title="系统信息" />
-                                    <Summaries
-                                        data={[
-                                            {
-                                                attr: 'CPU利用率',
-                                                value: '78%'
-                                            }, {
-                                                attr: 'CPU利用率峰值',
-                                                value: '80%'
-                                            }, {
-                                                attr: '内存利用率',
-                                                value: '78%'
-                                            }, {
-                                                attr: '缓存利用率',
-                                                value: '80%'
-                                            }
-                                        ]}
-                                        colNum={2} />
+                                    {summary ? <Summaries
+                                        data={summary}
+                                        colNum={2} /> : ''}
                                     <Headline
                                         title="接口信息（按端口统计）"
                                     />
@@ -356,6 +342,7 @@ class SwitchboardInfo extends React.Component<any, any> {
         let moTypeKey = 'switch'
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
+        this.props.actions.getSummary('imdsSwitch15MiKpis', {});
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {

@@ -101,10 +101,12 @@ class HaInfo extends React.Component<any, any> {
             </div>
         )
     }
-
+    componentWillMount() {
+        this.props.actions.getSummary('imdsHAInfo', {});
+    }
     render() {
         const { pageSize, tableLoading, az, name } = this.state;
-        let { nodeInfo, list, subDataAZ } = this.props;
+        let { nodeInfo, list, subDataAZ, summary } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -125,26 +127,9 @@ class HaInfo extends React.Component<any, any> {
                 <div style={{ padding: '0 20px 20px 20px' }}>
                     <div>
                         <Headline title="系统信息" />
-                        <Summaries
-                            data={[
-                                {
-                                    attr: 'HA数',
-                                    value: 12312
-                                }, {
-                                    attr: 'Host数',
-                                    value: 12312
-                                }, {
-                                    attr: 'VCPU（未使用/总）',
-                                    value: '21GB/26GB'
-                                }, {
-                                    attr: '内   存（未使用/总）',
-                                    value: '21GB/26GB'
-                                }, {
-                                    attr: '硬   盘（未使用/总）',
-                                    value: '21GB/26GB'
-                                }
-                            ]}
-                            colNum={3} />
+                        {summary ? <Summaries
+                            data={summary}
+                            colNum={3} /> : ''}
                         <Headline title="主机" />
                         <div className={styles.queryBar}>
                             <Input

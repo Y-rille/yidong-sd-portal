@@ -234,3 +234,41 @@ export const operateStatus = (moTypeKey, moInstId, operateType, cb) => (dispatch
         }
     })
 }
+
+/**
+ * 自动发现
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param cb 
+ */
+export const autoDiscovery = (moTypeKey, cb) => (dispatch) => {
+    return API.autoDiscovery(moTypeKey).then((res: any) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, findData: res.data.data }
+        dispatch(action);
+        if (cb) {
+            cb(null)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, findData: null }
+        dispatch(action);
+        if (cb) {
+            cb(err)
+        }
+    })
+}
+
+/**
+ * 自动发现确认接口
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param cb 
+ */
+export const findConfirm = (moTypeKey, queryData, cb) => (dispatch) => {
+    return API.findConfirm(moTypeKey, queryData).then((res: any) => {
+        if (cb) {
+            cb(null, res.data)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}
