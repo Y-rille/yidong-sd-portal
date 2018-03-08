@@ -22,9 +22,9 @@ class Magnetic extends React.Component<any, any> {
             visible: false,
             filterDate: null,
             tableLoading: false,
-            pageSize: 1,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
-            datacenter: datacenter ? datacenter : 1,
+            datacenter: datacenter ? datacenter : '',
             vendor: vendor ? vendor : '',
             pim_id: mp_node.params.id ? mp_node.params.id : ''
         };
@@ -67,10 +67,10 @@ class Magnetic extends React.Component<any, any> {
         this.getTableData(queryObj)
     }
     getCascaderData(type, value) {
-        let { dataCenterValue, dataVendorValue } = this.state
+        let { datacenter, vendor } = this.state
         this.setState({
-            dataCenterValue: type === 'DataCenter' ? value : dataCenterValue,
-            dataVendorValue: type === 'DataVendor' ? value : dataVendorValue
+            datacenter: type === 'DataCenter' ? value : datacenter,
+            vendor: type === 'Vendor' ? value : vendor
         })
     }
     goPage = (num) => {
@@ -85,7 +85,7 @@ class Magnetic extends React.Component<any, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
-        this.props.history.push(`${match.url}/info/1`)
+        this.props.history.push(`${match.url}/info/${obj[key]}`)
     }
     showModal = () => {
         this.setState({
@@ -189,82 +189,6 @@ class Magnetic extends React.Component<any, any> {
         }
     }
     render() {
-        const DataCenter = [{
-            value: '数据中心1',
-            label: '数据中心1',
-            children: [{
-                value: '机房1',
-                label: '机房1',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房2',
-                label: '机房2',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房3',
-                label: '机房3',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }],
-        }, {
-            value: '数据中心2',
-            label: '数据中心2',
-            children: [{
-                value: '机房1',
-                label: '机房1',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房2',
-                label: '机房2',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房3',
-                label: '机房3',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }],
-        }];
-        const Supplier = [{
-            value: '供应商1',
-            label: '供应商1'
-        }, {
-            value: '供应商2',
-            label: '供应商2'
-        }]
         let { match, nodeInfo, list } = this.props;
         const { datacenter, vendor, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
@@ -288,10 +212,8 @@ class Magnetic extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px 20px 0px' }}>
                             <div className={styles.queryBar}>
-                                {/* <Cascader options={DataCenter} onChange={this.onChangeDataCenter.bind(this)} placeholder="数据中心" />
-                                <Cascader options={Supplier} onChange={this.onChangeSupplier.bind(this)} placeholder="供应商" /> */}
                                 <Cascaderor type="DataCenter" data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
-                                <Selector type="DataVendor" data={this.props.subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
+                                <Selector type="Vendor" data={this.props.subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
                                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
                                 <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
                                 <Modal
