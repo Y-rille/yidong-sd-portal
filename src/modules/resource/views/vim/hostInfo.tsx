@@ -279,7 +279,7 @@ class HostInfo extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             pageSize: 10,
             activeKey: 'imdsHostProcessor',
-            host: match.params.id
+            host: match.params.id,
         }
     }
     onChange(key) {
@@ -317,7 +317,11 @@ class HostInfo extends React.Component<any, any> {
         })
     }
     showServer = (e) => {
-        this.props.history.replace(`/resource/pim/4/server/info/1`)
+        let ID = _.head(this.props.list.dataList).id
+        let pim_id = (_.head(this.props.list.dataList).pim_id).
+            substr(_.head(this.props.list.dataList).pim_id.length - 1, 1)
+        // console.log(ID, pim_id, "11111111111111111111")
+        this.props.history.replace(`/resource/pim/${pim_id}/server/info/${ID}`)
     }
     goPage(num) {
         let { match } = this.props
@@ -346,6 +350,7 @@ class HostInfo extends React.Component<any, any> {
         let moTypeKey = 'host'
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
+        this.props.actions.queryList('imdsHostServerInfo', {})
     }
     renderBtns() {
         return (

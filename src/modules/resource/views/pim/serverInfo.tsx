@@ -241,7 +241,7 @@ class ServerInfo extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             pageSize: 10,
             activeKey: 'imdsServerProcessor',
-            serverId: match.params.id
+            serverId: match.params.id,
         }
     }
     confirmUpOrDown = (e) => {
@@ -304,7 +304,11 @@ class ServerInfo extends React.Component<any, any> {
         })
     }
     goHost() {
-        this.props.history.replace('/resource/vim/1/host/info/1')
+        let ID = _.head(this.props.list.dataList).id
+        let vim_id = (_.head(this.props.list.dataList).vim_id).
+            substr(_.head(this.props.list.dataList).vim_id.length - 1, 1)
+        // console.log(ID, vim_id, "11111111111111111111")
+        this.props.history.replace(`/resource/vim/${vim_id}/host/info/${ID}`)
     }
     handleEditData(d) {
         // console.log(d, '=============>hostInfo')
@@ -325,6 +329,7 @@ class ServerInfo extends React.Component<any, any> {
         let moTypeKey = 'server'
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
+        this.props.actions.queryList('imdsServerHostInfo')
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -558,7 +563,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                 onChange={this.tabInfo}
                                 tabBarExtraContent={this.renderBtns()}>
                                 <TabPane tab="概况" key="overview">
-                                {this.renderDynamicPropertiesCollapse()}
+                                    {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
                                 <TabPane tab="日志" key="log">
                                     <LogShine events={events} />
