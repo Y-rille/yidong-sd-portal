@@ -11,12 +11,9 @@ function mapProps(state) {
         name: state.resourceReducer.name,
         config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
-<<<<<<< HEAD
         list: state.resourceReducer.list,
-=======
         objData: state.resourceReducer.objData,
         objAttributes: state.resourceReducer.objAttributes,
->>>>>>> 41273f72926030dbbe6a40ee674bface64bff31d
     }
 }
 function mapDispatchToProps(dispatch) {
