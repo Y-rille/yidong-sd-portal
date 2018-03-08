@@ -75,23 +75,23 @@ module.exports = (type) => {
             'lodash': '_',
         },
         plugins: _.compact([
-            // isDist && new ManifestPlugin({
-            //     fileName: 'manifest.json',
-            //     seed: {
-            //         name: pkgJson.name,
-            //         short_name: pkgJson.name,
-            //         start_url: 'index.html',
-            //         display: 'standalone',
-            //         theme_color: '#40a9ff',
-            //         background_color: '#f0f2f5',
-            //         orientation: 'landscape',
-            //         icons: [{
-            //             src: 'favicon.png',
-            //             sizes: '144x144',
-            //             type: 'image/png'
-            //         }]
-            //     }
-            // }),
+            isDist && new ManifestPlugin({
+                fileName: 'manifest.json',
+                seed: {
+                    name: pkgJson.title,
+                    short_name: pkgJson.title,
+                    start_url: 'index.html',
+                    display: 'standalone',
+                    theme_color: '#00b388',
+                    background_color: '#00b388',
+                    orientation: 'landscape',
+                    icons: [{
+                        src: 'icon.png',
+                        sizes: '144x144',
+                        type: 'image/png'
+                    }]
+                }
+            }),
             isDev && new webpack.HotModuleReplacementPlugin(),
             isDist && new webpack.optimize.UglifyJsPlugin(),
             // isDist && new webpack.optimize.AggressiveMergingPlugin(),
@@ -123,13 +123,22 @@ module.exports = (type) => {
                     to: './'
                 },
                 {
+                    from: config.webpack.path.src + '/icon.png',
+                    to: './'
+                },
+                {
                     from: config.webpack.path.src + '/favicon.png',
                     to: './'
                 }
             ]),
-            new HtmlWebpackPlugin({
+            isDev && new HtmlWebpackPlugin({
                 title: pkgJson.title,
                 template: './src/templates/index.ejs',
+                filename: 'index.html'
+            }),
+            isDist && new HtmlWebpackPlugin({
+                title: pkgJson.title,
+                template: './src/templates/index.production.ejs',
                 filename: 'index.html'
             }),
             new HtmlWebpackIncludeAssetsPlugin({
@@ -143,8 +152,8 @@ module.exports = (type) => {
                 append: false
             }),
             new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|zh-cn)$/), ,
-            new webpack.BannerPlugin(header)
-            // isDist && new OfflinePlugin()
+            new webpack.BannerPlugin(header),
+            isDist && new OfflinePlugin()
         ]),
         module: {
             rules: _.compact([
