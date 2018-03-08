@@ -994,6 +994,72 @@ let addInstanceData = {
   }
 }
 
+/** 
+ * 自动发现
+*/
+let find = {
+  path: '/rms-agent/api/find/:moTypeKey',
+  method: 'POST',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "data": {
+          "header": [
+              {
+                  "key": "name",
+                  "title": "主机名称",
+                  "link": false
+              },
+              {
+                  "key": "role",
+                  "title": "角色",
+                  "link": false
+              },
+              {
+                  "key": "az",
+                  "title": "所属AZ",
+                  "link": false
+              },
+              {
+                  "key": "ha",
+                  "title": "所属HA",
+                  "link": false
+              }
+          ],
+          "dataList": [
+              {
+                  "az": "xasa,AAAAS",
+                  "name": "10.255.242.215",
+                  "hz": "xasa",
+                  "role": "主"
+              },
+              {
+                  "az": "xasa,AAAAS",
+                  "name": "10.255.242.216",
+                  "hz": "xasa",
+                  "role": "主"
+              }
+          ]
+      }
+  }
+  }
+}
+/** 
+ * 自动发现确认
+*/
+let findconfirm = {
+  path: '/rms-agent/api/findconfirm/:moTypeKey',
+  method: 'POST',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "message": "确认成功"
+      }
+  }
+}
+
 module.exports = {
   activealarms,
   motypes,
@@ -1007,5 +1073,7 @@ module.exports = {
   querytree,
   subData,
   queryList,
-  addInstanceData
+  addInstanceData,
+  find,
+  findconfirm
 }
