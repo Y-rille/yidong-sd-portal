@@ -11,6 +11,7 @@ function mapProps(state) {
         name: state.resourceReducer.name,
         config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
+        list: state.resourceReducer.list,
         objData: state.resourceReducer.objData,
         objAttributes: state.resourceReducer.objAttributes,
 
