@@ -1,12 +1,14 @@
 
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Breadcrumb, Icon, Tabs } from 'antd';
+import { Breadcrumb, Icon, Tabs, Spin } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 import Headline from '../../../../components/Headline/'
 import Summaries from '../../../../components/Summaries/'
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
+import qs from 'querystringify'
+import { stringify } from 'querystringify'
 
 const TabPane = Tabs.TabPane;
 
@@ -216,398 +218,124 @@ const data = {
 class SwitchboardInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
-    }
-    onChange() {
-
-    }
-    goPage() {
-
+        let { match } = this.props
+        let { pageNo } = qs.parse(this.props.location.search)
+        this.state = {
+            disabled: false,
+            reset: false,
+            tableLoading: false,
+            pageNo: pageNo ? pageNo : 1,
+            pageSize: 10,
+            activeKey: 'imdsSwitchMotherboard',
+            switch_id: match.params.id
+        }
     }
     goLink() {
 
     }
-
-    renderBoardTable() {
-        let board_data = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '主板编号',
-                // fixed: true,
-                // link: true,
-            }, {
-                key: 'name',
-                title: '序列号',
-                // fixed: true,
-            }, {
-                key: 'mobile',
-                title: '软件版本',
-            }, {
-                key: 'vm',
-                title: '内存'
-            },
-            {
-                key: 'email',
-                title: '闪存',
-            }],
-            'body': [
-                {
-                    'id': 1,
-                    'name': '2c55-:d357-612de-32',
-                    'mobile': 'CMWDERF VER B',
-                    'vm': '2048Mbytes',
-                    'email': '2048Mbytes',
-                },
-                {
-                    'id': 2,
-                    'name': '2c55-:d357-612de-32',
-                    'mobile': 'CMWDERF VER B',
-                    'vm': '2048Mbytes',
-                    'email': '2048Mbytes',
-                }
-            ]
-        }
-        return (
-            <CompactTable
-                outStyle={{ marginTop: '20px' }}
-                goPage={this.goPage.bind(this)} // 翻页
-                goLink={this.goLink.bind(this)}
-                data={board_data}
-                pageAuth={true}
-                actionAuth={[]}
-            />
-        )
+    goPage(num) {
+        let { match } = this.props
+        let pageNo = num
+        let queryObj = { pageNo }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
     }
-
-    renderPortTable() {
-        let port_data = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '名称',
-                // fixed: true,
-                // link: true,
-            }, {
-                key: 'name',
-                title: '描述',
-                // fixed: true,
-            }, {
-                key: 'mobile',
-                title: '类型',
-            }, {
-                key: 'vm',
-                title: '速率'
-            },
-            {
-                key: 'email',
-                title: '物理状态',
-            },
-            {
-                key: 'luoji',
-                title: '逻辑状态',
-            },
-            {
-                key: 'mac',
-                title: '绑定MAC地址',
-            },
-            {
-                key: 'portmac',
-                title: '端口实际连接MAC地址'
-            },
-            {
-                key: 'portIp',
-                title: '端口所连设备IP地址',
-            },
-            {
-                key: 'vlan',
-                title: 'VLAN信息',
-            },
-            {
-                key: 'port',
-                title: '对端端口唯一标识'
-            }],
-            'body': [
-                {
-                    'id': 'c119699c',
-                    'name': 'c119699c',
-                    'mobile': '标准物理接口',
-                    'vm': 0,
-                    'email': 'up',
-                    'luoji': 'up',
-                    'mac': '2c:55:d3:576:12:de:32',
-                    'portmac': '2c:55:d3:576:12:de:32',
-                    'portIp': '188.103.13.21',
-                    'vlan': 0,
-                    'port': '2c:55:d3:576:12:de:32'
-                },
-                {
-                    'id': '-39cb-400d',
-                    'name': 'c119699c',
-                    'mobile': '标准物理接口',
-                    'vm': 0,
-                    'email': 'up',
-                    'luoji': 'up',
-                    'mac': '2c:55:d3:576:12:de:32',
-                    'portmac': '2c:55:d3:576:12:de:32',
-                    'portIp': '188.103.13.21',
-                    'vlan': 0,
-                    'port': '2c:55:d3:576:12:de:32'
-                }
-            ]
+    onChange(key) {
+        if (key === 'relation') {
+            let { pageNo } = this.state
+            let queryObj = {
+                pageNo
+            }
+            this.getTableData(queryObj)
         }
-        return (
-            <CompactTable
-                outStyle={{ marginTop: '20px' }}
-                goPage={this.goPage.bind(this)} // 翻页
-                goLink={this.goLink.bind(this)}
-                data={port_data}
-                pageAuth={true}
-                actionAuth={[]}
-            />
-        )
     }
-
-    renderPowerTable() {
-        let power_data = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '编号',
-                // fixed: true,
-                // link: true,
-            }, {
-                key: 'name',
-                title: '电源状态',
-                // fixed: true,
-            }],
-            'body': [
-                {
-                    'id': 1,
-                    'name': '电源正在供电',
-
-                },
-                {
-                    'id': 2,
-                    'name': '电源正在供电',
-                }
-            ]
+    onTab(key) {
+        let match = this.props.match
+        let id = match.params.id
+        if (key === 'imdsSwitchPort15MiKpis') {
+            this.setState({
+                disabled: true
+            })
+        } else {
+            this.setState({
+                disabled: false
+            })
         }
-        return (
-            <CompactTable
-                outStyle={{ marginTop: '20px' }}
-                goPage={this.goPage.bind(this)} // 翻页
-                goLink={this.goLink.bind(this)}
-                data={power_data}
-                pageAuth={true}
-                actionAuth={[]}
-            />
-        )
+        this.setState({
+            pageNo: 1,
+            activeKey: key
+        }, () => {
+            this.getTableData({ pageNo: 1 })
+        })
     }
-
-    renderFanTable() {
-        let fan_data = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '编号',
-                // fixed: true,
-                // link: true,
-            }, {
-                key: 'name',
-                title: '转速（%）',
-                // fixed: true,
-            }, {
-                key: 'mobile',
-                title: '风扇状态',
-            }],
-            'body': [
-                {
-                    'id': 'c119699c',
-                    'name': 40,
-                    'mobile': '正常',
-                },
-                {
-                    'id': '-39cb-400d',
-                    'name': 40,
-                    'mobile': '正常',
-                }
-            ]
-        }
-        return (
-            <CompactTable
-                outStyle={{ marginTop: '20px' }}
-                goPage={this.goPage.bind(this)} // 翻页
-                goLink={this.goLink.bind(this)}
-                data={fan_data}
-                pageAuth={true}
-                actionAuth={[]}
-            />
-        )
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { pageSize, activeKey, switch_id } = this.state
+        this.props.actions.queryList(activeKey, { pageNo, pageSize, switch_id }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
     }
-
-    renderPerformanceTable() {
-        let performance_data = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '主板名称',
-                // fixed: true,
-                // link: true,
-            }, {
-                key: 'name',
-                title: '端口名称',
-                // fixed: true,
-            }, {
-                key: 'mobile',
-                title: '出字节数',
-            }, {
-                key: 'vm',
-                title: '入字节数'
-            },
-            {
-                key: 'email',
-                title: '出错包数',
-            },
-            {
-                key: 'luoji',
-                title: '入错包数',
-            },
-            {
-                key: 'mac',
-                title: '错包率',
-            },
-            {
-                key: 'portmac',
-                title: '出丢包数'
-            },
-            {
-                key: 'portIp',
-                title: '入丢包数',
-            },
-            {
-                key: 'vlan',
-                title: '丢包率',
-            },
-            {
-                key: 'port',
-                title: '出单播包数'
-            },
-            {
-                key: 'rudan',
-                title: '入单播包数'
-            },
-            {
-                key: 'chuzu',
-                title: '出组播包数'
-            },
-            {
-                key: 'ruzu',
-                title: '入组播包数'
-            },
-            {
-                key: 'chuguang',
-                title: '出广播包数'
-            },
-            {
-                key: 'ruguang',
-                title: '入广播包数'
-            },
-            {
-                key: 'chusu',
-                title: '出速率'
-            },
-            {
-                key: 'rusu',
-                title: '入速率'
-            },
-            {
-                key: 'chudai',
-                title: '出宽带'
-            },
-            {
-                key: 'rudai',
-                title: '入宽带'
-            }],
-            'body': [
-                {
-                    'id': 1,
-                    'name': 'NULL0',
-                    'mobile': 0,
-                    'vm': 0,
-                    'email': 0,
-                    'luoji': 0,
-                    'mac': 0,
-                    'portmac': 0,
-                    'portIp': 0,
-                    'vlan': 0,
-                    'port': 0,
-                    'rudan': 0,
-                    'chuzu': 0,
-                    'ruzu': 0,
-                    'chuguang': 0,
-                    'ruguang': 0,
-                    'chusu': 0,
-                    'rusu': 0,
-                    'chudai': 0,
-                    'rudai': 0
-                },
-                {
-                    'id': 2,
-                    'name': 'NULL0',
-                    'mobile': 1000,
-                    'vm': 1000,
-                    'email': 1000,
-                    'luoji': 1000,
-                    'mac': 1000,
-                    'portmac': 1000,
-                    'portIp': 1000,
-                    'vlan': 1000,
-                    'port': 1000,
-                    'rudan': 1000,
-                    'chuzu': 1000,
-                    'ruzu': 1000,
-                    'chuguang': 1000,
-                    'ruguang': 1000,
-                    'chusu': 1000,
-                    'rusu': 1000,
-                    'chudai': 1000,
-                    'rudai': 1000
-                }
-            ]
+    renderTab() {
+        let title = ['主板信息', '端口信息', '电源信息', '风扇信息', '性能信息']
+        let keys = ['imdsSwitchMotherboard', 'imdsSwitchPort', 'imdsSwitchPower', 'imdsSwitchFan', 'imdsSwitchPort15MiKpis']
+        let list = this.props.list
+        const { pageSize, tableLoading } = this.state;
+        if (list) {
+            return (
+                keys.map((item, key) => {
+                    if (item) {
+                        return (
+                            <TabPane tab={title[key]} key={item}>
+                                {this.state.disabled ? (<div>
+                                    <Headline title="系统信息" />
+                                    <Summaries
+                                        data={[
+                                            {
+                                                attr: 'CPU利用率',
+                                                value: '78%'
+                                            }, {
+                                                attr: 'CPU利用率峰值',
+                                                value: '80%'
+                                            }, {
+                                                attr: '内存利用率',
+                                                value: '78%'
+                                            }, {
+                                                attr: '缓存利用率',
+                                                value: '80%'
+                                            }
+                                        ]}
+                                        colNum={2} />
+                                    <Headline
+                                        title="接口信息（按端口统计）"
+                                    />
+                                </div>) : ''}
+                                <CompactTable
+                                    goPage={this.goPage.bind(this)} // 翻页
+                                    // goLink={this.goLink.bind(this)}
+                                    pageSize={pageSize}
+                                    loading={tableLoading}
+                                    actionAuth={[]}
+                                    // pageAuth={true}
+                                    data={list}
+                                    outStyle={{ 'marginTop': '20px' }}
+                                />
+                            </TabPane>
+                        )
+                    } else {
+                        return (
+                            <Spin />
+                        )
+                    }
+                }))
         }
-        return (
-            <div>
-                <Headline title="系统信息" />
-                <Summaries
-                    data={[
-                        {
-                            attr: 'CPU利用率',
-                            value: '78%'
-                        }, {
-                            attr: 'CPU利用率峰值',
-                            value: '80%'
-                        }, {
-                            attr: '内存利用率',
-                            value: '78%'
-                        }, {
-                            attr: '缓存利用率',
-                            value: '80%'
-                        }
-                    ]}
-                    colNum={2} />
-                <Headline
-                    title="接口信息（按端口统计）"
-                />
-                <CompactTable
-                    goPage={this.goPage.bind(this)} // 翻页
-                    goLink={this.goLink.bind(this)}
-                    data={performance_data}
-                    pageAuth={true}
-                    actionAuth={[]}
-                />
-            </div>
-
-        )
     }
     render() {
         let { match, nodeInfo } = this.props;
@@ -638,23 +366,10 @@ class SwitchboardInfo extends React.Component<any, any> {
                                 <TabPane tab="日志" key="2">日志</TabPane>
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="资源关系" key="2">
-                            <Tabs defaultActiveKey="1" animated={false} size="small">
-                                <TabPane tab="主板信息" key="1">
-                                    {this.renderBoardTable()}
-                                </TabPane>
-                                <TabPane tab="端口信息" key="2">
-                                    {this.renderPortTable()}
-                                </TabPane>
-                                <TabPane tab="电源信息" key="3">
-                                    {this.renderPowerTable()}
-                                </TabPane>
-                                <TabPane tab="风扇信息" key="4">
-                                    {this.renderFanTable()}
-                                </TabPane>
-                                <TabPane tab="性能信息" key="5">
-                                    {this.renderPerformanceTable()}
-                                </TabPane>
+
+                        <TabPane tab="资源关系" key="relation">
+                            <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
+                                {this.renderTab()}
                                 <TabPane tab="告警信息" key="6">告警信息</TabPane>
                             </Tabs>
                         </TabPane>
