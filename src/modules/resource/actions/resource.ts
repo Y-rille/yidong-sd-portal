@@ -234,3 +234,20 @@ export const operateStatus = (moTypeKey, moInstId, operateType, cb) => (dispatch
         }
     })
 }
+
+/**
+ * 自动发现确认接口
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param cb 
+ */
+export const findConfirm = (moTypeKey, queryData, cb) => (dispatch) => {
+    return API.findConfirm(moTypeKey, queryData).then((res: any) => {
+        if (cb) {
+            cb(null, res.data)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}

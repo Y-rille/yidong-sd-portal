@@ -8,7 +8,8 @@ import {
     getNodeData,
     editObjData,
     operateStatus,
-    getSummary
+    getSummary,
+    findConfirm
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -21,7 +22,8 @@ const HomeActionCreatorsMap = {
     getNodeData,
     editObjData,
     operateStatus,
-    getSummary
+    getSummary,
+    findConfirm
 }
 
 export interface ResourceActions {
@@ -34,7 +36,8 @@ export interface ResourceActions {
     editObjData: Function,
     resetList: Function,
     operateStatus: Function,
-    getSummary: Function
+    getSummary: Function,
+    findConfirm: Function
 }
 
 export default HomeActionCreatorsMap;
