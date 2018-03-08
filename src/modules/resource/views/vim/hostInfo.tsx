@@ -243,7 +243,7 @@ const lower_resources_data = {
         key: 'role',
         title: '运行时间',
     }],
-    'body': [
+    'dataList': [
         {
             'id': 'whj_train1',
             'name': 'p3tenant_c119699c-39cb-400d-8f06-6a85b31f7eb9',
@@ -283,7 +283,7 @@ class HostInfo extends React.Component<any, any> {
         }
     }
     onChange(key) {
-        if (key === 'relation') {
+        if (key === 'relation' || key === 'subordinate') {
             let { pageNo } = this.state
             let queryObj = {
                 pageNo
@@ -401,6 +401,27 @@ class HostInfo extends React.Component<any, any> {
                 }))
         }
     }
+    renderTable() {
+        let list = this.props.list
+        const { pageSize, tableLoading } = this.state;
+        if (list) {
+            return (
+                <CompactTable
+                    goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    pageSize={pageSize}
+                    loading={tableLoading}
+                    actionAuth={[]}
+                    data={list}
+                    outStyle={{ 'marginTop': '20px' }}
+                />
+            )
+        } else {
+            return (
+                <Spin />
+            )
+        }
+    }
     render() {
         let { list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
@@ -443,14 +464,7 @@ class HostInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="下级资源" key="subordinate">
-                            <CompactTable
-                                // goPage={this.goPage.bind(this)} // 翻页
-                                // goLink={this.goLink.bind(this)}
-                                actionAuth={[]}
-                                pageAuth={true}
-                                data={lower_resources_data}
-                                outStyle={{ 'marginTop': '20px' }}
-                            />
+                            {this.renderTable()}
                         </TabPane>
                     </Tabs>
                 </div>
