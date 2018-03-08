@@ -16,19 +16,19 @@ class Server extends React.Component<any, any> {
     constructor(props) {
         super(props);
 
-        let { pageNo, vendor, name } = qs.parse(this.props.location.search)
+        let { pageNo, vendor, center } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/:type/:id'
         })
         this.state = {
-            dataSelectValue: '',    // 数据中心
             vendor: vendor ? vendor : '',   // 供应商
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             pim_id: mp_node.params.id,
             visible: false,
-            filterData: null
+            filterData: null,
+            center: center ? center : ''    // 数据中心
         }
     }
     getData(data) {
@@ -51,8 +51,8 @@ class Server extends React.Component<any, any> {
             pageNo: 1
         }, () => {
             let { match } = this.props
-            const { vendor, pageNo } = this.state;
-            let queryObj = { pageNo, vendor }
+            const { vendor, pageNo, center } = this.state;
+            let queryObj = { pageNo, vendor, center }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
             this.getTableData()
         });
@@ -79,13 +79,13 @@ class Server extends React.Component<any, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { vendor } = this.state
+        let { vendor, center } = this.state
         let pageNo = num
         this.setState({
             pageNo: num
         }, () => {
             this.getTableData()
-            let queryObj = { pageNo, vendor }
+            let queryObj = { pageNo, vendor, center }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         })
     }
@@ -106,8 +106,8 @@ class Server extends React.Component<any, any> {
             tableLoading: true
         });
         let self = this
-        let { vendor, pageSize, pim_id, pageNo } = this.state
-        this.props.actions.queryList('imdsServer', { pageNo, pageSize, vendor, pim_id }, () => {
+        let { vendor, center, pageSize, pim_id, pageNo } = this.state
+        this.props.actions.queryList('imdsServer', { pageNo, pageSize, vendor, center, pim_id }, () => {
             self.setState({
                 tableLoading: false
             });
@@ -273,9 +273,9 @@ class Server extends React.Component<any, any> {
             ]
         }
 
-        let { match, nodeInfo, subDataVendor, list } = this.props;
+        let { match, nodeInfo, subDataVendor, subDataCenter, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { dataSelectValue, vendor, pageSize, tableLoading } = this.state;
+        const { vendor, pageSize, tableLoading, center } = this.state;
 
         const DataCenter = [{
             value: '数据中心1',
@@ -367,8 +367,8 @@ class Server extends React.Component<any, any> {
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
                                 <Cascader
-                                    value={dataSelectValue}
-                                    options={DataCenter}
+                                    value={center}
+                                    options={subDataCenter}
                                     onChange={this.dataSelectChange.bind(this)}
                                     placeholder="数据中心"
                                 />

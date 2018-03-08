@@ -80,7 +80,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
-        if (key === 'id') {
+        if (key === 'name') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
     }

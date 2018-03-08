@@ -85,7 +85,7 @@ class Magnetic extends React.Component<any, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
-        this.props.history.push(`${match.url}/info/${obj[key]}`)
+        this.props.history.push(`${match.url}/info/${obj.id}`)
     }
     showModal = () => {
         this.setState({

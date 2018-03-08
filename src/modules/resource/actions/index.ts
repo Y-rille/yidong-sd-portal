@@ -6,7 +6,9 @@ import {
     getObjAttributes,
     getObjData,
     getNodeData,
-    editObjData
+    editObjData,
+    operateStatus,
+    getSummary
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -17,7 +19,9 @@ const HomeActionCreatorsMap = {
     getObjAttributes,
     getObjData,
     getNodeData,
-    editObjData
+    editObjData,
+    operateStatus,
+    getSummary
 }
 
 export interface ResourceActions {
@@ -28,7 +32,9 @@ export interface ResourceActions {
     getObjData: Function,
     getNodeData: Function,
     editObjData: Function,
-    resetList: Function
+    resetList: Function,
+    operateStatus: Function,
+    getSummary: Function
 }
 
 export default HomeActionCreatorsMap;
