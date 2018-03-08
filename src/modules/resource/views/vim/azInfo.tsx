@@ -41,7 +41,7 @@ class AzInfo extends React.Component<any, any> {
         });
         let self = this
         let { name, pageSize, vim_id, pageNo, ha } = this.state
-        this.props.actions.queryList('imdsAZHost', { pageNo, pageSize, name, vim_id, ha }, () => {
+        this.props.actions.queryList('imdsAZHost', { pageNo, pageSize, name, vim_id, ha }, (res) => {
             self.setState({
                 tableLoading: false
             });

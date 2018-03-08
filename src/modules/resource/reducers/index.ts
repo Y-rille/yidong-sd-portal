@@ -16,6 +16,7 @@ const ResourceState = SI.from({
     objAttributes: null,
     objData: null,
     nodeInfo: null,
+    findData: null,
     summary: null
 });
 

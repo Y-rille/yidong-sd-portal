@@ -68,6 +68,14 @@ class API {
     // 1.2
     return axios.post(`/api_agent/rms-agent/api/operate/${moTypeKey}/${moInstId}/${operateType}`)
   }
+  autoDiscovery(moTypeKey) {
+    // 1.5
+    return axios.post(`/api_agent/rms-agent/api/find/${moTypeKey}`)
+  }
+  findConfirm(moTypeKey, queryData) {
+    // 1.2
+    return axios.post(`/api_agent/rms-agent/api/findconfirm/${moTypeKey}`, queryData)
+  }
 }
 
 export default new API()
