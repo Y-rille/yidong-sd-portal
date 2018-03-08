@@ -83,8 +83,8 @@ class Virtual extends React.Component<any, any> {
     }
     goLink(key, obj) {
         let { match } = this.props;
-        if (key === 'id') {
-            this.props.history.push(`${match.url}/info/${obj[key]}`)
+        if (key === 'name') {
+            this.props.history.push(`${match.url}/info/${obj.id}`)
         }
     }
     render() {

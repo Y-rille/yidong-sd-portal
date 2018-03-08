@@ -64,6 +64,10 @@ class API {
     // 1.4   
     return axios.post(`/api_agent/rms-agent/api/configure/${moTypeKey}/${moInstId}`, editData)
   }
+  operateStatus(moTypeKey, moInstId, operateType) {
+    // 1.2
+    return axios.post(`/api_agent/rms-agent/api/operate/${moTypeKey}/${moInstId}/${operateType}`)
+  }
 }
 
 export default new API()

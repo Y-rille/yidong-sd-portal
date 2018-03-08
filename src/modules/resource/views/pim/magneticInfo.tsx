@@ -393,6 +393,33 @@ class MageneticInfo extends React.Component<any, any> {
             </div>
         )
     }
+    handleEditData(d) {
+        // console.log(d, '=============>hostInfo')
+        let moTypeKey = 'diskarray'
+        let match = this.props.match
+        let moInstId = match.params.id
+        // let moInstId = 
+        this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
+            if (err || qdata.code !== 1) {
+
+            }
+            if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey)
+            }
+        })
+    }
+    componentWillMount() {
+        let moTypeKey = 'diskarray'
+        this.props.actions.getObjAttributes(moTypeKey)
+        this.props.actions.getObjData(moTypeKey)
+    }
+    renderDynamicPropertiesCollapse() {
+        if (this.props.objAttributes && this.props.objData) {
+            return (
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+            )
+        }
+    }
     render() {
         let { nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
@@ -422,7 +449,7 @@ class MageneticInfo extends React.Component<any, any> {
                                 animated={false}
                             >
                                 <TabPane tab="概况" key="1">
-                                    <DynamicPropertiesCollapse attributes={attributes} data={data} />
+                                    {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
