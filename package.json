@@ -130,9 +130,9 @@
   "theme": {
     "primary-color": "#00b388"
   },
-  "bin": "mock.js",
+  "bin": "app.js",
   "pkg": {
-    "scripts": "./mock.js",
+    "scripts": "./app.js",
     "assets": "./mock/**/*"
   }
 }
