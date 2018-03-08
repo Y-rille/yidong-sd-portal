@@ -265,6 +265,13 @@ class ServerInfo extends React.Component<any, any> {
                 self.setState({
                     status: self.state.status === 'down' ? 'up' : 'down'
                 })
+                let operateType = self.state.status === 'down' ? 'poweron' : 'poweroff'
+                let moTypeKey = 'server'
+                let match = self.props.match
+                let moInstId = match.params.id
+                self.props.actions.operateStatus(moTypeKey, moInstId, operateType , (err, res) => {
+                    // console.log(res, '================>res')
+                })                
             },
             onCancel() {
             }
@@ -295,6 +302,14 @@ class ServerInfo extends React.Component<any, any> {
                 self.setState({
                     reset: true
                 })
+                let operateType = 'reboot'
+                let moTypeKey = 'server'
+                let match = self.props.match
+                let moInstId = match.params.id
+                self.props.actions.operateStatus(moTypeKey, moInstId, operateType , (err, res) => {
+                    // console.log(res, '================>res')
+                })                
+
             },
             onCancel() {
                 // self.setState({
