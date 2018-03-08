@@ -280,17 +280,17 @@ class MageneticInfo extends React.Component<any, any> {
     }
     renderPerformance() {
         let self = this;
+        let { summary } = this.props
         return (
             <div>
                 <Headline title="节点信息" ></Headline>
-                <Summaries colNum={5} />
+                {summary ? <Summaries colNum={5} data={summary} /> : ''}
                 <Headline title="LUN性能信息" />
                 <CompactTable
                     // goPage={self.goPage.bind(self)} // 翻页
                     // goLink={self.goLink.bind(self)}
                     // data={null}
                     actionAuth={['delete']}
-                    pageAuth={false}
                 />
                 <Headline title="前端业务端口信息" />
                 <CompactTable
@@ -412,6 +412,7 @@ class MageneticInfo extends React.Component<any, any> {
         let moTypeKey = 'diskarray'
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
+        this.props.actions.getSummary('imdsDiskarray15MiKpis', {});
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -421,7 +422,7 @@ class MageneticInfo extends React.Component<any, any> {
         }
     }
     render() {
-        let { nodeInfo } = this.props
+        const { nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>

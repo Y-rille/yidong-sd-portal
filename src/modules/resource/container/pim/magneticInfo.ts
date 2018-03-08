@@ -13,6 +13,7 @@ function mapProps(state) {
         nodeInfo: state.resourceReducer.nodeInfo,
         objData: state.resourceReducer.objData,
         objAttributes: state.resourceReducer.objAttributes,
+        summary: state.resourceReducer.summary
     }
 }
 function mapDispatchToProps(dispatch) {
