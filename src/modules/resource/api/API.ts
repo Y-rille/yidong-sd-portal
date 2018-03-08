@@ -68,6 +68,10 @@ class API {
     // 1.2
     return axios.post(`/api_agent/rms-agent/api/operate/${moTypeKey}/${moInstId}/${operateType}`)
   }
+  autoDiscovery(moTypeKey) {
+    // 1.5
+    return axios.post(`/api_agent/rms-agent/api/find/${moTypeKey}`)
+  }
 }
 
 export default new API()
