@@ -26,9 +26,15 @@ export const getMoTree = (cb) => (dispatch) => {
  * 数据列表查询
  * @param cb
  */
-export const queryList = (dsname, params, cb, ) => (dispatch) => {
+export const queryList = (dsname, params, cb, complex = null) => (dispatch) => {
+
     return API.queryList(dsname, params).then((res: any) => {
         let data = res.data.data
+        if (complex) {
+            let newdata: any = {}
+            newdata[complex] = data
+            data = newdata
+        }
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: data }
         dispatch(action);
         if (cb) {
@@ -173,25 +179,6 @@ export const getNodeData = (nodeId, items, cb) => (dispatch) => {
  */
 export const editObjData = (moTypeKey, moInstId, editData, cb) => (dispatch) => {
     return API.editObjData(moTypeKey, moInstId, editData).then((res: any) => {
-        if (cb) {
-            cb(null, res.data)
-        }
-    }).catch((err) => {
-        if (cb) {
-            cb(err, null)
-        }
-    })
-}
-
-/**
- * 控制操作
- * @param moTypeKey 对象类型ID或对象类型英文名
- * @param moInstId MO实例ID
- * @param operateType 操作类型
- * @param cb 
- */
-export const operateStatus = (moTypeKey, moInstId, operateType, cb) => (dispatch) => {
-    return API.operateStatus(moTypeKey, moInstId, operateType).then((res: any) => {
         if (cb) {
             cb(null, res.data)
         }
