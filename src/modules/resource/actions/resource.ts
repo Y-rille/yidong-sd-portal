@@ -26,9 +26,15 @@ export const getMoTree = (cb) => (dispatch) => {
  * 数据列表查询
  * @param cb
  */
-export const queryList = (dsname, params, cb) => (dispatch) => {
+export const queryList = (dsname, params, cb, complex = null) => (dispatch) => {
+
     return API.queryList(dsname, params).then((res: any) => {
         let data = res.data.data
+        if (complex) {
+            let newdata: any = {}
+            newdata[complex] = data
+            data = newdata
+        }
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: data }
         dispatch(action);
         if (cb) {
