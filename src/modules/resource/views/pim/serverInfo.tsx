@@ -146,8 +146,8 @@ class ServerInfo extends React.Component<any, any> {
             }
             let server_id = this.props.match.params.id;
             this.getTableData(queryObj)
-            this.props.actions.getSummary('imdsServerRaidCard', { server: server_id }, null, true);
-            this.props.actions.getSummary('imdsServer15MiKpis', { server: server_id }, null, true);
+            // this.props.actions.getSummary('imdsServerRaidCard', { server: server_id }, null, true);
+            // this.props.actions.getSummary('imdsServer15MiKpis', { server: server_id }, null, true);
         } else {
             let moTypeKey = 'server';
             this.props.actions.getObjAttributes(moTypeKey)
@@ -171,6 +171,8 @@ class ServerInfo extends React.Component<any, any> {
                     });
                 }, item)
             })
+            this.props.actions.getSummary('imdsServerRaidCard', { server: id }, null, true);
+            this.props.actions.getSummary('imdsServer15MiKpis', { server: id }, null, true);
         } else {
             this.setState({
                 pageNo: 1,
@@ -270,6 +272,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
         let keys = ['imdsServerProcessor', 'imdsServerMemory', 'imdsServerEthernetCard', 'imdsServerDisk', 'imdsServerFan', 'imdsServerPower', 'imdsServer15MiKpis']
         let { list, summary } = this.props;
         const { pageSize, tableLoading } = this.state;
+        let self = this
         return (
             keys.map((item, key) => {
                 if (item === 'imdsServerEthernetCard') {
@@ -282,21 +285,23 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                     let ethernetCardTable = _.values(ethernetCard)
                     return (
                         <TabPane tab={title[key]} key={item}>
-                            {
-                                _.map(ethernetCardTitle, (card, i) => {
-                                    let cardData = {
-                                        title: JSON.parse(card),
-                                        table: {
-                                            header: list.header,
-                                            dataList: ethernetCardTable[i],
-                                            pageNo: list.pageNo,
-                                            pageSize: list.pageSize,
-                                            totalCount: list.totalCount
+                            <div style={{ marginTop: '20px' }}>
+                                {
+                                    _.map(ethernetCardTitle, (card, i) => {
+                                        let cardData = {
+                                            title: JSON.parse(card),
+                                            table: {
+                                                header: list.header,
+                                                dataList: ethernetCardTable[i],
+                                                pageNo: list.pageNo,
+                                                pageSize: list.pageSize,
+                                                totalCount: list.totalCount
+                                            }
                                         }
-                                    }
-                                    return <ServerNetworkCard data={cardData} />
-                                })
-                            }
+                                        return <ServerNetworkCard data={cardData} />
+                                    })
+                                }
+                            </div>
                         </TabPane>
                     )
                 } else if (item === 'imdsServer15MiKpis') {
@@ -339,7 +344,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                 loading={tableLoading}
                                 actionAuth={[]}
                                 data={list}
-                                outStyle={{ 'marginBottom': '20px' }}
+                                outStyle={{ 'marginTop': '20px', 'marginBottom': '20px' }}
                             />
                         </TabPane>
                     )

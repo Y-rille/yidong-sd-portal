@@ -251,7 +251,6 @@ class SwitchboardInfo extends React.Component<any, any> {
             let { pageNo } = this.state
             let queryObj = { pageNo }
             this.getTableData(queryObj)
-            this.props.actions.getSummary('imdsSwitch15MiKpis', {});
         } else {
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey)
@@ -266,7 +265,9 @@ class SwitchboardInfo extends React.Component<any, any> {
                 activeKey: key
             }, () => {
                 this.goPage(1)
+                this.props.actions.getSummary('imdsSwitch15MiKpis', { switch_id: id });
             })
+            
         } else {
             this.setState({
                 disabled: false,
@@ -346,10 +347,8 @@ class SwitchboardInfo extends React.Component<any, any> {
     }
     componentWillMount() {
         let moTypeKey = 'switch';
-        let switch_id = this.props.match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
-        this.props.actions.getSummary('imdsSwitch15MiKpis', { switch: switch_id });
     }
     componentWillUnmount() {
         this.props.actions.resetList()
