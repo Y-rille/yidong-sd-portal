@@ -24,22 +24,16 @@ class FirewallInfo extends React.Component<any, any> {
         }
     }
     callback = (key) => {
-        // this.setState({
-        //     pageNo: 1,
-        //     activeKey: key
-        // }, () => {
-        //     this.props.actions.resetList()
-        //     this.getTableData({ pageNo: 1 })
-        // })
-        let moTypeKey = 'firewall'
-        this.setState({
-            activeKey: key
-        })
         if (key === 'relation') {
-            let { pageNo } = this.state
-            let queryObj = { pageNo }
-            this.getTableData(queryObj)
+            this.setState({
+                pageNo: 1,
+                activeKey: key
+            }, () => {
+                // this.props.actions.resetList()
+                this.getTableData({ pageNo: 1 })
+            })
         } else {
+            let moTypeKey = 'firewall'
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey)
         }
@@ -143,7 +137,7 @@ class FirewallInfo extends React.Component<any, any> {
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="资源关系" key="imdsFirewallMotherBoard">
+                        <TabPane tab="资源关系" key="relation">
                             <Tabs
                                 defaultActiveKey="imdsFirewallMotherBoard"
                                 size="small"
