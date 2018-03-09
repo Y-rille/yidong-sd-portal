@@ -389,45 +389,7 @@ class MageneticInfo extends React.Component<any, any> {
         }
 
     }
-    renderLUN() {
-        let { list } = this.props
-        let { tableLoading } = this.state
-        if (list) {
-            return (
-                <CompactTable
-                    goPage={this.goPage.bind(this)} // 翻页
-                    loading={tableLoading}
-                    // goLink={this.goLink.bind(this)}
-                    data={list}
-                    actionAuth={['delete']}
-                // pageAuth={false}
-                />
-            )
-        }
 
-    }
-    renderISCSI() {
-        return (
-            <CompactTable
-                goPage={this.goPage.bind(this)} // 翻页
-                // goLink={this.goLink.bind(this)}
-                // data={null}
-                actionAuth={['delete']}
-            // pageAuth={false}
-            />
-        )
-    }
-    renderHardware() {
-        return (
-            <CompactTable
-                goPage={this.goPage.bind(this)} // 翻页
-                // goLink={this.goLink.bind(this)}
-                // data={null}
-                actionAuth={['delete']}
-            // pageAuth={false}
-            />
-        )
-    }
     renderOthers() {
         let { list } = this.props
         let pageSize = 999

@@ -283,6 +283,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
                                 <Cascaderor
+                                    style={{ width: '250px' }}
                                     type="DataCenter"
                                     data={this.props.subDataCenter}
                                     getCascaderData={this.getCascaderData.bind(this)} value={dataCenterValue}
