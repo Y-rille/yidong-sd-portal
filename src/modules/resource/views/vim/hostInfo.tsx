@@ -19,7 +19,7 @@ class HostInfo extends React.Component<any, any> {
         this.state = {
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 10,
+            pageSize: 9999,
             activeKey: 'imdsHostProcessor',
             host: match.params.id,
         }
