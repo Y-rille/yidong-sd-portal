@@ -121,12 +121,14 @@ class ServerInfo extends React.Component<any, any> {
         this.props.actions.queryList('imdsServerHostInfo', {}, (err, res) => {
             if (!err && res['dataList']) {
                 let server_info = _.head(res['dataList'])
-                let id = server_info['id']
-                let vim_id = server_info['vim_id']
-                // console.log(ID, vim_id, "11111111111111111111")
-                if (id && vim_id) {
-                    this.props.history.replace(`/resource/vim/${vim_id}/host/info/${id}`)
+                if (server_info) {
+                    let id = server_info['id']
+                    let vim_id = server_info['vim_id']
+                    if (id && vim_id) {
+                        this.props.history.replace(`/resource/vim/${vim_id}/host/info/${id}`)
+                    }
                 }
+                // console.log(ID, vim_id, "11111111111111111111")
             }
         })
     }
