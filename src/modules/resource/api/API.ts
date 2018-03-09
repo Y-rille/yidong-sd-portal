@@ -19,6 +19,10 @@ export interface DataParams {
    */
   vim_id?: string,
   /**
+   * PIM ID
+   */
+  pim_id?: string,
+  /**
    * 主机名称
    */
   host?: string,
@@ -39,10 +43,37 @@ export interface DataParams {
    */
   pageNo?: number,
   /**
-   * 查询关键字
+   * AZ ID
    */
-  queryKey?: string,
-
+  az_id?: string,
+  /**
+   * HA ID
+   */
+  ha_id?: string,
+  /**
+   * 数据中心
+   */
+  datacenter?: string,
+  /**
+   * 服务器id
+   */
+  server?: string,
+  /**
+   * 防火墙id
+   */
+  firewall?: string,
+  /**
+   * 交换机编号
+   */
+  number?: string,
+  /**
+   * 交换机id
+   */
+  switch?: string,
+  /**
+   * 磁阵id
+   */
+  diskarray?: string
 }
 
 class API {

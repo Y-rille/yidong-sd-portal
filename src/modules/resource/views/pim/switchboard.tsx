@@ -34,11 +34,10 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             visible: false,
             dataVisible: false,
             tableLoading: false,
-            dataCenterValue: [],
             pim_id: mp_node ? mp_node.params.id : '',
             name: name ? name : '',
             pageSize: 10,
-            datacenter: datacenter ? datacenter : '',
+            datacenter: datacenter ? datacenter.split(',') : '',
             pageNo: pageNo ? pageNo : 1,
 
         };
@@ -169,9 +168,9 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
 
     }
     getCascaderData(type, value) {
-        let { dataCenterValue } = this.state
+        let { datacenter } = this.state
         this.setState({
-            dataCenterValue: type === 'DataCenter' ? value : dataCenterValue,
+            datacenter: type === 'DataCenter' ? value : datacenter,
         })
     }
     getTableData() {
@@ -192,78 +191,10 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.props.actions.resetList()
     }
     render() {
-        const { name, dataCenterValue, pageSize, tableLoading } = this.state;
+        const { name, datacenter, pageSize, tableLoading } = this.state;
         let { match, nodeInfo, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const DataCenter = [{
-            value: '数据中心1',
-            label: '数据中心1',
-            children: [{
-                value: '机房1',
-                label: '机房1',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房2',
-                label: '机房2',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房3',
-                label: '机房3',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }],
-        }, {
-            value: '数据中心2',
-            label: '数据中心2',
-            children: [{
-                value: '机房1',
-                label: '机房1',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房2',
-                label: '机房2',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房3',
-                label: '机房3',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }],
-        }];
+
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={SwitchboardInfo} /> */}
@@ -288,7 +219,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 <Cascaderor
                                     type="DataCenter"
                                     data={this.props.subDataCenter}
-                                    getCascaderData={this.getCascaderData.bind(this)} value={dataCenterValue}
+                                    getCascaderData={this.getCascaderData.bind(this)} value={datacenter}
                                 />
                                 <Input
                                     placeholder="名称，编号"
