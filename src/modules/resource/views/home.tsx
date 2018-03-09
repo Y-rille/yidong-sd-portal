@@ -34,7 +34,7 @@ class Home extends React.Component<any, any> {
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/:type/:id'
         })
-        this.props.actions.getMoTree((err, resourceTree) => {
+        this.props.actions.getMoTree('mgrmoTree', (err, resourceTree) => {
             if (mp_node) {
                 let nodeId = mp_node.params.id
                 self.getNodeInfo(nodeId, resourceTree)
