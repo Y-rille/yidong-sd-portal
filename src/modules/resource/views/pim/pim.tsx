@@ -17,11 +17,6 @@ class Pim extends React.Component<any, any> {
     }
     componentWillMount() {
         // 选择项查询
-        // let selectKey = ['imdsSelectionDatacenter', 'imdsSelectionVendor']
-        // let self = this
-        // selectKey.forEach(item => {
-
-        // })
         this.props.actions.getSubDataByName('imdsSelectionVendor')
         this.props.actions.getDataCenter('dcMachineRoomCabinet')
     }
@@ -40,7 +35,7 @@ class Pim extends React.Component<any, any> {
                         <Route path={`${match.url}/switchboard`} component={Switchboard} />
                         <Route path={`${match.url}/firewall/info/:id`} component={FirewallInfo} />
                         <Route path={`${match.url}/firewall`} component={Firewall} />
-                        
+
                     </Switch>
                 </div>) : (
                     <div />
