@@ -282,7 +282,6 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                     goLink={this.goLink.bind(this)}
                                     data={list}
                                     actionAuth={['delete']}
-                                    pageAuth={false}
                                 />
 
                                 <div style={{ marginTop: '20px' }}>
@@ -296,7 +295,6 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                         goLink={this.goLink.bind(this)}
                                         data={list}
                                         actionAuth={['delete']}
-                                        pageAuth={false}
                                     />
                                 </div>
                                 <div style={{ marginBottom: '20px' }}>

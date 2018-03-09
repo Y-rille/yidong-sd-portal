@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import MagneticInfo from '../../container/pim/magneticInfo'
+// import MagneticInfo from '../../container/pim/magneticInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
@@ -194,7 +194,7 @@ class Magnetic extends React.Component<any, any> {
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
-                <Route path={`${match.url}/info/:magneticId`} component={MagneticInfo} />
+                {/* <Route path={`${match.url}/info/:magneticId`} component={MagneticInfo} /> */}
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>
