@@ -24,13 +24,25 @@ class FirewallInfo extends React.Component<any, any> {
         }
     }
     callback = (key) => {
+        // this.setState({
+        //     pageNo: 1,
+        //     activeKey: key
+        // }, () => {
+        //     this.props.actions.resetList()
+        //     this.getTableData({ pageNo: 1 })
+        // })
+        let moTypeKey = 'firewall'
         this.setState({
-            pageNo: 1,
             activeKey: key
-        }, () => {
-            this.props.actions.resetList()
-            this.getTableData({ pageNo: 1 })
         })
+        if (key === 'relation') {
+            let { pageNo } = this.state
+            let queryObj = { pageNo }
+            this.getTableData(queryObj)
+        } else {
+            this.props.actions.getObjAttributes(moTypeKey)
+            this.props.actions.getObjData(moTypeKey)
+        }
     }
     tabInfo = () => { }
     tabConnect = (key) => {
