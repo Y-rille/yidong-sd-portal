@@ -30,11 +30,12 @@ class HostInfo extends React.Component<any, any> {
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey)
         } else if (key === 'relation') {
-            let { pageNo } = this.state
-            let queryObj = {
-                pageNo,
-            }
-            this.getTableData(queryObj)
+            this.setState({
+                pageNo: 1,
+                activeKey: 'imdsHostProcessor'
+            }, () => {
+                this.getTableData({ pageNo: 1 })
+            })
         } else if (key === 'subordinate') {
             this.setState({
                 pageNo: 1,
