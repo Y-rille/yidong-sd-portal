@@ -225,7 +225,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             reset: false,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 10,
+            pageSize: 999,
             activeKey: 'imdsSwitchMotherboard',
             switch_id: match.params.id
         }
@@ -237,23 +237,22 @@ class SwitchboardInfo extends React.Component<any, any> {
         let { match } = this.props
         let pageNo = num
         let queryObj = { pageNo }
-        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}`)
         this.getTableData({
             pageNo
         })
     }
     onChange(key) {
+        let moTypeKey = 'switch'
+        this.setState({
+            activeKey: key
+        })
         if (key === 'relation') {
             let { pageNo } = this.state
             let queryObj = { pageNo }
-            this.setState({
-                activeKey: key
-            }, () => {
-                this.getTableData(queryObj)
-            })
+            this.getTableData(queryObj)
             this.props.actions.getSummary('imdsSwitch15MiKpis', {});
         } else {
-            let moTypeKey = 'switch'
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey)
         }
@@ -295,38 +294,40 @@ class SwitchboardInfo extends React.Component<any, any> {
         let keys = ['imdsSwitchMotherboard', 'imdsSwitchPort', 'imdsSwitchPower', 'imdsSwitchFan', 'imdsSwitchPort15MiKpis']
         let { list, summary } = this.props
         const { pageSize, tableLoading } = this.state;
-        return (
-            keys.map((item, key) => {
-                if (item) {
-                    return (
-                        <TabPane tab={title[key]} key={item}>
-                            {this.state.disabled ? (<div>
-                                <Headline title="系统信息" />
-                                {summary ? <Summaries
-                                    data={summary}
-                                    colNum={2} /> : ''}
-                                <Headline
-                                    title="接口信息（按端口统计）"
+        if (list) {
+            return (
+                keys.map((item, key) => {
+                    if (item) {
+                        return (
+                            <TabPane tab={title[key]} key={item}>
+                                {this.state.disabled ? (<div>
+                                    <Headline title="系统信息" />
+                                    {summary ? <Summaries
+                                        data={summary}
+                                        colNum={2} /> : ''}
+                                    <Headline
+                                        title="接口信息（按端口统计）"
+                                    />
+                                </div>) : ''}
+                                <CompactTable
+                                    // goPage={this.goPage.bind(this)} // 翻页
+                                    // goLink={this.goLink.bind(this)}
+                                    pageSize={pageSize}
+                                    loading={tableLoading}
+                                    actionAuth={[]}
+                                    // pageAuth={false}
+                                    data={list}
+                                    outStyle={{ 'marginTop': '20px' }}
                                 />
-                            </div>) : ''}
-                            <CompactTable
-                                goPage={this.goPage.bind(this)} // 翻页
-                                // goLink={this.goLink.bind(this)}
-                                pageSize={pageSize}
-                                loading={tableLoading}
-                                actionAuth={[]}
-                                // pageAuth={true}
-                                data={list}
-                                outStyle={{ 'marginTop': '20px' }}
-                            />
-                        </TabPane>
-                    )
-                } else {
-                    return (
-                        <Spin />
-                    )
-                }
-            }))
+                            </TabPane>
+                        )
+                    } else {
+                        return (
+                            <Spin />
+                        )
+                    }
+                }))
+        }
     }
     handleEditData(d) {
         // console.log(d, '=============>hostInfo')
@@ -391,7 +392,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                         </TabPane>
 
                         <TabPane tab="资源关系" key="relation">
-                            <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
+                            <Tabs size="small" defaultActiveKey="imdsSwitchMotherboard" onChange={this.onTab.bind(this)} animated={false}>
                                 {this.renderTab()}
                                 <TabPane tab="告警信息" key="6">告警信息</TabPane>
                             </Tabs>
