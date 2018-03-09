@@ -33,14 +33,12 @@ class Firewall extends React.Component<FirewallProps, any> {
             path: '/resource/pim/:id'
         })
         this.state = {
-            dataCenterValue: [],
-            dataVendorValue: '',
             visible: false,
             filterDate: null,
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
-            datacenter: datacenter ? datacenter : '',
+            datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
             pim_id: mp_node ? mp_node.params.id : '',
         }
@@ -55,10 +53,10 @@ class Firewall extends React.Component<FirewallProps, any> {
         })
     }
     getCascaderData(type, value) {
-        let { dataCenterValue, dataVendorValue } = this.state
+        let { datacenter, vendor } = this.state
         this.setState({
-            dataCenterValue: type === 'DataCenter' ? value : dataCenterValue,
-            dataVendorValue: type === 'DataVendor' ? value : dataVendorValue
+            datacenter: type === 'DataCenter' ? value : datacenter,
+            vendor: type === 'DataVendor' ? value : vendor
         })
     }
 
@@ -215,7 +213,7 @@ class Firewall extends React.Component<FirewallProps, any> {
     render() {
         let { match, list, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading, dataCenterValue, vendor } = this.state;
+        const { pageSize, tableLoading, datacenter, vendor } = this.state;
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={FirewallInfo} /> */}
@@ -236,7 +234,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Cascaderor type="DataCenter" data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={dataCenterValue} />
+                                <Cascaderor type="DataCenter" data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
                                 <Selector type="Vendor" data={this.props.subDataVendor} getData={this.searchData.bind(this)} value={vendor} />
                                 <Button
                                     type="primary"
