@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import FlavorInfo from '../../container/vim/flavorInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'antd';
 const Option = Select.Option;
 import qs from 'querystringify'
@@ -14,7 +12,7 @@ class Flavor extends React.Component<any, any> {
         super(props);
         let { match } = this.props
         let { pathname } = this.props.location
-        let { pageNo, project, flavorInputValue} = qs.parse(this.props.location.search)
+        let { pageNo, project, flavorInputValue } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/vim/:id'
         })
@@ -48,7 +46,7 @@ class Flavor extends React.Component<any, any> {
         this.setState({
             pageNo
         });
-        this.getTableData({pageNo})
+        this.getTableData({ pageNo })
 
     }
     goPage(num) {
@@ -61,7 +59,7 @@ class Flavor extends React.Component<any, any> {
             pageNo
         })
     }
-    goLink(key, obj) { 
+    goLink(key, obj) {
         let { match } = this.props
         if (key === 'name') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
@@ -95,60 +93,55 @@ class Flavor extends React.Component<any, any> {
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { flavorInputValue, project, pageSize, tableLoading } = this.state;
         return (
-            <Switch>
-                <Route path={`${match.url}/info/:flavorId`} component={FlavorInfo} />
-                <Route render={() => (
-                    <div>
-                        <div className={styles.header}>
-                            <h1 className={styles.title}>Flavor管理</h1>
-                            <Breadcrumb>
-                                <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                                <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                {
-                                    labelPathArr.map((item, index) => {
-                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
-                                    })
-                                }
-                                <Breadcrumb.Item>Flavor管理</Breadcrumb.Item>
-                            </Breadcrumb>
-                        </div>
-                        <div style={{ padding: '20px' }}>
-                            <div className={styles.queryBar}>
-                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project}/>
-                                <Input
-                                    placeholder="Flavor名称"
-                                    value={flavorInputValue} type="text"
-                                    onChange={e => this.flavorInputChange(e.target.value)}
-                                />
-                                <Button
-                                    type="primary"
-                                    onClick={this.handleClick.bind(this)}
-                                >
-                                    查询
+            <div>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>Flavor管理</h1>
+                    <Breadcrumb>
+                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                        {
+                            labelPathArr.map((item, index) => {
+                                return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                            })
+                        }
+                        <Breadcrumb.Item>Flavor管理</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div style={{ padding: '20px' }}>
+                    <div className={styles.queryBar}>
+                        <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
+                        <Input
+                            placeholder="Flavor名称"
+                            value={flavorInputValue} type="text"
+                            onChange={e => this.flavorInputChange(e.target.value)}
+                        />
+                        <Button
+                            type="primary"
+                            onClick={this.handleClick.bind(this)}
+                        >
+                            查询
                                  </Button>
-                                <Button
-                                    type="primary"
-                                    style={{ 'float': 'right' }}
-                                >管理</Button>
-                            </div>
-                            {
-                                list ? (
-                                    <CompactTable
-                                            goPage={this.goPage.bind(this)}
-                                            goLink={this.goLink.bind(this)}
-                                            data={list}
-                                            pageSize={pageSize}
-                                            loading={tableLoading}
-                                            actionAuth={[]}
-                                        />
-                                ) : (
-                                        <Spin />
-                                    )
-                            }
-                        </div>
+                        <Button
+                            type="primary"
+                            style={{ 'float': 'right' }}
+                        >管理</Button>
                     </div>
-                )} />
-            </Switch>
+                    {
+                        list ? (
+                            <CompactTable
+                                goPage={this.goPage.bind(this)}
+                                goLink={this.goLink.bind(this)}
+                                data={list}
+                                pageSize={pageSize}
+                                loading={tableLoading}
+                                actionAuth={[]}
+                            />
+                        ) : (
+                                <Spin />
+                            )
+                    }
+                </div>
+            </div>
         );
     }
 }
