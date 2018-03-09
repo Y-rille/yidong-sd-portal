@@ -26,7 +26,7 @@ class ServerInfo extends React.Component<any, any> {
             showBtn: true,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 10,
+            pageSize: 9999,
             activeKey: 'imdsServerProcessor',
             server: match.params.id,
         }
@@ -125,12 +125,20 @@ class ServerInfo extends React.Component<any, any> {
         })
     }
     onChange(key) {
+
         if (key === 'relation') {
             let { pageNo } = this.state
             let queryObj = {
                 pageNo
             }
+            let server_id = this.props.match.params.id;
             this.getTableData(queryObj)
+            this.props.actions.getSummary('imdsServerRaidCard', { server: server_id }, null, true);
+            this.props.actions.getSummary('imdsServer15MiKpis', { server: server_id }, null, true);
+        } else {
+            let moTypeKey = 'server';
+            this.props.actions.getObjAttributes(moTypeKey)
+            this.props.actions.getObjData(moTypeKey);
         }
     }
     onTab(key) {
@@ -155,10 +163,9 @@ class ServerInfo extends React.Component<any, any> {
                 pageNo: 1,
                 activeKey: key
             }, () => {
-                this.goPage(1)
+                this.getTableData({ pageNo: 1 })
             })
         }
-
     }
     goPage(num) {
         let { match } = this.props
@@ -184,11 +191,8 @@ class ServerInfo extends React.Component<any, any> {
     }
     componentWillMount() {
         let moTypeKey = 'server';
-        let server_id = this.props.match.params.id;
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey);
-        this.props.actions.getSummary('imdsServerRaidCard', { server: server_id }, null, true);
-        this.props.actions.getSummary('imdsServer15MiKpis', { server: server_id }, null, true);
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -246,7 +250,6 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
             info.push(_info)
         })
         return info
-        // console.log(info, '===========info')
     }
 
     renderTab() {
@@ -256,7 +259,6 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
         const { pageSize, tableLoading } = this.state;
         return (
             keys.map((item, key) => {
-                // 网卡未
                 if (item === 'imdsServerEthernetinterface') {
                     return (
                         <TabPane tab={title[key]} key={item}>
@@ -272,7 +274,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                 <CompactTable
                                     actionAuth={['delete']}
                                     loading={tableLoading}
-                                    pageSize={9999}
+                                    pageSize={pageSize}
                                     data={list['imdsServerPCIE']}
                                 />
 
@@ -286,7 +288,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                         data={list['imdsServerLogicalDrive']}
                                         loading={tableLoading}
                                         actionAuth={['delete']}
-                                        pageSize={9999}
+                                        pageSize={pageSize}
                                     />
                                 </div>
                                 <div style={{ marginBottom: '20px' }}>
@@ -300,7 +302,6 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                     return (
                         <TabPane tab={title[key]} key={item}>
                             <CompactTable
-                                goPage={this.goPage.bind(this)}
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={[]}
