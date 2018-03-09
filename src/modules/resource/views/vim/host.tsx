@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import HostInfo from '../../container/vim/hostInfo'
 import { Row, Col, Breadcrumb, Icon, Radio, Spin, Select, Button, Tabs } from 'antd';
 
 import HostList from '../../container/vim/hostList'
@@ -222,59 +221,53 @@ class Host extends React.Component<HostProps, any> {
         }
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
-            <Switch>
-                <Route path={`${match.url}/info/:id`} component={HostInfo} />
-                <Route render={() => (
-                    <div>
-                        <div className={styles.header}>
-                            <h1 className={styles.title}>主机管理</h1>
-                            {nodeInfo ? (
-                                <Breadcrumb>
-                                    <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                                    <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                    {
-                                        labelPathArr.map((item, index) => {
-                                            return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
-                                        })
-                                    }
-                                    <Breadcrumb.Item>主机管理</Breadcrumb.Item>
-                                </Breadcrumb>
-                            ) : ''}
-                        </div>
-                        <div style={{ padding: '20px' }}>
-                            <div className={styles.queryBar}>
-                                <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} value={region} />
-                                <Selector type="AZ" data={this.props.subDataAZ} getData={this.getData.bind(this)} value={az} />
-                                <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} value={ha} />
-                                <Button
-                                    type="primary"
-                                    onClick={this.handleClick.bind(this)}
-                                >
-                                    查询
+            <div>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>主机管理</h1>
+                    {nodeInfo ? (
+                        <Breadcrumb>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                            {
+                                labelPathArr.map((item, index) => {
+                                    return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                })
+                            }
+                            <Breadcrumb.Item>主机管理</Breadcrumb.Item>
+                        </Breadcrumb>
+                    ) : ''}
+                </div>
+                <div style={{ padding: '20px' }}>
+                    <div className={styles.queryBar}>
+                        <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} value={region} />
+                        <Selector type="AZ" data={this.props.subDataAZ} getData={this.getData.bind(this)} value={az} />
+                        <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} value={ha} />
+                        <Button
+                            type="primary"
+                            onClick={this.handleClick.bind(this)}
+                        >
+                            查询
                                 </Button>
-                            </div>
-                            <Tabs onChange={this.onChange.bind(this)} type="card" activeKey={activeKey} animated={false}>
-                                <TabPane tab="控制节点" key="imdsController"></TabPane>
-                                <TabPane tab="计算节点" key="imdsHost"></TabPane>
-                                <TabPane tab="存储节点" key="imdsStorage"></TabPane>
-                            </Tabs>
-                            <Switch>
-                                <Redirect from={`${match.url}`} to={`${match.url}/imdsController`} exact />
-                                <Route path={`${match.url}/imdsController`}
-                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
-                                />
-                                <Route path={`${match.url}/imdsHost`}
-                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
-                                />
-                                <Route path={`${match.url}/imdsStorage`}
-                                    render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
-                                />
-                            </Switch>
-                        </div>
                     </div>
-                )} />
-            </Switch>
-
+                    <Tabs onChange={this.onChange.bind(this)} type="card" activeKey={activeKey} animated={false}>
+                        <TabPane tab="控制节点" key="imdsController"></TabPane>
+                        <TabPane tab="计算节点" key="imdsHost"></TabPane>
+                        <TabPane tab="存储节点" key="imdsStorage"></TabPane>
+                    </Tabs>
+                    <Switch>
+                        <Redirect from={`${match.url}`} to={`${match.url}/imdsController`} exact />
+                        <Route path={`${match.url}/imdsController`}
+                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
+                        />
+                        <Route path={`${match.url}/imdsHost`}
+                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
+                        />
+                        <Route path={`${match.url}/imdsStorage`}
+                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
+                        />
+                    </Switch>
+                </div>
+            </div>
         );
     }
 }
