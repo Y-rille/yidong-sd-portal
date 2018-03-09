@@ -24,7 +24,7 @@ class Magnetic extends React.Component<any, any> {
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
-            datacenter: datacenter ? datacenter : '',
+            datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
             pim_id: mp_node.params.id ? mp_node.params.id : ''
         };
