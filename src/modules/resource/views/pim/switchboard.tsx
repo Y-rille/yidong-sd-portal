@@ -6,7 +6,7 @@ import { matchPath } from 'react-router'
 import CompactTable from '../../../../components/CompactTable'
 import FilterSwitchBoardForm from '../../../../components/FilterSwitchBoardForm'
 import Cascaderor from '../../../../components/Cascaderor'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Input, Modal , Select, } from 'antd'
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Input, Modal, Select, } from 'antd'
 import styles from '../../style/index.less'
 import qs from 'querystringify'
 import { ResourceActions } from '../../actions/index'
@@ -217,7 +217,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
                                 <Cascaderor
-                                    style={{ width: '250px' }}
+                                    style={{ width: '220px' }}
                                     type="DataCenter"
                                     data={this.props.subDataCenter}
                                     getCascaderData={this.getCascaderData.bind(this)} value={datacenter}

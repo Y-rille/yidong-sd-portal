@@ -267,7 +267,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                         </TabPane>
                     )
                 } else if (item === 'imdsServer15MiKpis') {
-                    if (list) {
+                    if (list && summary) {
                         return (
                             <TabPane tab={title[key]} key={item}>
                                 <Headline title="PCIe槽内信息" />
@@ -280,7 +280,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
 
                                 <div style={{ marginTop: '20px' }}>
                                     <Headline title="阵列卡信息" />
-                                    <Summaries colNum={5} data={summary.imdsServerRaidCard} />
+                                    <Summaries colNum={5} data={summary['imdsServerRaidCard']} />
                                 </div>
                                 <div style={{ marginTop: '20px' }}>
                                     <Headline title="逻辑盘信息" />

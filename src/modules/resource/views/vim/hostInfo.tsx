@@ -19,7 +19,7 @@ class HostInfo extends React.Component<any, any> {
         this.state = {
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 10,
+            pageSize: 9999,
             activeKey: 'imdsHostProcessor',
             host: match.params.id,
         }
@@ -36,7 +36,7 @@ class HostInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
-        } else if (key === 'subordinate') {
+        } else {
             this.setState({
                 pageNo: 1,
                 activeKey: 'imdsHostSubRes'
@@ -139,31 +139,29 @@ class HostInfo extends React.Component<any, any> {
         let keys = ['imdsHostProcessor', 'imdsHostMemory', 'imdsHostPort', 'imdsHostLLDP']
         let list = this.props.list
         const { pageSize, tableLoading } = this.state;
-        if (list) {
-            return (
-                keys.map((item, key) => {
-                    if (item) {
-                        return (
-                            <TabPane tab={title[key]} key={item}>
-                                <CompactTable
-                                    goPage={this.goPage.bind(this)} // 翻页
-                                    // goLink={this.goLink.bind(this)}
-                                    pageSize={pageSize}
-                                    loading={tableLoading}
-                                    actionAuth={[]}
-                                    // pageAuth={false}
-                                    data={list}
-                                    outStyle={{ 'marginTop': '20px' }}
-                                />
-                            </TabPane>
-                        )
-                    } else {
-                        return (
-                            <Spin />
-                        )
-                    }
-                }))
-        }
+        return (
+            keys.map((item, key) => {
+                if (item) {
+                    return (
+                        <TabPane tab={title[key]} key={item}>
+                            <CompactTable
+                                goPage={this.goPage.bind(this)} // 翻页
+                                // goLink={this.goLink.bind(this)}
+                                pageSize={pageSize}
+                                loading={tableLoading}
+                                actionAuth={[]}
+                                // pageAuth={false}
+                                data={list}
+                                outStyle={{ 'marginTop': '20px' }}
+                            />
+                        </TabPane>
+                    )
+                } else {
+                    return (
+                        <Spin />
+                    )
+                }
+            }))
     }
     renderTable() {
         let list = this.props.list
@@ -193,7 +191,7 @@ class HostInfo extends React.Component<any, any> {
         return (
             <div>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>主机管理</h1>
+                    <h1 className={styles.title}>主机详情</h1>
                     {nodeInfo ? (
                         <Breadcrumb>
                             <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>

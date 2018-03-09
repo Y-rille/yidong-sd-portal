@@ -19,11 +19,11 @@ let menu = [
         route: 'resource',
     },
     {
-        name: '告警监控',
+        name: '告警管理',
         route: 'alarm',
     },
     {
-        name: '性能监控',
+        name: '性能管理',
         route: 'performance',
     }
 ]
