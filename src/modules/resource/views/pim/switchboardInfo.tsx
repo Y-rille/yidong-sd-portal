@@ -243,16 +243,17 @@ class SwitchboardInfo extends React.Component<any, any> {
         })
     }
     onChange(key) {
-        let moTypeKey = 'switch'
-        this.setState({
-            activeKey: key
-        })
         if (key === 'relation') {
             let { pageNo } = this.state
             let queryObj = { pageNo }
-            this.getTableData(queryObj)
+            this.setState({
+                activeKey: key
+            }, () => {
+                this.getTableData(queryObj)
+            })
             this.props.actions.getSummary('imdsSwitch15MiKpis', {});
         } else {
+            let moTypeKey = 'switch'
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey)
         }
@@ -294,40 +295,38 @@ class SwitchboardInfo extends React.Component<any, any> {
         let keys = ['imdsSwitchMotherboard', 'imdsSwitchPort', 'imdsSwitchPower', 'imdsSwitchFan', 'imdsSwitchPort15MiKpis']
         let { list, summary } = this.props
         const { pageSize, tableLoading } = this.state;
-        if (list) {
-            return (
-                keys.map((item, key) => {
-                    if (item) {
-                        return (
-                            <TabPane tab={title[key]} key={item}>
-                                {this.state.disabled ? (<div>
-                                    <Headline title="系统信息" />
-                                    {summary ? <Summaries
-                                        data={summary}
-                                        colNum={2} /> : ''}
-                                    <Headline
-                                        title="接口信息（按端口统计）"
-                                    />
-                                </div>) : ''}
-                                <CompactTable
-                                    goPage={this.goPage.bind(this)} // 翻页
-                                    // goLink={this.goLink.bind(this)}
-                                    pageSize={pageSize}
-                                    loading={tableLoading}
-                                    actionAuth={[]}
-                                    // pageAuth={true}
-                                    data={list}
-                                    outStyle={{ 'marginTop': '20px' }}
+        return (
+            keys.map((item, key) => {
+                if (item) {
+                    return (
+                        <TabPane tab={title[key]} key={item}>
+                            {this.state.disabled ? (<div>
+                                <Headline title="系统信息" />
+                                {summary ? <Summaries
+                                    data={summary}
+                                    colNum={2} /> : ''}
+                                <Headline
+                                    title="接口信息（按端口统计）"
                                 />
-                            </TabPane>
-                        )
-                    } else {
-                        return (
-                            <Spin />
-                        )
-                    }
-                }))
-        }
+                            </div>) : ''}
+                            <CompactTable
+                                goPage={this.goPage.bind(this)} // 翻页
+                                // goLink={this.goLink.bind(this)}
+                                pageSize={pageSize}
+                                loading={tableLoading}
+                                actionAuth={[]}
+                                // pageAuth={true}
+                                data={list}
+                                outStyle={{ 'marginTop': '20px' }}
+                            />
+                        </TabPane>
+                    )
+                } else {
+                    return (
+                        <Spin />
+                    )
+                }
+            }))
     }
     handleEditData(d) {
         // console.log(d, '=============>hostInfo')
