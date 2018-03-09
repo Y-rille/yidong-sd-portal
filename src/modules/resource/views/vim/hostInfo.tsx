@@ -32,7 +32,7 @@ class HostInfo extends React.Component<any, any> {
         } else if (key === 'relation') {
             let { pageNo } = this.state
             let queryObj = {
-                pageNo
+                pageNo,
             }
             this.getTableData(queryObj)
         } else if (key === 'subordinate') {
