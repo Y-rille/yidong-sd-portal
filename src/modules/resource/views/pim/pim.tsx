@@ -13,11 +13,13 @@ class Pim extends React.Component<any, any> {
     }
     componentWillMount() {
         // 选择项查询
-        let selectKey = ['imdsSelectionDatacenter', 'imdsSelectionVendor']
-        let self = this
-        selectKey.forEach(item => {
-            self.props.actions.getSubDataByName(item)
-        })
+        // let selectKey = ['imdsSelectionDatacenter', 'imdsSelectionVendor']
+        // let self = this
+        // selectKey.forEach(item => {
+
+        // })
+        this.props.actions.getSubDataByName('imdsSelectionVendor')
+        this.props.actions.getDataCenter('dcMachineRoomCabinet')
     }
     render() {
         let { match, subDataCenter, subDataVendor } = this.props
