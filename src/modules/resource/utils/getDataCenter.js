@@ -75,7 +75,7 @@ function formatData(tree) {
     for (var i in tree) {
         tree[i].label=data[i].nodeLabel
         tree[i].value=data[i].nodeId
-        if (!tree[i].children) {
+        if (!data[i].children || data[i].children.length===0) {
             continue;
         } else {
             formatData(tree[i].children);
