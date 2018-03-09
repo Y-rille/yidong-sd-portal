@@ -320,10 +320,12 @@ class HostInfo extends React.Component<any, any> {
         this.props.actions.queryList('imdsHostServerInfo', {}, (err, res) => {
             if (!err && res['dataList']) {
                 let host_info = _.head(res['dataList'])
-                let id = host_info['id']
-                let pim_id = host_info['pim_id']
-                if (id && pim_id) {
-                    this.props.history.replace(`/resource/pim/${pim_id}/server/info/${id}`)
+                if (host_info) {
+                    let id = host_info['id']
+                    let pim_id = host_info['pim_id']
+                    if (id && pim_id) {
+                        this.props.history.replace(`/resource/pim/${pim_id}/server/info/${id}`)
+                    }
                 }
             }
         })
