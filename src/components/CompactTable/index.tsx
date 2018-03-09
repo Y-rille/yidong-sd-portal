@@ -106,7 +106,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
     }
     renderTable() {
         let { actionAuth, data, selectAuth, selectRow, loading } = this.props
-        let header = data.header
+        let header = data.header || []
         let dataList: any = _.merge([], data.dataList)
         let columns = []
         for (let i = 0; i < header.length; i++) {

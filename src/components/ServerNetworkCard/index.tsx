@@ -17,15 +17,12 @@ class ServerNetworkCard extends React.PureComponent<ServerNetworkCardProps, any>
         return (
             <div className={styles.serverNetworkCard}>
                 <div className={styles.title}>
-                    <span>网卡型号：</span><span className={styles.title_header}>p3tenant_c119699c-39cb-400d-8f06-6a85b31f7eb9</span>&emsp;
-                    <span>接口类型：</span><span className={styles.title_header}>whj_train</span>&emsp;
-                    <span>状态：</span><span className={styles.title_header}>ok</span>
+                    <span>网卡型号：</span><span className={styles.title_header}>{data.title.model}</span>&emsp;
+                    <span>接口类型：</span><span className={styles.title_header}>{data.title.ethernetInterfaceType}</span>&emsp;
+                    <span>状态：</span><span className={styles.title_header}>{data.title.status}</span>
                 </div>
                 <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    // goLink={this.goLink.bind(this)}
-                    data={data}
-                    actionAuth={[]}
+                    data={data.table}
                 />
             </div>
         )

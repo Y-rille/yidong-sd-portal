@@ -171,6 +171,8 @@ class ServerInfo extends React.Component<any, any> {
                     });
                 }, item)
             })
+            this.props.actions.getSummary('imdsServerRaidCard', { server: id }, null, true);
+            this.props.actions.getSummary('imdsServer15MiKpis', { server: id }, null, true);
         } else {
             this.setState({
                 pageNo: 1,
@@ -267,64 +269,82 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
 
     renderTab() {
         let title = ['处理器信息', '内存信息', '网卡信息', '硬盘信息', '风扇信息', '电源信息', '其他信息']
-        let keys = ['imdsServerProcessor', 'imdsServerMemory', 'imdsServerEthernetinterface', 'imdsServerDisk', 'imdsServerFan', 'imdsServerPower', 'imdsServer15MiKpis']
-        let self = this
-        let { list } = this.props;
+        let keys = ['imdsServerProcessor', 'imdsServerMemory', 'imdsServerEthernetCard', 'imdsServerDisk', 'imdsServerFan', 'imdsServerPower', 'imdsServer15MiKpis']
+        let { list, summary } = this.props;
         const { pageSize, tableLoading } = this.state;
+        let self = this
         return (
             keys.map((item, key) => {
-                if (item === 'imdsServerEthernetinterface') {
+                if (item === 'imdsServerEthernetCard') {
+                    list = list || {}
+                    let ethernetCard = {}
+                    ethernetCard = _.groupBy(list.dataList, function (obj) {
+                        return JSON.stringify({ model: obj.model, ethernetInterfaceType: obj.ethernetInterfaceType, status: obj.status })
+                    })
+                    let ethernetCardTitle = _.keys(ethernetCard)
+                    let ethernetCardTable = _.values(ethernetCard)
                     return (
                         <TabPane tab={title[key]} key={item}>
                             <div style={{ marginTop: '20px' }}>
-                                <ServerNetworkCard data={list} />
-                                <ServerNetworkCard data={list} />
+                                {
+                                    _.map(ethernetCardTitle, (card, i) => {
+                                        let cardData = {
+                                            title: JSON.parse(card),
+                                            table: {
+                                                header: list.header,
+                                                dataList: ethernetCardTable[i],
+                                                pageNo: list.pageNo,
+                                                pageSize: list.pageSize,
+                                                totalCount: list.totalCount
+                                            }
+                                        }
+                                        return <ServerNetworkCard data={cardData} />
+                                    })
+                                }
                             </div>
                         </TabPane>
                     )
                 } else if (item === 'imdsServer15MiKpis') {
-                    if (list) {
-                        return (
-                            <TabPane tab={title[key]} key={item}>
-                                <Headline title="PCIe槽内信息" />
-                                <CompactTable
-                                    outStyle={{ marginTop: '20px' }}
-                                    actionAuth={['delete']}
-                                    loading={tableLoading}
-                                    pageSize={pageSize}
-                                    data={list.imdsServerPCIE}
-                                />
+                    list = list || {}
+                    summary = summary || {}
+                    return (
+                        <TabPane tab={title[key]} key={item}>
+                            <Headline title="PCIe槽内信息" />
+                            <CompactTable
+                                actionAuth={['delete']}
+                                loading={tableLoading}
+                                pageSize={pageSize}
+                                data={list['imdsServerPCIE']}
+                            />
 
-                                <div style={{ marginTop: '20px' }}>
-                                    <Headline title="阵列卡信息" />
-                                    <Summaries colNum={5} data={list.imdsServerRaidCard} />
-                                </div>
-                                <div style={{ marginTop: '20px' }}>
-                                    <Headline title="逻辑盘信息" />
-                                    <CompactTable
-                                        data={list.imdsServerLogicalDrive}
-                                        loading={tableLoading}
-                                        actionAuth={['delete']}
-                                        pageSize={pageSize}
-                                    />
-                                </div>
-                                <div style={{ marginBottom: '20px' }}>
-                                    <Headline title="其他信息" />
-                                    <Summaries colNum={5} data={list.imdsServer15MiKpis} />
-                                </div>
-                            </TabPane>
-                        )
-                    }
+                            <div style={{ marginTop: '20px' }}>
+                                <Headline title="阵列卡信息" />
+                                <Summaries colNum={5} data={summary['imdsServerRaidCard']} />
+                            </div>
+                            <div style={{ marginTop: '20px' }}>
+                                <Headline title="逻辑盘信息" />
+                                <CompactTable
+                                    data={list['imdsServerLogicalDrive']}
+                                    loading={tableLoading}
+                                    actionAuth={['delete']}
+                                    pageSize={pageSize}
+                                />
+                            </div>
+                            <div style={{ marginBottom: '20px' }}>
+                                <Headline title="其他信息" />
+                                <Summaries colNum={5} data={summary.imdsServer15MiKpis} />
+                            </div>
+                        </TabPane>
+                    )
                 } else {
                     return (
                         <TabPane tab={title[key]} key={item}>
                             <CompactTable
-
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={[]}
                                 data={list}
-                                outStyle={{ 'marginBottom': '20px', 'marginTop': '20px' }}
+                                outStyle={{ 'marginTop': '20px', 'marginBottom': '20px' }}
                             />
                         </TabPane>
                     )
