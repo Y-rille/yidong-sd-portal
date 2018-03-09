@@ -19,7 +19,7 @@ class HostInfo extends React.Component<any, any> {
         this.state = {
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 10,
+            pageSize: 9999,
             activeKey: 'imdsHostProcessor',
             host: match.params.id,
         }
@@ -30,12 +30,13 @@ class HostInfo extends React.Component<any, any> {
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey)
         } else if (key === 'relation') {
-            let { pageNo } = this.state
-            let queryObj = {
-                pageNo,
-            }
-            this.getTableData(queryObj)
-        } else if (key === 'subordinate') {
+            this.setState({
+                pageNo: 1,
+                activeKey: 'imdsHostProcessor'
+            }, () => {
+                this.getTableData({ pageNo: 1 })
+            })
+        } else {
             this.setState({
                 pageNo: 1,
                 activeKey: 'imdsHostSubRes'
@@ -138,31 +139,29 @@ class HostInfo extends React.Component<any, any> {
         let keys = ['imdsHostProcessor', 'imdsHostMemory', 'imdsHostPort', 'imdsHostLLDP']
         let list = this.props.list
         const { pageSize, tableLoading } = this.state;
-        if (list) {
-            return (
-                keys.map((item, key) => {
-                    if (item) {
-                        return (
-                            <TabPane tab={title[key]} key={item}>
-                                <CompactTable
-                                    goPage={this.goPage.bind(this)} // 翻页
-                                    // goLink={this.goLink.bind(this)}
-                                    pageSize={pageSize}
-                                    loading={tableLoading}
-                                    actionAuth={[]}
-                                    // pageAuth={false}
-                                    data={list}
-                                    outStyle={{ 'marginTop': '20px' }}
-                                />
-                            </TabPane>
-                        )
-                    } else {
-                        return (
-                            <Spin />
-                        )
-                    }
-                }))
-        }
+        return (
+            keys.map((item, key) => {
+                if (item) {
+                    return (
+                        <TabPane tab={title[key]} key={item}>
+                            <CompactTable
+                                goPage={this.goPage.bind(this)} // 翻页
+                                // goLink={this.goLink.bind(this)}
+                                pageSize={pageSize}
+                                loading={tableLoading}
+                                actionAuth={[]}
+                                // pageAuth={false}
+                                data={list}
+                                outStyle={{ 'marginTop': '20px' }}
+                            />
+                        </TabPane>
+                    )
+                } else {
+                    return (
+                        <Spin />
+                    )
+                }
+            }))
     }
     renderTable() {
         let list = this.props.list
