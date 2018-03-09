@@ -40,7 +40,12 @@
 //                 "nodeName": "机房2",
 // 				"nodeType": "MachineRoom",
 //                 "labelPath": "数据中心1/机房2",
-//                 "dataType": 0
+//                 "dataType": 0,
+// 				 "children": [
+// 				 {
+				 
+// 				 }
+// 				 ]
 //             }
 //         ]
 //     },
