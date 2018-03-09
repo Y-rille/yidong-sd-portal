@@ -225,7 +225,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             reset: false,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 10,
+            pageSize: 999,
             activeKey: 'imdsSwitchMotherboard',
             switch_id: match.params.id
         }
@@ -237,7 +237,7 @@ class SwitchboardInfo extends React.Component<any, any> {
         let { match } = this.props
         let pageNo = num
         let queryObj = { pageNo }
-        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}`)
         this.getTableData({
             pageNo
         })
@@ -310,12 +310,12 @@ class SwitchboardInfo extends React.Component<any, any> {
                                     />
                                 </div>) : ''}
                                 <CompactTable
-                                    goPage={this.goPage.bind(this)} // 翻页
+                                    // goPage={this.goPage.bind(this)} // 翻页
                                     // goLink={this.goLink.bind(this)}
                                     pageSize={pageSize}
                                     loading={tableLoading}
                                     actionAuth={[]}
-                                    // pageAuth={true}
+                                    // pageAuth={false}
                                     data={list}
                                     outStyle={{ 'marginTop': '20px' }}
                                 />
@@ -392,7 +392,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                         </TabPane>
 
                         <TabPane tab="资源关系" key="relation">
-                            <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
+                            <Tabs size="small" defaultActiveKey="imdsSwitchMotherboard" onChange={this.onTab.bind(this)} animated={false}>
                                 {this.renderTab()}
                                 <TabPane tab="告警信息" key="6">告警信息</TabPane>
                             </Tabs>
