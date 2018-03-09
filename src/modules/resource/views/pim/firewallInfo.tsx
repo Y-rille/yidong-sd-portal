@@ -27,7 +27,7 @@ class FirewallInfo extends React.Component<any, any> {
         if (key === 'relation') {
             this.setState({
                 pageNo: 1,
-                activeKey: key
+                activeKey: 'imdsFirewallMotherBoard'
             }, () => {
                 // this.props.actions.resetList()
                 this.getTableData({ pageNo: 1 })
