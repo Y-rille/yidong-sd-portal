@@ -1,0 +1,13 @@
+{
+  "name": "cloud-management-platform",
+  "title": "云管平台",
+  "description": "cloud management platform",
+  "dependencies": {
+    "http-proxy-middleware": "^0.17.4",
+    "lodash": "^4.17.4",
+    "faker": "^4.1.0",
+    "dyson": "^1.2.5",
+    "express": "^4.16.2",
+    "express-history-api-fallback": "^2.2.1"
+  }
+}

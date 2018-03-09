@@ -13,6 +13,7 @@ function mapProps(state) {
         nodeInfo: state.resourceReducer.nodeInfo,
         list: state.resourceReducer.list,
         subDataHA: state.resourceReducer.subDataHA,
+        summary: state.resourceReducer.summary
     }
 }
 function mapDispatchToProps(dispatch) {

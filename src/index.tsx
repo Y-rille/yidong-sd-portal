@@ -1,10 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-// OfflinePluginRuntime.install({
-//     onUpdateReady: () => OfflinePluginRuntime.applyUpdate(),
-//     onUpdated: () => location.reload(),
-// });
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+
+if (process.env.NODE_ENV === 'production') {
+    OfflinePluginRuntime.install({
+        onUpdateReady: () => OfflinePluginRuntime.applyUpdate(),
+        onUpdated: () => location.reload(),
+    });
+}
 
 import Root from './root'
 import { AppContainer } from 'react-hot-loader';

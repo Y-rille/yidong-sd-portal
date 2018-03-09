@@ -6,6 +6,7 @@ const confirm = Modal.confirm;
 
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable'
+import { stringify } from 'querystringify'
 import qs from 'querystringify'
 
 const attributes = [
@@ -242,7 +243,7 @@ const lower_resources_data = {
         key: 'role',
         title: '运行时间',
     }],
-    'body': [
+    'dataList': [
         {
             'id': 'whj_train1',
             'name': 'p3tenant_c119699c-39cb-400d-8f06-6a85b31f7eb9',
@@ -274,16 +275,15 @@ class HostInfo extends React.Component<any, any> {
         let { match } = this.props
         let { pageNo } = qs.parse(this.props.location.search)
         this.state = {
-            reset: false,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
             pageSize: 10,
             activeKey: 'imdsHostProcessor',
-            host: match.params.id
+            host: match.params.id,
         }
     }
     onChange(key) {
-        if (key === 'relation') {
+        if (key === 'relation' || key === 'subordinate') {
             let { pageNo } = this.state
             let queryObj = {
                 pageNo
@@ -317,14 +317,21 @@ class HostInfo extends React.Component<any, any> {
         })
     }
     showServer = (e) => {
-        this.props.history.replace(`/resource/pim/4/server/info/1`)
+        let ID = _.head(this.props.list.dataList).id
+        let pim_id = (_.head(this.props.list.dataList).pim_id).
+            substr(_.head(this.props.list.dataList).pim_id.length - 1, 1)
+        // console.log(ID, pim_id, "11111111111111111111")
+        this.props.history.replace(`/resource/pim/${pim_id}/server/info/${ID}`)
     }
     goPage(num) {
+        let { match } = this.props
         let pageNo = num
         let queryObj = { pageNo }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
+
     }
     getTableData(queryObj) {
         this.setState({
@@ -343,6 +350,7 @@ class HostInfo extends React.Component<any, any> {
         let moTypeKey = 'host'
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
+        this.props.actions.queryList('imdsHostServerInfo', {})
     }
     renderBtns() {
         return (
@@ -393,6 +401,27 @@ class HostInfo extends React.Component<any, any> {
                 }))
         }
     }
+    renderTable() {
+        let list = this.props.list
+        const { pageSize, tableLoading } = this.state;
+        if (list) {
+            return (
+                <CompactTable
+                    goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    pageSize={pageSize}
+                    loading={tableLoading}
+                    actionAuth={[]}
+                    data={list}
+                    outStyle={{ 'marginTop': '20px' }}
+                />
+            )
+        } else {
+            return (
+                <Spin />
+            )
+        }
+    }
     render() {
         let { list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
@@ -435,14 +464,7 @@ class HostInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="下级资源" key="subordinate">
-                            <CompactTable
-                                // goPage={this.goPage.bind(this)} // 翻页
-                                // goLink={this.goLink.bind(this)}
-                                actionAuth={[]}
-                                pageAuth={true}
-                                data={lower_resources_data}
-                                outStyle={{ 'marginTop': '20px' }}
-                            />
+                            {this.renderTable()}
                         </TabPane>
                     </Tabs>
                 </div>

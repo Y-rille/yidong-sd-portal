@@ -26,9 +26,15 @@ export const getMoTree = (cb) => (dispatch) => {
  * 数据列表查询
  * @param cb
  */
-export const queryList = (dsname, params, cb, ) => (dispatch) => {
+export const queryList = (dsname, params, cb, complex?) => (dispatch) => {
+
     return API.queryList(dsname, params).then((res: any) => {
         let data = res.data.data
+        if (complex) {
+            let newdata: any = {}
+            newdata[complex] = data
+            data = newdata
+        }
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: data }
         dispatch(action);
         if (cb) {
@@ -51,6 +57,33 @@ export const queryList = (dsname, params, cb, ) => (dispatch) => {
 export const resetList = () => (dispatch) => {
     return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, list: null })
 }
+
+/**
+ * 概览数据查询
+ * @param cb
+ */
+export const getSummary = (dsname, params, cb, complex?) => (dispatch) => {
+    return API.queryList(dsname, params).then((res: any) => {
+        let data = {}
+        if (complex) {
+            data[dsname] = res.data.data
+        } else {
+            data = res.data.data
+        }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, summary: data }
+        dispatch(action);
+        if (cb) {
+            cb(null, data)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, summary: null }
+        dispatch(action);
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}
+
 /**
  * 选择项查询
  * @param dsname 数据订阅名
@@ -192,6 +225,44 @@ export const editObjData = (moTypeKey, moInstId, editData, cb) => (dispatch) => 
  */
 export const operateStatus = (moTypeKey, moInstId, operateType, cb) => (dispatch) => {
     return API.operateStatus(moTypeKey, moInstId, operateType).then((res: any) => {
+        if (cb) {
+            cb(null, res.data)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}
+
+/**
+ * 自动发现
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param cb 
+ */
+export const autoDiscovery = (moTypeKey, cb) => (dispatch) => {
+    return API.autoDiscovery(moTypeKey).then((res: any) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, findData: res.data.data }
+        dispatch(action);
+        if (cb) {
+            cb(null)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, findData: null }
+        dispatch(action);
+        if (cb) {
+            cb(err)
+        }
+    })
+}
+
+/**
+ * 自动发现确认接口
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param cb 
+ */
+export const findConfirm = (moTypeKey, queryData, cb) => (dispatch) => {
+    return API.findConfirm(moTypeKey, queryData).then((res: any) => {
         if (cb) {
             cb(null, res.data)
         }

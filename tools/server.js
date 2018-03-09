@@ -30,7 +30,6 @@ var options = {
 var webProxy = proxy(options);
 
 
-const proxy_setting = require('http-proxy-middleware');
 var options_setting = {
     target: 'http://47.94.4.45:8067/', // target host
     secure: false,
@@ -44,7 +43,6 @@ var options_setting = {
 
 var webProxy_setting = proxy(options_setting);
 
-const proxy_performance = require('http-proxy-middleware');
 var options_performance = {
     target: 'http://47.94.4.45:8090/', // target host
     secure: false,
@@ -58,7 +56,6 @@ var options_performance = {
 
 var webProxy_performance = proxy(options_performance);
 
-const proxy_resource = require('http-proxy-middleware');
 var options_resource = {
     target: 'http://127.0.0.1:3000/', // target host
     secure: false,
@@ -73,7 +70,6 @@ var options_resource = {
 var webProxy_resource = proxy(options_resource);
 
 
-const proxy_agent = require('http-proxy-middleware');
 var options_agent = {
     target: 'http://127.0.0.1:3000/', // target host
     secure: false,
@@ -84,8 +80,30 @@ var options_agent = {
         '^/api_agent': ''
     }
 };
-
 var webProxy_agent = proxy(options_agent);
+
+
+// var options_alam = {
+//     target: 'http://47.94.4.45:8080/', // target host
+//     secure: false,
+//     changeOrigin: true,               // needed for virtual hosted sites
+//     ws: true,                         // proxy websockets
+//     ignorePath: false
+// };
+// var webProxy_alam = proxy(options_alam);
+
+
+// var options_kibana = {
+//     target: 'http://47.94.4.45:5601/', // target host
+//     secure: false,
+//     changeOrigin: true,               // needed for virtual hosted sites
+//     ws: true,                         // proxy websockets
+//     ignorePath: false,
+//     pathRewrite: {
+//         '^/app_kibana': ''
+//     }
+// };
+// var webProxy_kibana = proxy(options_kibana);
 
 
 // Start an express server for development using webpack dev-middleware and hot-middleware
@@ -106,6 +124,8 @@ function startDevServer() {
     app.use('/api_performance/*', webProxy_performance);
     app.use('/api_resource/*', webProxy_resource);
     app.use('/api_agent/*', webProxy_agent);
+    // app.use('/alarm-mntr/*', webProxy_alam);
+    // app.use('/app_kibana/*', webProxy_kibana);
 
     // // First, find files from src folder
     // app.use(express.static(path.join(__dirname, '../src')));
