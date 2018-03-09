@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import FirewallInfo from '../../container/pim/firewallInfo'
+// import FirewallInfo from '../../container/pim/firewallInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import Selector from '../../../../components/Selector'
 import styles from '../../style/index.less'
@@ -218,7 +218,7 @@ class Firewall extends React.Component<FirewallProps, any> {
         const { pageSize, tableLoading, dataCenterValue, vendor } = this.state;
         return (
             <Switch>
-                <Route path={`${match.url}/info/:id`} component={FirewallInfo} />
+                {/* <Route path={`${match.url}/info/:id`} component={FirewallInfo} /> */}
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

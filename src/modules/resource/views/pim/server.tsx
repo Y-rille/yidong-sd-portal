@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import ServerInfo from '../../container/pim/serverInfo'
+// import ServerInfo from '../../container/pim/serverInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Modal, Cascader } from 'antd';
 import qs from 'querystringify'
 import { stringify } from 'querystringify'
@@ -348,7 +348,7 @@ class Server extends React.Component<any, any> {
         }];
         return (
             <Switch>
-                <Route path={`${match.url}/info/:id`} component={ServerInfo} />
+                {/* <Route path={`${match.url}/info/:id`} component={ServerInfo} /> */}
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

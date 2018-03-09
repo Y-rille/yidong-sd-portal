@@ -76,6 +76,9 @@ class FirewallInfo extends React.Component<any, any> {
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
