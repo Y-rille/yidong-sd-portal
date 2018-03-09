@@ -71,16 +71,16 @@
 
 
 
-function formatData(tree) {
-    for (var i in tree) {
-        tree[i].label=data[i].nodeLabel
-        tree[i].value=data[i].nodeId
+function formatDataCenter(data) {
+    for (var i in data) {
+        data[i].label=data[i].nodeLabel
+        data[i].value = data[i].nodeId
         if (!data[i].children || data[i].children.length===0) {
             continue;
         } else {
-            formatData(tree[i].children);
+            formatDataCenter(data[i].children);
         }
     }
-    return tree
+    return data
 }
-export default formatData
+export default formatDataCenter
