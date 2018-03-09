@@ -7,7 +7,7 @@ import HostInfo from '../../container/vim/hostInfo'
 import { Spin } from 'antd';
 import styles from '../../style/index.less'
 
-class Host extends React.Component<any, any> {
+class HostList extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -57,4 +57,4 @@ class Host extends React.Component<any, any> {
         );
     }
 }
-export default Host;
+export default HostList;
