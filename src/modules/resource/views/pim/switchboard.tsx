@@ -39,7 +39,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             pageSize: 10,
             datacenter: datacenter ? datacenter.split(',') : '',
             pageNo: pageNo ? pageNo : 1,
-            inputStatus: name ? 'switchName' : 'switchID',
+            inputStatus: switch_id ? 'switchID' : 'switchName' ,
             switch_id: switch_id ? switch_id : ''
         };
     }
@@ -81,9 +81,9 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { name, pim_id, datacenter } = this.state
+            let { name, pim_id, datacenter, switch_id } = this.state
             let pageNo = num
-            let queryObj = { pageNo, name, datacenter }
+            let queryObj = { pageNo, name, switch_id, datacenter }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })
@@ -230,7 +230,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.swichQueryBar}>
-                                <Cascaderor
+                                <div className={styles.swichQuery}><Cascaderor
                                     style={{ width: '220px' }}
                                     type="DataCenter"
                                     data={this.props.subDataCenter}
@@ -253,17 +253,21 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 >
                                     查询
                                 </Button>
-                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
-                                <Modal
-                                    title="发现"
-                                    visible={this.state.visible}
-                                    onCancel={this.handleCancel}
-                                    footer={null}
-                                    width="70%"
-                                >
-                                    <FilterSwitchBoardForm getData={this.getData.bind(this)} wrappedComponentRef={(node) => { this.formRef = node }} />
-                                    {this.renderAddData()}
-                                </Modal>
+                                </div>
+                                <div>
+                                    <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                    <Modal
+                                        title="发现"
+                                        visible={this.state.visible}
+                                        onCancel={this.handleCancel}
+                                        footer={null}
+                                        width="70%"
+                                    >
+                                        <FilterSwitchBoardForm getData={this.getData.bind(this)} wrappedComponentRef={(node) => { this.formRef = node }} />
+                                        {this.renderAddData()}
+                                    </Modal>
+                                </div>
+                                {/* <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button> */}
                             </div>
                             {list ? (<CompactTable
                                 outStyle={{ marginTop: '20px' }}

@@ -13,6 +13,7 @@ import ServerNetworkCard from '../../../../components/ServerNetworkCard'
 import LogShine from '../../../../components/LogShine/'
 import { stringify } from 'querystringify'
 import qs from 'querystringify'
+import emitter from '../../../../common/emitter'
 
 class ServerInfo extends React.Component<any, any> {
     constructor(props) {
@@ -57,6 +58,12 @@ class ServerInfo extends React.Component<any, any> {
                 let match = self.props.match
                 let moInstId = match.params.id
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
+                    if (res.code === 1) {
+                        emitter.emit('message', 'success', '操作成功！')
+                    }
+                    if (err || res.code !== 1) {
+                        emitter.emit('message', 'error', '操作失败！')
+                    }
                 })
             },
             onCancel() {
@@ -87,6 +94,12 @@ class ServerInfo extends React.Component<any, any> {
                 let moInstId = match.params.id
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
                     // console.log(res, '================>res')
+                    if (res.code === 1) {
+                        emitter.emit('message', 'success', '操作成功！')
+                    }
+                    if (err || res.code !== 1) {
+                        emitter.emit('message', 'error', '操作失败！')
+                    }
                 })
 
             },
