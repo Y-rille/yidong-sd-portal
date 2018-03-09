@@ -38,11 +38,17 @@ export interface DataParams {
    * 当前页码
    */
   pageNo?: number,
+  /**
+   * 查询关键字
+   */
+  queryKey?: string,
+
 }
 
 class API {
-  getMoTree() {
-    return axios.get(`/api_resource/datashare-svr/api/querytree/mgrmoTree`)
+  // mgrmoTree
+  getQueryTree(queryKey) {
+    return axios.get(`/api_resource/datashare-svr/api/querytree/${queryKey}`)
   }
   getSubDataByName(dsname) {
     // 4.1

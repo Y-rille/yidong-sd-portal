@@ -6,8 +6,8 @@ import deepPick from '../utils/deepPick'
  * 查询资源树
  * @param cb 
  */
-export const getMoTree = (cb) => (dispatch) => {
-    return API.getMoTree().then((res: any) => {
+export const getMoTree = (queryName, cb) => (dispatch) => {
+    return API.getQueryTree(queryName).then((res: any) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, resourceTree: res.data }
         dispatch(action);
         if (cb) {
@@ -21,7 +21,25 @@ export const getMoTree = (cb) => (dispatch) => {
         }
     })
 }
-
+/**
+ * 数据中心查询
+ * @param cb 
+ */
+export const getDataCenter = (queryKey, cb) => (dispatch) => {
+    return API.getQueryTree(queryKey).then((res: any) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, subDataCenter: res.data }
+        dispatch(action);
+        if (cb) {
+            cb(null, res.data)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, subDataCenter: null }
+        dispatch(action);
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}
 /**
  * 数据列表查询
  * @param cb
@@ -109,9 +127,9 @@ export const getSubDataByName = (dsname, cb) => (dispatch) => {
             case 'imdsSelectionProject':
                 name = 'Project'
                 break;
-            case 'imdsSelectionDatacenter':
-                name = 'Center'
-                break;
+            // case 'imdsSelectionDatacenter':
+            //     name = 'Center'
+            //     break;
             case 'imdsSelectionVendor':
                 name = 'Vendor'
                 break;

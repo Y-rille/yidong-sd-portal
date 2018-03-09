@@ -6,6 +6,7 @@ import Magnetic from '../../container/pim/magnetic'
 import Server from '../../container/pim/server'
 import Switchboard from '../../container/pim/switchboard'
 import Firewall from '../../container/pim/firewall'
+import FirewallInfo from '../../container/pim/firewallInfo'
 import styles from '../../style/index.less'
 class Pim extends React.Component<any, any> {
     constructor(props) {
@@ -13,11 +14,13 @@ class Pim extends React.Component<any, any> {
     }
     componentWillMount() {
         // 选择项查询
-        let selectKey = ['imdsSelectionDatacenter', 'imdsSelectionVendor']
-        let self = this
-        selectKey.forEach(item => {
-            self.props.actions.getSubDataByName(item)
-        })
+        // let selectKey = ['imdsSelectionDatacenter', 'imdsSelectionVendor']
+        // let self = this
+        // selectKey.forEach(item => {
+
+        // })
+        this.props.actions.getSubDataByName('imdsSelectionVendor')
+        this.props.actions.getDataCenter('dcMachineRoomCabinet')
     }
     render() {
         let { match, subDataCenter, subDataVendor } = this.props
@@ -25,11 +28,13 @@ class Pim extends React.Component<any, any> {
             (subDataCenter && subDataVendor) ? (
                 <div>
                     <Switch>
-                        <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact />
+                        {/* <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact /> */}
                         <Route path={`${match.url}/magnetic`} component={Magnetic} />
                         <Route path={`${match.url}/server`} component={Server} />
                         <Route path={`${match.url}/switchboard`} component={Switchboard} />
+                        <Route path={`${match.url}/firewall/info/:id`} component={FirewallInfo} />
                         <Route path={`${match.url}/firewall`} component={Firewall} />
+                        
                     </Switch>
                 </div>) : (
                     <div />

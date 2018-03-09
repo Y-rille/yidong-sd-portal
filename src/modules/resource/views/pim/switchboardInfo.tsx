@@ -256,19 +256,19 @@ class SwitchboardInfo extends React.Component<any, any> {
         let id = match.params.id
         if (key === 'imdsSwitchPort15MiKpis') {
             this.setState({
-                disabled: true
+                disabled: true,
+                activeKey: key
+            }, () => {
+                this.goPage(1)
             })
         } else {
             this.setState({
-                disabled: false
+                disabled: false,
+                activeKey: key
+            }, () => {
+                this.goPage(1)
             })
         }
-        this.setState({
-            pageNo: 1,
-            activeKey: key
-        }, () => {
-            this.getTableData({ pageNo: 1 })
-        })
     }
     getTableData(queryObj) {
         this.setState({
