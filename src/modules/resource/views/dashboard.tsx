@@ -8,7 +8,7 @@ import PimSummary from '../../../components/PimSummary'
 import VimEdit from '../../../components/VimEdit/'
 
 import Headline from '../../../components/Headline'
-
+import emitter from '../../../common/emitter'
 let editRef = null
 let vimInfo = {
     id: 'A12WED34212344RED',
@@ -42,6 +42,7 @@ class Dashboard extends React.Component<any, any> {
             this.setState({
                 visible: false,
             });
+            emitter.emit('message', 'success', '修改成功！')
         }
     }
     handleCancel() {
