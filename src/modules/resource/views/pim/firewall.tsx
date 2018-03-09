@@ -29,7 +29,6 @@ class Firewall extends React.Component<FirewallProps, any> {
     constructor(props) {
         super(props);
         let { pageNo, datacenter, vendor, pim_id } = qs.parse(this.props.location.search)
-        let defaultDataCenter = datacenter.split(',')
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/pim/:id'
         })
@@ -39,7 +38,7 @@ class Firewall extends React.Component<FirewallProps, any> {
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
-            datacenter: datacenter ? defaultDataCenter : '',
+            datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
             pim_id: mp_node ? mp_node.params.id : '',
         }

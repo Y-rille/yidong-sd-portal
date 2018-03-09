@@ -10,6 +10,7 @@ import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 import Selector from '../../../../components/Selector'
 import FilterServerForm from '../../../../components/FilterServerForm'
+import Cascaderor from '../../../../components/Cascaderor'
 
 class Server extends React.Component<any, any> {
     formRef: any;
@@ -28,12 +29,19 @@ class Server extends React.Component<any, any> {
             pim_id: mp_node.params.id,
             visible: false,
             filterData: null,
-            datacenter: datacenter ? datacenter : ''    // 数据中心
+            datacenter: datacenter ? datacenter.split(',') : ''    // 数据中心
         }
     }
     getData(data) {
         this.setState({
             filterData: data
+        })
+    }
+    getCascaderData(type, value) {
+        let { datacenter, vendor } = this.state
+        this.setState({
+            datacenter: type === 'DataCenter' ? value : datacenter,
+            vendor: type === 'DataVendor' ? value : vendor
         })
     }
     dataSelectChange(value) {
@@ -52,7 +60,7 @@ class Server extends React.Component<any, any> {
         }, () => {
             let { match } = this.props
             const { vendor, pageNo, datacenter } = this.state;
-            let queryObj = { pageNo, vendor, datacenter }
+            let queryObj = { pageNo, datacenter, vendor }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
             this.getTableData()
         });
@@ -177,175 +185,9 @@ class Server extends React.Component<any, any> {
 
     }
     render() {
-        let tdata = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '序号',
-                link: true,
-            }, {
-                key: 'name',
-                title: '服务器A',
-            }, {
-                key: 'assets',
-                title: '1083',
-            }, {
-                key: 'ip',
-                title: '188.103.2.123'
-            }, {
-                key: 'cpu',
-                title: 'HPProLlant DL380'
-            }, {
-                key: 'suppliert',
-                title: '华为'
-            }, {
-                key: 'equipment',
-                title: '机架式服务器'
-            },
-            {
-                key: 'distribution',
-                title: '待用',
-            },
-            {
-                key: 'power',
-                title: '开机',
-            }],
-            'body': [
-                {
-                    'id': 1,
-                    'name': 'D19-COMP06',
-                    'assets': '0000',
-                    'ip': '188.103.21',
-                    'cpu': 'HPProLlant DL380',
-                    'suppliert': 'HPProLlant DL380',
-                    'equipment': 'HPProLlant DL380',
-                    'distribution': 'HPProLlant DL380',
-                    'power': 'HPProLlant DL380',
-                    'action': ' ',
-                },
-                {
-                    'id': 2,
-                    'name': 'D19-COMP06',
-                    'assets': '0000',
-                    'ip': '188.103.21',
-                    'cpu': 'HPProLlant DL380',
-                    'suppliert': 'HPProLlant DL380',
-                    'equipment': 'HPProLlant DL380',
-                    'distribution': 'HPProLlant DL380',
-                    'power': 'HPProLlant DL380',
-                    'action': ' ',
-                },
-                {
-                    'id': 3,
-                    'name': 'D19-COMP06',
-                    'assets': '0000',
-                    'ip': '188.103.21',
-                    'cpu': 'HPProLlant DL380',
-                    'suppliert': 'HPProLlant DL380',
-                    'equipment': 'HPProLlant DL380',
-                    'distribution': 'HPProLlant DL380',
-                    'power': 'HPProLlant DL380',
-                    'action': ' ',
-                }, {
-                    'id': 4,
-                    'name': 'D19-COMP06',
-                    'assets': '0000',
-                    'ip': '188.103.21',
-                    'cpu': 'HPProLlant DL380',
-                    'suppliert': 'HPProLlant DL380',
-                    'equipment': 'HPProLlant DL380',
-                    'distribution': 'HPProLlant DL380',
-                    'power': 'HPProLlant DL380',
-                    'action': ' ',
-                }
-                , {
-                    'id': 5,
-                    'name': 'D19-COMP06',
-                    'assets': '0000',
-                    'ip': '188.103.21',
-                    'cpu': 'HPProLlant DL380',
-                    'suppliert': 'HPProLlant DL380',
-                    'equipment': 'HPProLlant DL380',
-                    'distribution': 'HPProLlant DL380',
-                    'power': 'HPProLlant DL380',
-                    'action': ' ',
-                }
-            ]
-        }
-
         let { match, nodeInfo, subDataVendor, subDataCenter, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { vendor, pageSize, tableLoading, datacenter } = this.state;
-
-        const DataCenter = [{
-            value: '数据中心1',
-            label: '数据中心1',
-            children: [{
-                value: '机房1',
-                label: '机房1',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房2',
-                label: '机房2',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房3',
-                label: '机房3',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }],
-        }, {
-            value: '数据中心2',
-            label: '数据中心2',
-            children: [{
-                value: '机房1',
-                label: '机房1',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房2',
-                label: '机房2',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }, {
-                value: '机房3',
-                label: '机房3',
-                children: [{
-                    value: '机柜1',
-                    label: '机柜1',
-                }, {
-                    value: '机柜2',
-                    label: '机柜2',
-                }],
-            }],
-        }];
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={ServerInfo} /> */}
@@ -366,12 +208,7 @@ class Server extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Cascader
-                                    value={datacenter}
-                                    options={subDataCenter}
-                                    onChange={this.dataSelectChange.bind(this)}
-                                    placeholder="数据中心"
-                                />
+                                <Cascaderor type="DataCenter" data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
                                 <Selector type="Vendor" data={subDataVendor} getData={this.getVendorData.bind(this)} value={vendor} />
                                 <Button
                                     type="primary"
