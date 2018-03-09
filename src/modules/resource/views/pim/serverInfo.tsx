@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
@@ -29,7 +28,7 @@ class ServerInfo extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             pageSize: 10,
             activeKey: 'imdsServerProcessor',
-            serverId: match.params.id,
+            server: match.params.id,
         }
     }
     confirmUpOrDown = (e) => {
@@ -58,13 +57,11 @@ class ServerInfo extends React.Component<any, any> {
                 let match = self.props.match
                 let moInstId = match.params.id
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
-                    // console.log(res, '================>res')
                 })
             },
             onCancel() {
             }
         })
-
     }
     tabInfo = (key) => {
         this.setState({
@@ -139,12 +136,28 @@ class ServerInfo extends React.Component<any, any> {
     onTab(key) {
         let match = this.props.match
         let id = match.params.id
-        this.setState({
-            pageNo: 1,
-            activeKey: key
-        }, () => {
-            this.goPage(1)
-        })
+        let arr = ['imdsServerPCIE', 'imdsServerRaidCard', 'imdsServerLogicalDrive', 'imdsServer15MiKpis']
+        if (key === 'imdsServer15MiKpis') {
+            this.setState({
+                tableLoading: true
+            });
+            let self = this
+            let { server } = this.state
+            arr.map((item, keys) => {
+                this.props.actions.queryList(item, { server }, () => {
+                    self.setState({
+                        tableLoading: false
+                    });
+                }, item)
+            })
+        } else {
+            this.setState({
+                pageNo: 1,
+                activeKey: key
+            }, () => {
+                this.goPage(1)
+            })
+        }
 
     }
     goPage(num) {
@@ -162,18 +175,20 @@ class ServerInfo extends React.Component<any, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { pageSize, activeKey, serverId } = this.state
-
-        this.props.actions.queryList(activeKey, { pageNo, pageSize, serverId }, () => {
+        let { pageSize, activeKey, server } = this.state
+        this.props.actions.queryList(activeKey, { pageNo, pageSize, server }, () => {
             self.setState({
                 tableLoading: false
             });
         })
     }
     componentWillMount() {
-        let moTypeKey = 'server'
+        let moTypeKey = 'server';
+        let server_id = this.props.match.params.id;
         this.props.actions.getObjAttributes(moTypeKey)
-        this.props.actions.getObjData(moTypeKey)
+        this.props.actions.getObjData(moTypeKey);
+        this.props.actions.getSummary('imdsServerRaidCard', { server: server_id }, null, true);
+        this.props.actions.getSummary('imdsServer15MiKpis', { server: server_id }, null, true);
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -237,68 +252,66 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
     renderTab() {
         let title = ['处理器信息', '内存信息', '网卡信息', '硬盘信息', '风扇信息', '电源信息', '其他信息']
         let keys = ['imdsServerProcessor', 'imdsServerMemory', 'imdsServerEthernetinterface', 'imdsServerDisk', 'imdsServerFan', 'imdsServerPower', 'imdsServer15MiKpis']
-        let list = this.props.list
+        let { list, summary } = this.props;
         const { pageSize, tableLoading } = this.state;
-        if (list) {
-            return (
-                keys.map((item, key) => {
-                    // 网卡未
-                    if (item === 'imdsServerEthernetinterface') {
-                        return (
-                            <TabPane tab={title[key]} key={item}>
-                                <ServerNetworkCard data={list} />
-                                <ServerNetworkCard data={list} />
-                            </TabPane>
-                        )
-                    } else if (item === 'imdsServer15MiKpis') {
-                        // 其他未
-                        let arr = ['imdsServerPCIE', 'imdsServerRaidCard', 'imdsServerLogicalDrive', 'imdsServer15MiKpis']
-
+        return (
+            keys.map((item, key) => {
+                // 网卡未
+                if (item === 'imdsServerEthernetinterface') {
+                    return (
+                        <TabPane tab={title[key]} key={item}>
+                            <ServerNetworkCard data={list} />
+                            <ServerNetworkCard data={list} />
+                        </TabPane>
+                    )
+                } else if (item === 'imdsServer15MiKpis') {
+                    if (list) {
                         return (
                             <TabPane tab={title[key]} key={item}>
                                 <Headline title="PCIe槽内信息" />
                                 <CompactTable
-                                    goPage={this.goPage.bind(this)}
-                                    data={list}
                                     actionAuth={['delete']}
+                                    loading={tableLoading}
+                                    pageSize={9999}
+                                    data={list['imdsServerPCIE']}
                                 />
 
                                 <div style={{ marginTop: '20px' }}>
                                     <Headline title="阵列卡信息" />
-                                    <Summaries colNum={5} />
+                                    <Summaries colNum={5} data={summary.imdsServerRaidCard} />
                                 </div>
                                 <div style={{ marginTop: '20px' }}>
                                     <Headline title="逻辑盘信息" />
                                     <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        data={list}
+                                        data={list['imdsServerLogicalDrive']}
+                                        loading={tableLoading}
                                         actionAuth={['delete']}
+                                        pageSize={9999}
                                     />
                                 </div>
                                 <div style={{ marginBottom: '20px' }}>
                                     <Headline title="其他信息" />
-                                    <Summaries colNum={5} />
+                                    <Summaries colNum={5} data={summary.imdsServer15MiKpis} />
                                 </div>
                             </TabPane>
                         )
-                    } else {
-                        return (
-                            <TabPane tab={title[key]} key={item}>
-                                <CompactTable
-                                    goPage={this.goPage.bind(this)} // 翻页
-                                    // goLink={this.goLink.bind(this)}
-                                    pageSize={pageSize}
-                                    loading={tableLoading}
-                                    actionAuth={[]}
-                                    // pageAuth={true}
-                                    data={list}
-                                    outStyle={{ 'marginBottom': '20px' }}
-                                />
-                            </TabPane>
-                        )
                     }
-                }))
-        }
+                } else {
+                    return (
+                        <TabPane tab={title[key]} key={item}>
+                            <CompactTable
+                                goPage={this.goPage.bind(this)}
+                                pageSize={pageSize}
+                                loading={tableLoading}
+                                actionAuth={[]}
+                                data={list}
+                                outStyle={{ 'marginBottom': '20px' }}
+                            />
+                        </TabPane>
+                    )
+                }
+            }))
+
     }
     componentDidMount() {
         setTimeout(() => {
@@ -307,7 +320,9 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
             })
         }, 4000)
     }
-
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
