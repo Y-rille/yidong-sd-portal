@@ -23,7 +23,20 @@ class FirewallInfo extends React.Component<any, any> {
             firewall: match.params.id
         }
     }
-    callback = () => { }
+    callback = (key) => {
+        let moTypeKey = 'firewall'
+        this.setState({
+            activeKey: key
+        })
+        if (key === 'relation') {
+            let { pageNo } = this.state
+            let queryObj = { pageNo }
+            this.getTableData(queryObj)
+        } else {
+            this.props.actions.getObjAttributes(moTypeKey)
+            this.props.actions.getObjData(moTypeKey)
+        }
+    }
     tabInfo = () => { }
     tabConnect = (key) => {
         let match = this.props.match
@@ -75,6 +88,9 @@ class FirewallInfo extends React.Component<any, any> {
         let moTypeKey = 'firewall'
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {

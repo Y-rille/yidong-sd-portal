@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import VirtualNetworkInfo from '../../container/vim/virtualNetworkInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Spin } from 'antd';
 import Selector from '../../../../components/Selector'
 import CompactTable from '../../../../components/CompactTable/'
@@ -104,57 +102,52 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading, project, name } = this.state;
         return (
-            <Switch>
-                <Route path={`${match.url}/info/:id`} component={VirtualNetworkInfo} />
-                <Route render={() => (
-                    <div>
-                        <div className={styles.header}>
-                            <h1 className={styles.title}>虚拟网络管理</h1>
-                            <Breadcrumb>
-                                <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                                <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                {
-                                    labelPathArr.map((item, index) => {
-                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
-                                    })
-                                }
-                                <Breadcrumb.Item>虚拟网络管理</Breadcrumb.Item>
-                            </Breadcrumb>
-                        </div>
-                        <div style={{ padding: '20px' }}>
-                            <div className={styles.queryBar}>
-                                <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
-                                <Input
-                                    placeholder="虚拟网络名称"
-                                    type="text"
-                                    value={name}
-                                    onChange={e => this.virtualNetworkInputChange(e.target.value)} />
-                                <Button
-                                    type="primary"
-                                    onClick={this.handleClick.bind(this)}
-                                >
-                                    查询
-                                </Button>
-                                <Button style={{ float: 'right' }}
-                                    type="primary"
-                                >
-                                    管理
-                            </Button>
-                            </div>
-                            {list ? (<CompactTable
-                                outStyle={{ marginTop: '20px' }}
-                                pageSize={pageSize}
-                                goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                data={list}
-                                loading={tableLoading}
-                                // pageAuth={true}
-                                actionAuth={[]}
-                            />) : (<Spin />)}
-                        </div>
+            <div>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>虚拟网络管理</h1>
+                    <Breadcrumb>
+                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                        {
+                            labelPathArr.map((item, index) => {
+                                return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                            })
+                        }
+                        <Breadcrumb.Item>虚拟网络管理</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div style={{ padding: '20px' }}>
+                    <div className={styles.queryBar}>
+                        <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
+                        <Input
+                            placeholder="虚拟网络名称"
+                            type="text"
+                            value={name}
+                            onChange={e => this.virtualNetworkInputChange(e.target.value)} />
+                        <Button
+                            type="primary"
+                            onClick={this.handleClick.bind(this)}
+                        >
+                            查询
+                    </Button>
+                        <Button style={{ float: 'right' }}
+                            type="primary"
+                        >
+                            管理
+                </Button>
                     </div>
-                )} />
-            </Switch>
+                    {list ? (<CompactTable
+                        outStyle={{ marginTop: '20px' }}
+                        pageSize={pageSize}
+                        goPage={this.goPage.bind(this)} // 翻页
+                        goLink={this.goLink.bind(this)}
+                        data={list}
+                        loading={tableLoading}
+                        // pageAuth={true}
+                        actionAuth={[]}
+                    />) : (<Spin />)}
+                </div>
+            </div>
         );
     }
 }

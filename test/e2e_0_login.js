@@ -62,12 +62,12 @@ test('Login', async t => {
         .wait(500)
         .expect(Selector('h1').innerText).eql('用户管理')
         // 删除用户
-        .click(Selector('tbody').find('tr').nth(0).find('td').nth(4).find('a').withText('删除'))
-        .wait(500)
-        .click(Selector('span').withText('确 定').parent('button'))
-        .expect('删除成功！').ok()
-        .wait(500)
-        .expect(Selector('h1').innerText).eql('用户管理')
+        // .click(Selector('tbody').find('tr').nth(0).find('td').nth(4).find('a').withText('删除'))
+        // .wait(500)
+        // .click(Selector('span').withText('确 定').parent('button'))
+        // .expect('删除成功！').ok()
+        // .wait(500)
+        // .expect(Selector('h1').innerText).eql('用户管理')
         // 修改密码
         .click(Selector('tbody').find('tr').nth(0).find('td').nth(4).find('a').withText('修改密码'))
         .expect(Selector('.ant-modal-title').innerText).eql('修改密码')

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import HaInfo from '../../container/vim/haInfo'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'antd';
 import styles from '../../style/index.less';
 import CompactTable from '../../../../components/CompactTable/'
@@ -100,51 +98,46 @@ class Ha extends React.Component<HaProps, any> {
         const { name, region, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
-            <Switch>
-                <Route path={`${match.url}/info/:id`} component={HaInfo} />
-                <Route render={() => (
-                    <div>
-                        <div className={styles.header}>
-                            <h1 className={styles.title}>HA管理</h1>
-                            <Breadcrumb>
-                                <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                                <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                {
-                                    labelPathArr.map((item, index) => {
-                                        return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
-                                    })
-                                }
-                                <Breadcrumb.Item>HA管理</Breadcrumb.Item>
-                            </Breadcrumb>
-                        </div>
-                        <div style={{ padding: '20px' }}>
-                            <div className={styles.queryBar}>
-                                <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} value={region} />
-                                <Input
-                                    placeholder="HA名称"
-                                    value={name} type="text"
-                                    onChange={e => this.HAInputChange(e.target.value)}
-                                />
-                                <Button
-                                    type="primary"
-                                    onClick={this.handleClick.bind(this)}
-                                >
-                                    查询
+            <div>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>HA管理</h1>
+                    <Breadcrumb>
+                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                        {
+                            labelPathArr.map((item, index) => {
+                                return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                            })
+                        }
+                        <Breadcrumb.Item>HA管理</Breadcrumb.Item>
+                    </Breadcrumb>
+                </div>
+                <div style={{ padding: '20px' }}>
+                    <div className={styles.queryBar}>
+                        <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} value={region} />
+                        <Input
+                            placeholder="HA名称"
+                            value={name} type="text"
+                            onChange={e => this.HAInputChange(e.target.value)}
+                        />
+                        <Button
+                            type="primary"
+                            onClick={this.handleClick.bind(this)}
+                        >
+                            查询
                                 </Button>
-                            </div>
-                            {list ?
-                                <CompactTable
-                                    goPage={this.goPage.bind(this)} // 翻页
-                                    goLink={this.goLink.bind(this)}
-                                    data={list}
-                                    pageSize={pageSize}
-                                    actionAuth={[]}
-                                    loading={tableLoading}
-                                /> : <Spin />}
-                        </div>
                     </div>
-                )} />
-            </Switch>
+                    {list ?
+                        <CompactTable
+                            goPage={this.goPage.bind(this)} // 翻页
+                            goLink={this.goLink.bind(this)}
+                            data={list}
+                            pageSize={pageSize}
+                            actionAuth={[]}
+                            loading={tableLoading}
+                        /> : <Spin />}
+                </div>
+            </div>
         );
     }
 }
