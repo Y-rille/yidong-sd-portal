@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import AzInfo from '../../container/vim/azInfo'
 import CompactTable from '../../../../components/CompactTable'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select, Input } from 'antd';
 import styles from '../../style/index.less'
@@ -102,60 +100,53 @@ class Az extends React.Component<AzProps, any> {
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
-                <Switch>
-                    <Route path={`${match.url}/info/:azId`} component={AzInfo} />
-                    <Route render={() => (
-                        <div>
-                            <div className={styles.header}>
-                                <h1 className={styles.title}>AZ管理</h1>
-                                {nodeInfo ? (
-                                    <Breadcrumb>
-                                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                                        {
-                                            labelPathArr.map((item, index) => {
-                                                return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
-                                            })
-                                        }
-                                        <Breadcrumb.Item>AZ管理</Breadcrumb.Item>
-                                    </Breadcrumb>
-                                ) : ''}
-                            </div>
-                            <div style={{ padding: '20px' }}>
-                                <div className={styles.queryBar}>
-                                    <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} value={region} />
-                                    <Input
-                                        placeholder="AZ名称"
-                                        value={name} type="text"
-                                        onChange={e => this.AZInputChange(e.target.value)}
-                                    />
-                                    <Button
-                                        type="primary"
-                                        onClick={this.handleClick.bind(this)}
-                                    >
-                                        查询
+                <div className={styles.header}>
+                    <h1 className={styles.title}>AZ管理</h1>
+                    {nodeInfo ? (
+                        <Breadcrumb>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                            {
+                                labelPathArr.map((item, index) => {
+                                    return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                })
+                            }
+                            <Breadcrumb.Item>AZ管理</Breadcrumb.Item>
+                        </Breadcrumb>
+                    ) : ''}
+                </div>
+                <div style={{ padding: '20px' }}>
+                    <div className={styles.queryBar}>
+                        <Selector type="Region" data={this.props.subDataRegion} getData={this.getData.bind(this)} value={region} />
+                        <Input
+                            placeholder="AZ名称"
+                            value={name} type="text"
+                            onChange={e => this.AZInputChange(e.target.value)}
+                        />
+                        <Button
+                            type="primary"
+                            onClick={this.handleClick.bind(this)}
+                        >
+                            查询
                                     </Button>
-                                </div>
+                    </div>
 
-                                {
-                                    this.props.list ? (
-                                        <CompactTable
-                                            goPage={this.goPage.bind(this)} // 翻页
-                                            goLink={this.goLink.bind(this)}
-                                            data={list}
-                                            actionAuth={[]}
-                                            pageSize={pageSize}
-                                            loading={tableLoading}
-                                            outStyle={{ 'marginTop': '20px' }}
-                                        />
-                                    ) : (
-                                            <Spin />
-                                        )
-                                }
-                            </div>
-                        </div>
-                    )} />
-                </Switch>
+                    {
+                        this.props.list ? (
+                            <CompactTable
+                                goPage={this.goPage.bind(this)} // 翻页
+                                goLink={this.goLink.bind(this)}
+                                data={list}
+                                actionAuth={[]}
+                                pageSize={pageSize}
+                                loading={tableLoading}
+                                outStyle={{ 'marginTop': '20px' }}
+                            />
+                        ) : (
+                                <Spin />
+                            )
+                    }
+                </div>
             </div>
         );
     }
