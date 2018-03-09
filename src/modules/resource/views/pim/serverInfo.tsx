@@ -20,17 +20,6 @@ class ServerInfo extends React.Component<any, any> {
         super(props);
         let { match } = this.props
         let { pageNo } = qs.parse(this.props.location.search)
-        // const log = []
-        // for (let i = 0; i < 30; i++) {
-        //     let item = {
-        //         id: i,
-        //         generated_at: '2018-02-27 15:40:00',
-        //         hostname: 'quent.in',
-        //         program: 'codedeploy-agent.log',
-        //         message: 'INFO codedeploy-agent.log'
-        //     }
-        //     log.push(item)
-        // }
         this.state = {
             status: 'up',
             reset: false,
@@ -82,12 +71,6 @@ class ServerInfo extends React.Component<any, any> {
             showBtn: key === 'log' ? false : true
         })
     }
-    // goPage = () => {
-    //     this.props.history.push(`/resource/vim/1/server/info`)
-    // }
-    goLink(url) {
-        this.props.history.push(url)
-    }
     confirmRest = () => {
         let self = this
         let content = '服务器正在运行，确定复位吗？'
@@ -128,16 +111,13 @@ class ServerInfo extends React.Component<any, any> {
                         this.props.history.replace(`/resource/vim/${vim_id}/host/info/${id}`)
                     }
                 }
-                // console.log(ID, vim_id, "11111111111111111111")
             }
         })
     }
     handleEditData(d) {
-        // console.log(d, '=============>hostInfo')
         let moTypeKey = 'server'
         let match = this.props.match
         let moInstId = match.params.id
-        // let moInstId = 
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 
@@ -145,6 +125,49 @@ class ServerInfo extends React.Component<any, any> {
             if (qdata.code === 1) {
                 this.props.actions.getObjData(moTypeKey)
             }
+        })
+    }
+    onChange(key) {
+        if (key === 'relation') {
+            let { pageNo } = this.state
+            let queryObj = {
+                pageNo
+            }
+            this.getTableData(queryObj)
+        }
+    }
+    onTab(key) {
+        let match = this.props.match
+        let id = match.params.id
+        this.setState({
+            pageNo: 1,
+            activeKey: key
+        }, () => {
+            this.goPage(1)
+        })
+
+    }
+    goPage(num) {
+        let { match } = this.props
+        let pageNo = num
+        let queryObj = { pageNo }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
+    }
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { pageSize, activeKey, serverId } = this.state
+
+        this.props.actions.queryList(activeKey, { pageNo, pageSize, serverId }, () => {
+            self.setState({
+                tableLoading: false
+            });
         })
     }
     componentWillMount() {
@@ -210,47 +233,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
         return info
         // console.log(info, '===========info')
     }
-    onChange(key) {
-        if (key === 'relation') {
-            let { pageNo } = this.state
-            let queryObj = {
-                pageNo
-            }
-            this.getTableData(queryObj)
-        }
-    }
-    onTab(key) {
-        let match = this.props.match
-        let id = match.params.id
-        this.setState({
-            pageNo: 1,
-            activeKey: key
-        }, () => {
-            this.getTableData({ pageNo: 1 })
-        })
-    }
-    goPage(num) {
-        let { match } = this.props
-        let pageNo = num
-        let queryObj = { pageNo }
-        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
-        this.getTableData({
-            pageNo
-        })
-    }
-    getTableData(queryObj) {
-        this.setState({
-            tableLoading: true
-        });
-        let self = this
-        let { pageNo } = queryObj
-        let { pageSize, activeKey, serverId } = this.state
-        this.props.actions.queryList(activeKey, { pageNo, pageSize, serverId }, () => {
-            self.setState({
-                tableLoading: false
-            });
-        })
-    }
+
     renderTab() {
         let title = ['处理器信息', '内存信息', '网卡信息', '硬盘信息', '风扇信息', '电源信息', '其他信息']
         let keys = ['imdsServerProcessor', 'imdsServerMemory', 'imdsServerEthernetinterface', 'imdsServerDisk', 'imdsServerFan', 'imdsServerPower', 'imdsServer15MiKpis']
@@ -269,17 +252,13 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                         )
                     } else if (item === 'imdsServer15MiKpis') {
                         // 其他未
-                        var arr = ['imdsServerPCIE', 'imdsServerRaidCard', '']
+                        let arr = ['imdsServerPCIE', 'imdsServerRaidCard', 'imdsServerLogicalDrive', 'imdsServer15MiKpis']
+
                         return (
                             <TabPane tab={title[key]} key={item}>
-                                {
-                                    // let item = 'imdsServerPCIE'
-
-                                }
                                 <Headline title="PCIe槽内信息" />
                                 <CompactTable
                                     goPage={this.goPage.bind(this)}
-                                    goLink={this.goLink.bind(this)}
                                     data={list}
                                     actionAuth={['delete']}
                                 />
@@ -292,7 +271,6 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                     <Headline title="逻辑盘信息" />
                                     <CompactTable
                                         goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
                                         data={list}
                                         actionAuth={['delete']}
                                     />
@@ -396,53 +374,6 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                 animated={false}
                                 onChange={this.onTab.bind(this)}>
                                 {this.renderTab()}
-                                {/* <TabPane tab="处理器信息" key="1" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                    />
-                                </TabPane>
-                                <TabPane tab="内存信息" key="2" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                    />
-                                </TabPane>
-                                <TabPane tab="网卡信息" key="3" style={{ padding: '20px 0' }}>
-                                    <ServerNetworkCard data={tdata} />
-                                    <ServerNetworkCard data={tdata} />
-                                </TabPane>
-                                <TabPane tab="硬盘信息" key="4" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                    />
-                                </TabPane>
-                                <TabPane tab="风扇信息" key="5" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                    />
-                                </TabPane>
-                                <TabPane tab="电源信息" key="6" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                    />
-                                </TabPane>
-                                <TabPane tab="其它信息" key="7" style={{ padding: '20px 0' }}>
-                                    {this.renderOther()}
-                                </TabPane> */}
                             </Tabs>
                         </TabPane>
                     </Tabs>

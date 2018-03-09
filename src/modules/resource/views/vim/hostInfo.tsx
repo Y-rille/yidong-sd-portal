@@ -51,7 +51,7 @@ class HostInfo extends React.Component<any, any> {
             pageNo: 1,
             activeKey: key
         }, () => {
-            this.getTableData({ pageNo: 1 })
+            this.goPage(1)
         })
     }
     handleEditData(d) {
@@ -59,7 +59,6 @@ class HostInfo extends React.Component<any, any> {
         let moTypeKey = 'host'
         let match = this.props.match
         let moInstId = match.params.id
-        // let moInstId = 
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 
@@ -148,7 +147,7 @@ class HostInfo extends React.Component<any, any> {
                                     pageSize={pageSize}
                                     loading={tableLoading}
                                     actionAuth={[]}
-                                    pageAuth={false}
+                                    // pageAuth={false}
                                     data={list}
                                     outStyle={{ 'marginTop': '20px' }}
                                 />
@@ -170,7 +169,7 @@ class HostInfo extends React.Component<any, any> {
                 <CompactTable
                     goPage={this.goPage.bind(this)} // 翻页
                     // goLink={this.goLink.bind(this)}
-                    pageAuth={false}
+                    // pageAuth={false}
                     pageSize={pageSize}
                     loading={tableLoading}
                     actionAuth={[]}
