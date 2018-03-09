@@ -2,6 +2,7 @@ import * as _ from 'lodash'
 import ActionTypes from '../constants/actionTypes'
 import API from '../api/API'
 import deepPick from '../utils/deepPick'
+import formatDataCenter from '../utils/getDataCenter'
 /**
  * 查询资源树
  * @param cb 
@@ -27,7 +28,8 @@ export const getMoTree = (queryName, cb) => (dispatch) => {
  */
 export const getDataCenter = (queryKey, cb) => (dispatch) => {
     return API.getQueryTree(queryKey).then((res: any) => {
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, subDataCenter: res.data }
+        let data = formatDataCenter(res.data)
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, subDataCenter: data }
         dispatch(action);
         if (cb) {
             cb(null, res.data)
