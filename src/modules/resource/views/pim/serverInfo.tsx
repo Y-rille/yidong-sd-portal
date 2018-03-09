@@ -319,12 +319,17 @@ class ServerInfo extends React.Component<any, any> {
         })
     }
     goHost() {
-        let ID = this.props.list.dataList ? _.head(this.props.list.dataList).id : 0
-        let vim_id = this.props.list.dataList ? _.head(this.props.list.dataList).vim_id : ''
-        // console.log(ID, vim_id, "11111111111111111111")
-        if (ID !== 0 && vim_id !== '') {
-            this.props.history.replace(`/resource/vim/${vim_id}/host/info/${ID}`)
-        }
+        this.props.actions.queryList('imdsServerHostInfo', {}, (err, res) => {
+            if (!err && res['dataList']) {
+                let server_info = _.head(res['dataList'])
+                let id = server_info['id']
+                let vim_id = server_info['vim_id']
+                // console.log(ID, vim_id, "11111111111111111111")
+                if (id && vim_id) {
+                    this.props.history.replace(`/resource/vim/${vim_id}/host/info/${id}`)
+                }
+            }
+        })
     }
     handleEditData(d) {
         // console.log(d, '=============>hostInfo')
@@ -345,7 +350,6 @@ class ServerInfo extends React.Component<any, any> {
         let moTypeKey = 'server'
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
-        this.props.actions.queryList('imdsServerHostInfo')
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {

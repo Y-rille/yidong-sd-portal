@@ -317,14 +317,16 @@ class HostInfo extends React.Component<any, any> {
         })
     }
     showServer = (e) => {
-        let server_info = _.head(this.props.list.dataList)
-        if (server_info) { 
-            let id = server_info['id']
-            let pim_id = server_info['pim_id']
-            if (id && pim_id) {
-                this.props.history.replace(`/resource/pim/${pim_id}/server/info/${id}`)
+        this.props.actions.queryList('imdsHostServerInfo', {}, (err, res) => {
+            if (!err && res['dataList']) {
+                let host_info = _.head(res['dataList'])
+                let id = host_info['id']
+                let pim_id = host_info['pim_id']
+                if (id && pim_id) {
+                    this.props.history.replace(`/resource/pim/${pim_id}/server/info/${id}`)
+                }
             }
-        }
+        })
     }
     goPage(num) {
         let { match } = this.props
@@ -353,7 +355,7 @@ class HostInfo extends React.Component<any, any> {
         let moTypeKey = 'host'
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
-        this.props.actions.queryList('imdsHostServerInfo', {})
+
     }
     renderBtns() {
         return (
