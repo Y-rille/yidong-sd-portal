@@ -345,6 +345,9 @@ class SwitchboardInfo extends React.Component<any, any> {
         this.props.actions.getObjData(moTypeKey)
         this.props.actions.getSummary('imdsSwitch15MiKpis', { switch: switch_id });
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (

@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
-import SwitchboardInfo from '../../container/pim/switchboardInfo'
+// import SwitchboardInfo from '../../container/pim/switchboardInfo'
 import CompactTable from '../../../../components/CompactTable'
 import FilterSwitchBoardForm from '../../../../components/FilterSwitchBoardForm'
 import Cascaderor from '../../../../components/Cascaderor'
@@ -263,7 +263,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         }];
         return (
             <Switch>
-                <Route path={`${match.url}/info/:id`} component={SwitchboardInfo} />
+                {/* <Route path={`${match.url}/info/:id`} component={SwitchboardInfo} /> */}
                 <Route render={() => (
                     <div>
                         <div className={styles.header}>

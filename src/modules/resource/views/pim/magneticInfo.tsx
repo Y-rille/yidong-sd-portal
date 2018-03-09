@@ -415,6 +415,9 @@ class MageneticInfo extends React.Component<any, any> {
         this.props.actions.getObjData(moTypeKey)
         this.props.actions.getSummary('imdsDiskarray15MiKpis', { diskarray: diskarray });
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
