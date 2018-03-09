@@ -409,10 +409,11 @@ class MageneticInfo extends React.Component<any, any> {
         })
     }
     componentWillMount() {
-        let moTypeKey = 'diskarray'
+        let moTypeKey = 'diskarray';
+        let diskarray = this.props.match.params.magneticId
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
-        this.props.actions.getSummary('imdsDiskarray15MiKpis', {});
+        this.props.actions.getSummary('imdsDiskarray15MiKpis', { diskarray: diskarray });
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
