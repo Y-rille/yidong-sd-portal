@@ -911,6 +911,86 @@ let getList = (pageSize = 10, pageNo = 1, order_by = 'id', order = 'asc') => {
 } 
 
 /** 
+ * 网卡信息列表
+*/
+let queryListNetworkCard = {
+  path: '/datashare-svr/api/imds/queryList/imdsServerEthernetCard',
+  method: 'GET',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "data": {
+          "header": [
+              {
+                  "key": "model",
+                  "title": "网卡型号",
+                  "link": false
+              },
+              {
+                  "key": "ethernetInterfaceType",
+                  "title": "接口类型",
+                  "link": false
+              },
+              {
+                  "key": "status",
+                  "title": "状态",
+                  "link": false
+              },
+              {
+                  "key": "portName",
+                  "title": "网口名称",
+                  "link": false
+              },
+              {
+                  "key": "portAddress",
+                  "title": "网口地址",
+                  "link": false
+              }
+          ],
+          "dataList": [
+            {
+                  "id":1,
+                  "model": "p3tenant_1",
+                  "ethernetInterfaceType": "whj_train1",
+                  "status": "ok",
+                  "portName": "Port1NC_MACAdress1",
+                  "portAddress": "30:e1:71:6a:81:b4"
+              },
+            {
+                  "id":2,
+                  "model": "p3tenant_1",
+                  "ethernetInterfaceType": "whj_train1",
+                  "status": "ok",
+                  "portName": "Port1NC_MACAdress2",
+                  "portAddress": "30:e1:71:6a:81:b4"
+              },
+            {
+                  "id":3,
+                  "model": "p3tenant_2",
+                  "ethernetInterfaceType": "whj_train2",
+                  "status": "ok",
+                  "portName": "Port1NC_MACAdress1",
+                  "portAddress": "30:e1:71:6a:81:b4"
+              },
+            {
+                  "id":4,
+                  "model": "p3tenant_2",
+                  "ethernetInterfaceType": "whj_train2",
+                  "status": "ok",
+                  "portName": "Port1NC_MACAdress2",
+                  "portAddress": "30:e1:71:6a:81:b4"
+              }
+          ],
+          "pageNo": 1,
+          "pageSize": 10,
+          "totalCount": 4
+      }
+  }
+  }
+}
+
+/** 
  * 数据列表查询
 */
 let queryList = {
@@ -1069,6 +1149,7 @@ module.exports = {
   mgrmoTree,
   querytree,
   subData,
+  queryListNetworkCard,
   queryList,
   addInstanceData,
   find,
