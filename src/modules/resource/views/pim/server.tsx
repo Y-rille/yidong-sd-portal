@@ -208,7 +208,7 @@ class Server extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Cascaderor type="DataCenter" data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
+                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
                                 <Selector type="Vendor" data={subDataVendor} getData={this.getVendorData.bind(this)} value={vendor} />
                                 <Button
                                     type="primary"
