@@ -95,7 +95,8 @@ class AzInfo extends React.Component<any, any> {
         )
     }
     componentWillMount() {
-        this.props.actions.getSummary('imdsAZInfo', {});
+        let az_id = this.props.match.params.azId
+        this.props.actions.getSummary('imdsAZInfo', { az_id: az_id });
     }
     componentDidMount() {
         this.getTableData();

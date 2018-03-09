@@ -339,10 +339,11 @@ class SwitchboardInfo extends React.Component<any, any> {
         })
     }
     componentWillMount() {
-        let moTypeKey = 'switch'
+        let moTypeKey = 'switch';
+        let switch_id = this.props.match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
-        this.props.actions.getSummary('imdsSwitch15MiKpis', {});
+        this.props.actions.getSummary('imdsSwitch15MiKpis', { switch: switch_id });
     }
     componentWillUnmount() {
         this.props.actions.resetList()

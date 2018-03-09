@@ -102,7 +102,8 @@ class HaInfo extends React.Component<any, any> {
         )
     }
     componentWillMount() {
-        this.props.actions.getSummary('imdsHAInfo', {});
+        let ha_id = this.props.match.params.id
+        this.props.actions.getSummary('imdsHAInfo', { ha_id: ha_id });
     }
     render() {
         const { pageSize, tableLoading, az, name } = this.state;
