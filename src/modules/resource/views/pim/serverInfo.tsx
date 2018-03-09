@@ -275,8 +275,10 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                 if (item === 'imdsServerEthernetinterface') {
                     return (
                         <TabPane tab={title[key]} key={item}>
-                            <ServerNetworkCard data={list} />
-                            <ServerNetworkCard data={list} />
+                            <div style={{ marginTop: '20px' }}>
+                                <ServerNetworkCard data={list} />
+                                <ServerNetworkCard data={list} />
+                            </div>
                         </TabPane>
                     )
                 } else if (item === 'imdsServer15MiKpis') {
@@ -285,6 +287,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                             <TabPane tab={title[key]} key={item}>
                                 <Headline title="PCIe槽内信息" />
                                 <CompactTable
+                                    outStyle={{ marginTop: '20px' }}
                                     actionAuth={['delete']}
                                     loading={tableLoading}
                                     pageSize={pageSize}
@@ -315,11 +318,12 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                     return (
                         <TabPane tab={title[key]} key={item}>
                             <CompactTable
+
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={[]}
                                 data={list}
-                                outStyle={{ 'marginBottom': '20px' }}
+                                outStyle={{ 'marginBottom': '20px', 'marginTop': '20px' }}
                             />
                         </TabPane>
                     )
