@@ -33,7 +33,6 @@ class HostInfo extends React.Component<any, any> {
             let { pageNo } = this.state
             let queryObj = {
                 pageNo,
-                activeKey: 'imdsHostProcessor'
             }
             this.getTableData(queryObj)
         } else if (key === 'subordinate') {
