@@ -19,7 +19,7 @@ class HostInfo extends React.Component<any, any> {
         this.state = {
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 10,
+            pageSize: 9999,
             activeKey: 'imdsHostProcessor',
             host: match.params.id,
         }
@@ -191,7 +191,7 @@ class HostInfo extends React.Component<any, any> {
         return (
             <div>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>主机管理</h1>
+                    <h1 className={styles.title}>主机详情</h1>
                     {nodeInfo ? (
                         <Breadcrumb>
                             <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>

@@ -227,7 +227,20 @@ class MageneticInfo extends React.Component<any, any> {
 
     }
 
-    callback = () => { }
+    callback = (key) => {
+        if (key === 'detail') {
+            let moTypeKey = 'diskarray';
+            this.props.actions.getObjAttributes(moTypeKey)
+            this.props.actions.getObjData(moTypeKey)
+        } else if (key === 'relation') {
+            this.setState({
+                pageNo: 1,
+                activeKey: 'imdsDiskarrayStoragePool'
+            }, () => {
+                this.getTableData()
+            })
+        }
+     }
     tabInfo = () => { }
     tabConnect = (activeKey) => { // 资源关系tab切换
 
@@ -485,7 +498,7 @@ class MageneticInfo extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.callback} type="card" animated={false}>
-                        <TabPane tab="资源详情" key="1" >
+                        <TabPane tab="资源详情" key="detail" >
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
@@ -498,7 +511,7 @@ class MageneticInfo extends React.Component<any, any> {
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="资源关系" key="2">
+                        <TabPane tab="资源关系" key="relation">
                             <Tabs
                                 defaultActiveKey={activeKey}
                                 size="small"
