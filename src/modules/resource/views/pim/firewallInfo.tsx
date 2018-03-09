@@ -19,11 +19,19 @@ class FirewallInfo extends React.Component<any, any> {
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
             pageSize: 10,
-            activeKey: 'imdsFirewallProcessor',
+            activeKey: 'imdsFirewallMotherBoard',
             firewall: match.params.id
         }
     }
-    callback = () => { }
+    callback = (key) => {
+        this.setState({
+            pageNo: 1,
+            activeKey: key
+        }, () => {
+            this.props.actions.resetList()
+            this.getTableData({ pageNo: 1 })
+        })
+    }
     tabInfo = () => { }
     tabConnect = (key) => {
         let match = this.props.match
@@ -72,9 +80,11 @@ class FirewallInfo extends React.Component<any, any> {
         })
     }
     componentWillMount() {
-        let moTypeKey = 'firewall'
+        let moTypeKey = 'firewall';
+        let firewall_id = this.props.match.params.id;
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
+        this.props.actions.getSummary('imdsSwitch15MiKpis', { firewall: firewall_id });
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -84,7 +94,7 @@ class FirewallInfo extends React.Component<any, any> {
         }
     }
     render() {
-        let { nodeInfo, list } = this.props
+        let { nodeInfo, list, summary } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading } = this.state;
         return (
@@ -118,13 +128,13 @@ class FirewallInfo extends React.Component<any, any> {
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="资源关系" key="2">
+                        <TabPane tab="资源关系" key="imdsFirewallMotherBoard">
                             <Tabs
-                                defaultActiveKey="1"
+                                defaultActiveKey="imdsFirewallMotherBoard"
                                 size="small"
                                 animated={false}
                                 onChange={this.tabConnect}>
-                                <TabPane tab="主板信息" key="1" style={{ padding: '20px 0' }}>
+                                <TabPane tab="主板信息" key="imdsFirewallMotherBoard" style={{ padding: '20px 0' }}>
                                     <CompactTable
                                         goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
@@ -135,9 +145,9 @@ class FirewallInfo extends React.Component<any, any> {
                                     // pageAuth={false}
                                     />
                                 </TabPane>
-                                <TabPane tab="性能信息" key="2" style={{ padding: '20px 0' }}>
+                                <TabPane tab="性能信息" key="imdsFirewall15MiKpis" style={{ padding: '20px 0' }}>
                                     <div>
-                                        <Summaries colNum={5} />
+                                        {summary ? <Summaries colNum={5} data={summary} /> : ''}
                                     </div>
                                 </TabPane>
                             </Tabs>
