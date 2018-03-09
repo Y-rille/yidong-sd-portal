@@ -74,50 +74,17 @@ export default class Summaries extends React.PureComponent<SummariesProps, any> 
         const { data, colNum } = this.props;
         const dataValues = _.head(data.dataList);
         const dataKeys = data.header;
-        if (colNum === 2) {
-            return _.map(dataKeys, (item) => {
-                return (
-                    <Col span={12} style={{ marginBottom: '20px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                        {item.title}:
-                    <span style={{ display: 'inline-block', width: '10px' }} />
-                        <Tooltip title={dataValues[item.key]}><span>{dataValues[item.key]}</span></Tooltip>
-                    </Col>
-                )
-            })
-        }
-        if (colNum === 3) {
-            return _.map(dataKeys, (item) => {
-                return (
-                    <Col span={8} style={{ marginBottom: '20px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                        {item.title}:
-                    <span style={{ display: 'inline-block', width: '10px' }} />
-                        <Tooltip title={dataValues[item.key]}><span>{dataValues[item.key]}</span></Tooltip>
-                    </Col>
-                )
-            })
-        }
-        if (colNum === 4) {
-            return _.map(dataKeys, (item) => {
-                return (
-                    <Col span={6} style={{ marginBottom: '20px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                        {item.title}:
-                    <span style={{ display: 'inline-block', width: '10px' }} />
-                        <Tooltip title={dataValues[item.key]}><span>{dataValues[item.key]}</span></Tooltip>
-                    </Col>
-                )
-            })
-        }
-        if (colNum === 5) {
-            return _.map(dataKeys, (item) => {
-                return (
-                    <Col span={4} style={{ marginBottom: '20px', marginRight: '28px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                        {item.title}:
+        let dataCol = (colNum === 2 ? 12 : (colNum === 3 ? 8 : (colNum === 4 ? 6 : 4)))
+        let right = (dataCol === 4 ? '28px' : '0')
+        return _.map(dataKeys, (item) => {
+            return (
+                <Col span={dataCol} style={{ marginBottom: '20px', marginRight: right, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                    {item.title}:
                 <span style={{ display: 'inline-block', width: '10px' }} />
-                        <Tooltip title={dataValues[item.key]}><span>{dataValues[item.key]}</span></Tooltip>
-                    </Col>
-                )
-            })
-        }
+                    <Tooltip title={dataValues[item.key]}><span>{dataValues[item.key]}</span></Tooltip>
+                </Col>
+            )
+        })
     }
     render() {
         return (
