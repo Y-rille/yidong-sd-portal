@@ -6,10 +6,13 @@ import { matchPath } from 'react-router'
 import CompactTable from '../../../../components/CompactTable'
 import FilterSwitchBoardForm from '../../../../components/FilterSwitchBoardForm'
 import Cascaderor from '../../../../components/Cascaderor'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Input, Modal } from 'antd'
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Input, Modal , Select, } from 'antd'
 import styles from '../../style/index.less'
 import qs from 'querystringify'
 import { ResourceActions } from '../../actions/index'
+const InputGroup = Input.Group;
+const Option = Select.Option;
+
 export interface SwitchboardProps {
     location?,
     history?,
@@ -292,6 +295,17 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                     value={name} type="text"
                                     onChange={e => this.onNameChange(e.target.value)}
                                 />
+                                {/* <div className={styles.inputGroup}>
+                                    <Select defaultValue="name">
+                                        <Option value="name">名称</Option>
+                                        <Option value="ID">编号</Option>
+                                    </Select>
+                                    <Input
+                                    placeholder="名称，编号"
+                                    value={name} type="text"
+                                    onChange={e => this.onNameChange(e.target.value)}
+                                    />
+                                </div> */}
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}
