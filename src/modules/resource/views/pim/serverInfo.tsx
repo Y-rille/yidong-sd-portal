@@ -269,9 +269,9 @@ class ServerInfo extends React.Component<any, any> {
                 let moTypeKey = 'server'
                 let match = self.props.match
                 let moInstId = match.params.id
-                self.props.actions.operateStatus(moTypeKey, moInstId, operateType , (err, res) => {
+                self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
                     // console.log(res, '================>res')
-                })                
+                })
             },
             onCancel() {
             }
@@ -306,9 +306,9 @@ class ServerInfo extends React.Component<any, any> {
                 let moTypeKey = 'server'
                 let match = self.props.match
                 let moInstId = match.params.id
-                self.props.actions.operateStatus(moTypeKey, moInstId, operateType , (err, res) => {
+                self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
                     // console.log(res, '================>res')
-                })                
+                })
 
             },
             onCancel() {
@@ -319,11 +319,12 @@ class ServerInfo extends React.Component<any, any> {
         })
     }
     goHost() {
-        let ID = _.head(this.props.list.dataList).id
-        let vim_id = (_.head(this.props.list.dataList).vim_id).
-            substr(_.head(this.props.list.dataList).vim_id.length - 1, 1)
+        let ID = this.props.list.dataList ? _.head(this.props.list.dataList).id : 0
+        let vim_id = this.props.list.dataList ? _.head(this.props.list.dataList).vim_id : ''
         // console.log(ID, vim_id, "11111111111111111111")
-        this.props.history.replace(`/resource/vim/${vim_id}/host/info/${ID}`)
+        if (ID !== 0 && vim_id !== '') {
+            this.props.history.replace(`/resource/vim/${vim_id}/host/info/${ID}`)
+        }
     }
     handleEditData(d) {
         // console.log(d, '=============>hostInfo')

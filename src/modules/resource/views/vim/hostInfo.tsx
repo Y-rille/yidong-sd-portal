@@ -317,11 +317,12 @@ class HostInfo extends React.Component<any, any> {
         })
     }
     showServer = (e) => {
-        let ID = _.head(this.props.list.dataList).id
-        let pim_id = (_.head(this.props.list.dataList).pim_id).
-            substr(_.head(this.props.list.dataList).pim_id.length - 1, 1)
+        let ID = this.props.list.dataList ? _.head(this.props.list.dataList).id : 0
+        let pim_id = this.props.list.dataList ? _.head(this.props.list.dataList).pim_id : ''
         // console.log(ID, pim_id, "11111111111111111111")
-        this.props.history.replace(`/resource/pim/${pim_id}/server/info/${ID}`)
+        if (ID !== 0 && pim_id !== '') {
+            this.props.history.replace(`/resource/pim/${pim_id}/server/info/${ID}`)
+        }
     }
     goPage(num) {
         let { match } = this.props
