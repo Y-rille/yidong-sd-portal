@@ -231,6 +231,10 @@ class MageneticInfo extends React.Component<any, any> {
     tabInfo = () => { }
     tabConnect = (activeKey) => { // 资源关系tab切换
 
+        if (activeKey !== 'performance' && activeKey !== 'other') {
+
+        }
+
         if (activeKey === 'performance' || activeKey === 'other') {
             this.setState({
                 activeKey
