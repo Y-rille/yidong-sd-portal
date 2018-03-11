@@ -225,7 +225,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             reset: false,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 10,
+            pageSize: 999,
             activeKey: 'imdsSwitchMotherboard',
             switch_id: match.params.id
         }
@@ -237,18 +237,23 @@ class SwitchboardInfo extends React.Component<any, any> {
         let { match } = this.props
         let pageNo = num
         let queryObj = { pageNo }
-        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}`)
         this.getTableData({
             pageNo
         })
     }
     onChange(key) {
+        let moTypeKey = 'switch'
+        this.setState({
+            activeKey: key
+        })
         if (key === 'relation') {
             let { pageNo } = this.state
-            let queryObj = {
-                pageNo
-            }
+            let queryObj = { pageNo }
             this.getTableData(queryObj)
+        } else {
+            this.props.actions.getObjAttributes(moTypeKey)
+            this.props.actions.getObjData(moTypeKey)
         }
     }
     onTab(key) {
@@ -256,19 +261,21 @@ class SwitchboardInfo extends React.Component<any, any> {
         let id = match.params.id
         if (key === 'imdsSwitchPort15MiKpis') {
             this.setState({
-                disabled: true
+                disabled: true,
+                activeKey: key
+            }, () => {
+                this.goPage(1)
+                this.props.actions.getSummary('imdsSwitch15MiKpis', { switch_id: id });
             })
+            
         } else {
             this.setState({
-                disabled: false
+                disabled: false,
+                activeKey: key
+            }, () => {
+                this.goPage(1)
             })
         }
-        this.setState({
-            pageNo: 1,
-            activeKey: key
-        }, () => {
-            this.getTableData({ pageNo: 1 })
-        })
     }
     getTableData(queryObj) {
         this.setState({
@@ -304,12 +311,12 @@ class SwitchboardInfo extends React.Component<any, any> {
                                     />
                                 </div>) : ''}
                                 <CompactTable
-                                    goPage={this.goPage.bind(this)} // 翻页
+                                    // goPage={this.goPage.bind(this)} // 翻页
                                     // goLink={this.goLink.bind(this)}
                                     pageSize={pageSize}
                                     loading={tableLoading}
                                     actionAuth={[]}
-                                    // pageAuth={true}
+                                    // pageAuth={false}
                                     data={list}
                                     outStyle={{ 'marginTop': '20px' }}
                                 />
@@ -339,10 +346,12 @@ class SwitchboardInfo extends React.Component<any, any> {
         })
     }
     componentWillMount() {
-        let moTypeKey = 'switch'
+        let moTypeKey = 'switch';
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
-        this.props.actions.getSummary('imdsSwitch15MiKpis', {});
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -372,7 +381,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} animated={false} type="card">
-                        <TabPane tab="资源详情" key="1">
+                        <TabPane tab="资源详情" key="detail">
                             <Tabs defaultActiveKey="1" animated={false} size="small">
                                 <TabPane tab="概况" key="1">
                                     {this.renderDynamicPropertiesCollapse()}
@@ -382,7 +391,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                         </TabPane>
 
                         <TabPane tab="资源关系" key="relation">
-                            <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
+                            <Tabs size="small" defaultActiveKey="imdsSwitchMotherboard" onChange={this.onTab.bind(this)} animated={false}>
                                 {this.renderTab()}
                                 <TabPane tab="告警信息" key="6">告警信息</TabPane>
                             </Tabs>

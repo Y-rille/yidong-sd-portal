@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
@@ -14,224 +13,13 @@ import ServerNetworkCard from '../../../../components/ServerNetworkCard'
 import LogShine from '../../../../components/LogShine/'
 import { stringify } from 'querystringify'
 import qs from 'querystringify'
-
-const attributes = [
-    {
-        'moAttributeId': 1,
-        'moTypeId': 1,
-        'attributeType': 0,
-        'attributeName': 'ID',
-        'isobjectid': 1,
-        'physicalTablefield': 'ID',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 1,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 2,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'NAME',
-        'isobjectid': 0,
-        'physicalTablefield': 'NAME',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 1,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 3,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'TIME',
-        'isobjectid': 0,
-        'physicalTablefield': 'TIME',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 4,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'EXPIRY_TIME',
-        'isobjectid': 0,
-        'physicalTablefield': 'EXPIRY_TIME',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 56,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'SerialNumber',
-        'isobjectid': 0,
-        'physicalTablefield': 'SerialNumber',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 57,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'Hostname',
-        'isobjectid': 0,
-        'physicalTablefield': 'Hostname',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 57,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'VimId',
-        'isobjectid': 0,
-        'physicalTablefield': 'Hostname',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '位置信息'
-    },
-    {
-        'moAttributeId': 57,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'Model',
-        'isobjectid': 0,
-        'physicalTablefield': 'Hostname',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '位置信息'
-    },
-    {
-        'moAttributeId': 57,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'SerialNumber',
-        'isobjectid': 0,
-        'physicalTablefield': 'Hostname',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '位置信息'
-    },
-    {
-        'moAttributeId': 57,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'OperationingStatus',
-        'isobjectid': 0,
-        'physicalTablefield': 'Hostname',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 1,
-        'visible': 1,
-        'attributeGroup': '维护信息'
-    }
-];
-
-const data = {
-    'headers': [
-        'ID',
-        'NAME',
-        'TIME',
-        'EXPIRY_TIME',
-        'ext_id',
-        'biz_id',
-        '接口版本',
-        '资源池系统标识',
-        'ChassisType',
-        '磁阵资产编号',
-        '磁阵制造商',
-        '磁阵型号',
-        '磁阵序列号',
-        '磁阵来源',
-        '磁阵投入生产运行时间',
-        '磁阵License信息',
-        '磁阵软件版本',
-        '磁阵运行状态',
-        '磁阵资产状态'
-    ],
-    'columns': [
-        'ID',
-        'NAME',
-        'TIME',
-        'EXPIRY_TIME',
-        'ext_id',
-        'biz_id',
-        'Version',
-        'VimId',
-        'ChassisType',
-        'AssetTag',
-        'Manufacturer',
-        'Model',
-        'SerialNumber',
-        'PropertySource',
-        'PutIntoProductionTime',
-        'License',
-        'SoftwareVersion',
-        'OperationingStatus',
-        'PropertyState'
-    ],
-    'values': [
-        [
-            7,
-            'ZJHZ-NFV3-C-SQ5-3F-C03-hwDA5600-STOR01',
-            '21:00:00',
-            '21:00:01',
-            '1081',
-            '1081',
-            '2.0',
-            '1ea72c1b-fc85-4a99-adf8-7488c46d2a07',
-            'DiskArray',
-            'assetTg',
-            'huawei',
-            '5600_V3',
-            '210235980510H6000012',
-            'Property',
-            '99days',
-            '',
-            '3.20.06.102',
-            'OK',
-            'Used'
-        ],
-    ]
-};
+import emitter from '../../../../common/emitter'
 
 class ServerInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
         let { match } = this.props
         let { pageNo } = qs.parse(this.props.location.search)
-        // const log = []
-        // for (let i = 0; i < 30; i++) {
-        //     let item = {
-        //         id: i,
-        //         generated_at: '2018-02-27 15:40:00',
-        //         hostname: 'quent.in',
-        //         program: 'codedeploy-agent.log',
-        //         message: 'INFO codedeploy-agent.log'
-        //     }
-        //     log.push(item)
-        // }
         this.state = {
             status: 'up',
             reset: false,
@@ -239,9 +27,9 @@ class ServerInfo extends React.Component<any, any> {
             showBtn: true,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 10,
+            pageSize: 9999,
             activeKey: 'imdsServerProcessor',
-            serverId: match.params.id,
+            server: match.params.id,
         }
     }
     confirmUpOrDown = (e) => {
@@ -269,25 +57,23 @@ class ServerInfo extends React.Component<any, any> {
                 let moTypeKey = 'server'
                 let match = self.props.match
                 let moInstId = match.params.id
-                self.props.actions.operateStatus(moTypeKey, moInstId, operateType , (err, res) => {
-                    // console.log(res, '================>res')
-                })                
+                self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
+                    if (res.code === 1) {
+                        emitter.emit('message', 'success', '操作成功！')
+                    }
+                    if (err || res.code !== 1) {
+                        emitter.emit('message', 'error', '操作失败！')
+                    }
+                })
             },
             onCancel() {
             }
         })
-
     }
     tabInfo = (key) => {
         this.setState({
             showBtn: key === 'log' ? false : true
         })
-    }
-    // goPage = () => {
-    //     this.props.history.push(`/resource/vim/1/server/info`)
-    // }
-    goLink(url) {
-        this.props.history.push(url)
     }
     confirmRest = () => {
         let self = this
@@ -306,9 +92,15 @@ class ServerInfo extends React.Component<any, any> {
                 let moTypeKey = 'server'
                 let match = self.props.match
                 let moInstId = match.params.id
-                self.props.actions.operateStatus(moTypeKey, moInstId, operateType , (err, res) => {
+                self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
                     // console.log(res, '================>res')
-                })                
+                    if (res.code === 1) {
+                        emitter.emit('message', 'success', '操作成功！')
+                    }
+                    if (err || res.code !== 1) {
+                        emitter.emit('message', 'error', '操作失败！')
+                    }
+                })
 
             },
             onCancel() {
@@ -319,18 +111,23 @@ class ServerInfo extends React.Component<any, any> {
         })
     }
     goHost() {
-        let ID = _.head(this.props.list.dataList).id
-        let vim_id = (_.head(this.props.list.dataList).vim_id).
-            substr(_.head(this.props.list.dataList).vim_id.length - 1, 1)
-        // console.log(ID, vim_id, "11111111111111111111")
-        this.props.history.replace(`/resource/vim/${vim_id}/host/info/${ID}`)
+        this.props.actions.queryList('imdsServerHostInfo', {}, (err, res) => {
+            if (!err && res['dataList']) {
+                let server_info = _.head(res['dataList'])
+                if (server_info) {
+                    let id = server_info['id']
+                    let vim_id = server_info['vim_id']
+                    if (id && vim_id) {
+                        this.props.history.replace(`/resource/vim/${vim_id}/host/info/${id}`)
+                    }
+                }
+            }
+        })
     }
     handleEditData(d) {
-        // console.log(d, '=============>hostInfo')
         let moTypeKey = 'server'
         let match = this.props.match
         let moInstId = match.params.id
-        // let moInstId = 
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 
@@ -340,11 +137,77 @@ class ServerInfo extends React.Component<any, any> {
             }
         })
     }
+    onChange(key) {
+
+        if (key === 'relation') {
+            let { pageNo } = this.state
+            let queryObj = {
+                pageNo
+            }
+            let server_id = this.props.match.params.id;
+            this.getTableData(queryObj)
+            // this.props.actions.getSummary('imdsServerRaidCard', { server: server_id }, null, true);
+            // this.props.actions.getSummary('imdsServer15MiKpis', { server: server_id }, null, true);
+        } else {
+            let moTypeKey = 'server';
+            this.props.actions.getObjAttributes(moTypeKey)
+            this.props.actions.getObjData(moTypeKey);
+        }
+    }
+    onTab(key) {
+        let match = this.props.match
+        let id = match.params.id
+        let arr = ['imdsServerPCIE', 'imdsServerRaidCard', 'imdsServerLogicalDrive', 'imdsServer15MiKpis']
+        if (key === 'imdsServer15MiKpis') {
+            this.setState({
+                tableLoading: true
+            });
+            let self = this
+            let { server } = this.state
+            arr.map((item, keys) => {
+                this.props.actions.queryList(item, { server }, () => {
+                    self.setState({
+                        tableLoading: false
+                    });
+                }, item)
+            })
+            this.props.actions.getSummary('imdsServerRaidCard', { server: id }, null, true);
+            this.props.actions.getSummary('imdsServer15MiKpis', { server: id }, null, true);
+        } else {
+            this.setState({
+                pageNo: 1,
+                activeKey: key
+            }, () => {
+                this.getTableData({ pageNo: 1 })
+            })
+        }
+    }
+    goPage(num) {
+        let { match } = this.props
+        let pageNo = num
+        let queryObj = { pageNo }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.getTableData({
+            pageNo
+        })
+    }
+    getTableData(queryObj) {
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { pageNo } = queryObj
+        let { pageSize, activeKey, server } = this.state
+        this.props.actions.queryList(activeKey, { pageNo, pageSize, server }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
+    }
     componentWillMount() {
-        let moTypeKey = 'server'
+        let moTypeKey = 'server';
         this.props.actions.getObjAttributes(moTypeKey)
-        this.props.actions.getObjData(moTypeKey)
-        this.props.actions.queryList('imdsServerHostInfo')
+        this.props.actions.getObjData(moTypeKey);
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -402,121 +265,92 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
             info.push(_info)
         })
         return info
-        // console.log(info, '===========info')
     }
-    onChange(key) {
-        if (key === 'relation') {
-            let { pageNo } = this.state
-            let queryObj = {
-                pageNo
-            }
-            this.getTableData(queryObj)
-        }
-    }
-    onTab(key) {
-        let match = this.props.match
-        let id = match.params.id
-        this.setState({
-            pageNo: 1,
-            activeKey: key
-        }, () => {
-            this.getTableData({ pageNo: 1 })
-        })
-    }
-    goPage(num) {
-        let { match } = this.props
-        let pageNo = num
-        let queryObj = { pageNo }
-        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
-        this.getTableData({
-            pageNo
-        })
-    }
-    getTableData(queryObj) {
-        this.setState({
-            tableLoading: true
-        });
-        let self = this
-        let { pageNo } = queryObj
-        let { pageSize, activeKey, serverId } = this.state
-        this.props.actions.queryList(activeKey, { pageNo, pageSize, serverId }, () => {
-            self.setState({
-                tableLoading: false
-            });
-        })
-    }
+
     renderTab() {
         let title = ['处理器信息', '内存信息', '网卡信息', '硬盘信息', '风扇信息', '电源信息', '其他信息']
-        let keys = ['imdsServerProcessor', 'imdsServerMemory', 'imdsServerEthernetinterface', 'imdsServerDisk', 'imdsServerFan', 'imdsServerPower', 'imdsServer15MiKpis']
-        let list = this.props.list
+        let keys = ['imdsServerProcessor', 'imdsServerMemory', 'imdsServerEthernetCard', 'imdsServerDisk', 'imdsServerFan', 'imdsServerPower', 'imdsServer15MiKpis']
+        let { list, summary } = this.props;
         const { pageSize, tableLoading } = this.state;
-        if (list) {
-            return (
-                keys.map((item, key) => {
-                    // 网卡未
-                    if (item === 'imdsServerEthernetinterface') {
-                        return (
-                            <TabPane tab={title[key]} key={item}>
-                                <ServerNetworkCard data={list} />
-                                <ServerNetworkCard data={list} />
-                            </TabPane>
-                        )
-                    } else if (item === 'imdsServer15MiKpis') {
-                        // 其他未
-                        var arr = ['imdsServerPCIE', 'imdsServerRaidCard', '']
-                        return (
-                            <TabPane tab={title[key]} key={item}>
+        let self = this
+        return (
+            keys.map((item, key) => {
+                if (item === 'imdsServerEthernetCard') {
+                    list = list || {}
+                    let ethernetCard = {}
+                    ethernetCard = _.groupBy(list.dataList, function (obj) {
+                        return JSON.stringify({ model: obj.model, ethernetInterfaceType: obj.ethernetInterfaceType, status: obj.status })
+                    })
+                    let ethernetCardTitle = _.keys(ethernetCard)
+                    let ethernetCardTable = _.values(ethernetCard)
+                    return (
+                        <TabPane tab={title[key]} key={item}>
+                            <div style={{ marginTop: '20px' }}>
                                 {
-                                    // let item = 'imdsServerPCIE'
-
+                                    _.map(ethernetCardTitle, (card, i) => {
+                                        let cardData = {
+                                            title: JSON.parse(card),
+                                            table: {
+                                                header: list.header,
+                                                dataList: ethernetCardTable[i],
+                                                pageNo: list.pageNo,
+                                                pageSize: list.pageSize,
+                                                totalCount: list.totalCount
+                                            }
+                                        }
+                                        return <ServerNetworkCard data={cardData} />
+                                    })
                                 }
-                                <Headline title="PCIe槽内信息" />
-                                <CompactTable
-                                    goPage={this.goPage.bind(this)}
-                                    goLink={this.goLink.bind(this)}
-                                    data={list}
-                                    actionAuth={['delete']}
-                                    pageAuth={false}
-                                />
+                            </div>
+                        </TabPane>
+                    )
+                } else if (item === 'imdsServer15MiKpis') {
+                    list = list || {}
+                    summary = summary || {}
+                    return (
+                        <TabPane tab={title[key]} key={item}>
+                            <Headline title="PCIe槽内信息" />
+                            <CompactTable
+                                actionAuth={['delete']}
+                                loading={tableLoading}
+                                pageSize={pageSize}
+                                data={list['imdsServerPCIE']}
+                            />
 
-                                <div style={{ marginTop: '20px' }}>
-                                    <Headline title="阵列卡信息" />
-                                    <Summaries colNum={5} />
-                                </div>
-                                <div style={{ marginTop: '20px' }}>
-                                    <Headline title="逻辑盘信息" />
-                                    <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        goLink={this.goLink.bind(this)}
-                                        data={list}
-                                        actionAuth={['delete']}
-                                        pageAuth={false}
-                                    />
-                                </div>
-                                <div style={{ marginBottom: '20px' }}>
-                                    <Headline title="其他信息" />
-                                    <Summaries colNum={5} />
-                                </div>
-                            </TabPane>
-                        )
-                    } else {
-                        return (
-                            <TabPane tab={title[key]} key={item}>
+                            <div style={{ marginTop: '20px' }}>
+                                <Headline title="阵列卡信息" />
+                                <Summaries colNum={5} data={summary['imdsServerRaidCard']} />
+                            </div>
+                            <div style={{ marginTop: '20px' }}>
+                                <Headline title="逻辑盘信息" />
                                 <CompactTable
-                                    goPage={this.goPage.bind(this)} // 翻页
-                                    // goLink={this.goLink.bind(this)}
-                                    pageSize={pageSize}
+                                    data={list['imdsServerLogicalDrive']}
                                     loading={tableLoading}
-                                    actionAuth={[]}
-                                    // pageAuth={true}
-                                    data={list}
-                                    outStyle={{ 'marginBottom': '20px' }}
+                                    actionAuth={['delete']}
+                                    pageSize={pageSize}
                                 />
-                            </TabPane>
-                        )
-                    }
-                }))
-        }
+                            </div>
+                            <div style={{ marginBottom: '20px' }}>
+                                <Headline title="其他信息" />
+                                <Summaries colNum={5} data={summary.imdsServer15MiKpis} />
+                            </div>
+                        </TabPane>
+                    )
+                } else {
+                    return (
+                        <TabPane tab={title[key]} key={item}>
+                            <CompactTable
+                                pageSize={pageSize}
+                                loading={tableLoading}
+                                actionAuth={[]}
+                                data={list}
+                                outStyle={{ 'marginTop': '20px', 'marginBottom': '20px' }}
+                            />
+                        </TabPane>
+                    )
+                }
+            }))
+
     }
     componentDidMount() {
         setTimeout(() => {
@@ -525,7 +359,9 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
             })
         }, 4000)
     }
-
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
@@ -592,53 +428,6 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                                 animated={false}
                                 onChange={this.onTab.bind(this)}>
                                 {this.renderTab()}
-                                {/* <TabPane tab="处理器信息" key="1" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                    />
-                                </TabPane>
-                                <TabPane tab="内存信息" key="2" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                    />
-                                </TabPane>
-                                <TabPane tab="网卡信息" key="3" style={{ padding: '20px 0' }}>
-                                    <ServerNetworkCard data={tdata} />
-                                    <ServerNetworkCard data={tdata} />
-                                </TabPane>
-                                <TabPane tab="硬盘信息" key="4" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                    />
-                                </TabPane>
-                                <TabPane tab="风扇信息" key="5" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                    />
-                                </TabPane>
-                                <TabPane tab="电源信息" key="6" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        // goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        // data={null}
-                                        actionAuth={['delete']}
-                                    />
-                                </TabPane>
-                                <TabPane tab="其它信息" key="7" style={{ padding: '20px 0' }}>
-                                    {this.renderOther()}
-                                </TabPane> */}
                             </Tabs>
                         </TabPane>
                     </Tabs>

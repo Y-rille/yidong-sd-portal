@@ -10,7 +10,8 @@ import {
     operateStatus,
     autoDiscovery,
     getSummary,
-    findConfirm
+    findConfirm,
+    getDataCenter
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -25,7 +26,8 @@ const HomeActionCreatorsMap = {
     operateStatus,
     autoDiscovery,
     getSummary,
-    findConfirm
+    findConfirm,
+    getDataCenter
 }
 
 export interface ResourceActions {
@@ -40,7 +42,8 @@ export interface ResourceActions {
     operateStatus: Function,
     autoDiscovery: Function,
     getSummary: Function,
-    findConfirm: Function
+    findConfirm: Function,
+    getDataCenter: Function
 }
 
 export default HomeActionCreatorsMap;

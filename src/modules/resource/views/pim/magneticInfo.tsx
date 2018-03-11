@@ -217,12 +217,54 @@ class MageneticInfo extends React.Component<any, any> {
         super(props);
         this.state = {
             status: 'up',
-            reset: false
+            reset: false,
+            tableLoading: false,
+            activeKey: 'imdsDiskarrayStoragePool',
+            diskarray: this.props.match.params.magneticId,
+            pageSize: 999,
+            pageNo: 1
         }
+
     }
-    callback = () => { }
+
+    callback = (key) => {
+        if (key === 'detail') {
+            let moTypeKey = 'diskarray';
+            this.props.actions.getObjAttributes(moTypeKey)
+            this.props.actions.getObjData(moTypeKey)
+        } else if (key === 'relation') {
+            this.setState({
+                pageNo: 1,
+                activeKey: 'imdsDiskarrayStoragePool'
+            }, () => {
+                this.getTableData()
+            })
+        }
+     }
     tabInfo = () => { }
-    tabConnect = () => { }
+    tabConnect = (activeKey) => { // 资源关系tab切换
+
+        if (activeKey === 'performance' || activeKey === 'other') {
+            this.setState({
+                activeKey
+            })
+            let { diskarray } = this.state
+            let perform = ['imdsDiskarrayLun', 'imdsDiskarrayLun15MiKpis', 'imdsDiskarrayTemperature']
+            let other = ['imdsDiskarrayBBU', 'imdsDiskarrayFan', 'imdsDiskarrayPower', 'imdsDiskarrayController']
+            let keyArr = activeKey === 'performance' ? perform : other
+            for (let i = 0; i < keyArr.length; i++) {
+                this.props.actions.queryList(keyArr[i], { pageNo: 1, pageSize: 999, diskarray }, null, keyArr[i])
+            }
+        } else {
+            this.setState({
+                activeKey,
+                pageNo: 1
+            }, () => {
+                this.getTableData()
+            })
+        }
+
+    }
     confirmRest = () => {
         let self = this
         let content = '服务器正在运行，确定复位吗？'
@@ -271,125 +313,133 @@ class MageneticInfo extends React.Component<any, any> {
         })
 
     }
-    goPage = () => {
-        // this.props.history.push(`/resource/vim/1/host/info`)
+
+    goPage = (pageNo) => {
+        this.setState({
+            pageNo
+        }, () => {
+            this.getTableData()
+        })
+        // this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
     }
-    goLink(url) {
-        // let { match } = this.props
-        // this.props.history.push(`${match}/info/1`)
+    getTableData() {
+        // const mp_node: any = matchPath(this.props.match.url, {
+        //     path: '/resource/vim/:id'
+        // })
+        // let vim_id = mp_node.params.id
+        this.setState({
+            tableLoading: true
+        });
+        let self = this
+        let { activeKey, diskarray, pageNo, pageSize } = this.state
+
+        this.props.actions.queryList(activeKey, { pageNo, pageSize, diskarray }, () => {
+            self.setState({
+                tableLoading: false
+            });
+        })
     }
+
     renderPerformance() {
         let self = this;
-        let { summary } = this.props
+        let { summary, list } = this.props
+        let pageSize = 999
+
         return (
             <div>
                 <Headline title="节点信息" ></Headline>
-                {summary ? <Summaries colNum={5} data={summary} /> : ''}
+                {summary ? <Summaries colNum={5} data={summary} /> : <Spin />}
                 <Headline title="LUN性能信息" />
-                <CompactTable
-                    // goPage={self.goPage.bind(self)} // 翻页
-                    // goLink={self.goLink.bind(self)}
-                    // data={null}
-                    actionAuth={['delete']}
-                />
+                <div style={{ position: 'relative' }}>
+                    {list && list.imdsDiskarrayLun ? (
+                        <CompactTable
+                            pageSize={pageSize}
+                            data={list.imdsDiskarrayLun}
+                            actionAuth={['delete']}
+                        />
+                    ) : <Spin />}
+                </div>
+
                 <Headline title="前端业务端口信息" />
-                <CompactTable
-                    // goPage={self.goPage.bind(self)} // 翻页
-                    // goLink={self.goLink.bind(self)}
-                    // data={null}
-                    actionAuth={['delete']}
-                    pageAuth={false}
-                />
+                <div style={{ position: 'relative' }}>
+                    {list && list.imdsDiskarrayLun15MiKpis ? (
+                        <CompactTable
+                            pageSize={pageSize}
+                            data={list.imdsDiskarrayLun15MiKpis}
+                            actionAuth={['delete']}
+                        />
+                    ) : <Spin />}
+                </div>
+
                 <Headline title="磁盘框温度" />
-                <CompactTable
-                    // goPage={self.goPage.bind(self)} // 翻页
-                    // goLink={self.goLink.bind(self)}
-                    // data={null}
-                    actionAuth={['delete']}
-                    pageAuth={false}
-                />
+                <div style={{ position: 'relative' }}>
+                    {list && list.imdsDiskarrayTemperature ? (
+                        <CompactTable
+                            pageSize={pageSize}
+                            data={list.imdsDiskarrayTemperature}
+                            actionAuth={['delete']}
+                        />
+                    ) : <Spin />}
+                </div>
+
             </div>
         )
     }
-    renderRAID() {
-        return (
-            <CompactTable
-                // goPage={this.goPage.bind(this)} // 翻页
-                // goLink={this.goLink.bind(this)}
-                // data={null}
-                actionAuth={['delete']}
-                pageAuth={false}
-            />
-        )
+    renderNormalTable() {
+        let { list } = this.props
+        let { tableLoading } = this.state
+
+        if (list) {
+
+            return (
+                <CompactTable
+                    goPage={this.goPage.bind(this)} // 翻页
+                    loading={tableLoading}
+                    data={list}
+                    actionAuth={['delete']}
+                />
+            )
+        }
+
     }
-    renderLUN() {
-        return (
-            <CompactTable
-                // goPage={this.goPage.bind(this)} // 翻页
-                // goLink={this.goLink.bind(this)}
-                // data={null}
-                actionAuth={['delete']}
-                pageAuth={false}
-            />
-        )
-    }
-    renderISCSI() {
-        return (
-            <CompactTable
-                // goPage={this.goPage.bind(this)} // 翻页
-                // goLink={this.goLink.bind(this)}
-                // data={null}
-                actionAuth={['delete']}
-                pageAuth={false}
-            />
-        )
-    }
-    renderHardware() {
-        return (
-            <CompactTable
-                // goPage={this.goPage.bind(this)} // 翻页
-                // goLink={this.goLink.bind(this)}
-                // data={null}
-                actionAuth={['delete']}
-                pageAuth={false}
-            />
-        )
-    }
+
     renderOthers() {
+        let { list } = this.props
+        let pageSize = 999
         return (
             <div>
                 <Headline title="BBU信息" />
-                <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    // goLink={this.goLink.bind(this)}
-                    // data={null}
-                    actionAuth={['delete']}
-                    pageAuth={false}
-                />
+                {list && list.imdsDiskarrayBBU ? (
+                    <CompactTable
+                        pageSize={pageSize}
+                        data={list.imdsDiskarrayBBU}
+                        actionAuth={['delete']}
+                    />
+                ) : <Spin />}
                 <Headline title="风扇信息" />
-                <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    // goLink={this.goLink.bind(this)}
-                    // data={null}
-                    actionAuth={['delete']}
-                    pageAuth={false}
-                />
+                {list && list.imdsDiskarrayFan ? (
+                    <CompactTable
+                        pageSize={pageSize}
+                        data={list.imdsDiskarrayFan}
+                        actionAuth={['delete']}
+                    />
+                ) : <Spin />}
                 <Headline title="电源信息" />
-                <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    // goLink={this.goLink.bind(this)}
-                    // data={null}
-                    actionAuth={['delete']}
-                    pageAuth={false}
-                />
+                {list && list.imdsDiskarrayPower ? (
+                    <CompactTable
+                        pageSize={pageSize}
+                        data={list.imdsDiskarrayPower}
+                        actionAuth={['delete']}
+                    />
+                ) : <Spin />}
                 <Headline title="控制器信息" />
-                <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    // goLink={this.goLink.bind(this)}
-                    // data={null}
-                    actionAuth={['delete']}
-                    pageAuth={false}
-                />
+                {list && list.imdsDiskarrayController ? (
+                    <CompactTable
+                        pageSize={pageSize}
+                        data={list.imdsDiskarrayController}
+                        actionAuth={['delete']}
+                    />
+                ) : <Spin />}
             </div>
         )
     }
@@ -398,7 +448,7 @@ class MageneticInfo extends React.Component<any, any> {
         let moTypeKey = 'diskarray'
         let match = this.props.match
         let moInstId = match.params.id
-        // let moInstId = 
+        // let moInstId =
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 
@@ -409,10 +459,15 @@ class MageneticInfo extends React.Component<any, any> {
         })
     }
     componentWillMount() {
-        let moTypeKey = 'diskarray'
+        let moTypeKey = 'diskarray';
+        let diskarray = this.props.match.params.magneticId
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
-        this.props.actions.getSummary('imdsDiskarray15MiKpis', {});
+        this.getTableData()
+        this.props.actions.getSummary('imdsDiskarray15MiKpis', { diskarray: diskarray });
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -423,6 +478,7 @@ class MageneticInfo extends React.Component<any, any> {
     }
     render() {
         const { nodeInfo } = this.props
+        let { activeKey } = this.state
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -442,7 +498,7 @@ class MageneticInfo extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.callback} type="card" animated={false}>
-                        <TabPane tab="资源详情" key="1" >
+                        <TabPane tab="资源详情" key="detail" >
                             <Tabs
                                 defaultActiveKey="1"
                                 size="small"
@@ -455,36 +511,41 @@ class MageneticInfo extends React.Component<any, any> {
                                 <TabPane tab="日志" key="2"></TabPane>
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="资源关系" key="2">
+                        <TabPane tab="资源关系" key="relation">
                             <Tabs
-                                defaultActiveKey="1"
+                                defaultActiveKey={activeKey}
                                 size="small"
                                 animated={false}
+                                activeKey={activeKey}
                                 onChange={this.tabConnect}>
-                                <TabPane tab="RAID信息" key="1">
+                                <TabPane tab="RAID信息" key="imdsDiskarrayStoragePool">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        {this.renderRAID()}
+                                        {this.renderNormalTable()}
                                     </div>
                                 </TabPane>
-                                <TabPane tab="LUN信息" key="2">
+                                <TabPane tab="LUN信息" key="imdsDiskarrayLun">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        {this.renderLUN()}
+                                        {this.renderNormalTable()}
                                     </div>
                                 </TabPane>
-                                <TabPane tab="ISCSI信息" key="3">
+                                <TabPane tab="ISCSI信息" key="imdsDiskarrayEthernetInterface">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        {this.renderISCSI()}
+                                        {this.renderNormalTable()}
                                     </div>
                                 </TabPane>
-                                <TabPane tab="硬盘信息" key="4">
+                                <TabPane tab="硬盘信息" key="imdsDiskarrayDisk">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        {this.renderHardware()}
+                                        {this.renderNormalTable()}
                                     </div>
                                 </TabPane>
-                                <TabPane tab="性能信息" key="5">{this.renderPerformance()}</TabPane>
+                                <TabPane tab="性能信息" key="performance">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderPerformance()}
+                                    </div>
+                                </TabPane>
                                 <TabPane tab="告警" key="6">
                                 </TabPane>
-                                <TabPane tab="其它信息" key="7">
+                                <TabPane tab="其它信息" key="other">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                                         {this.renderOthers()}
                                     </div>

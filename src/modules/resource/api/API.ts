@@ -19,6 +19,10 @@ export interface DataParams {
    */
   vim_id?: string,
   /**
+   * PIM ID
+   */
+  pim_id?: string,
+  /**
    * 主机名称
    */
   host?: string,
@@ -38,11 +42,44 @@ export interface DataParams {
    * 当前页码
    */
   pageNo?: number,
+  /**
+   * AZ ID
+   */
+  az_id?: string,
+  /**
+   * HA ID
+   */
+  ha_id?: string,
+  /**
+   * 数据中心
+   */
+  datacenter?: string,
+  /**
+   * 服务器id
+   */
+  server?: string,
+  /**
+   * 防火墙id
+   */
+  firewall?: string,
+  /**
+   * 交换机编号
+   */
+  number?: string,
+  /**
+   * 交换机id
+   */
+  switch?: string,
+  /**
+   * 磁阵id
+   */
+  diskarray?: string
 }
 
 class API {
-  getMoTree() {
-    return axios.get(`/api_resource/datashare-svr/api/querytree/mgrmoTree`)
+  // mgrmoTree
+  getQueryTree(queryKey) {
+    return axios.get(`/api_resource/datashare-svr/api/querytree/${queryKey}`)
   }
   getSubDataByName(dsname) {
     // 4.1
