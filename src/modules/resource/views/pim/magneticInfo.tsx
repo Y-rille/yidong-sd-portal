@@ -240,12 +240,13 @@ class MageneticInfo extends React.Component<any, any> {
                 this.getTableData()
             })
         }
-     }
+    }
     tabInfo = () => { }
     tabConnect = (activeKey) => { // 资源关系tab切换
-
-        if (activeKey !== 'performance' && activeKey !== 'other') {
-
+        let self = this
+        let oldKey = this.state.activeKey
+        if (oldKey === 'performance' || oldKey === 'other') {
+            this.props.actions.resetList()
         }
 
         if (activeKey === 'performance' || activeKey === 'other') {
@@ -349,34 +350,32 @@ class MageneticInfo extends React.Component<any, any> {
         let { summary, list } = this.props
         let pageSize = 999
 
-        return (
-            <div>
-                <Headline title="节点信息" ></Headline>
-                {summary ? <Summaries colNum={5} data={summary} /> : <Spin />}
-                <Headline title="LUN性能信息" />
-                <div style={{ position: 'relative' }}>
-                    {list && list.imdsDiskarrayLun ? (
-                        <CompactTable
-                            pageSize={pageSize}
-                            data={list.imdsDiskarrayLun}
-                            actionAuth={['delete']}
-                        />
-                    ) : <Spin />}
-                </div>
+        if (list && list.imdsDiskarrayLun && list.imdsDiskarrayLun15MiKpis && list.imdsDiskarrayTemperature) {
+            return (
+                <div>
+                    <Headline title="节点信息" ></Headline>
+                    {summary ? <Summaries colNum={5} data={summary} /> : <Spin />}
+                    <Headline title="LUN性能信息" />
+                    <CompactTable
+                        pageSize={pageSize}
+                        data={list.imdsDiskarrayLun}
+                        actionAuth={['delete']}
+                    />
 
-                <Headline title="前端业务端口信息" />
-                <div style={{ position: 'relative' }}>
-                    {list && list.imdsDiskarrayLun15MiKpis ? (
-                        <CompactTable
-                            pageSize={pageSize}
-                            data={list.imdsDiskarrayLun15MiKpis}
-                            actionAuth={['delete']}
-                        />
-                    ) : <Spin />}
-                </div>
+                    <Headline title="前端业务端口信息" />
+                    <CompactTable
+                        pageSize={pageSize}
+                        data={list.imdsDiskarrayLun15MiKpis}
+                        actionAuth={['delete']}
+                    />
 
-                <Headline title="磁盘框温度" />
-                <div style={{ position: 'relative' }}>
+                    <Headline title="磁盘框温度" />
+                    <CompactTable
+                        pageSize={pageSize}
+                        data={list.imdsDiskarrayTemperature}
+                        actionAuth={['delete']}
+                    />
+                    {/* <div style={{ position: 'relative' }}>
                     {list && list.imdsDiskarrayTemperature ? (
                         <CompactTable
                             pageSize={pageSize}
@@ -384,17 +383,20 @@ class MageneticInfo extends React.Component<any, any> {
                             actionAuth={['delete']}
                         />
                     ) : <Spin />}
-                </div>
+                </div> */}
 
-            </div>
-        )
+                </div>
+            )
+        } else {
+            return <Spin />
+        }
+
     }
     renderNormalTable() {
         let { list } = this.props
         let { tableLoading } = this.state
 
-        if (list) {
-
+        if (list && list.header) {
             return (
                 <CompactTable
                     goPage={this.goPage.bind(this)} // 翻页
@@ -403,56 +405,55 @@ class MageneticInfo extends React.Component<any, any> {
                     actionAuth={['delete']}
                 />
             )
+        } else {
+            return <Spin />
         }
-
     }
 
     renderOthers() {
         let { list } = this.props
         let pageSize = 999
-        return (
-            <div>
-                <Headline title="BBU信息" />
-                {list && list.imdsDiskarrayBBU ? (
+
+        if (list && list.imdsDiskarrayBBU && list.imdsDiskarrayFan && list.imdsDiskarrayPower && list.imdsDiskarrayController) {
+            return (
+                <div>
+                    <Headline title="BBU信息" />
                     <CompactTable
                         pageSize={pageSize}
                         data={list.imdsDiskarrayBBU}
                         actionAuth={['delete']}
                     />
-                ) : <Spin />}
-                <Headline title="风扇信息" />
-                {list && list.imdsDiskarrayFan ? (
+                    <Headline title="风扇信息" />
                     <CompactTable
                         pageSize={pageSize}
                         data={list.imdsDiskarrayFan}
                         actionAuth={['delete']}
                     />
-                ) : <Spin />}
-                <Headline title="电源信息" />
-                {list && list.imdsDiskarrayPower ? (
+                    <Headline title="电源信息" />
                     <CompactTable
                         pageSize={pageSize}
                         data={list.imdsDiskarrayPower}
                         actionAuth={['delete']}
                     />
-                ) : <Spin />}
-                <Headline title="控制器信息" />
-                {list && list.imdsDiskarrayController ? (
+                    <Headline title="控制器信息" />
                     <CompactTable
                         pageSize={pageSize}
                         data={list.imdsDiskarrayController}
                         actionAuth={['delete']}
                     />
-                ) : <Spin />}
-            </div>
-        )
+                </div>
+            )
+        } else {
+            return <Spin />
+        }
+
     }
     handleEditData(d) {
-        // console.log(d, '=============>hostInfo')
+
         let moTypeKey = 'diskarray'
         let match = this.props.match
         let moInstId = match.params.id
-        // let moInstId =
+
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 
@@ -467,7 +468,6 @@ class MageneticInfo extends React.Component<any, any> {
         let diskarray = this.props.match.params.magneticId
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
-        this.getTableData()
         this.props.actions.getSummary('imdsDiskarray15MiKpis', { diskarray: diskarray });
     }
     componentWillUnmount() {
