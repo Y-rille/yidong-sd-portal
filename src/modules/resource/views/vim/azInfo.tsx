@@ -102,7 +102,8 @@ class AzInfo extends React.Component<any, any> {
         this.getTableData();
     }
     componentWillUnmount() {
-        this.props.actions.resetList()
+        this.props.actions.resetList();
+        this.props.actions.resetSummary();
     }
     render() {
         const { pageSize, tableLoading, ha, name } = this.state;
