@@ -122,33 +122,42 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
             'header': [{
                 key: 'id',
                 title: '项目',
-                // fixed: true,
+                'fixed': true,
+                'width': 150
                 // link: true,
             }, {
                 key: 'main',
                 title: '主机',
+                'width': 150
                 // fixed: true,
             }, {
                 key: 'name',
                 title: '名称',
+                'width': 150
             }, {
                 key: 'num',
-                title: '大小(GiB)'
+                title: '大小(GiB)',
+                'width': 50
             }, {
                 key: 'state',
-                title: '状态'
+                title: '状态',
+                'width': 10
             }, {
                 key: 'type',
-                title: '类型'
+                title: '类型',
+                'width': 100
             }, {
                 key: 'at',
-                title: 'attached to'
+                title: 'attached to',
+                'width': 150
             }, {
                 key: 'isStart',
-                title: '是否引导启动'
+                title: '是否引导启动',
+                'width': 50
             }, {
                 key: 'isEncrypt',
-                title: '是否加密'
+                title: '是否加密',
+                'width': 50
             }
             ],
             'dataList': [

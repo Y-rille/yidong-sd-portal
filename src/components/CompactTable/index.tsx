@@ -21,6 +21,7 @@ export interface CompactTableProps {
     selectRow?
     pageSize?
     loading?
+    size?   // {y:185},传size，需在header里添加width
 }
 
 export default class CompacteTable extends React.PureComponent<CompactTableProps, any> {
@@ -38,7 +39,8 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                 {
                     'key': 'name',
                     'title': '主机名称',
-                    'link': false
+                    'link': false,
+
                 },
                 {
                     'key': 'role',
@@ -105,7 +107,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         this.props.goLink(key, obj)
     }
     renderTable() {
-        let { actionAuth, data, selectAuth, selectRow, loading } = this.props
+        let { actionAuth, data, selectAuth, selectRow, loading, size } = this.props
         let header = data.header || []
         let dataList: any = _.merge([], data.dataList)
         let columns = []
@@ -115,7 +117,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                 dataIndex: header[i].key,
                 key: header[i].key,
                 fixed: header[i].fixed ? 'left' : null,
-                width: header[i].fixed ? 100 : null,
+                width: header[i].width ? header[i].width : null,
                 // sorter: header[i].sorter ? (a, b) => a[header[i].key] - b[header[i].key] : null,
             }
             if (header[i].link) {
@@ -167,6 +169,9 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
             default:
                 break;
         }
+        if (size && size.y) {
+            area.y = size.y
+        }
         let rowSelection = null
         if (selectAuth) {
             rowSelection = {
@@ -180,6 +185,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                 }),
             }
         }
+
         return (
             <Table size="small" scroll={area} rowSelection={rowSelection}
                 pagination={false}
