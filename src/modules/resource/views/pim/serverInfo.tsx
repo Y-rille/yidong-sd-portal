@@ -146,8 +146,6 @@ class ServerInfo extends React.Component<any, any> {
             }
             let server_id = this.props.match.params.id;
             this.getTableData(queryObj)
-            // this.props.actions.getSummary('imdsServerRaidCard', { server: server_id }, null, true);
-            // this.props.actions.getSummary('imdsServer15MiKpis', { server: server_id }, null, true);
         } else {
             let moTypeKey = 'server';
             this.props.actions.getObjAttributes(moTypeKey)
@@ -307,35 +305,41 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                 } else if (item === 'imdsServer15MiKpis') {
                     list = list || {}
                     summary = summary || {}
-                    return (
-                        <TabPane tab={title[key]} key={item}>
-                            <Headline title="PCIe槽内信息" />
-                            <CompactTable
-                                actionAuth={['delete']}
-                                loading={tableLoading}
-                                pageSize={pageSize}
-                                data={list['imdsServerPCIE']}
-                            />
-
-                            <div style={{ marginTop: '20px' }}>
-                                <Headline title="阵列卡信息" />
-                                <Summaries colNum={5} data={summary['imdsServerRaidCard']} />
-                            </div>
-                            <div style={{ marginTop: '20px' }}>
-                                <Headline title="逻辑盘信息" />
+                    if (list && summary) {
+                        return (
+                            <TabPane tab={title[key]} key={item}>
+                                <Headline title="PCIe槽内信息" />
                                 <CompactTable
-                                    data={list['imdsServerLogicalDrive']}
-                                    loading={tableLoading}
                                     actionAuth={['delete']}
                                     pageSize={pageSize}
+                                    data={list.imdsServerPCIE}
                                 />
+                                <div style={{ marginTop: '20px' }}>
+                                    <Headline title="阵列卡信息" />
+                                    <Summaries colNum={5} data={summary.imdsServerRaidCard} />
+                                </div>
+                                <div style={{ marginTop: '20px' }}>
+                                    <Headline title="逻辑盘信息" />
+                                    <CompactTable
+                                        data={list.imdsServerLogicalDrive}
+                                        actionAuth={['delete']}
+                                        pageSize={pageSize}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: '20px' }}>
+                                    <Headline title="其他信息" />
+                                    <Summaries colNum={5} data={summary.imdsServer15MiKpis} />
+                                </div>
+                            </TabPane>
+                        )
+                    } else {
+                        return (
+                            <div style={{ position: 'relative', height: '30px' }}>
+                                <Spin />
                             </div>
-                            <div style={{ marginBottom: '20px' }}>
-                                <Headline title="其他信息" />
-                                <Summaries colNum={5} data={summary.imdsServer15MiKpis} />
-                            </div>
-                        </TabPane>
-                    )
+                        )
+                    }
+
                 } else {
                     return (
                         <TabPane tab={title[key]} key={item}>
@@ -366,28 +370,6 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let { events } = this.state
-        let tdata = {
-            'count': 2,
-            'header': [{
-                key: 'name',
-                title: '网口名称'
-            }, {
-                key: 'address',
-                title: '网口地址',
-            }],
-            'body': [
-                {
-                    'id': 1,
-                    'name': 'Port1NC_MACAdress',
-                    'address': '30:e1:71:6a:81:b4',
-                },
-                {
-                    'id': 2,
-                    'name': 'Port1NC_MACAdress',
-                    'address': '30:e1:71:6a:81:b4',
-                }
-            ]
-        }
         return (
             <div>
                 <div className={styles.header}>
