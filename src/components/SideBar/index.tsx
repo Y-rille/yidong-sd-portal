@@ -113,9 +113,9 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                                 let id = _item.nodeId
                                 return (
                                     <SubMenu key={`/resource/pim/${id}`} title={<span><Icon type="api" /><span>{_item.nodeLabel}</span></span>}>
-                                        <Menu.Item key={`/resource/pim/${id}/server`} >服务器管理 </Menu.Item>
-                                        <Menu.Item key={`/resource/pim/${id}/firewall`} >防火墙管理 </Menu.Item>
-                                        <Menu.Item key={`/resource/pim/${id}/switchboard`} >交换机管理 </Menu.Item>
+                                        <Menu.Item key={`/resource/pim/${id}/server`} >服务器管理</Menu.Item>
+                                        <Menu.Item key={`/resource/pim/${id}/firewall`} >防火墙管理</Menu.Item>
+                                        <Menu.Item key={`/resource/pim/${id}/switchboard`} >交换机管理</Menu.Item>
                                         <Menu.Item key={`/resource/pim/${id}/magnetic`} >磁阵管理</Menu.Item>
                                     </SubMenu>
                                 )
