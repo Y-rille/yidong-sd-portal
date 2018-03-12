@@ -6,7 +6,7 @@ import { matchPath } from 'react-router'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
-import MagneticTable from '../../../../components/MagneticTable/'
+import MagneticTable from '../../../../components/FilterMageticForm/'
 import Cascaderor from '../../../../components/Cascaderor'
 import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
