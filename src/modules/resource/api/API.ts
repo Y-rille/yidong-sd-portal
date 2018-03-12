@@ -76,6 +76,53 @@ export interface DataParams {
   diskarray?: string
 }
 
+export interface DiscoveryParams {
+  /**
+   * 发现服务
+   */
+  server?: string,
+  /**
+   * 开始IP
+   */
+  startip?: string,
+  /**
+   * 结束IP
+   */
+  endip?: string,
+  /**
+   * 用户名
+   */
+  username?: string,
+  /**
+   * 密码
+   */
+  password?: string,
+  /**
+   * 网关
+   */
+  gateway?: string,
+  /**
+   * 子网掩码
+   */
+  subnetmask?: string,
+  /**
+   * DNS
+   */
+  dns?: string,
+  /**
+   * 供应商
+   */
+  provider?: string,
+  /**
+   * 设备IP
+   */
+  deviceip?: string,
+  /**
+   * 协议
+   */
+  protocol?: string,
+}
+
 class API {
   // mgrmoTree
   getQueryTree(queryKey) {
@@ -105,9 +152,9 @@ class API {
     // 1.2
     return axios.post(`/api_agent/rms-agent/api/operate/${moTypeKey}/${moInstId}/${operateType}`)
   }
-  autoDiscovery(moTypeKey) {
+  autoDiscovery(moTypeKey, params?: DiscoveryParams) {
     // 1.5
-    return axios.post(`/api_agent/rms-agent/api/find/${moTypeKey}`)
+    return axios.post(`/api_agent/rms-agent/api/find/${moTypeKey}`, params)
   }
   findConfirm(moTypeKey, queryData) {
     // 1.2

@@ -248,9 +248,12 @@ class SwitchboardInfo extends React.Component<any, any> {
             activeKey: key
         })
         if (key === 'relation') {
-            let { pageNo } = this.state
-            let queryObj = { pageNo }
-            this.getTableData(queryObj)
+            this.setState({
+                pageNo: 1,
+                activeKey: 'imdsSwitchMotherboard'
+            }, () => {
+                this.getTableData({ pageNo: 1 })
+            })
         } else {
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey)
@@ -267,7 +270,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                 this.goPage(1)
                 this.props.actions.getSummary('imdsSwitch15MiKpis', { switch_id: id });
             })
-            
+
         } else {
             this.setState({
                 disabled: false,
@@ -351,7 +354,8 @@ class SwitchboardInfo extends React.Component<any, any> {
         this.props.actions.getObjData(moTypeKey)
     }
     componentWillUnmount() {
-        this.props.actions.resetList()
+        this.props.actions.resetList();
+        this.props.actions.resetSummary();
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -361,6 +365,7 @@ class SwitchboardInfo extends React.Component<any, any> {
         }
     }
     render() {
+        let { activeKey } = this.state
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -391,7 +396,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                         </TabPane>
 
                         <TabPane tab="资源关系" key="relation">
-                            <Tabs size="small" defaultActiveKey="imdsSwitchMotherboard" onChange={this.onTab.bind(this)} animated={false}>
+                            <Tabs size="small" activeKey={activeKey} onChange={this.onTab.bind(this)} animated={false}>
                                 {this.renderTab()}
                                 <TabPane tab="告警信息" key="6">告警信息</TabPane>
                             </Tabs>

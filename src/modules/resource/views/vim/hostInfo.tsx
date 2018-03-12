@@ -186,6 +186,7 @@ class HostInfo extends React.Component<any, any> {
         }
     }
     render() {
+        let { activeKey } = this.state
         let { list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -222,7 +223,7 @@ class HostInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="relation">
-                            <Tabs size="small" onChange={this.onTab.bind(this)} animated={false}>
+                            <Tabs size="small" onChange={this.onTab.bind(this)} animated={false} activeKey={activeKey}>
                                 {this.renderTab()}
                             </Tabs>
                         </TabPane>

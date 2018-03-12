@@ -82,6 +82,17 @@ var options_agent = {
 };
 var webProxy_agent = proxy(options_agent);
 
+var options_temporary = {
+    target: 'http://47.94.4.45:8090/', // target host
+    secure: false,
+    changeOrigin: true,               // needed for virtual hosted sites
+    ws: true,                         // proxy websockets
+    ignorePath: false,
+    pathRewrite: {
+        '^/api_temporary': ''
+    }
+};
+var webProxy_temporary = proxy(options_temporary);
 
 // var options_alam = {
 //     target: 'http://47.94.4.45:8080/', // target host
@@ -124,6 +135,7 @@ function startDevServer() {
     app.use('/api_performance/*', webProxy_performance);
     app.use('/api_resource/*', webProxy_resource);
     app.use('/api_agent/*', webProxy_agent);
+    app.use('/api_temporary/*', webProxy_temporary);
     // app.use('/alarm-mntr/*', webProxy_alam);
     // app.use('/app_kibana/*', webProxy_kibana);
 

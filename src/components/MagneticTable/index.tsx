@@ -49,7 +49,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                         // hasFeedback
                         // required
                         >
-                            {getFieldDecorator('dServer', {
+                            {getFieldDecorator('server', {
                                 initialValue: '廊坊发现纳管',
                                 rules: [{
                                     required: true, message: '请选择发现服务',
@@ -63,33 +63,33 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                     <Option value="廊坊发现纳管">廊坊发现纳管</Option>
                                     <Option value="发现纳管">发现纳管</Option>
                                 </Select>
-                                )}
+                            )}
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
                             label="用户名"
                         >
-                            {getFieldDecorator('name', {
+                            {getFieldDecorator('username', {
                                 // initialValue: fireWallInfo.name,
                                 rules: [{
                                     required: true, message: '请输入用户名！',
                                 }],
                             })(
                                 <Input placeholder="请输入用户名" />
-                                )}
+                            )}
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
                             label="子网掩码"
                         >
-                            {getFieldDecorator('subnet', {
+                            {getFieldDecorator('subnetmask', {
                                 // initialValue: fireWallInfo.name,
                                 rules: [{
                                     required: true, message: '请输入子网掩码！',
                                 }],
                             })(
                                 <Input placeholder="请输入子网掩码" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -97,13 +97,13 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             {...formItemLayout}
                             label="开始IP"
                         >
-                            {getFieldDecorator('startIP', {
+                            {getFieldDecorator('startip', {
                                 rules: [{
                                     required: true, message: '请输入开始IP！',
                                 }],
                             })(
                                 <Input placeholder="请输入开始IP" />
-                                )}
+                            )}
                         </Form.Item>
                         <FormItem
                             {...formItemLayout}
@@ -115,7 +115,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 }],
                             })(
                                 <Input type="password" placeholder="请输入密码" />
-                                )}
+                            )}
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
@@ -128,7 +128,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入DNS" />
-                                )}
+                            )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
@@ -136,26 +136,26 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             {...formItemLayout}
                             label="结束IP"
                         >
-                            {getFieldDecorator('endIP', {
+                            {getFieldDecorator('endip', {
                                 rules: [{
                                     required: true, message: '请输入结束IP！',
                                 }],
                             })(
                                 <Input placeholder="请输入结束IP" />
-                                )}
+                            )}
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
                             label="网关"
                         >
-                            {getFieldDecorator('protocol', {
+                            {getFieldDecorator('gateway', {
                                 // initialValue: fireWallInfo.protocol,
                                 rules: [{
                                     required: true, message: '请输入网关！',
                                 }],
                             })(
                                 <Input placeholder="请输入网关" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                 </Row>

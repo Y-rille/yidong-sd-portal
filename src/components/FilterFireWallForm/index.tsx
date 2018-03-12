@@ -50,7 +50,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                         // hasFeedback
                         // required
                         >
-                            {getFieldDecorator('dServer', {
+                            {getFieldDecorator('server', {
                                 initialValue: '廊坊发现纳管',
                                 rules: [{
                                     required: true, message: '请选择发现服务',
@@ -67,7 +67,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                             {...formItemLayout}
                             label="用户名"
                         >
-                            {getFieldDecorator('name', {
+                            {getFieldDecorator('username', {
                                 // initialValue: fireWallInfo.name,
                                 rules: [{
                                     required: true, message: '请输入用户名！',
@@ -82,7 +82,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                             {...formItemLayout}
                             label="供应商"
                         >
-                            {getFieldDecorator('supplier', {
+                            {getFieldDecorator('provider', {
                                 initialValue: 'HPE',
                                 rules: [{
                                     required: true, message: '请选择供应商！',
@@ -114,7 +114,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                             {...formItemLayout}
                             label="设备IP"
                         >
-                            {getFieldDecorator('ip', {
+                            {getFieldDecorator('deviceip', {
                                 // initialValue: fireWallInfo.ip,
                                 rules: [{
                                     required: true, message: '请输入设备IP！',

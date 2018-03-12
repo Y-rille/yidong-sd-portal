@@ -43,9 +43,12 @@ class FirewallInfo extends React.Component<any, any> {
         let match = this.props.match
         let id = match.params.id
         if (key === 'imdsFirewall15MiKpis') {
+            this.setState({
+                activeKey: 'imdsFirewall15MiKpis'
+            })
             let firewall_id = this.props.match.params.id;
             this.props.actions.getSummary('imdsFirewall15MiKpis', { firewall: firewall_id });
-        } else { 
+        } else {
             this.setState({
                 pageNo: 1,
                 activeKey: key
@@ -54,7 +57,7 @@ class FirewallInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         }
-        
+
     }
     goPage(num) {
         let pageNo = num
@@ -96,10 +99,10 @@ class FirewallInfo extends React.Component<any, any> {
         let firewall_id = this.props.match.params.id;
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
-        // this.props.actions.getSummary('imdsFirewall15MiKpis', { firewall: firewall_id });
     }
     componentWillUnmount() {
-        this.props.actions.resetList()
+        this.props.actions.resetList();
+        this.props.actions.resetSummary();
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -111,7 +114,7 @@ class FirewallInfo extends React.Component<any, any> {
     render() {
         let { nodeInfo, list, summary } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading } = this.state;
+        const { pageSize, tableLoading, activeKey } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -145,7 +148,7 @@ class FirewallInfo extends React.Component<any, any> {
                         </TabPane>
                         <TabPane tab="资源关系" key="relation">
                             <Tabs
-                                defaultActiveKey="imdsFirewallMotherBoard"
+                                activeKey={activeKey}
                                 size="small"
                                 animated={false}
                                 onChange={this.tabConnect}>
