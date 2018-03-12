@@ -240,7 +240,7 @@ class MageneticInfo extends React.Component<any, any> {
                 this.getTableData()
             })
         }
-     }
+    }
     tabInfo = () => { }
     tabConnect = (activeKey) => { // 资源关系tab切换
 
@@ -513,7 +513,6 @@ class MageneticInfo extends React.Component<any, any> {
                         </TabPane>
                         <TabPane tab="资源关系" key="relation">
                             <Tabs
-                                defaultActiveKey={activeKey}
                                 size="small"
                                 animated={false}
                                 activeKey={activeKey}

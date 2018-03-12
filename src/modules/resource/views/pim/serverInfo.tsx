@@ -138,16 +138,13 @@ class ServerInfo extends React.Component<any, any> {
         })
     }
     onChange(key) {
-
         if (key === 'relation') {
-            let { pageNo } = this.state
-            let queryObj = {
-                pageNo
-            }
-            let server_id = this.props.match.params.id;
-            this.getTableData(queryObj)
-            // this.props.actions.getSummary('imdsServerRaidCard', { server: server_id }, null, true);
-            // this.props.actions.getSummary('imdsServer15MiKpis', { server: server_id }, null, true);
+            this.setState({
+                pageNo: 1,
+                activeKey: 'imdsServerProcessor'
+            }, () => {
+                this.getTableData({ pageNo: 1 })
+            })
         } else {
             let moTypeKey = 'server';
             this.props.actions.getObjAttributes(moTypeKey)
@@ -160,7 +157,8 @@ class ServerInfo extends React.Component<any, any> {
         let arr = ['imdsServerPCIE', 'imdsServerRaidCard', 'imdsServerLogicalDrive', 'imdsServer15MiKpis']
         if (key === 'imdsServer15MiKpis') {
             this.setState({
-                tableLoading: true
+                tableLoading: true,
+                activeKey: 'imdsServer15MiKpis'
             });
             let self = this
             let { server } = this.state
@@ -365,7 +363,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
     render() {
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        let { events } = this.state
+        let { events, activeKey } = this.state
         let tdata = {
             'count': 2,
             'header': [{
@@ -408,7 +406,6 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                     <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
                         <TabPane tab="资源详情" key="detail" >
                             <Tabs
-                                defaultActiveKey="overview"
                                 size="small"
                                 animated={false}
                                 onChange={this.tabInfo}
@@ -423,7 +420,7 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
                         </TabPane>
                         <TabPane tab="资源关系" key="relation">
                             <Tabs
-                                defaultActiveKey="1"
+                                activeKey={activeKey}
                                 size="small"
                                 animated={false}
                                 onChange={this.onTab.bind(this)}>
