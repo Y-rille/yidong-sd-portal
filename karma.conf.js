@@ -13,7 +13,7 @@ webpackConfig.externals = {
 module.exports = function (config) {
     config.set({
         basePath: '',
-        frameworks: ['mocha', 'chai', 'sinon'],
+        frameworks: ['chai'],
         files: [
             './test/test_index.js'
         ],

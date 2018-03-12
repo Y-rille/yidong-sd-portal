@@ -26,7 +26,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
     formRef: any;
     constructor(props) {
         super(props);
-        let { pageNo, datacenter, name } = qs.parse(this.props.location.search)
+        let { pageNo, datacenter, name , switch_id} = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/pim/:id'
         })
@@ -39,7 +39,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             pageSize: 10,
             datacenter: datacenter ? datacenter.split(',') : '',
             pageNo: pageNo ? pageNo : 1,
-
+            inputStatus: switch_id ? 'switchID' : 'switchName' ,
+            switch_id: switch_id ? switch_id : ''
         };
     }
     goInfo = () => {
@@ -51,18 +52,26 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         })
     }
     onNameChange(value) {
-        this.setState({
-            name: value
-        })
+        if (this.state.inputStatus === 'switchName') {
+            this.setState({
+                name: value,
+                switch_id: ''
+            })
+        } else {
+            this.setState({
+                name: '',
+                switch_id: value
+            })
+        }
     }
     handleClick() {
-        const { datacenter, name } = this.state;
+        const { datacenter, name, switch_id} = this.state;
         let pageNo = 1
         this.setState({
             pageNo
         }, () => {
             let { match } = this.props
-            let queryObj = { pageNo, datacenter, name }
+            let queryObj = { pageNo, datacenter, name , switch_id}
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         });
@@ -72,9 +81,9 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { name, pim_id, datacenter } = this.state
+            let { name, pim_id, datacenter, switch_id } = this.state
             let pageNo = num
-            let queryObj = { pageNo, name, datacenter }
+            let queryObj = { pageNo, name, switch_id, datacenter }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })
@@ -173,12 +182,17 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             datacenter: type === 'DataCenter' ? value : datacenter,
         })
     }
+    getSelectValue(value) {
+        this.setState({
+            inputStatus: value
+        })
+    }
     getTableData() {
         this.setState({
             tableLoading: true
         });
-        let { name, datacenter, pageSize, pageNo } = this.state
-        this.props.actions.queryList('imdsSwitch', { name, datacenter, pageNo, pageSize }, () => {
+        let { name, switch_id, datacenter, pageSize, pageNo } = this.state
+        this.props.actions.queryList('imdsSwitch', { name, switch_id, datacenter, pageNo, pageSize }, () => {
             this.setState({
                 tableLoading: false
             });
@@ -191,7 +205,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.props.actions.resetList()
     }
     render() {
-        const { name, datacenter, pageSize, tableLoading } = this.state;
+        const { name, datacenter, pageSize, tableLoading, switch_id} = this.state;
         let { match, nodeInfo, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
 
@@ -215,46 +229,45 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
 
                         </div>
                         <div style={{ padding: '20px' }}>
-                            <div className={styles.queryBar}>
-                                <Cascaderor
+                            <div className={styles.swichQueryBar}>
+                                <div className={styles.swichQuery}><Cascaderor
                                     style={{ width: '220px' }}
                                     type="DataCenter"
                                     data={this.props.subDataCenter}
                                     getCascaderData={this.getCascaderData.bind(this)} value={datacenter}
                                 />
-                                <Input
-                                    placeholder="名称，编号"
-                                    value={name} type="text"
-                                    onChange={e => this.onNameChange(e.target.value)}
-                                />
-                                {/* <div className={styles.inputGroup}>
-                                    <Select defaultValue="name">
-                                        <Option value="name">名称</Option>
-                                        <Option value="ID">编号</Option>
+                                <div>
+                                <InputGroup compact>
+                                    <Select onChange={this.getSelectValue.bind(this)} defaultValue={this.state.inputStatus === 'switchName' ? '名称' : '编号'}>
+                                        <Option value="switchName">名称</Option>
+                                        <Option value="switchID">编号</Option>
                                     </Select>
-                                    <Input
-                                    placeholder="名称，编号"
-                                    value={name} type="text"
-                                    onChange={e => this.onNameChange(e.target.value)}
-                                    />
-                                </div> */}
+                                    <Input style={{ width: '180px' }} value={this.state.inputStatus === 'switchName' ? name : switch_id} type="text"
+                                      onChange={e => this.onNameChange(e.target.value)} 
+                                      placeholder={this.state.inputStatus === 'switchName' ? '名称' : '编号'} />
+                                </InputGroup>
+                                </div>
                                 <Button
                                     type="primary"
                                     onClick={this.handleClick.bind(this)}
                                 >
                                     查询
                                 </Button>
-                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
-                                <Modal
-                                    title="发现"
-                                    visible={this.state.visible}
-                                    onCancel={this.handleCancel}
-                                    footer={null}
-                                    width="70%"
-                                >
-                                    <FilterSwitchBoardForm getData={this.getData.bind(this)} wrappedComponentRef={(node) => { this.formRef = node }} />
-                                    {this.renderAddData()}
-                                </Modal>
+                                </div>
+                                <div>
+                                    <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                    <Modal
+                                        title="发现"
+                                        visible={this.state.visible}
+                                        onCancel={this.handleCancel}
+                                        footer={null}
+                                        width="70%"
+                                    >
+                                        <FilterSwitchBoardForm getData={this.getData.bind(this)} wrappedComponentRef={(node) => { this.formRef = node }} />
+                                        {this.renderAddData()}
+                                    </Modal>
+                                </div>
+                                {/* <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button> */}
                             </div>
                             {list ? (<CompactTable
                                 outStyle={{ marginTop: '20px' }}

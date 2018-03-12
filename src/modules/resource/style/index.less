@@ -55,6 +55,26 @@
         }
       }
     }
+    .swichQueryBar {
+      display: flex;
+      .swichQuery{
+        display: flex;
+        flex-grow: 1;
+      }
+      margin-bottom: @margin-base;
+      :global{
+        .ant-input-group{
+          margin-left: @margin-min;
+          flex-grow: 0;
+        }
+        .ant-btn {
+          margin-left: @margin-min;
+          &:last-child {
+            float: right;
+          }
+        }
+      }
+    }
     .btn {
       margin-top: 5px;
       margin-right: 20px;
