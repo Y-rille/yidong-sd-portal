@@ -388,7 +388,11 @@ class MageneticInfo extends React.Component<any, any> {
                 </div>
             )
         } else {
-            return <Spin />
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
         }
 
     }
@@ -406,7 +410,12 @@ class MageneticInfo extends React.Component<any, any> {
                 />
             )
         } else {
-            return <Spin />
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+
         }
     }
 
@@ -444,7 +453,11 @@ class MageneticInfo extends React.Component<any, any> {
                 </div>
             )
         } else {
-            return <Spin />
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
         }
 
     }
