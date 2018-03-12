@@ -46,7 +46,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {...formItemLayout}
                             label="发现服务"
                         >
-                            {getFieldDecorator('sever_find', {
+                            {getFieldDecorator('server', {
                                 initialValue: '1',
                                 rules: [{
                                     required: true,
@@ -65,7 +65,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {...formItemLayout}
                             label="开始IP"
                         >
-                            {getFieldDecorator('start_ip', {
+                            {getFieldDecorator('startip', {
                                 initialValue: '',
                                 rules: [{
                                     required: true, message: '请输入开始IP',
@@ -80,7 +80,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {...formItemLayout}
                             label="结束IP"
                         >
-                            {getFieldDecorator('end_ip', {
+                            {getFieldDecorator('endip', {
                                 initialValue: '',
                                 rules: [{
                                     required: true, message: '请输入结束IP',
@@ -97,7 +97,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {...formItemLayout}
                             label="用户名"
                         >
-                            {getFieldDecorator('name', {
+                            {getFieldDecorator('username', {
                                 initialValue: '',
                                 rules: [{
                                     required: true, message: '请输入用户名'
@@ -110,7 +110,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                     <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
-                            label="密码"
+                            label="Password"
                         >
                             {getFieldDecorator('password', {
                                 initialValue: '',
@@ -144,7 +144,7 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             {...formItemLayout}
                             label="子网掩码"
                         >
-                            {getFieldDecorator('subnet_mask', {
+                            {getFieldDecorator('subnetmask', {
                                 initialValue: '',
                                 rules: [{
                                     required: true, message: '请输入子网掩码',

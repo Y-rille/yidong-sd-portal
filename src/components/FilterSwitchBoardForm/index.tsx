@@ -53,7 +53,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                 <Row>
                     <Col span={8}>
                         <FormItem label="发现服务" {...formItemLayout}>
-                            {getFieldDecorator('findService', {
+                            {getFieldDecorator('server', {
                                 rules: [{ required: true, message: '请输入发现服务！' }],
                                 initialValue: 'langfang'
                             })(
@@ -65,7 +65,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                     </Col>
                     <Col span={8}>
                         <FormItem label="供应商" {...formItemLayout}>
-                            {getFieldDecorator('supplier', {
+                            {getFieldDecorator('provider', {
                                 rules: [{ required: true, message: '请输入供应商！' }],
                                 initialValue: 'huawei'
                             })(
@@ -77,7 +77,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                     </Col>
                     <Col span={8}>
                         <FormItem label="设备类型" {...formItemLayout}>
-                            {getFieldDecorator('equipmentType', {
+                            {getFieldDecorator('deviceip', {
                                 rules: [{ required: true, message: '请输入设备类型！' }],
                                 initialValue: 'IPSwitchBoard'
                             })(
@@ -91,7 +91,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                 <Row>
                     <Col span={8}>
                         <FormItem label="设备IP" {...formItemLayout}>
-                            {getFieldDecorator('equipmentIP', {
+                            {getFieldDecorator('deviceip', {
                                 rules: [{ required: true, message: '请输入设备IP！' }],
                                 initialValue: ''
                             })(
