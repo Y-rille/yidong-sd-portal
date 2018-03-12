@@ -354,7 +354,8 @@ class SwitchboardInfo extends React.Component<any, any> {
         this.props.actions.getObjData(moTypeKey)
     }
     componentWillUnmount() {
-        this.props.actions.resetList()
+        this.props.actions.resetList();
+        this.props.actions.resetSummary();
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {

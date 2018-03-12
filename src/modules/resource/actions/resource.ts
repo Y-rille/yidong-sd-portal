@@ -78,6 +78,10 @@ export const resetList = () => (dispatch) => {
     return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, list: null })
 }
 
+export const resetSummary = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, summary: null })
+}
+
 /**
  * 概览数据查询
  * @param cb

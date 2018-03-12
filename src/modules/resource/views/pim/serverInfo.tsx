@@ -358,7 +358,8 @@ Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin 
         }, 4000)
     }
     componentWillUnmount() {
-        this.props.actions.resetList()
+        this.props.actions.resetList();
+        this.props.actions.resetSummary();
     }
     render() {
         let { match, nodeInfo } = this.props;
