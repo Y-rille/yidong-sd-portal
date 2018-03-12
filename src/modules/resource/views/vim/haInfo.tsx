@@ -91,7 +91,8 @@ class HaInfo extends React.Component<any, any> {
         this.getTableData()
     }
     componentWillUnmount() {
-        this.props.actions.resetList()
+        this.props.actions.resetList();
+        this.props.actions.resetSummary();
     }
     renderTitle = (title) => {
         return (
