@@ -79,7 +79,7 @@ export interface DataParams {
 class API {
   // mgrmoTree
   getQueryTree(queryKey) {
-    return axios.get(`/api_resource/datashare-svr/api/querytree/${queryKey}`)
+    return axios.get(`/api_temporary/datashare-svr/api/querytree/${queryKey}`)
   }
   getSubDataByName(dsname) {
     // 4.1
