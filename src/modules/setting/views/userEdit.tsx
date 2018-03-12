@@ -21,6 +21,9 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
         super(props);
         this.state = {
             // listLoading: false
+            page_size: 5,
+            page_num: 1,
+            query_key: '',
         };
     }
 
@@ -77,10 +80,13 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
         if (id) {
             this.props.actions.getUserInfo(id)
         }
+
     }
 
     componentWillUnmount() {
+        let { page_num, page_size, query_key } = this.state
         this.props.actions.resetUserInfo()
+        this.props.actions.getList({ page_num, page_size, query_key }, () => { })
     }
     goUserList() {
         this.props.history.push('/setting/user')
