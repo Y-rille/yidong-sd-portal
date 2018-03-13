@@ -68,7 +68,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 <Select>
                                     {this.renderOptions(subDataPIM)}
                                 </Select>
-                                )}
+                            )}
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
@@ -81,7 +81,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 }],
                             })(
                                 <Input placeholder="请输入用户名" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -89,7 +89,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                             {...formItemLayout}
                             label="供应商"
                         >
-                            {getFieldDecorator('provider', {
+                            {getFieldDecorator('vendor', {
                                 initialValue: 'HPE',
                                 rules: [{
                                     required: true, message: '请选择供应商！',
@@ -100,7 +100,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                     <Option value="HPE">HPE</Option>
                                     <Option value="H3C">H3C</Option>
                                 </Select>
-                                )}
+                            )}
                         </Form.Item>
                         <FormItem
                             {...formItemLayout}
@@ -113,7 +113,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 }],
                             })(
                                 <Input type="password" placeholder="请输入密码" />
-                                )}
+                            )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
@@ -128,7 +128,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 }],
                             })(
                                 <Input placeholder="请输入设备IP" />
-                                )}
+                            )}
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
@@ -141,7 +141,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 }],
                             })(
                                 <Input placeholder="请输入协议" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                 </Row>

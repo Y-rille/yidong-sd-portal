@@ -13,6 +13,7 @@ import Cascaderor from '../../../../components/Cascaderor'
 import { ResourceActions } from '../../actions/index'
 import qs from 'querystringify'
 import { stringify } from 'querystringify'
+import emitter from '../../../../common/emitter'
 
 export interface FirewallProps {
     location?,
@@ -38,11 +39,12 @@ class Firewall extends React.Component<FirewallProps, any> {
         this.state = {
             visible: false,
             tableLoading: false,
-            pageSize: 999,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
             pim_id: mp_node ? mp_node.params.id : '',
+            selected: [],
         }
     }
     goInfo = () => {
@@ -97,8 +99,6 @@ class Firewall extends React.Component<FirewallProps, any> {
         }
     }
     showModal = () => {
-        // let { subDataPIM } = this.props;
-        // console.log(subDataPIM.length, "]==[=====================>")
         this.setState({
             visible: true,
         });
@@ -111,14 +111,34 @@ class Firewall extends React.Component<FirewallProps, any> {
         this.formRef.handleReset()
     }
     addData = () => {
-        this.setState({
-            visible: false,
-            filterDate: null
-        });
-        this.formRef.handleReset()
-        this.props.actions.resetfindData()
+        let { selected } = this.state
+        this.props.actions.findConfirm('firewall', { data: { dataList: selected } }, (err, data) => {
+            if (data) {
+                emitter.emit('message', 'success', '添加成功！')
+                let pageNo = 1
+                let { datacenter, vendor } = this.state
+                let queryObj = { pageNo, datacenter, vendor }
+                this.setState({
+                    pageNo
+                });
+                this.getTableData(queryObj)
+            } else {
+                emitter.emit('message', 'success', '添加失败！')
+            }
+            this.setState({
+                visible: false,
+                filterDate: null,
+            });
+            this.formRef.handleReset()
+            this.props.actions.resetfindData()
+        })
+
     }
-    selectRow = () => { }
+    selectRow = (data) => {
+        this.setState({
+            selected: data
+        });
+    }
     getTableData(queryObj) {
         this.setState({
             tableLoading: true
@@ -144,18 +164,24 @@ class Firewall extends React.Component<FirewallProps, any> {
     }
     renderAddData() {
         let { findData } = this.props
-        if (this.props.findData) {
+        if (findData) {
+            let data_fixed = _.merge({}, findData)
+            _.map(data_fixed.header, (item) => {
+                item.width = '23%'
+            })
             return (
                 <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
                     <CompactTable
                         // goPage={this.goPage.bind(this)} // 翻页
-                        data={findData}
+                        data={data_fixed}
                         actionAuth=""
                         selectAuth={true}
                         selectRow={this.selectRow.bind(this)}
+                        size={{ y: '113px' }}
+                        pageSize="999"
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                        <Button type="primary" disabled={this.state.selected.length > 0 ? false : true} onClick={this.addData.bind(this)}>添加</Button>
                         <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
                     </div>
                 </div >
@@ -204,6 +230,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                                     onCancel={this.handleCancel}
                                     footer={null}
                                     width="70%"
+                                    style={{ top: '8%' }}
                                 >
                                     <FilterFireWallForm
                                         subDataPIM={subDataPIM}
