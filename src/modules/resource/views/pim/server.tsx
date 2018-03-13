@@ -30,8 +30,8 @@ class Server extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             pim_id: mp_node.params.id,
             visible: false,
-            filterData: null,
-            datacenter: datacenter ? datacenter.split(',') : ''    // 数据中心
+            datacenter: datacenter ? datacenter.split(',') : '',    // 数据中心
+            selected: []
         }
     }
     getData(data) {
@@ -76,16 +76,29 @@ class Server extends React.Component<any, any> {
     handleCancel = () => {
         this.setState({
             visible: false,
-            filterData: null,
         });
         this.formRef.resetForm()
     }
     addData = () => {
-        this.setState({
-            visible: false,
-            filterData: null,
-        });
-        this.formRef.resetForm()
+        let { selected } = this.state
+        this.props.actions.findConfirm('server', { data: { dataList: selected } }, (data, err) => {
+            if (data) {
+                emitter.emit('message', 'success', '添加成功！')
+                this.setState({
+                    pageNo: 1
+                }, () => {
+                    this.getTableData()
+                })
+            } else {
+                emitter.emit('message', 'error', '添加失败！')
+            }
+            this.setState({
+                visible: false,
+            });
+            this.props.actions.resetfindData()
+            this.formRef.resetForm()
+        })
+
     }
     goPage = (num) => {
         let { match } = this.props
@@ -149,39 +162,13 @@ class Server extends React.Component<any, any> {
             onCancel() { },
         });
     }
-    selectRow = () => { }
+    selectRow(data) {
+        this.setState({
+            selected: data
+        })
+    }
     renderAddData() {
-        let filterDate = {
-            'count': 17,
-            'header': [{
-                key: 'ip',
-                title: '管理Ip',
-            }, {
-                key: 'name',
-                title: '用户名',
-            }, {
-                key: 'password',
-                title: '用户密码',
-            }, {
-                key: 'brand',
-                title: '品牌',
-            }, {
-                key: 'number',
-                title: '序列号'
-            }, {
-                key: 'status',
-                title: '添加状态'
-            }],
-            'body': [{
-                'id': '0',
-                'ip': '10.4.152.2',
-                'name': 'admin',
-                'password': '123123',
-                'brand': 'hp',
-                'number': 'hhhh2',
-                'status': '成功发现',
-            }]
-        }
+        let { selected } = this.state
         let { findData } = this.props
         if (findData) {
             let data_fixed = _.merge({}, findData)
@@ -197,7 +184,7 @@ class Server extends React.Component<any, any> {
                         size={{ y: 113 }}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                        <Button type="primary" onClick={this.addData.bind(this)} disabled={selected.length ? false : true}>添加</Button>
                         <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
                     </div>
                 </div >
