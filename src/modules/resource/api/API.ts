@@ -131,6 +131,29 @@ export interface DiscoveryParams {
   switchtype?: string,
 }
 
+export interface VimParams {
+  /**
+   * VIM ID
+   */
+  vim_id?: string,
+  /**
+   * 名称
+   */
+  name?: string,
+  /**
+   * URL
+   */
+  url?: string,
+  /**
+   * 位置
+   */
+  position?: string,
+  /**
+   * 描述
+   */
+  description?: string,
+}
+
 class API {
   // mgrmoTree
   getQueryTree(queryKey) {
@@ -171,6 +194,10 @@ class API {
   delInstance(moTypeKey, moInstId) {
     // 1.4
     return axios.delete(`/api_agent/rms-agent/api/delete/${moTypeKey}/${moInstId}`)
+  }
+  addVim(moTypeKey, params?: VimParams) {
+    // 1.4
+    return axios.post(`/api_agent/rms-agent/api/add/${moTypeKey}`, params)
   }
 }
 
