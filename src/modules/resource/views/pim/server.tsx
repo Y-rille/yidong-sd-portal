@@ -12,6 +12,8 @@ import Selector from '../../../../components/Selector'
 import FilterServerForm from '../../../../components/FilterServerForm'
 import Cascaderor from '../../../../components/Cascaderor'
 
+import emitter from '../../../../common/emitter'
+
 class Server extends React.Component<any, any> {
     formRef: any;
     constructor(props) {
@@ -33,9 +35,9 @@ class Server extends React.Component<any, any> {
         }
     }
     getData(data) {
-        this.setState({
-            filterData: data
-        })
+        if (data) {
+            this.props.actions.autoDiscovery('server', data)
+        }
     }
     getCascaderData(type, value) {
         let { datacenter, vendor } = this.state
@@ -128,7 +130,24 @@ class Server extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     goDelete(obj) {
-        // console.log(obj, '---');
+        let moTypeKey = 'server'
+        let moInstId = obj.id
+        let self = this
+        Modal.confirm({
+            title: '确定要删除该实例吗？',
+            okText: '确定',
+            cancelText: '取消',
+            onOk() {
+                self.props.actions.deleteInstance(moTypeKey, moInstId, (data) => {
+                    if (data) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                })
+            },
+            onCancel() { },
+        });
     }
     selectRow = () => { }
     renderAddData() {
@@ -163,15 +182,19 @@ class Server extends React.Component<any, any> {
                 'status': '成功发现',
             }]
         }
-        if (this.state.filterData) {
+        let { findData } = this.props
+        if (findData) {
+            let data_fixed = _.merge({}, findData)
+            _.map(data_fixed.header, (item) => {
+                // item.width = '17%'
+            })
             return (
                 <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
                     <CompactTable
-                        // goPage={this.goPage.bind(this)} // 翻页
-                        data={filterDate}
-                        actionAuth=""
+                        data={data_fixed}
                         selectAuth={true}
                         selectRow={this.selectRow.bind(this)}
+                        size={{ y: 113 }}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
                         <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
@@ -182,7 +205,6 @@ class Server extends React.Component<any, any> {
         } else {
             return <div />
         }
-
     }
     render() {
         let { match, nodeInfo, subDataVendor, subDataCenter, list, subDataPIM } = this.props;
@@ -223,6 +245,7 @@ class Server extends React.Component<any, any> {
                                     onCancel={this.handleCancel}
                                     footer={null}
                                     width="70%"
+                                    style={{ top: '8%' }}
                                 >
                                     <FilterServerForm
                                         wrappedComponentRef={(node) => { this.formRef = node }}

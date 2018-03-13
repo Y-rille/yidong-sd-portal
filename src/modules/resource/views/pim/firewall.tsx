@@ -23,6 +23,9 @@ export interface FirewallProps {
     subDataVendor?,
     nodeInfo?,
     list?
+    subDataPIM?,
+    findData?,
+    resetfindData?
 }
 class Firewall extends React.Component<FirewallProps, any> {
     formRef: any
@@ -34,9 +37,8 @@ class Firewall extends React.Component<FirewallProps, any> {
         })
         this.state = {
             visible: false,
-            filterDate: null,
             tableLoading: false,
-            pageSize: 10,
+            pageSize: 999,
             pageNo: pageNo ? pageNo : 1,
             datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
@@ -48,9 +50,9 @@ class Firewall extends React.Component<FirewallProps, any> {
     }
 
     getData(formData) {
-        this.setState({
-            filterDate: formData
-        })
+        if (formData) {
+            this.props.actions.autoDiscovery('firewall', formData)
+        }
     }
     getCascaderData(type, value) {
         let { datacenter, vendor } = this.state
@@ -95,6 +97,8 @@ class Firewall extends React.Component<FirewallProps, any> {
         }
     }
     showModal = () => {
+        // let { subDataPIM } = this.props;
+        // console.log(subDataPIM.length, "]==[=====================>")
         this.setState({
             visible: true,
         });
@@ -112,6 +116,7 @@ class Firewall extends React.Component<FirewallProps, any> {
             filterDate: null
         });
         this.formRef.handleReset()
+        this.props.actions.resetfindData()
     }
     selectRow = () => { }
     getTableData(queryObj) {
@@ -138,63 +143,13 @@ class Firewall extends React.Component<FirewallProps, any> {
         this.props.actions.resetList()
     }
     renderAddData() {
-        let filterDate = {
-            'count': 17,
-            'header': [{
-                key: 'ip',
-                title: '管理Ip',
-            }, {
-                key: 'name',
-                title: '用户名',
-            }, {
-                key: 'password',
-                title: '用户密码',
-            }, {
-                key: 'brand',
-                title: '品牌',
-            }, {
-                key: 'number',
-                title: '序列号'
-            }, {
-                key: 'status',
-                title: '添加状态'
-            }],
-            'body': [
-                {
-                    'id': '1',
-                    'ip': '10.4.152.1',
-                    'name': 'admin',
-                    'password': '123123',
-                    'brand': 'hp',
-                    'number': 'hhhh2',
-                    'status': '成功发现',
-                },
-                {
-                    'id': '2',
-                    'ip': '10.4.152.2',
-                    'name': 'admin',
-                    'password': '111111',
-                    'brand': 'hpe',
-                    'number': 'hhhh2',
-                    'status': '成功发现',
-                },
-                {
-                    'id': '3',
-                    'ip': '10.4.152.3',
-                    'name': 'admin',
-                    'password': '1123456',
-                    'brand': 'hpe',
-                    'number': 'hhhh2',
-                    'status': '成功发现',
-                }
-            ]
-        }
-        if (this.state.filterDate) {
+        let { findData } = this.props
+        if (this.props.findData) {
             return (
                 <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
                     <CompactTable
                         // goPage={this.goPage.bind(this)} // 翻页
-                        data={filterDate}
+                        data={findData}
                         actionAuth=""
                         selectAuth={true}
                         selectRow={this.selectRow.bind(this)}
@@ -211,7 +166,7 @@ class Firewall extends React.Component<FirewallProps, any> {
 
     }
     render() {
-        let { match, list, nodeInfo } = this.props;
+        let { match, list, nodeInfo, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading, datacenter, vendor } = this.state;
         return (
@@ -251,6 +206,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                                     width="70%"
                                 >
                                     <FilterFireWallForm
+                                        subDataPIM={subDataPIM}
                                         getData={this.getData.bind(this)}
                                         wrappedComponentRef={(node) => { this.formRef = node }}
                                     />

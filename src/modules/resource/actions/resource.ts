@@ -71,6 +71,32 @@ export const queryList = (dsname, params, cb, complex?) => (dispatch) => {
 }
 
 /**
+ * 电源状态查询
+ * @param cb
+ */
+export const queryListServerPower = (dsname, params, cb, complex?) => (dispatch) => {
+    return API.queryList(dsname, params).then((res: any) => {
+        let data = res.data.data.dataList[0]
+        if (complex) {
+            let newdata: any = {}
+            newdata[complex] = data
+            data = newdata
+        }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, power: data }
+        dispatch(action);
+        if (cb) {
+            cb(null, data)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, power: null }
+        dispatch(action);
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}
+
+/**
  * reset列表
  * @param cb
  */
@@ -267,22 +293,27 @@ export const operateStatus = (moTypeKey, moInstId, operateType, cb) => (dispatch
  * @param moTypeKey 对象类型ID或对象类型英文名
  * @param cb 
  */
-export const autoDiscovery = (moTypeKey, cb) => (dispatch) => {
-    return API.autoDiscovery(moTypeKey).then((res: any) => {
+export const autoDiscovery = (moTypeKey, queryData, cb) => (dispatch) => {
+    return API.autoDiscovery(moTypeKey, queryData).then((res: any) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, findData: res.data.data }
         dispatch(action);
         if (cb) {
-            cb(null)
+            cb(res.data.data, null)
         }
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, findData: null }
         dispatch(action);
         if (cb) {
-            cb(err)
+            cb(null, err)
         }
     })
 }
-
+/**
+ * 置空发现数据
+ */
+export const resetfindData = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, findData: null })
+}
 /**
  * 自动发现确认接口
  * @param moTypeKey 对象类型ID或对象类型英文名
@@ -296,6 +327,28 @@ export const findConfirm = (moTypeKey, queryData, cb) => (dispatch) => {
     }).catch((err) => {
         if (cb) {
             cb(err, null)
+        }
+    })
+}
+
+/**
+ * 删除实例
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param moInstId MO实例ID
+ * @param cb 
+ */
+export const deleteInstance = (moTypeKey, moInstId, cb) => (dispatch) => {
+    return API.delInstance(moTypeKey, moInstId).then((res) => {
+        let action = { type: ActionTypes.RESOURCE_DELETE, id: moInstId }
+        if (cb) {
+            cb(res.data)
+        }
+        dispatch(action);
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_DELETE, list: {} }
+        dispatch(action);
+        if (cb) {
+            cb(err)
         }
     })
 }

@@ -255,8 +255,10 @@ class SwitchboardInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         } else {
+            let match = this.props.match
+            let id = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
-            this.props.actions.getObjData(moTypeKey)
+            this.props.actions.getObjData(moTypeKey, id)
         }
     }
     onTab(key) {
@@ -344,14 +346,16 @@ class SwitchboardInfo extends React.Component<any, any> {
 
             }
             if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey)
+                this.props.actions.getObjData(moTypeKey, moInstId)
             }
         })
     }
     componentWillMount() {
         let moTypeKey = 'switch';
+        let match = this.props.match
+        let id = match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
-        this.props.actions.getObjData(moTypeKey)
+        this.props.actions.getObjData(moTypeKey, id)
     }
     componentWillUnmount() {
         this.props.actions.resetList();
