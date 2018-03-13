@@ -26,6 +26,8 @@ let resourceReducer = (state = ResourceState, action = null) => {
     switch (action.type) {
         case ActionTypes.RESOURCE_SAY_HELLO:
             return state.merge(action, { deep: true })
+        case ActionTypes.RESOURCE_DELETE:
+            return state.setIn(['list', 'dataList'], state.getIn(['list', 'dataList']).filter(o => o.id !== parseInt(action.id, 0)));
         default:
             return state
     }
