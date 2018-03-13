@@ -17,7 +17,11 @@ class Pim extends React.Component<any, any> {
     }
     componentWillMount() {
         // 选择项查询
-        this.props.actions.getSubDataByName('imdsSelectionVendor')
+        let selectKey = ['imdsSelectionVendor', 'imdsSelectionPIM', 'imdsSelectSwitchType']
+        let self = this
+        selectKey.forEach(item => {
+            self.props.actions.getSubDataByName(item)
+        })
         this.props.actions.getDataCenter('dcMachineRoomCabinet')
     }
     render() {

@@ -73,7 +73,11 @@ export interface DataParams {
   /**
    * 磁阵id
    */
-  diskarray?: string
+  diskarray?: string,
+  /**
+   * 资产编号
+   */
+  assettag?: string
 }
 
 export interface DiscoveryParams {
@@ -112,7 +116,7 @@ export interface DiscoveryParams {
   /**
    * 供应商
    */
-  provider?: string,
+  vendor?: string,
   /**
    * 设备IP
    */
@@ -121,6 +125,10 @@ export interface DiscoveryParams {
    * 协议
    */
   protocol?: string,
+  /**
+   * 设备类型
+   */
+  switchtype?: string,
 }
 
 class API {
@@ -140,9 +148,9 @@ class API {
     // 1.2
     return axios.get(`/api_resource/datashare-svr/api/mo/${moTypeKey}/attributes`)
   }
-  getObjData(moTypeKey) {
-    // 1.4   
-    return axios.post(`/api_resource/datashare-svr/api/moinst/${moTypeKey}/querydata`)
+  getObjData(moTypeKey, moInstId) {
+    // 1.5       
+    return axios.get(`/api_resource/datashare-svr/api/moinst/${moTypeKey}/${moInstId}`)
   }
   editObjData(moTypeKey, moInstId, editData) {
     // 1.4   

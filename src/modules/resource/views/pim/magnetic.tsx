@@ -6,7 +6,7 @@ import { matchPath } from 'react-router'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
-import MagneticTable from '../../../../components/FilterMageticForm/'
+import FilterMageticForm from '../../../../components/FilterMageticForm/'
 import Cascaderor from '../../../../components/Cascaderor'
 import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
@@ -189,7 +189,7 @@ class Magnetic extends React.Component<any, any> {
         }
     }
     render() {
-        let { match, nodeInfo, list } = this.props;
+        let { match, nodeInfo, list, subDataPIM } = this.props;
         const { datacenter, vendor, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -223,9 +223,10 @@ class Magnetic extends React.Component<any, any> {
                                     footer={null}
                                     width="70%"
                                 >
-                                    <MagneticTable
+                                    <FilterMageticForm
                                         getData={this.getData.bind(this)}
                                         wrappedComponentRef={(node) => { this.formRef = node }}
+                                        data={subDataPIM}
                                     />
                                     {this.renderAddData()}
                                 </Modal>

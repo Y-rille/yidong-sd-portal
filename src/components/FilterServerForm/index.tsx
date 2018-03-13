@@ -4,6 +4,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
 import styles from './index.less';
+import _ from 'lodash'
 import { FormComponentProps } from 'antd/lib/form/Form';
 
 export interface FilterServerFormClsProps extends FormComponentProps {
@@ -36,8 +37,15 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
     resetForm() {
         this.props.form.resetFields()
     }
+    renderOptions(data) {
+        return _.map(data, (item) => {
+            return <Option value={item.value}>{item.text}</Option>
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
+        const { data } = this.props;
+        const firstData = _.head(data);
         return (
             <Form className="filterServerForm">
                 <Row gutter={24}>
@@ -47,15 +55,13 @@ class FilterServerFormCls extends React.PureComponent<FilterServerFormClsProps, 
                             label="发现服务"
                         >
                             {getFieldDecorator('server', {
-                                initialValue: '1',
+                                initialValue: firstData.value,
                                 rules: [{
                                     required: true,
                                 }],
                             })(
-                                <Select style={{ width: '100%' }}>
-                                    <Option value="1">Option 1</Option>
-                                    <Option value="2">Option 2</Option>
-                                    <Option value="3">Option 3</Option>
+                                <Select style={{ width: '100%' }} >
+                                    {this.renderOptions(data)}
                                 </Select>
                             )}
                         </Form.Item>

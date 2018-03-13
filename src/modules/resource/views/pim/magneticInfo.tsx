@@ -254,7 +254,7 @@ class MageneticInfo extends React.Component<any, any> {
                 activeKey
             })
             let { diskarray } = this.state
-            let perform = ['imdsDiskarrayLun', 'imdsDiskarrayLun15MiKpis', 'imdsDiskarrayTemperature']
+            let perform = ['imdsDiskarrayLun15MiKpis', 'imdsDiskarrayPort15MiKpis', 'imdsDiskarrayTemperature']
             let other = ['imdsDiskarrayBBU', 'imdsDiskarrayFan', 'imdsDiskarrayPower', 'imdsDiskarrayController']
             let keyArr = activeKey === 'performance' ? perform : other
             for (let i = 0; i < keyArr.length; i++) {
@@ -350,7 +350,7 @@ class MageneticInfo extends React.Component<any, any> {
         let { summary, list } = this.props
         let pageSize = 999
 
-        if (list && list.imdsDiskarrayLun && list.imdsDiskarrayLun15MiKpis && list.imdsDiskarrayTemperature) {
+        if (list && list.imdsDiskarrayLun15MiKpis && list.imdsDiskarrayPort15MiKpis && list.imdsDiskarrayTemperature) {
             return (
                 <div>
                     <Headline title="节点信息" ></Headline>
@@ -358,14 +358,14 @@ class MageneticInfo extends React.Component<any, any> {
                     <Headline title="LUN性能信息" />
                     <CompactTable
                         pageSize={pageSize}
-                        data={list.imdsDiskarrayLun}
+                        data={list.imdsDiskarrayLun15MiKpis}
                         actionAuth={['delete']}
                     />
 
                     <Headline title="前端业务端口信息" />
                     <CompactTable
                         pageSize={pageSize}
-                        data={list.imdsDiskarrayLun15MiKpis}
+                        data={list.imdsDiskarrayPort15MiKpis}
                         actionAuth={['delete']}
                     />
 
