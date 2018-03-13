@@ -189,7 +189,7 @@ class Magnetic extends React.Component<any, any> {
         }
     }
     render() {
-        let { match, nodeInfo, list } = this.props;
+        let { match, nodeInfo, list, subDataPIM } = this.props;
         const { datacenter, vendor, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -226,6 +226,7 @@ class Magnetic extends React.Component<any, any> {
                                     <MagneticTable
                                         getData={this.getData.bind(this)}
                                         wrappedComponentRef={(node) => { this.formRef = node }}
+                                        data={subDataPIM}
                                     />
                                     {this.renderAddData()}
                                 </Modal>
