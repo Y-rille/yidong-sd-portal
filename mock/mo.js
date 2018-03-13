@@ -910,6 +910,31 @@ let getList = (pageSize = 10, pageNo = 1, order_by = 'id', order = 'asc') => {
   return newData
 } 
 
+/**
+ * 服务器上下电状态查询
+ */
+let queryListServerPower = {
+  path: '/datashare-svr/api/imds/queryList/imdsServerPowerStatus',
+  method: 'GET',
+  cache: false,
+  template: (params, query, body) => {
+    let status = Math.floor(Math.random()*2)
+    return {
+      "code": 1,
+      "data": {
+          "header": [],
+          "dataList": [
+              {
+                  "powerStatus": status
+              }
+          ],
+          "pageNo": 1,
+          "pageSize": 1,
+          "totalCount": 1
+      }
+    }
+  }
+}
 /** 
  * 网卡信息列表
 */
@@ -1150,6 +1175,7 @@ module.exports = {
   querytree,
   subData,
   queryListNetworkCard,
+  queryListServerPower,
   queryList,
   addInstanceData,
   find,
