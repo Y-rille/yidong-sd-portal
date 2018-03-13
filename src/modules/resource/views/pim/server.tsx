@@ -12,6 +12,8 @@ import Selector from '../../../../components/Selector'
 import FilterServerForm from '../../../../components/FilterServerForm'
 import Cascaderor from '../../../../components/Cascaderor'
 
+import emitter from '../../../../common/emitter'
+
 class Server extends React.Component<any, any> {
     formRef: any;
     constructor(props) {
@@ -128,7 +130,24 @@ class Server extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     goDelete(obj) {
-        // console.log(obj, '---');
+        let moTypeKey = 'server'
+        let moInstId = obj.id
+        let self = this
+        Modal.confirm({
+            title: '确定要删除该实例吗？',
+            okText: '确定',
+            cancelText: '取消',
+            onOk() {
+                self.props.actions.deleteInstance(moTypeKey, moInstId, (data) => {
+                    if (data) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                })
+            },
+            onCancel() { },
+        });
     }
     selectRow = () => { }
     renderAddData() {

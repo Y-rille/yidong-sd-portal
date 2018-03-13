@@ -282,7 +282,12 @@ export const autoDiscovery = (moTypeKey, queryData, cb) => (dispatch) => {
         }
     })
 }
-
+/**
+ * 置空发现数据
+ */
+export const resetfindData = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, findData: null })
+}
 /**
  * 自动发现确认接口
  * @param moTypeKey 对象类型ID或对象类型英文名
@@ -296,6 +301,28 @@ export const findConfirm = (moTypeKey, queryData, cb) => (dispatch) => {
     }).catch((err) => {
         if (cb) {
             cb(err, null)
+        }
+    })
+}
+
+/**
+ * 删除实例
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param moInstId MO实例ID
+ * @param cb 
+ */
+export const deleteInstance = (moTypeKey, moInstId, cb) => (dispatch) => {
+    return API.delInstance(moTypeKey, moInstId).then((res) => {
+        let action = { type: ActionTypes.RESOURCE_DELETE, id: moInstId }
+        if (cb) {
+            cb(res.data)
+        }
+        dispatch(action);
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_DELETE, list: {} }
+        dispatch(action);
+        if (cb) {
+            cb(err)
         }
     })
 }

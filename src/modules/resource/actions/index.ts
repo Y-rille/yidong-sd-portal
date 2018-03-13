@@ -12,7 +12,9 @@ import {
     getSummary,
     findConfirm,
     getDataCenter,
-    resetSummary
+    resetSummary,
+    resetfindData,
+    deleteInstance
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -29,7 +31,9 @@ const HomeActionCreatorsMap = {
     getSummary,
     findConfirm,
     getDataCenter,
-    resetSummary
+    resetSummary,
+    resetfindData,
+    deleteInstance
 }
 
 export interface ResourceActions {
@@ -46,7 +50,9 @@ export interface ResourceActions {
     getSummary: Function,
     findConfirm: Function,
     getDataCenter: Function,
-    resetSummary: Function
+    resetSummary: Function,
+    resetfindData: Function,
+    deleteInstance: Function
 }
 
 export default HomeActionCreatorsMap;
