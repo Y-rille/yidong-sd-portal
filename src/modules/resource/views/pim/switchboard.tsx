@@ -12,6 +12,7 @@ import qs from 'querystringify'
 import { ResourceActions } from '../../actions/index'
 const InputGroup = Input.Group;
 const Option = Select.Option;
+const confirm = Modal.confirm
 import emitter from '../../../../common/emitter'
 
 export interface SwitchboardProps {
@@ -114,38 +115,25 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         });
         this.formRef.handleReset()
     }
+    goDelete(data) {
+        let self = this
+        confirm({
+            title: '确定要删除该实例吗?',
+            onOk() {
+                self.props.actions.deleteInstance('firewall', data.id, (id, error) => {
+                    if (id) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                })
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+
+    }
     renderAddData() {
-        let filterDate = {
-            'count': 17,
-            'header': [{
-                key: 'ip',
-                title: '管理Ip',
-            }, {
-                key: 'name',
-                title: '用户名',
-            }, {
-                key: 'password',
-                title: '用户密码',
-            }, {
-                key: 'brand',
-                title: '品牌',
-            }, {
-                key: 'number',
-                title: '型号'
-            }, {
-                key: 'status',
-                title: '添加状态'
-            }],
-            'body': [{
-                'id': '0',
-                'ip': '10.4.152.60',
-                'name': 'admin',
-                'password': 'xiaojindian4@1234',
-                'brand': 'hp',
-                'number': '6cu611xd9v',
-                'status': '成功发现',
-            }]
-        }
         const { dataVisible } = this.state;
         let { selected } = this.state
         let { findData } = this.props
@@ -309,6 +297,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={['delete']}
+                                goDelete={this.goDelete.bind(this)}
                             />) : (<Spin />)}
                         </div>
                     </div>
