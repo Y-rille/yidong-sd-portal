@@ -4,10 +4,12 @@ import { Form, Input, Button, Select, Row, Col } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import { FormComponentProps } from 'antd/lib/form/Form';
+import * as _ from 'lodash';
 
 export interface FilterFireWallFormClsProps extends FormComponentProps {
     // data?
     getData?
+    subDataPIM?
 }
 const formItemLayout = {
     labelCol: { span: 7 },
@@ -40,6 +42,8 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
         // let fireWallInfo = this.props.data || ''
         const { menuValue, secondMenuValue } = this.state;
         const { getFieldDecorator } = this.props.form;
+        const { subDataPIM } = this.props
+        const firstValue = _.head(subDataPIM)['text'];
         return (
             <Form className={styles.filterFireWallForm}>
                 <Row>
@@ -51,17 +55,21 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                         // required
                         >
                             {getFieldDecorator('server', {
-                                initialValue: '廊坊发现纳管',
                                 rules: [{
                                     required: true, message: '请选择发现服务',
                                 }],
                             })(
                                 <Select
                                 >
-                                    <Option value="廊坊发现纳管">廊坊发现纳管</Option>
-                                    <Option value="发现纳管">望京发现纳管</Option>
+                                    {
+                                        subDataPIM.map((item, index) => {
+                                            return (
+                                                <Option value={item.value} key={index}>{item.text}</Option>
+                                            )
+                                        })
+                                    }
                                 </Select>
-                            )}
+                                )}
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
@@ -74,7 +82,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 }],
                             })(
                                 <Input placeholder="请输入用户名" />
-                            )}
+                                )}
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -93,7 +101,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                     <Option value="HPE">HPE</Option>
                                     <Option value="H3C">H3C</Option>
                                 </Select>
-                            )}
+                                )}
                         </Form.Item>
                         <FormItem
                             {...formItemLayout}
@@ -106,7 +114,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 }],
                             })(
                                 <Input type="password" placeholder="请输入密码" />
-                            )}
+                                )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
@@ -121,7 +129,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 }],
                             })(
                                 <Input placeholder="请输入设备IP" />
-                            )}
+                                )}
                         </Form.Item>
                         <Form.Item
                             {...formItemLayout}
@@ -134,7 +142,7 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 }],
                             })(
                                 <Input placeholder="请输入协议" />
-                            )}
+                                )}
                         </Form.Item>
                     </Col>
                 </Row>
