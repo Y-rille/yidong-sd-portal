@@ -133,11 +133,14 @@ export const getSubDataByName = (dsname, cb) => (dispatch) => {
             case 'imdsSelectionProject':
                 name = 'Project'
                 break;
-            // case 'imdsSelectionDatacenter':
-            //     name = 'Center'
-            //     break;
             case 'imdsSelectionVendor':
                 name = 'Vendor'
+                break;
+            case 'imdsSelectionPIM':
+                name = 'PIM'
+                break;
+            case 'imdsSelectSwitchType':
+                name = 'SwitchType'
                 break;
             default:
                 name = 'AZ'
