@@ -123,7 +123,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                 });
                 this.getTableData(queryObj)
             } else {
-                emitter.emit('message', 'success', '添加失败！')
+                emitter.emit('message', 'error', '添加失败！')
             }
             this.setState({
                 visible: false,
@@ -137,11 +137,13 @@ class Firewall extends React.Component<FirewallProps, any> {
     goDelete(data) {
         let self = this
         confirm({
-            title: '确定要删除吗?',
+            title: '确定要删除该实例吗?',
             onOk() {
                 self.props.actions.deleteInstance('firewall', data.id, (id, error) => {
                     if (id) {
                         emitter.emit('message', 'success', '删除成功！')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
                     }
                 })
             },
