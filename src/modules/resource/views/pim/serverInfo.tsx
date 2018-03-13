@@ -21,7 +21,7 @@ class ServerInfo extends React.Component<any, any> {
         let { match } = this.props
         let { pageNo } = qs.parse(this.props.location.search)
         this.state = {
-            status: 'up',
+            status: null,
             reset: false,
             events: [],
             showBtn: true,
@@ -35,10 +35,10 @@ class ServerInfo extends React.Component<any, any> {
     confirmUpOrDown = (e) => {
         // let title = '上电'
         let content = '服务器正在运行，确定上电吗？'
-        if (this.state.status === 'down') {
+        if (this.state.status === 2) {
             // title = '上电'
             content = '服务器正在运行，确定上电吗？'
-        } else if (this.state.status === 'up') {
+        } else if (this.state.status === 1) {
             // title = '下电'
             content = '服务器正在运行，确定下电吗？'
         }
@@ -51,9 +51,9 @@ class ServerInfo extends React.Component<any, any> {
             iconType: 'exclamation-circle',
             onOk() {
                 self.setState({
-                    status: self.state.status === 'down' ? 'up' : 'down'
+                    status: self.state.status === 2 ? 1 : 2
                 })
-                let operateType = self.state.status === 'down' ? 'poweron' : 'poweroff'
+                let operateType = self.state.status === 2 ? 'poweron' : 'poweroff'
                 let moTypeKey = 'server'
                 let match = self.props.match
                 let moInstId = match.params.id
@@ -210,6 +210,9 @@ class ServerInfo extends React.Component<any, any> {
     }
     componentWillMount() {
         let moTypeKey = 'server';
+        let match = this.props.match
+        let id = match.params.id
+        this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id })
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey);
     }
@@ -221,8 +224,13 @@ class ServerInfo extends React.Component<any, any> {
         }
     }
     renderBtns() {
-        let { showBtn } = this.state
-        if (showBtn) {
+        let { showBtn, status } = this.state
+        if (this.props.power && this.props.power.powerStatus !== status && !status) {
+                this.setState({
+                    status: this.props.power.powerStatus
+                })
+            }
+        if (showBtn && this.props.power && status) {
             return (
                 <div className={styles.btn}>
                     <Button
@@ -230,8 +238,9 @@ class ServerInfo extends React.Component<any, any> {
                         icon="dingding"
                         style={{ margin: '0px 10px 0px 0' }}
                         onClick={this.confirmUpOrDown}
-                    >{this.state.status === 'down' ? '上电' : '下电'}</Button>
-                    <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet" onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                    >{this.state.status === 1 ? '上电' : '下电'}</Button>
+                    <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
+                     onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
                     <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
                 </div>
             )
@@ -240,19 +249,19 @@ class ServerInfo extends React.Component<any, any> {
     //     正则修改日志字符串  
     fmtData = () => {
         let _str = `Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server reset.
-Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server power restored.
-Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.`
+                    Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server power restored.
+                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+                    Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+                    Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+                    Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+                    Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.`
         let patt1 = /\S+\b.*\d\d\:\d\d\:\d\d/
         let patt2 = /(\d{1,3}\.){3}\d{1,3}/
         let patt3 = /\#\S+\b.*\d(?=\:\s)/

@@ -13,6 +13,7 @@ import {
     findConfirm,
     getDataCenter,
     resetSummary,
+    queryListServerPower,
     resetfindData,
     deleteInstance
 } from './resource'
@@ -32,6 +33,7 @@ const HomeActionCreatorsMap = {
     findConfirm,
     getDataCenter,
     resetSummary,
+    queryListServerPower,
     resetfindData,
     deleteInstance
 }
@@ -51,6 +53,7 @@ export interface ResourceActions {
     findConfirm: Function,
     getDataCenter: Function,
     resetSummary: Function,
+    queryListServerPower: Function,
     resetfindData: Function,
     deleteInstance: Function
 }
