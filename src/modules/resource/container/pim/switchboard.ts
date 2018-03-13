@@ -16,6 +16,7 @@ function mapProps(state) {
         subDataPIM: state.resourceReducer.subDataPIM,
         subDataSwitchType: state.resourceReducer.subDataSwitchType,
         subDataVendor: state.resourceReducer.subDataVendor,
+        findData: state.resourceReducer.findData
     }
 }
 function mapDispatchToProps(dispatch) {

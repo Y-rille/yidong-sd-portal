@@ -341,14 +341,14 @@ export const deleteInstance = (moTypeKey, moInstId, cb) => (dispatch) => {
     return API.delInstance(moTypeKey, moInstId).then((res) => {
         let action = { type: ActionTypes.RESOURCE_DELETE, id: moInstId }
         if (cb) {
-            cb(res.data)
+            cb(res.data, null)
         }
         dispatch(action);
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_DELETE, list: {} }
         dispatch(action);
         if (cb) {
-            cb(err)
+            cb(null, err)
         }
     })
 }
