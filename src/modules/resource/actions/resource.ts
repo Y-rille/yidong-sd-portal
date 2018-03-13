@@ -185,8 +185,8 @@ export const getObjAttributes = (moTypeKey, cb) => (dispatch) => {
  * @param moTypeKey 对象类型ID或对象类型英文名
  * @param cb 
  */
-export const getObjData = (moTypeKey, cb) => (dispatch) => {
-    return API.getObjData(moTypeKey).then((res: any) => {
+export const getObjData = (moTypeKey, moInstId, cb) => (dispatch) => {
+    return API.getObjData(moTypeKey, moInstId).then((res: any) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, objData: res.data.data }
         dispatch(action);
         if (cb) {
