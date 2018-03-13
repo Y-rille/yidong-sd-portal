@@ -133,7 +133,7 @@ class ServerInfo extends React.Component<any, any> {
 
             }
             if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey)
+                this.props.actions.getObjData(moTypeKey, moInstId)
             }
         })
     }
@@ -153,8 +153,10 @@ class ServerInfo extends React.Component<any, any> {
             this.getTableData(queryObj)
         } else {
             let moTypeKey = 'server';
+            let match = this.props.match
+            let moInstId = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
-            this.props.actions.getObjData(moTypeKey);
+            this.props.actions.getObjData(moTypeKey, moInstId);
         }
     }
     onTab(key) {
@@ -214,7 +216,7 @@ class ServerInfo extends React.Component<any, any> {
         let id = match.params.id
         this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id })
         this.props.actions.getObjAttributes(moTypeKey)
-        this.props.actions.getObjData(moTypeKey);
+        this.props.actions.getObjData(moTypeKey, id);
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {

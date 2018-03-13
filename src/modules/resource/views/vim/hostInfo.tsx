@@ -27,8 +27,10 @@ class HostInfo extends React.Component<any, any> {
     onChange(key) {
         if (key === 'detail') {
             let moTypeKey = 'host'
+            let match = this.props.match
+            let id = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
-            this.props.actions.getObjData(moTypeKey)
+            this.props.actions.getObjData(moTypeKey, id)
         } else if (key === 'relation') {
             this.setState({
                 pageNo: 1,
@@ -65,7 +67,7 @@ class HostInfo extends React.Component<any, any> {
 
             }
             if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey)
+                this.props.actions.getObjData(moTypeKey, moInstId)
             }
         })
     }
@@ -108,8 +110,10 @@ class HostInfo extends React.Component<any, any> {
     }
     componentWillMount() {
         let moTypeKey = 'host'
+        let match = this.props.match
+        let id = match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
-        this.props.actions.getObjData(moTypeKey)
+        this.props.actions.getObjData(moTypeKey, id)
     }
     componentWillUnmount() {
         this.props.actions.resetList()
