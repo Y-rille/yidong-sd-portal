@@ -260,6 +260,10 @@ class MageneticInfo extends React.Component<any, any> {
             for (let i = 0; i < keyArr.length; i++) {
                 this.props.actions.queryList(keyArr[i], { pageNo: 1, pageSize: 999, diskarray }, null, keyArr[i])
             }
+            if (activeKey === 'performance') {
+                let diskarray_id = this.props.match.params.magneticId;
+                this.props.actions.getSummary('imdsDiskarray15MiKpis', { diskarray: diskarray_id });
+            }
         } else {
             this.setState({
                 activeKey,
@@ -478,10 +482,8 @@ class MageneticInfo extends React.Component<any, any> {
     }
     componentWillMount() {
         let moTypeKey = 'diskarray';
-        let diskarray = this.props.match.params.magneticId
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey)
-        this.props.actions.getSummary('imdsDiskarray15MiKpis', { diskarray: diskarray });
     }
     componentWillUnmount() {
         this.props.actions.resetList();
