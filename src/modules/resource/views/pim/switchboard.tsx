@@ -26,7 +26,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
     formRef: any;
     constructor(props) {
         super(props);
-        let { pageNo, datacenter, name , switch_id} = qs.parse(this.props.location.search)
+        let { pageNo, datacenter, name , assettag} = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/pim/:id'
         })
@@ -39,8 +39,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             pageSize: 10,
             datacenter: datacenter ? datacenter.split(',') : '',
             pageNo: pageNo ? pageNo : 1,
-            inputStatus: switch_id ? 'switchID' : 'switchName' ,
-            switch_id: switch_id ? switch_id : ''
+            inputStatus: assettag ? 'switchID' : 'switchName' ,
+            assettag: assettag ? assettag : ''
         };
     }
     goInfo = () => {
@@ -55,23 +55,23 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         if (this.state.inputStatus === 'switchName') {
             this.setState({
                 name: value,
-                switch_id: ''
+                assettag: ''
             })
         } else {
             this.setState({
                 name: '',
-                switch_id: value
+                assettag: value
             })
         }
     }
     handleClick() {
-        const { datacenter, name, switch_id} = this.state;
+        const { datacenter, name, assettag} = this.state;
         let pageNo = 1
         this.setState({
             pageNo
         }, () => {
             let { match } = this.props
-            let queryObj = { pageNo, datacenter, name , switch_id}
+            let queryObj = { pageNo, datacenter, name , assettag}
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         });
@@ -81,9 +81,9 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { name, pim_id, datacenter, switch_id } = this.state
+            let { name, pim_id, datacenter, assettag } = this.state
             let pageNo = num
-            let queryObj = { pageNo, name, switch_id, datacenter }
+            let queryObj = { pageNo, name, assettag, datacenter }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })
@@ -191,8 +191,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.setState({
             tableLoading: true
         });
-        let { name, switch_id, datacenter, pageSize, pageNo } = this.state
-        this.props.actions.queryList('imdsSwitch', { name, switch_id, datacenter, pageNo, pageSize }, () => {
+        let { name, assettag, datacenter, pageSize, pageNo } = this.state
+        this.props.actions.queryList('imdsSwitch', { name, assettag, datacenter, pageNo, pageSize }, () => {
             this.setState({
                 tableLoading: false
             });
@@ -205,7 +205,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.props.actions.resetList()
     }
     render() {
-        const { name, datacenter, pageSize, tableLoading, switch_id} = this.state;
+        const { name, datacenter, pageSize, tableLoading, assettag} = this.state;
         let { match, nodeInfo, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
 
@@ -242,7 +242,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                         <Option value="switchName">名称</Option>
                                         <Option value="switchID">编号</Option>
                                     </Select>
-                                    <Input style={{ width: '180px' }} value={this.state.inputStatus === 'switchName' ? name : switch_id} type="text"
+                                    <Input style={{ width: '180px' }} value={this.state.inputStatus === 'switchName' ? name : assettag} type="text"
                                       onChange={e => this.onNameChange(e.target.value)} 
                                       placeholder={this.state.inputStatus === 'switchName' ? '名称' : '编号'} />
                                 </InputGroup>

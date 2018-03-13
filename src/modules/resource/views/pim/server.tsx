@@ -185,7 +185,7 @@ class Server extends React.Component<any, any> {
 
     }
     render() {
-        let { match, nodeInfo, subDataVendor, subDataCenter, list } = this.props;
+        let { match, nodeInfo, subDataVendor, subDataCenter, list, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { vendor, pageSize, tableLoading, datacenter } = this.state;
         return (
@@ -226,7 +226,7 @@ class Server extends React.Component<any, any> {
                                 >
                                     <FilterServerForm
                                         wrappedComponentRef={(node) => { this.formRef = node }}
-                                        getData={this.getData.bind(this)}
+                                        getData={this.getData.bind(this)} data={subDataPIM}
                                     />
                                     {this.renderAddData()}
                                 </Modal>
