@@ -7,6 +7,7 @@ import { FormComponentProps } from 'antd/lib/form/Form';
 
 export interface MagneticTableClsProps extends FormComponentProps {
     getData?
+    data?
 }
 const formItemLayout = {
     labelCol: { span: 7 },
