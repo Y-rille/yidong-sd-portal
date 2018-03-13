@@ -352,3 +352,20 @@ export const deleteInstance = (moTypeKey, moInstId, cb) => (dispatch) => {
         }
     })
 }
+
+/**
+ * 新增vim
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param cb 
+ */
+export const addVim = (moTypeKey, cb) => (dispatch) => {
+    return API.addVim(moTypeKey).then((res: any) => {
+        if (cb) {
+            cb(res.data, null)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(null, err)
+        }
+    })
+}
