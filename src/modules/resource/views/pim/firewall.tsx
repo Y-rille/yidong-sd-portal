@@ -14,7 +14,7 @@ import { ResourceActions } from '../../actions/index'
 import qs from 'querystringify'
 import { stringify } from 'querystringify'
 import emitter from '../../../../common/emitter'
-
+const confirm = Modal.confirm
 export interface FirewallProps {
     location?,
     history?,
@@ -134,6 +134,21 @@ class Firewall extends React.Component<FirewallProps, any> {
         })
 
     }
+    goDelete(data) {
+        let self = this
+        confirm({
+            title: '确定要删除吗?',
+            onOk() {
+                self.props.actions.deleteInstance('firewall', data.id, (id, error) => {
+                    if (id) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    }
+                })
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+    }
     selectRow = (data) => {
         this.setState({
             selected: data
@@ -248,6 +263,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 goLink={this.goLink.bind(this)}
                                 data={list}
                                 loading={tableLoading}
+                                goDelete={this.goDelete.bind(this)}
                                 actionAuth={['delete']}
                             // pageAuth={false}                              
                             />) : (<Spin />)}
