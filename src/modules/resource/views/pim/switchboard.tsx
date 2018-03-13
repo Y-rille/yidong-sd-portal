@@ -18,7 +18,10 @@ export interface SwitchboardProps {
     history?,
     actions: ResourceActions,
     match,
-    subDataCenter?
+    subDataCenter?,
+    subDataPIM?,
+    subDataSwitchType?,
+    subDataVendor?,
     nodeInfo?,
     list?
 }
@@ -26,7 +29,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
     formRef: any;
     constructor(props) {
         super(props);
-        let { pageNo, datacenter, name , switch_id} = qs.parse(this.props.location.search)
+        let { pageNo, datacenter, name, switch_id } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/pim/:id'
         })
@@ -39,7 +42,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             pageSize: 10,
             datacenter: datacenter ? datacenter.split(',') : '',
             pageNo: pageNo ? pageNo : 1,
-            inputStatus: switch_id ? 'switchID' : 'switchName' ,
+            inputStatus: switch_id ? 'switchID' : 'switchName',
             switch_id: switch_id ? switch_id : ''
         };
     }
@@ -65,13 +68,13 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         }
     }
     handleClick() {
-        const { datacenter, name, switch_id} = this.state;
+        const { datacenter, name, switch_id } = this.state;
         let pageNo = 1
         this.setState({
             pageNo
         }, () => {
             let { match } = this.props
-            let queryObj = { pageNo, datacenter, name , switch_id}
+            let queryObj = { pageNo, datacenter, name, switch_id }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         });
@@ -205,10 +208,9 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.props.actions.resetList()
     }
     render() {
-        const { name, datacenter, pageSize, tableLoading, switch_id} = this.state;
-        let { match, nodeInfo, list } = this.props;
+        const { name, datacenter, pageSize, tableLoading, switch_id } = this.state;
+        let { match, nodeInfo, list, subDataPIM, subDataSwitchType, subDataVendor } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={SwitchboardInfo} /> */}
@@ -236,22 +238,22 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                     data={this.props.subDataCenter}
                                     getCascaderData={this.getCascaderData.bind(this)} value={datacenter}
                                 />
-                                <div>
-                                <InputGroup compact>
-                                    <Select onChange={this.getSelectValue.bind(this)} defaultValue={this.state.inputStatus === 'switchName' ? '名称' : '编号'}>
-                                        <Option value="switchName">名称</Option>
-                                        <Option value="switchID">编号</Option>
-                                    </Select>
-                                    <Input style={{ width: '180px' }} value={this.state.inputStatus === 'switchName' ? name : switch_id} type="text"
-                                      onChange={e => this.onNameChange(e.target.value)} 
-                                      placeholder={this.state.inputStatus === 'switchName' ? '名称' : '编号'} />
-                                </InputGroup>
-                                </div>
-                                <Button
-                                    type="primary"
-                                    onClick={this.handleClick.bind(this)}
-                                >
-                                    查询
+                                    <div>
+                                        <InputGroup compact>
+                                            <Select onChange={this.getSelectValue.bind(this)} defaultValue={this.state.inputStatus === 'switchName' ? '名称' : '编号'}>
+                                                <Option value="switchName">名称</Option>
+                                                <Option value="switchID">编号</Option>
+                                            </Select>
+                                            <Input style={{ width: '180px' }} value={this.state.inputStatus === 'switchName' ? name : switch_id} type="text"
+                                                onChange={e => this.onNameChange(e.target.value)}
+                                                placeholder={this.state.inputStatus === 'switchName' ? '名称' : '编号'} />
+                                        </InputGroup>
+                                    </div>
+                                    <Button
+                                        type="primary"
+                                        onClick={this.handleClick.bind(this)}
+                                    >
+                                        查询
                                 </Button>
                                 </div>
                                 <div>
@@ -263,7 +265,13 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                         footer={null}
                                         width="70%"
                                     >
-                                        <FilterSwitchBoardForm getData={this.getData.bind(this)} wrappedComponentRef={(node) => { this.formRef = node }} />
+                                        <FilterSwitchBoardForm
+                                            getData={this.getData.bind(this)}
+                                            wrappedComponentRef={(node) => { this.formRef = node }}
+                                            subDataPIM={subDataPIM}
+                                            subDataVendor={subDataVendor}
+                                            subDataSwitchType={subDataSwitchType}
+                                        />
                                         {this.renderAddData()}
                                     </Modal>
                                 </div>
