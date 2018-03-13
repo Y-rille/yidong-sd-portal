@@ -35,9 +35,9 @@ class Server extends React.Component<any, any> {
         }
     }
     getData(data) {
-        this.setState({
-            filterData: data
-        })
+        if (data) {
+            this.props.actions.autoDiscovery('server', data)
+        }
     }
     getCascaderData(type, value) {
         let { datacenter, vendor } = this.state
@@ -182,12 +182,13 @@ class Server extends React.Component<any, any> {
                 'status': '成功发现',
             }]
         }
-        if (this.state.filterData) {
+        let { findData } = this.props
+        if (findData) {
             return (
                 <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
                     <CompactTable
                         // goPage={this.goPage.bind(this)} // 翻页
-                        data={filterDate}
+                        data={findData}
                         actionAuth=""
                         selectAuth={true}
                         selectRow={this.selectRow.bind(this)}
