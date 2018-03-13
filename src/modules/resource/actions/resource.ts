@@ -296,11 +296,11 @@ export const resetfindData = () => (dispatch) => {
 export const findConfirm = (moTypeKey, queryData, cb) => (dispatch) => {
     return API.findConfirm(moTypeKey, queryData).then((res: any) => {
         if (cb) {
-            cb(null, res.data)
+            cb(res.data, null)
         }
     }).catch((err) => {
         if (cb) {
-            cb(err, null)
+            cb(null, err)
         }
     })
 }
