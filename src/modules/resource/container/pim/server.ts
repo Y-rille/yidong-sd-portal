@@ -13,7 +13,8 @@ function mapProps(state) {
         subDataVendor: state.resourceReducer.subDataVendor,
         list: state.resourceReducer.list,
         subDataCenter: state.resourceReducer.subDataCenter,
-        subDataPIM: state.resourceReducer.subDataPIM
+        subDataPIM: state.resourceReducer.subDataPIM,
+        findData: state.resourceReducer.findData,
     }
 }
 function mapDispatchToProps(dispatch) {

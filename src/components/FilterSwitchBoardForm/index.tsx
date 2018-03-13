@@ -12,6 +12,9 @@ declare let global: any;
 export interface FilterSwitchBoardFormProps {
     form
     getData
+    subDataPIM?
+    subDataSwitchType?
+    subDataVendor?
 }
 
 /**
@@ -39,6 +42,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
         self.props.form.validateFields((err, values) => {
             if (!err) {
                 // console.log('Received values of form: ', values);
+                values.type = 'switchtype';
                 self.props.getData(values);
             }
         });
@@ -46,8 +50,31 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
     handleReset() {
         this.props.form.resetFields();
     }
+    renderPIMOptions() {
+        let { subDataPIM } = this.props
+        return _.map(subDataPIM, (item) => {
+            return <Option value={item.value}>{item.text}</Option>
+        })
+    }
+    renderVendorOptions() {
+        let { subDataVendor } = this.props
+        return _.map(subDataVendor, (item) => {
+            return <Option value={item.value}>{item.text}</Option>
+        })
+    }
+    renderSwitchOptions() {
+        let { subDataSwitchType } = this.props
+        return _.map(subDataSwitchType, (item) => {
+            return <Option value={item.value}>{item.text}</Option>
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
+        let { subDataPIM, subDataSwitchType, subDataVendor } = this.props;
+        let subDataPIMDefault = _.head(subDataPIM).text;
+        let subDataVendorDefault = _.head(subDataVendor).text;
+        let subDataSwitchDefault = _.head(subDataSwitchType).text;
+
         return (
             <Form onSubmit={this.handleSubmit.bind(this)} className="filterSwitchBoardForm">
                 <Row>
@@ -55,10 +82,10 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                         <FormItem label="发现服务" {...formItemLayout}>
                             {getFieldDecorator('server', {
                                 rules: [{ required: true, message: '请输入发现服务！' }],
-                                initialValue: 'langfang'
+                                initialValue: subDataPIMDefault
                             })(
                                 <Select>
-                                    <Option value="langfang">廊坊发现纳管</Option>
+                                    {this.renderPIMOptions()}
                                 </Select>
                             )}
                         </FormItem>
@@ -67,22 +94,22 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                         <FormItem label="供应商" {...formItemLayout}>
                             {getFieldDecorator('provider', {
                                 rules: [{ required: true, message: '请输入供应商！' }],
-                                initialValue: 'huawei'
+                                initialValue: subDataVendorDefault
                             })(
                                 <Select>
-                                    <Option value="huawei">华为</Option>
+                                    {this.renderVendorOptions()}
                                 </Select>
                             )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
                         <FormItem label="设备类型" {...formItemLayout}>
-                            {getFieldDecorator('deviceip', {
+                            {getFieldDecorator('devicetype', {
                                 rules: [{ required: true, message: '请输入设备类型！' }],
-                                initialValue: 'IPSwitchBoard'
+                                initialValue: subDataSwitchDefault
                             })(
                                 <Select>
-                                    <Option value="IPSwitchBoard">IP交换机</Option>
+                                    {this.renderSwitchOptions()}
                                 </Select>
                             )}
                         </FormItem>

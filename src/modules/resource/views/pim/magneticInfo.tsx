@@ -230,8 +230,10 @@ class MageneticInfo extends React.Component<any, any> {
     callback = (key) => {
         if (key === 'detail') {
             let moTypeKey = 'diskarray';
+            let match = this.props.match
+            let id = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
-            this.props.actions.getObjData(moTypeKey)
+            this.props.actions.getObjData(moTypeKey, id)
         } else if (key === 'relation') {
             this.setState({
                 pageNo: 1,
@@ -472,15 +474,17 @@ class MageneticInfo extends React.Component<any, any> {
 
             }
             if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey)
+                this.props.actions.getObjData(moTypeKey, moInstId)
             }
         })
     }
     componentWillMount() {
         let moTypeKey = 'diskarray';
+        let match = this.props.match
+        let id = match.params.id
         let diskarray = this.props.match.params.magneticId
         this.props.actions.getObjAttributes(moTypeKey)
-        this.props.actions.getObjData(moTypeKey)
+        this.props.actions.getObjData(moTypeKey, id)
         this.props.actions.getSummary('imdsDiskarray15MiKpis', { diskarray: diskarray });
     }
     componentWillUnmount() {
