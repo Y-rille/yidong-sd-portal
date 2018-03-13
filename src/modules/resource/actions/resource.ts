@@ -282,7 +282,12 @@ export const autoDiscovery = (moTypeKey, queryData, cb) => (dispatch) => {
         }
     })
 }
-
+/**
+ * 置空发现数据
+ */
+export const resetfindData = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, findData: null })
+}
 /**
  * 自动发现确认接口
  * @param moTypeKey 对象类型ID或对象类型英文名

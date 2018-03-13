@@ -24,7 +24,8 @@ export interface FirewallProps {
     nodeInfo?,
     list?
     subDataPIM?,
-    findData?
+    findData?,
+    resetfindData?
 }
 class Firewall extends React.Component<FirewallProps, any> {
     formRef: any
@@ -37,7 +38,7 @@ class Firewall extends React.Component<FirewallProps, any> {
         this.state = {
             visible: false,
             tableLoading: false,
-            pageSize: 10,
+            pageSize: 999,
             pageNo: pageNo ? pageNo : 1,
             datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
@@ -115,6 +116,7 @@ class Firewall extends React.Component<FirewallProps, any> {
             filterDate: null
         });
         this.formRef.handleReset()
+        this.props.actions.resetfindData()
     }
     selectRow = () => { }
     getTableData(queryObj) {
