@@ -71,6 +71,32 @@ export const queryList = (dsname, params, cb, complex?) => (dispatch) => {
 }
 
 /**
+ * 电源状态查询
+ * @param cb
+ */
+export const queryListServerPower = (dsname, params, cb, complex?) => (dispatch) => {
+    return API.queryList(dsname, params).then((res: any) => {
+        let data = res.data.data.dataList[0]
+        if (complex) {
+            let newdata: any = {}
+            newdata[complex] = data
+            data = newdata
+        }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, power: data }
+        dispatch(action);
+        if (cb) {
+            cb(null, data)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, power: null }
+        dispatch(action);
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}
+
+/**
  * reset列表
  * @param cb
  */

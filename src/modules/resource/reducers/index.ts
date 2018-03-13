@@ -19,7 +19,8 @@ const ResourceState = SI.from({
     objData: null,
     nodeInfo: null,
     findData: null,
-    summary: null
+    summary: null,
+    power: null
 });
 
 let resourceReducer = (state = ResourceState, action = null) => {
