@@ -255,6 +255,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 >
                                     <FilterFireWallForm
                                         subDataPIM={subDataPIM}
+                                        subDataVendor={this.props.subDataVendor}
                                         getData={this.getData.bind(this)}
                                         wrappedComponentRef={(node) => { this.formRef = node }}
                                     />
