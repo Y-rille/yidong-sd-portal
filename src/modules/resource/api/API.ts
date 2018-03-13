@@ -73,7 +73,11 @@ export interface DataParams {
   /**
    * 磁阵id
    */
-  diskarray?: string
+  diskarray?: string,
+  /**
+   * 资产编号
+   */
+  assettag?: string
 }
 
 export interface DiscoveryParams {
