@@ -6,7 +6,7 @@ import { matchPath } from 'react-router'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
-import MagneticTable from '../../../../components/FilterMageticForm/'
+import FilterMageticForm from '../../../../components/FilterMageticForm/'
 import Cascaderor from '../../../../components/Cascaderor'
 import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
@@ -223,7 +223,7 @@ class Magnetic extends React.Component<any, any> {
                                     footer={null}
                                     width="70%"
                                 >
-                                    <MagneticTable
+                                    <FilterMageticForm
                                         getData={this.getData.bind(this)}
                                         wrappedComponentRef={(node) => { this.formRef = node }}
                                         data={subDataPIM}
