@@ -38,6 +38,11 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
     handleReset() {
         this.props.form.resetFields()
     }
+    renderOptions(data) {
+        return _.map(data, (item) => {
+            return <Option value={item['value']}>{item['text']}</Option>
+        })
+    }
     render() {
         // let fireWallInfo = this.props.data || ''
         const { menuValue, secondMenuValue } = this.state;
@@ -55,19 +60,13 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                         // required
                         >
                             {getFieldDecorator('server', {
+                                initialValue: firstValue,
                                 rules: [{
                                     required: true, message: '请选择发现服务',
                                 }],
                             })(
-                                <Select
-                                >
-                                    {
-                                        subDataPIM.map((item, index) => {
-                                            return (
-                                                <Option value={item.value} key={index}>{item.text}</Option>
-                                            )
-                                        })
-                                    }
+                                <Select>
+                                    {this.renderOptions(subDataPIM)}
                                 </Select>
                                 )}
                         </Form.Item>
