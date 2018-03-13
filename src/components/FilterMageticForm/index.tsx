@@ -3,6 +3,7 @@ import styles from './index.less';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
+import _ from 'lodash'
 import { FormComponentProps } from 'antd/lib/form/Form';
 
 export interface MagneticTableClsProps extends FormComponentProps {
@@ -36,10 +37,16 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
     handleReset() {
         this.props.form.resetFields();
     }
-
+    renderOptions(data) {
+        return _.map(data, (item) => {
+            return <Option value={item.value}>{item.text}</Option>
+        })
+    }
     render() {
         const { menuValue, secondMenuValue } = this.state;
         const { getFieldDecorator } = this.props.form;
+        const { data } = this.props;
+        const firstData = _.head(data);
         return (
             <Form className={styles.MagneticTable}>
                 <Row>
@@ -51,18 +58,13 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                         // required
                         >
                             {getFieldDecorator('server', {
-                                initialValue: '廊坊发现纳管',
+                                initialValue: firstData.value,
                                 rules: [{
                                     required: true, message: '请选择发现服务',
                                 }],
                             })(
-                                <Select
-                                // value={menuValue}
-                                // defaultValue="廊坊发现纳管"
-                                // onChange={this.menuChange.bind(this)}
-                                >
-                                    <Option value="廊坊发现纳管">廊坊发现纳管</Option>
-                                    <Option value="发现纳管">发现纳管</Option>
+                                <Select>
+                                    {this.renderOptions(data)}
                                 </Select>
                             )}
                         </Form.Item>

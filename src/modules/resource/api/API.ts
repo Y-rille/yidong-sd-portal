@@ -168,6 +168,10 @@ class API {
     // 1.2
     return axios.post(`/api_agent/rms-agent/api/findconfirm/${moTypeKey}`, queryData)
   }
+  delInstance(moTypeKey, moInstId) {
+    // 1.4
+    return axios.delete(`/api_agent/rms-agent/api/delete/${moTypeKey}/${moInstId}`)
+  }
 }
 
 export default new API()
