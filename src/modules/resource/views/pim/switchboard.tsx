@@ -12,6 +12,7 @@ import qs from 'querystringify'
 import { ResourceActions } from '../../actions/index'
 const InputGroup = Input.Group;
 const Option = Select.Option;
+import emitter from '../../../../common/emitter'
 
 export interface SwitchboardProps {
     location?,
@@ -23,7 +24,9 @@ export interface SwitchboardProps {
     subDataSwitchType?,
     subDataVendor?,
     nodeInfo?,
-    list?
+    list?,
+    findData?,
+
 }
 class Switchboard extends React.Component<SwitchboardProps, any> {
     formRef: any;
@@ -43,7 +46,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             datacenter: datacenter ? datacenter.split(',') : '',
             pageNo: pageNo ? pageNo : 1,
             inputStatus: assettag ? 'switchID' : 'switchName',
-            assettag: assettag ? assettag : ''
+            assettag: assettag ? assettag : '',
+            selected: []
         };
     }
     goInfo = () => {
@@ -143,41 +147,61 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             }]
         }
         const { dataVisible } = this.state;
-        if (dataVisible === true) {
+        let { selected } = this.state
+        let { findData } = this.props
+        if (findData) {
+            let data_fixed = _.merge({}, findData)
+            _.map(data_fixed.header, (item) => {
+                item.width = '23%'
+            })
             return (
                 <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
                     <CompactTable
-                        // goPage={this.goPage.bind(this)} // 翻页
-                        data={filterDate}
-                        actionAuth=""
+                        data={data_fixed}
                         selectAuth={true}
                         selectRow={this.selectRow.bind(this)}
+                        size={{ y: 113 }}
+                        pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                        <Button type="primary" onClick={this.addData.bind(this)} disabled={selected.length ? false : true}>添加</Button>
                         <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
                     </div>
                 </div >
             )
         } else {
-            return null;
+            return <div />
         }
-
     }
-    selectRow = () => { }
+    selectRow = (data) => {
+        this.setState({
+            selected: data
+        })
+    }
     addData = () => {
+        let { selected } = this.state
         this.setState({
             visible: false,
         });
-        this.formRef.handleReset()
-    }
-    getData(value) {
-        let { vendor } = this.state
-        this.setState({
-            dataVisible: true,
-            vendor: value
+        this.props.actions.findConfirm('switch', { data: { dataList: selected } }, (data, err) => {
+            if (data) {
+                emitter.emit('message', 'success', '添加成功！')
+                this.setState({
+                    pageNo: 1
+                }, () => {
+                    this.getTableData()
+                })
+            } else {
+                emitter.emit('message', 'error', '添加失败！')
+            }
+            this.props.actions.resetfindData()
+            this.formRef.handleReset()
         })
-
+    }
+    getData(data) {
+        if (data) {
+            this.props.actions.autoDiscovery('switch', data)
+        }
     }
     getCascaderData(type, value) {
         let { datacenter } = this.state
