@@ -165,14 +165,17 @@ class Server extends React.Component<any, any> {
         }
         let { findData } = this.props
         if (findData) {
+            let data_fixed = _.merge({}, findData)
+            _.map(data_fixed.header, (item) => {
+                // item.width = '17%'
+            })
             return (
                 <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
                     <CompactTable
-                        // goPage={this.goPage.bind(this)} // 翻页
-                        data={findData}
-                        actionAuth=""
+                        data={data_fixed}
                         selectAuth={true}
                         selectRow={this.selectRow.bind(this)}
+                        size={{ y: 113 }}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
                         <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
@@ -183,7 +186,6 @@ class Server extends React.Component<any, any> {
         } else {
             return <div />
         }
-
     }
     render() {
         let { match, nodeInfo, subDataVendor, subDataCenter, list, subDataPIM } = this.props;
@@ -224,6 +226,7 @@ class Server extends React.Component<any, any> {
                                     onCancel={this.handleCancel}
                                     footer={null}
                                     width="70%"
+                                    style={{ top: '8%' }}
                                 >
                                     <FilterServerForm
                                         wrappedComponentRef={(node) => { this.formRef = node }}

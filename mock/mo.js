@@ -886,29 +886,29 @@ let subData = {
 
 // 定义一个数据组
 let items = []
-  for (i = 1; i < 101; i++) {
-    items.push(
-      {
-        "id": i,
-        "az": `${faker.internet.userName()},${faker.internet.userName()}`,
-        "name": `${faker.internet.ip()}`,
-        "ha": `${faker.internet.userName()},${faker.internet.userName()}`,
-        "role": `${faker.internet.userName()}`,
-        "pim_id": `pim_${i}`,
-        "vim_id": `vim_${i}`,
-      }
-    )
-  }
+for (i = 1; i < 101; i++) {
+  items.push(
+    {
+      "id": i,
+      "az": `${faker.internet.userName()},${faker.internet.userName()}`,
+      "name": `${faker.internet.ip()}`,
+      "ha": `${faker.internet.userName()},${faker.internet.userName()}`,
+      "role": `${faker.internet.userName()}`,
+      "pim_id": `pim_${i}`,
+      "vim_id": `vim_${i}`,
+    }
+  )
+}
 // 根据传递的分页参数返回数据
 let getList = (pageSize = 10, pageNo = 1, order_by = 'id', order = 'asc') => {
   items = _.orderBy(items, [order_by], [order]);
   let newData = []
-  for (let i = (parseInt(pageNo)-1)  * pageSize; i < pageNo * pageSize; i++){
-    if(items[i]) newData.push(items[i])
-    
+  for (let i = (parseInt(pageNo) - 1) * pageSize; i < pageNo * pageSize; i++) {
+    if (items[i]) newData.push(items[i])
+
   }
   return newData
-} 
+}
 
 /**
  * 服务器上下电状态查询
@@ -918,19 +918,19 @@ let queryListServerPower = {
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
-    let status = Math.floor(Math.random()*2+1)
+    let status = Math.floor(Math.random() * 2 + 1)
     return {
       "code": 1,
       "data": {
-          "header": [],
-          "dataList": [
-              {
-                  "powerStatus": status
-              }
-          ],
-          "pageNo": 1,
-          "pageSize": 1,
-          "totalCount": 1
+        "header": [],
+        "dataList": [
+          {
+            "powerStatus": status
+          }
+        ],
+        "pageNo": 1,
+        "pageSize": 1,
+        "totalCount": 1
       }
     }
   }
@@ -946,72 +946,72 @@ let queryListNetworkCard = {
     return {
       "code": 1,
       "data": {
-          "header": [
-              {
-                  "key": "model",
-                  "title": "网卡型号",
-                  "link": false
-              },
-              {
-                  "key": "ethernetInterfaceType",
-                  "title": "接口类型",
-                  "link": false
-              },
-              {
-                  "key": "status",
-                  "title": "状态",
-                  "link": false
-              },
-              {
-                  "key": "portName",
-                  "title": "网口名称",
-                  "link": false
-              },
-              {
-                  "key": "portAddress",
-                  "title": "网口地址",
-                  "link": false
-              }
-          ],
-          "dataList": [
-            {
-                  "id":1,
-                  "model": "p3tenant_1",
-                  "ethernetInterfaceType": "whj_train1",
-                  "status": "ok",
-                  "portName": "Port1NC_MACAdress1",
-                  "portAddress": "30:e1:71:6a:81:b4"
-              },
-            {
-                  "id":2,
-                  "model": "p3tenant_1",
-                  "ethernetInterfaceType": "whj_train1",
-                  "status": "ok",
-                  "portName": "Port1NC_MACAdress2",
-                  "portAddress": "30:e1:71:6a:81:b4"
-              },
-            {
-                  "id":3,
-                  "model": "p3tenant_2",
-                  "ethernetInterfaceType": "whj_train2",
-                  "status": "ok",
-                  "portName": "Port1NC_MACAdress1",
-                  "portAddress": "30:e1:71:6a:81:b4"
-              },
-            {
-                  "id":4,
-                  "model": "p3tenant_2",
-                  "ethernetInterfaceType": "whj_train2",
-                  "status": "ok",
-                  "portName": "Port1NC_MACAdress2",
-                  "portAddress": "30:e1:71:6a:81:b4"
-              }
-          ],
-          "pageNo": 1,
-          "pageSize": 10,
-          "totalCount": 4
+        "header": [
+          {
+            "key": "model",
+            "title": "网卡型号",
+            "link": false
+          },
+          {
+            "key": "ethernetInterfaceType",
+            "title": "接口类型",
+            "link": false
+          },
+          {
+            "key": "status",
+            "title": "状态",
+            "link": false
+          },
+          {
+            "key": "portName",
+            "title": "网口名称",
+            "link": false
+          },
+          {
+            "key": "portAddress",
+            "title": "网口地址",
+            "link": false
+          }
+        ],
+        "dataList": [
+          {
+            "id": 1,
+            "model": "p3tenant_1",
+            "ethernetInterfaceType": "whj_train1",
+            "status": "ok",
+            "portName": "Port1NC_MACAdress1",
+            "portAddress": "30:e1:71:6a:81:b4"
+          },
+          {
+            "id": 2,
+            "model": "p3tenant_1",
+            "ethernetInterfaceType": "whj_train1",
+            "status": "ok",
+            "portName": "Port1NC_MACAdress2",
+            "portAddress": "30:e1:71:6a:81:b4"
+          },
+          {
+            "id": 3,
+            "model": "p3tenant_2",
+            "ethernetInterfaceType": "whj_train2",
+            "status": "ok",
+            "portName": "Port1NC_MACAdress1",
+            "portAddress": "30:e1:71:6a:81:b4"
+          },
+          {
+            "id": 4,
+            "model": "p3tenant_2",
+            "ethernetInterfaceType": "whj_train2",
+            "status": "ok",
+            "portName": "Port1NC_MACAdress2",
+            "portAddress": "30:e1:71:6a:81:b4"
+          }
+        ],
+        "pageNo": 1,
+        "pageSize": 10,
+        "totalCount": 4
       }
-  }
+    }
   }
 }
 
@@ -1041,12 +1041,12 @@ let queryList = {
         items_list = items.slice(0, 76)
         break;
       default:
-      items_list = items.slice(0, 100)
+        items_list = items.slice(0, 100)
     }
     let totalCount = items_list.length
     let pageNo = query.pageNo
     let pageSize = query.pageSize
-    let dataList = getList(pageSize,pageNo)
+    let dataList = getList(pageSize, pageNo)
     return {
       "code": 1,
       "data": {
@@ -1106,7 +1106,7 @@ let delInstanceData = {
     return {
       "code": 1,
       "message": ""
-      }
+    }
   }
 }
 /** 
@@ -1120,44 +1120,68 @@ let find = {
     return {
       "code": 1,
       "data": {
-          "header": [
-              {
-                  "key": "name",
-                  "title": "主机名称",
-                  "link": false
-              },
-              {
-                  "key": "role",
-                  "title": "角色",
-                  "link": false
-              },
-              {
-                  "key": "az",
-                  "title": "所属AZ",
-                  "link": false
-              },
-              {
-                  "key": "ha",
-                  "title": "所属HA",
-                  "link": false
-              }
-          ],
-          "dataList": [
-              {
-                  "az": "xasa,AAAAS",
-                  "name": "10.255.242.215",
-                  "hz": "xasa",
-                  "role": "主"
-              },
-              {
-                  "az": "xasa,AAAAS",
-                  "name": "10.255.242.216",
-                  "hz": "xasa",
-                  "role": "主"
-              }
-          ]
+        "header": [
+          {
+            "key": "name",
+            "title": "主机名称",
+            "link": false
+          },
+          {
+            "key": "role",
+            "title": "角色",
+            "link": false
+          },
+          {
+            "key": "az",
+            "title": "所属AZ",
+            "link": false
+          },
+          {
+            "key": "ha",
+            "title": "所属HA",
+            "link": false
+          }
+        ],
+        "dataList": [
+          {
+            "az": "xasa,AAAAS",
+            "name": "10.255.242.215",
+            "ha": "xasa",
+            "role": "主"
+          },
+          {
+            "az": "xasa,AAAAS",
+            "name": "10.255.242.216",
+            "ha": "xasa",
+            "role": "主"
+          },
+          {
+            "az": "xasa,AAAAS",
+            "name": "10.255.242.215",
+            "ha": "xasa",
+            "role": "主"
+          },
+          {
+            "az": "xasa,AAAAS",
+            "name": "10.255.242.216",
+            "ha": "xasa",
+            "role": "主"
+          },
+          {
+            "az": "xasa,AAAAS",
+            "name": "10.255.242.215",
+            "ha": "xasa",
+            "role": "主"
+          },
+          {
+            "az": "xasa,AAAAS",
+            "name": "10.255.242.216",
+            "ha": "xasa",
+            "role": "主"
+          }
+        ]
       }
-  }
+    }
   }
 }
 /** 
@@ -1171,7 +1195,7 @@ let findconfirm = {
     return {
       "code": 1,
       "message": "确认成功"
-      }
+    }
   }
 }
 
