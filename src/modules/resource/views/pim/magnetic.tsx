@@ -11,6 +11,7 @@ import Cascaderor from '../../../../components/Cascaderor'
 import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
 import emitter from '../../../../common/emitter'
+const confirm = Modal.confirm
 
 class Magnetic extends React.Component<any, any> {
     formRef: any
@@ -89,6 +90,23 @@ class Magnetic extends React.Component<any, any> {
     goLink(key, obj) {
         let { match } = this.props
         this.props.history.push(`${match.url}/info/${obj.id}`)
+    }
+    goDelete(data) {
+        let self = this
+        confirm({
+            title: '确定要删除该实例吗?',
+            onOk() {
+                self.props.actions.deleteInstance('diskarray', data.id, (id, error) => {
+                    if (id) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                })
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
     }
     showModal = () => {
         this.setState({
@@ -260,14 +278,15 @@ class Magnetic extends React.Component<any, any> {
                             </div>
                         </div>
                         <div style={{ padding: '0px 20px 20px' }}>
-                            <CompactTable
+                            {list ? (<CompactTable
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
+                                goDelete={this.goDelete.bind(this)}
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 data={list}
                                 actionAuth={['delete']}
-                            />
+                            />) : (<Spin />)}
                         </div>
                     </div>
                 )} />
