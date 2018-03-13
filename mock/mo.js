@@ -1095,7 +1095,20 @@ let addInstanceData = {
     }
   }
 }
-
+/** 
+ * 删除实例数据
+*/
+let delInstanceData = {
+  path: '/rms-agent/api/delete/:moTypeKey/:moInstId',
+  method: 'DELETE',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "message": ""
+      }
+  }
+}
 /** 
  * 自动发现
 */
@@ -1179,5 +1192,6 @@ module.exports = {
   queryList,
   addInstanceData,
   find,
-  findconfirm
+  findconfirm,
+  delInstanceData
 }
