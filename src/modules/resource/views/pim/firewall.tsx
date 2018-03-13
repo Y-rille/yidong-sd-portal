@@ -23,6 +23,7 @@ export interface FirewallProps {
     subDataVendor?,
     nodeInfo?,
     list?
+    subDataPIM?,
 }
 class Firewall extends React.Component<FirewallProps, any> {
     formRef: any
@@ -95,6 +96,8 @@ class Firewall extends React.Component<FirewallProps, any> {
         }
     }
     showModal = () => {
+        // let { subDataPIM } = this.props;
+        // console.log(subDataPIM.length, "]==[=====================>")
         this.setState({
             visible: true,
         });
@@ -211,7 +214,7 @@ class Firewall extends React.Component<FirewallProps, any> {
 
     }
     render() {
-        let { match, list, nodeInfo } = this.props;
+        let { match, list, nodeInfo, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading, datacenter, vendor } = this.state;
         return (
@@ -251,6 +254,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                                     width="70%"
                                 >
                                     <FilterFireWallForm
+                                        subDataPIM={subDataPIM}
                                         getData={this.getData.bind(this)}
                                         wrappedComponentRef={(node) => { this.formRef = node }}
                                     />

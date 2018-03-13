@@ -918,7 +918,7 @@ let queryListServerPower = {
   method: 'GET',
   cache: false,
   template: (params, query, body) => {
-    let status = Math.floor(Math.random()*2)
+    let status = Math.floor(Math.random()*2+1)
     return {
       "code": 1,
       "data": {
