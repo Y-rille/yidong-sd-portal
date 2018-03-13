@@ -34,8 +34,10 @@ class FirewallInfo extends React.Component<any, any> {
             })
         } else {
             let moTypeKey = 'firewall'
+            let match = this.props.match
+            let id = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
-            this.props.actions.getObjData(moTypeKey)
+            this.props.actions.getObjData(moTypeKey, id)
         }
     }
     tabInfo = () => { }
@@ -90,15 +92,17 @@ class FirewallInfo extends React.Component<any, any> {
 
             }
             if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey)
+                this.props.actions.getObjData(moTypeKey, moInstId)
             }
         })
     }
     componentWillMount() {
         let moTypeKey = 'firewall';
+        let match = this.props.match
+        let id = match.params.id
         let firewall_id = this.props.match.params.id;
         this.props.actions.getObjAttributes(moTypeKey)
-        this.props.actions.getObjData(moTypeKey)
+        this.props.actions.getObjData(moTypeKey, id)
     }
     componentWillUnmount() {
         this.props.actions.resetList();
