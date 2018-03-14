@@ -130,7 +130,13 @@ class Server extends React.Component<any, any> {
         });
         let self = this
         let { vendor, datacenter, pageSize, pim_id, pageNo } = this.state
-        this.props.actions.queryList('imdsServer', { pageNo, pageSize, vendor, datacenter, pim_id }, () => {
+        let params_obj = { pageNo, pageSize, vendor, datacenter, pim_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val) {
+                delete params_obj[key]
+            } 
+        }));  
+        this.props.actions.queryList('imdsServer', params_obj, () => {
             self.setState({
                 tableLoading: false
             });
