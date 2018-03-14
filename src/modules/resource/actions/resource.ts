@@ -159,7 +159,7 @@ export const getSubDataByName = (dsname, cb) => (dispatch) => {
             case 'imdsSelectionProject':
                 name = 'Project'
                 break;
-            case 'imdsSelectionVendor':
+            case 'imdsSelectionVender':
                 name = 'Vendor'
                 break;
             case 'imdsSelectionPIM':
