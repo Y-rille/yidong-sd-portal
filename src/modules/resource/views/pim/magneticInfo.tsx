@@ -375,12 +375,9 @@ class MageneticInfo extends React.Component<any, any> {
                         pageSize={pageSize}
                         data={list.imdsDiskarrayPort15MiKpis}
                     />
-
                     <Headline title="磁盘框温度" />
-                    <CompactTable
-                        pageSize={pageSize}
-                        data={list.imdsDiskarrayTemperature}
-                    />
+                    <Summaries colNum={2} data={list.imdsDiskarrayTemperature} />
+
                     {/* <div style={{ position: 'relative' }}>
                     {list && list.imdsDiskarrayTemperature ? (
                         <CompactTable
