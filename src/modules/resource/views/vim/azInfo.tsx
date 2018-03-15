@@ -32,6 +32,7 @@ class AzInfo extends React.Component<any, any> {
             ha: ha ? ha : '',
             pageNo: pageNo ? pageNo : 1,
             vim_id: mp_node.params.id,
+            az_id: this.props.match.params.id,
             name: name ? name : '',
         }
     }
@@ -40,8 +41,8 @@ class AzInfo extends React.Component<any, any> {
             tableLoading: true
         });
         let self = this
-        let { name, pageSize, vim_id, pageNo, ha } = this.state
-        this.props.actions.queryList('imdsAZHost', { pageNo, pageSize, name, vim_id, ha }, (res) => {
+        let { name, pageSize, vim_id, pageNo, ha, az_id } = this.state
+        this.props.actions.queryList('imdsAZHost', { pageNo, pageSize, name, vim_id, ha, az_id }, (res) => {
             self.setState({
                 tableLoading: false
             });
