@@ -332,25 +332,23 @@ class ServerInfo extends React.Component<any, any> {
                             <TabPane tab={title[key]} key={item}>
                                 <Headline title="PCIe槽内信息" />
                                 <CompactTable
-                                    actionAuth={['delete']}
                                     pageSize={pageSize}
                                     data={list.imdsServerPCIE}
                                 />
                                 <div style={{ marginTop: '20px' }}>
                                     <Headline title="阵列卡信息" />
-                                    <Summaries colNum={5} data={summary.imdsServerRaidCard} />
+                                    <Summaries colNum={3} data={summary.imdsServerRaidCard} />
                                 </div>
                                 <div style={{ marginTop: '20px' }}>
                                     <Headline title="逻辑盘信息" />
                                     <CompactTable
                                         data={list.imdsServerLogicalDrive}
-                                        actionAuth={['delete']}
                                         pageSize={pageSize}
                                     />
                                 </div>
                                 <div style={{ marginBottom: '20px' }}>
                                     <Headline title="其他信息" />
-                                    <Summaries colNum={5} data={summary.imdsServer15MiKpis} />
+                                    <Summaries colNum={3} data={summary.imdsServer15MiKpis} />
                                 </div>
                             </TabPane>
                         )
