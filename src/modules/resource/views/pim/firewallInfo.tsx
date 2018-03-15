@@ -116,7 +116,7 @@ class FirewallInfo extends React.Component<any, any> {
         }
     }
     render() {
-        let { nodeInfo, list, summary } = this.props
+        let { nodeInfo, list, summary } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading, activeKey } = this.state;
         return (
