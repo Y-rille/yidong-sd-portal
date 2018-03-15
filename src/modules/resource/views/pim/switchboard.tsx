@@ -206,8 +206,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.setState({
             tableLoading: true
         });
-        let { name, assettag, datacenter, pageSize, pageNo } = this.state
-        let params_obj = { pageNo, name, assettag, datacenter, pageSize, }
+        let { name, assettag, datacenter, pageSize, pageNo, pim_id } = this.state
+        let params_obj = { pageNo, name, assettag, datacenter, pageSize, pim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
