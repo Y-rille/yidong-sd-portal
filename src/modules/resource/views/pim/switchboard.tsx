@@ -120,7 +120,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         confirm({
             title: '确定要删除该实例吗?',
             onOk() {
-                self.props.actions.deleteInstance('firewall', data.id, (id, error) => {
+                self.props.actions.deleteInstance('switch', data.id, (id, error) => {
                     if (id) {
                         emitter.emit('message', 'success', '删除成功！')
                     } else {
@@ -293,11 +293,10 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                         {this.renderAddData()}
                                     </Modal>
                                 </div>
-                                {/* <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button> */}
                             </div>
                             {list ? (<CompactTable
                                 outStyle={{ marginTop: '20px' }}
-                                goPage={this.goPage.bind(this)} // 翻页
+                                goPage={this.goPage.bind(this)}
                                 goLink={this.goLink.bind(this)}
                                 data={list}
                                 pageSize={pageSize}
