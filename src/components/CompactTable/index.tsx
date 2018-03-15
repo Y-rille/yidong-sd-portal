@@ -80,10 +80,9 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
         }
 
     }
-    goEdit(e) {
-        let Id = e.currentTarget.id
+    goEdit(record) {
         if (this.props.goEdit) {
-            this.props.goEdit(Id)
+            this.props.goEdit(record)
         }
     }
     // showModal(e) {
@@ -132,7 +131,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                 render: (text, record) => (
                     <span>
                         {actionAuth.indexOf('edit') > -1 ? (
-                            <a onClick={this.goEdit.bind(this)} id={record.id} href="javascript:;">编辑</a>
+                            <a onClick={this.goEdit.bind(this, record)} id={record.id} href="javascript:;">编辑</a>
                         ) : ''}
                         {actionAuth.length > 1 ? (<Divider type="vertical" />) : ''}
                         {actionAuth.indexOf('delete') > -1 ? (

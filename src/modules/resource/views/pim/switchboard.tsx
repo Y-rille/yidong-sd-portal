@@ -12,6 +12,8 @@ import qs from 'querystringify'
 import { ResourceActions } from '../../actions/index'
 const InputGroup = Input.Group;
 const Option = Select.Option;
+const confirm = Modal.confirm
+import emitter from '../../../../common/emitter'
 
 export interface SwitchboardProps {
     location?,
@@ -23,7 +25,9 @@ export interface SwitchboardProps {
     subDataSwitchType?,
     subDataVendor?,
     nodeInfo?,
-    list?
+    list?,
+    findData?,
+
 }
 class Switchboard extends React.Component<SwitchboardProps, any> {
     formRef: any;
@@ -43,7 +47,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             datacenter: datacenter ? datacenter.split(',') : '',
             pageNo: pageNo ? pageNo : 1,
             inputStatus: assettag ? 'switchID' : 'switchName',
-            assettag: assettag ? assettag : ''
+            assettag: assettag ? assettag : '',
+            selected: []
         };
     }
     goInfo = () => {
@@ -110,74 +115,81 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         });
         this.formRef.handleReset()
     }
+    goDelete(data) {
+        let self = this
+        confirm({
+            title: '确定要删除该实例吗?',
+            onOk() {
+                self.props.actions.deleteInstance('firewall', data.id, (id, error) => {
+                    if (id) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                })
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+
+    }
     renderAddData() {
-        let filterDate = {
-            'count': 17,
-            'header': [{
-                key: 'ip',
-                title: '管理Ip',
-            }, {
-                key: 'name',
-                title: '用户名',
-            }, {
-                key: 'password',
-                title: '用户密码',
-            }, {
-                key: 'brand',
-                title: '品牌',
-            }, {
-                key: 'number',
-                title: '型号'
-            }, {
-                key: 'status',
-                title: '添加状态'
-            }],
-            'body': [{
-                'id': '0',
-                'ip': '10.4.152.60',
-                'name': 'admin',
-                'password': 'xiaojindian4@1234',
-                'brand': 'hp',
-                'number': '6cu611xd9v',
-                'status': '成功发现',
-            }]
-        }
         const { dataVisible } = this.state;
-        if (dataVisible === true) {
+        let { selected } = this.state
+        let { findData } = this.props
+        if (findData) {
+            let data_fixed = _.merge({}, findData)
+            _.map(data_fixed.header, (item) => {
+                item.width = '23%'
+            })
             return (
                 <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
                     <CompactTable
-                        // goPage={this.goPage.bind(this)} // 翻页
-                        data={filterDate}
-                        actionAuth=""
+                        data={data_fixed}
                         selectAuth={true}
                         selectRow={this.selectRow.bind(this)}
+                        size={{ y: 113 }}
+                        pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                        <Button type="primary" onClick={this.addData.bind(this)} disabled={selected.length ? false : true}>添加</Button>
                         <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
                     </div>
                 </div >
             )
         } else {
-            return null;
+            return <div />
         }
-
     }
-    selectRow = () => { }
+    selectRow = (data) => {
+        this.setState({
+            selected: data
+        })
+    }
     addData = () => {
+        let { selected } = this.state
         this.setState({
             visible: false,
         });
-        this.formRef.handleReset()
-    }
-    getData(value) {
-        let { vendor } = this.state
-        this.setState({
-            dataVisible: true,
-            vendor: value
+        this.props.actions.findConfirm('switch', { data: { dataList: selected } }, (data, err) => {
+            if (data) {
+                emitter.emit('message', 'success', '添加成功！')
+                this.setState({
+                    pageNo: 1
+                }, () => {
+                    this.getTableData()
+                })
+            } else {
+                emitter.emit('message', 'error', '添加失败！')
+            }
+            this.props.actions.resetfindData()
+            this.formRef.handleReset()
         })
-
+    }
+    getData(data) {
+        if (data) {
+            this.props.actions.autoDiscovery('switch', data)
+        }
     }
     getCascaderData(type, value) {
         let { datacenter } = this.state
@@ -195,7 +207,13 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             tableLoading: true
         });
         let { name, assettag, datacenter, pageSize, pageNo } = this.state
-        this.props.actions.queryList('imdsSwitch', { name, assettag, datacenter, pageNo, pageSize }, () => {
+        let params_obj = { pageNo, name, assettag, datacenter, pageSize, }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsSwitch', params_obj, () => {
             this.setState({
                 tableLoading: false
             });
@@ -285,6 +303,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={['delete']}
+                                goDelete={this.goDelete.bind(this)}
                             />) : (<Spin />)}
                         </div>
                     </div>

@@ -17,7 +17,7 @@ class Pim extends React.Component<any, any> {
     }
     componentWillMount() {
         // 选择项查询
-        let selectKey = ['imdsSelectionVendor', 'imdsSelectionPIM', 'imdsSelectSwitchType']
+        let selectKey = ['imdsSelectionVender', 'imdsSelectionPIM', 'imdsSelectSwitchType']
         let self = this
         selectKey.forEach(item => {
             self.props.actions.getSubDataByName(item)

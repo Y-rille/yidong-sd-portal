@@ -10,6 +10,9 @@ import FilterMageticForm from '../../../../components/FilterMageticForm/'
 import Cascaderor from '../../../../components/Cascaderor'
 import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
+import emitter from '../../../../common/emitter'
+const confirm = Modal.confirm
+
 class Magnetic extends React.Component<any, any> {
     formRef: any
     constructor(props) {
@@ -20,19 +23,20 @@ class Magnetic extends React.Component<any, any> {
         })
         this.state = {
             visible: false,
-            filterDate: null,
+
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
-            pim_id: mp_node.params.id ? mp_node.params.id : ''
+            pim_id: mp_node.params.id ? mp_node.params.id : '',
+            selected: []
         };
     }
-    getData(formData) {
-        this.setState({
-            filterDate: formData,
-        })
+    getData(data) {
+        if (data) {
+            this.props.actions.autoDiscovery('diskarray', data)
+        }
     }
     handleClick() {
         let { match } = this.props
@@ -52,7 +56,13 @@ class Magnetic extends React.Component<any, any> {
         let self = this
         let { pageNo } = queryObj
         let { datacenter, vendor, pageSize, pim_id } = this.state
-        this.props.actions.queryList('imdsSwitchDiskArray', { pageNo, pageSize, datacenter, vendor, pim_id }, () => {
+        let params_obj = { pageNo, datacenter, vendor, pageSize, pim_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsSwitchDiskArray', params_obj, () => {
             self.setState({
                 tableLoading: false
             });
@@ -87,24 +97,62 @@ class Magnetic extends React.Component<any, any> {
         let { match } = this.props
         this.props.history.push(`${match.url}/info/${obj.id}`)
     }
+    goDelete(data) {
+        let self = this
+        confirm({
+            title: '确定要删除该实例吗?',
+            onOk() {
+                self.props.actions.deleteInstance('diskarray', data.id, (id, error) => {
+                    if (id) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                })
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+    }
     showModal = () => {
         this.setState({
             visible: true,
+
         });
     }
     handleCancel = () => {
         this.setState({
             visible: false,
-            filterDate: null
+            selected: []
         });
         this.formRef.handleReset()
+        this.props.actions.resetfindData()
     }
     addData = () => {
+
+        let { selected } = this.state
+        this.props.actions.findConfirm('diskarray', { data: { dataList: selected } }, (data, err) => {
+            if (data) {
+                emitter.emit('message', 'success', '添加成功！')
+                let queryObj = {
+                    pageNo: 1
+                }
+                this.getTableData(queryObj)
+            } else {
+                emitter.emit('message', 'error', '添加失败！')
+            }
+            this.setState({
+                visible: false,
+                selected: []
+            });
+            this.formRef.handleReset()
+            this.props.actions.resetfindData()
+        })
+    }
+    selectRow = (selectArr) => {
         this.setState({
-            visible: false,
-            filterDate: null
-        });
-        this.formRef.handleReset()
+            selected: selectArr
+        })
     }
     componentWillUnmount() {
         this.props.actions.resetList()
@@ -166,15 +214,20 @@ class Magnetic extends React.Component<any, any> {
                 'status': '成功发现',
             }]
         }
-        if (this.state.filterDate) {
+        let { findData } = this.props
+        if (findData) {
+            let data_fixed = _.merge({}, findData)
+            _.map(data_fixed.header, (item) => {
+                item.width = '23%'
+            })
+
             return (
                 <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
                     <CompactTable
-                        // goPage={this.goPage.bind(this)} // 翻页
-                        data={filterDate}
-                        actionAuth=""
-                        // pageAuth={false} 
+                        data={data_fixed}
                         selectAuth={true}
+                        selectRow={this.selectRow.bind(this)}
+                        size={{ y: 113 }}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
                         <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
@@ -183,9 +236,7 @@ class Magnetic extends React.Component<any, any> {
                 </div >
             )
         } else {
-            return (
-                <div></div>
-            )
+            return <div />
         }
     }
     render() {
@@ -233,14 +284,15 @@ class Magnetic extends React.Component<any, any> {
                             </div>
                         </div>
                         <div style={{ padding: '0px 20px 20px' }}>
-                            <CompactTable
+                            {list ? (<CompactTable
                                 goPage={this.goPage.bind(this)} // 翻页
                                 goLink={this.goLink.bind(this)}
+                                goDelete={this.goDelete.bind(this)}
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 data={list}
                                 actionAuth={['delete']}
-                            />
+                            />) : (<Spin />)}
                         </div>
                     </div>
                 )} />

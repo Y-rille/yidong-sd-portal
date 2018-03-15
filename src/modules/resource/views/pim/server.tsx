@@ -130,7 +130,13 @@ class Server extends React.Component<any, any> {
         });
         let self = this
         let { vendor, datacenter, pageSize, pim_id, pageNo } = this.state
-        this.props.actions.queryList('imdsServer', { pageNo, pageSize, vendor, datacenter, pim_id }, () => {
+        let params_obj = { pageNo, pageSize, vendor, datacenter, pim_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val) {
+                delete params_obj[key]
+            } 
+        }));  
+        this.props.actions.queryList('imdsServer', params_obj, () => {
             self.setState({
                 tableLoading: false
             });
@@ -173,7 +179,7 @@ class Server extends React.Component<any, any> {
         if (findData) {
             let data_fixed = _.merge({}, findData)
             _.map(data_fixed.header, (item) => {
-                // item.width = '17%'
+                item.width = '23%'
             })
             return (
                 <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
@@ -182,6 +188,7 @@ class Server extends React.Component<any, any> {
                         selectAuth={true}
                         selectRow={this.selectRow.bind(this)}
                         size={{ y: 113 }}
+                        pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
                         <Button type="primary" onClick={this.addData.bind(this)} disabled={selected.length ? false : true}>添加</Button>

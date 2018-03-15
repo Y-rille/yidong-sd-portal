@@ -111,7 +111,9 @@ class ServerInfo extends React.Component<any, any> {
         })
     }
     goHost() {
-        this.props.actions.queryList('imdsServerHostInfo', {}, (err, res) => {
+        let server = this.props.match.params.id
+        // console.log(server, "]==[========================>")
+        this.props.actions.queryList('imdsServerHostInfo', { server }, (err, res) => {
             if (!err && res['dataList']) {
                 let server_info = _.head(res['dataList'])
                 if (server_info) {
@@ -228,10 +230,10 @@ class ServerInfo extends React.Component<any, any> {
     renderBtns() {
         let { showBtn, status } = this.state
         if (this.props.power && this.props.power.powerStatus !== status && !status) {
-                this.setState({
-                    status: this.props.power.powerStatus
-                })
-            }
+            this.setState({
+                status: this.props.power.powerStatus
+            })
+        }
         if (showBtn && this.props.power && status) {
             return (
                 <div className={styles.btn}>
@@ -242,7 +244,7 @@ class ServerInfo extends React.Component<any, any> {
                         onClick={this.confirmUpOrDown}
                     >{this.state.status === 1 ? '上电' : '下电'}</Button>
                     <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
-                     onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                        onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
                     <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
                 </div>
             )
