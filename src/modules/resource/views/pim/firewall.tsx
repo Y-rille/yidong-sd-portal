@@ -161,9 +161,14 @@ class Firewall extends React.Component<FirewallProps, any> {
             tableLoading: true
         });
         let self = this
-        let { pageNo } = queryObj
-        let { pageSize, datacenter, vendor, pim_id } = this.state
-        this.props.actions.queryList('imdsServerFirewall', { pageNo, pageSize, datacenter, vendor, pim_id }, () => {
+        let { pageSize, pageNo, datacenter, vendor, pim_id } = this.state
+        let params_obj = { pageSize, pageNo, datacenter, vendor, pim_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsServerFirewall', params_obj, () => {
             self.setState({
                 tableLoading: false
             });
