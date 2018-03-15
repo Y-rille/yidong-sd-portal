@@ -209,7 +209,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         let { name, assettag, datacenter, pageSize, pageNo } = this.state
         let params_obj = { pageNo, name, assettag, datacenter, pageSize, }
         _.forIn(params_obj, ((val, key) => {
-            if (val === '' || !val) {
+            if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
             }
         }));

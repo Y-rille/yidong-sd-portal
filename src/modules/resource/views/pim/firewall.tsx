@@ -164,7 +164,7 @@ class Firewall extends React.Component<FirewallProps, any> {
         let { pageSize, pageNo, datacenter, vendor, pim_id } = this.state
         let params_obj = { pageSize, pageNo, datacenter, vendor, pim_id }
         _.forIn(params_obj, ((val, key) => {
-            if (val === '' || !val) {
+            if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
             }
         }));

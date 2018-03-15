@@ -31,7 +31,7 @@ class Pim extends React.Component<any, any> {
                 <div>
                     <Switch>
                         {/* <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact /> */}
-                        <Route path={`${match.url}/magnetic/info/:magneticId`} component={MagneticInfo} />
+                        <Route path={`${match.url}/magnetic/info/:id`} component={MagneticInfo} />
                         <Route path={`${match.url}/magnetic`} component={Magnetic} />
                         <Route path={`${match.url}/server/info/:id`} component={ServerInfo} />
                         <Route path={`${match.url}/server`} component={Server} />
