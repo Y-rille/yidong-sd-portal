@@ -207,7 +207,13 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             tableLoading: true
         });
         let { name, assettag, datacenter, pageSize, pageNo } = this.state
-        this.props.actions.queryList('imdsSwitch', { name, assettag, datacenter, pageNo, pageSize }, () => {
+        let params_obj = { pageNo, name, assettag, datacenter, pageSize, }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsSwitch', params_obj, () => {
             this.setState({
                 tableLoading: false
             });
