@@ -56,7 +56,13 @@ class Magnetic extends React.Component<any, any> {
         let self = this
         let { pageNo } = queryObj
         let { datacenter, vendor, pageSize, pim_id } = this.state
-        this.props.actions.queryList('imdsSwitchDiskArray', { pageNo, pageSize, datacenter, vendor, pim_id }, () => {
+        let params_obj = { pageNo, datacenter, vendor, pageSize, pim_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsSwitchDiskArray', params_obj, () => {
             self.setState({
                 tableLoading: false
             });
