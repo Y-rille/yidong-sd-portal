@@ -299,13 +299,13 @@ class ServerInfo extends React.Component<any, any> {
                     list = list || {}
                     let ethernetCard = {}
                     ethernetCard = _.groupBy(list.dataList, function (obj) {
-                        return JSON.stringify({ model: obj.model, ethernetInterfaceType: obj.ethernetInterfaceType, status: obj.status })
+                        return JSON.stringify({ Model: obj.Model, EthernetInterfaceType: obj.EthernetInterfaceType, Status: obj.Status })
                     })
                     let ethernetCardTitle = _.keys(ethernetCard)
                     let ethernetCardTable = _.values(ethernetCard)
                     return (
                         <TabPane tab={title[key]} key={item}>
-                            <div style={{ marginTop: '20px' }}>
+                            <div style={{ margin: '20px 0' }}>
                                 {
                                     _.map(ethernetCardTitle, (card, i) => {
                                         let cardData = {
