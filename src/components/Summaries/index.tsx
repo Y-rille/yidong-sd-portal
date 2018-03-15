@@ -76,15 +76,24 @@ export default class Summaries extends React.PureComponent<SummariesProps, any> 
         const dataKeys = data.header;
         let dataCol = (colNum === 2 ? 12 : (colNum === 3 ? 8 : (colNum === 4 ? 6 : 4)))
         let right = (dataCol === 4 ? '28px' : '0')
-        return _.map(dataKeys, (item) => {
+        if (dataValues) {
+            return _.map(dataKeys, (item) => {
+                return (
+                    <Col span={dataCol} style={{ marginBottom: '20px', marginRight: right, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                        {item.title}:
+                    <span style={{ display: 'inline-block', width: '10px' }} />
+                        <Tooltip title={dataValues[item.key]}><span>{dataValues[item.key]}</span></Tooltip>
+                    </Col>
+                )
+            })
+        } else {
             return (
-                <Col span={dataCol} style={{ marginBottom: '20px', marginRight: right, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                    {item.title}:
-                <span style={{ display: 'inline-block', width: '10px' }} />
-                    <Tooltip title={dataValues[item.key]}><span>{dataValues[item.key]}</span></Tooltip>
-                </Col>
-            )
-        })
+                <div style={{ height: '50px', display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ marginTop: '5px' }}>No Data</div>
+                </div>
+            );
+        }
+
     }
     render() {
         return (
