@@ -229,12 +229,13 @@ class ServerInfo extends React.Component<any, any> {
     }
     renderBtns() {
         let { showBtn, status } = this.state
-        if (this.props.power && this.props.power.powerStatus !== status && !status) {
+        let _power = this.props.power
+        if (_power && _power.powerStatus !== status && !status) {
             this.setState({
-                status: this.props.power.powerStatus
+                status: _power.powerStatus
             })
         }
-        if (showBtn && this.props.power && status) {
+        if (showBtn && _power && status) {
             return (
                 <div className={styles.btn}>
                     <Button
@@ -243,6 +244,14 @@ class ServerInfo extends React.Component<any, any> {
                         style={{ margin: '0px 10px 0px 0' }}
                         onClick={this.confirmUpOrDown}
                     >{this.state.status === 1 ? '上电' : '下电'}</Button>
+                    <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
+                        onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                    <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
+                </div>
+            )
+        } else {
+            return (
+                <div className={styles.btn}>
                     <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
                         onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
                     <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
