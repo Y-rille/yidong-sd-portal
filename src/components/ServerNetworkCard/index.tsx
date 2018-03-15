@@ -17,9 +17,9 @@ class ServerNetworkCard extends React.PureComponent<ServerNetworkCardProps, any>
         return (
             <div className={styles.serverNetworkCard}>
                 <div className={styles.title}>
-                    <span>网卡型号：</span><span className={styles.title_header}>{data.title.model}</span>&emsp;
-                    <span>接口类型：</span><span className={styles.title_header}>{data.title.ethernetInterfaceType}</span>&emsp;
-                    <span>状态：</span><span className={styles.title_header}>{data.title.status}</span>
+                    <span>网卡型号：</span><span className={styles.title_header}>{data.title.Model}</span>&emsp;
+                    <span>接口类型：</span><span className={styles.title_header}>{data.title.EthernetInterfaceType}</span>&emsp;
+                    <span>状态：</span><span className={styles.title_header}>{data.title.Status}</span>
                 </div>
                 <CompactTable
                     data={data.table}
