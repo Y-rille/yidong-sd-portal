@@ -71,9 +71,9 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
     render() {
         const { getFieldDecorator } = this.props.form;
         let { subDataPIM, subDataSwitchType, subDataVendor } = this.props;
-        let subDataPIMDefault = subDataPIM ? _.head(subDataPIM).text : ''
-        let subDataVendorDefault = subDataVendor ? _.head(subDataVendor).text : ''
-        let subDataSwitchDefault = subDataSwitchType ? _.head(subDataSwitchType).text : ''
+        let subDataPIMDefault = (subDataPIM ? _.head(subDataPIM) : '') ? _.head(subDataPIM).text : ''
+        let subDataVendorDefault = (subDataVendor ? _.head(subDataVendor) : '') ? _.head(subDataVendor).text : ''
+        let subDataSwitchDefault = (subDataSwitchType ? _.head(subDataSwitchType) : '') ? _.head(subDataSwitchType).text : ''
         return (
             <Form onSubmit={this.handleSubmit.bind(this)} className="filterSwitchBoardForm">
                 <Row>
