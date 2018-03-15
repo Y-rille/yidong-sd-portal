@@ -147,12 +147,6 @@ class ServerInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
-            let { pageNo } = this.state
-            let queryObj = {
-                pageNo
-            }
-            let server_id = this.props.match.params.id;
-            this.getTableData(queryObj)
         } else {
             let moTypeKey = 'server';
             let match = this.props.match
