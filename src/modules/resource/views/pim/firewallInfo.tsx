@@ -161,7 +161,6 @@ class FirewallInfo extends React.Component<any, any> {
                                         goPage={this.goPage.bind(this)} // 翻页
                                         // goLink={this.goLink.bind(this)}
                                         data={list}
-                                        actionAuth={['delete']}
                                         pageSize={pageSize}
                                         loading={tableLoading}
                                     // pageAuth={false}
