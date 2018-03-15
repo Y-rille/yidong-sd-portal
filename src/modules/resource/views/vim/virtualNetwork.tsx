@@ -81,7 +81,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         let self = this
         let { pageNo } = queryObj
         let { pageSize, project, name, vim_id } = this.state
-        this.props.actions.queryList('imdsVirtualLink', { pageNo, pageSize, project, name, vim_id }, () => {
+        this.props.actions.queryList('imdVirtualNetwork', { pageNo, pageSize, project, name, vim_id }, () => {
             self.setState({
                 tableLoading: false
             });
