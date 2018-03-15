@@ -45,7 +45,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
         data.map((item, index) => {
             items.push(
                 <Col span={8} key={index}>
-                <FormItem label={item.key} >
+                <FormItem wrapperCol={{offset: 1}} label={item.key}>
                 {getFieldDecorator(`${item.key}`, {initialValue: item.values})(
                     item.ediable && this.state.isEdit ? <Input readOnly={!this.state.isEdit}  
                     name={item.attributeName} /> : (item.values.length > 25 ? <Tooltip placement="topLeft" title={item.values} arrowPointAtCenter>
