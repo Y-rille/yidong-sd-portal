@@ -132,7 +132,7 @@ class ServerInfo extends React.Component<any, any> {
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
-
+                emitter.emit('message', 'error', '修改失败！')
             }
             if (qdata.code === 1) {
                 this.props.actions.getObjData(moTypeKey, moInstId)
@@ -237,7 +237,7 @@ class ServerInfo extends React.Component<any, any> {
                         icon="dingding"
                         style={{ margin: '0px 10px 0px 0' }}
                         onClick={this.confirmUpOrDown}
-                    >{this.state.status === 1 ? '上电' : '下电'}</Button>
+                    >{this.state.status === 2 ? '上电' : '下电'}</Button>
                     <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
                         onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
                     <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
@@ -299,13 +299,13 @@ class ServerInfo extends React.Component<any, any> {
                     list = list || {}
                     let ethernetCard = {}
                     ethernetCard = _.groupBy(list.dataList, function (obj) {
-                        return JSON.stringify({ model: obj.model, ethernetInterfaceType: obj.ethernetInterfaceType, status: obj.status })
+                        return JSON.stringify({ Model: obj.Model, EthernetInterfaceType: obj.EthernetInterfaceType, Status: obj.Status })
                     })
                     let ethernetCardTitle = _.keys(ethernetCard)
                     let ethernetCardTable = _.values(ethernetCard)
                     return (
                         <TabPane tab={title[key]} key={item}>
-                            <div style={{ marginTop: '20px' }}>
+                            <div style={{ margin: '20px 0' }}>
                                 {
                                     _.map(ethernetCardTitle, (card, i) => {
                                         let cardData = {
@@ -332,25 +332,23 @@ class ServerInfo extends React.Component<any, any> {
                             <TabPane tab={title[key]} key={item}>
                                 <Headline title="PCIe槽内信息" />
                                 <CompactTable
-                                    actionAuth={['delete']}
                                     pageSize={pageSize}
                                     data={list.imdsServerPCIE}
                                 />
                                 <div style={{ marginTop: '20px' }}>
                                     <Headline title="阵列卡信息" />
-                                    <Summaries colNum={5} data={summary.imdsServerRaidCard} />
+                                    <Summaries colNum={3} data={summary.imdsServerRaidCard} />
                                 </div>
                                 <div style={{ marginTop: '20px' }}>
                                     <Headline title="逻辑盘信息" />
                                     <CompactTable
                                         data={list.imdsServerLogicalDrive}
-                                        actionAuth={['delete']}
                                         pageSize={pageSize}
                                     />
                                 </div>
                                 <div style={{ marginBottom: '20px' }}>
                                     <Headline title="其他信息" />
-                                    <Summaries colNum={5} data={summary.imdsServer15MiKpis} />
+                                    <Summaries colNum={3} data={summary.imdsServer15MiKpis} />
                                 </div>
                             </TabPane>
                         )

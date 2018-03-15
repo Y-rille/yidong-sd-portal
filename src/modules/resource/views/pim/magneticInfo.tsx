@@ -271,8 +271,11 @@ class MageneticInfo extends React.Component<any, any> {
                 activeKey,
                 pageNo: 1
             }, () => {
-                this.getTableData()
+                if (activeKey.length > 0) {
+                    this.getTableData()
+                }
             })
+
         }
 
     }
@@ -557,7 +560,7 @@ class MageneticInfo extends React.Component<any, any> {
                                         {this.renderPerformance()}
                                     </div>
                                 </TabPane>
-                                <TabPane tab="告警" key="6">
+                                <TabPane tab="告警" key="">
                                 </TabPane>
                                 <TabPane tab="其它信息" key="other">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>

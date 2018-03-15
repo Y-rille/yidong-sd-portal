@@ -23,10 +23,11 @@ const conversion = (attributes, data) => {
     data.columns.map((item, index) => {
         const key = data.headers[index];
         const values = data.values[0][index];
-        let summary = _.find(attributes, attr => (attr.attributeName === item));
+        let summary = _.find(attributes, attr => (attr.physicalTablefield === item));
 
         if (summary) {
             summary = _.assign({ key, values }, summary);
+            summary.attributeGroup = summary.attributeGroup ? summary.attributeGroup : '其他'
             temp.list.push(summary);
 
             if (_.indexOf(temp.groups, summary.attributeGroup) < 0) {
@@ -34,7 +35,6 @@ const conversion = (attributes, data) => {
             }
         }
     });
-
     return temp;
 };
 
