@@ -58,7 +58,7 @@ class Magnetic extends React.Component<any, any> {
         let { datacenter, vendor, pageSize, pim_id } = this.state
         let params_obj = { pageNo, datacenter, vendor, pageSize, pim_id }
         _.forIn(params_obj, ((val, key) => {
-            if (val === '' || !val) {
+            if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
             }
         }));

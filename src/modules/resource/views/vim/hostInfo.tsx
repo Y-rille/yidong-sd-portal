@@ -72,7 +72,9 @@ class HostInfo extends React.Component<any, any> {
         })
     }
     showServer = (e) => {
-        this.props.actions.queryList('imdsHostServerInfo', {}, (err, res) => {
+        let host = this.props.match.params.id;
+        // console.log(host, ']==[=============================>')
+        this.props.actions.queryList('imdsHostServerInfo', { host }, (err, res) => {
             if (!err && res['dataList']) {
                 let host_info = _.head(res['dataList'])
                 if (host_info) {

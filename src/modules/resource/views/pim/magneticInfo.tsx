@@ -220,7 +220,7 @@ class MageneticInfo extends React.Component<any, any> {
             reset: false,
             tableLoading: false,
             activeKey: 'imdsDiskarrayStoragePool',
-            diskarray: this.props.match.params.magneticId,
+            diskarray: this.props.match.params.id,
             pageSize: 999,
             pageNo: 1
         }
@@ -263,7 +263,7 @@ class MageneticInfo extends React.Component<any, any> {
                 this.props.actions.queryList(keyArr[i], { pageNo: 1, pageSize: 999, diskarray }, null, keyArr[i])
             }
             if (activeKey === 'performance') {
-                let diskarray_id = this.props.match.params.magneticId;
+                let diskarray_id = this.props.match.params.id;
                 this.props.actions.getSummary('imdsDiskarray15MiKpis', { diskarray: diskarray_id });
             }
         } else {
@@ -271,8 +271,11 @@ class MageneticInfo extends React.Component<any, any> {
                 activeKey,
                 pageNo: 1
             }, () => {
-                this.getTableData()
+                if (activeKey.length > 0) {
+                    this.getTableData()
+                }
             })
+
         }
 
     }
@@ -365,23 +368,21 @@ class MageneticInfo extends React.Component<any, any> {
                     <CompactTable
                         pageSize={pageSize}
                         data={list.imdsDiskarrayLun15MiKpis}
-                        actionAuth={['delete']}
                     />
 
                     <Headline title="前端业务端口信息" />
                     <CompactTable
                         pageSize={pageSize}
                         data={list.imdsDiskarrayPort15MiKpis}
-                        actionAuth={['delete']}
                     />
                     <Headline title="磁盘框温度" />
                     <Summaries colNum={2} data={list.imdsDiskarrayTemperature} />
+
                     {/* <div style={{ position: 'relative' }}>
                     {list && list.imdsDiskarrayTemperature ? (
                         <CompactTable
                             pageSize={pageSize}
                             data={list.imdsDiskarrayTemperature}
-                            actionAuth={['delete']}
                         />
                     ) : <Spin />}
                 </div> */}
@@ -407,7 +408,6 @@ class MageneticInfo extends React.Component<any, any> {
                     goPage={this.goPage.bind(this)} // 翻页
                     loading={tableLoading}
                     data={list}
-                    actionAuth={['delete']}
                 />
             )
         } else {
@@ -431,25 +431,21 @@ class MageneticInfo extends React.Component<any, any> {
                     <CompactTable
                         pageSize={pageSize}
                         data={list.imdsDiskarrayBBU}
-                        actionAuth={['delete']}
                     />
                     <Headline title="风扇信息" />
                     <CompactTable
                         pageSize={pageSize}
                         data={list.imdsDiskarrayFan}
-                        actionAuth={['delete']}
                     />
                     <Headline title="电源信息" />
                     <CompactTable
                         pageSize={pageSize}
                         data={list.imdsDiskarrayPower}
-                        actionAuth={['delete']}
                     />
                     <Headline title="控制器信息" />
                     <CompactTable
                         pageSize={pageSize}
                         data={list.imdsDiskarrayController}
-                        actionAuth={['delete']}
                     />
                 </div>
             )
@@ -561,7 +557,7 @@ class MageneticInfo extends React.Component<any, any> {
                                         {this.renderPerformance()}
                                     </div>
                                 </TabPane>
-                                <TabPane tab="告警" key="6">
+                                <TabPane tab="告警" key="">
                                 </TabPane>
                                 <TabPane tab="其它信息" key="other">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
