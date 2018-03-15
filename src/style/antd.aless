@@ -151,7 +151,7 @@
     .ant-advanced-search-form {
       .ant-form-item {
         display: flex;
-        .ant-form-item-label {width:300px;}
+        .ant-form-item-label {width:360px;}
         .ant-form-item-control-wrapper{width:500px;}
         input:read-only,
         input:read-only:active {border:0; box-shadow:none;}
