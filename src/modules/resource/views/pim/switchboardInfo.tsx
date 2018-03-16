@@ -402,7 +402,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                         <TabPane tab="资源关系" key="relation">
                             <Tabs size="small" activeKey={activeKey} onChange={this.onTab.bind(this)} animated={false}>
                                 {this.renderTab()}
-                                <TabPane tab="告警信息" key="6">告警信息</TabPane>
+                                {/* <TabPane tab="告警信息" key="6">告警信息</TabPane> */}
                             </Tabs>
                         </TabPane>
                     </Tabs>
