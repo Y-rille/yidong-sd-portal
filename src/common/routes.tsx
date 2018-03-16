@@ -6,7 +6,8 @@ import Loading from './loading'
 import {
   HashRouter as Router,
   Switch,
-  Route, Link
+  Route, Link,
+  Redirect
 } from 'react-router-dom'
 
 const LoginComponent = Loadable({
@@ -65,6 +66,7 @@ export default class MainRoures extends React.PureComponent<MainRouresProps, any
       <Router>
         <Site>
           <Switch>
+            <Redirect from="/" to="/resource" exact />
             <Route path="/login" component={LoginComponent} />
             <Route path="/dashboard" component={DashboardComponent} />
             <Route path="/setting" component={SettingComponent} />

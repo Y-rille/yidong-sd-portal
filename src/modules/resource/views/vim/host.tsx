@@ -109,7 +109,13 @@ class Host extends React.Component<HostProps, any> {
         let { pageNo } = queryObj
         let { region, az, ha, pageSize, activeKey } = this.state
         let act_Key = actKey || activeKey
-        this.props.actions.queryList(act_Key, { pageNo, pageSize, region, az, ha, vim_id }, () => {
+        let params_obj = { pageNo, pageSize, region, az, ha, vim_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val || val.length === 0) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList(act_Key, params_obj, () => {
             self.setState({
                 tableLoading: false
             });

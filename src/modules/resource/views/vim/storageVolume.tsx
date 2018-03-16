@@ -82,7 +82,13 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
         let self = this
         let { pageNo } = queryObj
         let { project, name, pageSize, vim_id } = this.state
-        this.props.actions.queryList('imdsStorageVolum', { pageNo, pageSize, project, name, vim_id }, () => {
+        let params_obj = { pageNo, pageSize, project, name, vim_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val || val.length === 0) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsStorageVolum', params_obj, () => {
             self.setState({
                 tableLoading: false
             });

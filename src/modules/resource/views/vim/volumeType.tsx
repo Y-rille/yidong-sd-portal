@@ -85,8 +85,13 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         });
         let { project, vim_id, name, pageSize } = this.state
         let { pageNo } = queryObj
-        let dsname = 'imdsVolumType'
-        this.props.actions.queryList(dsname, { pageNo, pageSize, project, vim_id, name }, () => {
+        let params_obj = { pageNo, pageSize, project, vim_id, name }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val || val.length === 0) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsVolumType', params_obj, () => {
             this.setState({
                 tableLoading: false
             });

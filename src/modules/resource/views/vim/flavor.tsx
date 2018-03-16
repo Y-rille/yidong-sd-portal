@@ -72,7 +72,13 @@ class Flavor extends React.Component<any, any> {
         let self = this
         let { pageNo } = queryObj
         let { project, pageSize, activeKey, flavorInputValue, vim_id } = this.state
-        this.props.actions.queryList('imdsFlavor', { pageNo, pageSize, project, name: flavorInputValue, vim_id }, () => {
+        let params_obj = { pageNo, pageSize, project, name: flavorInputValue, vim_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val || val.length === 0) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsFlavor', params_obj, () => {
             self.setState({
                 tableLoading: false
             });
