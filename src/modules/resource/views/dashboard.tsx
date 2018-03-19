@@ -11,7 +11,7 @@ import Headline from '../../../components/Headline'
 import emitter from '../../../common/emitter'
 let editRef = null
 let vimInfo = {
-    id: 'A12WED34212344RED',
+    vim_id: 'A12WED34212344RED',
     name: 'vimxxxx',
     url: 'http://www.hpe.com/kkkk',
     position: '北京futong',
@@ -22,7 +22,8 @@ class Dashboard extends React.Component<any, any> {
         super(props);
         this.state = {
             visible: false,
-            vimInfo: vimInfo
+            vimInfo: vimInfo,
+            loading: false
         }
     }
     showModal() {
@@ -37,12 +38,23 @@ class Dashboard extends React.Component<any, any> {
             vimInfo: vimInfo
         })
     }
-    handleOk(data) {
-        if (data) {
-            this.setState({
-                visible: false,
-            });
-            emitter.emit('message', 'success', '修改成功！')
+    handleOk(formdata) {
+        let moTypeKey = 'vim'
+        this.setState({
+            loading: true
+        });
+        if (formdata) {
+            this.props.actions.addVim(moTypeKey, formdata, (data, err) => {
+                this.setState({
+                    visible: false,
+                    loading: false
+                });
+                if (data.code === 1) {
+                    emitter.emit('message', 'success', '创建成功！')
+                } else {
+                    emitter.emit('message', 'error', '创建失败！')
+                }
+            })
         }
     }
     handleCancel() {
@@ -74,6 +86,7 @@ class Dashboard extends React.Component<any, any> {
                     <VimEdit
                         data={this.state.vimInfo}
                         visible={true}
+                        loading={this.state.loading}
                         handleOk={this.handleOk.bind(this)}
                         handleCancel={this.handleCancel.bind(this)}
                         ref={(node) => { editRef = node }}

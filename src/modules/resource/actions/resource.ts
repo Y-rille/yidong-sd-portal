@@ -358,8 +358,8 @@ export const deleteInstance = (moTypeKey, moInstId, cb) => (dispatch) => {
  * @param moTypeKey 对象类型ID或对象类型英文名
  * @param cb 
  */
-export const addVim = (moTypeKey, cb) => (dispatch) => {
-    return API.addVim(moTypeKey).then((res: any) => {
+export const addVim = (moTypeKey, params, cb) => (dispatch) => {
+    return API.addVim(moTypeKey, params).then((res: any) => {
         if (cb) {
             cb(res.data, null)
         }

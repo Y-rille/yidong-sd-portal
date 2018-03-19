@@ -69,9 +69,8 @@ var options_resource = {
 
 var webProxy_resource = proxy(options_resource);
 
-
 var options_agent = {
-    target: 'http://127.0.0.1:3000/', // target host
+    target: 'http://47.94.4.45:18028/', // target host
     secure: false,
     changeOrigin: true,               // needed for virtual hosted sites
     ws: true,                         // proxy websockets

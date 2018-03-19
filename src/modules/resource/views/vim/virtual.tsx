@@ -73,7 +73,13 @@ class Virtual extends React.Component<any, any> {
         let self = this
         let { pageNo } = queryObj
         let { region, az, ha, host, pageSize, vim_id } = this.state
-        this.props.actions.queryList('imdsVM', { pageNo, pageSize, region, az, ha, host, vim_id }, () => {
+        let params_obj = { pageNo, pageSize, region, az, ha, host, vim_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val || val.length === 0) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsVM', params_obj, () => {
             self.setState({
                 tableLoading: false
             });

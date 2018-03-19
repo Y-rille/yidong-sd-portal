@@ -16,16 +16,16 @@ import { stringify } from 'querystringify'
 import emitter from '../../../../common/emitter'
 const confirm = Modal.confirm
 export interface FirewallProps {
-    location?,
-    history?,
-    actions: ResourceActions,
-    match,
+    location?
+    history?
+    actions: ResourceActions
+    match
     subDataCenter?
-    subDataVendor?,
-    nodeInfo?,
+    subDataVendor?
+    nodeInfo?
     list?
-    subDataPIM?,
-    findData?,
+    subDataPIM?
+    findData?
     resetfindData?
 }
 class Firewall extends React.Component<FirewallProps, any> {
@@ -112,8 +112,8 @@ class Firewall extends React.Component<FirewallProps, any> {
     }
     addData = () => {
         let { selected } = this.state
-        this.props.actions.findConfirm('firewall', { data: { dataList: selected } }, (err, data) => {
-            if (data) {
+        this.props.actions.findConfirm('firewall', { data: { dataList: selected } }, (data, err) => {
+            if (data.code === 1) {
                 emitter.emit('message', 'success', '添加成功！')
                 let pageNo = 1
                 let { datacenter, vendor } = this.state
@@ -122,7 +122,8 @@ class Firewall extends React.Component<FirewallProps, any> {
                     pageNo
                 });
                 this.getTableData(queryObj)
-            } else {
+            }
+            if (err || data.code !== 1) {
                 emitter.emit('message', 'error', '添加失败！')
             }
             this.setState({

@@ -172,14 +172,15 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             visible: false,
         });
         this.props.actions.findConfirm('switch', { data: { dataList: selected } }, (data, err) => {
-            if (data) {
+            if (data.code === 1) {
                 emitter.emit('message', 'success', '添加成功！')
                 this.setState({
                     pageNo: 1
                 }, () => {
                     this.getTableData()
                 })
-            } else {
+            }
+            if (err || data.code !== 1) {
                 emitter.emit('message', 'error', '添加失败！')
             }
             this.props.actions.resetfindData()
@@ -206,8 +207,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.setState({
             tableLoading: true
         });
-        let { name, assettag, datacenter, pageSize, pageNo } = this.state
-        let params_obj = { pageNo, name, assettag, datacenter, pageSize, }
+        let { name, assettag, datacenter, pageSize, pageNo, pim_id } = this.state
+        let params_obj = { pageNo, name, assettag, datacenter, pageSize, pim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]

@@ -81,7 +81,13 @@ class Ha extends React.Component<HaProps, any> {
             tableLoading: true
         });
         let { region, pageSize, pageNo, vim_id, name } = this.state
-        this.props.actions.queryList('imdsHA', { pageNo, pageSize, region, vim_id, name }, () => {
+        let params_obj = { pageNo, pageSize, region, vim_id, name }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val || val.length === 0) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsHA', params_obj, () => {
             this.setState({
                 tableLoading: false
             });
