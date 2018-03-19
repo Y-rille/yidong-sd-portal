@@ -132,13 +132,14 @@ class Magnetic extends React.Component<any, any> {
 
         let { selected } = this.state
         this.props.actions.findConfirm('diskarray', { data: { dataList: selected } }, (data, err) => {
-            if (data) {
+            if (data.code === 1) {
                 emitter.emit('message', 'success', '添加成功！')
                 let queryObj = {
                     pageNo: 1
                 }
                 this.getTableData(queryObj)
-            } else {
+            }
+            if (err || data.code !== 1) {
                 emitter.emit('message', 'error', '添加失败！')
             }
             this.setState({

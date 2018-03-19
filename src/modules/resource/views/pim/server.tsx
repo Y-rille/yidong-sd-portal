@@ -82,14 +82,15 @@ class Server extends React.Component<any, any> {
     addData = () => {
         let { selected } = this.state
         this.props.actions.findConfirm('server', { data: { dataList: selected } }, (data, err) => {
-            if (data) {
+            if (data.code === 1) {
                 emitter.emit('message', 'success', '添加成功！')
                 this.setState({
                     pageNo: 1
                 }, () => {
                     this.getTableData()
                 })
-            } else {
+            }
+            if (err || data.code !== 1) {
                 emitter.emit('message', 'error', '添加失败！')
             }
             this.setState({
