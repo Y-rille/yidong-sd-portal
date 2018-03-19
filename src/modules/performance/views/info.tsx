@@ -83,37 +83,40 @@ export default class Info extends React.Component<InfoProps, any> {
     this.props.history.push(`${match.url}/${path}`)
   }
   getKpisAndThresholds(nodeInfo) {
-    this.props.actions.getMoTypeKpis(nodeInfo.bizFields.moTypeId, 7, (moTypeKpis) => {
-      // 设置默认选中的值
-      if (moTypeKpis) {
-        let facts = [];
-        let localFacts = store.local.get(nodeInfo.bizFields.moTypeId);
-        if (this.state.facts.length === 0) {
-          if (localFacts !== undefined) {
-            this.setState({
-              facts: localFacts,
-              changeFacts: localFacts,
-              moId: nodeInfo.bizFields.moTypeId
-            })
-          } else {
-            for (let i = 0; i < 4; i++) {
-              if (moTypeKpis[i]) {
-                facts.push(moTypeKpis[i].kpiId)
+    // console.log(nodeInfo, '==========>nodeinfo')
+    if (nodeInfo && nodeInfo !== 'undefined') {
+      this.props.actions.getMoTypeKpis(nodeInfo.bizFields.moTypeId, 7, (moTypeKpis) => {
+        // 设置默认选中的值
+        if (moTypeKpis) {
+          let facts = [];
+          let localFacts = store.local.get(nodeInfo.bizFields.moTypeId);
+          if (this.state.facts.length === 0) {
+            if (localFacts !== undefined) {
+              this.setState({
+                facts: localFacts,
+                changeFacts: localFacts,
+                moId: nodeInfo.bizFields.moTypeId
+              })
+            } else {
+              for (let i = 0; i < 4; i++) {
+                if (moTypeKpis[i]) {
+                  facts.push(moTypeKpis[i].kpiId)
+                }
               }
+              let str_facts = facts.join(',')
+              this.setState({
+                facts: str_facts,
+                changeFacts: str_facts,
+                moId: nodeInfo.bizFields.moTypeId
+              })
             }
-            let str_facts = facts.join(',')
-            this.setState({
-              facts: str_facts,
-              changeFacts: str_facts,
-              moId: nodeInfo.bizFields.moTypeId
-            })
+  
           }
-
         }
-      }
-    })
-    this.props.actions.getMoInstKpiThresholds(nodeInfo.bizFields.moTypeId, nodeInfo.bizFields.moInstId, (data) => {
-    })
+      })
+      this.props.actions.getMoInstKpiThresholds(nodeInfo.bizFields.moTypeId, nodeInfo.bizFields.moInstId, (data) => {
+      })
+    }
   }
 
   getNodeInfo(nodeId) {
