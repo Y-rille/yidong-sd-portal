@@ -172,14 +172,15 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             visible: false,
         });
         this.props.actions.findConfirm('switch', { data: { dataList: selected } }, (data, err) => {
-            if (data) {
+            if (data.code === 1) {
                 emitter.emit('message', 'success', '添加成功！')
                 this.setState({
                     pageNo: 1
                 }, () => {
                     this.getTableData()
                 })
-            } else {
+            }
+            if (err || data.code !== 1) {
                 emitter.emit('message', 'error', '添加失败！')
             }
             this.props.actions.resetfindData()

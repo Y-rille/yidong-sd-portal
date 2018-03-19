@@ -89,7 +89,8 @@ class Server extends React.Component<any, any> {
                 }, () => {
                     this.getTableData()
                 })
-            } else {
+            }
+            if (err || data.code !== 1) {
                 emitter.emit('message', 'error', '添加失败！')
             }
             this.setState({
