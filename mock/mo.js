@@ -1199,6 +1199,18 @@ let findconfirm = {
   }
 }
 
+let addvim = {
+  path: 'rms-agent/api/add/:moTypeKey',
+  method: 'POST',
+  cache: false,
+  template: (params, query, body) => {
+    return {
+      "code": 1,
+      "message": "确认成功"
+    }
+  }
+}
+
 module.exports = {
   activealarms,
   motypes,
@@ -1217,5 +1229,6 @@ module.exports = {
   addInstanceData,
   find,
   findconfirm,
-  delInstanceData
+  delInstanceData,
+  addvim
 }
