@@ -49,10 +49,7 @@ class ServerInfo extends React.Component<any, any> {
             okText: '确认',
             cancelText: '取消',
             iconType: 'exclamation-circle',
-            onOk() {
-                self.setState({
-                    status: self.state.status === 2 ? 1 : 2
-                })
+            onOk() {              
                 let operateType = self.state.status === 2 ? 'poweron' : 'poweroff'
                 let moTypeKey = 'server'
                 let match = self.props.match
@@ -60,6 +57,9 @@ class ServerInfo extends React.Component<any, any> {
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
                     if (res.code === 1) {
                         emitter.emit('message', 'success', '操作成功！')
+                        self.setState({
+                            status: self.state.status === 2 ? 1 : 2
+                        })
                     }
                     if (err || res.code !== 1) {
                         emitter.emit('message', 'error', '操作失败！')
