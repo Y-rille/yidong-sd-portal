@@ -37,19 +37,19 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
         const { getFieldDecorator } = this.props.form;
         return (
             <Form className={styles.vimForm}>
-                <Form.Item
+                {vimInfo.vim_id ? (<Form.Item
                     {...formItemLayout}
                     label="VIM ID"
                 >
-                    {getFieldDecorator('id', {
-                        initialValue: vimInfo.id,
+                    {getFieldDecorator('vim_id', {
+                        initialValue: vimInfo.vim_id,
                         rules: [{
                             required: true, message: '请输入VIM ID！',
                         }],
                     })(
                         <Input placeholder="请输入VIM ID" />
-                    )}
-                </Form.Item>
+                        )}
+                </Form.Item>) : ''}
                 <Form.Item
                     {...formItemLayout}
                     label="名称"
@@ -61,7 +61,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <Input placeholder="请输入名称" />
-                    )}
+                        )}
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
@@ -74,7 +74,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <Input placeholder="请输入URL" />
-                    )}
+                        )}
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
@@ -87,7 +87,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <Input placeholder="请输入位置" />
-                    )}
+                        )}
                 </Form.Item>
                 <FormItem
                     {...formItemLayout}
@@ -100,7 +100,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <TextArea rows={4} />
-                    )}
+                        )}
                 </FormItem>
             </Form>
         )

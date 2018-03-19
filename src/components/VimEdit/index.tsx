@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 
 import VimForm from '../VimForm/index'
 
@@ -8,6 +8,7 @@ export interface VimEditProps {
     visible
     handleOk?
     handleCancel?
+    loading?
 }
 
 export default class VimEdit extends React.PureComponent<VimEditProps, any> {
@@ -38,11 +39,14 @@ export default class VimEdit extends React.PureComponent<VimEditProps, any> {
         return (
             <Modal
                 title={title}
-                cancelText="取消"
-                okText="确定"
                 visible={this.props.visible}
                 onOk={this.handleOk.bind(this)}
                 onCancel={this.handleCancel.bind(this)}
+                footer={[
+                    <Button key="back" onClick={this.handleCancel.bind(this)}>取消</Button>,
+                    <Button key="submit" type="primary" loading={this.props.loading}
+                        onClick={this.handleOk.bind(this)}>确定</Button>,
+                ]}
             >
                 <VimForm data={data} wrappedComponentRef={(node) => { this.formRef = node }} />
             </Modal>
