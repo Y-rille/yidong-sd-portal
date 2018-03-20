@@ -10,6 +10,7 @@ const options = {
 };
 
 
+const proxy = require('http-proxy-middleware');
 var options0 = {
   target: 'http://47.94.4.45:8090/', // target host
   secure: false,
@@ -51,7 +52,7 @@ var options_performance = {
 var webProxy_performance = proxy(options_performance);
 
 var options_resource = {
-  target: 'http://127.0.0.1:8765/', // target host
+  target: 'http://47.94.4.45:8090/', // target host
   secure: false,
   changeOrigin: true,               // needed for virtual hosted sites
   ws: true,                         // proxy websockets
@@ -63,9 +64,8 @@ var options_resource = {
 
 var webProxy_resource = proxy(options_resource);
 
-
 var options_agent = {
-  target: 'http://127.0.0.1:8765/', // target host
+  target: 'http://47.94.4.45:18028/', // target host
   secure: false,
   changeOrigin: true,               // needed for virtual hosted sites
   ws: true,                         // proxy websockets
@@ -74,9 +74,7 @@ var options_agent = {
     '^/api_agent': ''
   }
 };
-
 var webProxy_agent = proxy(options_agent);
-
 
 const myApp = express();
 const configs = dyson.getConfigurations(options);
