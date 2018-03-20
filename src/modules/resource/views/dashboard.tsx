@@ -50,6 +50,7 @@ class Dashboard extends React.Component<any, any> {
                     loading: false
                 });
                 if (data.code === 1) {
+                    this.props.actions.getMoTree('mgrmoTree')
                     emitter.emit('message', 'success', '创建成功！')
                 } else {
                     emitter.emit('message', 'error', '创建失败！')

@@ -49,7 +49,7 @@ class ServerInfo extends React.Component<any, any> {
             okText: '确认',
             cancelText: '取消',
             iconType: 'exclamation-circle',
-            onOk() {              
+            onOk() {
                 let operateType = self.state.status === 2 ? 'poweron' : 'poweroff'
                 let moTypeKey = 'server'
                 let match = self.props.match
@@ -311,7 +311,7 @@ class ServerInfo extends React.Component<any, any> {
                                         let cardData = {
                                             title: JSON.parse(card),
                                             table: {
-                                                header: list.header,
+                                                header: _.filter(list.header, function (o) { return (o.key !== 'Model' && o.key !== 'EthernetInterfaceType' && o.key !== 'Status') }),
                                                 dataList: ethernetCardTable[i],
                                                 pageNo: list.pageNo,
                                                 pageSize: list.pageSize,
