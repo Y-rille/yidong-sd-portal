@@ -87,7 +87,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                 delete params_obj[key]
             }
         }));
-        this.props.actions.queryList('imdVirtualNetwork', params_obj, () => {
+        this.props.actions.queryList('imdsVirtualNetwork', params_obj, () => {
             self.setState({
                 tableLoading: false
             });
