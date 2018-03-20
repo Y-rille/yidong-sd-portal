@@ -57,23 +57,23 @@ class HostInfo extends React.Component<any, any> {
             this.goPage(1)
         })
     }
-    handleEditData(d) {
-        // console.log(d, '=============>hostInfo')
+    handleEditData(d, cb) {
         let moTypeKey = 'host'
         let match = this.props.match
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 
-            }
-            if (qdata.code === 1) {
+            } else if (qdata.code === 1) {
+                if (cb) {
+                    cb()
+                }
                 this.props.actions.getObjData(moTypeKey, moInstId)
             }
         })
     }
     showServer = (e) => {
         let host = this.props.match.params.id;
-        // console.log(host, ']==[=============================>')
         this.props.actions.queryList('imdsHostServerInfo', { host }, (err, res) => {
             if (!err && res['dataList']) {
                 let host_info = _.head(res['dataList'])

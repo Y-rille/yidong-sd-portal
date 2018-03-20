@@ -21,16 +21,22 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
             let submitData = this.props.form.getFieldsValue()
             // let editedData = this.props.data
             // _.forOwn(submitData, (value, key) => {
-            //     let _index = _.findIndex(this.props.data, item => (item.key === key))
-            //     editedData[_index].values = value
-            // })
+                //     let _index = _.findIndex(this.props.data, item => (item.key === key))
+                //     editedData[_index].values = value
+                // })
             if (this.props.editData) {
-                this.props.editData(submitData)
+                this.props.editData(submitData, () => {
+                    this.setState({
+                        isEdit: false
+                    })
+                })
             }
+        } else {
+            this.setState({
+                isEdit: true
+            })
         }
-        this.setState({
-            isEdit: !this.state.isEdit
-        })
+        
     }
     handleReset = () => {
         this.props.form.resetFields();
@@ -46,8 +52,8 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
             items.push(
                 <Col span={8} key={index}>
                 <FormItem wrapperCol={{offset: 1}} label={item.key}>
-                {getFieldDecorator(`${item.key}`, {initialValue: item.values})(
-                    item.ediable && this.state.isEdit ? <Input readOnly={!this.state.isEdit}  
+                {getFieldDecorator(`${item.physicalTablefield}`, {initialValue: item.values})(
+                    item.editable && this.state.isEdit ? <Input readOnly={!this.state.isEdit}  
                     name={item.attributeName} /> : (item.values.length > 25 ? <Tooltip placement="topLeft" title={item.values} arrowPointAtCenter>
                         <p>{item.values.slice(0, 24)}...</p>
                         </Tooltip> : <p>{item.values}</p>)
@@ -62,7 +68,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
         // console.log(this.state.ediable, '=======>this.state.ediable')
         if (this.props.data) {
             let isEditor = false;
-            if (_.find(this.props.data, { ediable: 1 })) {
+            if (_.find(this.props.data, { editable: 1 })) {
                 isEditor = true;
             }
             return (
