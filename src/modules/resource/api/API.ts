@@ -135,7 +135,7 @@ export interface VimParams {
   /**
    * VIM ID
    */
-  vim_id?: string,
+  VimId: string,
   /**
    * 名称
    */
