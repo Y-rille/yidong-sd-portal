@@ -25,6 +25,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
             if (!err) {
                 delete values.username
                 data = values
+                data.vim_id = this.state.vim_id
             } else {
                 data = null
             }
@@ -34,7 +35,6 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
 
     render() {
         let vimInfo = this.props.data || ''
-        let vim_id = vimInfo ? vimInfo.vim_id : this.state.vim_id
         const { getFieldDecorator } = this.props.form;
         return (
             <Form className={styles.vimForm}>
@@ -42,14 +42,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                     {...formItemLayout}
                     label="VIM ID"
                 >
-                    {getFieldDecorator('vim_id', {
-                        initialValue: vim_id,
-                        rules: [{
-                            required: true, message: '请输入VIM ID！',
-                        }],
-                    })(
-                        <Input placeholder="请输入VIM ID" disabled={true} />
-                    )}
+                    <p>{this.state.vim_id}</p>
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
