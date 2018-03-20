@@ -143,7 +143,7 @@ class Mirror extends React.Component<any, any> {
                     <div className={styles.queryBar}>
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
                         <Input placeholder="镜像名称"
-                            value={name}
+                            value={name} type="text"
                             onChange={e => this.mirrorInput(e.target.value)} />
                         <Button
                             type="primary"

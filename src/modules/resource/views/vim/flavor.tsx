@@ -12,12 +12,12 @@ class Flavor extends React.Component<any, any> {
         super(props);
         let { match } = this.props
         let { pathname } = this.props.location
-        let { pageNo, project, flavorInputValue } = qs.parse(this.props.location.search)
+        let { pageNo, project, name } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/vim/:id'
         })
         this.state = {
-            flavorInputValue: flavorInputValue ? flavorInputValue : '',
+            name: name ? name : '',
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
@@ -34,14 +34,14 @@ class Flavor extends React.Component<any, any> {
     }
     flavorInputChange(value) {
         this.setState({
-            flavorInputValue: value
+            name: value
         })
     }
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { project, flavorInputValue } = this.state
-        let queryObj = { pageNo, project, name: flavorInputValue }
+        let { project, name } = this.state
+        let queryObj = { pageNo, project, name }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -51,9 +51,9 @@ class Flavor extends React.Component<any, any> {
     }
     goPage(num) {
         let { match } = this.props
-        let { project, flavorInputValue } = this.state
+        let { project, name } = this.state
         let pageNo = num
-        let queryObj = { pageNo, project, name: flavorInputValue }
+        let queryObj = { pageNo, project, name: name }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
@@ -71,8 +71,8 @@ class Flavor extends React.Component<any, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { project, pageSize, activeKey, flavorInputValue, vim_id } = this.state
-        let params_obj = { pageNo, pageSize, project, name: flavorInputValue, vim_id }
+        let { project, pageSize, activeKey, name, vim_id } = this.state
+        let params_obj = { pageNo, pageSize, project, name, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -97,7 +97,7 @@ class Flavor extends React.Component<any, any> {
     render() {
         let { match, nodeInfo, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { flavorInputValue, project, pageSize, tableLoading } = this.state;
+        const { name, project, pageSize, tableLoading } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -118,7 +118,7 @@ class Flavor extends React.Component<any, any> {
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
                         <Input
                             placeholder="Flavor名称"
-                            value={flavorInputValue} type="text"
+                            value={name} type="text"
                             onChange={e => this.flavorInputChange(e.target.value)}
                         />
                         <Button
