@@ -42,7 +42,13 @@ class AzInfo extends React.Component<any, any> {
         });
         let self = this
         let { name, pageSize, vim_id, pageNo, ha, az_id } = this.state
-        this.props.actions.queryList('imdsAZHost', { pageNo, pageSize, name, vim_id, ha, az_id }, (res) => {
+        let params_obj = { pageNo, pageSize, name, vim_id, ha, az_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val || val.length === 0) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsAZHost', params_obj, (res) => {
             self.setState({
                 tableLoading: false
             });

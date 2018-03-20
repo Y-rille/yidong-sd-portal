@@ -32,54 +32,6 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
             page_size: this.props.pageSize ? this.props.pageSize : 10,
         };
     }
-    static defaultProps = {
-
-        data: {
-            'header': [
-                {
-                    'key': 'name',
-                    'title': '主机名称',
-                    'link': false,
-
-                },
-                {
-                    'key': 'role',
-                    'title': '角色',
-                    'link': false
-                },
-                {
-                    'key': 'az',
-                    'title': '所属AZ',
-                    'link': false
-                },
-                {
-                    'key': 'ha',
-                    'title': '所属HA',
-                    'link': false
-                }
-            ],
-            'dataList': [
-                {
-                    'id': 1,
-                    'az': 'xasa AAAAS',
-                    'name': '10.255.242.215',
-                    'ha': 'xasa',
-                    'role': '主'
-                },
-                {
-                    'id': 2,
-                    'az': 'xasa,AAAAS',
-                    'name': '10.255.242.216',
-                    'ha': 'xasa',
-                    'role': '主'
-                }
-            ],
-            'pageNo': 1,
-            'pageSize': 10,
-            'totalCount': 2
-        }
-
-    }
     goEdit(record) {
         if (this.props.goEdit) {
             this.props.goEdit(record)
@@ -142,13 +94,6 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
                 )
             })
         }
-        // const columns = [{
-        //     title: '用户名',
-        //     dataIndex: 'email',
-        //     key: 'email',
-        //     render: text => <a href="javascript:;">{text}</a>,
-        //     width: '20%'
-        // }];
         let { page_num, page_size } = this.state
 
         _.map(dataList, function (item: any, index) {
