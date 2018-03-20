@@ -48,7 +48,10 @@ export default class VimEdit extends React.PureComponent<VimEditProps, any> {
                         onClick={this.handleOk.bind(this)}>确定</Button>,
                 ]}
             >
-                <VimForm data={data} wrappedComponentRef={(node) => { this.formRef = node }} />
+                <VimForm
+                    data={data}
+                    wrappedComponentRef={(node) => { this.formRef = node }}
+                />
             </Modal>
         );
     }

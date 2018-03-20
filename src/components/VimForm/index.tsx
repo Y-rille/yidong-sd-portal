@@ -4,7 +4,7 @@ const FormItem = Form.Item;
 const { TextArea } = Input;
 import styles from './index.less';
 import { FormComponentProps } from 'antd/lib/form/Form';
-
+import UUID from 'uuid'
 export interface VimFormClsProps extends FormComponentProps {
     data?
 }
@@ -16,6 +16,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
     constructor(props: any) {
         super(props)
         this.state = {
+            vim_id: UUID.v1()
         }
     }
     getData() {
@@ -24,7 +25,6 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
             if (!err) {
                 delete values.username
                 data = values
-
             } else {
                 data = null
             }
@@ -34,22 +34,23 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
 
     render() {
         let vimInfo = this.props.data || ''
+        let vim_id = vimInfo ? vimInfo.vim_id : this.state.vim_id
         const { getFieldDecorator } = this.props.form;
         return (
             <Form className={styles.vimForm}>
-                {vimInfo.vim_id ? (<Form.Item
+                <Form.Item
                     {...formItemLayout}
                     label="VIM ID"
                 >
                     {getFieldDecorator('vim_id', {
-                        initialValue: vimInfo.vim_id,
+                        initialValue: vim_id,
                         rules: [{
                             required: true, message: '请输入VIM ID！',
                         }],
                     })(
-                        <Input placeholder="请输入VIM ID" />
-                        )}
-                </Form.Item>) : ''}
+                        <Input placeholder="请输入VIM ID" disabled={true} />
+                    )}
+                </Form.Item>
                 <Form.Item
                     {...formItemLayout}
                     label="名称"
@@ -61,7 +62,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <Input placeholder="请输入名称" />
-                        )}
+                    )}
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
@@ -74,7 +75,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <Input placeholder="请输入URL" />
-                        )}
+                    )}
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
@@ -87,7 +88,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <Input placeholder="请输入位置" />
-                        )}
+                    )}
                 </Form.Item>
                 <FormItem
                     {...formItemLayout}
@@ -100,7 +101,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         }],
                     })(
                         <TextArea rows={4} />
-                        )}
+                    )}
                 </FormItem>
             </Form>
         )
