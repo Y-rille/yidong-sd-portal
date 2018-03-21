@@ -45,14 +45,22 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
             data: conversion(this.props.attributes, this.props.data)
         };
     }
-    handleEditData(data) {
+    handleEditData(data, cb) {
         if (this.props.editData) {
-            this.props.editData(data)
+            this.props.editData(data, cb)
         }
     }
     componentDidMount() {
     }
+    componentWillReceiveProps(nextprops) {
+        if (nextprops.data) {
+            this.setState({
+                data: conversion(this.props.attributes, nextprops.data)
+            })
+        }
+    }
     render() {
+        // console.log(this.props.data, '=======this.props.data')
         if (this.state.data) {
             return (
                 <div className="dynamicPropertiesPanel" style={{ 'padding': '20px 0' }}>
