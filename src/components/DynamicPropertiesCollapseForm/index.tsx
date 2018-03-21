@@ -14,16 +14,22 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
     constructor(props) {
         super(props);
         this.state = {
-            isEdit: false
+            isEdit: false,
+            loading: false
         };
     }
     handleEdit() {
         if (this.state.isEdit) {
             let submitData = this.props.form.getFieldsValue()
             if (this.props.editData) {
-                this.props.editData(submitData)
                 this.setState({
-                    isEdit: false
+                    loading: true
+                })
+                this.props.editData(submitData, () => {
+                    this.setState({
+                        loading: false,
+                        isEdit: false
+                    })
                 })
             }
         } else {
@@ -67,7 +73,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                 isEditor = true;
             }
             return (
-                <Spin spinning={this.props.loading}>
+                <Spin spinning={this.state.loading}>
                     <Form className="ant-advanced-search-form">
                         <Row gutter={24}>
                             {this.renderForm(this.props.data)}    
