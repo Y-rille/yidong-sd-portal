@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Collapse, Button, Form, Row, Col, Input } from 'antd';
+import { Collapse, Button, Form, Row, Col, Input, Spin } from 'antd';
 import DynamicPropertiesCollapseForm from '../DynamicPropertiesCollapseForm'
 
 const Panel = Collapse.Panel;
@@ -10,6 +10,7 @@ interface DynamicPropertiesCollapseProps {
     attributes: Array<object>;
     data: object;
     editData?
+    loading?
 }
 interface DynamicPropertiesPanelState {
 }
@@ -45,15 +46,15 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
             data: conversion(this.props.attributes, this.props.data)
         };
     }
-    handleEditData(data, cb) {
+    handleEditData(data) {
         if (this.props.editData) {
-            this.props.editData(data, cb)
+            this.props.editData(data)
         }
     }
     componentDidMount() {
     }
     componentWillReceiveProps(nextprops) {
-        if (nextprops.data) {
+        if (nextprops.data && nextprops.data !== this.props.data) {
             this.setState({
                 data: conversion(this.props.attributes, nextprops.data)
             })
@@ -74,7 +75,7 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
                                     key={sindex}
                                     style={{ 'margin-bottom': '20px' }}
                                 >
-                                    <DynamicPropertiesCollapseForm data={formData} editData={this.handleEditData.bind(this)}/>
+                                    <DynamicPropertiesCollapseForm data={formData} loading={this.props.loading} editData={this.handleEditData.bind(this)}/>
                                 </Panel>
                             })
                         }

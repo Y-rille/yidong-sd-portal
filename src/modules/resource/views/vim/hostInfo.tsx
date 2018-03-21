@@ -10,6 +10,7 @@ import { stringify } from 'querystringify'
 import qs from 'querystringify'
 import styles from '../../style/index.less'
 import Item from 'antd/lib/list/Item';
+import emitter from '../../../../common/emitter'
 
 class HostInfo extends React.Component<any, any> {
     constructor(props) {
@@ -22,6 +23,7 @@ class HostInfo extends React.Component<any, any> {
             pageSize: 9999,
             activeKey: 'imdsHostProcessor',
             host: match.params.id,
+            collapseLoading: false
         }
     }
     onChange(key) {
@@ -57,18 +59,30 @@ class HostInfo extends React.Component<any, any> {
             this.goPage(1)
         })
     }
-    handleEditData(d, cb) {
+    handleEditData(d) {
         let moTypeKey = 'host'
         let match = this.props.match
         let moInstId = match.params.id
+        this.setState({
+            collapseLoading: true
+        })
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 
             } else if (qdata.code === 1) {
-                if (cb) {
-                    cb()
-                }
-                this.props.actions.getObjData(moTypeKey, moInstId)
+                this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
+                    if (res && res === 1) {
+                        this.setState({
+                            collapseLoading: false
+                        })
+                    }
+                    if (res && res === 0 || error) {
+                        emitter.emit('message', 'error', '修改失败')
+                        this.setState({
+                            collapseLoading: false
+                        })
+                    }
+                })
             }
         })
     }
@@ -134,7 +148,9 @@ class HostInfo extends React.Component<any, any> {
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes} 
+                data={this.props.objData} loading={this.state.collapseLoading}
+                editData={this.handleEditData.bind(this)} />
             )
         }
     }

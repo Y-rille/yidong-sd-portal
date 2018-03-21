@@ -1,12 +1,13 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Tooltip, Button, Form, Row, Col, Input } from 'antd';
+import { Tooltip, Button, Form, Row, Col, Input, Spin } from 'antd';
 
 const FormItem = Form.Item;
 
 interface DynamicPropertiesCollapseFormProps {
     data: object;
     editData?
+    loading?
 }
 
 class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicPropertiesCollapseFormProps> {
@@ -19,16 +20,10 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
     handleEdit() {
         if (this.state.isEdit) {
             let submitData = this.props.form.getFieldsValue()
-            // let editedData = this.props.data
-            // _.forOwn(submitData, (value, key) => {
-                //     let _index = _.findIndex(this.props.data, item => (item.key === key))
-                //     editedData[_index].values = value
-                // })
             if (this.props.editData) {
-                this.props.editData(submitData, () => {
-                    this.setState({
-                        isEdit: false
-                    })
+                this.props.editData(submitData)
+                this.setState({
+                    isEdit: false
                 })
             }
         } else {
@@ -72,22 +67,24 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                 isEditor = true;
             }
             return (
-                <Form className="ant-advanced-search-form">
-                    <Row gutter={24}>
-                        {this.renderForm(this.props.data)}    
-                    </Row>
-                    {isEditor ? <Row>
-                        <Col span={24} style={{ textAlign: 'left' }}>
-                            <Button style={{ marginLeft: 8 }} onClick={this.handleEdit.bind(this)} type="primary">
-                                {this.state.isEdit ? '保存' : '修改'}
-                            </Button>
-                            {this.state.isEdit ?  <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)} 
-                                type="primary">
-                                    重置
-                                </Button> : null}
-                      </Col>
-                    </Row> : null }
-                </Form>
+                <Spin spinning={this.props.loading}>
+                    <Form className="ant-advanced-search-form">
+                        <Row gutter={24}>
+                            {this.renderForm(this.props.data)}    
+                        </Row>
+                        {isEditor ? <Row>
+                            <Col span={24} style={{ textAlign: 'left' }}>
+                                <Button style={{ marginLeft: 8 }} onClick={this.handleEdit.bind(this)} type="primary">
+                                    {this.state.isEdit ? '保存' : '修改'}
+                                </Button>
+                                {this.state.isEdit ?  <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)} 
+                                    type="primary">
+                                        重置
+                                    </Button> : null}
+                        </Col>
+                        </Row> : null }
+                    </Form>
+                </Spin>
             )
         }
     }
