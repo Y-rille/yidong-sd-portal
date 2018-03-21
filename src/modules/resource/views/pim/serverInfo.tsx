@@ -305,7 +305,6 @@ class ServerInfo extends React.Component<any, any> {
     renderNormalTable() {
         let { list } = this.props
         let { tableLoading } = this.state
-
         if (list && list.header) {
             return (
                 <CompactTable

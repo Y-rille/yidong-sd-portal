@@ -16,7 +16,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
     constructor(props: any) {
         super(props)
         this.state = {
-            vim_id: UUID.v1()
+            VimId: UUID.v1()
         }
     }
     getData() {
@@ -25,7 +25,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
             if (!err) {
                 delete values.username
                 data = values
-                data.vim_id = this.state.vim_id
+                data.VimId = this.state.VimId
             } else {
                 data = null
             }
@@ -42,7 +42,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                     {...formItemLayout}
                     label="VIM ID"
                 >
-                    <p>{this.state.vim_id}</p>
+                    <p>{this.state.VimId}</p>
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}

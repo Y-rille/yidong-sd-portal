@@ -12,7 +12,7 @@ class Mirror extends React.Component<any, any> {
     constructor(props) {
         super(props);
         let { match } = this.props
-        let { pageNo, project } = qs.parse(this.props.location.search)
+        let { pageNo, project, name } = qs.parse(this.props.location.search)
         let mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
