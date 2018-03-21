@@ -199,6 +199,10 @@ class API {
     // 1.4
     return axios.post(`/api_agent/rms-agent/api/add/${moTypeKey}`, params)
   }
+  getSyslog(moTypeKey, moInstId) {
+    // 1.4  
+    return axios.get(`/api_agent/rms-agent/api/syslog/${moTypeKey}/${moInstId}`)
+  }
 }
 
 export default new API()

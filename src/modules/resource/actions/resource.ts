@@ -369,3 +369,25 @@ export const addVim = (moTypeKey, params, cb) => (dispatch) => {
         }
     })
 }
+
+/**
+ * 日志
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param moInstId 
+ * @param cb 
+ */
+export const getSyslog = (moTypeKey, moInstId, cb) => (dispatch) => {
+    return API.getSyslog(moTypeKey, moInstId).then((res: any) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, syslog: res.data }
+        dispatch(action);
+        if (cb) {
+            cb(res.data, null)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, syslog: null }
+        dispatch(action);
+        if (cb) {
+            cb(null, err)
+        }
+    })
+}

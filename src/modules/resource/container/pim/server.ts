@@ -15,6 +15,7 @@ function mapProps(state) {
         subDataCenter: state.resourceReducer.subDataCenter,
         subDataPIM: state.resourceReducer.subDataPIM,
         findData: state.resourceReducer.findData,
+        syslog: state.resourceReducer.syslog
     }
 }
 function mapDispatchToProps(dispatch) {

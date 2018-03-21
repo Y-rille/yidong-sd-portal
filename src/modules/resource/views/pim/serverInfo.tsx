@@ -33,27 +33,27 @@ class ServerInfo extends React.Component<any, any> {
         }
     }
     //     正则修改日志字符串  
-    fmtData = () => {
-        let _str = `Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server reset.
-                    Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server power restored.
-                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-                    Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-                    Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-                    Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-                    Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.`
+    fmtData(str) {
+        // let _str = `Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server reset.
+        //             Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server power restored.
+        //             Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+        //             Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+        //             Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+        //             Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+        //             Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+        //             Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+        //             Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+        //             Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+        //             Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+        //             Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+        //             Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+        //             Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.`
         let patt1 = /\S+\b.*\d\d\:\d\d\:\d\d/
         let patt2 = /(\d{1,3}\.){3}\d{1,3}/
         let patt3 = /\#\S+\b.*\d(?=\:\s)/
         let patt4 = /\d{1,2}\/\S+\b.*/
         let info = []
-        let arr = _str.split(/\n/)
+        let arr = str.split(/\n/)
         arr.map(function (item, index) {
             let _info = {
                 generated_at: item.match(patt1)[0],
@@ -108,6 +108,15 @@ class ServerInfo extends React.Component<any, any> {
         this.setState({
             showBtn: key === 'log' ? false : true
         })
+        if (key === 'log') {
+            this.props.actions.getSyslog('server', this.props.match.params.id, (data, err) => {
+                if (data.code === 1) {
+                    this.setState({
+                        events: this.fmtData(data.log)
+                    })
+                }
+            })
+        }
     }
     confirmRest = () => {
         let self = this
@@ -249,11 +258,11 @@ class ServerInfo extends React.Component<any, any> {
         this.props.actions.getObjData(moTypeKey, id);
     }
     componentDidMount() {
-        setTimeout(() => {
-            this.setState({
-                events: this.fmtData()
-            })
-        }, 4000)
+        // setTimeout(() => {
+        //     this.setState({
+        //         events: this.fmtData()
+        //     })
+        // }, 4000)
     }
     componentWillUnmount() {
         this.props.actions.resetList();
