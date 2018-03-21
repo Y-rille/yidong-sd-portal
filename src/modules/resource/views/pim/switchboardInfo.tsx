@@ -265,6 +265,7 @@ class SwitchboardInfo extends React.Component<any, any> {
         let match = this.props.match
         let id = match.params.id
         if (key === 'imdsSwitchPort15MiKpis') {
+            this.props.actions.resetList();
             this.setState({
                 disabled: true,
                 activeKey: key
@@ -296,43 +297,59 @@ class SwitchboardInfo extends React.Component<any, any> {
         })
     }
     renderTab() {
-        let title = ['主板信息', '端口信息', '电源信息', '风扇信息', '性能信息']
-        let keys = ['imdsSwitchMotherboard', 'imdsSwitchPort', 'imdsSwitchPower', 'imdsSwitchFan', 'imdsSwitchPort15MiKpis']
         let { list, summary } = this.props
         const { pageSize, tableLoading } = this.state;
         if (list) {
             return (
-                keys.map((item, key) => {
-                    if (item) {
-                        return (
-                            <TabPane tab={title[key]} key={item}>
-                                {this.state.disabled ? (<div>
-                                    <Headline title="系统信息" />
-                                    {summary ? <Summaries
-                                        data={summary}
-                                        colNum={2} /> : ''}
-                                    <Headline
-                                        title="接口信息（按端口统计）"
-                                    />
-                                </div>) : ''}
-                                <CompactTable
-                                    // goPage={this.goPage.bind(this)} // 翻页
-                                    // goLink={this.goLink.bind(this)}
-                                    pageSize={pageSize}
-                                    loading={tableLoading}
-                                    actionAuth={[]}
-                                    // pageAuth={false}
-                                    data={list}
-                                    outStyle={{ 'marginTop': '20px' }}
-                                />
-                            </TabPane>
-                        )
-                    } else {
-                        return (
-                            <Spin />
-                        )
-                    }
-                }))
+                <CompactTable
+                    // goPage={this.goPage.bind(this)} // 翻页
+                    // goLink={this.goLink.bind(this)}
+                    pageSize={pageSize}
+                    loading={tableLoading}
+                    actionAuth={[]}
+                    // pageAuth={false}
+                    data={list}
+                    outStyle={{ 'marginTop': '20px' }}
+                />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+
+        }
+    }
+    renderPerformanceTab() {
+        let { list, summary } = this.props
+        const { pageSize, tableLoading } = this.state;
+
+        if (list && summary) {
+            return (
+                <div>
+                    <Headline title="系统信息" />
+                    <Summaries
+                        data={summary}
+                        colNum={2} />
+                    <Headline
+                        title="接口信息（按端口统计）"
+                    />
+
+                    <CompactTable
+                        pageSize={pageSize}
+                        actionAuth={[]}
+                        data={list}
+                        outStyle={{ 'marginTop': '20px' }}
+                    />
+                </div>
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
         }
     }
     handleEditData(d) {
@@ -401,7 +418,22 @@ class SwitchboardInfo extends React.Component<any, any> {
 
                         <TabPane tab="资源关系" key="relation">
                             <Tabs size="small" activeKey={activeKey} onChange={this.onTab.bind(this)} animated={false}>
-                                {this.renderTab()}
+                                <TabPane tab={'主板信息'} key={'imdsSwitchMotherboard'}>
+                                    {this.renderTab()}
+                                </TabPane>
+                                <TabPane tab={'端口信息'} key={'imdsSwitchPort'}>
+                                    {this.renderTab()}
+                                </TabPane>
+                                <TabPane tab={'电源信息'} key={'imdsSwitchPower'}>
+                                    {this.renderTab()}
+                                </TabPane>
+                                <TabPane tab={'风扇信息'} key={'imdsSwitchFan'}>
+                                    {this.renderTab()}
+                                </TabPane>
+                                <TabPane tab={'性能信息'} key={'imdsSwitchPort15MiKpis'}>
+                                    {this.renderPerformanceTab()}
+                                </TabPane>
+
                                 {/* <TabPane tab="告警信息" key="6">告警信息</TabPane> */}
                             </Tabs>
                         </TabPane>
