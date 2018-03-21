@@ -229,8 +229,8 @@ class ServerInfo extends React.Component<any, any> {
                 status: _power.powerStatus
             })
         }
-        if (showBtn && _power && status) {
-            return (
+        if (showBtn && status) {
+            if (_power) {return (
                 <div className={styles.btn}>
                     <Button
                         type="primary" ghost
@@ -242,15 +242,17 @@ class ServerInfo extends React.Component<any, any> {
                         onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
                     <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
                 </div>
-            )
+            )} else {
+                return (
+                    <div className={styles.btn}>
+                        <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
+                            onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                        <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
+                    </div>
+                )
+            }          
         } else {
-            return (
-                <div className={styles.btn}>
-                    <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
-                        onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
-                    <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
-                </div>
-            )
+            return (<div></div>)
         }
     }
     //     正则修改日志字符串  
