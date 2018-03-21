@@ -136,8 +136,6 @@ class HostInfo extends React.Component<any, any> {
             return (
                 <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
             )
-        } else {
-            return (<Spin />)
         }
     }
     renderTab() {

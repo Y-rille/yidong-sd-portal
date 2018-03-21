@@ -32,6 +32,40 @@ class ServerInfo extends React.Component<any, any> {
             server: match.params.id,
         }
     }
+    //     正则修改日志字符串  
+    fmtData = () => {
+        let _str = `Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server reset.
+                    Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server power restored.
+                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+                    Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+                    Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+                    Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
+                    Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
+                    Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.`
+        let patt1 = /\S+\b.*\d\d\:\d\d\:\d\d/
+        let patt2 = /(\d{1,3}\.){3}\d{1,3}/
+        let patt3 = /\#\S+\b.*\d(?=\:\s)/
+        let patt4 = /\d{1,2}\/\S+\b.*/
+        let info = []
+        let arr = _str.split(/\n/)
+        arr.map(function (item, index) {
+            let _info = {
+                generated_at: item.match(patt1)[0],
+                IP: item.match(patt2)[0],
+                hostname: item.match(patt3)[0],
+                message: item.match(patt4)[0]
+            }
+            info.push(_info)
+        })
+        return info
+    }
+
     confirmUpOrDown = (e) => {
         // let title = '上电'
         let content = '服务器正在运行，确定上电吗？'
@@ -49,7 +83,7 @@ class ServerInfo extends React.Component<any, any> {
             okText: '确认',
             cancelText: '取消',
             iconType: 'exclamation-circle',
-            onOk() {              
+            onOk() {
                 let operateType = self.state.status === 2 ? 'poweron' : 'poweroff'
                 let moTypeKey = 'server'
                 let match = self.props.match
@@ -112,7 +146,6 @@ class ServerInfo extends React.Component<any, any> {
     }
     goHost() {
         let server = this.props.match.params.id
-        // console.log(server, "]==[========================>")
         this.props.actions.queryList('imdsServerHostInfo', { server }, (err, res) => {
             if (!err && res['dataList']) {
                 let server_info = _.head(res['dataList'])
@@ -159,6 +192,7 @@ class ServerInfo extends React.Component<any, any> {
         let match = this.props.match
         let id = match.params.id
         let arr = ['imdsServerPCIE', 'imdsServerRaidCard', 'imdsServerLogicalDrive', 'imdsServer15MiKpis']
+        this.props.actions.resetList();
         if (key === 'imdsServer15MiKpis') {
             this.setState({
                 tableLoading: true,
@@ -214,6 +248,17 @@ class ServerInfo extends React.Component<any, any> {
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey, id);
     }
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({
+                events: this.fmtData()
+            })
+        }, 4000)
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList();
+        this.props.actions.resetSummary();
+    }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
@@ -230,19 +275,21 @@ class ServerInfo extends React.Component<any, any> {
             })
         }
         if (showBtn && status) {
-            if (_power) {return (
-                <div className={styles.btn}>
-                    <Button
-                        type="primary" ghost
-                        icon="dingding"
-                        style={{ margin: '0px 10px 0px 0' }}
-                        onClick={this.confirmUpOrDown}
-                    >{this.state.status === 2 ? '上电' : '下电'}</Button>
-                    <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
-                        onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
-                    <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
-                </div>
-            )} else {
+            if (_power) {
+                return (
+                    <div className={styles.btn}>
+                        <Button
+                            type="primary" ghost
+                            icon="dingding"
+                            style={{ margin: '0px 10px 0px 0' }}
+                            onClick={this.confirmUpOrDown}
+                        >{this.state.status === 2 ? '上电' : '下电'}</Button>
+                        <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
+                            onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                        <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
+                    </div>
+                )
+            } else {
                 return (
                     <div className={styles.btn}>
                         <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
@@ -250,145 +297,104 @@ class ServerInfo extends React.Component<any, any> {
                         <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
                     </div>
                 )
-            }          
+            }
         } else {
             return (<div></div>)
         }
     }
-    //     正则修改日志字符串  
-    fmtData = () => {
-        let _str = `Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server reset.
-                    Nov 21 10:05:22 188.103.18.24  #ILO 4: 11/21/2017 02:04 Server power restored.
-                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-                    Nov 21 10:05:55 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-                    Nov 21 10:05:56 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-                    Nov 21 10:05:58 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-                    Nov 21 10:05:59 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.
-                    Nov 21 10:06:01 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP login by admin - 188.103.15.147.
-                    Nov 21 10:06:03 188.103.18.24  #ILO 4: 11/21/2017 02:04 IPMI/RMCP logout: admin - 188.103.15.147.`
-        let patt1 = /\S+\b.*\d\d\:\d\d\:\d\d/
-        let patt2 = /(\d{1,3}\.){3}\d{1,3}/
-        let patt3 = /\#\S+\b.*\d(?=\:\s)/
-        let patt4 = /\d{1,2}\/\S+\b.*/
-        let info = []
-        let arr = _str.split(/\n/)
-        arr.map(function (item, index) {
-            let _info = {
-                generated_at: item.match(patt1)[0],
-                IP: item.match(patt2)[0],
-                hostname: item.match(patt3)[0],
-                message: item.match(patt4)[0]
-            }
-            info.push(_info)
+    renderNormalTable() {
+        let { list } = this.props
+        let { tableLoading } = this.state
+
+        if (list && list.header) {
+            return (
+                <CompactTable
+                    goPage={this.goPage.bind(this)} // 翻页
+                    loading={tableLoading}
+                    data={list}
+                />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
+    renderServerEthernetCardTable() {
+        let { list } = this.props
+        let ethernetCard = {}
+        ethernetCard = _.groupBy(list && list.dataList, function (obj) {
+            return JSON.stringify({ Model: obj.Model, EthernetInterfaceType: obj.EthernetInterfaceType, Status: obj.Status })
         })
-        return info
-    }
-
-    renderTab() {
-        let title = ['处理器信息', '内存信息', '网卡信息', '硬盘信息', '风扇信息', '电源信息', '其他信息']
-        let keys = ['imdsServerProcessor', 'imdsServerMemory', 'imdsServerEthernetCard', 'imdsServerDisk', 'imdsServerFan', 'imdsServerPower', 'imdsServer15MiKpis']
-        let { list, summary } = this.props;
-        const { pageSize, tableLoading } = this.state;
-        let self = this
-        return (
-            keys.map((item, key) => {
-                if (item === 'imdsServerEthernetCard') {
-                    list = list || {}
-                    let ethernetCard = {}
-                    ethernetCard = _.groupBy(list.dataList, function (obj) {
-                        return JSON.stringify({ Model: obj.Model, EthernetInterfaceType: obj.EthernetInterfaceType, Status: obj.Status })
-                    })
-                    let ethernetCardTitle = _.keys(ethernetCard)
-                    let ethernetCardTable = _.values(ethernetCard)
-                    return (
-                        <TabPane tab={title[key]} key={item}>
-                            <div style={{ margin: '20px 0' }}>
-                                {
-                                    _.map(ethernetCardTitle, (card, i) => {
-                                        let cardData = {
-                                            title: JSON.parse(card),
-                                            table: {
-                                                header: list.header,
-                                                dataList: ethernetCardTable[i],
-                                                pageNo: list.pageNo,
-                                                pageSize: list.pageSize,
-                                                totalCount: list.totalCount
-                                            }
-                                        }
-                                        return <ServerNetworkCard data={cardData} />
-                                    })
+        let ethernetCardTitle = _.keys(ethernetCard)
+        let ethernetCardTable = _.values(ethernetCard)
+        if (list && list.header) {
+            return (
+                <div style={{ margin: '20px 0' }}>
+                    {
+                        _.map(ethernetCardTitle, (card, i) => {
+                            let cardData = {
+                                title: JSON.parse(card),
+                                table: {
+                                    header: list.header,
+                                    dataList: ethernetCardTable[i],
+                                    pageNo: list.pageNo,
+                                    pageSize: list.pageSize,
+                                    totalCount: list.totalCount
                                 }
-                            </div>
-                        </TabPane>
-                    )
-                } else if (item === 'imdsServer15MiKpis') {
-                    list = list || {}
-                    summary = summary || {}
-                    if (list && summary) {
-                        return (
-                            <TabPane tab={title[key]} key={item}>
-                                <Headline title="PCIe槽内信息" />
-                                <CompactTable
-                                    pageSize={pageSize}
-                                    data={list.imdsServerPCIE}
-                                />
-                                <div style={{ marginTop: '20px' }}>
-                                    <Headline title="阵列卡信息" />
-                                    <Summaries colNum={3} data={summary.imdsServerRaidCard} />
-                                </div>
-                                <div style={{ marginTop: '20px' }}>
-                                    <Headline title="逻辑盘信息" />
-                                    <CompactTable
-                                        data={list.imdsServerLogicalDrive}
-                                        pageSize={pageSize}
-                                    />
-                                </div>
-                                <div style={{ marginBottom: '20px' }}>
-                                    <Headline title="其他信息" />
-                                    <Summaries colNum={3} data={summary.imdsServer15MiKpis} />
-                                </div>
-                            </TabPane>
-                        )
-                    } else {
-                        return (
-                            <div style={{ position: 'relative', height: '30px' }}>
-                                <Spin />
-                            </div>
-                        )
+                            }
+                            return <ServerNetworkCard data={cardData} />
+                        })
                     }
+                </div>
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
+    renderOthers() {
+        let { list, summary } = this.props
+        let pageSize = 999
+        if (list && summary) {
+            return (
+                <div>
+                    <Headline title="PCIe槽内信息" />
+                    <CompactTable
+                        pageSize={pageSize}
+                        data={list.imdsServerPCIE}
+                    />
+                    <div style={{ marginTop: '20px' }}>
+                        <Headline title="阵列卡信息" />
+                        <Summaries colNum={3} data={summary.imdsServerRaidCard} />
+                    </div>
+                    <div style={{ marginTop: '20px' }}>
+                        <Headline title="逻辑盘信息" />
+                        <CompactTable
+                            data={list.imdsServerLogicalDrive}
+                            pageSize={pageSize}
+                        />
+                    </div>
+                    <div style={{ marginBottom: '20px' }}>
+                        <Headline title="其他信息" />
+                        <Summaries colNum={3} data={summary.imdsServer15MiKpis} />
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
 
-                } else {
-                    return (
-                        <TabPane tab={title[key]} key={item}>
-                            <CompactTable
-                                pageSize={pageSize}
-                                loading={tableLoading}
-                                actionAuth={[]}
-                                data={list}
-                                outStyle={{ 'marginTop': '20px', 'marginBottom': '20px' }}
-                            />
-                        </TabPane>
-                    )
-                }
-            }))
-
-    }
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({
-                events: this.fmtData()
-            })
-        }, 4000)
-    }
-    componentWillUnmount() {
-        this.props.actions.resetList();
-        this.props.actions.resetSummary();
-    }
     render() {
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
@@ -431,7 +437,43 @@ class ServerInfo extends React.Component<any, any> {
                                 size="small"
                                 animated={false}
                                 onChange={this.onTab.bind(this)}>
-                                {this.renderTab()}
+                                <TabPane tab="处理器信息" key="imdsServerProcessor">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderNormalTable()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="内存信息" key="imdsServerMemory">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderNormalTable()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="网卡信息" key="imdsServerEthernetCard">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderServerEthernetCardTable()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="硬盘信息" key="imdsServerDisk">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderNormalTable()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="风扇信息" key="imdsServerFan">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderNormalTable()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="电源信息" key="imdsServerPower">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderNormalTable()}
+                                    </div>
+                                </TabPane>
+
+                                <TabPane tab="其它信息" key="imdsServer15MiKpis">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderOthers()}
+                                    </div>
+                                </TabPane>
+
                             </Tabs>
                         </TabPane>
                     </Tabs>
