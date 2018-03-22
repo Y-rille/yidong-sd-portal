@@ -53,7 +53,10 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
             items.push(
                 <Col span={8} key={index}>
                 <FormItem wrapperCol={{offset: 1}} label={item.key}>
-                {getFieldDecorator(`${item.physicalTablefield}`, {initialValue: item.values})(
+                {getFieldDecorator(`${item.physicalTablefield}`, {initialValue: item.values, rules: [
+                    {
+                        required: true, message: '输入不能为空!',
+                    }]})(
                     item.editable && this.state.isEdit ? <Input readOnly={!this.state.isEdit}  
                     name={item.attributeName} /> : (item.values.length > 25 ? <Tooltip placement="topLeft" title={item.values} arrowPointAtCenter>
                         <p>{item.values.slice(0, 24)}...</p>

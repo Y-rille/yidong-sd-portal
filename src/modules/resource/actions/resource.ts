@@ -222,7 +222,7 @@ export const getObjData = (moTypeKey, moInstId, cb) => (dispatch) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, objData: null }
         dispatch(action);
         if (cb) {
-            cb(err, null)
+            cb(err, 0)
         }
     })
 }

@@ -166,6 +166,9 @@
         input:read-only:active {border:0; box-shadow:none;}
       }
     }
+    .ant-form-item-required:before{
+        display: none;
+    }
     .ant-form-item-label{
         label {
             color:rgba(0, 0, 0, 0.45);
