@@ -199,6 +199,9 @@ class API {
     // 1.4
     return axios.post(`/api_agent/rms-agent/api/add/${moTypeKey}`, params)
   }
+  getOverview(dsname) {
+    return axios.get(`/api_resource/datashare-svr/api/imds/overview/${dsname}`)
+  }
 }
 
 export default new API()
