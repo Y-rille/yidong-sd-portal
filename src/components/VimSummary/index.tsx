@@ -6,6 +6,7 @@ import styles from './index.less';
 
 export interface VimSummaryProps {
     goEdit?
+    data?
 }
 
 export default class VimSummary extends React.PureComponent<VimSummaryProps, any> {
@@ -14,12 +15,94 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
             this.props.goEdit()
         }
     }
+    static defaultProps = {
+        data: {
+            'metadata': {
+                'name': 'VIM1',
+                'id': '12345678',
+                'localtion': '杭州萧山'
+            },
+            'reports': [
+                {
+                    'name': 'resUsedInfo',
+                    'description': '资源分配情况',
+                    'data': {
+                        'headers': [
+                            'VCPU(未使用/总)',
+                            '内存(未使用/总)',
+                            '硬盘(未使用/总)'
+                        ],
+                        'values': [
+                            [
+                                '21G/26G',
+                                '21G/26G',
+                                '21G/26G'
+                            ]
+                        ]
+                    }
+                },
+                {
+                    'name': 'alarmInfo',
+                    'description': '告警',
+                    'data': {
+                        'headers': [
+                            '总数',
+                            '严重'
+                        ],
+                        'values': [
+                            [
+                                '100',
+                                '20'
+                            ]
+                        ]
+                    }
+                },
+                {
+                    'name': 'vmPowerStatus',
+                    'description': '虚拟机电源状态',
+                    'data': {
+                        'headers': [
+                            '总数',
+                            '关机',
+                            '运行'
+                        ],
+                        'values': [
+                            [
+                                '100',
+                                '2',
+                                '88'
+                            ]
+                        ]
+                    }
+                },
+                {
+                    'name': 'vmStatus',
+                    'description': '虚拟机健康状态',
+                    'data': {
+                        'headers': [
+                            '总数',
+                            '关机',
+                            '运行'
+                        ],
+                        'values': [
+                            [
+                                '100',
+                                '2',
+                                '88'
+                            ]
+                        ]
+                    }
+                }
+            ]
+        }
+    }
     renderVim() {
+        let { data } = this.props
         return (
             <div>
                 <div className={styles.vim}>
                     <div className={styles.title}>
-                        <span className={styles.title_header}>VIM1</span><span>ID: 12345678</span>&emsp;<span>位置:杭州萧山</span>&emsp;
+                        <span className={styles.title_header}>{data.metadata.name}</span><span>ID: 12345678</span>&emsp;<span>位置:杭州萧山</span>&emsp;
                         <a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>
                     </div>
                     <div className={styles._card_bj}>
