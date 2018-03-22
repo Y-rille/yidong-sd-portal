@@ -14,7 +14,8 @@ function mapProps(state) {
         list: state.resourceReducer.list,
         objData: state.resourceReducer.objData,
         objAttributes: state.resourceReducer.objAttributes,
-        summary: state.resourceReducer.summary
+        summary: state.resourceReducer.summary,
+        syslog: state.resourceReducer.syslog
     }
 }
 function mapDispatchToProps(dispatch) {

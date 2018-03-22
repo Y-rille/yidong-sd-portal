@@ -9,6 +9,8 @@ import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesC
 import CompactTable from '../../../../components/CompactTable/'
 import Summaries from '../../../../components/Summaries'
 import qs from 'querystringify'
+import LogShine from '../../../../components/LogShine/'
+import fmtLog from '../../utils/fmtLog'
 class FirewallInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -20,7 +22,8 @@ class FirewallInfo extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             pageSize: 999,
             activeKey: 'imdsFirewallMotherBoard',
-            firewall: match.params.id
+            firewall: match.params.id,
+            events: [],
         }
     }
     callback = (key) => {
@@ -40,7 +43,20 @@ class FirewallInfo extends React.Component<any, any> {
             this.props.actions.getObjData(moTypeKey, id)
         }
     }
-    tabInfo = () => { }
+    tabInfo = (key) => {
+        this.setState({
+            showBtn: key === 'log' ? false : true
+        })
+        if (key === 'log') {
+            this.props.actions.getSyslog('firewall', this.props.match.params.id, (data, err) => {
+                if (data.code === 1) {
+                    this.setState({
+                        events: fmtLog(data.log)
+                    })
+                }
+            })
+        }
+    }
     tabConnect = (key) => {
         let match = this.props.match
         let id = match.params.id
@@ -107,6 +123,7 @@ class FirewallInfo extends React.Component<any, any> {
     componentWillUnmount() {
         this.props.actions.resetList();
         this.props.actions.resetSummary();
+        this.props.actions.resetList()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -118,7 +135,7 @@ class FirewallInfo extends React.Component<any, any> {
     render() {
         let { nodeInfo, list, summary } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading, activeKey } = this.state;
+        const { pageSize, tableLoading, activeKey, events } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -144,10 +161,12 @@ class FirewallInfo extends React.Component<any, any> {
                                 animated={false}
                                 onChange={this.tabInfo}
                             >
-                                <TabPane tab="概况" key="1">
+                                <TabPane tab="概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
-                                <TabPane tab="日志" key="2"></TabPane>
+                                <TabPane tab="日志" key="log">
+                                    <LogShine events={events} />
+                                </TabPane>
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="relation">

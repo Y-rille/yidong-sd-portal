@@ -216,13 +216,13 @@ export const getObjData = (moTypeKey, moInstId, cb) => (dispatch) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, objData: res.data.data }
         dispatch(action);
         if (cb) {
-            cb(null)
+            cb(null, res.data.code)
         }
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, objData: null }
         dispatch(action);
         if (cb) {
-            cb(err)
+            cb(err, null)
         }
     })
 }
@@ -388,4 +388,29 @@ export const getOverview = (dsname, cb) => (dispatch) => {
             cb(err, null)
         }
     })
+}
+
+/* 日志
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param moInstId 
+ * @param cb 
+ */
+export const getSyslog = (moTypeKey, moInstId, cb) => (dispatch) => {
+    return API.getSyslog(moTypeKey, moInstId).then((res: any) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, syslog: res.data }
+        dispatch(action);
+        if (cb) {
+            cb(res.data, null)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, syslog: null }
+        dispatch(action);
+        if (cb) {
+            cb(null, err)
+        }
+    })
+}
+
+export const resetSyslog = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, syslog: null })
 }
