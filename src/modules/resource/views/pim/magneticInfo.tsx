@@ -6,6 +6,8 @@ import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesC
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less';
 import CompactTable from '../../../../components/CompactTable/'
+import LogShine from '../../../../components/LogShine/'
+import fmtLog from '../../utils/fmtLog'
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
 const attributes = [
@@ -141,77 +143,6 @@ const attributes = [
     }
 ];
 
-const data = {
-    'headers': [
-        'ID',
-        'NAME',
-        'TIME',
-        'EXPIRY_TIME',
-        'ext_id',
-        'biz_id',
-        '接口版本',
-        '资源池系统标识',
-        'ChassisType',
-        '磁阵资产编号',
-        '磁阵制造商',
-        '磁阵型号',
-        '磁阵序列号',
-        '磁阵来源',
-        '磁阵投入生产运行时间',
-        '磁阵License信息',
-        '磁阵软件版本',
-        '磁阵运行状态',
-        '磁阵资产状态',
-        'Hostname',
-    ],
-    'columns': [
-        'ID',
-        'NAME',
-        'TIME',
-        'EXPIRY_TIME',
-        'ext_id',
-        'biz_id',
-        'Version',
-        'VimId',
-        'ChassisType',
-        'AssetTag',
-        'Manufacturer',
-        'Model',
-        'SerialNumber',
-        'PropertySource',
-        'PutIntoProductionTime',
-        'License',
-        'SoftwareVersion',
-        'OperationingStatus',
-        'PropertyState',
-        'Hostname'
-    ],
-    'values': [
-        [
-            7,
-            'ZJHZ-NFV3-C-SQ5-3F-C03-hwDA5600-STOR01',
-            '21:00:00',
-            '21:00:01',
-            '1081',
-            '1081',
-            '2.0',
-            '1ea72c1b-fc85-4a99-adf8-7488c46d2a07',
-            'DiskArray',
-            'assetTg',
-            'huawei',
-            '5600_V3',
-            '210235980510H6000012',
-            'Property',
-            '99days',
-            '',
-            '3.20.06.102',
-            'OK',
-            'Used',
-            'huawei'
-        ],
-    ]
-};
-
 class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -219,12 +150,13 @@ class MageneticInfo extends React.Component<any, any> {
             status: 'up',
             reset: false,
             tableLoading: false,
+            events: [],
             activeKey: 'imdsDiskarrayStoragePool',
             diskarray: this.props.match.params.id,
             pageSize: 999,
-            pageNo: 1
+            pageNo: 1,
+            showBtn: true,
         }
-
     }
 
     callback = (key) => {
@@ -243,8 +175,21 @@ class MageneticInfo extends React.Component<any, any> {
             })
         }
     }
-    tabInfo = () => { }
-    tabConnect = (activeKey) => { // 资源关系tab切换
+    tabInfo = (key) => {
+        this.setState({
+            showBtn: key === 'log' ? false : true
+        })
+        if (key === 'log') {
+            this.props.actions.getSyslog('diskarray', this.props.match.params.id, (data, err) => {
+                if (data.code === 1) {
+                    this.setState({
+                        events: fmtLog(data.log)
+                    })
+                }
+            })
+        }
+    }
+    tabConnect = (activeKey) => {
         let self = this
         let oldKey = this.state.activeKey
         if (oldKey === 'performance' || oldKey === 'other') {
@@ -275,9 +220,7 @@ class MageneticInfo extends React.Component<any, any> {
                     this.getTableData()
                 }
             })
-
         }
-
     }
     confirmRest = () => {
         let self = this
@@ -325,7 +268,6 @@ class MageneticInfo extends React.Component<any, any> {
             onCancel() {
             }
         })
-
     }
 
     goPage = (pageNo) => {
@@ -334,19 +276,13 @@ class MageneticInfo extends React.Component<any, any> {
         }, () => {
             this.getTableData()
         })
-        // this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
     }
     getTableData() {
-        // const mp_node: any = matchPath(this.props.match.url, {
-        //     path: '/resource/vim/:id'
-        // })
-        // let vim_id = mp_node.params.id
         this.setState({
             tableLoading: true
         });
         let self = this
         let { activeKey, diskarray, pageNo, pageSize } = this.state
-
         this.props.actions.queryList(activeKey, { pageNo, pageSize, diskarray }, () => {
             self.setState({
                 tableLoading: false
@@ -358,7 +294,6 @@ class MageneticInfo extends React.Component<any, any> {
         let self = this;
         let { summary, list } = this.props
         let pageSize = 999
-
         if (list && list.imdsDiskarrayLun15MiKpis && list.imdsDiskarrayPort15MiKpis && list.imdsDiskarrayTemperature) {
             return (
                 <div>
@@ -369,7 +304,6 @@ class MageneticInfo extends React.Component<any, any> {
                         pageSize={pageSize}
                         data={list.imdsDiskarrayLun15MiKpis}
                     />
-
                     <Headline title="前端业务端口信息" />
                     <CompactTable
                         pageSize={pageSize}
@@ -377,16 +311,6 @@ class MageneticInfo extends React.Component<any, any> {
                     />
                     <Headline title="磁盘框温度" />
                     <Summaries colNum={2} data={list.imdsDiskarrayTemperature} />
-
-                    {/* <div style={{ position: 'relative' }}>
-                    {list && list.imdsDiskarrayTemperature ? (
-                        <CompactTable
-                            pageSize={pageSize}
-                            data={list.imdsDiskarrayTemperature}
-                        />
-                    ) : <Spin />}
-                </div> */}
-
                 </div>
             )
         } else {
@@ -396,12 +320,10 @@ class MageneticInfo extends React.Component<any, any> {
                 </div>
             )
         }
-
     }
     renderNormalTable() {
         let { list } = this.props
         let { tableLoading } = this.state
-
         if (list && list.header) {
             return (
                 <CompactTable
@@ -416,14 +338,11 @@ class MageneticInfo extends React.Component<any, any> {
                     <Spin />
                 </div>
             )
-
         }
     }
-
     renderOthers() {
         let { list } = this.props
         let pageSize = 999
-
         if (list && list.imdsDiskarrayBBU && list.imdsDiskarrayFan && list.imdsDiskarrayPower && list.imdsDiskarrayController) {
             return (
                 <div>
@@ -456,14 +375,11 @@ class MageneticInfo extends React.Component<any, any> {
                 </div>
             )
         }
-
     }
     handleEditData(d) {
-
         let moTypeKey = 'diskarray'
         let match = this.props.match
         let moInstId = match.params.id
-
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 
@@ -483,6 +399,7 @@ class MageneticInfo extends React.Component<any, any> {
     componentWillUnmount() {
         this.props.actions.resetList();
         this.props.actions.resetSummary();
+        this.props.actions.resetSyslog();
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -493,7 +410,7 @@ class MageneticInfo extends React.Component<any, any> {
     }
     render() {
         const { nodeInfo } = this.props
-        let { activeKey } = this.state
+        let { activeKey, events } = this.state
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -520,10 +437,12 @@ class MageneticInfo extends React.Component<any, any> {
                                 onChange={this.tabInfo}
                                 animated={false}
                             >
-                                <TabPane tab="概况" key="1">
+                                <TabPane tab="概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
-                                <TabPane tab="日志" key="2"></TabPane>
+                                <TabPane tab="日志" key="log">
+                                    <LogShine events={events} />
+                                </TabPane>
                             </Tabs>
                         </TabPane>
                         <TabPane tab="资源关系" key="relation">
