@@ -98,10 +98,10 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
     }
     renderVim() {
         let { data } = this.props
-        let itemResource = data.reports[0] ? data.reports[0] : ''
-        let itemWarning = data.reports[1] ? data.reports[1] : ''
-        let itemVirtualSource = data.reports[2] ? data.reports[2] : ''
-        let itemVirtualHealth = data.reports[3] ? data.reports[3] : ''
+        let itemResource = data.reports[0] ? data.reports[0] : {}
+        let itemWarning = data.reports[1] ? data.reports[1] : {}
+        let itemVirtualSource = data.reports[2] ? data.reports[2] : {}
+        let itemVirtualHealth = data.reports[3] ? data.reports[3] : {}
         return (
             <div>
                 <div className={styles.vim}>
