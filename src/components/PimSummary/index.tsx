@@ -7,13 +7,80 @@ import styles from './index.less';
 import * as Highcharts from 'highcharts';
 
 export interface PimSummaryProps {
-
+    data?
 }
 
 export default class PimSummary extends React.PureComponent<PimSummaryProps, any> {
     pie: any
     options: any
     chart: any
+    static defaultProps = {
+        data: {
+            'metadata': {
+                'name': 'PIM1',
+                'id': '12345678',
+                'localtion': '杭州萧山'
+            },
+            'reports': [
+                {
+                    'name': 'resUsedInfo',
+                    'description': '资源分配情况',
+                    'data': {
+                        'headers': [
+                            'VCPU(未使用/总)',
+                            '内存(未使用/总)',
+                            '硬盘(未使用/总)'
+                        ],
+                        'values': [
+                            [
+                                '21G/26G',
+                                '21G/26G',
+                                '21G/26G'
+                            ]
+                        ]
+                    }
+                },
+                {
+                    'name': 'resUsedInfo',
+                    'description': '服务器信息',
+                    'data': {
+                        'headers': [
+                            '总（台）',
+                            '未分配裸机（台）',
+                            '计算节点',
+                            '控制节点',
+                            '存储节点'
+                        ],
+                        'values': [
+                            [
+                                '26',
+                                '7',
+                                '46',
+                                '2',
+                                '23'
+                            ]
+                        ]
+                    }
+                },
+                {
+                    'name': 'alarmInfo',
+                    'description': '告警',
+                    'data': {
+                        'headers': [
+                            '总数',
+                            '严重'
+                        ],
+                        'values': [
+                            [
+                                '100',
+                                '20'
+                            ]
+                        ]
+                    }
+                }
+            ]
+        }
+    }
     componentDidMount() {
         this.options = {
             chart: {
@@ -65,72 +132,74 @@ export default class PimSummary extends React.PureComponent<PimSummaryProps, any
         this.chart = Highcharts.chart(this.pie, this.options);
     }
     renderPim() {
-        return (
-            <div className={styles.pim}>
-                <div className={styles._card_bj}>
-                    <Card className={styles._card} bordered={false}>
-                        <div className={styles._card_titile}>
-                            <span>资源分配情况</span>
-                            <Button className={styles._card_bn} size="small">查看</Button>
-                        </div>
-                        <p className={styles._card_qus}>VCPU(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
-                        <p className={styles._card_qus}>内存(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
-                        <p className={styles._card_qus}>硬盘(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
-                    </Card>
-                    <Card className={styles._card2} bordered={false}>
-                        <div className={styles._card_titile}>
-                            <span>服务器</span>
-                        </div>
-                        <div className={styles.pie}>
-                            <div className={styles.pie_left}>
-                                <p className={styles._card_qus}> </p>
-                                <p className={styles._card_qus}>总（台）<span className={styles._card_ans}>：21</span></p>
-                                <p className={styles._card_qus}>未分配裸机（台）<span className={styles._card_ans}>：26</span></p>
+        let { data } = this.props
+        if (data) {
+            let itemResource = data.reports[0] ? data.reports[0] : {}
+            let itemServer = data.reports[1] ? data.reports[1] : {}
+            let itemWarning = data.reports[2] ? data.reports[2] : {}
+            return (
+                <div className={styles.pim}>
+                    <div className={styles._card_bj}>
+                        <Card className={styles._card} bordered={false}>
+                            <div className={styles._card_titile}>
+                                <span>资源分配情况</span>
+                                {/* <Button className={styles._card_bn} size="small">查看</Button> */}
                             </div>
-                            <div className={styles.pie_center} ref={(node) => { this.pie = node }} ></div>
-                            <div className={styles.pie_right}>
-                                <p className={styles._card_left_grey}>
-                                    <span className={styles.icon_grey}></span>控制节点：
+                            <p className={styles._card_qus}>VCPU(未使用/总)<span className={styles._card_ans}>：{itemResource.data.values[0][0]}</span></p>
+                            <p className={styles._card_qus}>内存(未使用/总)<span className={styles._card_ans}>：{itemResource.data.values[0][1]}</span></p>
+                            <p className={styles._card_qus}>硬盘(未使用/总)<span className={styles._card_ans}>：{itemResource.data.values[0][2]}</span></p>
+                        </Card>
+                        <Card className={styles._card2} bordered={false}>
+                            <div className={styles._card_titile}>
+                                <span>服务器</span>
+                            </div>
+                            <div className={styles.pie}>
+                                <div className={styles.pie_left}>
+                                    <p className={styles._card_qus}> </p>
+                                    <p className={styles._card_qus}>总（台）<span className={styles._card_ans}>：21</span></p>
+                                    <p className={styles._card_qus}>未分配裸机（台）<span className={styles._card_ans}>：26</span></p>
+                                </div>
+                                <div className={styles.pie_center} ref={(node) => { this.pie = node }} ></div>
+                                <div className={styles.pie_right}>
+                                    <p className={styles._card_left_grey}>
+                                        <span className={styles.icon_grey}></span>控制节点：
                                 <span className={styles._card_center_grey}>50</span>
-                                    <span className={styles._card_right_grey}>个</span>
-                                </p>
-                                <p className={styles._card_left_yellow}>
-                                    <span className={styles.icon_yellow}></span>存储节点：
+                                        <span className={styles._card_right_grey}>个</span>
+                                    </p>
+                                    <p className={styles._card_left_yellow}>
+                                        <span className={styles.icon_yellow}></span>存储节点：
                                 <span className={styles._card_center_yellow}>15</span>
-                                    <span className={styles._card_right_yellow}>个</span>
-                                </p>
-                                <p className={styles._card_left_green}>
-                                    <span className={styles.icon_green}></span>计算节点：
+                                        <span className={styles._card_right_yellow}>个</span>
+                                    </p>
+                                    <p className={styles._card_left_green}>
+                                        <span className={styles.icon_green}></span>计算节点：
                                 <span className={styles._card_center_green}>35</span>
-                                    <span className={styles._card_right_green}>个</span>
-                                </p>
+                                        <span className={styles._card_right_green}>个</span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </Card>
-                    <Card className={styles._card} bordered={false}>
-                        <div className={styles._card_titile}>
-                            <span>虚拟机健康状态</span>
-                            <Button className={styles._card_bn} size="small">查看</Button>
-                        </div>
-                        <p className={styles._card_left_blue}>
-                            <span className={styles.icon_blue}></span>总数：
-                                <span className={styles._card_center_blue}>280</span>
-                            <span className={styles._card_right_blue}>个</span>
-                        </p>
-                        <p className={styles._card_left_grey}>
-                            <span className={styles.icon_grey}></span>关机：
-                                <span className={styles._card_center_grey}>10</span>
-                            <span className={styles._card_right_grey}>个</span>
-                        </p>
-                        <p className={styles._card_left_green}>
-                            <span className={styles.icon_green}></span>运行：
-                                <span className={styles._card_center_green}>280</span>
-                            <span className={styles._card_right_green}>个</span>
-                        </p>
-                    </Card>
+                        </Card>
+                        <Card className={styles._card} bordered={false}>
+                            <div className={styles._card_titile}>
+                                <span>告警</span>
+                                {/* <Button className={styles._card_bn} size="small">查看</Button> */}
+                            </div>
+                            <p className={styles._card_left_blue}>
+                                <span className={styles.icon_blue}></span>总数：
+                                <span className={styles._card_center_blue}>{itemWarning.data.values[0][0]}</span>
+                                <span className={styles._card_right_blue}>个</span>
+                            </p>
+                            <p className={styles._card_left_orange}>
+                                <span className={styles.icon_orange}></span>严重：
+                                <span className={styles._card_center_orange}>{itemWarning.data.values[0][1]}</span>
+                                <span className={styles._card_right_orange}>个</span>
+                            </p>
+                        </Card>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
+
     }
     render() {
         return (
