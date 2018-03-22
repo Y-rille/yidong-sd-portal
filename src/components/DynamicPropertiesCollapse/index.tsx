@@ -46,9 +46,9 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
             data: conversion(this.props.attributes, this.props.data)
         };
     }
-    handleEditData(data) {
+    handleEditData(data, cb) {
         if (this.props.editData) {
-            this.props.editData(data)
+            this.props.editData(data, cb)
         }
     }
     componentDidMount() {
@@ -75,7 +75,7 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
                                     key={sindex}
                                     style={{ 'margin-bottom': '20px' }}
                                 >
-                                    <DynamicPropertiesCollapseForm data={formData} loading={this.props.loading} editData={this.handleEditData.bind(this)}/>
+                                    <DynamicPropertiesCollapseForm data={formData} editData={this.handleEditData.bind(this)}/>
                                 </Panel>
                             })
                         }
