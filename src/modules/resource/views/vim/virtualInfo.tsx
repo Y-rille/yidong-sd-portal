@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Breadcrumb, Icon, Tabs } from 'antd';
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
+import LogShine from '../../../../components/LogShine/'
+import fmtLog from '../../utils/fmtLog'
 import styles from '../../style/index.less'
 const TabPane = Tabs.TabPane;
 
@@ -427,16 +429,17 @@ const data = {
 class VirtualInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            events: [],
+        }
     }
     onChange() {
 
     }
     handleEditData(d) {
-        // console.log(d, '=============>hostInfo')
         let moTypeKey = 'vm'
         let match = this.props.match
         let moInstId = match.params.id
-        // let moInstId = 
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 
@@ -445,6 +448,20 @@ class VirtualInfo extends React.Component<any, any> {
                 this.props.actions.getObjData(moTypeKey, moInstId)
             }
         })
+    }
+    tabInfo = (key) => {
+        this.setState({
+            showBtn: key === 'log' ? false : true
+        })
+        if (key === 'log') {
+            this.props.actions.getSyslog('vm', this.props.match.params.id, (_data, err) => {
+                if (_data.code === 1) {
+                    this.setState({
+                        events: fmtLog(_data.log)
+                    })
+                }
+            })
+        }
     }
     componentWillMount() {
         let moTypeKey = 'vm'
@@ -455,6 +472,7 @@ class VirtualInfo extends React.Component<any, any> {
     }
     componentWillUnmount() {
         this.props.actions.resetList()
+        this.props.actions.resetSyslog();
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -465,6 +483,7 @@ class VirtualInfo extends React.Component<any, any> {
     }
     render() {
         let { nodeInfo } = this.props
+        let { events } = this.state
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -487,11 +506,18 @@ class VirtualInfo extends React.Component<any, any> {
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} animated={false} type="card">
                         <TabPane tab="资源详情" key="1">
-                            <Tabs defaultActiveKey="1" animated={false} size="small">
-                                <TabPane tab="资源概况" key="1">
+                            <Tabs
+                                defaultActiveKey="1"
+                                animated={false}
+                                size="small"
+                                onChange={this.tabInfo}
+                            >
+                                <TabPane tab="资源概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
-                                <TabPane tab="日志" key="2">日志</TabPane>
+                                <TabPane tab="日志" key="log">
+                                    <LogShine events={events} />
+                                </TabPane>
                             </Tabs>
                         </TabPane>
 
