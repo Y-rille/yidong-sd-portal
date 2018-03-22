@@ -9,7 +9,8 @@ import Summaries from '../../../../components/Summaries/'
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import qs from 'querystringify'
 import { stringify } from 'querystringify'
-
+import LogShine from '../../../../components/LogShine/'
+import fmtLog from '../../utils/fmtLog'
 const TabPane = Tabs.TabPane;
 
 const attributes = [
@@ -227,7 +228,8 @@ class SwitchboardInfo extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             pageSize: 999,
             activeKey: 'imdsSwitchMotherboard',
-            switch_id: match.params.id
+            switch_id: match.params.id,
+            events: [],
         }
     }
     goLink() {
@@ -259,6 +261,20 @@ class SwitchboardInfo extends React.Component<any, any> {
             let id = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey, id)
+        }
+    }
+    tabInfo = (key) => {
+        this.setState({
+            showBtn: key === 'log' ? false : true
+        })
+        if (key === 'log') {
+            this.props.actions.getSyslog('switch', this.props.match.params.id, (sdata, err) => {
+                if (sdata.code === 1) {
+                    this.setState({
+                        events: fmtLog(sdata.log)
+                    })
+                }
+            })
         }
     }
     onTab(key) {
@@ -377,6 +393,7 @@ class SwitchboardInfo extends React.Component<any, any> {
     componentWillUnmount() {
         this.props.actions.resetList();
         this.props.actions.resetSummary();
+        this.props.actions.resetSyslog();
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -386,7 +403,7 @@ class SwitchboardInfo extends React.Component<any, any> {
         }
     }
     render() {
-        let { activeKey } = this.state
+        let { activeKey, events } = this.state
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -408,11 +425,16 @@ class SwitchboardInfo extends React.Component<any, any> {
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} animated={false} type="card">
                         <TabPane tab="资源详情" key="detail">
-                            <Tabs defaultActiveKey="1" animated={false} size="small">
-                                <TabPane tab="概况" key="1">
+                            <Tabs defaultActiveKey="1"
+                                animated={false}
+                                size="small"
+                                onChange={this.tabInfo}>
+                                <TabPane tab="概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
-                                <TabPane tab="日志" key="2">日志</TabPane>
+                                <TabPane tab="日志" key="log">
+                                    <LogShine events={events} />
+                                </TabPane>
                             </Tabs>
                         </TabPane>
 

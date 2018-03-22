@@ -391,3 +391,7 @@ export const getSyslog = (moTypeKey, moInstId, cb) => (dispatch) => {
         }
     })
 }
+
+export const resetSyslog = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, syslog: null })
+}
