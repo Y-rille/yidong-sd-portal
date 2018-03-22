@@ -230,6 +230,7 @@ class ServerInfo extends React.Component<any, any> {
     componentWillUnmount() {
         this.props.actions.resetList();
         this.props.actions.resetSummary();
+        this.props.actions.resetList()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {

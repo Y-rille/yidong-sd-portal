@@ -17,7 +17,9 @@ import {
     resetfindData,
     deleteInstance,
     addVim,
-    getSyslog
+    getOverview,
+    getSyslog,
+    resetSyslog
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -39,7 +41,10 @@ const HomeActionCreatorsMap = {
     resetfindData,
     deleteInstance,
     addVim,
-    getSyslog
+    getOverview,
+    getSyslog,
+    resetSyslog
+
 }
 
 export interface ResourceActions {
@@ -61,7 +66,9 @@ export interface ResourceActions {
     resetfindData: Function,
     deleteInstance: Function,
     addVim: Function,
-    getSyslog: Function
+    getOverview: Function,
+    getSyslog: Function,
+    resetSyslog: Function
 }
 
 export default HomeActionCreatorsMap;

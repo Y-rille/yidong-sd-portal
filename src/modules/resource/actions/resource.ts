@@ -371,7 +371,26 @@ export const addVim = (moTypeKey, params, cb) => (dispatch) => {
 }
 
 /**
- * 日志
+ * 资源概览查询
+ * @param cb
+ */
+export const getOverview = (dsname, cb) => (dispatch) => {
+    return API.getOverview(dsname).then((res: any) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, overview: res.data }
+        dispatch(action);
+        if (cb) {
+            cb(null, res.data)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, overview: null }
+        dispatch(action);
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}
+
+/* 日志
  * @param moTypeKey 对象类型ID或对象类型英文名
  * @param moInstId 
  * @param cb 
@@ -390,4 +409,8 @@ export const getSyslog = (moTypeKey, moInstId, cb) => (dispatch) => {
             cb(null, err)
         }
     })
+}
+
+export const resetSyslog = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, syslog: null })
 }
