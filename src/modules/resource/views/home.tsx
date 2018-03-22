@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 
 import { Row, Col, Breadcrumb } from 'antd';
 import SideBar from '../../../components/SideBar'
-import DynamicPropertiesPanel from '../../../components/DynamicPropertiesPanel'
 import SearchResultPanel from '../../../components/SearchResultPanel'
 import SplitPane from 'react-split-pane'
 import { Switch, Route, Redirect } from 'react-router-dom'
