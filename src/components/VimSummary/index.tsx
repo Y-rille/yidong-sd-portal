@@ -98,78 +98,82 @@ export default class VimSummary extends React.PureComponent<VimSummaryProps, any
     }
     renderVim() {
         let { data } = this.props
+        let itemResource = data.reports[0] ? data.reports[0] : ''
+        let itemWarning = data.reports[1] ? data.reports[1] : ''
+        let itemVirtualSource = data.reports[2] ? data.reports[2] : ''
+        let itemVirtualHealth = data.reports[3] ? data.reports[3] : ''
         return (
             <div>
                 <div className={styles.vim}>
                     <div className={styles.title}>
-                        <span className={styles.title_header}>{data.metadata.name}</span><span>ID: 12345678</span>&emsp;<span>位置:杭州萧山</span>&emsp;
+                        <span className={styles.title_header}>{data.metadata.name}</span><span>ID: {data.metadata.id}</span>&emsp;<span>位置:{data.metadata.localtion}</span>&emsp;
                         <a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>
                     </div>
                     <div className={styles._card_bj}>
                         <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
-                                <span>资源分配情况</span>
-                                <Button className={styles._card_bn} size="small">查看</Button>
+                                <span>{itemResource.description}</span>
+                                {/* <Button className={styles._card_bn} size="small">查看</Button> */}
                             </div>
-                            <p className={styles._card_qus}>VCPU(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
-                            <p className={styles._card_qus}>内存(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
-                            <p className={styles._card_qus}>硬盘(未使用/总)<span className={styles._card_ans}>：21G/26G</span></p>
+                            <p className={styles._card_qus}>VCPU(未使用/总)<span className={styles._card_ans}>：{itemResource.data.values[0][0]}</span></p>
+                            <p className={styles._card_qus}>内存(未使用/总)<span className={styles._card_ans}>：{itemResource.data.values[0][1]}</span></p>
+                            <p className={styles._card_qus}>硬盘(未使用/总)<span className={styles._card_ans}>：{itemResource.data.values[0][2]}</span></p>
                         </Card>
                         <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
-                                <span>告警</span>
-                                <Button className={styles._card_bn} size="small">查看</Button>
+                                <span>{itemWarning.description}</span>
+                                {/* <Button className={styles._card_bn} size="small">查看</Button> */}
                             </div>
                             <p className={styles._card_left_blue}>
                                 <span className={styles.icon_blue}></span>总数：
-                                <span className={styles._card_center_blue}>280</span>
+                                <span className={styles._card_center_blue}>{itemWarning.data.values[0][0]}</span>
                                 <span className={styles._card_right_blue}>个</span>
                             </p>
                             <p className={styles._card_left_orange}>
                                 <span className={styles.icon_orange}></span>严重：
-                                <span className={styles._card_center_orange}>10</span>
+                                <span className={styles._card_center_orange}>{itemWarning.data.values[0][1]}</span>
                                 <span className={styles._card_right_orange}>个</span>
                             </p>
                         </Card>
                         <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
-                                <span>虚拟机电源状态</span>
-                                <Button className={styles._card_bn} size="small">查看</Button>
+                                <span>{itemVirtualSource.description}</span>
+                                {/* <Button className={styles._card_bn} size="small">查看</Button> */}
                             </div>
                             <p className={styles._card_left_blue}>
                                 <span className={styles.icon_blue}></span>总数：
-                                <span className={styles._card_center_blue}>280</span>
+                                <span className={styles._card_center_blue}>{itemVirtualSource.data.values[0][0]}</span>
                                 <span className={styles._card_right_blue}>个</span>
                             </p>
                             <p className={styles._card_left_grey}>
                                 <span className={styles.icon_grey}></span>关机：
-                                <span className={styles._card_center_grey}>10</span>
+                                <span className={styles._card_center_grey}>{itemVirtualSource.data.values[0][1]}</span>
                                 <span className={styles._card_right_grey}>个</span>
                             </p>
                             <p className={styles._card_left_green}>
                                 <span className={styles.icon_green}></span>运行：
-                                <span className={styles._card_center_green}>280</span>
+                                <span className={styles._card_center_green}>{itemVirtualSource.data.values[0][2]}</span>
                                 <span className={styles._card_right_green}>个</span>
                             </p>
                         </Card>
                         <Card className={styles._card} bordered={false}>
                             <div className={styles._card_titile}>
-                                <span>虚拟机健康状态</span>
-                                <Button className={styles._card_bn} size="small">查看</Button>
+                                <span>{itemVirtualHealth.description}</span>
+                                {/* <Button className={styles._card_bn} size="small">查看</Button> */}
                             </div>
                             <p className={styles._card_left_blue}>
                                 <span className={styles.icon_blue}></span>总数：
-                                <span className={styles._card_center_blue}>280</span>
+                                <span className={styles._card_center_blue}>{itemVirtualHealth.data.values[0][0]}</span>
                                 <span className={styles._card_right_blue}>个</span>
                             </p>
                             <p className={styles._card_left_grey}>
                                 <span className={styles.icon_grey}></span>关机：
-                                <span className={styles._card_center_grey}>10</span>
+                                <span className={styles._card_center_grey}>{itemVirtualHealth.data.values[0][1]}</span>
                                 <span className={styles._card_right_grey}>个</span>
                             </p>
                             <p className={styles._card_left_green}>
                                 <span className={styles.icon_green}></span>运行：
-                                <span className={styles._card_center_green}>280</span>
+                                <span className={styles._card_center_green}>{itemVirtualHealth.data.values[0][2]}</span>
                                 <span className={styles._card_right_green}>个</span>
                             </p>
                         </Card>
