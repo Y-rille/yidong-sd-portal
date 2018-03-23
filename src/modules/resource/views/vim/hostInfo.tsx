@@ -146,6 +146,8 @@ class HostInfo extends React.Component<any, any> {
     }
     componentWillUnmount() {
         this.props.actions.resetList()
+        this.props.actions.resetObjAttributes()
+        this.props.actions.resetObjData()
     }
     renderBtns() {
         return (
