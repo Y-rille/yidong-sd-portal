@@ -135,16 +135,30 @@ class ServerInfo extends React.Component<any, any> {
             }
         })
     }
-    handleEditData(d) {
-        let moTypeKey = 'server'
+    handleEditData(d, cb) {
+        let moTypeKey = 'host'
         let match = this.props.match
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
-                emitter.emit('message', 'error', '修改失败！')
-            }
-            if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey, moInstId)
+                emitter.emit('message', 'error', '修改失败')
+                if (cb) {
+                    cb()
+                }
+            } else if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
+                    if (res && res === 1) {
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                    if (res && res === 0 || error) {
+                        emitter.emit('message', 'error', '修改失败')
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                })
             }
         })
     }
@@ -231,11 +245,21 @@ class ServerInfo extends React.Component<any, any> {
         this.props.actions.resetList();
         this.props.actions.resetSummary();
         this.props.actions.resetList()
+        this.props.actions.resetObjAttributes()
+        this.props.actions.resetObjData()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                    data={this.props.objData}
+                    editData={this.handleEditData.bind(this)} />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', padding: '50px' }}>
+                    <Spin />
+                </div>
             )
         }
     }

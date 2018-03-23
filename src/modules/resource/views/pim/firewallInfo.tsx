@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
@@ -11,6 +10,8 @@ import Summaries from '../../../../components/Summaries'
 import qs from 'querystringify'
 import LogShine from '../../../../components/LogShine/'
 import fmtLog from '../../utils/fmtLog'
+import emitter from '../../../../common/emitter'
+
 class FirewallInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -97,18 +98,30 @@ class FirewallInfo extends React.Component<any, any> {
             });
         })
     }
-    handleEditData(d) {
-        // console.log(d, '=============>hostInfo')
-        let moTypeKey = 'firewall'
+    handleEditData(d, cb) {
+        let moTypeKey = 'host'
         let match = this.props.match
         let moInstId = match.params.id
-        // let moInstId = 
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
-
-            }
-            if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey, moInstId)
+                emitter.emit('message', 'error', '修改失败')
+                if (cb) {
+                    cb()
+                }
+            } else if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
+                    if (res && res === 1) {
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                    if (res && res === 0 || error) {
+                        emitter.emit('message', 'error', '修改失败')
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                })
             }
         })
     }
@@ -124,11 +137,21 @@ class FirewallInfo extends React.Component<any, any> {
         this.props.actions.resetList();
         this.props.actions.resetSummary();
         this.props.actions.resetList()
+        this.props.actions.resetObjAttributes()
+        this.props.actions.resetObjData()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                    data={this.props.objData}
+                    editData={this.handleEditData.bind(this)} />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', padding: '50px' }}>
+                    <Spin />
+                </div>
             )
         }
     }
