@@ -1,10 +1,12 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Breadcrumb, Icon, Tabs } from 'antd';
+import { Breadcrumb, Icon, Tabs, Spin } from 'antd';
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import LogShine from '../../../../components/LogShine/'
 import fmtLog from '../../utils/fmtLog'
 import styles from '../../style/index.less'
+import emitter from '../../../../common/emitter'
+
 const TabPane = Tabs.TabPane;
 
 class VirtualInfo extends React.Component<any, any> {
@@ -17,16 +19,30 @@ class VirtualInfo extends React.Component<any, any> {
     onChange() {
 
     }
-    handleEditData(d) {
-        let moTypeKey = 'vm'
+    handleEditData(d, cb) {
+        let moTypeKey = 'host'
         let match = this.props.match
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
-
-            }
-            if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey, moInstId)
+                emitter.emit('message', 'error', '修改失败')
+                if (cb) {
+                    cb()
+                }
+            } else if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
+                    if (res && res === 1) {
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                    if (res && res === 0 || error) {
+                        emitter.emit('message', 'error', '修改失败')
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                })
             }
         })
     }
@@ -54,11 +70,21 @@ class VirtualInfo extends React.Component<any, any> {
     componentWillUnmount() {
         this.props.actions.resetList()
         this.props.actions.resetSyslog();
+        this.props.actions.resetObjAttributes()
+        this.props.actions.resetObjData()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                    data={this.props.objData}
+                    editData={this.handleEditData.bind(this)} />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', padding: '50px' }}>
+                    <Spin />
+                </div>
             )
         }
     }
