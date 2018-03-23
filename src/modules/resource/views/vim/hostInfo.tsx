@@ -122,7 +122,7 @@ class HostInfo extends React.Component<any, any> {
         })
         let vimId = mp_node.params.id
         if (key === 'name') {
-            this.props.history.replace(`/resource/vim/${vimId}/virtual/info/${obj.id}`)
+            this.props.history.push(`/resource/vim/${vimId}/virtual/info/${obj.id}`)
         }
 
     }
