@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import { matchPath } from 'react-router'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Modal, Spin } from 'antd';
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
@@ -35,6 +36,7 @@ class HostInfo extends React.Component<any, any> {
         } else if (key === 'relation') {
             this.setState({
                 pageNo: 1,
+                pageSize: 9999,
                 activeKey: 'imdsHostProcessor'
             }, () => {
                 this.getTableData({ pageNo: 1 })
@@ -42,6 +44,7 @@ class HostInfo extends React.Component<any, any> {
         } else {
             this.setState({
                 pageNo: 1,
+                pageSize: 1,
                 activeKey: 'imdsHostSubRes'
             }, () => {
                 this.getTableData({ pageNo: 1 })
@@ -110,6 +113,17 @@ class HostInfo extends React.Component<any, any> {
         })
 
     }
+    goLink(key, obj) {
+        let { match } = this.props
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
+        let vimId = mp_node.params.id
+        if (key === 'name') {
+            this.props.history.replace(`/resource/vim/${vimId}/virtual/info/${obj.id}`)
+        }
+
+    }
     getTableData(queryObj) {
         this.setState({
             tableLoading: true
@@ -147,9 +161,9 @@ class HostInfo extends React.Component<any, any> {
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes} 
-                data={this.props.objData} 
-                editData={this.handleEditData.bind(this)} />
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                    data={this.props.objData}
+                    editData={this.handleEditData.bind(this)} />
             )
         }
     }
@@ -165,7 +179,7 @@ class HostInfo extends React.Component<any, any> {
                         <TabPane tab={title[key]} key={item}>
                             <CompactTable
                                 goPage={this.goPage.bind(this)} // 翻页
-                                // goLink={this.goLink.bind(this)}
+                                goLink={this.goLink.bind(this)}
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={[]}
@@ -188,8 +202,8 @@ class HostInfo extends React.Component<any, any> {
         if (list) {
             return (
                 <CompactTable
-                    goPage={this.goPage.bind(this)} // 翻页
-                    // goLink={this.goLink.bind(this)}
+                    goPage={this.goPage.bind(this)}
+                    goLink={this.goLink.bind(this)}
                     // pageAuth={false}
                     pageSize={pageSize}
                     loading={tableLoading}
