@@ -5,12 +5,10 @@ var faker = require('faker');
 var _ = require('lodash');
 const proxy = require('http-proxy-middleware');
 
-const options = {
-  configDir: path.join(__dirname, 'mock')
-};
+// const options = {
+//   configDir: path.join(__dirname, 'mock')
+// };
 
-
-const proxy = require('http-proxy-middleware');
 var options0 = {
   target: 'http://47.94.4.45:8090/', // target host
   secure: false,
@@ -77,7 +75,7 @@ var options_agent = {
 var webProxy_agent = proxy(options_agent);
 
 const myApp = express();
-const configs = dyson.getConfigurations(options);
+// const configs = dyson.getConfigurations(options);
 myApp.use('/', express.static('dist'));
 myApp.use('/api/*', webProxy);
 myApp.use('/api_setting/*', webProxy_setting);
@@ -85,7 +83,7 @@ myApp.use('/api_performance/*', webProxy_performance);
 myApp.use('/api_resource/*', webProxy_resource);
 myApp.use('/api_agent/*', webProxy_agent);
 
-dyson.registerServices(myApp, options, configs);
+// dyson.registerServices(myApp, options, configs);
 
 
 myApp.listen(8765, (err) => {
