@@ -7,6 +7,7 @@ import qs from 'querystringify'
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 import Selector from '../../../../components/Selector'
+
 class Flavor extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -84,6 +85,10 @@ class Flavor extends React.Component<any, any> {
             });
         })
     }
+    handleManage() {
+        let { config } = this.props
+        window.location.href = config.manage_link.flavor
+    }
     componentWillMount() {
         let { pageNo } = this.state
         let queryObj = {
@@ -95,6 +100,7 @@ class Flavor extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     render() {
+        // console.log(this.props.config);
         let { match, nodeInfo, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { name, project, pageSize, tableLoading } = this.state;
@@ -130,6 +136,7 @@ class Flavor extends React.Component<any, any> {
                         <Button
                             type="primary"
                             style={{ 'float': 'right' }}
+                            onClick={this.handleManage.bind(this)}
                         >管理</Button>
                     </div>
                     {

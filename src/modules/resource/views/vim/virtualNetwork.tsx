@@ -16,6 +16,7 @@ export interface VirtualNetworkProps {
     subDataProject?,
     nodeInfo?,
     list?
+    config?
 }
 class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     constructor(props) {
@@ -93,6 +94,10 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
             });
         })
     }
+    handleManage() {
+        let { config } = this.props
+        window.location.href = config.manage_link.virtual_network
+    }
     componentWillMount() {
         let { pageNo } = this.state
         let queryObj = {
@@ -138,6 +143,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                     </Button>
                         <Button style={{ float: 'right' }}
                             type="primary"
+                            onClick={this.handleManage.bind(this)}
                         >
                             管理
                 </Button>

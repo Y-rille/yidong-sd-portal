@@ -9,13 +9,12 @@ import Vim from '../../views/vim/vim'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         subDataAZ: state.resourceReducer.subDataAZ,
         subDataHA: state.resourceReducer.subDataHA,
         subDataRegion: state.resourceReducer.subDataRegion,
         subDataHost: state.resourceReducer.subDataHost,
         subDataProject: state.resourceReducer.subDataProject,
-        
+
     }
 }
 function mapDispatchToProps(dispatch) {

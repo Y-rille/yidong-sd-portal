@@ -9,7 +9,6 @@ import Firewall from '../../views/pim/firewall'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
         subDataCenter: state.resourceReducer.subDataCenter,
         subDataVendor: state.resourceReducer.subDataVendor,

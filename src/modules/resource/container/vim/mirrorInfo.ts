@@ -9,7 +9,6 @@ import MirrorInfo from '../../views/vim/mirrorInfo'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
     }
 }
 function mapDispatchToProps(dispatch) {

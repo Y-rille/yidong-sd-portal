@@ -9,7 +9,6 @@ import Ha from '../../views/vim/ha'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         subDataRegion: state.resourceReducer.subDataRegion,
         list: state.resourceReducer.list,
         nodeInfo: state.resourceReducer.nodeInfo,

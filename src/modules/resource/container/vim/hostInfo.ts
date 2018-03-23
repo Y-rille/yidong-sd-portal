@@ -9,7 +9,6 @@ import HostInfo from '../../views/vim/hostInfo'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         objData: state.resourceReducer.objData,
         objAttributes: state.resourceReducer.objAttributes,
         list: state.resourceReducer.list,

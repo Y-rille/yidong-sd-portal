@@ -8,8 +8,8 @@ import Flavor from '../../views/vim/flavor'
 
 function mapProps(state) {
     return {
+        config: state.commonReducer.config,
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         subDataProject: state.resourceReducer.subDataProject,
         nodeInfo: state.resourceReducer.nodeInfo,
         list: state.resourceReducer.list

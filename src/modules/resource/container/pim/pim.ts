@@ -9,7 +9,6 @@ import Pim from '../../views/pim/pim'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         subDataCenter: state.resourceReducer.subDataCenter,
         subDataVendor: state.resourceReducer.subDataVendor,
     }

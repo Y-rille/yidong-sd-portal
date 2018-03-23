@@ -16,6 +16,7 @@ export interface StorageVolumeProps {
     subDataProject?,
     nodeInfo?,
     list?
+    config?
 }
 class StorageVolume extends React.Component<StorageVolumeProps, any> {
     constructor(props) {
@@ -94,6 +95,10 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
             });
         })
     }
+    handleManage() {
+        let { config } = this.props
+        window.location.href = config.manage_link.storage_volume
+    }
     componentWillMount() {
         let { pathname } = this.props.location
 
@@ -108,170 +113,9 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
     componentWillUnmount() {
         this.props.actions.resetList()
     }
-    // componentWillReceiveProps(nextProps) {
-    //     let { match } = nextProps
-    //     let { pathname } = nextProps.location
-
-    //     let pageNo = qs.parse(nextProps.location.search).pageNo || 1
-    //     let queryObj = {
-    //         pageNo
-    //     }
-    //     this.getTableData(queryObj)
-
-    // }
     render() {
-        let { match, list } = this.props;
+        let { match, list, nodeInfo } = this.props;
         const { pageNo, project, name, pageSize, tableLoading } = this.state;
-
-        let tdata = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '项目',
-                'fixed': true,
-                'width': 150
-                // link: true,
-            }, {
-                key: 'main',
-                title: '主机',
-                'width': 150
-                // fixed: true,
-            }, {
-                key: 'name',
-                title: '名称',
-                'width': 150
-            }, {
-                key: 'num',
-                title: '大小(GiB)',
-                'width': 50
-            }, {
-                key: 'state',
-                title: '状态',
-                'width': 10
-            }, {
-                key: 'type',
-                title: '类型',
-                'width': 100
-            }, {
-                key: 'at',
-                title: 'attached to',
-                'width': 150
-            }, {
-                key: 'isStart',
-                title: '是否引导启动',
-                'width': 50
-            }, {
-                key: 'isEncrypt',
-                title: '是否加密',
-                'width': 50
-            }
-            ],
-            'dataList': [
-                {
-                    'id': 'xiaojindian4',
-                    'main': '1',
-                    'name': 'sub-text-vlan24.10.34.24.0',
-                    'num': '10',
-                    'state': '是',
-                    'type': 'OMB',
-                    'at': '运行',
-                    'isStart': 'Yes',
-                    'isEncrypt': 'Yes',
-                },
-                {
-                    'id': '213cluster',
-                    'main': '10',
-                    'name': 'sub-text-vlan24.10.34.24.0',
-                    'num': '10',
-                    'state': '是',
-                    'type': 'OMB',
-                    'at': '运行',
-                    'isStart': 'Yes',
-                    'isEncrypt': 'Yes',
-                }, {
-                    'id': '213cluster-123',
-                    'main': '13',
-                    'name': 'sub-text-vlan24.10.34.24.0',
-                    'num': '3',
-                    'state': '是',
-                    'type': 'OMB',
-                    'at': '运行',
-                    'isStart': 'Yes',
-                    'isEncrypt': 'Yes',
-                }, {
-                    'id': 'lijianguo',
-                    'main': '13',
-                    'name': 'sub-text-vlan24.10.34.24.0',
-                    'num': '4',
-                    'state': '是',
-                    'type': 'OMB',
-                    'at': '运行',
-                    'isStart': 'Yes',
-                    'isEncrypt': 'Yes',
-                }, {
-                    'id': 'zhangjianjun',
-                    'main': '13',
-                    'name': 'sub-text-vlan24.10.34.24.0',
-                    'num': '5',
-                    'state': '是',
-                    'type': 'OMB',
-                    'at': '运行',
-                    'isStart': 'Yes',
-                    'isEncrypt': 'Yes',
-                }, {
-                    'id': 'xiaojindian4',
-                    'main': '13',
-                    'name': 'sub-text-vlan24.10.34.24.0',
-                    'num': '6',
-                    'state': '是',
-                    'type': 'OMB',
-                    'at': '运行',
-                    'isStart': 'Yes',
-                    'isEncrypt': 'Yes',
-                }, {
-                    'id': '213cluster-123',
-                    'main': '13',
-                    'name': 'sub-text-vlan24.10.34.24.0',
-                    'num': '7',
-                    'state': '是',
-                    'type': 'OMB',
-                    'at': '运行',
-                    'isStart': 'Yes',
-                    'isEncrypt': 'Yes',
-                }, {
-                    'id': '213cluster-123',
-                    'main': '1',
-                    'name': 'sub-text-vlan24.10.34.24.0',
-                    'num': '10',
-                    'state': '是',
-                    'type': 'OMB',
-                    'at': '运行',
-                    'isStart': 'Yes',
-                    'isEncrypt': 'Yes',
-                }, {
-                    'id': '213cluster-123',
-                    'main': '2',
-                    'name': 'sub-text-vlan24.10.34.24.0',
-                    'num': '10',
-                    'state': '是',
-                    'type': 'OMB',
-                    'at': '运行',
-                    'isStart': 'Yes',
-                    'isEncrypt': 'Yes',
-                }, {
-                    'id': '213cluster-123',
-                    'main': '1',
-                    'name': 'sub-text-vlan24.10.34.24.0',
-                    'num': '10',
-                    'state': '是',
-                    'type': 'OMB',
-                    'at': '运行',
-                    'isStart': 'Yes',
-                    'isEncrypt': 'Yes',
-                }
-            ]
-        }
-        let { nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -302,7 +146,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                         >
                             查询
                             </Button>
-                        <Button type="primary" style={{ float: 'right' }}>管理</Button>
+                        <Button type="primary" style={{ float: 'right' }} onClick={this.handleManage.bind(this)}>管理</Button>
                     </div>
                     {list ? (
                         <CompactTable

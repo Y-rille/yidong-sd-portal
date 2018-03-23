@@ -19,6 +19,7 @@ export interface VolumeTypeProps {
     subDataProject?,
     nodeInfo?,
     list?,
+    config?
 }
 
 class VolumeType extends React.Component<VolumeTypeProps, any> {
@@ -97,6 +98,10 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
             });
         })
     }
+    handleManage() {
+        let { config } = this.props
+        window.location.href = config.manage_link.volume_type
+    }
     componentWillMount() {
         let { pathname } = this.props.location
         let { pageNo } = this.state
@@ -111,82 +116,7 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
     render() {
         let { match, list } = this.props
         const { name, volumeTypeSelectValue, pageSize, project, tableLoading } = this.state;
-        let tdata = {
-            'count': 17,
-            'header': [{
-                key: 'id',
-                title: '名称',
-                // fixed: true,
-                // link: true,
-            }, {
-                key: 'description',
-                title: '描述',
-                // fixed: true,
-            }, {
-                key: 'Qos',
-                title: '相关QoS Spec',
-            }, {
-                key: 'isEncrypt',
-                title: '是否加密'
-            }
-            ],
-            'dataList': [
-                {
-                    'id': 'xiaojindian4',
-                    'description': '1',
-                    'Qos': 'sub-text-vlan24.10.34.24.0',
-                    'isEncrypt': '是',
-                },
-                {
-                    'id': '213cluster',
-                    'description': '10',
-                    'Qos': 'sub-text-vlan24.10.34.24.0',
-                    'isEncrypt': '是',
-                }, {
-                    'id': '213cluster-123',
-                    'description': '13',
-                    'Qos': 'sub-text-vlan24.10.34.24.0',
-                    'isEncrypt': '是',
-                }, {
-                    'id': 'lijianguo',
-                    'description': '13',
-                    'Qos': 'sub-text-vlan24.10.34.24.0',
-                    'isEncrypt': '是',
-                }, {
-                    'id': 'zhangjianjun',
-                    'description': '13',
-                    'Qos': 'sub-text-vlan24.10.34.24.0',
-                    'isEncrypt': '是',
-                }, {
-                    'id': 'xiaojindian4',
-                    'description': '13',
-                    'Qos': 'sub-text-vlan24.10.34.24.0',
-                    'isEncrypt': '是',
-                }, {
-                    'id': '213cluster-123',
-                    'description': '13',
-                    'Qos': 'sub-text-vlan24.10.34.24.0',
-                    'isEncrypt': '是',
-                }, {
-                    'id': '213cluster-123',
-                    'description': '13',
-                    'Qos': 'sub-text-vlan24.10.34.24.0',
-                    'isEncrypt': '是',
-                },
-                {
-                    'id': '213cluster-123',
-                    'description': '13',
-                    'Qos': 'sub-text-vlan24.10.34.24.0',
-                    'isEncrypt': '是',
-                },
-                {
-                    'id': '213cluster-123',
-                    'description': '13',
-                    'Qos': 'sub-text-vlan24.10.34.24.0',
-                    'isEncrypt': '是',
-                }
-            ]
-        }
+
         let { nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -218,7 +148,7 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
                         >
                             查询
                             </Button>
-                        <Button type="primary" style={{ float: 'right' }}>管理</Button>
+                        <Button type="primary" style={{ float: 'right' }} onClick={this.handleManage.bind(this)}>管理</Button>
                     </div>
                     {list ? (
                         <CompactTable

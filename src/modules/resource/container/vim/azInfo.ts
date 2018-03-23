@@ -9,7 +9,6 @@ import AzInfo from '../../views/vim/azInfo'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
         list: state.resourceReducer.list,
         subDataHA: state.resourceReducer.subDataHA,

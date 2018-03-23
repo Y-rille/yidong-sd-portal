@@ -1,0 +1,9 @@
+{
+    "manage_link": {
+        "flavor": "http://10.34.21.200/admin/flavors/",
+        "mirror": "http://10.34.21.200/admin/images/",
+        "virtual_network": "http://10.34.21.200/admin/networks/",
+        "storage_volume": "http://10.34.21.200/admin/volumes/",
+        "volume_type": "http://10.34.21.200/admin/volumes/?tab=volumes_group_tabs__volume_types_tab"
+    }
+}

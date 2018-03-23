@@ -9,7 +9,6 @@ import VirtualInfo from '../../views/vim/virtualInfo'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
         objData: state.resourceReducer.objData,
         objAttributes: state.resourceReducer.objAttributes,

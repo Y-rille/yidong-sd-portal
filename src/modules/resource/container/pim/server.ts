@@ -8,7 +8,6 @@ import Server from '../../views/pim/server'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
         subDataVendor: state.resourceReducer.subDataVendor,
         list: state.resourceReducer.list,

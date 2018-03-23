@@ -8,7 +8,6 @@ import Home from '../views/home'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         resourceTree: state.resourceReducer.resourceTree,
         nodeInfo: state.resourceReducer.nodeInfo
     }

@@ -109,6 +109,10 @@ class Mirror extends React.Component<any, any> {
             });
         })
     }
+    handleManage() {
+        let { config } = this.props
+        window.location.href = config.manage_link.mirror
+    }
     componentWillMount() {
         let { pageNo } = this.state
         let queryObj = {
@@ -153,6 +157,7 @@ class Mirror extends React.Component<any, any> {
                                 </Button>
                         <Button style={{ float: 'right' }}
                             type="primary"
+                            onClick={this.handleManage.bind(this)}
                         >
                             管理
                             </Button>

@@ -9,7 +9,6 @@ import FlavorInfo from '../../views/vim/flavorInfo'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
     }
 }
