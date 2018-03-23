@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
@@ -11,13 +10,14 @@ import Summaries from '../../../../components/Summaries'
 import qs from 'querystringify'
 import LogShine from '../../../../components/LogShine/'
 import fmtLog from '../../utils/fmtLog'
+import emitter from '../../../../common/emitter'
+
 class FirewallInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
         let { match } = this.props
         let { pageNo } = qs.parse(this.props.location.search)
         this.state = {
-            // reset: false,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
             pageSize: 999,
@@ -28,14 +28,16 @@ class FirewallInfo extends React.Component<any, any> {
     }
     callback = (key) => {
         if (key === 'relation') {
+            this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
                 activeKey: 'imdsFirewallMotherBoard'
             }, () => {
-                // this.props.actions.resetList()
                 this.getTableData({ pageNo: 1 })
             })
         } else {
+            this.props.actions.resetObjAttributes()
+            this.props.actions.resetObjData()
             let moTypeKey = 'firewall'
             let match = this.props.match
             let id = match.params.id
@@ -60,6 +62,7 @@ class FirewallInfo extends React.Component<any, any> {
     tabConnect = (key) => {
         let match = this.props.match
         let id = match.params.id
+        this.props.actions.resetList();
         if (key === 'imdsFirewall15MiKpis') {
             this.setState({
                 activeKey: 'imdsFirewall15MiKpis'
@@ -97,20 +100,66 @@ class FirewallInfo extends React.Component<any, any> {
             });
         })
     }
-    handleEditData(d) {
-        // console.log(d, '=============>hostInfo')
-        let moTypeKey = 'firewall'
+
+    handleEditData(d, cb) {
+        let moTypeKey = 'host'
         let match = this.props.match
         let moInstId = match.params.id
-        // let moInstId = 
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
-
-            }
-            if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey, moInstId)
+                emitter.emit('message', 'error', '修改失败')
+                if (cb) {
+                    cb()
+                }
+            } else if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
+                    if (res && res === 1) {
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                    if (res && res === 0 || error) {
+                        emitter.emit('message', 'error', '修改失败')
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                })
             }
         })
+    }
+    renderMotherBoard() {
+        let { list } = this.props
+        const { pageSize, tableLoading } = this.state;
+        if (list) {
+            return (
+                <CompactTable
+                    goPage={this.goPage.bind(this)}
+                    data={list}
+                    pageSize={pageSize}
+                    loading={tableLoading}
+                />)
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '50px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
+    renderOther() {
+        let { summary } = this.props
+        if (summary) {
+            return (
+                <Summaries colNum={5} data={summary} />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '50px' }}>
+                    <Spin />
+                </div>
+            )
+        }
     }
     componentWillMount() {
         let moTypeKey = 'firewall';
@@ -124,11 +173,21 @@ class FirewallInfo extends React.Component<any, any> {
         this.props.actions.resetList();
         this.props.actions.resetSummary();
         this.props.actions.resetList()
+        this.props.actions.resetObjAttributes()
+        this.props.actions.resetObjData()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                    data={this.props.objData}
+                    editData={this.handleEditData.bind(this)} />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', padding: '50px' }}>
+                    <Spin />
+                </div>
             )
         }
     }
@@ -176,19 +235,11 @@ class FirewallInfo extends React.Component<any, any> {
                                 animated={false}
                                 onChange={this.tabConnect}>
                                 <TabPane tab="主板信息" key="imdsFirewallMotherBoard" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        data={list}
-                                        pageSize={pageSize}
-                                        loading={tableLoading}
-                                    // pageAuth={false}
-                                    />
+                                    {this.renderMotherBoard()}
                                 </TabPane>
                                 <TabPane tab="性能信息" key="imdsFirewall15MiKpis" style={{ padding: '20px 0' }}>
-                                    <div>
-                                        {summary ? <Summaries colNum={5} data={summary} /> : ''}
-                                    </div>
+                                    {this.renderOther()}
+
                                 </TabPane>
                             </Tabs>
                         </TabPane>

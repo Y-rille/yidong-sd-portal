@@ -28,6 +28,8 @@ class HostInfo extends React.Component<any, any> {
     }
     onChange(key) {
         if (key === 'detail') {
+            this.props.actions.resetObjAttributes()
+            this.props.actions.resetObjData()
             let moTypeKey = 'host'
             let match = this.props.match
             let id = match.params.id
@@ -146,6 +148,8 @@ class HostInfo extends React.Component<any, any> {
     }
     componentWillUnmount() {
         this.props.actions.resetList()
+        this.props.actions.resetObjAttributes()
+        this.props.actions.resetObjData()
     }
     renderBtns() {
         return (
