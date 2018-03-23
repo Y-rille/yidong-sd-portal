@@ -19,8 +19,11 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
         };
     }
     handleEdit() {
+        let fmtdata = _.map(_.filter(this.props.data, (o) => {
+            return o.editable === 1
+        }), 'physicalTablefield') 
         if (this.state.isEdit) {
-            let submitData = this.props.form.getFieldsValue()
+            let submitData = _.pick(this.props.form.getFieldsValue(), fmtdata)
             if (this.props.editData) {
                 this.setState({
                     loading: true
