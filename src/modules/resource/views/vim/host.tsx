@@ -47,7 +47,6 @@ class Host extends React.Component<HostProps, any> {
     }
 
     onChange(key) { // tab切换
-
         let { match } = this.props
         let { pathname } = this.props.location
         let { region, az, ha } = this.state
@@ -58,7 +57,7 @@ class Host extends React.Component<HostProps, any> {
             activeKey: key,
             // pageNo
         })
-
+        this.props.actions.resetList()
         this.getTableData(queryObj, key)
     }
     getData(type, value) {  // 查询条件切换
@@ -122,9 +121,7 @@ class Host extends React.Component<HostProps, any> {
         })
     }
     componentWillMount() {
-
         let { pathname } = this.props.location
-
         if (this.state.activeKey.length > 0) {  // 刷新
             let { pageNo } = this.state
             let queryObj = {
@@ -144,7 +141,6 @@ class Host extends React.Component<HostProps, any> {
         ]).toString()
 
         if (this.state.activeKey.length === 0 && actKey.length > 0) {    // 第一次进入;info返回；进入info
-
             let pageNo = qs.parse(nextProps.location.search).pageNo || 1
             let queryObj = {
                 pageNo
@@ -161,70 +157,6 @@ class Host extends React.Component<HostProps, any> {
     render() {
         let { match, list, nodeInfo } = this.props;
         const { region, az, ha, activeKey, pageSize, tableLoading } = this.state;
-
-        let imdsController_tdata = {
-            'count': 17,
-            'header': [{
-                key: 'name',
-                title: '主机名称',
-                link: true,
-            }, {
-                key: 'roles',
-                title: '角色',
-            }, {
-                key: 'cpu',
-                title: 'CPU(使用/全部)',
-            }, {
-                key: 'memory',
-                title: '内存(使用/全部)'
-            },
-            {
-                key: 'az',
-                title: '所属AZ',
-            }, {
-                key: 'ha',
-                title: '所属HA'
-            }, {
-                key: 'up',
-                title: '上下电状态'
-            }, {
-                key: 'maintain',
-                title: '维护状态'
-            }, {
-                key: 'run',
-                title: '运行时长'
-            }, {
-                key: 'vm',
-                title: 'VM数'
-            }],
-            'dataList': [
-                {
-                    'id': 1,
-                    'name': '10.255.242.215',
-                    'roles': '主',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }, {
-                    'id': 2,
-                    'name': '10.255.242.215',
-                    'roles': '主',
-                    'cpu': '6/13',
-                    'memory': '1/1',
-                    'az': 'xasa,AAAAS',
-                    'ha': 'xasa',
-                    'up': '上电',
-                    'maintain': 'running',
-                    'run': '14天24小时',
-                    'vm': '15'
-                }
-            ]
-        }
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>

@@ -11,6 +11,7 @@ import qs from 'querystringify'
 import { stringify } from 'querystringify'
 import LogShine from '../../../../components/LogShine/'
 import fmtLog from '../../utils/fmtLog'
+import emitter from '../../../../common/emitter'
 const TabPane = Tabs.TabPane;
 
 class SwitchboardInfo extends React.Component<any, any> {
@@ -47,6 +48,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             activeKey: key
         })
         if (key === 'relation') {
+            this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
                 activeKey: 'imdsSwitchMotherboard'
@@ -54,6 +56,8 @@ class SwitchboardInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         } else {
+            this.props.actions.resetObjAttributes()
+            this.props.actions.resetObjData()
             let match = this.props.match
             let id = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
@@ -77,6 +81,7 @@ class SwitchboardInfo extends React.Component<any, any> {
     onTab(key) {
         let match = this.props.match
         let id = match.params.id
+        this.props.actions.resetList();
         if (key === 'imdsSwitchPort15MiKpis') {
             this.props.actions.resetList();
             this.setState({
@@ -127,7 +132,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             )
         } else {
             return (
-                <div style={{ position: 'relative', height: '30px' }}>
+                <div style={{ position: 'relative', height: '60px' }}>
                     <Spin />
                 </div>
             )
@@ -159,24 +164,37 @@ class SwitchboardInfo extends React.Component<any, any> {
             )
         } else {
             return (
-                <div style={{ position: 'relative', height: '30px' }}>
+                <div style={{ position: 'relative', height: '50px' }}>
                     <Spin />
                 </div>
             )
         }
     }
-    handleEditData(d) {
-        // console.log(d, '=============>hostInfo')
-        let moTypeKey = 'switch'
+
+    handleEditData(d, cb) {
+        let moTypeKey = 'host'
         let match = this.props.match
         let moInstId = match.params.id
-        // let moInstId = 
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
-
-            }
-            if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey, moInstId)
+                emitter.emit('message', 'error', '修改失败')
+                if (cb) {
+                    cb()
+                }
+            } else if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
+                    if (res && res === 1) {
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                    if (res && res === 0 || error) {
+                        emitter.emit('message', 'error', '修改失败')
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                })
             }
         })
     }
@@ -191,11 +209,21 @@ class SwitchboardInfo extends React.Component<any, any> {
         this.props.actions.resetList();
         this.props.actions.resetSummary();
         this.props.actions.resetSyslog();
+        this.props.actions.resetObjAttributes()
+        this.props.actions.resetObjData()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                    data={this.props.objData}
+                    editData={this.handleEditData.bind(this)} />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', padding: '50px' }}>
+                    <Spin />
+                </div>
             )
         }
     }

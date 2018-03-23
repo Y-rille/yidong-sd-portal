@@ -104,6 +104,14 @@ export const resetList = () => (dispatch) => {
     return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, list: null })
 }
 
+export const resetObjAttributes = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, objAttributes: null })
+}
+
+export const resetObjData = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, objData: null })
+}
+
 export const resetSummary = () => (dispatch) => {
     return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, summary: null })
 }
