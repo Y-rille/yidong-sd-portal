@@ -2,5 +2,68 @@
 @import "../../style/index.less";
 
 .overviewCard {
-    
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #f5f7f9;
+    padding: 20px; 
+    :global{
+        .ant-card-body{
+            padding: 20px;
+        }
+    }   
+    .title {
+        margin-bottom: 20px;
+        .title_header {
+            color: #000;
+            margin-right: 10px;
+        }
+    }
+    .row_card {
+        display: flex;
+        align-items: stretch;
+        .card {
+            font-size: 12px;
+            border-radius: 4px;
+            width: 25%;
+            margin-right: @margin-base;
+            &:last-child {
+                margin-right: 0;
+            }
+            .card_titile {
+                font-size: 16px;
+                margin-bottom: 20px;
+                color: #000;
+            }
+            .card_cont_text {
+                .card_header{
+                    margin-top: 10px;
+                    max-width: 100%;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+                .card_value{
+                    color: #000;
+                }
+            }           
+            .card_cont_dot {
+                margin-top: 10px;
+                color: #000;
+                .icon {
+                    margin-right: 5px;
+                    display: inline-block;
+                    width: 13px;
+                    height: 13px;
+                    border-radius: 50%;
+                    -moz-border-radius: 50%;
+                    -webkit-border-radius: 50%;
+                    vertical-align: middle;
+                }
+                .card_cont_center {
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+            }
+        }
+    }
 }
