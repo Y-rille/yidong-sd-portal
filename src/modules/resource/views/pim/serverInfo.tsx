@@ -172,6 +172,8 @@ class ServerInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         } else {
+            this.props.actions.resetObjAttributes()
+            this.props.actions.resetObjData()
             let moTypeKey = 'server';
             let match = this.props.match
             let moInstId = match.params.id

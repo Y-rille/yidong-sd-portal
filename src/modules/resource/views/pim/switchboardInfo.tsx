@@ -56,6 +56,8 @@ class SwitchboardInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         } else {
+            this.props.actions.resetObjAttributes()
+            this.props.actions.resetObjData()
             let match = this.props.match
             let id = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)

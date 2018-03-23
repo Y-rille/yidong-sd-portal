@@ -30,6 +30,8 @@ class MageneticInfo extends React.Component<any, any> {
 
     callback = (key) => {
         if (key === 'detail') {
+            this.props.actions.resetObjAttributes()
+            this.props.actions.resetObjData()
             let moTypeKey = 'diskarray';
             let match = this.props.match
             let id = match.params.id
