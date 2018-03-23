@@ -60,6 +60,7 @@ class FirewallInfo extends React.Component<any, any> {
     tabConnect = (key) => {
         let match = this.props.match
         let id = match.params.id
+        this.props.actions.resetList();
         if (key === 'imdsFirewall15MiKpis') {
             this.setState({
                 activeKey: 'imdsFirewall15MiKpis'
@@ -111,6 +112,39 @@ class FirewallInfo extends React.Component<any, any> {
                 this.props.actions.getObjData(moTypeKey, moInstId)
             }
         })
+    }
+    renderMotherBoard() {
+        let { list } = this.props
+        const { pageSize, tableLoading } = this.state;
+        if (list) {
+            return (
+                <CompactTable
+                    goPage={this.goPage.bind(this)}
+                    data={list}
+                    pageSize={pageSize}
+                    loading={tableLoading}
+                />)
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '50px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
+    renderOther() {
+        let { summary } = this.props
+        if (summary) {
+            return (
+                <Summaries colNum={5} data={summary} />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '50px' }}>
+                    <Spin />
+                </div>
+            )
+        }
     }
     componentWillMount() {
         let moTypeKey = 'firewall';
@@ -176,19 +210,11 @@ class FirewallInfo extends React.Component<any, any> {
                                 animated={false}
                                 onChange={this.tabConnect}>
                                 <TabPane tab="主板信息" key="imdsFirewallMotherBoard" style={{ padding: '20px 0' }}>
-                                    <CompactTable
-                                        goPage={this.goPage.bind(this)} // 翻页
-                                        // goLink={this.goLink.bind(this)}
-                                        data={list}
-                                        pageSize={pageSize}
-                                        loading={tableLoading}
-                                    // pageAuth={false}
-                                    />
+                                    {this.renderMotherBoard()}
                                 </TabPane>
                                 <TabPane tab="性能信息" key="imdsFirewall15MiKpis" style={{ padding: '20px 0' }}>
-                                    <div>
-                                        {summary ? <Summaries colNum={5} data={summary} /> : ''}
-                                    </div>
+                                    {this.renderOther()}
+
                                 </TabPane>
                             </Tabs>
                         </TabPane>

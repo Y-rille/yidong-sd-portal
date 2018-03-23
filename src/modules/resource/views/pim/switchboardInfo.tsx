@@ -77,6 +77,7 @@ class SwitchboardInfo extends React.Component<any, any> {
     onTab(key) {
         let match = this.props.match
         let id = match.params.id
+        this.props.actions.resetList();
         if (key === 'imdsSwitchPort15MiKpis') {
             this.props.actions.resetList();
             this.setState({
@@ -127,7 +128,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             )
         } else {
             return (
-                <div style={{ position: 'relative', height: '30px' }}>
+                <div style={{ position: 'relative', height: '60px' }}>
                     <Spin />
                 </div>
             )
@@ -159,18 +160,16 @@ class SwitchboardInfo extends React.Component<any, any> {
             )
         } else {
             return (
-                <div style={{ position: 'relative', height: '30px' }}>
+                <div style={{ position: 'relative', height: '50px' }}>
                     <Spin />
                 </div>
             )
         }
     }
     handleEditData(d) {
-        // console.log(d, '=============>hostInfo')
         let moTypeKey = 'switch'
         let match = this.props.match
         let moInstId = match.params.id
-        // let moInstId = 
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
 

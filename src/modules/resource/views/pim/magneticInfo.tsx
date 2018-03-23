@@ -192,10 +192,7 @@ class MageneticInfo extends React.Component<any, any> {
     tabConnect = (activeKey) => {
         let self = this
         let oldKey = this.state.activeKey
-        if (oldKey === 'performance' || oldKey === 'other') {
-            this.props.actions.resetList()
-        }
-
+        this.props.actions.resetList()
         if (activeKey === 'performance' || activeKey === 'other') {
             this.setState({
                 activeKey
