@@ -34,6 +34,7 @@ class HostInfo extends React.Component<any, any> {
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey, id)
         } else if (key === 'relation') {
+            this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
                 pageSize: 9999,
@@ -42,6 +43,7 @@ class HostInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         } else {
+            this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
                 pageSize: 1,
@@ -54,6 +56,7 @@ class HostInfo extends React.Component<any, any> {
     onTab(key) {
         let match = this.props.match
         let id = match.params.id
+        this.props.actions.resetList();
         this.setState({
             pageNo: 1,
             activeKey: key
@@ -106,12 +109,9 @@ class HostInfo extends React.Component<any, any> {
     goPage(num) {
         let { match } = this.props
         let pageNo = num
-        let queryObj = { pageNo }
-        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
-
     }
     goLink(key, obj) {
         let { match } = this.props
@@ -165,56 +165,32 @@ class HostInfo extends React.Component<any, any> {
                     data={this.props.objData}
                     editData={this.handleEditData.bind(this)} />
             )
+        } else {
+            return (
+                <div style={{ position: 'relative', padding: '50px' }}>
+                    <Spin />
+                </div>
+            )
         }
     }
-    renderTab() {
-        let title = ['处理器信息', '内存信息', '端口信息', 'LLDP信息']
-        let keys = ['imdsHostProcessor', 'imdsHostMemory', 'imdsHostPort', 'imdsHostLLDP']
-        let list = this.props.list
-        const { pageSize, tableLoading } = this.state;
-        return (
-            keys.map((item, key) => {
-                if (item) {
-                    return (
-                        <TabPane tab={title[key]} key={item}>
-                            <CompactTable
-                                goPage={this.goPage.bind(this)} // 翻页
-                                goLink={this.goLink.bind(this)}
-                                pageSize={pageSize}
-                                loading={tableLoading}
-                                actionAuth={[]}
-                                // pageAuth={false}
-                                data={list}
-                                outStyle={{ 'marginTop': '20px' }}
-                            />
-                        </TabPane>
-                    )
-                } else {
-                    return (
-                        <Spin />
-                    )
-                }
-            }))
-    }
-    renderTable() {
-        let list = this.props.list
-        const { pageSize, tableLoading } = this.state;
-        if (list) {
+    renderNormalTable() {
+        let { list } = this.props
+        let { tableLoading, pageSize } = this.state
+        if (list && list.header) {
             return (
                 <CompactTable
-                    goPage={this.goPage.bind(this)}
-                    goLink={this.goLink.bind(this)}
-                    // pageAuth={false}
                     pageSize={pageSize}
+                    goPage={this.goPage.bind(this)} // 翻页
                     loading={tableLoading}
-                    actionAuth={[]}
                     data={list}
-                    outStyle={{ 'marginTop': '20px' }}
+                    goLink={this.goLink.bind(this)}
                 />
             )
         } else {
             return (
-                <Spin />
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
             )
         }
     }
@@ -244,7 +220,6 @@ class HostInfo extends React.Component<any, any> {
                     <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
                         <TabPane tab="资源详情" key="detail">
                             <Tabs
-                                onChange={this.onChange.bind(this)}
                                 size="small"
                                 tabBarExtraContent={this.renderBtns()}
                                 animated={false}>
@@ -257,11 +232,32 @@ class HostInfo extends React.Component<any, any> {
                         </TabPane>
                         <TabPane tab="资源关系" key="relation">
                             <Tabs size="small" onChange={this.onTab.bind(this)} animated={false} activeKey={activeKey}>
-                                {this.renderTab()}
+                                <TabPane tab="处理器信息" key="imdsHostProcessor">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderNormalTable()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="内存信息" key="imdsHostMemory">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderNormalTable()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="端口信息" key="imdsHostPort">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderNormalTable()}
+                                    </div>
+                                </TabPane>
+                                <TabPane tab="LLDP信息" key="imdsHostLLDP">
+                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                        {this.renderNormalTable()}
+                                    </div>
+                                </TabPane>
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="下级资源" key="subordinate">
-                            {this.renderTable()}
+                        <TabPane tab="下级资源" key="imdsHostSubRes">
+                            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                {this.renderNormalTable()}
+                            </div>
                         </TabPane>
                     </Tabs>
                 </div>

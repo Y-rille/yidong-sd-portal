@@ -47,7 +47,6 @@ class Host extends React.Component<HostProps, any> {
     }
 
     onChange(key) { // tab切换
-
         let { match } = this.props
         let { pathname } = this.props.location
         let { region, az, ha } = this.state
@@ -58,7 +57,7 @@ class Host extends React.Component<HostProps, any> {
             activeKey: key,
             // pageNo
         })
-
+        this.props.actions.resetList()
         this.getTableData(queryObj, key)
     }
     getData(type, value) {  // 查询条件切换
@@ -122,9 +121,7 @@ class Host extends React.Component<HostProps, any> {
         })
     }
     componentWillMount() {
-
         let { pathname } = this.props.location
-
         if (this.state.activeKey.length > 0) {  // 刷新
             let { pageNo } = this.state
             let queryObj = {
@@ -144,7 +141,6 @@ class Host extends React.Component<HostProps, any> {
         ]).toString()
 
         if (this.state.activeKey.length === 0 && actKey.length > 0) {    // 第一次进入;info返回；进入info
-
             let pageNo = qs.parse(nextProps.location.search).pageNo || 1
             let queryObj = {
                 pageNo
