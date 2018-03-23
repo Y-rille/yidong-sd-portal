@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import { matchPath } from 'react-router'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Modal, Spin } from 'antd';
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
@@ -36,6 +37,7 @@ class HostInfo extends React.Component<any, any> {
             this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
+                pageSize: 9999,
                 activeKey: 'imdsHostProcessor'
             }, () => {
                 this.getTableData({ pageNo: 1 })
@@ -44,6 +46,7 @@ class HostInfo extends React.Component<any, any> {
             this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
+                pageSize: 1,
                 activeKey: 'imdsHostSubRes'
             }, () => {
                 this.getTableData({ pageNo: 1 })
@@ -110,6 +113,17 @@ class HostInfo extends React.Component<any, any> {
             pageNo
         })
     }
+    goLink(key, obj) {
+        let { match } = this.props
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
+        let vimId = mp_node.params.id
+        if (key === 'name') {
+            this.props.history.replace(`/resource/vim/${vimId}/virtual/info/${obj.id}`)
+        }
+
+    }
     getTableData(queryObj) {
         this.setState({
             tableLoading: true
@@ -161,13 +175,15 @@ class HostInfo extends React.Component<any, any> {
     }
     renderNormalTable() {
         let { list } = this.props
-        let { tableLoading } = this.state
+        let { tableLoading, pageSize } = this.state
         if (list && list.header) {
             return (
                 <CompactTable
+                    pageSize={pageSize}
                     goPage={this.goPage.bind(this)} // 翻页
                     loading={tableLoading}
                     data={list}
+                    goLink={this.goLink.bind(this)}
                 />
             )
         } else {
@@ -238,7 +254,7 @@ class HostInfo extends React.Component<any, any> {
                                 </TabPane>
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="下级资源" key="subordinate">
+                        <TabPane tab="下级资源" key="imdsHostSubRes">
                             <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                                 {this.renderNormalTable()}
                             </div>
