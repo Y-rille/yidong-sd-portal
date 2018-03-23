@@ -167,6 +167,7 @@ class MageneticInfo extends React.Component<any, any> {
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey, id)
         } else if (key === 'relation') {
+            this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
                 activeKey: 'imdsDiskarrayStoragePool'

@@ -17,7 +17,6 @@ class FirewallInfo extends React.Component<any, any> {
         let { match } = this.props
         let { pageNo } = qs.parse(this.props.location.search)
         this.state = {
-            // reset: false,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
             pageSize: 999,
@@ -28,11 +27,11 @@ class FirewallInfo extends React.Component<any, any> {
     }
     callback = (key) => {
         if (key === 'relation') {
+            this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
                 activeKey: 'imdsFirewallMotherBoard'
             }, () => {
-                // this.props.actions.resetList()
                 this.getTableData({ pageNo: 1 })
             })
         } else {
@@ -99,7 +98,6 @@ class FirewallInfo extends React.Component<any, any> {
         })
     }
     handleEditData(d) {
-        // console.log(d, '=============>hostInfo')
         let moTypeKey = 'firewall'
         let match = this.props.match
         let moInstId = match.params.id

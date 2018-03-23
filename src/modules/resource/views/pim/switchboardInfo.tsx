@@ -47,6 +47,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             activeKey: key
         })
         if (key === 'relation') {
+            this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
                 activeKey: 'imdsSwitchMotherboard'

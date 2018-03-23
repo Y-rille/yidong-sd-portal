@@ -150,6 +150,7 @@ class ServerInfo extends React.Component<any, any> {
     }
     onChange(key) {
         if (key === 'relation') {
+            this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
                 activeKey: 'imdsServerProcessor'
