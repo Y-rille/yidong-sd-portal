@@ -10,138 +10,7 @@ import LogShine from '../../../../components/LogShine/'
 import fmtLog from '../../utils/fmtLog'
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
-const attributes = [
-    {
-        'moAttributeId': 1,
-        'moTypeId': 1,
-        'attributeType': 0,
-        'attributeName': 'ID',
-        'isobjectid': 1,
-        'physicalTablefield': 'ID',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 1,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 2,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'NAME',
-        'isobjectid': 0,
-        'physicalTablefield': 'NAME',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 1,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 3,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'TIME',
-        'isobjectid': 0,
-        'physicalTablefield': 'TIME',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 4,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'EXPIRY_TIME',
-        'isobjectid': 0,
-        'physicalTablefield': 'EXPIRY_TIME',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 56,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'SerialNumber',
-        'isobjectid': 0,
-        'physicalTablefield': 'SerialNumber',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 57,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'Hostname',
-        'isobjectid': 0,
-        'physicalTablefield': 'Hostname',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '基本信息'
-    },
-    {
-        'moAttributeId': 57,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'VimId',
-        'isobjectid': 0,
-        'physicalTablefield': 'Hostname',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '位置信息'
-    },
-    {
-        'moAttributeId': 57,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'Model',
-        'isobjectid': 0,
-        'physicalTablefield': 'Hostname',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '位置信息'
-    },
-    {
-        'moAttributeId': 57,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'SerialNumber',
-        'isobjectid': 0,
-        'physicalTablefield': 'Hostname',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 0,
-        'visible': 1,
-        'attributeGroup': '位置信息'
-    },
-    {
-        'moAttributeId': 57,
-        'moTypeId': 1,
-        'attributeType': 1,
-        'attributeName': 'OperationingStatus',
-        'isobjectid': 0,
-        'physicalTablefield': 'Hostname',
-        'state': 1,
-        'version': '1.0',
-        'ediable': 1,
-        'visible': 1,
-        'attributeGroup': '维护信息'
-    }
-];
+import emitter from '../../../../common/emitter'
 
 class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
@@ -374,16 +243,30 @@ class MageneticInfo extends React.Component<any, any> {
             )
         }
     }
-    handleEditData(d) {
-        let moTypeKey = 'diskarray'
+    handleEditData(d, cb) {
+        let moTypeKey = 'host'
         let match = this.props.match
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
             if (err || qdata.code !== 1) {
-
-            }
-            if (qdata.code === 1) {
-                this.props.actions.getObjData(moTypeKey, moInstId)
+                emitter.emit('message', 'error', '修改失败')
+                if (cb) {
+                    cb()
+                }
+            } else if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
+                    if (res && res === 1) {
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                    if (res && res === 0 || error) {
+                        emitter.emit('message', 'error', '修改失败')
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                })
             }
         })
     }
@@ -398,11 +281,21 @@ class MageneticInfo extends React.Component<any, any> {
         this.props.actions.resetList();
         this.props.actions.resetSummary();
         this.props.actions.resetSyslog();
+        this.props.actions.resetObjAttributes()
+        this.props.actions.resetObjData()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes} data={this.props.objData} editData={this.handleEditData.bind(this)} />
+                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                    data={this.props.objData}
+                    editData={this.handleEditData.bind(this)} />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', padding: '50px' }}>
+                    <Spin />
+                </div>
             )
         }
     }
