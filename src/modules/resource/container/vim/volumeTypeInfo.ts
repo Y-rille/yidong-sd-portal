@@ -9,7 +9,6 @@ import VolumeTypeInfo from '../../views/vim/storageVolumeInfo'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
     }
 }
 function mapDispatchToProps(dispatch) {

@@ -9,7 +9,6 @@ import HostList from '../../views/vim/hostList'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
     }
 }
 function mapDispatchToProps(dispatch) {

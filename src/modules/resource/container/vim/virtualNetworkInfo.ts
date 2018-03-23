@@ -9,7 +9,6 @@ import VirtualNetworkInfo from '../../views/vim/virtualNetworkInfo'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
     }
 }
 function mapDispatchToProps(dispatch) {

@@ -8,7 +8,6 @@ import Dashboard from '../views/dashboard'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         tree: state.commonReducer.tree
     }
 }

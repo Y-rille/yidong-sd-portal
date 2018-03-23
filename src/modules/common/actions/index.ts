@@ -1,9 +1,9 @@
 import { login, logout, touch } from './user'
-import { querytree } from './common'
+import { querytree, getConfig } from './common'
 
 const HomeActionCreatorsMap = {
   login, logout, touch,
-  querytree
+  querytree, getConfig
 }
 
 export interface CommonActions {
@@ -11,6 +11,7 @@ export interface CommonActions {
   logout: Function
   touch: Function
   querytree: Function
+  getConfig: Function
 }
 
 export default HomeActionCreatorsMap;

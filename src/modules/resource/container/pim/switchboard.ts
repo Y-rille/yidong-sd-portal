@@ -9,7 +9,6 @@ import Switchboard from '../../views/pim/switchboard'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
         subDataCenter: state.resourceReducer.subDataCenter,
         list: state.resourceReducer.list,

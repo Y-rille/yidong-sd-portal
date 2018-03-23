@@ -9,7 +9,6 @@ import Magnetic from '../../views/pim/magnetic'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
         list: state.resourceReducer.list,
         subDataCenter: state.resourceReducer.subDataCenter,

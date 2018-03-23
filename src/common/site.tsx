@@ -131,6 +131,7 @@ class Site extends React.Component<SiteProps, any> {
                 })
             }
         }
+        this.props.actions.getConfig()
     }
 
     componentWillReceiveProps(nextProps: any) {

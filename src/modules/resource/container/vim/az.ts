@@ -9,7 +9,6 @@ import Az from '../../views/vim/az'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.resourceReducer.config,
         list: state.resourceReducer.list,
         subDataRegion: state.resourceReducer.subDataRegion,
         nodeInfo: state.resourceReducer.nodeInfo,

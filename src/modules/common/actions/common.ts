@@ -21,3 +21,23 @@ export const querytree = (parTreeId, cb) => (dispatch) => {
     }
   })
 }
+
+/**
+ * 获取配置信息
+ * 
+ * @export
+ * @returns 
+ */
+export const getConfig = (cb) => (dispatch) => {
+  return commonAPI.config().then((res) => {
+    let action = { type: ActionTypes.COMMON_SAY_HELLO, config: res.data }
+    dispatch(action);
+    if (cb) {
+      cb(res.data)
+    }
+  }).catch((err) => {
+    let action = { type: ActionTypes.COMMON_SAY_HELLO, config: null }
+    dispatch(action);
+    cb(null)
+  })
+}
