@@ -3,7 +3,8 @@ import * as _ from 'lodash';
 import { Row, Breadcrumb, Icon, Button } from 'antd';
 import styles from '../style/index.less'
 
-import VimSummary from '../../../components/VimSummary'
+import OverviewCard from '../../../components/OverviewCard'
+// import VimSummary from '../../../components/VimSummary'
 import PimSummary from '../../../components/PimSummary'
 import VimEdit from '../../../components/VimEdit/'
 
@@ -78,8 +79,8 @@ class Dashboard extends React.Component<any, any> {
                     <Headline title="资源结构组织">
                         <Button onClick={this.showModal.bind(this)}><Icon type="codepen" />新建VIM</Button>
                     </Headline>
-                    <VimSummary goEdit={this.goEdit.bind(this)} />
-                    <VimSummary goEdit={this.goEdit.bind(this)} />
+                    <OverviewCard goEdit={this.goEdit.bind(this)} />
+                    <OverviewCard goEdit={this.goEdit.bind(this)} />
                     <Headline title="物理部署组织" />
                     <PimSummary />
                 </div>
