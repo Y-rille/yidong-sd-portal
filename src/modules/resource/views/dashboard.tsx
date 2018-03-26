@@ -50,10 +50,10 @@ class Dashboard extends React.Component<any, any> {
         this.setState({
             loading: true
         });
-        let { curId } = this.state
+        let { vimInfo, curId } = this.state
         if (formdata) {
             if (vimInfo && curId) {
-                this.props.actions.editObjData(moTypeKey, formdata, curId, (err, data) => {
+                this.props.actions.editObjData(moTypeKey, curId, formdata, (err, data) => {
                     this.setState({
                         visible: false,
                         loading: false,
