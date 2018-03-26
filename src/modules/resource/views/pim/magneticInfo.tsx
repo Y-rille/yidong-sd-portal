@@ -21,6 +21,7 @@ class MageneticInfo extends React.Component<any, any> {
             tableLoading: false,
             events: [],
             activeKey: 'imdsDiskarrayStoragePool',
+            detailKey: 'overview',
             diskarray: this.props.match.params.id,
             pageSize: 999,
             pageNo: 1,
@@ -30,6 +31,9 @@ class MageneticInfo extends React.Component<any, any> {
 
     callback = (key) => {
         if (key === 'detail') {
+            this.setState({
+                detailKey: 'overview'
+            })
             this.props.actions.resetObjAttributes()
             this.props.actions.resetObjData()
             let moTypeKey = 'diskarray';
@@ -49,7 +53,8 @@ class MageneticInfo extends React.Component<any, any> {
     }
     tabInfo = (key) => {
         this.setState({
-            showBtn: key === 'log' ? false : true
+            showBtn: key === 'log' ? false : true,
+            detailKey: key
         })
         if (key === 'log') {
             this.props.actions.getSyslog('diskarray', this.props.match.params.id, (data, err) => {
@@ -303,7 +308,7 @@ class MageneticInfo extends React.Component<any, any> {
     }
     render() {
         const { nodeInfo } = this.props
-        let { activeKey, events } = this.state
+        let { activeKey, events, detailKey } = this.state
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -325,7 +330,7 @@ class MageneticInfo extends React.Component<any, any> {
                     <Tabs onChange={this.callback} type="card" animated={false}>
                         <TabPane tab="资源详情" key="detail" >
                             <Tabs
-                                defaultActiveKey="1"
+                                activeKey={detailKey}
                                 size="small"
                                 onChange={this.tabInfo}
                                 animated={false}
