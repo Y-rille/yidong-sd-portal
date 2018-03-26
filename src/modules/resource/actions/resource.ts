@@ -384,7 +384,8 @@ export const addVim = (moTypeKey, params, cb) => (dispatch) => {
  */
 export const getOverview = (dsname, cb) => (dispatch) => {
     return API.getOverview(dsname).then((res: any) => {
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, overview: res.data }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO }
+        action[dsname] = res.data.data
         dispatch(action);
         if (cb) {
             cb(null, res.data)
