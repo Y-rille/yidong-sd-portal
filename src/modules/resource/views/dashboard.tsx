@@ -95,6 +95,7 @@ class Dashboard extends React.Component<any, any> {
                             {/* <OverviewCard goEdit={this.goEdit.bind(this)} />
                             <OverviewCard goEdit={this.goEdit.bind(this)} /> */}
                             <Headline title="物理部署组织" />
+                            {this.renderOverviewCard(overviewPIM, 'pim')}
                             <PimSummary />
                         </div>
                     ) : <Spin />}

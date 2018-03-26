@@ -8,6 +8,7 @@ import _ from 'lodash';
 export interface OverviewCardProps {
     goEdit?
     data?
+    editable?
 }
 
 export default class OverviewCard extends React.PureComponent<OverviewCardProps, any> {
@@ -15,168 +16,86 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     options: any
     chart: any
     goEdit() {
+        let id = this.props.data.metadata.ID
         if (this.props.goEdit) {
-            this.props.goEdit()
+            this.props.goEdit(id)
         }
     }
-    static defaultProps = {
-        data: {
-            'metadata': {
-                'name': 'VIM1',
-                'id': '12345678',
-                'localtion': '杭州萧山'
-            },
-            'reports': [
-                {
-                    'name': 'resUsedInfo',
-                    'description': '资源分配情况',
-                    'data': {
-                        'headers': [
-                            'VCPU(未使用/总)',
-                            '内存(未使用/总)',
-                            '硬盘(未使用/总)'
-                        ],
-                        'values': [
-                            [
-                                '21G/26G',
-                                '21G/26G',
-                                '21G/26G'
-                            ]
-                        ]
-                    },
-                    'type': 'text'
-                },
-                // {
-                //     'name': 'resUsedInfo',
-                //     'description': '服务器信息',
-                //     'data': {
-                //         'headers': [
-                //             '总（台）',
-                //             '未分配裸机（台）',
-                //             '计算节点',
-                //             '控制节点',
-                //             '存储节点'
-                //         ],
-                //         'values': [
-                //             [
-                //                 '26',
-                //                 '7',
-                //                 '46',
-                //                 '2',
-                //                 '23'
-                //             ]
-                //         ]
-                //     }
-                // },
-                {
-                    'name': 'alarmInfo',
-                    'description': '告警',
-                    'data': {
-                        'headers': [
-                            '总数',
-                            '严重'
-                        ],
-                        'values': [
-                            [
-                                '100',
-                                '20'
-                            ]
-                        ]
-                    },
-                    'type': 'dot1'
-                },
-                {
-                    'name': 'vmPowerStatus',
-                    'description': '虚拟机电源状态',
-                    'data': {
-                        'headers': [
-                            '总数',
-                            '关机',
-                            '运行'
-                        ],
-                        'values': [
-                            [
-                                '100',
-                                '2',
-                                '88'
-                            ]
-                        ]
-                    },
-                    'type': 'dot2'
-                },
-                {
-                    'name': 'vmStatus',
-                    'description': '虚拟机健康状态',
-                    'data': {
-                        'headers': [
-                            '总数',
-                            '关机',
-                            '运行'
-                        ],
-                        'values': [
-                            [
-                                '100',
-                                '2',
-                                '88'
-                            ]
-                        ]
-                    },
-                    'type': 'dot2'
-                }
-            ]
-        }
-    }
+    static defaultProps = {}
 
-    // componentDidMount() {
-    //     this.options = {
-    //         chart: {
-    //             plotBackgroundColor: null,
-    //             plotBorderWidth: null,
-    //             plotShadow: false,
-    //             spacing: 0
-    //         },
-    //         title: {
-    //             text: ''
-    //         },
-    //         tooltip: {
-    //             enabled: false,
-    //         },
-    //         plotOptions: {
-    //             pie: {
-    //                 allowPointSelect: false,
-    //                 cursor: 'pointer',
-    //                 colors: ['#7cd8ba', '#879dbb', '#ffe780'],
-    //                 dataLabels: {
-    //                     enabled: true,
-    //                     distance: -20,
-    //                     style: {
-    //                         fontSize: '9px',
-    //                         color: 'white'
-    //                     },
-    //                     format: '{point.percentage:.1f}%'
-    //                 },
-    //                 states: {
-    //                     hover: {
-    //                         enabled: false
-    //                     }
-    //                 }
-    //             }
-    //         },
-    //         credits: {  // 版权信息，不显示
-    //             enabled: false
-    //         },
-    //         series: [{
-    //             type: 'pie',
-    //             name: '浏览器访问量占比',
-    //             data: [
-    //                 ['计算节点', 50],
-    //                 ['控制节点', 15],
-    //                 ['存储节点', 35]
-    //             ]
-    //         }]
-    //     }
-    //     this.chart = Highcharts.chart(this.pie, this.options);
-    // }
+    componentDidMount() {
+        let { data } = this.props
+        let reports = data.reports
+        let arr = []
+        let arrCont1 = []
+        let arrCont2 = []
+        let arrCont3 = []
+        reports.map((item) => {
+            if (item.type === 'pie') {
+
+                let arrHeaders = item.data.headers
+                let arrValues = _.head(item.data.values)
+                let value_cal = parseInt(arrValues[_.indexOf(arrHeaders, '计算节点')], 10)
+                let value_contrl = parseInt(arrValues[_.indexOf(arrHeaders, '控制节点')], 10)
+                let value_stor = parseInt(arrValues[_.indexOf(arrHeaders, '存储节点')], 10)
+                let total = value_cal + value_contrl + value_stor
+                arrCont1.push('计算节点')
+                arrCont1.push(_.round((value_cal / total), 2) * 100)
+                arrCont2.push('控制节点')
+                arrCont2.push(_.round((value_contrl / total), 2) * 100)
+                arrCont3.push('存储节点')
+                arrCont3.push(_.round((value_stor / total), 2) * 100)
+                arr.push(arrCont1)
+                arr.push(arrCont2)
+                arr.push(arrCont3)
+                this.options = {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        spacing: 0
+                    },
+                    title: {
+                        text: ''
+                    },
+                    tooltip: {
+                        enabled: false,
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: false,
+                            cursor: 'pointer',
+                            colors: ['#7cd8ba', '#879dbb', '#ffe780'],
+                            dataLabels: {
+                                enabled: true,
+                                distance: -20,
+                                style: {
+                                    fontSize: '9px',
+                                    color: 'white'
+                                },
+                                format: '{point.percentage:.1f}%'
+                            },
+                            states: {
+                                hover: {
+                                    enabled: false
+                                }
+                            }
+                        }
+                    },
+                    credits: {  // 版权信息，不显示
+                        enabled: false
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: '浏览器访问量占比',
+                        data: arr
+                    }]
+                }
+                this.chart = Highcharts.chart(this.pie, this.options);
+            }
+        })
+
+    }
 
     renderCardText(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
@@ -275,7 +194,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                             }
                         })}
                     </div>
-                    {/* <div className={styles.card_pie_cont_center} ref={(node) => { this.pie = node }} ></div> */}
+                    <div className={styles.card_pie_cont_center} ref={(node) => { this.pie = node }} ></div>
                     <div className={styles.card_pie_cont_right}>
                         {arrHeaders.map((header, key) => {
                             if (key > 1) {
@@ -324,11 +243,12 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
 
     render() {
         let { data } = this.props
+        let { editable } = this.props
         return (
             <div className={styles.overviewCard}>
                 <div className={styles.title}>
-                    <span className={styles.title_header}>{data.metadata.name}</span><span>ID: {data.metadata.id}</span>&emsp;<span>位置:{data.metadata.localtion}</span>&emsp;
-                    <a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>
+                    <span className={styles.title_header}>{data.metadata.NAME}</span><span>ID: {data.metadata.ID}</span>&emsp;<span>位置:{data.metadata.localtion}</span>&emsp;
+                    {editable ? (<a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>) : ''}
                 </div>
                 {this.renderCard()}
             </div>
