@@ -175,6 +175,9 @@ class API {
     // 1.5       
     return axios.get(`/api_resource/datashare-svr/api/moinst/${moTypeKey}/${moInstId}`)
   }
+  getOverview(dsname) {
+    return axios.get(`/api_resource/datashare-svr/api/imds/report/${dsname}`)
+  }
   editObjData(moTypeKey, moInstId, editData) {
     // 1.4   
     return axios.post(`/api_agent/rms-agent/api/configure/${moTypeKey}/${moInstId}`, editData)
@@ -198,10 +201,6 @@ class API {
   addVim(moTypeKey, params?: VimParams) {
     // 1.4
     return axios.post(`/api_agent/rms-agent/api/add/${moTypeKey}`, params)
-  }
-
-  getOverview(dsname) {
-    return axios.get(`/api_resource/datashare-svr/api/imds/overview/${dsname}`)
   }
   getSyslog(moTypeKey, moInstId) {
     // 1.4  

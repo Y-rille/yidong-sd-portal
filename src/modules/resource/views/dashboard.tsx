@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Row, Breadcrumb, Icon, Button } from 'antd';
+import { Row, Breadcrumb, Icon, Button, Spin } from 'antd';
 import styles from '../style/index.less'
 
 import OverviewCard from '../../../components/OverviewCard'
@@ -64,7 +64,17 @@ class Dashboard extends React.Component<any, any> {
             visible: false,
         })
     }
+    componentWillMount() {
+        this.props.actions.getOverview('overviewVIM')
+        this.props.actions.getOverview('overviewPIM')
+    }
+    renderOverviewCard(data, type) {
+        return _.map(data, (item) => {
+            return <OverviewCard data={item} goEdit={type === 'vim' ? this.goEdit.bind(this) : null} />
+        })
+    }
     render() {
+        let { overviewVIM, overviewPIM } = this.props
         return (
             <div className={styles.resource}>
                 <div className={styles.header}>
@@ -76,13 +86,18 @@ class Dashboard extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div className={styles.card}>
-                    <Headline title="资源结构组织">
-                        <Button onClick={this.showModal.bind(this)}><Icon type="codepen" />新建VIM</Button>
-                    </Headline>
-                    <OverviewCard goEdit={this.goEdit.bind(this)} />
-                    <OverviewCard goEdit={this.goEdit.bind(this)} />
-                    <Headline title="物理部署组织" />
-                    <PimSummary />
+                    {overviewVIM && overviewPIM ? (
+                        <div>
+                            <Headline title="资源结构组织">
+                                <Button onClick={this.showModal.bind(this)}><Icon type="codepen" />新建VIM</Button>
+                            </Headline>
+                            {this.renderOverviewCard(overviewVIM, 'vim')}
+                            {/* <OverviewCard goEdit={this.goEdit.bind(this)} />
+                            <OverviewCard goEdit={this.goEdit.bind(this)} /> */}
+                            <Headline title="物理部署组织" />
+                            <PimSummary />
+                        </div>
+                    ) : <Spin />}
                 </div>
                 {this.state.visible ? (
                     <VimEdit

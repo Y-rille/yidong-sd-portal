@@ -21,10 +21,34 @@
     .row_card {
         display: flex;
         align-items: stretch;
+        .card_cont_dot {
+            margin-top: 10px;
+            color: #000;
+            .icon {
+                margin-right: 5px;
+                display: inline-block;
+                width: 13px;
+                height: 13px;
+                // -moz-border-radius: 50%;
+                // -webkit-border-radius: 50%;
+                vertical-align: middle;
+            }
+            .icon_round {
+                border-radius: 50%;
+            }
+            .icon_square {
+                border-radius: 20%;
+                background-color: #879dbb;
+            }
+            .card_cont_center {
+                font-size: 14px;
+                line-height: 14px;
+            }
+        }
         .card {
             font-size: 12px;
             border-radius: 4px;
-            width: 25%;
+            // width: 25%;
             margin-right: @margin-base;
             &:last-child {
                 margin-right: 0;
@@ -46,23 +70,37 @@
                     color: #000;
                 }
             }           
-            .card_cont_dot {
-                margin-top: 10px;
-                color: #000;
-                .icon {
-                    margin-right: 5px;
-                    display: inline-block;
-                    width: 13px;
-                    height: 13px;
-                    border-radius: 50%;
-                    -moz-border-radius: 50%;
-                    -webkit-border-radius: 50%;
-                    vertical-align: middle;
+            
+            .card_pie_cont {
+                display: flex;
+                .card_pie_cont_left{
+                    flex: 1;
+                    margin-top: 52px;
+                    .card_header{
+                        margin-top: 10px;
+                    }
+                    .card_value{
+                        color: #000;
+                    }
                 }
-                .card_cont_center {
-                    font-size: 14px;
-                    line-height: 14px;
+                .card_pie_cont_center{
+                    flex: 1;
+                    width: 120px;
+                    height: 120px;
                 }
+                .card_pie_cont_right{
+                    flex: 1;
+                    margin-top: 22px;
+                }
+            }
+        }
+        .card_w4 {
+            width: 25%;
+        }
+        .card_w2 {
+            width: calc(~'50% + 20px');
+            .card_titile {
+                margin-bottom: 0;
             }
         }
     }

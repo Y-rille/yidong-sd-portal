@@ -20,7 +20,8 @@ const ResourceState = SI.from({
     findData: null,
     summary: null,
     power: null,
-    overview: null,
+    overviewVIM: null,
+    overviewPIM: null,
     syslog: null
 
 });
