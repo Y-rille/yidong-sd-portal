@@ -30,6 +30,7 @@ class ServerInfo extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             pageSize: 9999,
             activeKey: 'imdsServerProcessor',
+            detailKey: 'overview',
             server: match.params.id,
         }
     }
@@ -73,7 +74,8 @@ class ServerInfo extends React.Component<any, any> {
     }
     tabInfo = (key) => {
         this.setState({
-            showBtn: key === 'log' ? false : true
+            showBtn: key === 'log' ? false : true,
+            detailKey: key
         })
         if (key === 'log') {
             this.props.actions.getSyslog('server', this.props.match.params.id, (data, err) => {
@@ -103,7 +105,6 @@ class ServerInfo extends React.Component<any, any> {
                 let match = self.props.match
                 let moInstId = match.params.id
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
-                    // console.log(res, '================>res')
                     if (res.code === 1) {
                         emitter.emit('message', 'success', '操作成功！')
                     }
@@ -172,6 +173,9 @@ class ServerInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         } else {
+            this.setState({
+                detailKey: 'overview'
+            })
             this.props.actions.resetObjAttributes()
             this.props.actions.resetObjData()
             let moTypeKey = 'server';
@@ -229,7 +233,7 @@ class ServerInfo extends React.Component<any, any> {
         let { pageSize, activeKey, server } = this.state
         this.props.actions.queryList(activeKey, { pageNo, pageSize, server }, () => {
             self.setState({
-                tableLoading: false
+                tableLoading: false,
             });
         })
     }
@@ -308,7 +312,7 @@ class ServerInfo extends React.Component<any, any> {
         if (list && list.header) {
             return (
                 <CompactTable
-                    goPage={this.goPage.bind(this)} // 翻页
+                    goPage={this.goPage.bind(this)}
                     loading={tableLoading}
                     data={list}
                 />
@@ -396,7 +400,7 @@ class ServerInfo extends React.Component<any, any> {
     render() {
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        let { events, activeKey } = this.state
+        let { events, activeKey, detailKey } = this.state
         return (
             <div>
                 <div className={styles.header}>
@@ -420,6 +424,7 @@ class ServerInfo extends React.Component<any, any> {
                                 size="small"
                                 animated={false}
                                 onChange={this.tabInfo}
+                                activeKey={detailKey}
                                 tabBarExtraContent={this.renderBtns()}>
                                 <TabPane tab="概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
@@ -465,13 +470,11 @@ class ServerInfo extends React.Component<any, any> {
                                         {this.renderNormalTable()}
                                     </div>
                                 </TabPane>
-
                                 <TabPane tab="其它信息" key="imdsServer15MiKpis">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                                         {this.renderOthers()}
                                     </div>
                                 </TabPane>
-
                             </Tabs>
                         </TabPane>
                     </Tabs>
