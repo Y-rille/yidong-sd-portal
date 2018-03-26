@@ -26,6 +26,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             pageSize: 999,
             activeKey: 'imdsSwitchMotherboard',
+            detailKey: 'overview',
             switch_id: match.params.id,
             events: [],
         }
@@ -56,6 +57,9 @@ class SwitchboardInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         } else {
+            this.setState({
+                detailKey: 'overview'
+            })
             this.props.actions.resetObjAttributes()
             this.props.actions.resetObjData()
             let match = this.props.match
@@ -66,7 +70,8 @@ class SwitchboardInfo extends React.Component<any, any> {
     }
     tabInfo = (key) => {
         this.setState({
-            showBtn: key === 'log' ? false : true
+            showBtn: key === 'log' ? false : true,
+            detailKey: key
         })
         if (key === 'log') {
             this.props.actions.getSyslog('switch', this.props.match.params.id, (data, err) => {
@@ -228,7 +233,7 @@ class SwitchboardInfo extends React.Component<any, any> {
         }
     }
     render() {
-        let { activeKey, events } = this.state
+        let { activeKey, events, detailKey } = this.state
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -250,7 +255,8 @@ class SwitchboardInfo extends React.Component<any, any> {
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} animated={false} type="card">
                         <TabPane tab="资源详情" key="detail">
-                            <Tabs defaultActiveKey="1"
+                            <Tabs
+                                activeKey={detailKey}
                                 animated={false}
                                 size="small"
                                 onChange={this.tabInfo}>

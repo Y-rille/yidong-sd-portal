@@ -22,6 +22,7 @@ class FirewallInfo extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             pageSize: 999,
             activeKey: 'imdsFirewallMotherBoard',
+            detailKey: 'overview',
             firewall: match.params.id,
             events: [],
         }
@@ -36,6 +37,9 @@ class FirewallInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         } else {
+            this.setState({
+                detailKey: 'overview'
+            })
             this.props.actions.resetObjAttributes()
             this.props.actions.resetObjData()
             let moTypeKey = 'firewall'
@@ -47,7 +51,8 @@ class FirewallInfo extends React.Component<any, any> {
     }
     tabInfo = (key) => {
         this.setState({
-            showBtn: key === 'log' ? false : true
+            showBtn: key === 'log' ? false : true,
+            detailKey: key
         })
         if (key === 'log') {
             this.props.actions.getSyslog('firewall', this.props.match.params.id, (data, err) => {
@@ -194,7 +199,7 @@ class FirewallInfo extends React.Component<any, any> {
     render() {
         let { nodeInfo, list, summary } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading, activeKey, events } = this.state;
+        const { pageSize, tableLoading, activeKey, events, detailKey } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -215,7 +220,7 @@ class FirewallInfo extends React.Component<any, any> {
                     <Tabs onChange={this.callback} type="card" animated={false}>
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
-                                defaultActiveKey="1"
+                                activeKey={detailKey}
                                 size="small"
                                 animated={false}
                                 onChange={this.tabInfo}
