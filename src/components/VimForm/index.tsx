@@ -15,8 +15,9 @@ const formItemLayout = {
 class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
     constructor(props: any) {
         super(props)
+        let { data } = this.props
         this.state = {
-            VimId: UUID.v1()
+            VimId: data && data.VimId ? data.VimId : UUID.v1()
         }
     }
     getData() {
@@ -32,9 +33,15 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
         })
         return data
     }
-
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data.ID !== this.props.data.ID) {
+            this.setState({
+                VimId: nextProps.data.VimId
+            })
+        }
+    }
     render() {
-        let vimInfo = this.props.data || ''
+        let { data } = this.props
         const { getFieldDecorator } = this.props.form;
         return (
             <Form className={styles.vimForm}>
@@ -48,8 +55,8 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                     {...formItemLayout}
                     label="名称"
                 >
-                    {getFieldDecorator('name', {
-                        initialValue: vimInfo.name,
+                    {getFieldDecorator('NAME', {
+                        initialValue: data.NAME,
                         rules: [{
                             required: true, message: '请输入名称！',
                         }],
@@ -62,7 +69,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                     label="URL"
                 >
                     {getFieldDecorator('url', {
-                        initialValue: vimInfo.url,
+                        initialValue: data.url,
                         rules: [{
                             required: true, message: '请输入URL！',
                         }],
@@ -75,7 +82,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                     label="位置"
                 >
                     {getFieldDecorator('position', {
-                        initialValue: vimInfo.position,
+                        initialValue: data.position,
                         rules: [{
                             // required: true, message: '请输入位置！',
                         }],
@@ -88,7 +95,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                     label="描述"
                 >
                     {getFieldDecorator('description', {
-                        initialValue: vimInfo.description,
+                        initialValue: data.description,
                         rules: [{
                             // required: true, message: '请输入描述！',
                         }],

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
+import * as _ from 'lodash';
 
 import VimForm from '../VimForm/index'
 
@@ -36,6 +37,14 @@ export default class VimEdit extends React.PureComponent<VimEditProps, any> {
     render() {
         const { visible, data } = this.props
         let title = data ? '编辑资源结构组织' : '新建资源结构组织'
+        let _data = {}
+        if (data) {
+            data.columns.map((item, index) => {
+                const key = data.headers[index];
+                const values = data.values[0][index];
+                _data[key] = values
+            });
+        }
         return (
             <Modal
                 title={title}
@@ -49,7 +58,7 @@ export default class VimEdit extends React.PureComponent<VimEditProps, any> {
                 ]}
             >
                 <VimForm
-                    data={data}
+                    data={_data}
                     wrappedComponentRef={(node) => { this.formRef = node }}
                 />
             </Modal>

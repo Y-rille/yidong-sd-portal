@@ -113,12 +113,12 @@ class FirewallInfo extends React.Component<any, any> {
                 }
             } else if (qdata.code === 1) {
                 this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
-                    if (res && res === 1) {
+                    if (res && res.code === 1) {
                         if (cb) {
                             cb()
                         }
                     }
-                    if (res && res === 0 || error) {
+                    if (res && res.code === 0 || error) {
                         emitter.emit('message', 'error', '修改失败')
                         if (cb) {
                             cb()

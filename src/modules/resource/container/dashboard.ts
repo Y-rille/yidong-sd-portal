@@ -11,6 +11,7 @@ function mapProps(state) {
         tree: state.commonReducer.tree,
         overviewVIM: state.resourceReducer.overviewVIM,
         overviewPIM: state.resourceReducer.overviewPIM,
+        // objData: state.resourceReducer.objData
     }
 }
 function mapDispatchToProps(dispatch) {

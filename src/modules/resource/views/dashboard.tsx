@@ -11,20 +11,21 @@ import VimEdit from '../../../components/VimEdit/'
 import Headline from '../../../components/Headline'
 import emitter from '../../../common/emitter'
 let editRef = null
-let vimInfo = {
-    vim_id: 'A12WED34212344RED',
-    name: 'vimxxxx',
-    url: 'http://www.hpe.com/kkkk',
-    position: '北京futong',
-    description: '这里是一段资源结构组织的描述描述描述'
-}
+// let vimInfo = {
+//     vim_id: 'A12WED34212344RED',
+//     name: 'vimxxxx',
+//     url: 'http://www.hpe.com/kkkk',
+//     position: '北京futong',
+//     description: '这里是一段资源结构组织的描述描述描述'
+// }
 class Dashboard extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            vimInfo: vimInfo,
-            loading: false
+            vimInfo: null,
+            loading: false,
+            curId: null
         }
     }
     showModal() {
@@ -33,10 +34,15 @@ class Dashboard extends React.Component<any, any> {
             vimInfo: null
         })
     }
-    goEdit() {
-        this.setState({
-            visible: true,
-            vimInfo: vimInfo
+    goEdit(id) {
+        this.props.actions.getObjData('vim', id, (err, data) => {
+            if (data && data.code === 1) {
+                this.setState({
+                    curId: id,
+                    visible: true,
+                    vimInfo: data.data
+                })
+            }
         })
     }
     handleOk(formdata) {
@@ -44,25 +50,47 @@ class Dashboard extends React.Component<any, any> {
         this.setState({
             loading: true
         });
+        let { curId } = this.state
         if (formdata) {
-            this.props.actions.addVim(moTypeKey, formdata, (data, err) => {
-                this.setState({
-                    visible: false,
-                    loading: false
-                });
-                if (data.code === 1) {
-                    this.props.actions.getMoTree('mgrmoTree')
-                    emitter.emit('message', 'success', '创建成功！')
-                } else {
-                    emitter.emit('message', 'error', '创建失败！')
-                }
-            })
+            if (vimInfo && curId) {
+                this.props.actions.editObjData(moTypeKey, formdata, curId, (err, data) => {
+                    this.setState({
+                        visible: false,
+                        loading: false,
+                        curId: null
+                    });
+                    this.props.actions.resetObjData()
+                    if (data.code === 1) {
+                        this.props.actions.getMoTree('mgrmoTree')
+                        this.props.actions.getOverview('overviewVIM')
+                        emitter.emit('message', 'success', '编辑成功！')
+                    } else {
+                        emitter.emit('message', 'error', '编辑失败！')
+                    }
+                })
+            } else {
+                this.props.actions.addVim(moTypeKey, formdata, (err, data) => {
+                    this.setState({
+                        visible: false,
+                        loading: false
+                    });
+                    if (data.code === 1) {
+                        this.props.actions.getMoTree('mgrmoTree')
+                        this.props.actions.getOverview('overviewVIM')
+                        emitter.emit('message', 'success', '创建成功！')
+                    } else {
+                        emitter.emit('message', 'error', '创建失败！')
+                    }
+                })
+            }
         }
     }
     handleCancel() {
         this.setState({
             visible: false,
+            curId: null
         })
+        this.props.actions.resetObjData()
     }
     componentWillMount() {
         this.props.actions.getOverview('overviewVIM')
@@ -70,10 +98,11 @@ class Dashboard extends React.Component<any, any> {
     }
     renderOverviewCard(data, type) {
         return _.map(data, (item) => {
-            return <OverviewCard data={item} goEdit={type === 'vim' ? this.goEdit.bind(this) : null} />
+            return <OverviewCard data={item} editable={type === 'vim' ? true : false} goEdit={type === 'vim' ? this.goEdit.bind(this) : null} />
         })
     }
     render() {
+        let { visible, vimInfo } = this.state
         let { overviewVIM, overviewPIM } = this.props
         return (
             <div className={styles.resource}>
@@ -92,17 +121,15 @@ class Dashboard extends React.Component<any, any> {
                                 <Button onClick={this.showModal.bind(this)}><Icon type="codepen" />新建VIM</Button>
                             </Headline>
                             {this.renderOverviewCard(overviewVIM, 'vim')}
-                            {/* <OverviewCard goEdit={this.goEdit.bind(this)} />
-                            <OverviewCard goEdit={this.goEdit.bind(this)} /> */}
                             <Headline title="物理部署组织" />
-                            <PimSummary />
+                            {this.renderOverviewCard(overviewPIM, 'pim')}
                         </div>
                     ) : <Spin />}
                 </div>
-                {this.state.visible ? (
+                {visible ? (
                     <VimEdit
-                        data={this.state.vimInfo}
-                        visible={true}
+                        data={vimInfo}
+                        visible={visible}
                         loading={this.state.loading}
                         handleOk={this.handleOk.bind(this)}
                         handleCancel={this.handleCancel.bind(this)}

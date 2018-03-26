@@ -139,7 +139,7 @@ export interface VimParams {
   /**
    * 名称
    */
-  name: string,
+  NAME: string,
   /**
    * URL
    */
