@@ -87,7 +87,7 @@ class Flavor extends React.Component<any, any> {
     }
     handleManage() {
         let { config } = this.props
-        window.location.href = config.manage_link.flavor
+        window.open(config.manage_link.flavor)
     }
     componentWillMount() {
         let { pageNo } = this.state
