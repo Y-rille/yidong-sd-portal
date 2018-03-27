@@ -15,6 +15,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     pie: any
     options: any
     chart: any
+    newObj: any
     goEdit() {
         let id = this.props.data.metadata.ID
         if (this.props.goEdit) {
@@ -26,28 +27,22 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     componentDidMount() {
         let { data } = this.props
         let reports = data.reports
-        let arr = []
-        let arrCont1 = []
-        let arrCont2 = []
-        let arrCont3 = []
         reports.map((item) => {
             if (item.type === 'pie') {
 
-                let arrHeaders = item.data.headers
-                let arrValues = _.head(item.data.values)
-                let value_cal = parseInt(arrValues[_.indexOf(arrHeaders, '计算节点')], 10)
-                let value_contrl = parseInt(arrValues[_.indexOf(arrHeaders, '控制节点')], 10)
-                let value_stor = parseInt(arrValues[_.indexOf(arrHeaders, '存储节点')], 10)
-                let total = value_cal + value_contrl + value_stor
-                arrCont1.push('计算节点')
-                arrCont1.push(_.round((value_cal / total), 2) * 100)
-                arrCont2.push('控制节点')
-                arrCont2.push(_.round((value_contrl / total), 2) * 100)
-                arrCont3.push('存储节点')
-                arrCont3.push(_.round((value_stor / total), 2) * 100)
-                arr.push(arrCont1)
-                arr.push(arrCont2)
-                arr.push(arrCont3)
+                let newObj = _.zipObject(item.data.headers, _.head(item.data.values));
+                let textArr = ['计算节点', '控制节点', '存储节点']
+                let newArr = []
+                let total = 0
+                let eachNum: any
+                for (let i = 0; i < textArr.length; i++) {
+                    newArr.push([textArr[i], newObj[textArr[i]]])
+                    eachNum = newObj[textArr[i]]
+                    total = total + parseInt(eachNum, 10)
+                }
+                for (let i = 0; i < newArr.length; i++) {
+                    newArr[i][1] = _.round((newArr[i][1] / total), 2) * 100
+                }
                 this.options = {
                     chart: {
                         plotBackgroundColor: null,
@@ -88,7 +83,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     series: [{
                         type: 'pie',
                         name: '浏览器访问量占比',
-                        data: arr
+                        data: newArr
                     }]
                 }
                 this.chart = Highcharts.chart(this.pie, this.options);
@@ -99,19 +94,24 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
 
     renderCardText(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
-        let arrHeaders = item.data.headers
-        let arrValues = _.head(item.data.values)
+        let newObj = _.zipObject(item.data.headers, _.head(item.data.values));
+        let newArr = []
+        for (const key in newObj) {
+            if (newObj.hasOwnProperty(key)) {
+                newArr.push([key, newObj[key]])
+            }
+        }
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
                     <span>{item.description}</span>
                 </div>
                 <div className={styles.card_cont_text}>
-                    {arrHeaders.map((header, key) => {
+                    {newArr.map((header, key) => {
                         return (
                             <p className={styles.card_header} key={key}>
-                                {header}
-                                <span className={styles.card_value}>：{arrValues[key]}</span>
+                                {header[0]}
+                                <span className={styles.card_value}>：{header[1]}</span>
                             </p>
                         )
                     })}
@@ -122,20 +122,25 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     renderCardDot1(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
         const clsIcon = classNames(styles.icon, styles.icon_round);
-        let arrHeaders = item.data.headers
-        let arrValues = _.head(item.data.values)
         let arrColor = ['#6fbdf3', '#fba277', '#000']
+        let newObj = _.zipObject(item.data.headers, _.head(item.data.values));
+        let newArr = []
+        for (const key in newObj) {
+            if (newObj.hasOwnProperty(key)) {
+                newArr.push([key, newObj[key]])
+            }
+        }
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
                     <span>{item.description}</span>
                 </div>
-                {arrHeaders.map((header, key) => {
+                {newArr.map((header, key) => {
                     return (
                         <p className={styles.card_cont_dot} key={key}>
                             <span className={clsIcon} style={{ backgroundColor: arrColor[key < 3 ? key : 2] }} />
-                            {header}：
-                            <span className={styles.card_cont_center} style={{ color: arrColor[key < 3 ? key : 2] }}>{arrValues[key]}</span>
+                            {header[0]}：
+                            <span className={styles.card_cont_center} style={{ color: arrColor[key < 3 ? key : 2] }}>{header[1]}</span>
                             <span style={{ color: arrColor[key < 3 ? key : 2] }}>&nbsp;个</span>
                         </p>
                     )
@@ -146,21 +151,26 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     renderCardDot2(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
         const clsIcon = classNames(styles.icon, styles.icon_round);
-        let arrHeaders = item.data.headers
-        let arrValues = _.head(item.data.values)
         let arrColor = ['#6fbdf3', '#b2becd', '#7cd8ba']
+        let newObj = _.zipObject(item.data.headers, _.head(item.data.values));
+        let newArr = []
+        for (const key in newObj) {
+            if (newObj.hasOwnProperty(key)) {
+                newArr.push([key, newObj[key]])
+            }
+        }
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
                     <span>{item.description}</span>
                 </div>
-                {arrHeaders.map((header, key) => {
+                {newArr.map((header, index) => {
                     return (
-                        <p className={styles.card_cont_dot} key={key}>
-                            <span className={clsIcon} style={{ backgroundColor: arrColor[key] }} />
-                            {header}：
-                            <span className={styles.card_cont_center} style={{ color: arrColor[key] }}>{arrValues[key]}</span>
-                            <span style={{ color: arrColor[key] }}>&nbsp;个</span>
+                        <p className={styles.card_cont_dot} key={index}>
+                            <span className={clsIcon} style={{ backgroundColor: arrColor[index] }} />
+                            {header[0]}：
+                            <span className={styles.card_cont_center} style={{ color: arrColor[index] }}>{header[1]}</span>
+                            <span style={{ color: arrColor[index] }}>&nbsp;个</span>
                         </p>
                     )
                 })}
@@ -171,9 +181,18 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     renderCardPie(item) {
         const clsCard = classNames(styles.card, styles.card_w2);
         const clsIcon = classNames(styles.icon, styles.icon_square);
-        let arrHeaders = item.data.headers
-        let arrValues = _.head(item.data.values)
-        let arrColor = ['', '', '#7cd8ba', '#879dbb', '#ffe780']
+        let leftTextArr = ['总（台）', '未分配裸机（台）']
+        let rightTextArr = ['计算节点', '控制节点', '存储节点']
+        let arrColor = ['#7cd8ba', '#879dbb', '#ffe780']
+        let newObj = _.zipObject(item.data.headers, _.head(item.data.values));
+        let newLeftArr = []
+        let newRightArr = []
+        for (let i = 0; i < leftTextArr.length; i++) {
+            newLeftArr.push([leftTextArr[i], newObj[leftTextArr[i]]])
+        }
+        for (let i = 0; i < rightTextArr.length; i++) {
+            newRightArr.push([rightTextArr[i], newObj[rightTextArr[i]]])
+        }
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
@@ -181,34 +200,26 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                 </div>
                 <div className={styles.card_pie_cont}>
                     <div className={styles.card_pie_cont_left}>
-                        {arrHeaders.map((header, key) => {
-                            if (key < 2) {
-                                return (
-                                    <p className={styles.card_header} key={key}>
-                                        {header}
-                                        <span className={styles.card_value}>：{arrValues[key]}</span>
-                                    </p>
-                                )
-                            } else {
-                                return ''
-                            }
+                        {newLeftArr.map((header, key) => {
+                            return (
+                                <p className={styles.card_header} key={key}>
+                                    {header[0]}
+                                    <span className={styles.card_value}>：{header[1]}</span>
+                                </p>
+                            )
                         })}
                     </div>
                     <div className={styles.card_pie_cont_center} ref={(node) => { this.pie = node }} ></div>
                     <div className={styles.card_pie_cont_right}>
-                        {arrHeaders.map((header, key) => {
-                            if (key > 1) {
-                                return (
-                                    <p className={styles.card_cont_dot} key={key}>
-                                        <span className={clsIcon} style={{ backgroundColor: arrColor[key] }} />
-                                        {header}：
-                                        <span className={styles.card_cont_center} style={{ color: arrColor[key] }}>{arrValues[key]}</span>
-                                        <span style={{ color: arrColor[key] }}>&nbsp;个</span>
-                                    </p>
-                                )
-                            } else {
-                                return ''
-                            }
+                        {newRightArr.map((header, key) => {
+                            return (
+                                <p className={styles.card_cont_dot} key={key}>
+                                    <span className={clsIcon} style={{ backgroundColor: arrColor[key] }} />
+                                    {header[0]}：
+                                    <span className={styles.card_cont_center} style={{ color: arrColor[key] }}>{header[1]}</span>
+                                    <span style={{ color: arrColor[key] }}>&nbsp;个</span>
+                                </p>
+                            )
                         })}
                     </div>
                 </div>
