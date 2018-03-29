@@ -97,6 +97,7 @@ class Dashboard extends React.Component<any, any> {
         this.props.actions.getOverview('overviewPIM')
     }
     renderOverviewCard(data, type) {
+        data = data || []
         return _.map(data, (item) => {
             return <OverviewCard data={item} editable={type === 'vim' ? true : false} goEdit={type === 'vim' ? this.goEdit.bind(this) : null} />
         })
