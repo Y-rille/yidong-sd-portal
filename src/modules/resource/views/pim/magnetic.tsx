@@ -159,62 +159,6 @@ class Magnetic extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     renderAddData() {
-        let filterDate = {
-            'count': 17,
-            'header': [{
-                key: 'ip',
-                title: '管理Ip',
-            }, {
-                key: 'name',
-                title: '用户名',
-            }, {
-                key: 'password',
-                title: '用户密码',
-            }, {
-                key: 'brand',
-                title: '品牌',
-            }, {
-                key: 'number',
-                title: '序列号'
-            }, {
-                key: 'status',
-                title: '添加状态'
-            }],
-            'body': [{
-                'id': '1',
-                'ip': '10.4.152.2',
-                'name': 'admin',
-                'password': '123123',
-                'brand': 'hp',
-                'number': 'hhhh2',
-                'status': '成功发现',
-            },
-            {
-                'id': '2',
-                'ip': '10.4.152.2',
-                'name': 'admin',
-                'password': '123123',
-                'brand': 'hp',
-                'number': 'hhhh2',
-                'status': '成功发现',
-            }, {
-                'id': '3',
-                'ip': '10.4.152.2',
-                'name': 'admin',
-                'password': '123123',
-                'brand': 'hp',
-                'number': 'hhhh2',
-                'status': '成功发现',
-            }, {
-                'id': '4',
-                'ip': '10.4.152.2',
-                'name': 'admin',
-                'password': '123123',
-                'brand': 'hp',
-                'number': 'hhhh2',
-                'status': '成功发现',
-            }]
-        }
         let { findData } = this.props
         if (findData) {
             let data_fixed = _.merge({}, findData)
