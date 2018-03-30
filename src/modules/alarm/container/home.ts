@@ -5,6 +5,7 @@ import Home from '../views/home'
 function mapProps(state) {
   return {
     currentUser: state.commonReducer.currentUser,
+    config: state.commonReducer.config,
   }
 }
 function mapDispatchToProps(dispatch) {
