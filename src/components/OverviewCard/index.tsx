@@ -163,7 +163,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
             </Card>
         )
     }
-    
+
     renderCardDot2(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
         const clsIcon = classNames(styles.icon, styles.icon_round);
@@ -195,7 +195,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         let rightTextArr: any = ['计算节点', '控制节点', '存储节点']
         let arrColor = ['#7cd8ba', '#879dbb', '#ffe780']
         let newLeftArr = this.toNewData2(item.data.headers, _.head(item.data.values), leftTextArr)
-        let newRightArr = this.toNewData2(item.data.headers, _.head(item.data.values), leftTextArr)       
+        let newRightArr = this.toNewData2(item.data.headers, _.head(item.data.values), rightTextArr)       
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
