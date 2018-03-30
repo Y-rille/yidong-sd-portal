@@ -22,28 +22,53 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
             this.props.goEdit(id)
         }
     }
+
     static defaultProps = {}
+
+    toNewData(arr1, arr2) {
+        let newArr: any = []
+        if (arr1 && arr2) {
+            let newObj = _.zipObject(arr1, arr2)
+            for (const key in newObj) {
+                if (newObj.hasOwnProperty(key)) {
+                    newArr.push([key, newObj[key]])
+                }
+            }
+        }
+        return newArr
+    }
+
+    toNewData2(arr1, arr2, arrText, percent = false) {
+        let newArr: any = []
+        if (arr1 && arr2) {
+            let newObj = _.zipObject(arr1, arr2)
+            if (percent) {
+                let total = 0
+                let eachNum: any
+                for (let i = 0; i < arrText.length; i++) {
+                    newArr.push([arrText[i], newObj[arrText[i]]])
+                    eachNum = newObj[arrText[i]]
+                    total = total + parseInt(eachNum, 10)
+                }
+                for (let i = 0; i < newArr.length; i++) {
+                    newArr[i][1] = _.round((newArr[i][1] / total), 3) * 100
+                }
+            } else {
+                for (let i = 0; i < arrText.length; i++) {
+                    newArr.push([arrText[i], newObj[arrText[i]]])
+                }
+            }
+        }
+        return newArr
+    }
 
     componentDidMount() {
         let { data } = this.props
         let reports = data.reports
         reports.map((item) => {
             if (item.type === 'pie') {
-                let newArr: any = []
-                if (item.data.headers && _.head(item.data.values)) {
-                    let newObj = _.zipObject(item.data.headers, _.head(item.data.values));
-                    let textArr: any = ['计算节点', '控制节点', '存储节点']
-                    let total = 0
-                    let eachNum: any
-                    for (let i = 0; i < textArr.length; i++) {
-                        newArr.push([textArr[i], newObj[textArr[i]]])
-                        eachNum = newObj[textArr[i]]
-                        total = total + parseInt(eachNum, 10)
-                    }
-                    for (let i = 0; i < newArr.length; i++) {
-                        newArr[i][1] = _.round((newArr[i][1] / total), 2) * 100
-                    }
-                }
+                let PieTextArr: any = ['计算节点', '控制节点', '存储节点']
+                let pieData = this.toNewData2(item.data.headers, _.head(item.data.values), PieTextArr, true)
                 this.options = {
                     chart: {
                         plotBackgroundColor: null,
@@ -84,7 +109,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     series: [{
                         type: 'pie',
                         name: '浏览器访问量占比',
-                        data: newArr
+                        data: pieData
                     }]
                 }
                 this.chart = Highcharts.chart(this.pie, this.options);
@@ -95,16 +120,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
 
     renderCardText(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
-        let newArr: any = []
-        if (item.data.headers && _.head(item.data.values)) {
-            let newObj = _.zipObject(item.data.headers, _.head(item.data.values));
-            for (const key in newObj) {
-                if (newObj.hasOwnProperty(key)) {
-                    newArr.push([key, newObj[key]])
-                }
-            }
-        }
-
+        let newArr = this.toNewData(item.data.headers, _.head(item.data.values))
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
@@ -123,19 +139,12 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
             </Card>
         )
     }
+
     renderCardDot1(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
         const clsIcon = classNames(styles.icon, styles.icon_round);
         let arrColor = ['#6fbdf3', '#fba277', '#000']
-        let newArr: any = []
-        if (item.data.headers && _.head(item.data.values)) {
-            let newObj = _.zipObject(item.data.headers, _.head(item.data.values));
-            for (const key in newObj) {
-                if (newObj.hasOwnProperty(key)) {
-                    newArr.push([key, newObj[key]])
-                }
-            }
-        }
+        let newArr = this.toNewData(item.data.headers, _.head(item.data.values))
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
@@ -154,19 +163,12 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
             </Card>
         )
     }
+
     renderCardDot2(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
         const clsIcon = classNames(styles.icon, styles.icon_round);
         let arrColor = ['#6fbdf3', '#b2becd', '#7cd8ba']
-        let newArr: any = []
-        if (item.data.headers && _.head(item.data.values)) {
-            let newObj = _.zipObject(item.data.headers, _.head(item.data.values));
-            for (const key in newObj) {
-                if (newObj.hasOwnProperty(key)) {
-                    newArr.push([key, newObj[key]])
-                }
-            }
-        }
+        let newArr = this.toNewData(item.data.headers, _.head(item.data.values))
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
@@ -192,17 +194,8 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         let leftTextArr: any = ['总（台）', '未分配裸机（台）']
         let rightTextArr: any = ['计算节点', '控制节点', '存储节点']
         let arrColor = ['#7cd8ba', '#879dbb', '#ffe780']
-        let newLeftArr: any = []
-        let newRightArr: any = []
-        if (item.data.headers && _.head(item.data.values)) {
-            let newObj = _.zipObject(item.data.headers, _.head(item.data.values));
-            for (let i = 0; i < leftTextArr.length; i++) {
-                newLeftArr.push([leftTextArr[i], newObj[leftTextArr[i]]])
-            }
-            for (let i = 0; i < rightTextArr.length; i++) {
-                newRightArr.push([rightTextArr[i], newObj[rightTextArr[i]]])
-            }
-        }
+        let newLeftArr = this.toNewData2(item.data.headers, _.head(item.data.values), leftTextArr)
+        let newRightArr = this.toNewData2(item.data.headers, _.head(item.data.values), rightTextArr)       
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
@@ -264,11 +257,12 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
 
     render() {
         let { data } = this.props
+        let metadata = data.metadata
         let { editable } = this.props
         return (
             <div className={styles.overviewCard}>
                 <div className={styles.title}>
-                    <span className={styles.title_header}>{data.metadata.NAME}</span><span>ID: {data.metadata.ID}</span>&emsp;<span>位置:{data.metadata.localtion}</span>&emsp;
+                    <span className={styles.title_header}>{metadata.NAME}</span><span>ID: {metadata.ID}</span>&emsp;<span>位置:{metadata.location}</span>&emsp;
                     {editable ? (<a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>) : ''}
                 </div>
                 {this.renderCard()}
