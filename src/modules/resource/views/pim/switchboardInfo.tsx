@@ -34,6 +34,10 @@ class SwitchboardInfo extends React.Component<any, any> {
     goLink() {
 
     }
+    goList() {
+        let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
+        this.props.history.push(`${path}`)
+    }
     goPage(num) {
         let { match } = this.props
         let pageNo = num
@@ -248,7 +252,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                                 return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                             })
                         }
-                        <Breadcrumb.Item>交换机管理</Breadcrumb.Item>
+                        <Breadcrumb.Item><a onClick={this.goList.bind(this)}>交换机管理</a></Breadcrumb.Item>
                         <Breadcrumb.Item>交换机详情</Breadcrumb.Item>
                     </Breadcrumb>) : ''}
                 </div>

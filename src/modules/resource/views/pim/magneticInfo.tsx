@@ -28,7 +28,10 @@ class MageneticInfo extends React.Component<any, any> {
             showBtn: true,
         }
     }
-
+    goList() {
+        let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
+        this.props.history.push(`${path}`)
+    }
     callback = (key) => {
         if (key === 'detail') {
             this.setState({
@@ -322,7 +325,7 @@ class MageneticInfo extends React.Component<any, any> {
                                 return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                             })
                         }
-                        <Breadcrumb.Item>磁阵管理</Breadcrumb.Item>
+                        <Breadcrumb.Item><a onClick={this.goList.bind(this)}>磁阵管理</a></Breadcrumb.Item>
                         <Breadcrumb.Item>磁阵详情</Breadcrumb.Item>
                     </Breadcrumb>) : ''}
                 </div>
