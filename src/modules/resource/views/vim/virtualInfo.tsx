@@ -60,6 +60,10 @@ class VirtualInfo extends React.Component<any, any> {
             })
         }
     }
+    goList() {
+        let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
+        this.props.history.push(`${path}`)
+    }
     componentWillMount() {
         let moTypeKey = 'vm'
         let match = this.props.match
@@ -105,7 +109,7 @@ class VirtualInfo extends React.Component<any, any> {
                                     return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                                 })
                             }
-                            <Breadcrumb.Item>虚拟机管理</Breadcrumb.Item>
+                            <Breadcrumb.Item><a onClick={this.goList.bind(this)}>虚拟机管理</a></Breadcrumb.Item>
                             <Breadcrumb.Item>虚拟机详情</Breadcrumb.Item>
                         </Breadcrumb>
                     ) : ''}
