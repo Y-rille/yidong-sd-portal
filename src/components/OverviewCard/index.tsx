@@ -106,6 +106,11 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     credits: {  // 版权信息，不显示
                         enabled: false
                     },
+                    navigation: {
+                        buttonOptions: {
+                            enabled: false
+                        }
+                    },
                     series: [{
                         type: 'pie',
                         name: '浏览器访问量占比',
