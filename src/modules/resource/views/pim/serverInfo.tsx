@@ -34,6 +34,10 @@ class ServerInfo extends React.Component<any, any> {
             server: match.params.id,
         }
     }
+    goList() {
+        let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
+        this.props.history.push(`${path}`)
+    }
     confirmUpOrDown = (e) => {
         // let title = '上电'
         let content = '服务器正在运行，确定上电吗？'
@@ -413,7 +417,7 @@ class ServerInfo extends React.Component<any, any> {
                                 return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                             })
                         }
-                        <Breadcrumb.Item>服务器管理</Breadcrumb.Item>
+                        <Breadcrumb.Item><a onClick={this.goList.bind(this)}>服务器管理</a></Breadcrumb.Item>
                         <Breadcrumb.Item>服务器详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
