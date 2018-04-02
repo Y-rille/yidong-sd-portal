@@ -133,8 +133,22 @@ class ServerInfo extends React.Component<any, any> {
                 if (server_info) {
                     let id = server_info['id']
                     let vim_id = server_info['vim_id']
-                    if (id && vim_id) {
-                        this.props.history.replace(`/resource/vim/${vim_id}/host/info/${id}`)
+                    let type = ''
+                    switch (server_info['host_type']) {
+                        case 'controller':
+                            type = 'imdsController'
+                            break
+                        case 'compute':
+                            type = 'imdsHost'
+                            break
+                        case 'storage':
+                            type = 'imdsStorage'
+                            break
+                        default:
+                            type = 'imdsController'
+                    }
+                    if (id && vim_id && type) {
+                        this.props.history.replace(`/resource/vim/${vim_id}/host/${type}/info/${id}`)
                     }
                 }
             }
