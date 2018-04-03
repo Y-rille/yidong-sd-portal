@@ -14,6 +14,7 @@ export interface CompactTableProps {
     goLink?
     goDelete?
     actionAuth? // 操作权限
+    actionWidth?// 操作宽度
     // pageAuth?
     footInfoAuth? // 页脚信息
     outStyle?
@@ -24,7 +25,7 @@ export interface CompactTableProps {
     size?   // {y:185},传size，需在header里添加width
 }
 
-export default class CompacteTable extends React.PureComponent<CompactTableProps, any> {
+export default class CompactTable extends React.PureComponent<CompactTableProps, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -80,6 +81,7 @@ export default class CompacteTable extends React.PureComponent<CompactTableProps
             columns.push({
                 title: '操作',
                 key: 'action',
+                width: this.props.actionWidth ? this.props.actionWidth : 150,
                 render: (text, record) => (
                     <span>
                         {actionAuth.indexOf('edit') > -1 ? (
