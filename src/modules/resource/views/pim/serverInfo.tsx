@@ -34,6 +34,10 @@ class ServerInfo extends React.Component<any, any> {
             server: match.params.id,
         }
     }
+    goList() {
+        let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
+        this.props.history.push(`${path}`)
+    }
     confirmUpOrDown = (e) => {
         // let title = '上电'
         let content = '服务器正在运行，确定上电吗？'
@@ -129,8 +133,22 @@ class ServerInfo extends React.Component<any, any> {
                 if (server_info) {
                     let id = server_info['id']
                     let vim_id = server_info['vim_id']
-                    if (id && vim_id) {
-                        this.props.history.replace(`/resource/vim/${vim_id}/host/info/${id}`)
+                    let type = ''
+                    switch (server_info['host_type']) {
+                        case 'controller':
+                            type = 'imdsController'
+                            break
+                        case 'compute':
+                            type = 'imdsHost'
+                            break
+                        case 'storage':
+                            type = 'imdsStorage'
+                            break
+                        default:
+                            type = 'imdsController'
+                    }
+                    if (id && vim_id && type) {
+                        this.props.history.replace(`/resource/vim/${vim_id}/host/${type}/info/${id}`)
                     }
                 }
             }
@@ -306,6 +324,33 @@ class ServerInfo extends React.Component<any, any> {
             return (<div></div>)
         }
     }
+    renderMemory() {
+        let { list } = this.props
+        let { tableLoading } = this.state
+        let sum = 0
+        let total = ''
+        if (list && list.header && list.dataList) {
+            for (var i = 0; i < list.dataList.length; i++) {
+                let every = parseInt(list.dataList[i].CapacityMiB, 10)
+                sum += every
+            }
+            total = (sum / 1024).toFixed(2)
+            return (
+                <CompactTable
+                    goPage={this.goPage.bind(this)}
+                    loading={tableLoading}
+                    data={list}
+                    footInfoAuth={<div>*&nbsp;总容量(GB)&nbsp;:&nbsp;{total}</div>}
+                />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
     renderNormalTable() {
         let { list } = this.props
         let { tableLoading } = this.state
@@ -413,7 +458,7 @@ class ServerInfo extends React.Component<any, any> {
                                 return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                             })
                         }
-                        <Breadcrumb.Item>服务器管理</Breadcrumb.Item>
+                        <Breadcrumb.Item><a onClick={this.goList.bind(this)}>服务器管理</a></Breadcrumb.Item>
                         <Breadcrumb.Item>服务器详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
@@ -447,7 +492,7 @@ class ServerInfo extends React.Component<any, any> {
                                 </TabPane>
                                 <TabPane tab="内存信息" key="imdsServerMemory">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        {this.renderNormalTable()}
+                                        {this.renderMemory()}
                                     </div>
                                 </TabPane>
                                 <TabPane tab="网卡信息" key="imdsServerEthernetCard">

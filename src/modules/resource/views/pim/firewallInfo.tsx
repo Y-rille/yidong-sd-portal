@@ -27,6 +27,10 @@ class FirewallInfo extends React.Component<any, any> {
             events: [],
         }
     }
+    goList() {
+        let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
+        this.props.history.push(`${path}`)
+    }
     callback = (key) => {
         if (key === 'relation') {
             this.props.actions.resetList();
@@ -212,7 +216,7 @@ class FirewallInfo extends React.Component<any, any> {
                                 return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                             })
                         }
-                        <Breadcrumb.Item>防火墙管理</Breadcrumb.Item>
+                        <Breadcrumb.Item><a onClick={this.goList.bind(this)}>防火墙管理</a></Breadcrumb.Item>
                         <Breadcrumb.Item>防火墙详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>

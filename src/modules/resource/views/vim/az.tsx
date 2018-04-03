@@ -147,6 +147,7 @@ class Az extends React.Component<AzProps, any> {
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 outStyle={{ 'marginTop': '20px' }}
+                                footInfoAuth={<div>*&nbsp;AZ共有{list.totalCount}个</div>}
                             />
                         ) : (
                                 <Spin />

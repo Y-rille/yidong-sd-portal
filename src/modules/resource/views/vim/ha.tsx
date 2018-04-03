@@ -141,6 +141,7 @@ class Ha extends React.Component<HaProps, any> {
                             pageSize={pageSize}
                             actionAuth={[]}
                             loading={tableLoading}
+                            footInfoAuth={<div>*&nbsp;HA共有{list.totalCount}个</div>}
                         /> : <Spin />}
                 </div>
             </div>

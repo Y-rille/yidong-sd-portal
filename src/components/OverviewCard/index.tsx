@@ -106,6 +106,11 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     credits: {  // 版权信息，不显示
                         enabled: false
                     },
+                    navigation: {
+                        buttonOptions: {
+                            enabled: false
+                        }
+                    },
                     series: [{
                         type: 'pie',
                         name: '浏览器访问量占比',
@@ -262,7 +267,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         return (
             <div className={styles.overviewCard}>
                 <div className={styles.title}>
-                    <span className={styles.title_header}>{metadata.NAME}</span><span>ID: {metadata.ID}</span>&emsp;<span>位置:{metadata.location}</span>&emsp;
+                    <span className={styles.title_header}>{metadata.NAME}</span><span>ID: {metadata.ID}</span>&emsp;<span>位置:{metadata.localtion}</span>&emsp;
                     {editable ? (<a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>) : ''}
                 </div>
                 {this.renderCard()}

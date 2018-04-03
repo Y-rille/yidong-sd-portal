@@ -101,6 +101,10 @@ class AzInfo extends React.Component<any, any> {
             </div>
         )
     }
+    goList() {
+        let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
+        this.props.history.push(`${path}`)
+    }
     componentWillMount() {
         let az_id = this.props.match.params.id
         this.props.actions.getSummary('imdsAZInfo', { az_id: az_id });
@@ -129,7 +133,7 @@ class AzInfo extends React.Component<any, any> {
                                     return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                                 })
                             }
-                            <Breadcrumb.Item>AZ管理</Breadcrumb.Item>
+                            <Breadcrumb.Item><a onClick={this.goList.bind(this)}>AZ管理</a></Breadcrumb.Item>
                             <Breadcrumb.Item>AZ详情</Breadcrumb.Item>
                         </Breadcrumb>
                     ) : ''}

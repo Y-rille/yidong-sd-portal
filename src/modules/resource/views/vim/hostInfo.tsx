@@ -139,6 +139,10 @@ class HostInfo extends React.Component<any, any> {
             });
         })
     }
+    goList() {
+        let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
+        this.props.history.push(`${path}`)
+    }
     componentWillMount() {
         let moTypeKey = 'host'
         let match = this.props.match
@@ -188,6 +192,7 @@ class HostInfo extends React.Component<any, any> {
                     loading={tableLoading}
                     data={list}
                     goLink={this.goLink.bind(this)}
+                    footInfoAuth={<div>*&nbsp;主机下级资源共有{list.totalCount}个</div>}
                 />
             )
         } else {
@@ -215,7 +220,7 @@ class HostInfo extends React.Component<any, any> {
                                     return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                                 })
                             }
-                            <Breadcrumb.Item>主机管理</Breadcrumb.Item>
+                            <Breadcrumb.Item><a onClick={this.goList.bind(this)}>主机管理</a></Breadcrumb.Item>
                             <Breadcrumb.Item>主机详情</Breadcrumb.Item>
                         </Breadcrumb>
                     ) : ''}

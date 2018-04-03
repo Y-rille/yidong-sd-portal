@@ -88,6 +88,10 @@ class HaInfo extends React.Component<any, any> {
             az: type === 'AZ' ? value : az
         })
     }
+    goList() {
+        let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
+        this.props.history.push(`${path}`)
+    }
     componentDidMount() {
         this.getTableData()
     }
@@ -123,7 +127,7 @@ class HaInfo extends React.Component<any, any> {
                                 return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                             })
                         }
-                        <Breadcrumb.Item>HA管理</Breadcrumb.Item>
+                        <Breadcrumb.Item><a onClick={this.goList.bind(this)}>HA管理</a></Breadcrumb.Item>
                         <Breadcrumb.Item>HA详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
