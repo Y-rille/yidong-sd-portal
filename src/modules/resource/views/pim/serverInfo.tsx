@@ -324,6 +324,33 @@ class ServerInfo extends React.Component<any, any> {
             return (<div></div>)
         }
     }
+    renderMemory() {
+        let { list } = this.props
+        let { tableLoading } = this.state
+        let sum = 0
+        let total = ''
+        if (list && list.header && list.dataList) {
+            for (var i = 0; i < list.dataList.length; i++) {
+                let every = parseInt(list.dataList[i].CapacityMiB, 10)
+                sum += every
+            }
+            total = (sum / 1024).toFixed(2)
+            return (
+                <CompactTable
+                    goPage={this.goPage.bind(this)}
+                    loading={tableLoading}
+                    data={list}
+                    footInfoAuth={<div>*&nbsp;总容量(GB)&nbsp;:&nbsp;{total}</div>}
+                />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
     renderNormalTable() {
         let { list } = this.props
         let { tableLoading } = this.state
@@ -465,7 +492,7 @@ class ServerInfo extends React.Component<any, any> {
                                 </TabPane>
                                 <TabPane tab="内存信息" key="imdsServerMemory">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        {this.renderNormalTable()}
+                                        {this.renderMemory()}
                                     </div>
                                 </TabPane>
                                 <TabPane tab="网卡信息" key="imdsServerEthernetCard">

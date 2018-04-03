@@ -192,6 +192,7 @@ class HostInfo extends React.Component<any, any> {
                     loading={tableLoading}
                     data={list}
                     goLink={this.goLink.bind(this)}
+                    footInfoAuth={<div>*&nbsp;主机下级资源共有{list.totalCount}个</div>}
                 />
             )
         } else {

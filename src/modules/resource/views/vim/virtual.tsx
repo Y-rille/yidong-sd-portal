@@ -133,8 +133,8 @@ class Virtual extends React.Component<any, any> {
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
-                                // pageAuth={true}
                                 actionAuth={[]}
+                                footInfoAuth={<div>*&nbsp;虚拟机共有{list.totalCount}个</div>}
                             />) : (
                                 <Spin />
                             )

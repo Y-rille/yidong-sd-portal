@@ -47,6 +47,7 @@ class HostList extends React.Component<any, any> {
                             pageSize={pageSize}
                             loading={tableLoading}
                             outStyle={{ 'marginTop': '20px' }}
+                            footInfoAuth={<div>*&nbsp;主机共有{this.props.value}{data.totalCount}个</div>}
                         />
                     ) : (
                             <Spin />
