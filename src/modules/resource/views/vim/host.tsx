@@ -195,13 +195,13 @@ class Host extends React.Component<HostProps, any> {
                     <Switch>
                         <Redirect from={`${match.url}`} to={`${match.url}/imdsController`} exact />
                         <Route path={`${match.url}/imdsController`}
-                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
+                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} value="控制节点" />}
                         />
                         <Route path={`${match.url}/imdsHost`}
-                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
+                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} value="计算节点" />}
                         />
                         <Route path={`${match.url}/imdsStorage`}
-                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
+                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} value="存储节点" />}
                         />
                     </Switch>
                 </div>
