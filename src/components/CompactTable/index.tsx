@@ -154,7 +154,7 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
             <div className={styles.compactTable} style={outStyle}>
                 {this.renderTable()}
                 <div className={styles.tfooter}>
-                    {footInfoAuth ? (<div>* 底部信息</div>) : ''}
+                    {footInfoAuth ? (<div>{footInfoAuth}</div>) : ''}
                     {(count > page_size) ? (
                         <div>
                             <Pagination size="small"
