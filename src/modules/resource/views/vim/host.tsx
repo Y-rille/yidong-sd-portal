@@ -70,8 +70,9 @@ class Host extends React.Component<HostProps, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
+        let { activeKey } = this.state
         if (key === 'name') {
-            this.props.history.push(`${match.url}/info/${obj.id}`)
+            this.props.history.push(`${match.url}/${activeKey}/info/${obj.id}`)
         }
     }
     goPage = (num) => {
