@@ -106,7 +106,7 @@ class Server extends React.Component<any, any> {
         let { selected } = this.state
         let self = this
         Modal.confirm({
-            title: '确定要批量删除已选中服务器吗?',
+            title: '确定要批量删除所选服务器吗?',
             onOk() {
                 emitter.emit('message', 'success', '批量删除成功！')
             },

@@ -142,7 +142,7 @@ class Firewall extends React.Component<FirewallProps, any> {
         let { selected } = this.state
         let self = this
         Modal.confirm({
-            title: '确定要批量删除已选中防火墙吗?',
+            title: '确定要批量删除所选防火墙吗?',
             onOk() {
                 emitter.emit('message', 'success', '批量删除成功！')
             },

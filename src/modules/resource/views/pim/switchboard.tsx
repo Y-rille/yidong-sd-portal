@@ -138,7 +138,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         let { selected } = this.state
         let self = this
         Modal.confirm({
-            title: '确定要批量删除已选中交换机吗?',
+            title: '确定要批量删除所选交换机吗?',
             onOk() {
                 emitter.emit('message', 'success', '批量删除成功！')
             },

@@ -49,7 +49,7 @@ class Dashboard extends React.Component<any, any> {
     goDelete(data) {
         let self = this
         confirm({
-            title: '确定要删除该实例吗?',
+            title: '确定要删除该VIM吗?',
             onOk() {
                 emitter.emit('message', 'success', '删除成功！')
                 // self.props.actions.deleteInstance('vim', data.id, (id, error) => {

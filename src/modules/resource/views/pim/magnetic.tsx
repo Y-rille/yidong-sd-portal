@@ -118,7 +118,7 @@ class Magnetic extends React.Component<any, any> {
         let { selected } = this.state
         let self = this
         Modal.confirm({
-            title: '确定要批量删除已选中磁阵吗?',
+            title: '确定要批量删除所选磁阵吗?',
             onOk() {
                 emitter.emit('message', 'success', '批量删除成功！')
             },
