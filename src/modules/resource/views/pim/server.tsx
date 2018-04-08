@@ -123,11 +123,13 @@ class Server extends React.Component<any, any> {
             okText: '确定',
             cancelText: '取消',
             onOk() {
-                self.props.actions.deleteInstance(moTypeKey, moInstId, (data) => {
-                    if (data) {
+                self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
+                    if (data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
-                    } else {
-                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '删除失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
             },

@@ -53,8 +53,9 @@ class VirtualInfo extends React.Component<any, any> {
         if (key === 'log') {
             this.props.actions.getSyslog('vm', this.props.match.params.id, (data, err) => {
                 if (data.code === 1) {
+                    let data_fix = data.log.split('\n')
                     this.setState({
-                        events: fmtLog(data.log)
+                        events: data_fix
                     })
                 }
             })

@@ -23,7 +23,7 @@ const conversion = (attributes, data) => {
 
     data.columns.map((item, index) => {
         const key = data.headers[index];
-        const values = data.values[0][index];
+        const values = data.values.length > 0 ? data.values[0][index] : [];
         let summary = _.find(attributes, attr => (attr.physicalTablefield === item));
 
         if (summary) {
@@ -75,7 +75,7 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
                                     key={sindex}
                                     style={{ 'margin-bottom': '20px' }}
                                 >
-                                    <DynamicPropertiesCollapseForm data={formData} editData={this.handleEditData.bind(this)}/>
+                                    <DynamicPropertiesCollapseForm data={formData} editData={this.handleEditData.bind(this)} />
                                 </Panel>
                             })
                         }

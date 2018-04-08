@@ -150,21 +150,26 @@ class Firewall extends React.Component<FirewallProps, any> {
             cancelText: '取消',
         });
     }
-    goDelete(data) {
+    goDelete(obj) {
+        let moTypeKey = 'firewall'
+        let moInstId = obj.id
         let self = this
         confirm({
             title: '确定要删除该实例吗?',
+            okText: '确认',
+            cancelText: '取消',
             onOk() {
-                self.props.actions.deleteInstance('firewall', data.id, (id, error) => {
-                    if (id) {
+                self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
+                    if (data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
-                    } else {
-                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '删除失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
             },
-            okText: '确认',
-            cancelText: '取消',
+
         });
     }
     selectRow = (data) => {
