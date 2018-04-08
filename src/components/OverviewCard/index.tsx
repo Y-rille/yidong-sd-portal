@@ -9,6 +9,7 @@ export interface OverviewCardProps {
     goEdit?
     data?
     editable?
+    goDelete?
 }
 
 export default class OverviewCard extends React.PureComponent<OverviewCardProps, any> {
@@ -20,6 +21,11 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         let id = this.props.data.metadata.ID
         if (this.props.goEdit) {
             this.props.goEdit(id)
+        }
+    }
+    goDelete() {
+        if (this.props.goDelete) {
+            this.props.goDelete()
         }
     }
 
@@ -269,6 +275,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                 <div className={styles.title}>
                     <span className={styles.title_header}>{metadata.NAME}</span><span>ID: {metadata.ID}</span>&emsp;<span>位置:{metadata.localtion}</span>&emsp;
                     {editable ? (<a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>) : ''}
+                    <a className={styles.title_dele} href="javascript:;" onClick={this.goDelete.bind(this)}>删除</a>
                 </div>
                 {this.renderCard()}
             </div>

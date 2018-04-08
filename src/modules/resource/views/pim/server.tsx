@@ -101,6 +101,43 @@ class Server extends React.Component<any, any> {
         })
 
     }
+    deleteAll() {
+        let { selected } = this.state
+        let self = this
+        Modal.confirm({
+            title: '确定要删除已选中服务器吗?',
+            onOk() {
+                emitter.emit('message', 'success', '删除成功！')
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+    }
+    goDelete(obj) {
+        let moTypeKey = 'server'
+        let moInstId = obj.id
+        let self = this
+        Modal.confirm({
+            title: '确定要删除该实例吗？',
+            okText: '确定',
+            cancelText: '取消',
+            onOk() {
+                self.props.actions.deleteInstance(moTypeKey, moInstId, (data) => {
+                    if (data) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                })
+            },
+            onCancel() { },
+        });
+    }
+    selectRow(data) {
+        this.setState({
+            selected: data
+        })
+    }
     goPage = (num) => {
         let { match } = this.props
         let { vendor, datacenter } = this.state
@@ -149,31 +186,6 @@ class Server extends React.Component<any, any> {
     componentWillUnmount() {
         this.props.actions.resetList()
     }
-    goDelete(obj) {
-        let moTypeKey = 'server'
-        let moInstId = obj.id
-        let self = this
-        Modal.confirm({
-            title: '确定要删除该实例吗？',
-            okText: '确定',
-            cancelText: '取消',
-            onOk() {
-                self.props.actions.deleteInstance(moTypeKey, moInstId, (data) => {
-                    if (data) {
-                        emitter.emit('message', 'success', '删除成功！')
-                    } else {
-                        emitter.emit('message', 'error', '删除失败！')
-                    }
-                })
-            },
-            onCancel() { },
-        });
-    }
-    selectRow(data) {
-        this.setState({
-            selected: data
-        })
-    }
     renderAddData() {
         let { selected } = this.state
         let { findData } = this.props
@@ -204,7 +216,7 @@ class Server extends React.Component<any, any> {
     render() {
         let { match, nodeInfo, subDataVendor, subDataCenter, list, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { vendor, pageSize, tableLoading, datacenter } = this.state;
+        const { vendor, pageSize, tableLoading, datacenter, selected } = this.state;
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={ServerInfo} /> */}
@@ -233,6 +245,7 @@ class Server extends React.Component<any, any> {
                                 >
                                     查询
                             </Button>
+                                <Button type="danger" style={{ float: 'right' }} onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>删除</Button>
                                 <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
                                 <Modal
                                     title="发现"

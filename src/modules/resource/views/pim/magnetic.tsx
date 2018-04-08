@@ -114,6 +114,18 @@ class Magnetic extends React.Component<any, any> {
             cancelText: '取消',
         });
     }
+    deleteAll() {
+        let { selected } = this.state
+        let self = this
+        Modal.confirm({
+            title: '确定要删除已选中磁阵吗?',
+            onOk() {
+                emitter.emit('message', 'success', '删除成功！')
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+    }
     showModal = () => {
         this.setState({
             visible: true,
@@ -186,7 +198,7 @@ class Magnetic extends React.Component<any, any> {
     }
     render() {
         let { match, nodeInfo, list, subDataPIM } = this.props;
-        const { datacenter, vendor, pageSize, tableLoading } = this.state;
+        const { datacenter, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
@@ -211,6 +223,7 @@ class Magnetic extends React.Component<any, any> {
                                 <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
                                 <Selector type="Vendor" data={this.props.subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
                                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
+                                <Button type="danger" style={{ float: 'right' }} onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>删除</Button>
                                 <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
                                 <Modal
                                     title="发现"

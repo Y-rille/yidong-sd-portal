@@ -135,6 +135,18 @@ class Firewall extends React.Component<FirewallProps, any> {
         })
 
     }
+    deleteAll() {
+        let { selected } = this.state
+        let self = this
+        Modal.confirm({
+            title: '确定要删除已选中防火墙吗?',
+            onOk() {
+                emitter.emit('message', 'success', '删除成功！')
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+    }
     goDelete(data) {
         let self = this
         confirm({
@@ -217,7 +229,7 @@ class Firewall extends React.Component<FirewallProps, any> {
     render() {
         let { match, list, nodeInfo, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading, datacenter, vendor } = this.state;
+        const { pageSize, tableLoading, datacenter, vendor, selected } = this.state;
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={FirewallInfo} /> */}
@@ -246,6 +258,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 >
                                     查询
                                 </Button>
+                                <Button type="danger" style={{ float: 'right' }} onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>删除</Button>
                                 <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
                                 <Modal
                                     title="发现"

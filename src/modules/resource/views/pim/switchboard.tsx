@@ -133,6 +133,18 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         });
 
     }
+    deleteAll() {
+        let { selected } = this.state
+        let self = this
+        Modal.confirm({
+            title: '确定要删除已选中交换机吗?',
+            onOk() {
+                emitter.emit('message', 'success', '删除成功！')
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+    }
     renderAddData() {
         const { dataVisible } = this.state;
         let { selected } = this.state
@@ -227,7 +239,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.props.actions.resetList()
     }
     render() {
-        const { name, datacenter, pageSize, tableLoading, assettag } = this.state;
+        const { name, datacenter, pageSize, tableLoading, assettag, selected } = this.state;
         let { match, nodeInfo, list, subDataPIM, subDataVendor, subDataSwitchType } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -276,6 +288,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 </Button>
                                 </div>
                                 <div>
+                                    <Button type="danger" style={{ float: 'right' }} onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>删除</Button>
                                     <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
                                     <Modal
                                         title="发现"
