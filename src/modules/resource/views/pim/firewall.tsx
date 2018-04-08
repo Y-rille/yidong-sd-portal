@@ -103,6 +103,9 @@ class Firewall extends React.Component<FirewallProps, any> {
             visible: true,
         });
     }
+    handleManage() {
+
+    }
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -276,6 +279,10 @@ class Firewall extends React.Component<FirewallProps, any> {
                                     />
                                     {this.renderAddData()}
                                 </Modal>
+                                <Button type="primary"
+                                    style={{ float: 'right' }}
+                                    onClick={this.handleManage.bind(this)}
+                                >管理</Button>
                             </div>
                             {list ? (<CompactTable
                                 outStyle={{ 'marginTop': '20px' }}
@@ -286,7 +293,8 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 loading={tableLoading}
                                 goDelete={this.goDelete.bind(this)}
                                 actionAuth={['delete']}
-                            // pageAuth={false}                              
+                                selectAuth={true}
+                                selectRow={this.selectRow.bind(this)}
                             />) : (<Spin />)}
 
                         </div>

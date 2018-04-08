@@ -108,6 +108,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             visible: true,
         });
     }
+    handleManage() { }
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -306,6 +307,10 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                         />
                                         {this.renderAddData()}
                                     </Modal>
+                                    <Button type="primary"
+                                        style={{ float: 'right' }}
+                                        onClick={this.handleManage.bind(this)}
+                                    >管理</Button>
                                 </div>
                             </div>
                             {list ? (<CompactTable
@@ -317,6 +322,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 loading={tableLoading}
                                 actionAuth={['delete']}
                                 goDelete={this.goDelete.bind(this)}
+                                selectAuth={true}
+                                selectRow={this.selectRow.bind(this)}
                             />) : (<Spin />)}
                         </div>
                     </div>

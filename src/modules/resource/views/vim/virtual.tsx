@@ -87,8 +87,14 @@ class Virtual extends React.Component<any, any> {
     }
     goLink(key, obj) {
         let { match } = this.props;
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
+        let vimId = mp_node.params.id
         if (key === 'name') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
+        } else if (key === 'cHost') {
+            this.props.history.replace(`/resource/vim/${vimId}/host/imdsController/info/${obj.id}`)
         }
     }
     render() {
@@ -135,6 +141,7 @@ class Virtual extends React.Component<any, any> {
                                 loading={tableLoading}
                                 actionAuth={[]}
                                 footInfoAuth={<div>*&nbsp;虚拟机共有{list.totalCount}个</div>}
+                            // size={{ y: window.innerHeight - 365 }}
                             />) : (
                                 <Spin />
                             )
