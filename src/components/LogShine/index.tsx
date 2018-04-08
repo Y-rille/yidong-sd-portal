@@ -102,34 +102,42 @@ export default class LogShine extends React.PureComponent<any, any> {
             //     Fetching...
             //    </li>
         } else {
+            // li = this.state.events.map((event) => {
+            //     return (
+            //         <li className="event" key={event.id}>
+            //             <time className="date"
+            //                 style={{ color: this.props.dateTimeColor }}>
+            //                 {event.generated_at}
+            //             </time>
+            //             <span className="system">
+            //                 <a className="pointer"
+            //                     style={{ color: this.props.systemColor }}
+            //                     data-system-name={event.source_name}
+            //                     data-system-id={event.source_id}>
+            //                     ({event.IP})
+            //                     </a>
+            //             </span>
+            //             <span className="program">
+            //                 <a className="pointer"
+            //                     style={{ color: this.props.programColor }}
+            //                     data-system-name={event.source_name}
+            //                     data-system-id={event.source_id}
+            //                     data-program={event.program}>
+            //                     [{event.hostname}]
+            //                     </a>
+            //             </span>
+            //             <span style={{ color: this.props.messageColor }}
+            //                 className="message">
+            //                 {event.message}
+            //             </span>
+            //         </li>
+            //     );
+            // })
+
             li = this.state.events.map((event) => {
                 return (
-                    <li className="event" key={event.id}>
-                        <time className="date"
-                            style={{ color: this.props.dateTimeColor }}>
-                            {event.generated_at}
-                        </time>
-                        <span className="system">
-                            <a className="pointer"
-                                style={{ color: this.props.systemColor }}
-                                data-system-name={event.source_name}
-                                data-system-id={event.source_id}>
-                                ({event.IP})
-                                </a>
-                        </span>
-                        <span className="program">
-                            <a className="pointer"
-                                style={{ color: this.props.programColor }}
-                                data-system-name={event.source_name}
-                                data-system-id={event.source_id}
-                                data-program={event.program}>
-                                [{event.hostname}]
-                                </a>
-                        </span>
-                        <span style={{ color: this.props.messageColor }}
-                            className="message">
-                            {event.message}
-                        </span>
+                    <li className="event" key={event.id} style={{ color: '#fff' }}>
+                        {event}
                     </li>
                 );
             })

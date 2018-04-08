@@ -80,8 +80,9 @@ class SwitchboardInfo extends React.Component<any, any> {
         if (key === 'log') {
             this.props.actions.getSyslog('switch', this.props.match.params.id, (data, err) => {
                 if (data.code === 1) {
+                    let data_fix = data.log.split('\n')
                     this.setState({
-                        events: fmtLog(data.log)
+                        events: data_fix
                     })
                 }
             })
@@ -181,7 +182,7 @@ class SwitchboardInfo extends React.Component<any, any> {
     }
 
     handleEditData(d, cb) {
-        let moTypeKey = 'host'
+        let moTypeKey = 'switch'
         let match = this.props.match
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
