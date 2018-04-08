@@ -114,12 +114,25 @@ class Magnetic extends React.Component<any, any> {
             cancelText: '取消',
         });
     }
+    deleteAll() {
+        let { selected } = this.state
+        let self = this
+        Modal.confirm({
+            title: '确定要批量删除已选中磁阵吗?',
+            onOk() {
+                emitter.emit('message', 'success', '批量删除成功！')
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+    }
     showModal = () => {
         this.setState({
             visible: true,
 
         });
     }
+    handleManage() { }
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -186,7 +199,7 @@ class Magnetic extends React.Component<any, any> {
     }
     render() {
         let { match, nodeInfo, list, subDataPIM } = this.props;
-        const { datacenter, vendor, pageSize, tableLoading } = this.state;
+        const { datacenter, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <Switch>
@@ -211,7 +224,11 @@ class Magnetic extends React.Component<any, any> {
                                 <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
                                 <Selector type="Vendor" data={this.props.subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
                                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
-                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <div style={{ float: 'right' }}>
+                                    <Button type="primary" onClick={this.showModal}>发现</Button>
+                                    <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>批量删除</Button>
+                                </div>
                                 <Modal
                                     title="发现"
                                     visible={this.state.visible}
@@ -237,6 +254,8 @@ class Magnetic extends React.Component<any, any> {
                                 loading={tableLoading}
                                 data={list}
                                 actionAuth={['delete']}
+                                selectAuth={true}
+                                selectRow={this.selectRow.bind(this)}
                             />) : (<Spin />)}
                         </div>
                     </div>

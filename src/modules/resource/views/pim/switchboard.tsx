@@ -108,6 +108,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             visible: true,
         });
     }
+    handleManage() { }
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -132,6 +133,18 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             cancelText: '取消',
         });
 
+    }
+    deleteAll() {
+        let { selected } = this.state
+        let self = this
+        Modal.confirm({
+            title: '确定要批量删除已选中交换机吗?',
+            onOk() {
+                emitter.emit('message', 'success', '批量删除成功！')
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
     }
     renderAddData() {
         const { dataVisible } = this.state;
@@ -227,7 +240,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.props.actions.resetList()
     }
     render() {
-        const { name, datacenter, pageSize, tableLoading, assettag } = this.state;
+        const { name, datacenter, pageSize, tableLoading, assettag, selected } = this.state;
         let { match, nodeInfo, list, subDataPIM, subDataVendor, subDataSwitchType } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -276,7 +289,11 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 </Button>
                                 </div>
                                 <div>
-                                    <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                    <div style={{ float: 'right' }}>
+                                        <Button type="primary" onClick={this.showModal}>发现</Button>
+                                        <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                        <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>批量删除</Button>
+                                    </div>
                                     <Modal
                                         title="发现"
                                         visible={this.state.visible}
@@ -304,6 +321,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 loading={tableLoading}
                                 actionAuth={['delete']}
                                 goDelete={this.goDelete.bind(this)}
+                                selectAuth={true}
+                                selectRow={this.selectRow.bind(this)}
                             />) : (<Spin />)}
                         </div>
                     </div>

@@ -103,6 +103,9 @@ class Firewall extends React.Component<FirewallProps, any> {
             visible: true,
         });
     }
+    handleManage() {
+
+    }
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -134,6 +137,18 @@ class Firewall extends React.Component<FirewallProps, any> {
             this.props.actions.resetfindData()
         })
 
+    }
+    deleteAll() {
+        let { selected } = this.state
+        let self = this
+        Modal.confirm({
+            title: '确定要批量删除已选中防火墙吗?',
+            onOk() {
+                emitter.emit('message', 'success', '批量删除成功！')
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
     }
     goDelete(data) {
         let self = this
@@ -217,7 +232,7 @@ class Firewall extends React.Component<FirewallProps, any> {
     render() {
         let { match, list, nodeInfo, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading, datacenter, vendor } = this.state;
+        const { pageSize, tableLoading, datacenter, vendor, selected } = this.state;
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={FirewallInfo} /> */}
@@ -246,7 +261,11 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 >
                                     查询
                                 </Button>
-                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <div style={{ float: 'right' }}>
+                                    <Button type="primary" onClick={this.showModal}>发现</Button>
+                                    <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>批量删除</Button>
+                                </div>
                                 <Modal
                                     title="发现"
                                     visible={this.state.visible}
@@ -273,7 +292,8 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 loading={tableLoading}
                                 goDelete={this.goDelete.bind(this)}
                                 actionAuth={['delete']}
-                            // pageAuth={false}                              
+                                selectAuth={true}
+                                selectRow={this.selectRow.bind(this)}
                             />) : (<Spin />)}
 
                         </div>
