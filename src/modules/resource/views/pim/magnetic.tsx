@@ -120,6 +120,7 @@ class Magnetic extends React.Component<any, any> {
 
         });
     }
+    handleManage() { }
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -226,6 +227,10 @@ class Magnetic extends React.Component<any, any> {
                                     />
                                     {this.renderAddData()}
                                 </Modal>
+                                <Button type="primary"
+                                    style={{ float: 'right' }}
+                                    onClick={this.handleManage.bind(this)}
+                                >管理</Button>
                             </div>
                         </div>
                         <div style={{ padding: '0px 20px 20px' }}>
@@ -237,6 +242,8 @@ class Magnetic extends React.Component<any, any> {
                                 loading={tableLoading}
                                 data={list}
                                 actionAuth={['delete']}
+                                selectAuth={true}
+                                selectRow={this.selectRow.bind(this)}
                             />) : (<Spin />)}
                         </div>
                     </div>

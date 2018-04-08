@@ -79,6 +79,7 @@ class Server extends React.Component<any, any> {
         });
         this.formRef.resetForm()
     }
+    handleManage() { }
     addData = () => {
         let { selected } = this.state
         this.props.actions.findConfirm('server', { data: { dataList: selected } }, (data, err) => {
@@ -248,6 +249,10 @@ class Server extends React.Component<any, any> {
                                     />
                                     {this.renderAddData()}
                                 </Modal>
+                                <Button type="primary"
+                                    style={{ float: 'right' }}
+                                    onClick={this.handleManage.bind(this)}
+                                >管理</Button>
                             </div>
                             {
                                 this.props.list ? (
@@ -259,6 +264,8 @@ class Server extends React.Component<any, any> {
                                         loading={tableLoading}
                                         pageSize={pageSize}
                                         actionAuth={['delete']}
+                                        selectAuth={true}
+                                        selectRow={this.selectRow.bind(this)}
                                     />
                                 ) : (
                                         <Spin />
