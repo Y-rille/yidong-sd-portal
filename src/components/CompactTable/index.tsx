@@ -33,6 +33,151 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
             page_size: this.props.pageSize ? this.props.pageSize : 10,
         };
     }
+    // static defaultProps = {
+    //     data: {
+    //         header: [{
+    //             key: 'name',
+    //             title: '主机名称',
+    //             link: false
+    //         }, {
+    //             key: 'role',
+    //             title: '角色',
+    //             link: false
+    //         }, {
+    //             key: 'az',
+    //             title: '所属AZ',
+    //             link: false
+    //         }, {
+    //             key: 'ha',
+    //             title: '所属HA',
+    //             link: false
+    //         }],
+    //         dataList: [
+    //             {
+    //                 id: 1,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+    //             {
+    //                 id: 2,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+    //             {
+    //                 id: 3,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+    //             {
+    //                 id: 4,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+    //             {
+    //                 id: 5,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+    //             },
+    //             {
+    //                 id: 6,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+    //             {
+    //                 id: 7,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+    //             },
+    //             {
+    //                 id: 8,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+    //             {
+    //                 id: 9,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+    //             {
+    //                 id: 10,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+    //             },
+    //             {
+    //                 id: 11,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+    //             {
+    //                 id: 12,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+    //             {
+    //                 id: 13,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+    //             },
+    //             {
+    //                 id: 14,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+    //             {
+    //                 id: 15,
+    //                 az: 'xasa AAAAS',
+    //                 name: '10.255.242.215',
+    //                 ha: 'xasa',
+    //                 role: '主'
+
+    //             },
+
+    //         ],
+    //         pageNo: 1,
+    //         pageSize: 10,
+    //         totalCount: 2
+    //     }
+
+    // }
+
     goEdit(record) {
         if (this.props.goEdit) {
             this.props.goEdit(record)
