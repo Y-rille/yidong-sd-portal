@@ -106,9 +106,9 @@ class Server extends React.Component<any, any> {
         let { selected } = this.state
         let self = this
         Modal.confirm({
-            title: '确定要删除已选中服务器吗?',
+            title: '确定要批量删除已选中服务器吗?',
             onOk() {
-                emitter.emit('message', 'success', '删除成功！')
+                emitter.emit('message', 'success', '批量删除成功！')
             },
             okText: '确认',
             cancelText: '取消',
@@ -246,8 +246,11 @@ class Server extends React.Component<any, any> {
                                 >
                                     查询
                             </Button>
-                                <Button type="danger" style={{ float: 'right' }} onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>删除</Button>
-                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <div style={{ float: 'right' }}>
+                                    <Button type="primary" onClick={this.showModal}>发现</Button>
+                                    <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>批量删除</Button>
+                                </div>
                                 <Modal
                                     title="发现"
                                     visible={this.state.visible}
@@ -262,10 +265,6 @@ class Server extends React.Component<any, any> {
                                     />
                                     {this.renderAddData()}
                                 </Modal>
-                                <Button type="primary"
-                                    style={{ float: 'right' }}
-                                    onClick={this.handleManage.bind(this)}
-                                >管理</Button>
                             </div>
                             {
                                 this.props.list ? (

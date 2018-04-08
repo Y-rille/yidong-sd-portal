@@ -118,9 +118,9 @@ class Magnetic extends React.Component<any, any> {
         let { selected } = this.state
         let self = this
         Modal.confirm({
-            title: '确定要删除已选中磁阵吗?',
+            title: '确定要批量删除已选中磁阵吗?',
             onOk() {
-                emitter.emit('message', 'success', '删除成功！')
+                emitter.emit('message', 'success', '批量删除成功！')
             },
             okText: '确认',
             cancelText: '取消',
@@ -224,8 +224,11 @@ class Magnetic extends React.Component<any, any> {
                                 <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
                                 <Selector type="Vendor" data={this.props.subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
                                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
-                                <Button type="danger" style={{ float: 'right' }} onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>删除</Button>
-                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <div style={{ float: 'right' }}>
+                                    <Button type="primary" onClick={this.showModal}>发现</Button>
+                                    <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>批量删除</Button>
+                                </div>
                                 <Modal
                                     title="发现"
                                     visible={this.state.visible}
@@ -240,10 +243,6 @@ class Magnetic extends React.Component<any, any> {
                                     />
                                     {this.renderAddData()}
                                 </Modal>
-                                <Button type="primary"
-                                    style={{ float: 'right' }}
-                                    onClick={this.handleManage.bind(this)}
-                                >管理</Button>
                             </div>
                         </div>
                         <div style={{ padding: '0px 20px 20px' }}>
