@@ -155,7 +155,7 @@ class ServerInfo extends React.Component<any, any> {
         })
     }
     handleEditData(d, cb) {
-        let moTypeKey = 'host'
+        let moTypeKey = 'server'
         let match = this.props.match
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
