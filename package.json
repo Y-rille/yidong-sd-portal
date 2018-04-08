@@ -1,10 +1,11 @@
 {
   "name": "cloud-management-platform",
   "title": "云管平台",
-  "version": "1.0.4-0",
+  "version": "1.0.4-7",
   "description": "cloud management platform",
   "scripts": {
     "start": "node ./tools/server.js",
+    "prebuild": "npm run dump",
     "build": "node ./tools/build.js",
     "lint": "tslint \"src/**/*.@(ts|tsx)\"",
     "test": "karma start",
@@ -12,12 +13,21 @@
     "build-storybook": "build-storybook",
     "mocks": "dyson mock",
     "e2e": "testcafe Chrome test/e2e*",
-    "dump": "np prepatch --yolo --no-publish --no-cleanup",
+    "release": "standard-version",
+    "dump": "npm run release  -- --prerelease",
     "pub": "./node_modules/.bin/gulp --gulpfile ./tools/gulpfile.js deploy"
   },
   "pre-commit": [
     "lint"
   ],
+  "standard-version": {
+    "skip": {
+      "changelog": false,
+      "bump": false,
+      "tag": true,
+      "commit": false
+    }
+  },
   "dependencies": {
     "@types/enzyme": "^2.7.2",
     "@types/mocha": "^2.2.41",
@@ -117,6 +127,7 @@
     "sass-loader": "^6.0.6",
     "shelljs": "^0.7.8",
     "sinon": "^3.0.0",
+    "standard-version": "^4.3.0",
     "storybook-addon-intl": "^2.1.2",
     "tslint": "^5.5.0",
     "tslint-react": "^3.2.0",
