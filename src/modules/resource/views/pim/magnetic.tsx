@@ -97,21 +97,26 @@ class Magnetic extends React.Component<any, any> {
         let { match } = this.props
         this.props.history.push(`${match.url}/info/${obj.id}`)
     }
-    goDelete(data) {
+    goDelete(obj) {
+        let moTypeKey = 'diskarray'
+        let moInstId = obj.id
         let self = this
         confirm({
             title: '确定要删除该实例吗?',
+            okText: '确认',
+            cancelText: '取消',
             onOk() {
-                self.props.actions.deleteInstance('diskarray', data.id, (id, error) => {
-                    if (id) {
+                self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
+                    if (data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
-                    } else {
-                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '删除失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
             },
-            okText: '确认',
-            cancelText: '取消',
+
         });
     }
     deleteAll() {
