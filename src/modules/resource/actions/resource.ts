@@ -353,8 +353,6 @@ export const deleteInstance = (moTypeKey, moInstId, cb) => (dispatch) => {
         }
         dispatch(action);
     }).catch((err) => {
-        let action = { type: ActionTypes.RESOURCE_DELETE, list: {} }
-        dispatch(action);
         if (cb) {
             cb(null, err)
         }

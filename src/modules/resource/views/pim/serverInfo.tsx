@@ -67,8 +67,9 @@ class ServerInfo extends React.Component<any, any> {
                             status: self.state.status === 2 ? 1 : 2
                         })
                     }
-                    if (err || res.code !== 1) {
-                        emitter.emit('message', 'error', '操作失败！')
+                    if (err || (res && res.code !== 1)) {
+                        let msg = err && err.message ? err.message : '操作失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
             },
@@ -113,8 +114,9 @@ class ServerInfo extends React.Component<any, any> {
                     if (res.code === 1) {
                         emitter.emit('message', 'success', '操作成功！')
                     }
-                    if (err || res.code !== 1) {
-                        emitter.emit('message', 'error', '操作失败！')
+                    if (err || (res && res.code !== 1)) {
+                        let msg = err && err.message ? err.message : '操作失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
 
