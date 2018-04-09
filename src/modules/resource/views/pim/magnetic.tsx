@@ -119,6 +119,7 @@ class Magnetic extends React.Component<any, any> {
 
         });
     }
+    updateAll() { }
     deleteAll() {
         let { selected } = this.state
         let self = this
@@ -232,6 +233,7 @@ class Magnetic extends React.Component<any, any> {
                                 <div style={{ float: 'right' }}>
                                     <Button type="primary" onClick={this.showModal}>发现</Button>
                                     <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                    <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selected.length ? false : true}>批量更新</Button>
                                     <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>批量删除</Button>
                                 </div>
                                 <Modal
