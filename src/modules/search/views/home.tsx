@@ -16,13 +16,24 @@ export interface HomeProps {
 class Home extends React.Component<HomeProps, any> {
     constructor(props) {
         super(props);
+        let { query } = qs.parse(this.props.location.search)
         this.state = {
+            query: query ? query : ''
         }
     }
     searchHandler = (value) => {
 
     }
     onTab(key) { }
+    componentWillReceiveProps(nextProps) {
+        let prev_query = this.state.query
+        let { query } = qs.parse(nextProps.location.search)
+        if (query !== prev_query) {
+            this.setState({
+                query: query
+            })
+        }
+    }
     renderTable() {
         return (
             <CompactTable />
@@ -30,15 +41,16 @@ class Home extends React.Component<HomeProps, any> {
     }
 
     render() {
-        let searchValue = qs.parse(this.props.location.search).query
+        let { query } = this.state
         return (
             <Layout>
                 <Header style={{ background: '#f2f2f2', padding: '0 200px' }}>
                     <Search
+                        key={Math.random()}
                         style={{ width: '800px' }}
                         placeholder="请输入您要搜索的内容"
                         enterButton="搜索"
-                        defaultValue={searchValue}
+                        defaultValue={query}
                         onSearch={this.searchHandler.bind(this)}
                     />
                 </Header>
