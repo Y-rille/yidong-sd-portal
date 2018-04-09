@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
 import styles from '../../style/index.less'
-
+import emitter from '../../../../common/emitter'
 class Edit extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -16,8 +16,12 @@ class Edit extends React.Component<any, any> {
     doCancel() {
         this.props.history.goBack()
     }
-
-    doSubmit() { }
+    doSubmit() {
+        emitter.emit('message', 'success', '批量更新成功！')
+        setTimeout(() => {
+            this.goList()
+        }, 1000)
+    }
     componentWillMount() {
 
     }
