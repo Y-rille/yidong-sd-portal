@@ -43,6 +43,10 @@ const LogComponent = Loadable({
   loader: () => import(/* webpackChunkName: "log" */'../modules/log/routes/index'),
   loading: () => { return <Loading /> }
 })
+const SearchComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "search" */'../modules/search/routes/index'),
+  loading: () => { return <Loading /> }
+})
 
 export interface MainRouresProps {
   store?
@@ -74,6 +78,7 @@ export default class MainRoures extends React.PureComponent<MainRouresProps, any
             <Route path="/alarm" component={AlarmComponent} />
             <Route path="/performance" component={PerformanceComponent} />
             <Route path="/log" component={LogComponent} />
+            <Route path="/search" component={SearchComponent} />
           </Switch>
         </Site>
       </Router>
