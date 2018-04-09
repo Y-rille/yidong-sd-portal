@@ -143,7 +143,10 @@ class Firewall extends React.Component<FirewallProps, any> {
         })
 
     }
-    updateAll() { }
+    updateAll() {
+        let { match } = this.props
+        this.props.history.push(`${match.url}/edit`)
+    }
     deleteAll() {
         let { selected } = this.state
         let self = this
@@ -161,7 +164,7 @@ class Firewall extends React.Component<FirewallProps, any> {
         let moInstId = obj.id
         let self = this
         confirm({
-            title: '确定要删除该实例吗?',
+            title: `确定要删除“${obj.name}”吗？`,
             okText: '确认',
             cancelText: '取消',
             onOk() {

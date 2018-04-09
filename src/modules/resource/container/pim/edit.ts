@@ -9,6 +9,7 @@ import Edit from '../../views/pim/edit'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
+        nodeInfo: state.resourceReducer.nodeInfo,
     }
 }
 function mapDispatchToProps(dispatch) {

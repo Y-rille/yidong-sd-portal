@@ -114,8 +114,8 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     />
                 </div>
                 <div className={styles.footer}>
-                    <Button type="primary" onClick={this.doSubmit.bind(this)}>确定</Button>
                     <Button onClick={this.doCancel.bind(this)}>取消</Button>
+                    <Button type="primary" onClick={this.doSubmit.bind(this)}>确定</Button>
                 </div>
             </Row>
         )
