@@ -5,11 +5,10 @@ import _ from 'lodash';
 import { Link } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import styles from './index.less';
-
-import { Layout, Menu, Icon, Avatar, Dropdown } from 'antd';
+import { Layout, Menu, Icon, Avatar, Dropdown, Input } from 'antd';
 import { login } from '../../modules/common/actions/user';
+const Search = Input.Search;
 const { Header, Footer, Sider, Content } = Layout;
-
 declare let global: any;
 
 export interface HeaderBarProps {
@@ -68,6 +67,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
             navClickHandler(e.key)
         }
     }
+    onChange() { }
     renderMenuItem(currentUser) {
         const { menu } = this.props;
         let newMenu = []
@@ -117,6 +117,9 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                         {this.renderMenuItem(currentUser)}
                     </Menu>
                     <div className={styles.right}>
+                        <div style={{ marginRight: '20px' }}>
+                            <Search placeholder="全局搜索" onChange={this.onChange.bind(this)} />
+                        </div>
                         <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#00b388', marginRight: '8px' }} />
                         <Dropdown overlay={option}>
                             <a className="ant-dropdown-link">
@@ -125,6 +128,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                             </a>
                         </Dropdown>
                     </div>
+
                 </div>
             </Header>
         );

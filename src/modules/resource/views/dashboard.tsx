@@ -97,6 +97,7 @@ class Dashboard extends React.Component<any, any> {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '创建成功！')
+                        window.open('http://www.baidu.com')
                     } else {
                         emitter.emit('message', 'error', '创建失败！')
                     }
