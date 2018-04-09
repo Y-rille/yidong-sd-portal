@@ -26,12 +26,12 @@ class Server extends React.Component<any, any> {
         this.state = {
             vendor: vendor ? vendor : '',   // 供应商
             tableLoading: false,
-            pageSize: 10,
+            pageSize: 5,
             pageNo: pageNo ? pageNo : 1,
             pim_id: mp_node.params.id,
             visible: false,
             datacenter: datacenter ? datacenter.split(',') : '',    // 数据中心
-            selected: []
+            selected: {}
         }
     }
     getData(data) { // 发现
@@ -146,8 +146,12 @@ class Server extends React.Component<any, any> {
         });
     }
     selectRow(data) {
+        let { pageNo, selected } = this.state
+        let newSelected = selected
+        newSelected[pageNo] = data
+        // console.log(data, newSelected, '---');
         this.setState({
-            selected: data
+            selected: newSelected
         })
     }
     goPage = (num) => {
