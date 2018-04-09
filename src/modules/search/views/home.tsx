@@ -5,7 +5,12 @@ const { Header, Content } = Layout;
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 import CompactTable from '../../../components/CompactTable'
+import qs from 'querystringify'
+
 export interface HomeProps {
+    params?
+    goSearch?
+    location?
 
 }
 class Home extends React.Component<HomeProps, any> {
@@ -14,14 +19,18 @@ class Home extends React.Component<HomeProps, any> {
         this.state = {
         }
     }
-    searchHandler = (value) => { }
+    searchHandler = (value) => {
+
+    }
     onTab(key) { }
     renderTable() {
         return (
             <CompactTable />
         )
     }
+
     render() {
+        let searchValue = qs.parse(this.props.location.search).query
         return (
             <Layout>
                 <Header style={{ background: '#f2f2f2', padding: '0 200px' }}>
@@ -29,7 +38,9 @@ class Home extends React.Component<HomeProps, any> {
                         style={{ width: '800px' }}
                         placeholder="请输入您要搜索的内容"
                         enterButton="搜索"
-                        onSearch={value => this.searchHandler(value)} />
+                        defaultValue={searchValue}
+                        onSearch={this.searchHandler.bind(this)}
+                    />
                 </Header>
                 <Content style={{ background: '#fff', padding: '0 200px', minHeight: window.innerHeight - 128 }} >
                     <Tabs size="small" onChange={this.onTab.bind(this)} animated={false} style={{ marginTop: '10px' }} >
