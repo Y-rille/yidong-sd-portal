@@ -61,8 +61,8 @@ class Edit extends React.Component<any, any> {
                     更新字段
                 </div>
                 <div className={styles.footer}>
-                    <Button type="primary" onClick={this.doSubmit.bind(this)}>确定</Button>
                     <Button onClick={this.doCancel.bind(this)}>取消</Button>
+                    <Button type="primary" onClick={this.doSubmit.bind(this)}>确定</Button>
                 </div>
             </div>
         )
