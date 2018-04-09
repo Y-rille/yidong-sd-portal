@@ -21,7 +21,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
     handleEdit() {
         let fmtdata = _.map(_.filter(this.props.data, (o) => {
             return o.editable === 1
-        }), 'physicalTablefield') 
+        }), 'physicalTablefield')
         if (this.state.isEdit) {
             let submitData = _.pick(this.props.form.getFieldsValue(), fmtdata)
             if (this.props.editData) {
@@ -33,6 +33,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                         loading: false,
                         isEdit: false
                     })
+                    this.handleReset()
                 })
             }
         } else {
@@ -40,11 +41,11 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                 isEdit: true
             })
         }
-        
+
     }
     handleReset = () => {
         this.props.form.resetFields();
-      }
+    }
 
     componentDidMount() {
     }
@@ -55,18 +56,20 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
         data.map((item, index) => {
             items.push(
                 <Col span={8} key={index}>
-                <FormItem wrapperCol={{offset: 1}} label={item.key}>
-                {getFieldDecorator(`${item.physicalTablefield}`, {initialValue: item.values, rules: [
-                    {
-                        required: true, message: '输入不能为空!',
-                    }]})(
-                    item.editable && this.state.isEdit ? <Input readOnly={!this.state.isEdit}  
-                    name={item.attributeName} /> : (item.values.length > 25 ? <Tooltip placement="topLeft" title={item.values} arrowPointAtCenter>
-                        <p>{item.values.slice(0, 24)}...</p>
-                        </Tooltip> : <p>{item.values}</p>)
-                )}
-                </FormItem>
-            </Col>
+                    <FormItem wrapperCol={{ offset: 1 }} label={item.key}>
+                        {getFieldDecorator(`${item.physicalTablefield}`, {
+                            initialValue: item.values, rules: [
+                                {
+                                    required: true, message: '输入不能为空!',
+                                }]
+                        })(
+                            item.editable && this.state.isEdit ? <Input readOnly={!this.state.isEdit}
+                                name={item.attributeName} /> : (item.values.length > 25 ? <Tooltip placement="topLeft" title={item.values} arrowPointAtCenter>
+                                    <p>{item.values.slice(0, 24)}...</p>
+                                </Tooltip> : <p>{item.values}</p>)
+                        )}
+                    </FormItem>
+                </Col>
             )
         })
         return items;
@@ -82,19 +85,19 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                 <Spin spinning={this.state.loading}>
                     <Form className="ant-advanced-search-form">
                         <Row gutter={24}>
-                            {this.renderForm(this.props.data)}    
+                            {this.renderForm(this.props.data)}
                         </Row>
                         {isEditor ? <Row>
                             <Col span={24} style={{ textAlign: 'left' }}>
                                 <Button style={{ marginLeft: 8 }} onClick={this.handleEdit.bind(this)} type="primary">
                                     {this.state.isEdit ? '保存' : '修改'}
                                 </Button>
-                                {this.state.isEdit ?  <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)} 
+                                {this.state.isEdit ? <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}
                                     type="primary">
-                                        重置
+                                    重置
                                     </Button> : null}
-                        </Col>
-                        </Row> : null }
+                            </Col>
+                        </Row> : null}
                     </Form>
                 </Spin>
             )
