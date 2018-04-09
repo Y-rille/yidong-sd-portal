@@ -119,7 +119,10 @@ class Magnetic extends React.Component<any, any> {
 
         });
     }
-    updateAll() { }
+    updateAll() {
+        let { match } = this.props
+        this.props.history.push(`${match.url}/edit`)
+    }
     deleteAll() {
         let { selected } = this.state
         let self = this
