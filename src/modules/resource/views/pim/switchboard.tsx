@@ -139,6 +139,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         });
 
     }
+    updateAll() { }
     deleteAll() {
         let { selected } = this.state
         let self = this
@@ -150,34 +151,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             okText: '确认',
             cancelText: '取消',
         });
-    }
-    renderAddData() {
-        const { dataVisible } = this.state;
-        let { selected } = this.state
-        let { findData } = this.props
-        if (findData) {
-            let data_fixed = _.merge({}, findData)
-            _.map(data_fixed.header, (item) => {
-                item.width = '23%'
-            })
-            return (
-                <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
-                    <CompactTable
-                        data={data_fixed}
-                        selectAuth={true}
-                        selectRow={this.selectRow.bind(this)}
-                        size={{ y: 113 }}
-                        pageSize={999}
-                    />
-                    <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)} disabled={selected.length ? false : true}>添加</Button>
-                        <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
-                    </div>
-                </div >
-            )
-        } else {
-            return <div />
-        }
     }
     selectRow = (data) => {
         this.setState({
@@ -205,9 +178,14 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             this.formRef.handleReset()
         })
     }
-    getData(data) {
+    getData(data) { // 发现
         if (data) {
-            this.props.actions.autoDiscovery('switch', data)
+            this.props.actions.autoDiscovery('switch', data, (backdata, err) => {
+                if (err || backdata.code !== 1) {
+                    emitter.emit('message', 'error', '发现失败！')
+                }
+
+            })
         }
     }
     getCascaderData(type, value) {
@@ -243,6 +221,34 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
     }
     componentWillUnMount() {
         this.props.actions.resetList()
+    }
+    renderAddData() {
+        const { dataVisible } = this.state;
+        let { selected } = this.state
+        let { findData } = this.props
+        if (findData) {
+            let data_fixed = _.merge({}, findData)
+            _.map(data_fixed.header, (item) => {
+                item.width = '23%'
+            })
+            return (
+                <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+                    <CompactTable
+                        data={data_fixed}
+                        selectAuth={true}
+                        selectRow={this.selectRow.bind(this)}
+                        size={{ y: 113 }}
+                        pageSize={999}
+                    />
+                    <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
+                        <Button type="primary" onClick={this.addData.bind(this)} disabled={selected.length ? false : true}>添加</Button>
+                        <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                    </div>
+                </div >
+            )
+        } else {
+            return <div />
+        }
     }
     render() {
         const { name, datacenter, pageSize, tableLoading, assettag, selected } = this.state;
@@ -297,6 +303,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                     <div style={{ float: 'right' }}>
                                         <Button type="primary" onClick={this.showModal}>发现</Button>
                                         <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                        <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selected.length ? false : true}>批量更新</Button>
                                         <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>批量删除</Button>
                                     </div>
                                     <Modal

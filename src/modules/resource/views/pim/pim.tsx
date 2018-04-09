@@ -10,6 +10,7 @@ import Switchboard from '../../container/pim/switchboard'
 import SwitchboardInfo from '../../container/pim/switchboardInfo'
 import Firewall from '../../container/pim/firewall'
 import FirewallInfo from '../../container/pim/firewallInfo'
+import Edit from '../../container/pim/edit'
 import styles from '../../style/index.less'
 class Pim extends React.Component<any, any> {
     constructor(props) {
@@ -31,6 +32,7 @@ class Pim extends React.Component<any, any> {
                 <div>
                     <Switch>
                         {/* <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact /> */}
+                        <Route path={`${match.url}/:type/edit`} component={Edit} />
                         <Route path={`${match.url}/magnetic/info/:id`} component={MagneticInfo} />
                         <Route path={`${match.url}/magnetic`} component={Magnetic} />
                         <Route path={`${match.url}/server/info/:id`} component={ServerInfo} />
@@ -39,7 +41,6 @@ class Pim extends React.Component<any, any> {
                         <Route path={`${match.url}/switchboard`} component={Switchboard} />
                         <Route path={`${match.url}/firewall/info/:id`} component={FirewallInfo} />
                         <Route path={`${match.url}/firewall`} component={Firewall} />
-
                     </Switch>
                 </div>) : (
                     <div />

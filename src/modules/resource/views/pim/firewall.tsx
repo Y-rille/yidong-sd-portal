@@ -51,9 +51,14 @@ class Firewall extends React.Component<FirewallProps, any> {
         this.props.history.push(`/resource/pim/1/firewall/info`)
     }
 
-    getData(formData) {
+    getData(formData) { // 发现
         if (formData) {
-            this.props.actions.autoDiscovery('firewall', formData)
+            this.props.actions.autoDiscovery('firewall', formData, (backdata, err) => {
+                if (err || backdata.code !== 1) {
+                    emitter.emit('message', 'error', '发现失败！')
+                }
+
+            })
         }
     }
     getCascaderData(type, value) {
@@ -138,6 +143,7 @@ class Firewall extends React.Component<FirewallProps, any> {
         })
 
     }
+    updateAll() { }
     deleteAll() {
         let { selected } = this.state
         let self = this
@@ -269,6 +275,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 <div style={{ float: 'right' }}>
                                     <Button type="primary" onClick={this.showModal}>发现</Button>
                                     <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                    <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selected.length ? false : true}>批量更新</Button>
                                     <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>批量删除</Button>
                                 </div>
                                 <Modal
