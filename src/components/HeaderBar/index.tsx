@@ -17,6 +17,7 @@ export interface HeaderBarProps {
     activeKey?
     exitHandler?
     currentUser?
+    goSearch?
 }
 
 /**
@@ -67,7 +68,12 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
             navClickHandler(e.key)
         }
     }
-    onChange() { }
+    searchHandler = (value) => {
+        let { goSearch } = this.props
+        if (goSearch) {
+            goSearch(value)
+        }
+    }
     renderMenuItem(currentUser) {
         const { menu } = this.props;
         let newMenu = []
@@ -118,7 +124,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                     </Menu>
                     <div className={styles.right}>
                         <div style={{ marginRight: '20px' }}>
-                            <Search placeholder="全局搜索" onChange={this.onChange.bind(this)} />
+                            <Search placeholder="全局搜索" onSearch={value => this.searchHandler(value)} />
                         </div>
                         <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#00b388', marginRight: '8px' }} />
                         <Dropdown overlay={option}>

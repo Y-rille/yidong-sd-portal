@@ -51,9 +51,14 @@ class Firewall extends React.Component<FirewallProps, any> {
         this.props.history.push(`/resource/pim/1/firewall/info`)
     }
 
-    getData(formData) {
+    getData(formData) { // 发现
         if (formData) {
-            this.props.actions.autoDiscovery('firewall', formData)
+            this.props.actions.autoDiscovery('firewall', formData, (backdata, err) => {
+                if (err || backdata.code !== 1) {
+                    emitter.emit('message', 'error', '发现失败！')
+                }
+
+            })
         }
     }
     getCascaderData(type, value) {
