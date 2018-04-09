@@ -31,7 +31,9 @@ export interface HeaderBarProps {
 export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> {
     constructor(props) {
         super(props);
-
+        this.state = {
+            queryKey: ''
+        }
     }
     static defaultProps = {
         menu: [
@@ -69,6 +71,9 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         }
     }
     searchHandler = (value) => {
+        this.setState({
+            queryKey: ''
+        })
         let { goSearch } = this.props
         if (goSearch) {
             goSearch(value)
@@ -100,6 +105,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         this.props.exitHandler();
     }
     render() {
+        let { queryKey } = this.state
         let { activeKey, currentUser } = this.props;
         const option = (
             <Menu>
@@ -124,7 +130,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                     </Menu>
                     <div className={styles.right}>
                         <div style={{ marginRight: '20px' }}>
-                            <Search placeholder="全局搜索" onSearch={value => this.searchHandler(value)} />
+                            <Search key={Math.random()} placeholder="全局搜索" onSearch={value => this.searchHandler(value)} defaultValue={queryKey} />
                         </div>
                         <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#00b388', marginRight: '8px' }} />
                         <Dropdown overlay={option}>
