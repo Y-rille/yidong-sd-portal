@@ -317,7 +317,7 @@ class ServerInfo extends React.Component<any, any> {
                             style={{ margin: '0px 10px 0px 0' }}
                             onClick={this.confirmUpOrDown}
                         >{this.state.status === 2 ? '上电' : '下电'}</Button>
-                        <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
+                        <Button type="primary" disabled={this.state.status === 2} style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
                             onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
                         <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
                     </div>
