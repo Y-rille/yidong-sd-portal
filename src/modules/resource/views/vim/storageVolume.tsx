@@ -23,7 +23,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
         super(props);
         let { match } = this.props
         let { pathname } = this.props.location
-        let { pageNo, project, name } = qs.parse(this.props.location.search)
+        let { pageNo, project, name, group } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
@@ -33,7 +33,8 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             name: name ? name : '',
-            vim_id: mp_node.params.id
+            vim_id: mp_node.params.id,
+            group: group ? group : ''
         }
     }
     goInfo = () => {
@@ -47,8 +48,8 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { project, name } = this.state
-        let queryObj = { pageNo, project, name }
+        let { project, name, group } = this.state
+        let queryObj = { pageNo, project, name, group }
         this.props.history.push(`${match.url}/storage_volume?${stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -58,18 +59,19 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { project, name } = this.state
+        let { project, name, group } = this.state
         let pageNo = num
-        let queryObj = { pageNo, project, name }
+        let queryObj = { pageNo, project, name, group }
         this.props.history.push(`${match.url}/storage_volume?${stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
     }
     getData(type, value) {
-        let { project } = this.state
+        let { project, group } = this.state
         this.setState({
-            project: type === 'Project' ? value : project
+            project: type === 'Project' ? value : project,
+            group: type === 'Group' ? value : group
         })
     }
     goLink(key, obj) {
@@ -82,8 +84,8 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { project, name, pageSize, vim_id } = this.state
-        let params_obj = { pageNo, pageSize, project, name, vim_id }
+        let { project, name, group, pageSize, vim_id } = this.state
+        let params_obj = { pageNo, pageSize, project, name, group, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -114,8 +116,16 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
         this.props.actions.resetList()
     }
     render() {
+        let subDataGroup = [
+            { text: 'group0', value: '1' },
+            { text: 'group1', value: '2' },
+            { text: 'group2', value: '3' },
+            { text: 'group3', value: '4' },
+            { text: 'group4', value: '5' },
+            { text: 'group5', value: '6' }
+        ]
         let { match, list, nodeInfo } = this.props;
-        const { pageNo, project, name, pageSize, tableLoading } = this.state;
+        const { pageNo, project, name, group, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -140,6 +150,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                             value={name} type="text"
                             onChange={e => this.storageVolumeInputChange(e.target.value)}
                         />
+                        <Selector type="Group" data={subDataGroup} getData={this.getData.bind(this)} value={group} />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}

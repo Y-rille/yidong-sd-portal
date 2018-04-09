@@ -7,6 +7,7 @@ const confirm = Modal.confirm;
 
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable'
+import Summaries from '../../../../components/Summaries/'
 import { stringify } from 'querystringify'
 import qs from 'querystringify'
 import styles from '../../style/index.less'
@@ -149,11 +150,13 @@ class HostInfo extends React.Component<any, any> {
         let id = match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey, id)
+        this.props.actions.getSummary('imdsHAInfo', { id: id }); // ...
     }
     componentWillUnmount() {
         this.props.actions.resetList()
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
+        this.props.actions.resetSummary()
     }
     renderBtns() {
         return (
@@ -167,11 +170,17 @@ class HostInfo extends React.Component<any, any> {
         )
     }
     renderDynamicPropertiesCollapse() {
+        let summary = this.props.summary
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
-                    data={this.props.objData}
-                    editData={this.handleEditData.bind(this)} />
+                <div style={{ marginTop: '20px' }}>
+                    <Summaries
+                        data={summary}
+                        colNum={3} />
+                    <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                        data={this.props.objData}
+                        editData={this.handleEditData.bind(this)} />
+                </div>
             )
         } else {
             return (
@@ -225,6 +234,7 @@ class HostInfo extends React.Component<any, any> {
                         </Breadcrumb>
                     ) : ''}
                 </div>
+
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
                         <TabPane tab="资源详情" key="detail">
