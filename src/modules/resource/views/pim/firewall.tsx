@@ -164,7 +164,7 @@ class Firewall extends React.Component<FirewallProps, any> {
         let moInstId = obj.id
         let self = this
         confirm({
-            title: '确定要删除该实例吗?',
+            title: `确定要删除“${obj.name}”吗？`,
             okText: '确认',
             cancelText: '取消',
             onOk() {

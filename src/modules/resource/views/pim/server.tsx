@@ -128,7 +128,7 @@ class Server extends React.Component<any, any> {
         let moInstId = obj.id
         let self = this
         Modal.confirm({
-            title: '确定要删除该实例吗？',
+            title: `确定要删除“${obj.name}”吗？`,
             okText: '确定',
             cancelText: '取消',
             onOk() {
