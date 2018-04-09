@@ -17,7 +17,7 @@ export interface HeaderBarProps {
     activeKey?
     exitHandler?
     currentUser?
-    history?
+    goSearch?
 }
 
 /**
@@ -69,7 +69,10 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
         }
     }
     searchHandler = (value) => {
-        this.props.history.push(`/search?query=${value}`)
+        let { goSearch } = this.props
+        if (goSearch) {
+            goSearch(value)
+        }
     }
     renderMenuItem(currentUser) {
         const { menu } = this.props;

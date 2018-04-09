@@ -104,6 +104,9 @@ class Site extends React.Component<SiteProps, any> {
             }
         })
     }
+    goSearch(value) {
+        this.props.history.push(`/search?query=${value}`)
+    }
     componentWillMount() {
         emitter.addListener('message', (type, content, duration, onClose) => {
             message.destroy()
@@ -158,10 +161,6 @@ class Site extends React.Component<SiteProps, any> {
 
     render() {
         const menu = [
-            // {
-            //     name: '首页',
-            //     route: 'dashboard',
-            // },
             {
                 name: '系统管理',
                 route: 'setting',
@@ -197,6 +196,7 @@ class Site extends React.Component<SiteProps, any> {
                     <BasicLayout
                         navClickHandler={this.navClickHandler.bind(this)}
                         exitHandler={this.exitHandler.bind(this)}
+                        goSearch={this.goSearch.bind(this)}
                         activeKey={activeKey}
                         menu={menu}
                         currentUser={currentUser ? currentUser : ''}>
