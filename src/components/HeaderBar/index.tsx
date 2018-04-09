@@ -117,8 +117,8 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                         {this.renderMenuItem(currentUser)}
                     </Menu>
                     <div className={styles.right}>
-                        <div style={{ marginRight: '8px' }}>
-                            <Search placeholder="全局搜索" onChange={this.onChange.bind(this)} style={{ marginRight: '8px' }} />
+                        <div style={{ marginRight: '20px' }}>
+                            <Search placeholder="全局搜索" onChange={this.onChange.bind(this)} />
                         </div>
                         <Avatar icon="user" size="small" style={{ backgroundColor: '#fff', color: '#00b388', marginRight: '8px' }} />
                         <Dropdown overlay={option}>
