@@ -205,9 +205,14 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             this.formRef.handleReset()
         })
     }
-    getData(data) {
+    getData(data) { // 发现
         if (data) {
-            this.props.actions.autoDiscovery('switch', data)
+            this.props.actions.autoDiscovery('switch', data, (backdata, err) => {
+                if (err || backdata.code !== 1) {
+                    emitter.emit('message', 'error', '发现失败！')
+                }
+
+            })
         }
     }
     getCascaderData(type, value) {

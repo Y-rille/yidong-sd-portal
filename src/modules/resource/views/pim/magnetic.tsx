@@ -35,7 +35,12 @@ class Magnetic extends React.Component<any, any> {
     }
     getData(data) {
         if (data) {
-            this.props.actions.autoDiscovery('diskarray', data)
+            this.props.actions.autoDiscovery('diskarray', data, (backdata, err) => {
+                if (err || backdata.code !== 1) {
+                    emitter.emit('message', 'error', '发现失败！')
+                }
+
+            })
         }
     }
     handleClick() {
