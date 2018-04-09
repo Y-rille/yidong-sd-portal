@@ -7,10 +7,11 @@ import CompactTable from '../../../../components/CompactTable/'
 const Option = Select.Option;
 import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
+
 class Virtual extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        let { pageNo, region, az, ha, host } = qs.parse(this.props.location.search)
+        let { pageNo, region, az, ha, host, group } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
@@ -22,16 +23,18 @@ class Virtual extends React.Component<any, any> {
             az: az ? az : '',
             ha: ha ? ha : '',
             host: host ? host : '',
+            group: group ? group : '',
             vim_id: mp_node.params.id ? mp_node.params.id : ''
         }
     }
     getData(type, value) {
-        let { region, az, ha, host } = this.state
+        let { region, az, ha, host, group } = this.state
         this.setState({
             region: type === 'Region' ? value : region,
             az: type === 'AZ' ? value : az,
             ha: type === 'HA' ? value : ha,
-            host: type === 'Host' ? value : host
+            host: type === 'Host' ? value : host,
+            group: type === 'Group' ? value : group
         })
     }
     componentWillUnmount() {
@@ -40,8 +43,8 @@ class Virtual extends React.Component<any, any> {
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { region, az, ha, host } = this.state
-        let queryObj = { pageNo, region, az, ha, host }
+        let { region, az, ha, host, group } = this.state
+        let queryObj = { pageNo, region, az, ha, host, group }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -50,9 +53,9 @@ class Virtual extends React.Component<any, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { region, az, ha, host } = this.state
+        let { region, az, ha, host, group } = this.state
         let pageNo = num
-        let queryObj = { pageNo, region, az, ha, host }
+        let queryObj = { pageNo, region, az, ha, host, group }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
@@ -72,8 +75,8 @@ class Virtual extends React.Component<any, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { region, az, ha, host, pageSize, vim_id } = this.state
-        let params_obj = { pageNo, pageSize, region, az, ha, host, vim_id }
+        let { region, az, ha, host, group, pageSize, vim_id } = this.state
+        let params_obj = { pageNo, pageSize, region, az, ha, host, group, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -98,8 +101,16 @@ class Virtual extends React.Component<any, any> {
         }
     }
     render() {
+        let subDataGroup = [
+            { text: 'group0', value: '1' },
+            { text: 'group1', value: '2' },
+            { text: 'group2', value: '3' },
+            { text: 'group3', value: '4' },
+            { text: 'group4', value: '5' },
+            { text: 'group5', value: '6' }
+        ]
         let { match, nodeInfo, list } = this.props;
-        const { region, az, ha, host, pageSize, tableLoading } = this.state;
+        const { region, az, ha, host, group, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -124,6 +135,7 @@ class Virtual extends React.Component<any, any> {
                         <Selector type="AZ" data={this.props.subDataAZ} getData={this.getData.bind(this)} value={az} />
                         <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} value={ha} />
                         <Selector type="Host" data={this.props.subDataHost} getData={this.getData.bind(this)} value={host} />
+                        <Selector type="Group" data={subDataGroup} getData={this.getData.bind(this)} value={group} />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}
