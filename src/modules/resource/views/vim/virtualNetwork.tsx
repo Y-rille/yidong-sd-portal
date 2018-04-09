@@ -21,7 +21,7 @@ export interface VirtualNetworkProps {
 class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     constructor(props) {
         super(props);
-        let { pageNo, project, vim_id, name } = qs.parse(this.props.location.search)
+        let { pageNo, project, vim_id, name, group } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
@@ -31,7 +31,8 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             vim_id: mp_node ? mp_node.params.id : '',
-            name: name ? name : ''
+            name: name ? name : '',
+            group: group ? group : ''
         }
     }
     goInfo = () => {
@@ -45,8 +46,8 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { project, name } = this.state
-        let queryObj = { pageNo, project, name }
+        let { project, name, group } = this.state
+        let queryObj = { pageNo, project, name, group }
         this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -55,18 +56,19 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { project, name } = this.state
+        let { project, name, group } = this.state
         let pageNo = num
-        let queryObj = { pageNo, project, name }
+        let queryObj = { pageNo, project, name, group }
         this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
     }
     getData(type, value) {  // 查询条件切换
-        let { project } = this.state
+        let { project, group } = this.state
         this.setState({
             project: type === 'Project' ? value : project,
+            group: type === 'Group' ? value : group,
         })
     }
     goLink(key, obj) {
@@ -81,8 +83,8 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { pageSize, project, name, vim_id } = this.state
-        let params_obj = { pageNo, pageSize, project, name, vim_id }
+        let { pageSize, project, name, vim_id, group } = this.state
+        let params_obj = { pageNo, pageSize, project, name, group, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -109,9 +111,17 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         this.props.actions.resetList()
     }
     render() {
+        let subDataGroup = [
+            { text: 'group0', value: '1' },
+            { text: 'group1', value: '2' },
+            { text: 'group2', value: '3' },
+            { text: 'group3', value: '4' },
+            { text: 'group4', value: '5' },
+            { text: 'group5', value: '6' }
+        ]
         let { match, list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading, project, name } = this.state;
+        const { pageSize, tableLoading, project, name, group } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -135,6 +145,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                             type="text"
                             value={name}
                             onChange={e => this.virtualNetworkInputChange(e.target.value)} />
+                        <Selector type="Group" data={subDataGroup} getData={this.getData.bind(this)} value={group} />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}

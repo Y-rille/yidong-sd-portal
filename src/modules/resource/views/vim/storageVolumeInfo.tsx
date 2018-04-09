@@ -95,9 +95,9 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                                 <TabPane tab="资源概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
-                                <TabPane tab="日志" key="log">
+                                {/* <TabPane tab="日志" key="log">
                                     <LogShine events={events} />
-                                </TabPane>
+                                </TabPane> */}
                             </Tabs>
                         </TabPane>
                     </Tabs>
