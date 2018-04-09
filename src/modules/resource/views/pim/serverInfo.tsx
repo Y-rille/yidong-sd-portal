@@ -66,6 +66,7 @@ class ServerInfo extends React.Component<any, any> {
                         self.setState({
                             status: self.state.status === 2 ? 1 : 2
                         })
+                        self.getAttributes()
                     }
                     if (err || (res && res.code !== 1)) {
                         let msg = err && err.message ? err.message : '操作失败！'
@@ -113,6 +114,7 @@ class ServerInfo extends React.Component<any, any> {
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
                     if (res.code === 1) {
                         emitter.emit('message', 'success', '操作成功！')
+                        self.getAttributes()
                     }
                     if (err || (res && res.code !== 1)) {
                         let msg = err && err.message ? err.message : '操作失败！'
@@ -264,6 +266,12 @@ class ServerInfo extends React.Component<any, any> {
         let id = match.params.id
         this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id })
         this.props.actions.getObjAttributes(moTypeKey)
+        this.getAttributes()
+    }
+    getAttributes() {
+        let moTypeKey = 'server';
+        let match = this.props.match
+        let id = match.params.id
         this.props.actions.getObjData(moTypeKey, id);
     }
     componentDidMount() {

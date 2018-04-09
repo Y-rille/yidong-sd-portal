@@ -306,7 +306,7 @@ export const autoDiscovery = (moTypeKey, queryData, cb) => (dispatch) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, findData: res.data.data }
         dispatch(action);
         if (cb) {
-            cb(res.data.data, null)
+            cb(res.data, null)
         }
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, findData: null }

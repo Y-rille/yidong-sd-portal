@@ -34,9 +34,14 @@ class Server extends React.Component<any, any> {
             selected: []
         }
     }
-    getData(data) {
+    getData(data) { // 发现
         if (data) {
-            this.props.actions.autoDiscovery('server', data)
+            this.props.actions.autoDiscovery('server', data, (backdata, err) => {
+                if (err || backdata.code !== 1) {
+                    emitter.emit('message', 'error', '发现失败！')
+                }
+
+            })
         }
     }
     getCascaderData(type, value) {
