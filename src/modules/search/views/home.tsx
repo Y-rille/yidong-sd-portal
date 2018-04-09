@@ -11,6 +11,7 @@ export interface HomeProps {
     params?
     goSearch?
     location?
+    history?
 
 }
 class Home extends React.Component<HomeProps, any> {
@@ -22,7 +23,7 @@ class Home extends React.Component<HomeProps, any> {
         }
     }
     searchHandler = (value) => {
-
+        this.props.history.push(`/search?query=${value}`)
     }
     onTab(key) { }
     componentWillReceiveProps(nextProps) {
