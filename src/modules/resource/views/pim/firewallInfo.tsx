@@ -31,6 +31,15 @@ class FirewallInfo extends React.Component<any, any> {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
     }
+
+    sshLink = () => {
+        let { config } = this.props
+        let user = {
+            name: 'admin',
+            pwd: '111'
+        };
+        window.open(`config.ssh?${qs.stringify(user)}`)
+    }
     callback = (key) => {
         if (key === 'relation') {
             this.props.actions.resetList();
@@ -138,6 +147,16 @@ class FirewallInfo extends React.Component<any, any> {
             }
         })
     }
+    renderBtns() {
+        return (
+            <div className={styles.btn}>
+                <Button type="primary"
+                    style={{ margin: '0px 10px 0px 0' }}
+                    icon="link" ghost
+                    onClick={this.sshLink.bind(this, 'reset')}>SSH</Button>
+            </div>
+        )
+    }
     renderMotherBoard() {
         let { list } = this.props
         const { pageSize, tableLoading } = this.state;
@@ -229,6 +248,7 @@ class FirewallInfo extends React.Component<any, any> {
                                 size="small"
                                 animated={false}
                                 onChange={this.tabInfo}
+                                tabBarExtraContent={this.renderBtns()}
                             >
                                 <TabPane tab="概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
