@@ -52,7 +52,7 @@ export const queryList = (dsname, params, cb, complex?) => (dispatch) => {
         let data = res.data.data
         if (complex) {
             let newdata: any = {}
-            newdata[complex] = data
+            newdata[dsname] = data
             data = newdata
         }
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: data }
@@ -74,14 +74,9 @@ export const queryList = (dsname, params, cb, complex?) => (dispatch) => {
  * 电源状态查询
  * @param cb
  */
-export const queryListServerPower = (dsname, params, cb, complex?) => (dispatch) => {
+export const queryListServerPower = (dsname, params, cb) => (dispatch) => {
     return API.queryList(dsname, params).then((res: any) => {
         let data = res.data.data.dataList[0]
-        if (complex) {
-            let newdata: any = {}
-            newdata[complex] = data
-            data = newdata
-        }
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, power: data }
         dispatch(action);
         if (cb) {
