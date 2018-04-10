@@ -167,7 +167,36 @@ class Firewall extends React.Component<FirewallProps, any> {
         Modal.confirm({
             title: '确定要批量删除所选防火墙吗?',
             onOk() {
-                emitter.emit('message', 'success', '批量删除成功！')
+                let param = {
+                    delmoInsts: []
+                }
+                let moTypeKey = 'firewall'
+                for (let page in selected) {
+                    if (selected.hasOwnProperty(page)) {
+                        let selectArr = selected[page]
+                        for (let i = 0; i < selectArr.length; i++) {
+                            let sObj = {
+                                moTypeKey: moTypeKey,
+                                moInstId: selectArr[i].id
+                            }
+                            param.delmoInsts.push(sObj)
+                        }
+
+                    }
+                }
+                // console.log(param, '---p');
+                self.props.actions.deleteAll(param, (data, err) => {
+                    if (data.code === 1) {
+                        emitter.emit('message', 'success', '批量删除成功！')
+                        self.getTableData({})
+
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '批量删除失败！'
+                        emitter.emit('message', 'error', msg)
+                    }
+                })
+
             },
             okText: '确认',
             cancelText: '取消',
@@ -259,11 +288,9 @@ class Firewall extends React.Component<FirewallProps, any> {
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading, datacenter, vendor, selected } = this.state;
         let selectLength = 0
-        for (var key in selected) {
-            if (selected.hasOwnProperty(key)) {
-                selectLength += selected[key].length;
-            }
-        }
+        _.forIn(selected, function (value, key) {
+            selectLength += value.length
+        });
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={FirewallInfo} /> */}

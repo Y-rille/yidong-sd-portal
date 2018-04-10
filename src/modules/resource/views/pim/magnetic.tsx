@@ -135,7 +135,34 @@ class Magnetic extends React.Component<any, any> {
         Modal.confirm({
             title: '确定要批量删除所选磁阵吗?',
             onOk() {
-                emitter.emit('message', 'success', '批量删除成功！')
+                let param = {
+                    delmoInsts: []
+                }
+                let moTypeKey = 'magnetic'
+                for (let page in selected) {
+                    if (selected.hasOwnProperty(page)) {
+                        let selectArr = selected[page]
+                        for (let i = 0; i < selectArr.length; i++) {
+                            let sObj = {
+                                moTypeKey: moTypeKey,
+                                moInstId: selectArr[i].id
+                            }
+                            param.delmoInsts.push(sObj)
+                        }
+
+                    }
+                }
+                // console.log(param, '---p');
+                self.props.actions.deleteAll(param, (data, err) => {
+                    if (data.code === 1) {
+                        emitter.emit('message', 'success', '批量删除成功！')
+                        self.getTableData({ pageNo: self.state.pageNo })
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '批量删除失败！'
+                        emitter.emit('message', 'error', msg)
+                    }
+                })
             },
             okText: '确认',
             cancelText: '取消',
@@ -226,11 +253,9 @@ class Magnetic extends React.Component<any, any> {
         const { datacenter, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let selectLength = 0
-        for (var key in selected) {
-            if (selected.hasOwnProperty(key)) {
-                selectLength += selected[key].length;
-            }
-        }
+        _.forIn(selected, function (value, key) {
+            selectLength += value.length
+        });
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:magneticId`} component={MagneticInfo} /> */}

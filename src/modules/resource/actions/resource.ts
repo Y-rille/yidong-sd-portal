@@ -416,3 +416,19 @@ export const getSyslog = (moTypeKey, moInstId, cb) => (dispatch) => {
 export const resetSyslog = () => (dispatch) => {
     return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, syslog: null })
 }
+
+/**
+ * resource 批量删除
+ * @param cb 
+ */
+export const deleteAll = (params, cb) => (dispatch) => {
+    return API.deleteAll(params).then((res) => {
+        if (cb) {
+            cb(res.data, null)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(null, err)
+        }
+    })
+}
