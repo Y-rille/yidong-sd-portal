@@ -41,7 +41,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             name: 'admin',
             pwd: '111'
         };
-        window.open(`config.ssh?${qs.stringify(user)}`)
+        window.open(`${config.ssh}?${qs.stringify(user)}`)
     }
     goPage(num) {
         let { match } = this.props

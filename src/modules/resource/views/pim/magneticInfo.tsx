@@ -39,7 +39,7 @@ class MageneticInfo extends React.Component<any, any> {
             name: 'admin',
             pwd: '111'
         };
-        window.open(`config.ssh?${qs.stringify(user)}`)
+        window.open(`${config.ssh}?${qs.stringify(user)}`)
     }
     callback = (key) => {
         if (key === 'detail') {
