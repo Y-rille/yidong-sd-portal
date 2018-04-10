@@ -226,11 +226,9 @@ class Magnetic extends React.Component<any, any> {
         const { datacenter, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let selectLength = 0
-        for (var key in selected) {
-            if (selected.hasOwnProperty(key)) {
-                selectLength += selected[key].length;
-            }
-        }
+        _.forIn(selected, function (value, key) {
+            selectLength += value.length
+        });
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:magneticId`} component={MagneticInfo} /> */}

@@ -267,11 +267,9 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         let { match, nodeInfo, list, subDataPIM, subDataVendor, subDataSwitchType } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let selectLength = 0
-        for (var key in selected) {
-            if (selected.hasOwnProperty(key)) {
-                selectLength += selected[key].length;
-            }
-        }
+        _.forIn(selected, function (value, key) {
+            selectLength += value.length
+        });
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={SwitchboardInfo} /> */}
