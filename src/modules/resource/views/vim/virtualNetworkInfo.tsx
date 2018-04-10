@@ -3,14 +3,33 @@ import * as _ from 'lodash';
 import styles from '../../style/index.less'
 import { Breadcrumb, Icon, Tabs, Spin } from 'antd';
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
-import LogShine from '../../../../components/LogShine/'
-import fmtLog from '../../utils/fmtLog'
+import Headline from '../../../../components/Headline'
+import CompactTable from '../../../../components/CompactTable'
 const TabPane = Tabs.TabPane;
 class VirtualNetworkInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            events: [],
+        }
+    }
+    static defaultProps = {
+        list: {
+            dataList: [
+                { id: 6, name: 'MANO-NFVO', haCount: 1, hostCount: 2 },
+                { id: 3, name: 'MANO-VNFM', haCount: 1, hostCount: 2 },
+                { id: 4, name: 'VNF', haCount: 1, hostCount: 9 },
+                { id: 2, name: 'ZJHZ-XSCYY1B2F-hpeAZ-ZABBIX', haCount: 1, hostCount: 1 },
+                { id: 8, name: 'az1', haCount: 2, hostCount: 2 }
+            ],
+            header: [
+                { key: 'haCount', title: 'HA数', link: false, width: 200 },
+                { key: 'hostCount', title: '主机数', link: false, width: 200 },
+                { key: 'id', title: 'id', link: false, width: 100 },
+                { key: 'name', title: '名称', link: true, width: 240 }
+            ],
+            pageNo: 1,
+            pageSize: 10,
+            totalCount: 5
         }
     }
     onChange() {
@@ -20,21 +39,6 @@ class VirtualNetworkInfo extends React.Component<any, any> {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
     }
-    tabInfo = (key) => {
-        this.setState({
-            showBtn: key === 'log' ? false : true
-        })
-        if (key === 'log') {
-            this.props.actions.getSyslog('vm', this.props.match.params.id, (data, err) => {
-                if (data.code === 1) {
-                    let data_fix = data.log.split('\n')
-                    this.setState({
-                        events: data_fix
-                    })
-                }
-            })
-        }
-    }
     componentWillMount() {
         let moTypeKey = 'vm'
         let match = this.props.match
@@ -43,7 +47,6 @@ class VirtualNetworkInfo extends React.Component<any, any> {
         this.props.actions.getObjData(moTypeKey, id)
     }
     componentWillUnmount() {
-        this.props.actions.resetSyslog();
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
     }
@@ -61,9 +64,42 @@ class VirtualNetworkInfo extends React.Component<any, any> {
             )
         }
     }
+    renderTable(type) {
+        let { list } = this.props
+        let pageSize = 999
+        // let { tableLoading, pageSize } = this.state
+        let baseData = {
+            network: '子网',
+            port: '端口',
+            dhcp: 'DHCP'
+        }
+        let titleTxt = ''
+        for (const key in baseData) {
+            if (type === key) {
+                titleTxt = baseData[key]
+            }
+        }
+        if (list) {
+            return (
+                <div>
+                    <Headline title={titleTxt} />
+                    <CompactTable
+                        outStyle={{ marginBottom: '20px' }}
+                        data={list}
+                        pageSize={pageSize}
+                    />
+                </div>
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
     render() {
         let { nodeInfo } = this.props
-        let { events } = this.state
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -90,14 +126,13 @@ class VirtualNetworkInfo extends React.Component<any, any> {
                                 defaultActiveKey="1"
                                 animated={false}
                                 size="small"
-                                onChange={this.tabInfo}
                             >
                                 <TabPane tab="资源概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
+                                    {this.renderTable('network')}
+                                    {this.renderTable('port')}
+                                    {this.renderTable('dhcp')}
                                 </TabPane>
-                                {/* <TabPane tab="日志" key="log">
-                                    <LogShine events={events} />
-                                </TabPane> */}
                             </Tabs>
                         </TabPane>
                     </Tabs>
