@@ -11,6 +11,7 @@ interface DynamicPropertiesCollapseProps {
     data: object;
     editData?
     loading?
+    outStyle?
 }
 interface DynamicPropertiesPanelState {
 }
@@ -62,9 +63,11 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
     }
     render() {
         // console.log(this.props.data, '=======this.props.data')
+        let defaultStyle = { padding: '20px 0' }
+        let outStyle = this.props.outStyle ? this.props.outStyle : defaultStyle
         if (this.state.data) {
             return (
-                <div className="dynamicPropertiesPanel" style={{ 'padding': '20px 0' }}>
+                <div className="dynamicPropertiesPanel" style={outStyle}>
                     <Collapse defaultActiveKey={['0', '1', '2']}>
                         {
                             this.state.data.groups.map((group, index) => {

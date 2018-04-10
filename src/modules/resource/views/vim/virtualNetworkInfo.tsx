@@ -53,7 +53,9 @@ class VirtualNetworkInfo extends React.Component<any, any> {
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                <DynamicPropertiesCollapse
+                    outStyle={{ paddingTop: '20px' }}
+                    attributes={this.props.objAttributes}
                     data={this.props.objData} />
             )
         } else {
@@ -81,10 +83,9 @@ class VirtualNetworkInfo extends React.Component<any, any> {
         }
         if (list) {
             return (
-                <div>
+                <div style={{ 'marginTop': '20px' }}>
                     <Headline title={titleTxt} />
                     <CompactTable
-                        outStyle={{ marginBottom: '20px' }}
                         data={list}
                         pageSize={pageSize}
                     />
