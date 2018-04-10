@@ -10,6 +10,7 @@ function mapProps(state) {
     return {
         name: state.searchReducer.name,
         config: state.searchReducer.config,
+        list: state.resourceReducer.list,
     }
 }
 function mapDispatchToProps(dispatch) {
