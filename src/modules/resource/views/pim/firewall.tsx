@@ -159,7 +159,18 @@ class Firewall extends React.Component<FirewallProps, any> {
     }
     updateAll() {
         let { match } = this.props
-        this.props.history.push(`${match.url}/edit`)
+        let { selected } = this.state
+        let selectParam = []
+        for (let page in selected) {
+            if (selected.hasOwnProperty(page)) {
+                let selectArr = selected[page]
+                for (let i = 0; i < selectArr.length; i++) {
+                    selectParam.push(selectArr[i].id)
+                }
+            }
+        }
+        // console.log(selectParam, '---');
+        // this.props.history.push(`${match.url}/edit`)
     }
     deleteAll() {
         let { selected } = this.state
