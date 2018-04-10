@@ -6,6 +6,7 @@ const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 import CompactTable from '../../../components/CompactTable'
 import qs from 'querystringify'
+import { matchPath } from 'react-router'
 
 export interface HomeProps {
     params?
@@ -23,8 +24,30 @@ class Home extends React.Component<HomeProps, any> {
             query: query ? query : '',
             tableLoading: false,
             activeKey: 'imdsServer',
-            pageSize: 999
+            pageSize: 999,
         }
+    }
+    goLink(key, obj) {
+        let activeKey = this.state.activeKey
+        let newActiveKey = ''
+        switch (activeKey) {
+            case 'imdsServer':
+                newActiveKey = 'server'
+                break;
+            case 'imdsServerFirewall':
+                newActiveKey = 'firewall'
+                break;
+            case 'imdsSwitch':
+                newActiveKey = 'switchboard'
+                break;
+            case 'imdsSwitchDiskArray':
+                newActiveKey = 'magnetic'
+                break;
+            default:
+                break;
+
+        }
+        this.props.history.push(`/resource/pim/4139d043-9c88-4629-b511-af381d7c49d4/${newActiveKey}/info/${obj.id}`)  // pim_id 
     }
     searchHandler = (value) => {
         this.props.history.push(`/search?query=${value}`)
@@ -69,11 +92,12 @@ class Home extends React.Component<HomeProps, any> {
     renderTable() {
         let { tableLoading } = this.state
         let { list } = this.props
-        if (list && list.header) {
+        if (list) {
             return (
                 <CompactTable
                     data={list}
                     loading={tableLoading}
+                    goLink={this.goLink.bind(this)}
                 />
             )
         } else {
