@@ -9,6 +9,9 @@ class Edit extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
+    static defaultProps = {
+
+    }
     goList() {
         let path = this.props.location.pathname.replace(/\/edit/, '')
         this.props.history.push(`${path}`)
@@ -22,8 +25,32 @@ class Edit extends React.Component<any, any> {
             this.goList()
         }, 1000)
     }
-    componentWillMount() {
+    fixData() {
+        let { objAttributes, objData } = this.props
+        let temp = []
+        if (objAttributes && objData) {
+            objData.data.columns.map((item, index) => {
+                const key = objData.data.headers[index];
+                const values = objData.data.values.length > 0 ? objData.data.values[0][index] : [];
+                let summary = _.find(objAttributes.data, attr => (attr.physicalTablefield === item));
+                if (summary && summary.editable === 1) {
+                    summary = _.assign({ key, values }, summary);
+                    temp.push(summary);
+                    // summary.attributeGroup = summary.attributeGroup ? summary.attributeGroup : '其他'
+                    // temp.list.push(summary);
 
+                    // if (_.indexOf(temp.groups, summary.attributeGroup) < 0) {
+                    //     temp.groups.push(summary.attributeGroup);
+                    // }
+                }
+            });
+        }
+        // console.log(temp);
+        return temp;
+    }
+    componentWillMount() {
+        this.fixData()
+        // console.log();
     }
     render() {
         let { match, subDataCenter, subDataVendor, nodeInfo } = this.props
