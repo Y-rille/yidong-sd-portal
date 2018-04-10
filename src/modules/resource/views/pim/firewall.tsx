@@ -44,7 +44,8 @@ class Firewall extends React.Component<FirewallProps, any> {
             datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
             pim_id: mp_node ? mp_node.params.id : '',
-            selected: [],
+            selected: {},
+            findSelected: []
         }
     }
     goInfo = () => {
@@ -118,6 +119,19 @@ class Firewall extends React.Component<FirewallProps, any> {
         });
         this.formRef.handleReset()
     }
+    selectRow = (data) => {
+        let { pageNo, selected } = this.state
+        let newSelected = selected
+        newSelected[pageNo] = data
+        this.setState({
+            selected: newSelected
+        })
+    }
+    findSelectRow(data) {
+        this.setState({
+            findSelected: data
+        })
+    }
     addData = () => {
         let { selected } = this.state
         this.props.actions.findConfirm('firewall', { data: { dataList: selected } }, (data, err) => {
@@ -181,11 +195,7 @@ class Firewall extends React.Component<FirewallProps, any> {
 
         });
     }
-    selectRow = (data) => {
-        this.setState({
-            selected: data
-        });
-    }
+
     getTableData(queryObj) {
         this.setState({
             tableLoading: true
@@ -216,6 +226,7 @@ class Firewall extends React.Component<FirewallProps, any> {
     }
     renderAddData() {
         let { findData } = this.props
+        let { findSelected } = this.state
         if (findData) {
             let data_fixed = _.merge({}, findData)
             _.map(data_fixed.header, (item) => {
@@ -228,12 +239,12 @@ class Firewall extends React.Component<FirewallProps, any> {
                         data={data_fixed}
                         actionAuth=""
                         selectAuth={true}
-                        selectRow={this.selectRow.bind(this)}
+                        selectRow={this.findSelectRow.bind(this)}
                         size={{ y: '113px' }}
                         pageSize="999"
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" disabled={this.state.selected.length > 0 ? false : true} onClick={this.addData.bind(this)}>添加</Button>
+                        <Button type="primary" disabled={findSelected.length > 0 ? false : true} onClick={this.addData.bind(this)}>添加</Button>
                         <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
                     </div>
                 </div >
@@ -247,6 +258,12 @@ class Firewall extends React.Component<FirewallProps, any> {
         let { match, list, nodeInfo, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading, datacenter, vendor, selected } = this.state;
+        let selectLength = 0
+        for (var key in selected) {
+            if (selected.hasOwnProperty(key)) {
+                selectLength += selected[key].length;
+            }
+        }
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={FirewallInfo} /> */}
@@ -278,8 +295,8 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 <div style={{ float: 'right' }}>
                                     <Button type="primary" onClick={this.showModal}>发现</Button>
                                     <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
-                                    <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selected.length ? false : true}>批量更新</Button>
-                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>批量删除</Button>
+                                    <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
+                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
                                 </div>
                                 <Modal
                                     title="发现"
