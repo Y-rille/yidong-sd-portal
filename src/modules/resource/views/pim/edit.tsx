@@ -6,12 +6,38 @@ import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 
 import PimEdit from '../../../../components/PimEdit'
 import styles from '../../style/index.less'
 import emitter from '../../../../common/emitter'
+import qs from 'querystringify'
 class Edit extends React.Component<any, any> {
+    formRef: any
+    moTypeKey: any
+    id: any
     constructor(props) {
         super(props);
     }
     static defaultProps = {
 
+    }
+    getMoTypeKeyAndId() {
+        let { type } = this.props.match.params
+        this.moTypeKey = ''
+        switch (type) {
+            case 'server':
+                this.moTypeKey = 'server'
+                break
+            case 'firewall':
+                this.moTypeKey = 'firewall'
+                break
+            case 'switchboard':
+                this.moTypeKey = 'switch'
+                break
+            case 'magnetic':
+                this.moTypeKey = 'diskarray'
+                break
+            default:
+                this.moTypeKey = 'server'
+        }
+        let { id } = qs.parse(this.props.location.search)
+        this.id = id.split(',')
     }
     goList() {
         let path = this.props.location.pathname.replace(/\/edit/, '')
@@ -21,19 +47,35 @@ class Edit extends React.Component<any, any> {
         this.props.history.goBack()
     }
     doSubmit() {
-        emitter.emit('message', 'success', '批量更新成功！')
-        setTimeout(() => {
-            this.goList()
-        }, 1000)
+        let formdata = this.formRef.getData()
+        let params = { configures: [] }
+        if (formdata) {
+            _.map(this.id, (item) => {
+                let paramsItem = {
+                    moTypeKey: this.moTypeKey,
+                    moInstId: item,
+                    attributes: formdata
+                }
+                params.configures.push(paramsItem)
+            })
+            this.props.actions.editBatchData(params, (err, data) => {
+                if (data) {
+                    emitter.emit('message', 'success', '批量更新成功！')
+                    setTimeout(() => {
+                        this.goList()
+                    }, 1000)
+                }
+            })
+        }
     }
     fixData() {
         let { objAttributes, objData } = this.props
         let temp = []
         if (objAttributes && objData) {
-            objData.data.columns.map((item, index) => {
-                const key = objData.data.headers[index];
-                const values = objData.data.values.length > 0 ? objData.data.values[0][index] : [];
-                let summary = _.find(objAttributes.data, attr => (attr.physicalTablefield === item));
+            objData.columns.map((item, index) => {
+                const key = objData.headers[index];
+                const values = objData.values.length > 0 ? objData.values[0][index] : [];
+                let summary = _.find(objAttributes, attr => (attr.physicalTablefield === item));
                 if (summary && summary.editable === 1) {
                     summary = _.assign({ key, values }, summary);
                     temp.push(summary);
@@ -43,18 +85,23 @@ class Edit extends React.Component<any, any> {
         return temp;
     }
     componentWillMount() {
-
+        this.getMoTypeKeyAndId()
+        this.props.actions.getObjAttributes(this.moTypeKey)
+        this.props.actions.getObjData(this.moTypeKey, this.id[0])
+    }
+    componentWillUnmount() {
+        this.formRef.handleReset()
+        this.props.actions.resetObjAttributes()
+        this.props.actions.resetObjData()
     }
     renderPimEdit() {
         let data = this.fixData()
         if (data.length) {
-            return _.map(data, (item) => {
-                return <PimEdit data={item} />
-            })
+            return <PimEdit wrappedComponentRef={(node) => { this.formRef = node }} data={data} />
         }
     }
     render() {
-        let { match, subDataCenter, subDataVendor, nodeInfo } = this.props
+        let { match, subDataCenter, subDataVendor, nodeInfo, objAttributes, objData } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let base_data = {
             server: '服务器',
@@ -86,7 +133,7 @@ class Edit extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    {this.renderPimEdit()}
+                    {objAttributes && objData ? this.renderPimEdit() : <div />}
                 </div>
                 <div className={styles.footer}>
                     <Button onClick={this.doCancel.bind(this)}>取消</Button>

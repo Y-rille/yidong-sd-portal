@@ -19,30 +19,43 @@ class PimEditCls extends React.PureComponent<PimEditProps, any> {
     constructor(props) {
         super(props);
     }
+    getData() {
+        let data = null
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                data = values
+            } else {
+                data = null
+            }
+        })
+        return data
+    }
+    handleReset() {
+        this.props.form.resetFields()
+    }
     renderFormItem() {
         let { data } = this.props
         const { getFieldDecorator } = this.props.form;
-        return (
-            <Row>
-                <Col>
-                    <Form.Item
-                        {...formItemLayout}
-                        label={data.key}
-                        hasFeedback
-                        required
-                    >
-                        {getFieldDecorator(`${data.physicalTablefield}`, {
-                            initialValue: '',
-                            rules: [{
-
-                            }],
-                        })(
-                            <Input placeholder="请输入" />
-                        )}
-                    </Form.Item>
-                </Col>
-            </Row>
-        )
+        return _.map(data, (item) => {
+            return (
+                <Row>
+                    <Col>
+                        <Form.Item
+                            {...formItemLayout}
+                            label={item.key}
+                            hasFeedback
+                        >
+                            {getFieldDecorator(`${item.physicalTablefield}`, {
+                                initialValue: '',
+                                rules: [],
+                            })(
+                                <Input placeholder="请输入" />
+                            )}
+                        </Form.Item>
+                    </Col>
+                </Row>
+            )
+        })
     }
     render() {
         let { data } = this.props

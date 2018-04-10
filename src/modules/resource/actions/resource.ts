@@ -432,3 +432,20 @@ export const deleteAll = (params, cb) => (dispatch) => {
         }
     })
 }
+
+/**
+ * 批量更新PIM
+ * @param editData
+ * @param cb 
+ */
+export const editBatchData = (editData, cb) => (dispatch) => {
+    return API.editBatchData(editData).then((res: any) => {
+        if (cb) {
+            cb(null, res.data)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}

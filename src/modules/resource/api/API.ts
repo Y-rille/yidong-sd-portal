@@ -209,6 +209,10 @@ class API {
     // 1.4  
     return axios.get(`/api_agent/rms-agent/api/syslog/${moTypeKey}/${moInstId}`)
   }
+  editBatchData(params) {
+    // 1.9
+    return axios.post(`/api_agent/rms-agent/api/batchconfigure/`, params)
+  }
 }
 
 export default new API()
