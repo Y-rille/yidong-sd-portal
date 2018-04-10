@@ -23,57 +23,57 @@ export default class Summaries extends React.PureComponent<SummariesProps, any> 
         super(props);
     }
     static defaultProps = {
-        colNum: 5,
-        data: {
-            header: [
-                {
-                    key: 'id',
-                    title: 'ID',
-                    link: true
-                },
-                {
-                    key: 'name',
-                    title: 'imdsAZ',
-                    link: false
-                },
-                {
-                    key: 'role',
-                    title: '角色',
-                    link: false
-                },
-                {
-                    key: 'az',
-                    title: '所属AZ',
-                    link: false
-                },
-                {
-                    key: 'ha',
-                    title: '所属HA',
-                    link: false
-                }
-            ],
-            dataList: [
-                {
-                    az: 'Libby.McGlynn,Modesto_Graham20',
-                    ha: 'Janie.Jacobi58,Lucious.Witting24',
-                    id: 1,
-                    name: '106.40.16.140',
-                    role: 'Kamille3'
-                },
-                {
-                    az: 'Thomas_Fadel79,Bailey_Carter',
-                    ha: 'Jaylan.Littel50,Adeline_Gerlach',
-                    id: 2,
-                    name: '66.231.137.210',
-                    role: 'Nadia_Waters9'
-                },
-            ]
-        }
+        // colNum: 5,
+        // data: {
+        //     header: [
+        //         {
+        //             key: 'id',
+        //             title: 'ID',
+        //             link: true
+        //         },
+        //         {
+        //             key: 'name',
+        //             title: 'imdsAZ',
+        //             link: false
+        //         },
+        //         {
+        //             key: 'role',
+        //             title: '角色',
+        //             link: false
+        //         },
+        //         {
+        //             key: 'az',
+        //             title: '所属AZ',
+        //             link: false
+        //         },
+        //         {
+        //             key: 'ha',
+        //             title: '所属HA',
+        //             link: false
+        //         }
+        //     ],
+        //     dataList: [
+        //         {
+        //             az: 'Libby.McGlynn,Modesto_Graham20',
+        //             ha: 'Janie.Jacobi58,Lucious.Witting24',
+        //             id: 1,
+        //             name: '106.40.16.140',
+        //             role: 'Kamille3'
+        //         },
+        //         {
+        //             az: 'Thomas_Fadel79,Bailey_Carter',
+        //             ha: 'Jaylan.Littel50,Adeline_Gerlach',
+        //             id: 2,
+        //             name: '66.231.137.210',
+        //             role: 'Nadia_Waters9'
+        //         },
+        //     ]
+        // }
     }
     renderContent() {
         const { data, colNum } = this.props;
-        const dataValues = _.head(data.dataList);
-        const dataKeys = data.header;
+        const dataValues = _.head(data ? data.dataList : '');
+        const dataKeys = data ? data.header : '';
         let dataCol = (colNum === 2 ? 12 : (colNum === 3 ? 8 : (colNum === 4 ? 6 : 4)))
         let right = (dataCol === 4 ? '28px' : '0')
         if (dataValues) {

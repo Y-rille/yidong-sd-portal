@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
+import PimEdit from '../../../../components/PimEdit'
 import styles from '../../style/index.less'
 import emitter from '../../../../common/emitter'
 class Edit extends React.Component<any, any> {
@@ -36,21 +37,21 @@ class Edit extends React.Component<any, any> {
                 if (summary && summary.editable === 1) {
                     summary = _.assign({ key, values }, summary);
                     temp.push(summary);
-                    // summary.attributeGroup = summary.attributeGroup ? summary.attributeGroup : '其他'
-                    // temp.list.push(summary);
-
-                    // if (_.indexOf(temp.groups, summary.attributeGroup) < 0) {
-                    //     temp.groups.push(summary.attributeGroup);
-                    // }
                 }
             });
         }
-        // console.log(temp);
         return temp;
     }
     componentWillMount() {
-        this.fixData()
-        // console.log();
+
+    }
+    renderPimEdit() {
+        let data = this.fixData()
+        if (data.length) {
+            return _.map(data, (item) => {
+                return <PimEdit data={item} />
+            })
+        }
     }
     render() {
         let { match, subDataCenter, subDataVendor, nodeInfo } = this.props
@@ -85,7 +86,7 @@ class Edit extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    更新字段
+                    {this.renderPimEdit()}
                 </div>
                 <div className={styles.footer}>
                     <Button onClick={this.doCancel.bind(this)}>取消</Button>
