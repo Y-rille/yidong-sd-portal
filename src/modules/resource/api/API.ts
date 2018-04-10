@@ -199,7 +199,11 @@ class API {
     return axios.delete(`/api_agent/rms-agent/api/delete/${moTypeKey}/${moInstId}`)
   }
   deleteAll(params) {
-    return axios.delete(`/api_agent/rms-agent/api/batchdelete`, params)
+    return axios({
+      method: 'delete',
+      url: `/api_agent/rms-agent/api/batchdelete`,
+      data: params
+    })
   }
   addVim(moTypeKey, params?: VimParams) {
     // 1.4
@@ -208,6 +212,10 @@ class API {
   getSyslog(moTypeKey, moInstId) {
     // 1.4  
     return axios.get(`/api_agent/rms-agent/api/syslog/${moTypeKey}/${moInstId}`)
+  }
+  editBatchData(params) {
+    // 1.9
+    return axios.post(`/api_agent/rms-agent/api/batchconfigure/`, params)
   }
 }
 

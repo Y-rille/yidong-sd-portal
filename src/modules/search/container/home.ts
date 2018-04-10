@@ -1,22 +1,16 @@
 const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
-
 import HomeActionCreatorsMap from '../actions/index'
-import ResourceActionCreatorsMap from '../../resource/actions/index'
-
 import Home from '../views/home'
 
 function mapProps(state) {
     return {
-        name: state.searchReducer.name,
-        config: state.searchReducer.config,
-        list: state.resourceReducer.list,
+        list: state.searchReducer.list,
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators(HomeActionCreatorsMap, dispatch),
-        resourceActions: bindActionCreators(ResourceActionCreatorsMap, dispatch),
     }
 }
 

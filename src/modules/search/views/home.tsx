@@ -6,6 +6,8 @@ const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 import CompactTable from '../../../components/CompactTable'
 import qs from 'querystringify'
+import { matchPath } from 'react-router'
+import { ResourceActions } from '../actions/index'
 
 export interface HomeProps {
     params?
@@ -14,6 +16,8 @@ export interface HomeProps {
     history?
     resourceActions?
     list?
+    actions: ResourceActions
+
 }
 class Home extends React.Component<HomeProps, any> {
     constructor(props) {
@@ -23,14 +27,36 @@ class Home extends React.Component<HomeProps, any> {
             query: query ? query : '',
             tableLoading: false,
             activeKey: 'imdsServer',
-            pageSize: 999
+            pageSize: 999,
         }
+    }
+    goLink(key, obj) {
+        let activeKey = this.state.activeKey
+        let newActiveKey = ''
+        switch (activeKey) {
+            case 'imdsServer':
+                newActiveKey = 'server'
+                break;
+            case 'imdsServerFirewall':
+                newActiveKey = 'firewall'
+                break;
+            case 'imdsSwitch':
+                newActiveKey = 'switchboard'
+                break;
+            case 'imdsSwitchDiskArray':
+                newActiveKey = 'magnetic'
+                break;
+            default:
+                break;
+
+        }
+        this.props.history.push(`/resource/pim/4139d043-9c88-4629-b511-af381d7c49d4/${newActiveKey}/info/${obj.id}`)  // pim_id 
     }
     searchHandler = (value) => {
         this.props.history.push(`/search?query=${value}`)
     }
     onTab(key) {
-        this.props.resourceActions.resetList();
+        this.props.actions.resetList();
         this.setState({
             activeKey: key
         }, () => {
@@ -43,7 +69,7 @@ class Home extends React.Component<HomeProps, any> {
         });
         let self = this
         let { activeKey, query, pageSize } = this.state
-        this.props.resourceActions.queryList(activeKey, { pageSize, commParam: query }, () => {
+        this.props.actions.queryList(activeKey, { pageSize, commParam: query }, () => {
             self.setState({
                 tableLoading: false
             });
@@ -64,16 +90,17 @@ class Home extends React.Component<HomeProps, any> {
         }
     }
     componentWillUnmount() {
-        this.props.resourceActions.resetList();
+        this.props.actions.resetList();
     }
     renderTable() {
         let { tableLoading } = this.state
         let { list } = this.props
-        if (list && list.header) {
+        if (list) {
             return (
                 <CompactTable
                     data={list}
                     loading={tableLoading}
+                    goLink={this.goLink.bind(this)}
                 />
             )
         } else {

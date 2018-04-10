@@ -3,6 +3,7 @@ import * as SI from 'seamless-immutable';
 
 const SearchState = SI.from({
     name: 'SEARCH',
+    list: null,
     config: {}
 });
 

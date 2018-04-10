@@ -94,6 +94,14 @@ class ServerInfo extends React.Component<any, any> {
             })
         }
     }
+    sshLink = () => {
+        let { config } = this.props
+        let user = {
+            name: 'admin',
+            pwd: '111'
+        };
+        window.open(`config.ssh?${qs.stringify(user)}`)
+    }
     confirmRest = () => {
         let self = this
         let content = '服务器正在运行，确定复位吗？'
@@ -311,6 +319,10 @@ class ServerInfo extends React.Component<any, any> {
             if (_power) {
                 return (
                     <div className={styles.btn}>
+                        <Button type="primary"
+                            style={{ margin: '0px 10px 0px 0' }}
+                            icon="link" ghost
+                            onClick={this.sshLink.bind(this, 'reset')}>SSH</Button>
                         <Button
                             type="primary" ghost
                             icon="dingding"
