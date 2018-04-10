@@ -169,8 +169,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                 }
             }
         }
-        // console.log(selectParam, '---');
-        // this.props.history.push(`${match.url}/edit`)
+        this.props.history.push(`${match.url}/edit?id=${selectParam.join(',')}`)
     }
     deleteAll() {
         let { selected } = this.state

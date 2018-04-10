@@ -15,7 +15,7 @@ function mapProps(state) {
         objAttributes: state.resourceReducer.objAttributes,
         summary: state.resourceReducer.summary,
         power: state.resourceReducer.power,
-        config: state.commonReducer.config,
+        config: state.commonReducer.config
     }
 }
 function mapDispatchToProps(dispatch) {
