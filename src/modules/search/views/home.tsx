@@ -12,7 +12,7 @@ export interface HomeProps {
     goSearch?
     location?
     history?
-
+    resourceActions?
 }
 class Home extends React.Component<HomeProps, any> {
     constructor(props) {
@@ -26,6 +26,11 @@ class Home extends React.Component<HomeProps, any> {
         this.props.history.push(`/search?query=${value}`)
     }
     onTab(key) { }
+
+    componentWillMount() {
+        this.props.resourceActions.queryList()
+    }
+
     componentWillReceiveProps(nextProps) {
         let prev_query = this.state.query
         let { query } = qs.parse(nextProps.location.search)
