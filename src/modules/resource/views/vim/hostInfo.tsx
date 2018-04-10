@@ -147,10 +147,20 @@ class HostInfo extends React.Component<any, any> {
     componentWillMount() {
         let moTypeKey = 'host'
         let match = this.props.match
-        let id = match.params.id
+        let host = this.state.host
+        let type = match.params.type
         this.props.actions.getObjAttributes(moTypeKey)
-        this.props.actions.getObjData(moTypeKey, id)
-        this.props.actions.getSummary('imdsHAInfo', { id: id }); // ...
+        this.props.actions.getObjData(moTypeKey, host)
+        switch (type) {
+            case 'imdsHost':
+                this.props.actions.getSummary('imdsHostOverview', { host: host }, null, true)
+                break;
+            case 'imdsController':
+                this.props.actions.getSummary('imdsControllerOverview', { host: host }, null, true)
+                break;
+            default:
+                this.props.actions.getSummary('imdsStorageOverview', { host: host }, null, true)
+        }
     }
     componentWillUnmount() {
         this.props.actions.resetList()
@@ -170,7 +180,7 @@ class HostInfo extends React.Component<any, any> {
         )
     }
     renderDynamicPropertiesCollapse() {
-        let summary = this.props.summary
+        let { summary } = this.props
         if (this.props.objAttributes && this.props.objData) {
             return (
                 <div style={{ marginTop: '20px' }}>
