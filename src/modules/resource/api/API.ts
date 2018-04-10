@@ -199,7 +199,7 @@ class API {
     return axios.delete(`/api_agent/rms-agent/api/delete/${moTypeKey}/${moInstId}`)
   }
   deleteAll(params) {
-    return axios.delete(`/api_agent/rms-agent/rms-agent/api/batchdelete`, params)
+    return axios.delete(`/api_agent/rms-agent/api/batchdelete`, params)
   }
   addVim(moTypeKey, params?: VimParams) {
     // 1.4

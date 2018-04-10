@@ -3,11 +3,15 @@ import * as _ from 'lodash';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import { Breadcrumb, Icon, Button, Spin, Cascader, Tabs, Row, Col, Modal } from 'antd';
+import PimEdit from '../../../../components/PimEdit'
 import styles from '../../style/index.less'
 import emitter from '../../../../common/emitter'
 class Edit extends React.Component<any, any> {
     constructor(props) {
         super(props);
+    }
+    static defaultProps = {
+
     }
     goList() {
         let path = this.props.location.pathname.replace(/\/edit/, '')
@@ -22,8 +26,32 @@ class Edit extends React.Component<any, any> {
             this.goList()
         }, 1000)
     }
+    fixData() {
+        let { objAttributes, objData } = this.props
+        let temp = []
+        if (objAttributes && objData) {
+            objData.data.columns.map((item, index) => {
+                const key = objData.data.headers[index];
+                const values = objData.data.values.length > 0 ? objData.data.values[0][index] : [];
+                let summary = _.find(objAttributes.data, attr => (attr.physicalTablefield === item));
+                if (summary && summary.editable === 1) {
+                    summary = _.assign({ key, values }, summary);
+                    temp.push(summary);
+                }
+            });
+        }
+        return temp;
+    }
     componentWillMount() {
 
+    }
+    renderPimEdit() {
+        let data = this.fixData()
+        if (data.length) {
+            return _.map(data, (item) => {
+                return <PimEdit data={item} />
+            })
+        }
     }
     render() {
         let { match, subDataCenter, subDataVendor, nodeInfo } = this.props
@@ -58,7 +86,7 @@ class Edit extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    更新字段
+                    {this.renderPimEdit()}
                 </div>
                 <div className={styles.footer}>
                     <Button onClick={this.doCancel.bind(this)}>取消</Button>
