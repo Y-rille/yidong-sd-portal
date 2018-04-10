@@ -167,7 +167,36 @@ class Firewall extends React.Component<FirewallProps, any> {
         Modal.confirm({
             title: '确定要批量删除所选防火墙吗?',
             onOk() {
-                emitter.emit('message', 'success', '批量删除成功！')
+                let param = {
+                    delmoInsts: []
+                }
+                let moTypeKey = 'firewall'
+                for (let page in selected) {
+                    if (selected.hasOwnProperty(page)) {
+                        let selectArr = selected[page]
+                        for (let i = 0; i < selectArr.length; i++) {
+                            let sObj = {
+                                moTypeKey: moTypeKey,
+                                moInstId: selectArr[i].id
+                            }
+                            param.delmoInsts.push(sObj)
+                        }
+
+                    }
+                }
+                // console.log(param, '---p');
+                self.props.actions.deleteAll(param, (data, err) => {
+                    if (data.code === 1) {
+                        emitter.emit('message', 'success', '批量删除成功！')
+                        self.getTableData({})
+
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '批量删除失败！'
+                        emitter.emit('message', 'error', msg)
+                    }
+                })
+
             },
             okText: '确认',
             cancelText: '取消',
