@@ -30,7 +30,8 @@ class Magnetic extends React.Component<any, any> {
             datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
             pim_id: mp_node.params.id ? mp_node.params.id : '',
-            selected: []
+            selected: {},
+            findSelected: []
         };
     }
     getData(data) {
@@ -155,6 +156,19 @@ class Magnetic extends React.Component<any, any> {
         this.formRef.handleReset()
         this.props.actions.resetfindData()
     }
+    selectRow = (data) => {
+        let { pageNo, selected } = this.state
+        let newSelected = selected
+        newSelected[pageNo] = data
+        this.setState({
+            selected: newSelected
+        })
+    }
+    findSelectRow(data) {
+        this.setState({
+            findSelected: data
+        })
+    }
     addData = () => {
 
         let { selected } = this.state
@@ -177,15 +191,8 @@ class Magnetic extends React.Component<any, any> {
             this.props.actions.resetfindData()
         })
     }
-    selectRow = (selectArr) => {
-        this.setState({
-            selected: selectArr
-        })
-    }
-    componentWillUnmount() {
-        this.props.actions.resetList()
-    }
     renderAddData() {
+        let { findSelected } = this.state
         let { findData } = this.props
         if (findData) {
             let data_fixed = _.merge({}, findData)
@@ -198,11 +205,11 @@ class Magnetic extends React.Component<any, any> {
                     <CompactTable
                         data={data_fixed}
                         selectAuth={true}
-                        selectRow={this.selectRow.bind(this)}
+                        selectRow={this.findSelectRow.bind(this)}
                         size={{ y: 113 }}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                        <Button type="primary" disabled={findSelected.length > 0 ? false : true} onClick={this.addData.bind(this)}>添加</Button>
                         <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
                     </div>
                 </div >
@@ -211,10 +218,19 @@ class Magnetic extends React.Component<any, any> {
             return <div />
         }
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
         let { match, nodeInfo, list, subDataPIM } = this.props;
         const { datacenter, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
+        let selectLength = 0
+        for (var key in selected) {
+            if (selected.hasOwnProperty(key)) {
+                selectLength += selected[key].length;
+            }
+        }
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:magneticId`} component={MagneticInfo} /> */}
@@ -241,8 +257,8 @@ class Magnetic extends React.Component<any, any> {
                                 <div style={{ float: 'right' }}>
                                     <Button type="primary" onClick={this.showModal}>发现</Button>
                                     <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
-                                    <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selected.length ? false : true}>批量更新</Button>
-                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selected.length ? false : true}>批量删除</Button>
+                                    <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
+                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
                                 </div>
                                 <Modal
                                     title="发现"
