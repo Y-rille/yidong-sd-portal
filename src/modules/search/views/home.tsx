@@ -7,6 +7,7 @@ const Search = Input.Search;
 import CompactTable from '../../../components/CompactTable'
 import qs from 'querystringify'
 import { matchPath } from 'react-router'
+import { ResourceActions } from '../actions/index'
 
 export interface HomeProps {
     params?
@@ -15,6 +16,8 @@ export interface HomeProps {
     history?
     resourceActions?
     list?
+    actions: ResourceActions
+
 }
 class Home extends React.Component<HomeProps, any> {
     constructor(props) {
@@ -53,7 +56,7 @@ class Home extends React.Component<HomeProps, any> {
         this.props.history.push(`/search?query=${value}`)
     }
     onTab(key) {
-        this.props.resourceActions.resetList();
+        this.props.actions.resetList();
         this.setState({
             activeKey: key
         }, () => {
@@ -66,7 +69,7 @@ class Home extends React.Component<HomeProps, any> {
         });
         let self = this
         let { activeKey, query, pageSize } = this.state
-        this.props.resourceActions.queryList(activeKey, { pageSize, commParam: query }, () => {
+        this.props.actions.queryList(activeKey, { pageSize, commParam: query }, () => {
             self.setState({
                 tableLoading: false
             });
@@ -87,7 +90,7 @@ class Home extends React.Component<HomeProps, any> {
         }
     }
     componentWillUnmount() {
-        this.props.resourceActions.resetList();
+        this.props.actions.resetList();
     }
     renderTable() {
         let { tableLoading } = this.state
