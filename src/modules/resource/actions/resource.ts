@@ -47,7 +47,6 @@ export const getDataCenter = (queryKey, cb) => (dispatch) => {
  * @param cb
  */
 export const queryList = (dsname, params, cb, complex?) => (dispatch) => {
-
     return API.queryList(dsname, params).then((res: any) => {
         let data = res.data.data
         if (complex) {
