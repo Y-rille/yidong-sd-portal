@@ -49,7 +49,8 @@ class Edit extends React.Component<any, any> {
     doSubmit() {
         let formdata = this.formRef.getData()
         let params = { configures: [] }
-        if (formdata) {
+        let flag = _.filter(formdata, item => item !== '')
+        if (formdata && flag.length) {
             _.map(this.id, (item) => {
                 let paramsItem = {
                     moTypeKey: this.moTypeKey,
@@ -59,13 +60,20 @@ class Edit extends React.Component<any, any> {
                 params.configures.push(paramsItem)
             })
             this.props.actions.editBatchData(params, (err, data) => {
-                if (data) {
+                if (data && data.code === 1) {
                     emitter.emit('message', 'success', '批量更新成功！')
                     setTimeout(() => {
                         this.goList()
                     }, 1000)
                 }
+                if (err || (data && data.code === 0)) {
+                    emitter.emit('message', 'error', '批量更新失败！')
+                }
             })
+        } else {
+            setTimeout(() => {
+                this.goList()
+            }, 1000)
         }
     }
     fixData() {
