@@ -29,9 +29,7 @@ class HostInfo extends React.Component<any, any> {
             host: match.params.id,
         }
     }
-    static defaultProps = {
 
-    }
     onChange(key) {
         if (key === 'detail') {
             this.props.actions.resetObjAttributes()
@@ -246,10 +244,64 @@ class HostInfo extends React.Component<any, any> {
         }
     }
     renderTopo() {
-        let { topo } = this.props
-        // console.log('sshshshshsh');
-        // console.log(Topology);
-        return <Topology data={topo} />
+        let data = {
+            'nodes': [
+                {
+                    'id': '1',
+                    'name': '10.255.242.115',
+                    'label': 'D03-hpeDL380-COMP05',
+                    'type': 'HOST',
+                    'desc': 'D03-hpeDL380-COMP05',
+                    'state': 0,
+                    'bizFields': {
+                        'serialid': '2102310YJA10H6003997',
+                        'mgmtip': '10.255.242.115'
+                    }
+                },
+                {
+                    'id': '2',
+                    'name': 'nfvo-proxy-node2',
+                    'label': 'nfvo-proxy-node2',
+                    'type': 'VM',
+                    'state': 1,
+                    'desc': 'nfvo-proxy-node2'
+                },
+                {
+                    'id': '3',
+                    'name': 'nfvo-proxy-node3',
+                    'label': 'nfvo-proxy-node3',
+                    'type': 'VM',
+                    'state': 3,
+                    'desc': 'nfvo-proxy-node3'
+                },
+                {
+                    'id': '4',
+                    'name': 'qinhe',
+                    'label': 'qinhe',
+                    'type': 'HA',
+                    'state': 0,
+                    'desc': 'qinhe'
+                }
+            ],
+            'links': [
+                {
+                    'source': '4',
+                    'state': 0,
+                    'target': '1'
+                },
+                {
+                    'source': '1',
+                    'state': 1,
+                    'target': '2'
+                },
+                {
+                    'source': '1',
+                    'state': 0,
+                    'target': '3'
+                }
+            ]
+        }
+        return <Topology data={data} />
     }
     render() {
         let { activeKey } = this.state
@@ -319,7 +371,7 @@ class HostInfo extends React.Component<any, any> {
                         </TabPane>
                         <TabPane tab="拓扑结构" key="topo">
                             <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                {/* {this.renderTopo()} */}
+                                {this.renderTopo()}
                             </div>
                         </TabPane>
                     </Tabs>

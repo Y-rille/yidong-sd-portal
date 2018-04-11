@@ -153,10 +153,10 @@ module.exports = (type) => {
                     'lib/react-dom.production.min.js',
                     'lib/react-router-dom.min.js',
                     'lib/react-redux.min.js',
-                    'lib/rappid.min.js',
-                    'lib/rappid.min.css',
                     'lib/dagre.min.js',
                     'lib/graphlib.min.js',
+                    'lib/rappid.min.js',
+                    'lib/rappid.min.css',
                 ],
                 append: false
             }),
