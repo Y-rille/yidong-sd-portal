@@ -6,6 +6,7 @@ import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesC
 import LogShine from '../../../../components/LogShine/'
 import fmtLog from '../../utils/fmtLog'
 const TabPane = Tabs.TabPane;
+import emitter from '../../../../common/emitter'
 class StorgeVolumeInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -25,7 +26,7 @@ class StorgeVolumeInfo extends React.Component<any, any> {
             showBtn: key === 'log' ? false : true
         })
         if (key === 'log') {
-            this.props.actions.getSyslog('vm', this.props.match.params.id, (data, err) => {
+            this.props.actions.getSyslog('storageVolum', this.props.match.params.id, (data, err) => {
                 if (data.code === 1) {
                     let data_fix = data.log.split('\n')
                     this.setState({
@@ -38,8 +39,35 @@ class StorgeVolumeInfo extends React.Component<any, any> {
     storageManage() {
         window.open('http://www.baidu.com')
     }
+    handleEditData(d, cb) {
+        let moTypeKey = 'storageVolum'
+        let match = this.props.match
+        let moInstId = match.params.id
+        this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
+            if (err || qdata.code !== 1) {
+                emitter.emit('message', 'error', '修改失败')
+                if (cb) {
+                    cb()
+                }
+            } else if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
+                    if (res && res.code === 1) {
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                    if (res && res.code === 0 || error) {
+                        emitter.emit('message', 'error', '修改失败')
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                })
+            }
+        })
+    }
     componentWillMount() {
-        let moTypeKey = 'vm'
+        let moTypeKey = 'storageVolum'
         let match = this.props.match
         let id = match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
@@ -64,8 +92,10 @@ class StorgeVolumeInfo extends React.Component<any, any> {
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
-                    data={this.props.objData} />
+                <DynamicPropertiesCollapse
+                    attributes={this.props.objAttributes}
+                    data={this.props.objData}
+                    editData={this.handleEditData.bind(this)} />
             )
         } else {
             return (
