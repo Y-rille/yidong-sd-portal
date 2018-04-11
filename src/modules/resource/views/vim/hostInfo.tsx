@@ -8,8 +8,10 @@ const confirm = Modal.confirm;
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable'
 import Summaries from '../../../../components/Summaries/'
+import { Topology } from '../../../../components/topology/topology.js'
 import { stringify } from 'querystringify'
 import qs from 'querystringify'
+import '../../../../components/topology/topology.css'
 import styles from '../../style/index.less'
 import Item from 'antd/lib/list/Item';
 import emitter from '../../../../common/emitter'
@@ -26,6 +28,9 @@ class HostInfo extends React.Component<any, any> {
             activeKey: 'imdsHostProcessor',
             host: match.params.id,
         }
+    }
+    static defaultProps = {
+
     }
     onChange(key) {
         if (key === 'detail') {
@@ -45,7 +50,7 @@ class HostInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
-        } else {
+        } else if (key === 'imdsHostSubRes') {
             this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
@@ -54,6 +59,8 @@ class HostInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
+        } else {
+            this.getTopo()
         }
     }
     onTab(key) {
@@ -66,6 +73,21 @@ class HostInfo extends React.Component<any, any> {
         }, () => {
             this.goPage(1)
         })
+    }
+    getTopo() {
+        let { type, id } = this.props.match.params
+        let dsname = ''
+        switch (type) {
+            case 'imdsHost':
+                dsname = 'imdsTopoHost'
+                break;
+            case 'imdsController':
+                dsname = 'imdsTopoController'
+                break;
+            default:
+                dsname = 'imdsTopoStorage'
+        }
+        this.props.actions.getTopoState(dsname, { moInstId: id })
     }
     handleEditData(d, cb) {
         let moTypeKey = 'host'
@@ -223,6 +245,12 @@ class HostInfo extends React.Component<any, any> {
             )
         }
     }
+    renderTopo() {
+        let { topo } = this.props
+        // console.log('sshshshshsh');
+        // console.log(Topology);
+        return <Topology data={topo} />
+    }
     render() {
         let { activeKey } = this.state
         let { list, nodeInfo } = this.props
@@ -287,6 +315,11 @@ class HostInfo extends React.Component<any, any> {
                         <TabPane tab="下级资源" key="imdsHostSubRes">
                             <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                                 {this.renderNormalTable()}
+                            </div>
+                        </TabPane>
+                        <TabPane tab="拓扑结构" key="topo">
+                            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                {/* {this.renderTopo()} */}
                             </div>
                         </TabPane>
                     </Tabs>

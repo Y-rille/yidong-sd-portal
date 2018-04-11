@@ -178,6 +178,9 @@ class API {
   getOverview(dsname) {
     return axios.get(`/api_resource/datashare-svr/api/imds/report/${dsname}`)
   }
+  getTopoState(dsname, params) {
+    return axios.get(`/api_resource/datashare-svr/api/dssvr/topostate/${dsname}?${stringify(params)}`)
+  }
   editObjData(moTypeKey, moInstId, editData) {
     // 1.4   
     return axios.post(`/api_agent/rms-agent/api/configure/${moTypeKey}/${moInstId}`, editData)
