@@ -187,7 +187,8 @@ class HostInfo extends React.Component<any, any> {
                     <Summaries
                         data={summary}
                         colNum={3} />
-                    <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                    <DynamicPropertiesCollapse
+                        attributes={this.props.objAttributes}
                         data={this.props.objData}
                         editData={this.handleEditData.bind(this)} />
                 </div>

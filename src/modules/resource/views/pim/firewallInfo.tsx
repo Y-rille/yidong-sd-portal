@@ -208,7 +208,8 @@ class FirewallInfo extends React.Component<any, any> {
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                <DynamicPropertiesCollapse
+                    attributes={this.props.objAttributes}
                     data={this.props.objData}
                     editData={this.handleEditData.bind(this)} />
             )
@@ -240,7 +241,7 @@ class FirewallInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>防火墙详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div style={{ padding: '20px 20px 0 20px' }}>
+                <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.callback} type="card" animated={false}>
                         <TabPane tab="资源详情" key="1" >
                             <Tabs
