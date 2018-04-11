@@ -1,37 +1,41 @@
 import * as React from 'react';
+import { matchPath } from 'react-router'
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
 import { Breadcrumb, Icon, Tabs, Spin } from 'antd';
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import Headline from '../../../../components/Headline'
 import CompactTable from '../../../../components/CompactTable'
+import qs from 'querystringify'
 const TabPane = Tabs.TabPane;
 class VirtualNetworkInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        let { match } = this.props
         this.state = {
+            virtualNetwork: match.params.id
         }
     }
-    static defaultProps = {
-        list: {
-            dataList: [
-                { id: 6, name: 'MANO-NFVO', haCount: 1, hostCount: 2 },
-                { id: 3, name: 'MANO-VNFM', haCount: 1, hostCount: 2 },
-                { id: 4, name: 'VNF', haCount: 1, hostCount: 9 },
-                { id: 2, name: 'ZJHZ-XSCYY1B2F-hpeAZ-ZABBIX', haCount: 1, hostCount: 1 },
-                { id: 8, name: 'az1', haCount: 2, hostCount: 2 }
-            ],
-            header: [
-                { key: 'haCount', title: 'HA数', link: false, width: 200 },
-                { key: 'hostCount', title: '主机数', link: false, width: 200 },
-                { key: 'id', title: 'id', link: false, width: 100 },
-                { key: 'name', title: '名称', link: true, width: 240 }
-            ],
-            pageNo: 1,
-            pageSize: 10,
-            totalCount: 5
-        }
-    }
+    // static defaultProps = {
+    //     list: {
+    //         dataList: [
+    //             { id: 6, name: 'MANO-NFVO', haCount: 1, hostCount: 2 },
+    //             { id: 3, name: 'MANO-VNFM', haCount: 1, hostCount: 2 },
+    //             { id: 4, name: 'VNF', haCount: 1, hostCount: 9 },
+    //             { id: 2, name: 'ZJHZ-XSCYY1B2F-hpeAZ-ZABBIX', haCount: 1, hostCount: 1 },
+    //             { id: 8, name: 'az1', haCount: 2, hostCount: 2 }
+    //         ],
+    //         header: [
+    //             { key: 'haCount', title: 'HA数', link: false, width: 200 },
+    //             { key: 'hostCount', title: '主机数', link: false, width: 200 },
+    //             { key: 'id', title: 'id', link: false, width: 100 },
+    //             { key: 'name', title: '名称', link: true, width: 240 }
+    //         ],
+    //         pageNo: 1,
+    //         pageSize: 10,
+    //         totalCount: 5
+    //     }
+    // }
     onChange() {
 
     }
@@ -39,12 +43,16 @@ class VirtualNetworkInfo extends React.Component<any, any> {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
     }
+
     componentWillMount() {
         let moTypeKey = 'vm'
         let match = this.props.match
         let id = match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey, id)
+        this.props.actions.queryList('imdsVirtualNetworkSubnet', { virtualNetwork: id })
+        this.props.actions.queryList('imdsVirtualNetworkPort', { virtualNetwork: id })
+        this.props.actions.queryList('imdsVirtualNetworkDHCP', { virtualNetwork: id })
     }
     componentWillUnmount() {
         this.props.actions.resetObjAttributes()
@@ -69,11 +77,11 @@ class VirtualNetworkInfo extends React.Component<any, any> {
     renderTable(type) {
         let { list } = this.props
         let pageSize = 999
-        // let { tableLoading, pageSize } = this.state
+        let { virtualNetwork } = this.state
         let baseData = {
-            network: '子网',
-            port: '端口',
-            dhcp: 'DHCP'
+            imdsVirtualNetworkSubnet: '子网',
+            imdsVirtualNetworkPort: '端口',
+            imdsVirtualNetworkDHCP: 'DHCP'
         }
         let titleTxt = ''
         for (const key in baseData) {
@@ -81,23 +89,15 @@ class VirtualNetworkInfo extends React.Component<any, any> {
                 titleTxt = baseData[key]
             }
         }
-        if (list) {
-            return (
-                <div style={{ 'marginTop': '20px' }}>
-                    <Headline title={titleTxt} />
-                    <CompactTable
-                        data={list}
-                        pageSize={pageSize}
-                    />
-                </div>
-            )
-        } else {
-            return (
-                <div style={{ position: 'relative', height: '30px' }}>
-                    <Spin />
-                </div>
-            )
-        }
+        return (
+            <div style={{ 'marginTop': '20px' }}>
+                <Headline title={titleTxt} />
+                {list ? (<CompactTable
+                    data={list}
+                    pageSize={pageSize}
+                />) : ''}
+            </div>
+        )
     }
     render() {
         let { nodeInfo } = this.props
@@ -130,9 +130,9 @@ class VirtualNetworkInfo extends React.Component<any, any> {
                             >
                                 <TabPane tab="资源概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
-                                    {this.renderTable('network')}
-                                    {this.renderTable('port')}
-                                    {this.renderTable('dhcp')}
+                                    {this.renderTable('imdsVirtualNetworkSubnet')}
+                                    {this.renderTable('imdsVirtualNetworkPort')}
+                                    {this.renderTable('imdsVirtualNetworkDHCP')}
                                 </TabPane>
                             </Tabs>
                         </TabPane>
