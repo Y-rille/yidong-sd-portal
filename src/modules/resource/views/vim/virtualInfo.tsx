@@ -6,14 +6,18 @@ import LogShine from '../../../../components/LogShine/'
 import fmtLog from '../../utils/fmtLog'
 import styles from '../../style/index.less'
 import emitter from '../../../../common/emitter'
-
+import { matchPath } from 'react-router'
 const TabPane = Tabs.TabPane;
 
 class VirtualInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
         this.state = {
             events: [],
+            vim_id: mp_node ? mp_node.params.id : ''
         }
     }
     onChange() {
@@ -65,20 +69,21 @@ class VirtualInfo extends React.Component<any, any> {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
     }
-    showStorageVolume(e) {
-        // let host = this.props.match.params.id;
-        // this.props.actions.queryList('imdsHostServerInfo', { host }, (err, res) => {
-        //     if (!err && res['dataList']) {
-        //         let host_info = _.head(res['dataList'])
-        //         if (host_info) {
-        //             let id = host_info['id']
-        //             let vim_id = host_info['vim_id']
-        //             if (id && vim_id) {
-        //                 this.props.history.replace(`/resource/vim/${vim_id}/server/info/${id}`)
-        //             }
-        //         }
-        //     }
-        // })
+    showStorageVolume() {
+        let vim_id = this.state.vim_id
+        this.props.actions.queryList('imdsVMStorageVolumInfo', { vim_id: vim_id }, (err, data) => {
+            // console.log(data, '===data')
+            // if (!err && data['dataList']) {
+            //     let host_info = _.head(data['dataList'])
+            //     if (host_info) {
+            //         let id = host_info['id']
+            //         let vim_id = host_info['vim_id']
+            //         if (id && vim_id) {
+            //             this.props.history.replace(`/resource/vim/${vim_id}/storage_volume/info/${id}`)
+            //         }
+            //     }
+            // }
+        })
     }
     componentWillMount() {
         let moTypeKey = 'vm'
@@ -99,7 +104,7 @@ class VirtualInfo extends React.Component<any, any> {
                 <Button
                     type="primary" ghost
                     icon="eye-o"
-                    onClick={this.showStorageVolume}
+                    onClick={this.showStorageVolume.bind(this)}
                 >查看存储卷</Button>
             </div>
         )
