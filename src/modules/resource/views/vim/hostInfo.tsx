@@ -8,7 +8,7 @@ const confirm = Modal.confirm;
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable'
 import Summaries from '../../../../components/Summaries/'
-import { Topology } from '../../../../components/topology/topology.js'
+import { Topology } from '../../../../components/Topology/topology.js'
 import { stringify } from 'querystringify'
 import qs from 'querystringify'
 import '../../../../components/topology/topology.css'
