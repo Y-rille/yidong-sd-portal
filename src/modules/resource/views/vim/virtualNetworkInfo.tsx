@@ -7,6 +7,7 @@ import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesC
 import Headline from '../../../../components/Headline'
 import CompactTable from '../../../../components/CompactTable'
 import qs from 'querystringify'
+import emitter from '../../../../common/emitter'
 const TabPane = Tabs.TabPane;
 class VirtualNetworkInfo extends React.Component<any, any> {
     constructor(props) {
@@ -43,9 +44,35 @@ class VirtualNetworkInfo extends React.Component<any, any> {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
     }
-
+    handleEditData(d, cb) {
+        let moTypeKey = 'virtual_network'
+        let match = this.props.match
+        let moInstId = match.params.id
+        this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
+            if (err || qdata.code !== 1) {
+                emitter.emit('message', 'error', '修改失败')
+                if (cb) {
+                    cb()
+                }
+            } else if (qdata.code === 1) {
+                this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
+                    if (res && res.code === 1) {
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                    if (res && res.code === 0 || error) {
+                        emitter.emit('message', 'error', '修改失败')
+                        if (cb) {
+                            cb()
+                        }
+                    }
+                })
+            }
+        })
+    }
     componentWillMount() {
-        let moTypeKey = 'vm'
+        let moTypeKey = 'virtual_network'
         let match = this.props.match
         let id = match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
@@ -64,7 +91,8 @@ class VirtualNetworkInfo extends React.Component<any, any> {
                 <DynamicPropertiesCollapse
                     outStyle={{ paddingTop: '20px' }}
                     attributes={this.props.objAttributes}
-                    data={this.props.objData} />
+                    data={this.props.objData}
+                    editData={this.handleEditData.bind(this)} />
             )
         } else {
             return (
