@@ -26,7 +26,7 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
     constructor(props) {
         super(props);
         let { match } = this.props
-        let { pageNo, project, vim_id, name, group } = qs.parse(this.props.location.search)
+        let { pageNo, project, vim_id, name } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
@@ -37,7 +37,6 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
             project: project ? project : '',
             vim_id: mp_node ? mp_node.params.id : '',
             name: name ? name : '',
-            group: group ? group : ''
         }
     }
     goInfo = () => {
@@ -51,8 +50,8 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
     handleClick() { // 查询按钮
         let { match } = this.props
         let pageNo = 1
-        let { project, name, group } = this.state
-        let queryObj = { pageNo, project, name, group }
+        let { project, name } = this.state
+        let queryObj = { pageNo, project, name }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -61,12 +60,12 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { project, vim_id, name, group } = this.state
+        let { project, vim_id, name } = this.state
         let pageNo = num
         this.setState({
             pageNo: pageNo
         });
-        let queryObj = { pageNo, project, name, group }
+        let queryObj = { pageNo, project, name }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
@@ -76,19 +75,18 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         let { match } = this.props
     }
     getData(type, value) {  // 查询条件切换
-        let { project, group } = this.state
+        let { project } = this.state
         this.setState({
             project: type === 'Project' ? value : project,
-            group: type === 'Group' ? value : group
         })
     }
     getTableData(queryObj) {
         this.setState({
             tableLoading: true
         });
-        let { project, vim_id, name, group, pageSize } = this.state
+        let { project, vim_id, name, pageSize } = this.state
         let { pageNo } = queryObj
-        let params_obj = { pageNo, pageSize, project, vim_id, name, group }
+        let params_obj = { pageNo, pageSize, project, vim_id, name }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -116,16 +114,8 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
         this.props.actions.resetList()
     }
     render() {
-        let subDataGroup = [
-            { text: 'group0', value: '1' },
-            { text: 'group1', value: '2' },
-            { text: 'group2', value: '3' },
-            { text: 'group3', value: '4' },
-            { text: 'group4', value: '5' },
-            { text: 'group5', value: '6' }
-        ]
         let { match, list } = this.props
-        const { name, volumeTypeSelectValue, pageSize, project, group, tableLoading } = this.state;
+        const { name, volumeTypeSelectValue, pageSize, project, tableLoading } = this.state;
         let { nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -151,7 +141,6 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
                             value={name} type="text"
                             onChange={e => this.volumeTypeInputChange(e.target.value)}
                         />
-                        <Selector type="Group" data={subDataGroup} getData={this.getData.bind(this)} value={group} />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}

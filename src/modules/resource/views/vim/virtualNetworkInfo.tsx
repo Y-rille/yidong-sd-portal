@@ -75,11 +75,11 @@ class VirtualNetworkInfo extends React.Component<any, any> {
             dhcp: 'DHCP'
         }
         let titleTxt = ''
-        for (const key in baseData) {
+        _.forIn(baseData, function (value, key) {
             if (type === key) {
-                titleTxt = baseData[key]
+                titleTxt = value
             }
-        }
+        });
         if (list) {
             return (
                 <div style={{ 'marginTop': '20px' }}>
