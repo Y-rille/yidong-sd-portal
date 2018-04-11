@@ -1,6 +1,5 @@
 /// <reference types="react" />
 import * as React from 'react';
-import joint from '../../rappid/rappid.min';
 export interface MainProps {
     animate?: boolean;
     width?: number;
