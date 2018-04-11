@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
-import { Breadcrumb, Icon, Tabs, Spin } from 'antd';
+import { Breadcrumb, Icon, Button, Tabs, Spin } from 'antd';
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import LogShine from '../../../../components/LogShine/'
 import fmtLog from '../../utils/fmtLog'
@@ -35,6 +35,9 @@ class StorgeVolumeInfo extends React.Component<any, any> {
             })
         }
     }
+    storageManage() {
+        window.open('http://www.baidu.com')
+    }
     componentWillMount() {
         let moTypeKey = 'vm'
         let match = this.props.match
@@ -46,6 +49,17 @@ class StorgeVolumeInfo extends React.Component<any, any> {
         this.props.actions.resetSyslog();
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
+    }
+    renderBtns() {
+        return (
+            <div className={styles.btn}>
+                <Button
+                    type="primary" ghost
+                    icon="eye-o"
+                    onClick={this.storageManage.bind(this)}
+                >存储管理</Button>
+            </div>
+        )
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -90,6 +104,7 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                                 defaultActiveKey="1"
                                 animated={false}
                                 size="small"
+                                tabBarExtraContent={this.renderBtns()}
                                 onChange={this.tabInfo}
                             >
                                 <TabPane tab="资源概况" key="overview">

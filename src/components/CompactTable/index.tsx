@@ -299,9 +299,9 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
             <div className={styles.compactTable} style={outStyle}>
                 {this.renderTable()}
                 <div className={styles.tfooter}>
-                    {footInfoAuth ? (<div>{footInfoAuth}</div>) : ''}
+                    {footInfoAuth ? (<div style={{ marginTop: '10px' }}>{footInfoAuth}</div>) : ''}
                     {(count > page_size) ? (
-                        <div>
+                        <div style={{ marginTop: '10px' }}>
                             <Pagination size="small"
                                 className={styles.pagination}
                                 onChange={this.goPage.bind(this)}

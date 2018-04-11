@@ -54,7 +54,6 @@ class VirtualNetworkInfo extends React.Component<any, any> {
         if (this.props.objAttributes && this.props.objData) {
             return (
                 <DynamicPropertiesCollapse
-                    outStyle={{ paddingTop: '20px' }}
                     attributes={this.props.objAttributes}
                     data={this.props.objData} />
             )

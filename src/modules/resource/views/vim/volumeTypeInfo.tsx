@@ -50,7 +50,8 @@ class VolumeTypeInfo extends React.Component<any, any> {
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                <DynamicPropertiesCollapse
+                    attributes={this.props.objAttributes}
                     data={this.props.objData} />
             )
         } else {

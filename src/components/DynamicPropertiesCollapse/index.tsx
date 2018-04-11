@@ -62,28 +62,36 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
         }
     }
     render() {
-        // console.log(this.props.data, '=======this.props.data')
-        let defaultStyle = { padding: '20px 0' }
-        let outStyle = this.props.outStyle ? this.props.outStyle : defaultStyle
-        if (this.state.data) {
+        let { data } = this.state
+        let { outStyle } = this.props
+        let style = outStyle ? outStyle : { 'paddingTop': '20px' }
+        let leng = data.groups.length - 1
+        let defaultStyle = { 'marginBottom': '20px' }
+        if (data) {
             return (
-                <div className="dynamicPropertiesPanel" style={outStyle}>
+                <div className="dynamicPropertiesPanel" style={style}>
                     <Collapse defaultActiveKey={['0', '1', '2']}>
                         {
-                            this.state.data.groups.map((group, index) => {
+                            data.groups.map((group, index) => {
                                 let sindex = index.toString()
-                                const formData = this.state.data.list.filter(item => (item.attributeGroup === group && item.visible))
+                                let itemStyle = (sindex < leng) ? defaultStyle : { 'marginBottom': '0px' }
+                                const formData = data.list.filter(item => (item.attributeGroup === group && item.visible))
                                 return <Panel
                                     header={group}
                                     key={sindex}
-                                    style={{ 'margin-bottom': '20px' }}
+                                    style={itemStyle}
                                 >
                                     <DynamicPropertiesCollapseForm data={formData} editData={this.handleEditData.bind(this)} />
                                 </Panel>
                             })
                         }
                     </Collapse>
-
+                </div>
+            )
+        } else {
+            return (
+                <div style={{ height: '50px', display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ marginTop: '5px' }}>No Data</div>
                 </div>
             )
         }
