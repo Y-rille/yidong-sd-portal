@@ -13,6 +13,7 @@ export interface IvimOption {
     state?: number;
     type?: string;
     bizFields?: any;
+    isHighlight?: boolean;
 }
 declare let vimOption: (opt: IvimOption) => any;
 export { VIM, vimOption, Link, linkOption };
