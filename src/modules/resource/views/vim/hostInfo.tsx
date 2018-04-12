@@ -203,6 +203,16 @@ class HostInfo extends React.Component<any, any> {
             </div>
         )
     }
+    topoBtns() {
+        return (
+            <div className={styles.btn}>
+                <Button
+                    type="primary" ghost
+                    onClick={this.showServer}
+                >物理拓扑</Button>
+            </div>
+        )
+    }
     renderDynamicPropertiesCollapse() {
         let { summary } = this.props
         if (this.props.objAttributes && this.props.objData) {
@@ -385,9 +395,22 @@ class HostInfo extends React.Component<any, any> {
                             </div>
                         </TabPane>
                         <TabPane tab="拓扑结构" key="topo">
-                            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                {this.renderTopo()}
-                            </div>
+                            <Tabs
+                                size="small"
+                                tabBarExtraContent={this.topoBtns()}
+                                animated={false}>
+                                <TabPane tab="计算节点C1">
+                                    <div style={{ marginTop: '10px' }}>
+                                        <div className={styles.legend}>
+                                            <div><span></span>严重</div>
+                                            <div><span></span>重要</div>
+                                            <div><span></span>次重</div>
+                                            <div><span></span>提示</div>
+                                        </div>
+                                        {this.renderTopo()}
+                                    </div>
+                                </TabPane>
+                            </Tabs>
                         </TabPane>
                     </Tabs>
                 </div>
