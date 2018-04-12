@@ -8,6 +8,8 @@ import styles from '../../style/index.less'
 import emitter from '../../../../common/emitter'
 import { matchPath } from 'react-router'
 const TabPane = Tabs.TabPane;
+import { Topology } from '../../../../components/Topology/topology.js'
+import '../../../../components/Topology/topology.css'
 
 class VirtualInfo extends React.Component<any, any> {
     constructor(props) {
@@ -20,8 +22,12 @@ class VirtualInfo extends React.Component<any, any> {
             vim_id: mp_node ? mp_node.params.id : ''
         }
     }
-    onChange() {
-
+    onChange(key) {
+        if (key === 'topo') {
+            let { id } = this.props.match.params
+            let dsname = 'imdsTopoVM'
+            this.props.actions.getTopoState(dsname, { moInstId: id })
+        }
     }
     handleEditData(d, cb) {
         let moTypeKey = 'host'
@@ -85,6 +91,9 @@ class VirtualInfo extends React.Component<any, any> {
             // }
         })
     }
+    nodeDblClick(data) {
+        // console.log(data);
+    }
     componentWillMount() {
         let moTypeKey = 'vm'
         let match = this.props.match
@@ -125,6 +134,76 @@ class VirtualInfo extends React.Component<any, any> {
             )
         }
     }
+    renderTopo() {
+        let data = {
+            'nodes': [
+                {
+                    'id': '1',
+                    'name': '10.255.242.115',
+                    'label': 'D03-hpeDL380-COMP05',
+                    'type': 'HOST',
+                    'desc': 'D03-hpeDL380-COMP05',
+                    'state': 0,
+                    'bizFields': {
+                        'serialid': '2102310YJA10H6003997',
+                        'mgmtip': '10.255.242.115'
+                    }
+                },
+                {
+                    'id': '2',
+                    'name': 'nfvo-proxy-node2',
+                    'label': 'nfvo-proxy-node2',
+                    'type': 'VM',
+                    'state': 1,
+                    'desc': 'nfvo-proxy-node2'
+                },
+                {
+                    'id': '3',
+                    'name': 'nfvo-proxy-node3',
+                    'label': 'nfvo-proxy-node3',
+                    'type': 'VM',
+                    'state': 3,
+                    'desc': 'nfvo-proxy-node3'
+                },
+                {
+                    'id': '4',
+                    'name': 'qinhe',
+                    'label': 'qinhe',
+                    'type': 'HA',
+                    'state': 0,
+                    'desc': 'qinhe'
+                }
+            ],
+            'links': [
+                {
+                    'source': '4',
+                    'state': 0,
+                    'target': '1'
+                },
+                {
+                    'source': '1',
+                    'state': 1,
+                    'target': '2'
+                },
+                {
+                    'source': '1',
+                    'state': 0,
+                    'target': '3'
+                }
+            ]
+        }
+        let w = document.querySelector('.Pane2').clientWidth - 96
+        let flag = data.nodes.length > 20 ? true : false
+        return (
+            <Topology
+                data={data}
+                width={w}
+                height={500}
+                center={flag}
+                zoomToFit={flag}
+                onDblclick={this.nodeDblClick.bind(this)} />
+        )
+    }
     render() {
         let { nodeInfo } = this.props
         let { events } = this.state
@@ -149,7 +228,7 @@ class VirtualInfo extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} animated={false} type="card">
-                        <TabPane tab="资源详情" key="1">
+                        <TabPane tab="资源详情" key="detail">
                             <Tabs
                                 defaultActiveKey="1"
                                 animated={false}
@@ -165,7 +244,11 @@ class VirtualInfo extends React.Component<any, any> {
                                 </TabPane>
                             </Tabs>
                         </TabPane>
-
+                        <TabPane tab="拓扑结构" key="topo">
+                            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                {this.renderTopo()}
+                            </div>
+                        </TabPane>
                     </Tabs>
                 </div>
 
