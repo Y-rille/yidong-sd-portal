@@ -15,6 +15,7 @@ import Item from 'antd/lib/list/Item';
 import emitter from '../../../../common/emitter'
 import { Topology } from '../../../../components/Topology/topology.js'
 import '../../../../components/Topology/topology.css'
+import mathMoTypeKeyAndRoute from '../../utils/mathMoTypeKeyAndRoute'
 
 class HostInfo extends React.Component<any, any> {
     constructor(props) {
@@ -29,7 +30,6 @@ class HostInfo extends React.Component<any, any> {
             host: match.params.id,
         }
     }
-
     onChange(key) {
         if (key === 'detail') {
             this.props.actions.resetObjAttributes()
@@ -58,7 +58,7 @@ class HostInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         } else {
-            this.getTopo()
+            // this.getTopo()
         }
     }
     onTab(key) {
@@ -114,7 +114,7 @@ class HostInfo extends React.Component<any, any> {
             }
         })
     }
-    showServer = (e) => {
+    showServer(e, topo?) {
         let host = this.props.match.params.id;
         this.props.actions.queryList('imdsHostServerInfo', { host }, (err, res) => {
             if (!err && res['dataList']) {
@@ -123,7 +123,8 @@ class HostInfo extends React.Component<any, any> {
                     let id = host_info['id']
                     let pim_id = host_info['pim_id']
                     if (id && pim_id) {
-                        this.props.history.replace(`/resource/pim/${pim_id}/server/info/${id}`)
+                        let topoFlag = topo ? '?active=topo' : ''
+                        this.props.history.replace(`/resource/pim/${pim_id}/server/info/${id}${topoFlag}`)
                     }
                 }
             }
@@ -145,7 +146,6 @@ class HostInfo extends React.Component<any, any> {
         if (key === 'name') {
             this.props.history.push(`/resource/vim/${vimId}/virtual/info/${obj.id}`)
         }
-
     }
     getTableData(queryObj) {
         this.setState({
@@ -165,7 +165,21 @@ class HostInfo extends React.Component<any, any> {
         this.props.history.push(`${path}`)
     }
     nodeDblClick(data) {
-        // console.log(data);
+        if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
+            let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
+            let hostTypePath = ''
+            switch (hostType) {
+                case 'compute':
+                    hostTypePath = '/imdsHost/'
+                    break
+                case 'storage':
+                    hostTypePath = '/imdsStorage/'
+                    break
+                default:
+                    hostTypePath = '/imdsController/'
+            }
+            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${mathMoTypeKeyAndRoute(moTypeKey)}/${hostTypePath}info/${moInstId}?active=topo`)
+        }
     }
     componentWillMount() {
         let moTypeKey = 'host'
@@ -198,7 +212,7 @@ class HostInfo extends React.Component<any, any> {
                 <Button
                     type="primary" ghost
                     icon="eye-o"
-                    onClick={this.showServer}
+                    onClick={this.showServer.bind(this)}
                 >查看服务器</Button>
             </div>
         )
@@ -208,7 +222,7 @@ class HostInfo extends React.Component<any, any> {
             <div className={styles.btn}>
                 <Button
                     type="primary" ghost
-                    onClick={this.showServer}
+                    onClick={this.showServer.bind(this, true)}
                 >物理拓扑</Button>
             </div>
         )
@@ -268,8 +282,11 @@ class HostInfo extends React.Component<any, any> {
                     'desc': 'D03-hpeDL380-COMP05',
                     'state': 0,
                     'bizFields': {
-                        'serialid': '2102310YJA10H6003997',
-                        'mgmtip': '10.255.242.115'
+                        'ifRedirect': true,
+                        'moMgrType': 'pim',
+                        'moMgrId': '4139d043-9c88-4629-b511-af381d7c49d4',
+                        'moTypeKey': 'server',
+                        'moInstId': '9',
                     }
                 },
                 {
@@ -315,17 +332,35 @@ class HostInfo extends React.Component<any, any> {
                 }
             ]
         }
+        let { id } = this.props.match.params
         let w = document.querySelector('.Pane2').clientWidth - 96
         let h = window.innerHeight - 240
         let flag = data.nodes.length > 20 ? true : false
+        let { name } = qs.parse(this.props.location.search)
         return (
-            <Topology
-                data={data}
-                width={w}
-                height={h}
-                center={flag}
-                zoomToFit={flag}
-                onDblclick={this.nodeDblClick.bind(this)} />
+            <Tabs
+                size="small"
+                tabBarExtraContent={this.topoBtns()}
+                animated={false}>
+                <TabPane tab={name}>
+                    <div style={{ marginTop: '10px' }}>
+                        <div className={styles.legend}>
+                            <div><span></span>严重</div>
+                            <div><span></span>重要</div>
+                            <div><span></span>次重</div>
+                            <div><span></span>提示</div>
+                        </div>
+                        <Topology
+                            data={data}
+                            width={w}
+                            height={h}
+                            center={flag}
+                            zoomToFit={flag}
+                            cid={id}
+                            onDblclick={this.nodeDblClick.bind(this)} />
+                    </div>
+                </TabPane>
+            </Tabs>
         )
     }
     render() {
@@ -395,22 +430,7 @@ class HostInfo extends React.Component<any, any> {
                             </div>
                         </TabPane>
                         <TabPane tab="拓扑结构" key="topo">
-                            <Tabs
-                                size="small"
-                                tabBarExtraContent={this.topoBtns()}
-                                animated={false}>
-                                <TabPane tab="计算节点C1">
-                                    <div style={{ marginTop: '10px' }}>
-                                        <div className={styles.legend}>
-                                            <div><span></span>严重</div>
-                                            <div><span></span>重要</div>
-                                            <div><span></span>次重</div>
-                                            <div><span></span>提示</div>
-                                        </div>
-                                        {this.renderTopo()}
-                                    </div>
-                                </TabPane>
-                            </Tabs>
+                            {this.renderTopo()}
                         </TabPane>
                     </Tabs>
                 </div>

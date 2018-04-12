@@ -22,7 +22,7 @@ class ServerInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
         let { match } = this.props
-        let { pageNo } = qs.parse(this.props.location.search)
+        let { pageNo, active } = qs.parse(this.props.location.search)
         this.state = {
             status: null,
             reset: false,
@@ -551,6 +551,7 @@ class ServerInfo extends React.Component<any, any> {
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let { events, activeKey, detailKey } = this.state
+        let { active } = qs.parse(this.props.location.search)
         return (
             <div>
                 <div className={styles.header}>
@@ -568,7 +569,7 @@ class ServerInfo extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
+                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false} defaultActiveKey={active === 'topo' ? 'topo' : ''}>
                         <TabPane tab="资源详情" key="detail" >
                             <Tabs
                                 size="small"
