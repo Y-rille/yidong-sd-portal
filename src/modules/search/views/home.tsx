@@ -10,14 +10,11 @@ import { matchPath } from 'react-router'
 import { ResourceActions } from '../actions/index'
 
 export interface HomeProps {
-    params?
-    goSearch?
     location?
     history?
     resourceActions?
     list?
     actions: ResourceActions
-
 }
 class Home extends React.Component<HomeProps, any> {
     constructor(props) {
@@ -48,7 +45,6 @@ class Home extends React.Component<HomeProps, any> {
                 break;
             default:
                 break;
-
         }
         this.props.history.push(`/resource/pim/4139d043-9c88-4629-b511-af381d7c49d4/${newActiveKey}/info/${obj.id}`)  // pim_id 
     }
@@ -97,11 +93,13 @@ class Home extends React.Component<HomeProps, any> {
         let { list } = this.props
         if (list) {
             return (
-                <CompactTable
-                    data={list}
-                    loading={tableLoading}
-                    goLink={this.goLink.bind(this)}
-                />
+                <div style={{ margin: '20px 0' }}>
+                    <CompactTable
+                        data={list}
+                        loading={tableLoading}
+                        goLink={this.goLink.bind(this)}
+                    />
+                </div>
             )
         } else {
             return (
@@ -128,24 +126,16 @@ class Home extends React.Component<HomeProps, any> {
                 <Content style={{ background: '#fff', padding: '0 200px', minHeight: window.innerHeight - 128 }} >
                     <Tabs size="small" onChange={this.onTab.bind(this)} animated={false} style={{ marginTop: '10px' }} >
                         <TabPane tab="服务器" key="imdsServer">
-                            <div style={{ margin: '20px 0' }}>
-                                {this.renderTable()}
-                            </div>
+                            {this.renderTable()}
                         </TabPane>
                         <TabPane tab="防火墙" key="imdsServerFirewall">
-                            <div style={{ margin: '20px 0' }}>
-                                {this.renderTable()}
-                            </div>
+                            {this.renderTable()}
                         </TabPane>
                         <TabPane tab="交换机" key="imdsSwitch">
-                            <div style={{ margin: '20px 0' }}>
-                                {this.renderTable()}
-                            </div>
+                            {this.renderTable()}
                         </TabPane>
                         <TabPane tab="磁阵" key="imdsSwitchDiskArray">
-                            <div style={{ margin: '20px 0' }}>
-                                {this.renderTable()}
-                            </div>
+                            {this.renderTable()}
                         </TabPane>
                     </Tabs>
                 </Content>
