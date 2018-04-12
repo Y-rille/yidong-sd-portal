@@ -7,8 +7,11 @@ const confirm = Modal.confirm;
 
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable'
+import Summaries from '../../../../components/Summaries/'
+import { Topology } from '../../../../components/Topology/topology.js'
 import { stringify } from 'querystringify'
 import qs from 'querystringify'
+import '../../../../components/topology/topology.css'
 import styles from '../../style/index.less'
 import Item from 'antd/lib/list/Item';
 import emitter from '../../../../common/emitter'
@@ -26,6 +29,7 @@ class HostInfo extends React.Component<any, any> {
             host: match.params.id,
         }
     }
+
     onChange(key) {
         if (key === 'detail') {
             this.props.actions.resetObjAttributes()
@@ -44,7 +48,7 @@ class HostInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
-        } else {
+        } else if (key === 'imdsHostSubRes') {
             this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
@@ -53,6 +57,8 @@ class HostInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
+        } else {
+            this.getTopo()
         }
     }
     onTab(key) {
@@ -65,6 +71,21 @@ class HostInfo extends React.Component<any, any> {
         }, () => {
             this.goPage(1)
         })
+    }
+    getTopo() {
+        let { type, id } = this.props.match.params
+        let dsname = ''
+        switch (type) {
+            case 'imdsHost':
+                dsname = 'imdsTopoHost'
+                break;
+            case 'imdsController':
+                dsname = 'imdsTopoController'
+                break;
+            default:
+                dsname = 'imdsTopoStorage'
+        }
+        this.props.actions.getTopoState(dsname, { moInstId: id })
     }
     handleEditData(d, cb) {
         let moTypeKey = 'host'
@@ -146,14 +167,26 @@ class HostInfo extends React.Component<any, any> {
     componentWillMount() {
         let moTypeKey = 'host'
         let match = this.props.match
-        let id = match.params.id
+        let host = this.state.host
+        let type = match.params.type
         this.props.actions.getObjAttributes(moTypeKey)
-        this.props.actions.getObjData(moTypeKey, id)
+        this.props.actions.getObjData(moTypeKey, host)
+        switch (type) {
+            case 'imdsHost':
+                this.props.actions.getSummary('imdsHostOverview', { host: host }, null, true)
+                break;
+            case 'imdsController':
+                this.props.actions.getSummary('imdsControllerOverview', { host: host }, null, true)
+                break;
+            default:
+                this.props.actions.getSummary('imdsStorageOverview', { host: host }, null, true)
+        }
     }
     componentWillUnmount() {
         this.props.actions.resetList()
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
+        this.props.actions.resetSummary()
     }
     renderBtns() {
         return (
@@ -167,11 +200,18 @@ class HostInfo extends React.Component<any, any> {
         )
     }
     renderDynamicPropertiesCollapse() {
+        let { summary } = this.props
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
-                    data={this.props.objData}
-                    editData={this.handleEditData.bind(this)} />
+                <div style={{ marginTop: '20px' }}>
+                    <Summaries
+                        data={summary}
+                        colNum={3} />
+                    <DynamicPropertiesCollapse
+                        attributes={this.props.objAttributes}
+                        data={this.props.objData}
+                        editData={this.handleEditData.bind(this)} />
+                </div>
             )
         } else {
             return (
@@ -203,6 +243,66 @@ class HostInfo extends React.Component<any, any> {
             )
         }
     }
+    renderTopo() {
+        let data = {
+            'nodes': [
+                {
+                    'id': '1',
+                    'name': '10.255.242.115',
+                    'label': 'D03-hpeDL380-COMP05',
+                    'type': 'HOST',
+                    'desc': 'D03-hpeDL380-COMP05',
+                    'state': 0,
+                    'bizFields': {
+                        'serialid': '2102310YJA10H6003997',
+                        'mgmtip': '10.255.242.115'
+                    }
+                },
+                {
+                    'id': '2',
+                    'name': 'nfvo-proxy-node2',
+                    'label': 'nfvo-proxy-node2',
+                    'type': 'VM',
+                    'state': 1,
+                    'desc': 'nfvo-proxy-node2'
+                },
+                {
+                    'id': '3',
+                    'name': 'nfvo-proxy-node3',
+                    'label': 'nfvo-proxy-node3',
+                    'type': 'VM',
+                    'state': 3,
+                    'desc': 'nfvo-proxy-node3'
+                },
+                {
+                    'id': '4',
+                    'name': 'qinhe',
+                    'label': 'qinhe',
+                    'type': 'HA',
+                    'state': 0,
+                    'desc': 'qinhe'
+                }
+            ],
+            'links': [
+                {
+                    'source': '4',
+                    'state': 0,
+                    'target': '1'
+                },
+                {
+                    'source': '1',
+                    'state': 1,
+                    'target': '2'
+                },
+                {
+                    'source': '1',
+                    'state': 0,
+                    'target': '3'
+                }
+            ]
+        }
+        return <Topology data={data} />
+    }
     render() {
         let { activeKey } = this.state
         let { list, nodeInfo } = this.props
@@ -225,6 +325,7 @@ class HostInfo extends React.Component<any, any> {
                         </Breadcrumb>
                     ) : ''}
                 </div>
+
                 <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
                         <TabPane tab="资源详情" key="detail">
@@ -266,6 +367,11 @@ class HostInfo extends React.Component<any, any> {
                         <TabPane tab="下级资源" key="imdsHostSubRes">
                             <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                                 {this.renderNormalTable()}
+                            </div>
+                        </TabPane>
+                        <TabPane tab="拓扑结构" key="topo">
+                            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                {this.renderTopo()}
                             </div>
                         </TabPane>
                     </Tabs>

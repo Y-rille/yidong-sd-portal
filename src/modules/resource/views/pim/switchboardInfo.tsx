@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Breadcrumb, Icon, Tabs, Spin } from 'antd';
+import { Breadcrumb, Icon, Tabs, Spin, Button } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 import Headline from '../../../../components/Headline/'
@@ -31,12 +31,17 @@ class SwitchboardInfo extends React.Component<any, any> {
             events: [],
         }
     }
-    goLink() {
-
-    }
     goList() {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
+    }
+    sshLink = () => {
+        let { config } = this.props
+        let user = {
+            name: 'admin',
+            pwd: '111'
+        };
+        window.open(`${config.ssh}?${qs.stringify(user)}`)
     }
     goPage(num) {
         let { match } = this.props
@@ -123,6 +128,16 @@ class SwitchboardInfo extends React.Component<any, any> {
                 tableLoading: false
             });
         })
+    }
+    renderBtns() {
+        return (
+            <div className={styles.btn}>
+                <Button type="primary"
+                    style={{ margin: '0px 10px 0px 0' }}
+                    icon="link" ghost
+                    onClick={this.sshLink.bind(this, 'reset')}>SSH</Button>
+            </div>
+        )
     }
     renderTab() {
         let { list, summary } = this.props
@@ -225,7 +240,8 @@ class SwitchboardInfo extends React.Component<any, any> {
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                <DynamicPropertiesCollapse
+                    attributes={this.props.objAttributes}
                     data={this.props.objData}
                     editData={this.handleEditData.bind(this)} />
             )
@@ -264,7 +280,9 @@ class SwitchboardInfo extends React.Component<any, any> {
                                 activeKey={detailKey}
                                 animated={false}
                                 size="small"
-                                onChange={this.tabInfo}>
+                                onChange={this.tabInfo}
+                                tabBarExtraContent={this.renderBtns()}
+                            >
                                 <TabPane tab="概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>

@@ -1,16 +1,17 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import { matchPath } from 'react-router'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Select } from 'antd';
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Input, Spin, Select } from 'antd';
 import styles from '../../style/index.less'
 import CompactTable from '../../../../components/CompactTable/'
 const Option = Select.Option;
 import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
+
 class Virtual extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        let { pageNo, region, az, ha, host } = qs.parse(this.props.location.search)
+        let { pageNo, region, az, ha, host, vmGroup } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
@@ -22,6 +23,7 @@ class Virtual extends React.Component<any, any> {
             az: az ? az : '',
             ha: ha ? ha : '',
             host: host ? host : '',
+            vmGroup: vmGroup ? vmGroup : '',
             vim_id: mp_node.params.id ? mp_node.params.id : ''
         }
     }
@@ -31,17 +33,19 @@ class Virtual extends React.Component<any, any> {
             region: type === 'Region' ? value : region,
             az: type === 'AZ' ? value : az,
             ha: type === 'HA' ? value : ha,
-            host: type === 'Host' ? value : host
+            host: type === 'Host' ? value : host,
         })
     }
-    componentWillUnmount() {
-        this.props.actions.resetList()
+    vmGroupInputChange(value) {
+        this.setState({
+            vmGroup: value
+        })
     }
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { region, az, ha, host } = this.state
-        let queryObj = { pageNo, region, az, ha, host }
+        let { region, az, ha, host, vmGroup } = this.state
+        let queryObj = { pageNo, region, az, ha, host, vmGroup }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -50,21 +54,13 @@ class Virtual extends React.Component<any, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { region, az, ha, host } = this.state
+        let { region, az, ha, host, vmGroup } = this.state
         let pageNo = num
-        let queryObj = { pageNo, region, az, ha, host }
+        let queryObj = { pageNo, region, az, ha, host, vmGroup }
         this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
         })
-    }
-    componentWillMount() {
-        let { pathname } = this.props.location
-        let { pageNo } = this.state
-        let queryObj = {
-            pageNo
-        }
-        this.getTableData(queryObj)
     }
     getTableData(queryObj) {
         this.setState({
@@ -72,8 +68,8 @@ class Virtual extends React.Component<any, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { region, az, ha, host, pageSize, vim_id } = this.state
-        let params_obj = { pageNo, pageSize, region, az, ha, host, vim_id }
+        let { region, az, ha, host, vmGroup, pageSize, vim_id } = this.state
+        let params_obj = { pageNo, pageSize, region, az, ha, host, vmGroup, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -87,13 +83,30 @@ class Virtual extends React.Component<any, any> {
     }
     goLink(key, obj) {
         let { match } = this.props;
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
+        let vimId = mp_node.params.id
         if (key === 'name') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
+        } else if (key === 'cHost') {
+            this.props.history.push(`/resource/vim/${vimId}/host/imdsController/info/${obj.id}`)
         }
+    }
+    componentWillMount() {
+        let { pathname } = this.props.location
+        let { pageNo } = this.state
+        let queryObj = {
+            pageNo
+        }
+        this.getTableData(queryObj)
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
     }
     render() {
         let { match, nodeInfo, list } = this.props;
-        const { region, az, ha, host, pageSize, tableLoading } = this.state;
+        const { region, az, ha, host, vmGroup, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -118,6 +131,11 @@ class Virtual extends React.Component<any, any> {
                         <Selector type="AZ" data={this.props.subDataAZ} getData={this.getData.bind(this)} value={az} />
                         <Selector type="HA" data={this.props.subDataHA} getData={this.getData.bind(this)} value={ha} />
                         <Selector type="Host" data={this.props.subDataHost} getData={this.getData.bind(this)} value={host} />
+                        <Input
+                            placeholder="虚拟机组名称"
+                            value={vmGroup} type="text"
+                            onChange={e => this.vmGroupInputChange(e.target.value)}
+                        />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}

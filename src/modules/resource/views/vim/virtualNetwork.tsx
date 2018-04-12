@@ -21,7 +21,7 @@ export interface VirtualNetworkProps {
 class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     constructor(props) {
         super(props);
-        let { pageNo, project, vim_id, name } = qs.parse(this.props.location.search)
+        let { pageNo, project, vim_id, name, vnGroup } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
@@ -31,7 +31,8 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             vim_id: mp_node ? mp_node.params.id : '',
-            name: name ? name : ''
+            name: name ? name : '',
+            vnGroup: vnGroup ? vnGroup : ''
         }
     }
     goInfo = () => {
@@ -42,11 +43,16 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
             name: value
         })
     }
+    vnGroupInputChange(value) {
+        this.setState({
+            vnGroup: value
+        })
+    }
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { project, name } = this.state
-        let queryObj = { pageNo, project, name }
+        let { project, name, vnGroup } = this.state
+        let queryObj = { pageNo, project, name, vnGroup }
         this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -55,9 +61,9 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { project, name } = this.state
+        let { project, name, vnGroup } = this.state
         let pageNo = num
-        let queryObj = { pageNo, project, name }
+        let queryObj = { pageNo, project, name, vnGroup }
         this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.getTableData({
             pageNo
@@ -81,8 +87,8 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { pageSize, project, name, vim_id } = this.state
-        let params_obj = { pageNo, pageSize, project, name, vim_id }
+        let { pageSize, project, name, vim_id, vnGroup } = this.state
+        let params_obj = { pageNo, pageSize, project, name, vnGroup, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -111,7 +117,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     render() {
         let { match, list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading, project, name } = this.state;
+        const { pageSize, tableLoading, project, name, vnGroup } = this.state;
         return (
             <div>
                 <div className={styles.header}>
@@ -135,6 +141,12 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                             type="text"
                             value={name}
                             onChange={e => this.virtualNetworkInputChange(e.target.value)} />
+                        <Input
+                            placeholder="虚拟网络组名称"
+                            value={vnGroup}
+                            type="text"
+                            onChange={e => this.vnGroupInputChange(e.target.value)}
+                        />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}

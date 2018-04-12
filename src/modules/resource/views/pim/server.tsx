@@ -26,17 +26,23 @@ class Server extends React.Component<any, any> {
         this.state = {
             vendor: vendor ? vendor : '',   // 供应商
             tableLoading: false,
-            pageSize: 10,
+            pageSize: 5,
             pageNo: pageNo ? pageNo : 1,
             pim_id: mp_node.params.id,
             visible: false,
             datacenter: datacenter ? datacenter.split(',') : '',    // 数据中心
-            selected: []
+            selected: {},
+            findSelected: []
         }
     }
-    getData(data) {
+    getData(data) { // 发现
         if (data) {
-            this.props.actions.autoDiscovery('server', data)
+            this.props.actions.autoDiscovery('server', data, (backdata, err) => {
+                if (err || backdata.code !== 1) {
+                    emitter.emit('message', 'error', '发现失败！')
+                }
+
+            })
         }
     }
     getCascaderData(type, value) {
@@ -79,6 +85,7 @@ class Server extends React.Component<any, any> {
         });
         this.formRef.resetForm()
     }
+    handleManage() { }
     addData = () => {
         let { selected } = this.state
         this.props.actions.findConfirm('server', { data: { dataList: selected } }, (data, err) => {
@@ -100,6 +107,98 @@ class Server extends React.Component<any, any> {
             this.formRef.resetForm()
         })
 
+    }
+    updateAll() {
+        let { match } = this.props
+        let { selected } = this.state
+        let selectParam = []
+        for (let page in selected) {
+            if (selected.hasOwnProperty(page)) {
+                let selectArr = selected[page]
+                for (let i = 0; i < selectArr.length; i++) {
+                    selectParam.push(selectArr[i].id)
+                }
+            }
+        }
+        this.props.history.push(`${match.url}/edit?id=${selectParam.join(',')}`)
+    }
+    deleteAll() {
+        let { selected } = this.state
+        let self = this
+
+        Modal.confirm({
+            title: '确定要批量删除所选服务器吗?',
+            onOk() {
+                let param = {
+                    delmoInsts: []
+                }
+                let moTypeKey = 'server'
+                for (let page in selected) {
+                    if (selected.hasOwnProperty(page)) {
+                        let selectArr = selected[page]
+                        for (let i = 0; i < selectArr.length; i++) {
+                            let sObj = {
+                                moTypeKey: moTypeKey,
+                                moInstId: selectArr[i].id
+                            }
+                            param.delmoInsts.push(sObj)
+                        }
+
+                    }
+                }
+                // console.log(param, '---p');
+                self.props.actions.deleteAll(param, (data, err) => {
+                    if (data.code === 1) {
+                        emitter.emit('message', 'success', '批量删除成功！')
+                        self.getTableData()
+
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '批量删除失败！'
+                        emitter.emit('message', 'error', msg)
+                    }
+                })
+
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+    }
+    goDelete(obj) {
+        let moTypeKey = 'server'
+        let moInstId = obj.id
+        let self = this
+        Modal.confirm({
+            title: `确定要删除“${obj.name}”吗？`,
+            okText: '确定',
+            cancelText: '取消',
+            onOk() {
+                self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
+                    if (data.code === 1) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '删除失败！'
+                        emitter.emit('message', 'error', msg)
+                    }
+                })
+            },
+            onCancel() { },
+        });
+    }
+    selectRow(data) {
+        let { pageNo, selected } = this.state
+        let newSelected = selected
+        newSelected[pageNo] = data
+        // console.log(data, newSelected, '---');
+        this.setState({
+            selected: newSelected
+        })
+    }
+    findSelectRow(data) {
+        this.setState({
+            findSelected: data
+        })
     }
     goPage = (num) => {
         let { match } = this.props
@@ -149,33 +248,8 @@ class Server extends React.Component<any, any> {
     componentWillUnmount() {
         this.props.actions.resetList()
     }
-    goDelete(obj) {
-        let moTypeKey = 'server'
-        let moInstId = obj.id
-        let self = this
-        Modal.confirm({
-            title: '确定要删除该实例吗？',
-            okText: '确定',
-            cancelText: '取消',
-            onOk() {
-                self.props.actions.deleteInstance(moTypeKey, moInstId, (data) => {
-                    if (data) {
-                        emitter.emit('message', 'success', '删除成功！')
-                    } else {
-                        emitter.emit('message', 'error', '删除失败！')
-                    }
-                })
-            },
-            onCancel() { },
-        });
-    }
-    selectRow(data) {
-        this.setState({
-            selected: data
-        })
-    }
     renderAddData() {
-        let { selected } = this.state
+        let { findSelected } = this.state
         let { findData } = this.props
         if (findData) {
             let data_fixed = _.merge({}, findData)
@@ -187,12 +261,12 @@ class Server extends React.Component<any, any> {
                     <CompactTable
                         data={data_fixed}
                         selectAuth={true}
-                        selectRow={this.selectRow.bind(this)}
+                        selectRow={this.findSelectRow.bind(this)}
                         size={{ y: 113 }}
                         pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)} disabled={selected.length ? false : true}>添加</Button>
+                        <Button type="primary" onClick={this.addData.bind(this)} disabled={findSelected.length ? false : true}>添加</Button>
                         <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
                     </div>
                 </div >
@@ -204,7 +278,11 @@ class Server extends React.Component<any, any> {
     render() {
         let { match, nodeInfo, subDataVendor, subDataCenter, list, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { vendor, pageSize, tableLoading, datacenter } = this.state;
+        const { vendor, pageSize, tableLoading, datacenter, selected } = this.state;
+        let selectLength = 0
+        _.forIn(selected, function (value, key) {
+            selectLength += value.length
+        });
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={ServerInfo} /> */}
@@ -233,7 +311,12 @@ class Server extends React.Component<any, any> {
                                 >
                                     查询
                             </Button>
-                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <div style={{ float: 'right' }}>
+                                    <Button type="primary" onClick={this.showModal}>发现</Button>
+                                    <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                    <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
+                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
+                                </div>
                                 <Modal
                                     title="发现"
                                     visible={this.state.visible}
@@ -259,6 +342,8 @@ class Server extends React.Component<any, any> {
                                         loading={tableLoading}
                                         pageSize={pageSize}
                                         actionAuth={['delete']}
+                                        selectAuth={true}
+                                        selectRow={this.selectRow.bind(this)}
                                     />
                                 ) : (
                                         <Spin />

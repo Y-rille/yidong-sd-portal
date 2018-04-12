@@ -178,6 +178,9 @@ class API {
   getOverview(dsname) {
     return axios.get(`/api_resource/datashare-svr/api/imds/report/${dsname}`)
   }
+  getTopoState(dsname, params) {
+    return axios.get(`/api_resource/datashare-svr/api/dssvr/topostate/${dsname}?${stringify(params)}`)
+  }
   editObjData(moTypeKey, moInstId, editData) {
     // 1.4   
     return axios.post(`/api_agent/rms-agent/api/configure/${moTypeKey}/${moInstId}`, editData)
@@ -198,6 +201,13 @@ class API {
     // 1.4
     return axios.delete(`/api_agent/rms-agent/api/delete/${moTypeKey}/${moInstId}`)
   }
+  deleteAll(params) {
+    return axios({
+      method: 'delete',
+      url: `/api_agent/rms-agent/api/batchdelete`,
+      data: params
+    })
+  }
   addVim(moTypeKey, params?: VimParams) {
     // 1.4
     return axios.post(`/api_agent/rms-agent/api/add/${moTypeKey}`, params)
@@ -205,6 +215,10 @@ class API {
   getSyslog(moTypeKey, moInstId) {
     // 1.4  
     return axios.get(`/api_agent/rms-agent/api/syslog/${moTypeKey}/${moInstId}`)
+  }
+  editBatchData(params) {
+    // 1.9
+    return axios.post(`/api_agent/rms-agent/api/batchconfigure/`, params)
   }
 }
 

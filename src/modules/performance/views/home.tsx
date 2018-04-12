@@ -54,7 +54,7 @@ class Home extends React.Component<HomeProps, any> {
         e.initEvent('resize', true, true);
         window.dispatchEvent(e);
 
-        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
+        document.querySelector('.tree-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
     }
 
     getTimeFilter() {
@@ -120,7 +120,7 @@ class Home extends React.Component<HomeProps, any> {
     }
     componentDidMount() {
         this.getTimeFilter();
-        document.querySelector('.ant-input-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
+        document.querySelector('.tree-search').setAttribute('style', `width: ${document.querySelector('.Pane1').clientWidth}px`)
     }
     render() {
         let { match, tree } = this.props

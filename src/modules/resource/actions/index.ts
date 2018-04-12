@@ -21,7 +21,10 @@ import {
     getSyslog,
     resetSyslog,
     resetObjAttributes,
-    resetObjData
+    resetObjData,
+    deleteAll,
+    editBatchData,
+    getTopoState
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -48,6 +51,9 @@ const HomeActionCreatorsMap = {
     resetSyslog,
     resetObjAttributes,
     resetObjData,
+    deleteAll,
+    editBatchData,
+    getTopoState
 }
 
 export interface ResourceActions {
@@ -73,7 +79,10 @@ export interface ResourceActions {
     getSyslog: Function,
     resetSyslog: Function,
     resetObjAttributes: Function,
-    resetObjData: Function
+    resetObjData: Function,
+    deleteAll: Function,
+    editBatchData: Function,
+    getTopoState: Function
 }
 
 export default HomeActionCreatorsMap;

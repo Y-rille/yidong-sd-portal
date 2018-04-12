@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Row, Breadcrumb, Icon, Button, Spin } from 'antd';
+import { Row, Breadcrumb, Icon, Button, Spin, Modal } from 'antd';
 import styles from '../style/index.less'
 
 import OverviewCard from '../../../components/OverviewCard'
@@ -10,6 +10,7 @@ import VimEdit from '../../../components/VimEdit/'
 
 import Headline from '../../../components/Headline'
 import emitter from '../../../common/emitter'
+const confirm = Modal.confirm
 let editRef = null
 // let vimInfo = {
 //     vim_id: 'A12WED34212344RED',
@@ -45,6 +46,24 @@ class Dashboard extends React.Component<any, any> {
             }
         })
     }
+    goDelete(data) {
+        let self = this
+        confirm({
+            title: '确定要删除该VIM吗?',
+            onOk() {
+                emitter.emit('message', 'success', '删除成功！')
+                // self.props.actions.deleteInstance('vim', data.id, (id, error) => {
+                //     if (id) {
+                //         emitter.emit('message', 'success', '删除成功！')
+                //     } else {
+                //         emitter.emit('message', 'error', '删除失败！')
+                //     }
+                // })
+            },
+            okText: '确认',
+            cancelText: '取消',
+        });
+    }
     handleOk(formdata) {
         let moTypeKey = 'vim'
         this.setState({
@@ -78,6 +97,7 @@ class Dashboard extends React.Component<any, any> {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '创建成功！')
+                        window.open('http://www.baidu.com')
                     } else {
                         emitter.emit('message', 'error', '创建失败！')
                     }
@@ -99,7 +119,14 @@ class Dashboard extends React.Component<any, any> {
     renderOverviewCard(data, type) {
         data = data || []
         return _.map(data, (item) => {
-            return <OverviewCard data={item} editable={type === 'vim' ? true : false} goEdit={type === 'vim' ? this.goEdit.bind(this) : null} />
+            return (
+                <OverviewCard
+                    data={item}
+                    editable={type === 'vim' ? true : false}
+                    goEdit={type === 'vim' ? this.goEdit.bind(this) : null}
+                    goDelete={type === 'vim' ? this.goDelete.bind(this) : null}
+                />
+            )
         })
     }
     render() {

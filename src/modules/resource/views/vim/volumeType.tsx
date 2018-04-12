@@ -77,7 +77,7 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
     getData(type, value) {  // 查询条件切换
         let { project } = this.state
         this.setState({
-            project: type === 'Project' ? value : project
+            project: type === 'Project' ? value : project,
         })
     }
     getTableData(queryObj) {
@@ -116,7 +116,6 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
     render() {
         let { match, list } = this.props
         const { name, volumeTypeSelectValue, pageSize, project, tableLoading } = this.state;
-
         let { nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (

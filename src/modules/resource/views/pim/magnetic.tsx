@@ -30,12 +30,18 @@ class Magnetic extends React.Component<any, any> {
             datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
             pim_id: mp_node.params.id ? mp_node.params.id : '',
-            selected: []
+            selected: {},
+            findSelected: []
         };
     }
     getData(data) {
         if (data) {
-            this.props.actions.autoDiscovery('diskarray', data)
+            this.props.actions.autoDiscovery('diskarray', data, (backdata, err) => {
+                if (err || backdata.code !== 1) {
+                    emitter.emit('message', 'error', '发现失败！')
+                }
+
+            })
         }
     }
     handleClick() {
@@ -97,16 +103,74 @@ class Magnetic extends React.Component<any, any> {
         let { match } = this.props
         this.props.history.push(`${match.url}/info/${obj.id}`)
     }
-    goDelete(data) {
+    goDelete(obj) {
+        let moTypeKey = 'diskarray'
+        let moInstId = obj.id
         let self = this
         confirm({
-            title: '确定要删除该实例吗?',
+            title: `确定要删除“${obj.name}”吗？`,
+            okText: '确认',
+            cancelText: '取消',
             onOk() {
-                self.props.actions.deleteInstance('diskarray', data.id, (id, error) => {
-                    if (id) {
+                self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
+                    if (data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
-                    } else {
-                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '删除失败！'
+                        emitter.emit('message', 'error', msg)
+                    }
+                })
+            },
+
+        });
+    }
+    updateAll() {
+        let { match } = this.props
+        let { selected } = this.state
+        let selectParam = []
+        for (let page in selected) {
+            if (selected.hasOwnProperty(page)) {
+                let selectArr = selected[page]
+                for (let i = 0; i < selectArr.length; i++) {
+                    selectParam.push(selectArr[i].id)
+                }
+            }
+        }
+        this.props.history.push(`${match.url}/edit?id=${selectParam.join(',')}`)
+    }
+    deleteAll() {
+        let { selected } = this.state
+        let self = this
+        Modal.confirm({
+            title: '确定要批量删除所选磁阵吗?',
+            onOk() {
+                let param = {
+                    delmoInsts: []
+                }
+                let moTypeKey = 'magnetic'
+                for (let page in selected) {
+                    if (selected.hasOwnProperty(page)) {
+                        let selectArr = selected[page]
+                        for (let i = 0; i < selectArr.length; i++) {
+                            let sObj = {
+                                moTypeKey: moTypeKey,
+                                moInstId: selectArr[i].id
+                            }
+                            param.delmoInsts.push(sObj)
+                        }
+
+                    }
+                }
+                // console.log(param, '---p');
+                self.props.actions.deleteAll(param, (data, err) => {
+                    if (data.code === 1) {
+                        emitter.emit('message', 'success', '批量删除成功！')
+                        self.getTableData({ pageNo: self.state.pageNo })
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '批量删除失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
             },
@@ -120,6 +184,7 @@ class Magnetic extends React.Component<any, any> {
 
         });
     }
+    handleManage() { }
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -127,6 +192,19 @@ class Magnetic extends React.Component<any, any> {
         });
         this.formRef.handleReset()
         this.props.actions.resetfindData()
+    }
+    selectRow = (data) => {
+        let { pageNo, selected } = this.state
+        let newSelected = selected
+        newSelected[pageNo] = data
+        this.setState({
+            selected: newSelected
+        })
+    }
+    findSelectRow(data) {
+        this.setState({
+            findSelected: data
+        })
     }
     addData = () => {
 
@@ -150,15 +228,8 @@ class Magnetic extends React.Component<any, any> {
             this.props.actions.resetfindData()
         })
     }
-    selectRow = (selectArr) => {
-        this.setState({
-            selected: selectArr
-        })
-    }
-    componentWillUnmount() {
-        this.props.actions.resetList()
-    }
     renderAddData() {
+        let { findSelected } = this.state
         let { findData } = this.props
         if (findData) {
             let data_fixed = _.merge({}, findData)
@@ -171,11 +242,11 @@ class Magnetic extends React.Component<any, any> {
                     <CompactTable
                         data={data_fixed}
                         selectAuth={true}
-                        selectRow={this.selectRow.bind(this)}
+                        selectRow={this.findSelectRow.bind(this)}
                         size={{ y: 113 }}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)}>添加</Button>
+                        <Button type="primary" disabled={findSelected.length > 0 ? false : true} onClick={this.addData.bind(this)}>添加</Button>
                         <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
                     </div>
                 </div >
@@ -184,10 +255,17 @@ class Magnetic extends React.Component<any, any> {
             return <div />
         }
     }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
         let { match, nodeInfo, list, subDataPIM } = this.props;
-        const { datacenter, vendor, pageSize, tableLoading } = this.state;
+        const { datacenter, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
+        let selectLength = 0
+        _.forIn(selected, function (value, key) {
+            selectLength += value.length
+        });
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:magneticId`} component={MagneticInfo} /> */}
@@ -211,7 +289,12 @@ class Magnetic extends React.Component<any, any> {
                                 <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
                                 <Selector type="Vendor" data={this.props.subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
                                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
-                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <div style={{ float: 'right' }}>
+                                    <Button type="primary" onClick={this.showModal}>发现</Button>
+                                    <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                    <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
+                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
+                                </div>
                                 <Modal
                                     title="发现"
                                     visible={this.state.visible}
@@ -237,6 +320,8 @@ class Magnetic extends React.Component<any, any> {
                                 loading={tableLoading}
                                 data={list}
                                 actionAuth={['delete']}
+                                selectAuth={true}
+                                selectRow={this.selectRow.bind(this)}
                             />) : (<Spin />)}
                         </div>
                     </div>

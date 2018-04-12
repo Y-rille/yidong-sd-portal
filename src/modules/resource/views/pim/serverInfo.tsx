@@ -66,9 +66,11 @@ class ServerInfo extends React.Component<any, any> {
                         self.setState({
                             status: self.state.status === 2 ? 1 : 2
                         })
+                        self.getAttributes()
                     }
-                    if (err || res.code !== 1) {
-                        emitter.emit('message', 'error', '操作失败！')
+                    if (err || (res && res.code !== 1)) {
+                        let msg = err && err.message ? err.message : '操作失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
             },
@@ -92,6 +94,14 @@ class ServerInfo extends React.Component<any, any> {
             })
         }
     }
+    sshLink = () => {
+        let { config } = this.props
+        let user = {
+            name: 'admin',
+            pwd: '111'
+        };
+        window.open(`${config.ssh}?${qs.stringify(user)}`)
+    }
     confirmRest = () => {
         let self = this
         let content = '服务器正在运行，确定复位吗？'
@@ -112,9 +122,11 @@ class ServerInfo extends React.Component<any, any> {
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
                     if (res.code === 1) {
                         emitter.emit('message', 'success', '操作成功！')
+                        self.getAttributes()
                     }
-                    if (err || res.code !== 1) {
-                        emitter.emit('message', 'error', '操作失败！')
+                    if (err || (res && res.code !== 1)) {
+                        let msg = err && err.message ? err.message : '操作失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
 
@@ -262,6 +274,12 @@ class ServerInfo extends React.Component<any, any> {
         let id = match.params.id
         this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id })
         this.props.actions.getObjAttributes(moTypeKey)
+        this.getAttributes()
+    }
+    getAttributes() {
+        let moTypeKey = 'server';
+        let match = this.props.match
+        let id = match.params.id
         this.props.actions.getObjData(moTypeKey, id);
     }
     componentDidMount() {
@@ -277,7 +295,8 @@ class ServerInfo extends React.Component<any, any> {
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                <DynamicPropertiesCollapse
+                    attributes={this.props.objAttributes}
                     data={this.props.objData}
                     editData={this.handleEditData.bind(this)} />
             )
@@ -301,13 +320,17 @@ class ServerInfo extends React.Component<any, any> {
             if (_power) {
                 return (
                     <div className={styles.btn}>
+                        <Button type="primary"
+                            style={{ margin: '0px 10px 0px 0' }}
+                            icon="link" ghost
+                            onClick={this.sshLink.bind(this, 'reset')}>SSH</Button>
                         <Button
                             type="primary" ghost
                             icon="dingding"
                             style={{ margin: '0px 10px 0px 0' }}
                             onClick={this.confirmUpOrDown}
                         >{this.state.status === 2 ? '上电' : '下电'}</Button>
-                        <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
+                        <Button type="primary" disabled={this.state.status === 2} style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
                             onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
                         <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
                     </div>
@@ -463,7 +486,7 @@ class ServerInfo extends React.Component<any, any> {
                         <Breadcrumb.Item>服务器详情</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div style={{ padding: '20px 20px 0 20px' }}>
+                <div style={{ padding: '20px' }}>
                     <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
                         <TabPane tab="资源详情" key="detail" >
                             <Tabs

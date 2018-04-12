@@ -23,7 +23,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
         super(props);
         let { match } = this.props
         let { pathname } = this.props.location
-        let { pageNo, project, name } = qs.parse(this.props.location.search)
+        let { pageNo, project, name, svGroup } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
@@ -33,7 +33,8 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             name: name ? name : '',
-            vim_id: mp_node.params.id
+            vim_id: mp_node.params.id,
+            svGroup: svGroup ? svGroup : ''
         }
     }
     goInfo = () => {
@@ -44,11 +45,16 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
             name: value
         })
     }
+    svGroupInputChange(value) {
+        this.setState({
+            svGroup: value
+        })
+    }
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { project, name } = this.state
-        let queryObj = { pageNo, project, name }
+        let { project, name, svGroup } = this.state
+        let queryObj = { pageNo, project, name, svGroup }
         this.props.history.push(`${match.url}/storage_volume?${stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -58,9 +64,9 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { project, name } = this.state
+        let { project, name, svGroup } = this.state
         let pageNo = num
-        let queryObj = { pageNo, project, name }
+        let queryObj = { pageNo, project, name, svGroup }
         this.props.history.push(`${match.url}/storage_volume?${stringify(queryObj)}`)
         this.getTableData({
             pageNo
@@ -69,7 +75,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
     getData(type, value) {
         let { project } = this.state
         this.setState({
-            project: type === 'Project' ? value : project
+            project: type === 'Project' ? value : project,
         })
     }
     goLink(key, obj) {
@@ -82,8 +88,8 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { project, name, pageSize, vim_id } = this.state
-        let params_obj = { pageNo, pageSize, project, name, vim_id }
+        let { project, name, svGroup, pageSize, vim_id } = this.state
+        let params_obj = { pageNo, pageSize, project, name, svGroup, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -115,7 +121,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
     }
     render() {
         let { match, list, nodeInfo } = this.props;
-        const { pageNo, project, name, pageSize, tableLoading } = this.state;
+        const { pageNo, project, name, svGroup, pageSize, tableLoading } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -139,6 +145,11 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                             placeholder="存储卷名称"
                             value={name} type="text"
                             onChange={e => this.storageVolumeInputChange(e.target.value)}
+                        />
+                        <Input
+                            placeholder="存储卷组名称"
+                            value={svGroup} type="text"
+                            onChange={e => this.svGroupInputChange(e.target.value)}
                         />
                         <Button
                             type="primary"

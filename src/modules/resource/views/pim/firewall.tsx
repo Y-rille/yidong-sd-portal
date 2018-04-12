@@ -44,16 +44,22 @@ class Firewall extends React.Component<FirewallProps, any> {
             datacenter: datacenter ? datacenter.split(',') : '',
             vendor: vendor ? vendor : '',
             pim_id: mp_node ? mp_node.params.id : '',
-            selected: [],
+            selected: {},
+            findSelected: []
         }
     }
     goInfo = () => {
         this.props.history.push(`/resource/pim/1/firewall/info`)
     }
 
-    getData(formData) {
+    getData(formData) { // 发现
         if (formData) {
-            this.props.actions.autoDiscovery('firewall', formData)
+            this.props.actions.autoDiscovery('firewall', formData, (backdata, err) => {
+                if (err || backdata.code !== 1) {
+                    emitter.emit('message', 'error', '发现失败！')
+                }
+
+            })
         }
     }
     getCascaderData(type, value) {
@@ -103,12 +109,28 @@ class Firewall extends React.Component<FirewallProps, any> {
             visible: true,
         });
     }
+    handleManage() {
+
+    }
     handleCancel = () => {
         this.setState({
             visible: false,
             filterDate: null
         });
         this.formRef.handleReset()
+    }
+    selectRow = (data) => {
+        let { pageNo, selected } = this.state
+        let newSelected = selected
+        newSelected[pageNo] = data
+        this.setState({
+            selected: newSelected
+        })
+    }
+    findSelectRow(data) {
+        this.setState({
+            findSelected: data
+        })
     }
     addData = () => {
         let { selected } = this.state
@@ -135,28 +157,84 @@ class Firewall extends React.Component<FirewallProps, any> {
         })
 
     }
-    goDelete(data) {
+    updateAll() {
+        let { match } = this.props
+        let { selected } = this.state
+        let selectParam = []
+        for (let page in selected) {
+            if (selected.hasOwnProperty(page)) {
+                let selectArr = selected[page]
+                for (let i = 0; i < selectArr.length; i++) {
+                    selectParam.push(selectArr[i].id)
+                }
+            }
+        }
+        this.props.history.push(`${match.url}/edit?id=${selectParam.join(',')}`)
+    }
+    deleteAll() {
+        let { selected } = this.state
         let self = this
-        confirm({
-            title: '确定要删除该实例吗?',
+        Modal.confirm({
+            title: '确定要批量删除所选防火墙吗?',
             onOk() {
-                self.props.actions.deleteInstance('firewall', data.id, (id, error) => {
-                    if (id) {
-                        emitter.emit('message', 'success', '删除成功！')
-                    } else {
-                        emitter.emit('message', 'error', '删除失败！')
+                let param = {
+                    delmoInsts: []
+                }
+                let moTypeKey = 'firewall'
+                for (let page in selected) {
+                    if (selected.hasOwnProperty(page)) {
+                        let selectArr = selected[page]
+                        for (let i = 0; i < selectArr.length; i++) {
+                            let sObj = {
+                                moTypeKey: moTypeKey,
+                                moInstId: selectArr[i].id
+                            }
+                            param.delmoInsts.push(sObj)
+                        }
+
+                    }
+                }
+                // console.log(param, '---p');
+                self.props.actions.deleteAll(param, (data, err) => {
+                    if (data.code === 1) {
+                        emitter.emit('message', 'success', '批量删除成功！')
+                        self.getTableData({})
+
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '批量删除失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
+
             },
             okText: '确认',
             cancelText: '取消',
         });
     }
-    selectRow = (data) => {
-        this.setState({
-            selected: data
+    goDelete(obj) {
+        let moTypeKey = 'firewall'
+        let moInstId = obj.id
+        let self = this
+        confirm({
+            title: `确定要删除“${obj.name}”吗？`,
+            okText: '确认',
+            cancelText: '取消',
+            onOk() {
+                self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
+                    if (data.code === 1) {
+                        emitter.emit('message', 'success', '删除成功！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '删除失败！'
+                        emitter.emit('message', 'error', msg)
+                    }
+                })
+            },
+
         });
     }
+
     getTableData(queryObj) {
         this.setState({
             tableLoading: true
@@ -187,6 +265,7 @@ class Firewall extends React.Component<FirewallProps, any> {
     }
     renderAddData() {
         let { findData } = this.props
+        let { findSelected } = this.state
         if (findData) {
             let data_fixed = _.merge({}, findData)
             _.map(data_fixed.header, (item) => {
@@ -199,12 +278,12 @@ class Firewall extends React.Component<FirewallProps, any> {
                         data={data_fixed}
                         actionAuth=""
                         selectAuth={true}
-                        selectRow={this.selectRow.bind(this)}
+                        selectRow={this.findSelectRow.bind(this)}
                         size={{ y: '113px' }}
                         pageSize="999"
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" disabled={this.state.selected.length > 0 ? false : true} onClick={this.addData.bind(this)}>添加</Button>
+                        <Button type="primary" disabled={findSelected.length > 0 ? false : true} onClick={this.addData.bind(this)}>添加</Button>
                         <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
                     </div>
                 </div >
@@ -217,7 +296,11 @@ class Firewall extends React.Component<FirewallProps, any> {
     render() {
         let { match, list, nodeInfo, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading, datacenter, vendor } = this.state;
+        const { pageSize, tableLoading, datacenter, vendor, selected } = this.state;
+        let selectLength = 0
+        _.forIn(selected, function (value, key) {
+            selectLength += value.length
+        });
         return (
             <Switch>
                 {/* <Route path={`${match.url}/info/:id`} component={FirewallInfo} /> */}
@@ -246,7 +329,12 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 >
                                     查询
                                 </Button>
-                                <Button type="primary" style={{ float: 'right' }} onClick={this.showModal}>发现</Button>
+                                <div style={{ float: 'right' }}>
+                                    <Button type="primary" onClick={this.showModal}>发现</Button>
+                                    <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                                    <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
+                                    <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
+                                </div>
                                 <Modal
                                     title="发现"
                                     visible={this.state.visible}
@@ -273,7 +361,8 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 loading={tableLoading}
                                 goDelete={this.goDelete.bind(this)}
                                 actionAuth={['delete']}
-                            // pageAuth={false}                              
+                                selectAuth={true}
+                                selectRow={this.selectRow.bind(this)}
                             />) : (<Spin />)}
 
                         </div>

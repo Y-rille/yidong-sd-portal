@@ -1,19 +1,23 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Breadcrumb, Icon, Tabs, Spin } from 'antd';
+import { Breadcrumb, Icon, Button, Tabs, Spin } from 'antd';
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import LogShine from '../../../../components/LogShine/'
 import fmtLog from '../../utils/fmtLog'
 import styles from '../../style/index.less'
 import emitter from '../../../../common/emitter'
-
+import { matchPath } from 'react-router'
 const TabPane = Tabs.TabPane;
 
 class VirtualInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
         this.state = {
             events: [],
+            vim_id: mp_node ? mp_node.params.id : ''
         }
     }
     onChange() {
@@ -65,6 +69,22 @@ class VirtualInfo extends React.Component<any, any> {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
     }
+    showStorageVolume() {
+        let vim_id = this.state.vim_id
+        this.props.actions.queryList('imdsVMStorageVolumInfo', { vim_id: vim_id }, (err, data) => {
+            // console.log(data, '===data')
+            // if (!err && data['dataList']) {
+            //     let host_info = _.head(data['dataList'])
+            //     if (host_info) {
+            //         let id = host_info['id']
+            //         let vim_id = host_info['vim_id']
+            //         if (id && vim_id) {
+            //             this.props.history.replace(`/resource/vim/${vim_id}/storage_volume/info/${id}`)
+            //         }
+            //     }
+            // }
+        })
+    }
     componentWillMount() {
         let moTypeKey = 'vm'
         let match = this.props.match
@@ -78,10 +98,22 @@ class VirtualInfo extends React.Component<any, any> {
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
     }
+    renderBtns() {
+        return (
+            <div className={styles.btn}>
+                <Button
+                    type="primary" ghost
+                    icon="eye-o"
+                    onClick={this.showStorageVolume.bind(this)}
+                >查看存储卷</Button>
+            </div>
+        )
+    }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                <DynamicPropertiesCollapse
+                    attributes={this.props.objAttributes}
                     data={this.props.objData}
                     editData={this.handleEditData.bind(this)} />
             )
@@ -122,6 +154,7 @@ class VirtualInfo extends React.Component<any, any> {
                                 defaultActiveKey="1"
                                 animated={false}
                                 size="small"
+                                tabBarExtraContent={this.renderBtns()}
                                 onChange={this.tabInfo}
                             >
                                 <TabPane tab="资源概况" key="overview">

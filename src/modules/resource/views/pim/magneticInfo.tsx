@@ -11,6 +11,7 @@ import fmtLog from '../../utils/fmtLog'
 const TabPane = Tabs.TabPane;
 const confirm = Modal.confirm;
 import emitter from '../../../../common/emitter'
+import qs from 'querystringify'
 
 class MageneticInfo extends React.Component<any, any> {
     constructor(props) {
@@ -31,6 +32,14 @@ class MageneticInfo extends React.Component<any, any> {
     goList() {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
+    }
+    sshLink = () => {
+        let { config } = this.props
+        let user = {
+            name: 'admin',
+            pwd: '111'
+        };
+        window.open(`${config.ssh}?${qs.stringify(user)}`)
     }
     callback = (key) => {
         if (key === 'detail') {
@@ -167,7 +176,16 @@ class MageneticInfo extends React.Component<any, any> {
             });
         })
     }
-
+    renderBtns() {
+        return (
+            <div className={styles.btn}>
+                <Button type="primary"
+                    style={{ margin: '0px 10px 0px 0' }}
+                    icon="link" ghost
+                    onClick={this.sshLink.bind(this, 'reset')}>SSH</Button>
+            </div>
+        )
+    }
     renderPerformance() {
         let self = this;
         let { summary, list } = this.props
@@ -298,7 +316,8 @@ class MageneticInfo extends React.Component<any, any> {
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
             return (
-                <DynamicPropertiesCollapse attributes={this.props.objAttributes}
+                <DynamicPropertiesCollapse
+                    attributes={this.props.objAttributes}
                     data={this.props.objData}
                     editData={this.handleEditData.bind(this)} />
             )
@@ -338,6 +357,7 @@ class MageneticInfo extends React.Component<any, any> {
                                 size="small"
                                 onChange={this.tabInfo}
                                 animated={false}
+                                tabBarExtraContent={this.renderBtns()}
                             >
                                 <TabPane tab="概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}

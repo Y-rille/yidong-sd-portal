@@ -47,12 +47,11 @@ export const getDataCenter = (queryKey, cb) => (dispatch) => {
  * @param cb
  */
 export const queryList = (dsname, params, cb, complex?) => (dispatch) => {
-
     return API.queryList(dsname, params).then((res: any) => {
         let data = res.data.data
         if (complex) {
             let newdata: any = {}
-            newdata[complex] = data
+            newdata[dsname] = data
             data = newdata
         }
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, list: data }
@@ -74,14 +73,9 @@ export const queryList = (dsname, params, cb, complex?) => (dispatch) => {
  * 电源状态查询
  * @param cb
  */
-export const queryListServerPower = (dsname, params, cb, complex?) => (dispatch) => {
+export const queryListServerPower = (dsname, params, cb) => (dispatch) => {
     return API.queryList(dsname, params).then((res: any) => {
         let data = res.data.data.dataList[0]
-        if (complex) {
-            let newdata: any = {}
-            newdata[complex] = data
-            data = newdata
-        }
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, power: data }
         dispatch(action);
         if (cb) {
@@ -306,7 +300,7 @@ export const autoDiscovery = (moTypeKey, queryData, cb) => (dispatch) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, findData: res.data.data }
         dispatch(action);
         if (cb) {
-            cb(res.data.data, null)
+            cb(res.data, null)
         }
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, findData: null }
@@ -353,8 +347,6 @@ export const deleteInstance = (moTypeKey, moInstId, cb) => (dispatch) => {
         }
         dispatch(action);
     }).catch((err) => {
-        let action = { type: ActionTypes.RESOURCE_DELETE, list: {} }
-        dispatch(action);
         if (cb) {
             cb(null, err)
         }
@@ -422,4 +414,57 @@ export const getSyslog = (moTypeKey, moInstId, cb) => (dispatch) => {
 
 export const resetSyslog = () => (dispatch) => {
     return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, syslog: null })
+}
+
+/**
+ * resource 批量删除
+ * @param cb 
+ */
+export const deleteAll = (params, cb) => (dispatch) => {
+    return API.deleteAll(params).then((res) => {
+        if (cb) {
+            cb(res.data, null)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(null, err)
+        }
+    })
+}
+
+/**
+ * 批量更新PIM
+ * @param editData
+ * @param cb 
+ */
+export const editBatchData = (editData, cb) => (dispatch) => {
+    return API.editBatchData(editData).then((res: any) => {
+        if (cb) {
+            cb(null, res.data)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(err, null)
+        }
+    })
+}
+
+/* 拓扑告警查询
+ * @param dsname
+ * @param cb 
+ */
+export const getTopoState = (dsname, params, cb) => (dispatch) => {
+    return API.getTopoState(dsname, params).then((res: any) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, topo: res.data }
+        dispatch(action);
+        if (cb) {
+            cb(res.data, null)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, topo: null }
+        dispatch(action);
+        if (cb) {
+            cb(null, err)
+        }
+    })
 }
