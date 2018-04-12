@@ -8,13 +8,13 @@ const confirm = Modal.confirm;
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import CompactTable from '../../../../components/CompactTable'
 import Summaries from '../../../../components/Summaries/'
-import { Topology } from '../../../../components/Topology/topology.js'
 import { stringify } from 'querystringify'
 import qs from 'querystringify'
-import '../../../../components/topology/topology.css'
 import styles from '../../style/index.less'
 import Item from 'antd/lib/list/Item';
 import emitter from '../../../../common/emitter'
+import { Topology } from '../../../../components/Topology/topology.js'
+import '../../../../components/Topology/topology.css'
 
 class HostInfo extends React.Component<any, any> {
     constructor(props) {
@@ -164,6 +164,9 @@ class HostInfo extends React.Component<any, any> {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
     }
+    nodeDblClick(data) {
+        // console.log(data);
+    }
     componentWillMount() {
         let moTypeKey = 'host'
         let match = this.props.match
@@ -301,7 +304,18 @@ class HostInfo extends React.Component<any, any> {
                 }
             ]
         }
-        return <Topology data={data} />
+        let w = document.querySelector('.Pane2').clientWidth - 96
+        let h = window.innerHeight - 240
+        let flag = data.nodes.length > 20 ? true : false
+        return (
+            <Topology
+                data={data}
+                width={w}
+                height={h}
+                center={flag}
+                zoomToFit={flag}
+                onDblclick={this.nodeDblClick.bind(this)} />
+        )
     }
     render() {
         let { activeKey } = this.state
