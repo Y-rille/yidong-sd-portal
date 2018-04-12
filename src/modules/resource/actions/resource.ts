@@ -448,3 +448,23 @@ export const editBatchData = (editData, cb) => (dispatch) => {
         }
     })
 }
+
+/* 拓扑告警查询
+ * @param dsname
+ * @param cb 
+ */
+export const getTopoState = (dsname, params, cb) => (dispatch) => {
+    return API.getTopoState(dsname, params).then((res: any) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, topo: res.data }
+        dispatch(action);
+        if (cb) {
+            cb(res.data, null)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, topo: null }
+        dispatch(action);
+        if (cb) {
+            cb(null, err)
+        }
+    })
+}

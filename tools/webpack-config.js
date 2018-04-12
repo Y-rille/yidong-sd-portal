@@ -73,6 +73,9 @@ module.exports = (type) => {
             'react-router-dom': 'ReactRouterDOM',
             'react-redux': 'ReactRedux',
             'lodash': '_',
+            "jquery": "jQuery",
+            'backbone': 'Backbone',
+            'joint': 'joint',
         },
         plugins: _.compact([
             isDist && new ManifestPlugin({
@@ -143,11 +146,17 @@ module.exports = (type) => {
             }),
             new HtmlWebpackIncludeAssetsPlugin({
                 assets: [
+                    'lib/jquery.js',
                     'lib/lodash.min.js',
+                    'lib/backbone-min.js',
                     'lib/react.production.min.js',
                     'lib/react-dom.production.min.js',
                     'lib/react-router-dom.min.js',
                     'lib/react-redux.min.js',
+                    'lib/dagre.min.js',
+                    'lib/graphlib.min.js',
+                    'lib/rappid.min.js',
+                    'lib/rappid.min.css',
                 ],
                 append: false
             }),
@@ -213,7 +222,7 @@ module.exports = (type) => {
                 {
                     test: /\.css$/,
                     use: extractApp.extract({
-                        use: ['css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]', {
+                        use: ['css-loader?modules&importLoaders=1&localIdentName=[local]', {
                             loader: 'postcss-loader',
                             options: {
                                 plugins: postcssFun
