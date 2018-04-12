@@ -15,6 +15,8 @@ import { stringify } from 'querystringify'
 import qs from 'querystringify'
 import emitter from '../../../../common/emitter'
 import fmtLog from '../../utils/fmtLog'
+import { Topology } from '../../../../components/Topology/topology.js'
+import '../../../../components/Topology/topology.css'
 
 class ServerInfo extends React.Component<any, any> {
     constructor(props) {
@@ -203,7 +205,7 @@ class ServerInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
-        } else {
+        } else if (key === 'detail') {
             this.setState({
                 detailKey: 'overview'
             })
@@ -214,6 +216,10 @@ class ServerInfo extends React.Component<any, any> {
             let moInstId = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey, moInstId);
+        } else {
+            let { id } = this.props.match.params
+            let dsname = 'imdsTopoServer'
+            this.props.actions.getTopoState(dsname, { moInstId: id })
         }
     }
     onTab(key) {
@@ -268,6 +274,9 @@ class ServerInfo extends React.Component<any, any> {
             });
         })
     }
+    nodeDblClick(data) {
+        // console.log(data);
+    }
     componentWillMount() {
         let moTypeKey = 'server';
         let match = this.props.match
@@ -291,6 +300,7 @@ class ServerInfo extends React.Component<any, any> {
         this.props.actions.resetList()
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
+        this.props.actions.resetTopo()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -466,6 +476,77 @@ class ServerInfo extends React.Component<any, any> {
             )
         }
     }
+    renderTopo() {
+        let data = {
+            'nodes': [
+                {
+                    'id': '1',
+                    'name': '10.255.242.115',
+                    'label': 'D03-hpeDL380-COMP05',
+                    'type': 'HOST',
+                    'desc': 'D03-hpeDL380-COMP05',
+                    'state': 0,
+                    'bizFields': {
+                        'serialid': '2102310YJA10H6003997',
+                        'mgmtip': '10.255.242.115'
+                    }
+                },
+                {
+                    'id': '2',
+                    'name': 'nfvo-proxy-node2',
+                    'label': 'nfvo-proxy-node2',
+                    'type': 'VM',
+                    'state': 1,
+                    'desc': 'nfvo-proxy-node2'
+                },
+                {
+                    'id': '3',
+                    'name': 'nfvo-proxy-node3',
+                    'label': 'nfvo-proxy-node3',
+                    'type': 'VM',
+                    'state': 3,
+                    'desc': 'nfvo-proxy-node3'
+                },
+                {
+                    'id': '4',
+                    'name': 'qinhe',
+                    'label': 'qinhe',
+                    'type': 'HA',
+                    'state': 0,
+                    'desc': 'qinhe'
+                }
+            ],
+            'links': [
+                {
+                    'source': '4',
+                    'state': 0,
+                    'target': '1'
+                },
+                {
+                    'source': '1',
+                    'state': 1,
+                    'target': '2'
+                },
+                {
+                    'source': '1',
+                    'state': 0,
+                    'target': '3'
+                }
+            ]
+        }
+        let w = document.querySelector('.Pane2').clientWidth - 96
+        let h = window.innerHeight - 240
+        let flag = data.nodes.length > 20 ? true : false
+        return (
+            <Topology
+                data={data}
+                width={w}
+                height={h}
+                center={flag}
+                zoomToFit={flag}
+                onDblclick={this.nodeDblClick.bind(this)} />
+        )
+    }
     render() {
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
@@ -545,6 +626,11 @@ class ServerInfo extends React.Component<any, any> {
                                     </div>
                                 </TabPane>
                             </Tabs>
+                        </TabPane>
+                        <TabPane tab="拓扑结构" key="topo">
+                            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                                {this.renderTopo()}
+                            </div>
                         </TabPane>
                     </Tabs>
                 </div>

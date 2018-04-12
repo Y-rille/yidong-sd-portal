@@ -106,6 +106,7 @@ class VirtualInfo extends React.Component<any, any> {
         this.props.actions.resetSyslog();
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
+        this.props.actions.resetTopo()
     }
     renderBtns() {
         return (
@@ -193,12 +194,13 @@ class VirtualInfo extends React.Component<any, any> {
             ]
         }
         let w = document.querySelector('.Pane2').clientWidth - 96
+        let h = window.innerHeight - 240
         let flag = data.nodes.length > 20 ? true : false
         return (
             <Topology
                 data={data}
                 width={w}
-                height={500}
+                height={h}
                 center={flag}
                 zoomToFit={flag}
                 onDblclick={this.nodeDblClick.bind(this)} />
