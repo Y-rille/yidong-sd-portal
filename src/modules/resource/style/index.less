@@ -18,6 +18,42 @@
         font-weight: normal;
       }
     }
+    .legend{
+      display: flex;
+      justify-content: flex-end;
+      margin: 0 20px 10px 0;
+      div{
+        display: flex;
+        align-items: center;
+        span{
+          width: 10px;
+          height: 10px;
+          display: block;
+          margin: 0 5px;
+          border-radius: 2px;
+        }
+          &:nth-child(1){
+            span{
+                background:#c0281c;
+            }
+          }
+          &:nth-child(2){
+            span{
+                background:#f29d39;
+            }
+          }
+          &:nth-child(3){
+            span{
+                background:#d9b33c;
+            }
+          }
+          &:nth-child(4){
+            span{
+                background:#53bdf9;
+            }
+          }
+      }
+    }
     .footer {
       padding: 20px;
       border-top: 1px solid #e2e4e9;
