@@ -207,6 +207,7 @@ class HostInfo extends React.Component<any, any> {
             <div className={styles.btn}>
                 <Button
                     type="primary" ghost
+                    icon="fork"
                     onClick={this.showServer}
                 >物理拓扑</Button>
             </div>
