@@ -17,10 +17,7 @@ declare let global: any;
 class Home extends React.Component<any, any> {
     constructor(props) {
         super(props);
-
-        this.state = {
-
-        }
+        this.state = {}
     }
     handleClick = (key) => {
         this.props.history.push(`${key}`)
@@ -34,12 +31,11 @@ class Home extends React.Component<any, any> {
             path: '/resource/:type/:id'
         })
         this.props.actions.getMoTree('mgrmoTree', (err, resourceTree) => {
-            if (mp_node) {
+            if (mp_node && resourceTree) {
                 let nodeId = mp_node.params.id
                 self.getNodeInfo(nodeId, resourceTree)
             }
         })
-
     }
     componentWillReceiveProps(nextProps) {
         const pre_mp_node: any = matchPath(this.props.location.pathname, {
@@ -64,7 +60,6 @@ class Home extends React.Component<any, any> {
     }
     render() {
         let { match, nodeInfo } = this.props
-        // console.log('nodeInfo: ', nodeInfo);
         return (
             <Row className={styles.resource}>
                 <SplitPane
