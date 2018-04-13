@@ -284,26 +284,6 @@ class ServerInfo extends React.Component<any, any> {
                 let host_info = _.head(res['dataList'])
                 if (host_info) {
                     this.host_info = host_info
-
-                    // let id = server_info['id']
-                    // let vim_id = server_info['vim_id']
-                    // let type = ''
-                    // switch (server_info['host_type']) {
-                    //     case 'controller':
-                    //         type = 'imdsController'
-                    //         break
-                    //     case 'compute':
-                    //         type = 'imdsHost'
-                    //         break
-                    //     case 'storage':
-                    //         type = 'imdsStorage'
-                    //         break
-                    //     default:
-                    //         type = 'imdsController'
-                    // }
-                    // if (id && vim_id && type) {
-                    //     this.props.history.replace(`/resource/vim/${vim_id}/host/${type}/info/${id}`)
-                    // }
                 }
             }
         })
@@ -511,71 +491,12 @@ class ServerInfo extends React.Component<any, any> {
         }
     }
     renderTopo() {
-        let data = {
-            'nodes': [
-                {
-                    'id': '1',
-                    'name': '10.255.242.115',
-                    'label': 'D03-hpeDL380-COMP05',
-                    'type': 'HOST',
-                    'desc': 'D03-hpeDL380-COMP05',
-                    'state': 0,
-                    'bizFields': {
-                        'ifRedirect': true,
-                        'moMgrType': 'pim',
-                        'moMgrId': '4139d043-9c88-4629-b511-af381d7c49d4',
-                        'moTypeKey': 'server',
-                        'moInstId': '9',
-                    }
-                },
-                {
-                    'id': '2',
-                    'name': 'nfvo-proxy-node2',
-                    'label': 'nfvo-proxy-node2',
-                    'type': 'VM',
-                    'state': 1,
-                    'desc': 'nfvo-proxy-node2'
-                },
-                {
-                    'id': '3',
-                    'name': 'nfvo-proxy-node3',
-                    'label': 'nfvo-proxy-node3',
-                    'type': 'VM',
-                    'state': 3,
-                    'desc': 'nfvo-proxy-node3'
-                },
-                {
-                    'id': '4',
-                    'name': 'qinhe',
-                    'label': 'qinhe',
-                    'type': 'HA',
-                    'state': 0,
-                    'desc': 'qinhe'
-                }
-            ],
-            'links': [
-                {
-                    'source': '4',
-                    'state': 0,
-                    'target': '1'
-                },
-                {
-                    'source': '1',
-                    'state': 1,
-                    'target': '2'
-                },
-                {
-                    'source': '1',
-                    'state': 0,
-                    'target': '3'
-                }
-            ]
-        }
-        if (this.host_info && data) {
+        let { topo } = this.props
+        if (this.host_info && topo) {
             let { id } = this.props.match.params
             let w = document.querySelector('.Pane2').clientWidth - 96
             let h = window.innerHeight - 240
-            let flag = data.nodes.length > 20 ? true : false
+            let flag = topo.nodes.length > 20 ? true : false
             return (
                 <Tabs
                     size="small"
@@ -590,7 +511,7 @@ class ServerInfo extends React.Component<any, any> {
                                 <div><span></span>提示</div>
                             </div>
                             <Topology
-                                data={data}
+                                data={topo}
                                 width={w}
                                 height={h}
                                 center={flag}
