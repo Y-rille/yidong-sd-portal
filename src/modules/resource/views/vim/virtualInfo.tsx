@@ -30,7 +30,7 @@ class VirtualInfo extends React.Component<any, any> {
         }
     }
     handleEditData(d, cb) {
-        let moTypeKey = 'host'
+        let moTypeKey = 'vm'
         let match = this.props.match
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
@@ -77,18 +77,19 @@ class VirtualInfo extends React.Component<any, any> {
     }
     showStorageVolume() {
         let vim_id = this.state.vim_id
-        this.props.actions.queryList('imdsVMStorageVolumInfo', { vim_id: vim_id }, (err, data) => {
-            // console.log(data, '===data')
-            // if (!err && data['dataList']) {
-            //     let host_info = _.head(data['dataList'])
-            //     if (host_info) {
-            //         let id = host_info['id']
-            //         let vim_id = host_info['vim_id']
-            //         if (id && vim_id) {
-            //             this.props.history.replace(`/resource/vim/${vim_id}/storage_volume/info/${id}`)
-            //         }
-            //     }
-            // }
+        let { match } = this.props
+        let vm_id = match.params.id
+        this.props.actions.queryList('imdsVMStorageVolumInfo', { vm_id: vm_id }, (err, data) => {
+            if (!err && data.dataList) {
+                let sv_info = _.head(data.dataList)
+                if (sv_info) {
+                    let id = sv_info['id']
+                    if (id && vim_id) {
+                        this.props.history.replace(`/resource/vim/${vim_id}/storage_volume/info/${id}`)
+                    }
+                }
+
+            }
         })
     }
     nodeDblClick(data) {
