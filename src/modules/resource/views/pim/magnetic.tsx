@@ -164,12 +164,12 @@ class Magnetic extends React.Component<any, any> {
                 }
                 // console.log(param, '---p');
                 self.props.actions.deleteAll(param, (data, err) => {
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         emitter.emit('message', 'success', '批量删除成功！')
                         self.getTableData({ pageNo: self.state.pageNo })
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? err.message : '批量删除失败！'
+                        let msg = err && err.message ? '批量删除失败, ' + err.message : '批量删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })

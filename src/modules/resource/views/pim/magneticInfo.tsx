@@ -224,6 +224,7 @@ class MageneticInfo extends React.Component<any, any> {
             return (
                 <CompactTable
                     goPage={this.goPage.bind(this)} // 翻页
+                    pageSize={999}
                     loading={tableLoading}
                     data={list}
                 />
