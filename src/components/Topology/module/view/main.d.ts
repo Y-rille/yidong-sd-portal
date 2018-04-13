@@ -10,13 +10,11 @@ export interface MainProps {
     data: any;
     center?: boolean;
     zoomToFit?: boolean;
-    paper_widht?: number;
+    paper_width?: number;
     paper_height?: number;
+    cid?: string;
 }
-export interface MainState {
-    showInspector: any;
-}
-export default class Main extends React.Component<MainProps, MainState> {
+export default class Main extends React.Component<MainProps, any> {
     paperContainer: HTMLDivElement;
     btn_zoomin: HTMLDivElement;
     btn_zoomout: HTMLDivElement;

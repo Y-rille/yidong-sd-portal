@@ -7,6 +7,7 @@ import Dashboard from '../views/dashboard'
 
 function mapProps(state) {
     return {
+        config: state.commonReducer.config,
         name: state.resourceReducer.name,
         tree: state.commonReducer.tree,
         overviewVIM: state.resourceReducer.overviewVIM,

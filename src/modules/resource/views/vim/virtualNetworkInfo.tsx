@@ -17,29 +17,6 @@ class VirtualNetworkInfo extends React.Component<any, any> {
             virtualNetwork: match.params.id
         }
     }
-    // static defaultProps = {
-    //     list: {
-    //         dataList: [
-    //             { id: 6, name: 'MANO-NFVO', haCount: 1, hostCount: 2 },
-    //             { id: 3, name: 'MANO-VNFM', haCount: 1, hostCount: 2 },
-    //             { id: 4, name: 'VNF', haCount: 1, hostCount: 9 },
-    //             { id: 2, name: 'ZJHZ-XSCYY1B2F-hpeAZ-ZABBIX', haCount: 1, hostCount: 1 },
-    //             { id: 8, name: 'az1', haCount: 2, hostCount: 2 }
-    //         ],
-    //         header: [
-    //             { key: 'haCount', title: 'HA数', link: false, width: 200 },
-    //             { key: 'hostCount', title: '主机数', link: false, width: 200 },
-    //             { key: 'id', title: 'id', link: false, width: 100 },
-    //             { key: 'name', title: '名称', link: true, width: 240 }
-    //         ],
-    //         pageNo: 1,
-    //         pageSize: 10,
-    //         totalCount: 5
-    //     }
-    // }
-    onChange() {
-
-    }
     goList() {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
@@ -149,7 +126,7 @@ class VirtualNetworkInfo extends React.Component<any, any> {
                     ) : ''}
                 </div>
                 <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} animated={false} type="card">
+                    <Tabs animated={false} type="card">
                         <TabPane tab="资源详情" key="1">
                             <Tabs
                                 defaultActiveKey="1"

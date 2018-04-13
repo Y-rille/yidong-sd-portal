@@ -35,6 +35,9 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         let newArr: any = []
         if (arr1 && arr2) {
             let newObj = _.zipObject(arr1, arr2)
+            // _.forIn(newObj, (value, key) => {
+            //     newArr.push([key, value])
+            // })
             for (const key in newObj) {
                 if (newObj.hasOwnProperty(key)) {
                     newArr.push([key, newObj[key]])
@@ -273,7 +276,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         return (
             <div className={styles.overviewCard}>
                 <div className={styles.title}>
-                    <span className={styles.title_header}>{metadata.NAME}</span><span>ID: {metadata.ID}</span>&emsp;<span>位置:{metadata.localtion}</span>&emsp;
+                    <span className={styles.title_header}>{metadata.NAME}</span><span>ID: {metadata.ID}</span>&emsp;<span>位置:{metadata.location}</span>&emsp;
                     {editable ? (<a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>) : ''}
                     <a className={styles.title_dele} href="javascript:;" onClick={this.goDelete.bind(this)}>删除</a>
                 </div>

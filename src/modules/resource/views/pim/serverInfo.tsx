@@ -15,12 +15,16 @@ import { stringify } from 'querystringify'
 import qs from 'querystringify'
 import emitter from '../../../../common/emitter'
 import fmtLog from '../../utils/fmtLog'
+import { Topology } from '../../../../components/Topology/topology.js'
+import '../../../../components/Topology/topology.css'
+import mathMoTypeKeyAndRoute from '../../utils/mathMoTypeKeyAndRoute'
 
 class ServerInfo extends React.Component<any, any> {
+    host_info: any
     constructor(props) {
         super(props);
         let { match } = this.props
-        let { pageNo } = qs.parse(this.props.location.search)
+        let { pageNo, active } = qs.parse(this.props.location.search)
         this.state = {
             status: null,
             reset: false,
@@ -138,34 +142,24 @@ class ServerInfo extends React.Component<any, any> {
             }
         })
     }
-    goHost() {
-        let server = this.props.match.params.id
-        this.props.actions.queryList('imdsServerHostInfo', { server }, (err, res) => {
-            if (!err && res['dataList']) {
-                let server_info = _.head(res['dataList'])
-                if (server_info) {
-                    let id = server_info['id']
-                    let vim_id = server_info['vim_id']
-                    let type = ''
-                    switch (server_info['host_type']) {
-                        case 'controller':
-                            type = 'imdsController'
-                            break
-                        case 'compute':
-                            type = 'imdsHost'
-                            break
-                        case 'storage':
-                            type = 'imdsStorage'
-                            break
-                        default:
-                            type = 'imdsController'
-                    }
-                    if (id && vim_id && type) {
-                        this.props.history.replace(`/resource/vim/${vim_id}/host/${type}/info/${id}`)
-                    }
-                }
+    goHost(e, topo?) {
+        if (this.host_info) {
+            let vm = this.props.match.params.id;
+            let { active } = qs.parse(this.props.location.search)
+            let type = ''
+            switch (this.host_info.host_type) {
+                case 'compute':
+                    type = 'imdsHost'
+                    break
+                case 'storage':
+                    type = 'imdsStorage'
+                    break
+                default:
+                    type = 'imdsController'
             }
-        })
+            let topoFlag = topo ? `?active=topo&name=${this.host_info.name}` : ''
+            this.props.history.replace(`/resource/vim/${this.host_info.vim_id}/host/${type}/info/${this.host_info.id}${topoFlag}`)
+        }
     }
     handleEditData(d, cb) {
         let moTypeKey = 'server'
@@ -203,7 +197,7 @@ class ServerInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
-        } else {
+        } else if (key === 'detail') {
             this.setState({
                 detailKey: 'overview'
             })
@@ -214,6 +208,10 @@ class ServerInfo extends React.Component<any, any> {
             let moInstId = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey, moInstId);
+        } else {
+            let { id } = this.props.match.params
+            let dsname = 'imdsTopoServer'
+            this.props.actions.getTopoState(dsname, { moInstId: id })
         }
     }
     onTab(key) {
@@ -268,13 +266,47 @@ class ServerInfo extends React.Component<any, any> {
             });
         })
     }
+    nodeDblClick(data) {
+        if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
+            let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
+            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${mathMoTypeKeyAndRoute(moTypeKey)}/info/${moInstId}?active=topo`)
+        }
+    }
     componentWillMount() {
         let moTypeKey = 'server';
-        let match = this.props.match
-        let id = match.params.id
+        let { id } = this.props.match.params
         this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id })
         this.props.actions.getObjAttributes(moTypeKey)
         this.getAttributes()
+        let server = this.props.match.params.id
+        this.props.actions.queryList('imdsServerHostInfo', { server: id }, (err, res) => {
+            if (!err && res['dataList']) {
+                let host_info = _.head(res['dataList'])
+                if (host_info) {
+                    this.host_info = host_info
+
+                    // let id = server_info['id']
+                    // let vim_id = server_info['vim_id']
+                    // let type = ''
+                    // switch (server_info['host_type']) {
+                    //     case 'controller':
+                    //         type = 'imdsController'
+                    //         break
+                    //     case 'compute':
+                    //         type = 'imdsHost'
+                    //         break
+                    //     case 'storage':
+                    //         type = 'imdsStorage'
+                    //         break
+                    //     default:
+                    //         type = 'imdsController'
+                    // }
+                    // if (id && vim_id && type) {
+                    //     this.props.history.replace(`/resource/vim/${vim_id}/host/${type}/info/${id}`)
+                    // }
+                }
+            }
+        })
     }
     getAttributes() {
         let moTypeKey = 'server';
@@ -291,6 +323,7 @@ class ServerInfo extends React.Component<any, any> {
         this.props.actions.resetList()
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
+        this.props.actions.resetTopo()
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -347,6 +380,17 @@ class ServerInfo extends React.Component<any, any> {
         } else {
             return (<div></div>)
         }
+    }
+    topoBtns() {
+        return (
+            <div className={styles.btn}>
+                <Button
+                    type="primary" ghost
+                    icon="fork"
+                    onClick={this.goHost.bind(this, true)}
+                >虚拟拓扑</Button>
+            </div>
+        )
     }
     renderMemory() {
         let { list } = this.props
@@ -466,10 +510,104 @@ class ServerInfo extends React.Component<any, any> {
             )
         }
     }
+    renderTopo() {
+        let data = {
+            'nodes': [
+                {
+                    'id': '1',
+                    'name': '10.255.242.115',
+                    'label': 'D03-hpeDL380-COMP05',
+                    'type': 'HOST',
+                    'desc': 'D03-hpeDL380-COMP05',
+                    'state': 0,
+                    'bizFields': {
+                        'ifRedirect': true,
+                        'moMgrType': 'pim',
+                        'moMgrId': '4139d043-9c88-4629-b511-af381d7c49d4',
+                        'moTypeKey': 'server',
+                        'moInstId': '9',
+                    }
+                },
+                {
+                    'id': '2',
+                    'name': 'nfvo-proxy-node2',
+                    'label': 'nfvo-proxy-node2',
+                    'type': 'VM',
+                    'state': 1,
+                    'desc': 'nfvo-proxy-node2'
+                },
+                {
+                    'id': '3',
+                    'name': 'nfvo-proxy-node3',
+                    'label': 'nfvo-proxy-node3',
+                    'type': 'VM',
+                    'state': 3,
+                    'desc': 'nfvo-proxy-node3'
+                },
+                {
+                    'id': '4',
+                    'name': 'qinhe',
+                    'label': 'qinhe',
+                    'type': 'HA',
+                    'state': 0,
+                    'desc': 'qinhe'
+                }
+            ],
+            'links': [
+                {
+                    'source': '4',
+                    'state': 0,
+                    'target': '1'
+                },
+                {
+                    'source': '1',
+                    'state': 1,
+                    'target': '2'
+                },
+                {
+                    'source': '1',
+                    'state': 0,
+                    'target': '3'
+                }
+            ]
+        }
+        if (this.host_info && data) {
+            let { id } = this.props.match.params
+            let w = document.querySelector('.Pane2').clientWidth - 96
+            let h = window.innerHeight - 240
+            let flag = data.nodes.length > 20 ? true : false
+            return (
+                <Tabs
+                    size="small"
+                    tabBarExtraContent={this.topoBtns()}
+                    animated={false}>
+                    <TabPane tab={this.host_info.name}>
+                        <div style={{ marginTop: '10px' }}>
+                            <div className={styles.legend}>
+                                <div><span></span>严重</div>
+                                <div><span></span>重要</div>
+                                <div><span></span>次重</div>
+                                <div><span></span>提示</div>
+                            </div>
+                            <Topology
+                                data={data}
+                                width={w}
+                                height={h}
+                                center={flag}
+                                zoomToFit={flag}
+                                cid={id}
+                                onDblclick={this.nodeDblClick.bind(this)} />
+                        </div>
+                    </TabPane>
+                </Tabs>
+            )
+        }
+    }
     render() {
         let { match, nodeInfo } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let { events, activeKey, detailKey } = this.state
+        let { active } = qs.parse(this.props.location.search)
         return (
             <div>
                 <div className={styles.header}>
@@ -487,7 +625,7 @@ class ServerInfo extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
+                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false} defaultActiveKey={activeKey === 'topo' ? 'topo' : ''}>
                         <TabPane tab="资源详情" key="detail" >
                             <Tabs
                                 size="small"
@@ -545,6 +683,11 @@ class ServerInfo extends React.Component<any, any> {
                                     </div>
                                 </TabPane>
                             </Tabs>
+                        </TabPane>
+                        <TabPane tab="拓扑结构" key="topo">
+                            <div style={{ marginBottom: '20px' }}>
+                                {this.renderTopo()}
+                            </div>
                         </TabPane>
                     </Tabs>
                 </div>

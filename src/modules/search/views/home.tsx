@@ -46,7 +46,7 @@ class Home extends React.Component<HomeProps, any> {
             default:
                 break;
         }
-        this.props.history.push(`/resource/pim/4139d043-9c88-4629-b511-af381d7c49d4/${newActiveKey}/info/${obj.id}`)  // pim_id 
+        this.props.history.push(`/resource/pim/${obj.pim_id}/${newActiveKey}/info/${obj.id}`)
     }
     searchHandler = (value) => {
         this.props.history.push(`/search?query=${value}`)

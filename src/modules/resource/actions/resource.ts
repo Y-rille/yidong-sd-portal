@@ -468,3 +468,9 @@ export const getTopoState = (dsname, params, cb) => (dispatch) => {
         }
     })
 }
+
+/* reset拓扑告警信息
+ */
+export const resetTopo = () => (dispatch) => {
+    return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, topo: null })
+}
