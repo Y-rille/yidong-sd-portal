@@ -12,33 +12,7 @@ const TabPane = Tabs.TabPane;
 class VirtualNetworkInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        let { match } = this.props
-        this.state = {
-            virtualNetwork: match.params.id
-        }
-    }
-    // static defaultProps = {
-    //     list: {
-    //         dataList: [
-    //             { id: 6, name: 'MANO-NFVO', haCount: 1, hostCount: 2 },
-    //             { id: 3, name: 'MANO-VNFM', haCount: 1, hostCount: 2 },
-    //             { id: 4, name: 'VNF', haCount: 1, hostCount: 9 },
-    //             { id: 2, name: 'ZJHZ-XSCYY1B2F-hpeAZ-ZABBIX', haCount: 1, hostCount: 1 },
-    //             { id: 8, name: 'az1', haCount: 2, hostCount: 2 }
-    //         ],
-    //         header: [
-    //             { key: 'haCount', title: 'HA数', link: false, width: 200 },
-    //             { key: 'hostCount', title: '主机数', link: false, width: 200 },
-    //             { key: 'id', title: 'id', link: false, width: 100 },
-    //             { key: 'name', title: '名称', link: true, width: 240 }
-    //         ],
-    //         pageNo: 1,
-    //         pageSize: 10,
-    //         totalCount: 5
-    //     }
-    // }
-    onChange() {
-
+        this.state = {}
     }
     goList() {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
@@ -71,15 +45,21 @@ class VirtualNetworkInfo extends React.Component<any, any> {
             }
         })
     }
+    getTableData(activeKey) {
+        let self = this
+        let match = this.props.match
+        let id = match.params.id
+        this.props.actions.queryList(activeKey, { virtualNetwork: id }, null, true)
+    }
     componentWillMount() {
         let moTypeKey = 'virtual_network'
         let match = this.props.match
         let id = match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey, id)
-        this.props.actions.queryList('imdsVirtualNetworkSubnet', { virtualNetwork: id })
-        this.props.actions.queryList('imdsVirtualNetworkPort', { virtualNetwork: id })
-        this.props.actions.queryList('imdsVirtualNetworkDHCP', { virtualNetwork: id })
+        this.getTableData('imdsVirtualNetworkSubnet')
+        this.getTableData('imdsVirtualNetworkPort')
+        this.getTableData('imdsVirtualNetworkDHCP')
     }
     componentWillUnmount() {
         this.props.actions.resetObjAttributes()
@@ -102,30 +82,37 @@ class VirtualNetworkInfo extends React.Component<any, any> {
             )
         }
     }
-    renderTable(type) {
-        let { list } = this.props
+    renderTable() {
+        let list = this.props.list
         let pageSize = 999
-        let { virtualNetwork } = this.state
-        let baseData = {
-            imdsVirtualNetworkSubnet: '子网',
-            imdsVirtualNetworkPort: '端口',
-            imdsVirtualNetworkDHCP: 'DHCP'
+        const { tableLoading } = this.state
+        if (list) {
+            return (
+                <div>
+                    <div style={{ 'marginTop': '20px' }}>
+                        <Headline title="子网" />
+                        <CompactTable
+                            data={list.imdsVirtualNetworkSubnet}
+                            pageSize={pageSize}
+                        />
+                    </div>
+                    <div style={{ 'marginTop': '20px' }}>
+                        <Headline title="端口" />
+                        <CompactTable
+                            data={list.imdsVirtualNetworkPort}
+                            pageSize={pageSize}
+                        />
+                    </div>
+                    <div style={{ 'marginTop': '20px' }}>
+                        <Headline title="DHCP" />
+                        <CompactTable
+                            data={list.imdsVirtualNetworkDHCP}
+                            pageSize={pageSize}
+                        />
+                    </div>
+                </div>
+            )
         }
-        let titleTxt = ''
-        for (const key in baseData) {
-            if (type === key) {
-                titleTxt = baseData[key]
-            }
-        }
-        return (
-            <div style={{ 'marginTop': '20px' }}>
-                <Headline title={titleTxt} />
-                {list ? (<CompactTable
-                    data={list}
-                    pageSize={pageSize}
-                />) : ''}
-            </div>
-        )
     }
     render() {
         let { nodeInfo } = this.props
@@ -149,7 +136,7 @@ class VirtualNetworkInfo extends React.Component<any, any> {
                     ) : ''}
                 </div>
                 <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} animated={false} type="card">
+                    <Tabs animated={false} type="card">
                         <TabPane tab="资源详情" key="1">
                             <Tabs
                                 defaultActiveKey="1"
@@ -158,9 +145,7 @@ class VirtualNetworkInfo extends React.Component<any, any> {
                             >
                                 <TabPane tab="资源概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
-                                    {this.renderTable('imdsVirtualNetworkSubnet')}
-                                    {this.renderTable('imdsVirtualNetworkPort')}
-                                    {this.renderTable('imdsVirtualNetworkDHCP')}
+                                    {this.renderTable()}
                                 </TabPane>
                             </Tabs>
                         </TabPane>

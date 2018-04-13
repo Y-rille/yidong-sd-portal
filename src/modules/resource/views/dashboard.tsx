@@ -70,6 +70,7 @@ class Dashboard extends React.Component<any, any> {
             loading: true
         });
         let { vimInfo, curId } = this.state
+        let { config } = this.props
         if (formdata) {
             if (vimInfo && curId) {
                 this.props.actions.editObjData(moTypeKey, curId, formdata, (err, data) => {
@@ -97,7 +98,7 @@ class Dashboard extends React.Component<any, any> {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '创建成功！')
-                        window.open('http://www.baidu.com')
+                        window.open(config.vim_manage)
                     } else {
                         emitter.emit('message', 'error', '创建失败！')
                     }
@@ -164,7 +165,6 @@ class Dashboard extends React.Component<any, any> {
                         ref={(node) => { editRef = node }}
                     />
                 ) : ''}
-
             </div>
         );
     }

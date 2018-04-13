@@ -455,10 +455,10 @@ export const editBatchData = (editData, cb) => (dispatch) => {
  */
 export const getTopoState = (dsname, params, cb) => (dispatch) => {
     return API.getTopoState(dsname, params).then((res: any) => {
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, topo: res.data }
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, topo: res.data.data }
         dispatch(action);
         if (cb) {
-            cb(res.data, null)
+            cb(res.data.data, null)
         }
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, topo: null }

@@ -35,6 +35,9 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         let newArr: any = []
         if (arr1 && arr2) {
             let newObj = _.zipObject(arr1, arr2)
+            // _.forIn(newObj, (value, key) => {
+            //     newArr.push([key, value])
+            // })
             for (const key in newObj) {
                 if (newObj.hasOwnProperty(key)) {
                     newArr.push([key, newObj[key]])
