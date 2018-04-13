@@ -33,14 +33,6 @@ class VirtualInfo extends React.Component<any, any> {
         })
         if (key === 'topo') {
             let { id } = this.props.match.params
-            this.props.actions.queryList('imdsVMHostInfo', { vim_id: id }, (err, res) => {
-                if (!err && res['dataList']) {
-                    let host_info = _.head(res['dataList'])
-                    if (host_info) {
-                        this.host_info = host_info
-                    }
-                }
-            })
             let dsname = 'imdsTopoVM'
             this.props.actions.getTopoState(dsname, { moInstId: id })
         }
@@ -145,10 +137,17 @@ class VirtualInfo extends React.Component<any, any> {
     }
     componentWillMount() {
         let moTypeKey = 'vm'
-        let match = this.props.match
-        let id = match.params.id
+        let { id } = this.props.match.params
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey, id)
+        this.props.actions.queryList('imdsVMHostInfo', { vm_id: id }, (err, res) => {
+            if (!err && res['dataList']) {
+                let host_info = _.head(res['dataList'])
+                if (host_info) {
+                    this.host_info = host_info
+                }
+            }
+        })
     }
     componentWillUnmount() {
         this.props.actions.resetList()
@@ -196,68 +195,12 @@ class VirtualInfo extends React.Component<any, any> {
         }
     }
     renderTopo() {
-        let data = {
-            'nodes': [
-                {
-                    'id': '1',
-                    'name': '10.255.242.115',
-                    'label': 'D03-hpeDL380-COMP05',
-                    'type': 'HOST',
-                    'desc': 'D03-hpeDL380-COMP05',
-                    'state': 0,
-                    'bizFields': {
-                        'serialid': '2102310YJA10H6003997',
-                        'mgmtip': '10.255.242.115'
-                    }
-                },
-                {
-                    'id': '2',
-                    'name': 'nfvo-proxy-node2',
-                    'label': 'nfvo-proxy-node2',
-                    'type': 'VM',
-                    'state': 1,
-                    'desc': 'nfvo-proxy-node2'
-                },
-                {
-                    'id': '3',
-                    'name': 'nfvo-proxy-node3',
-                    'label': 'nfvo-proxy-node3',
-                    'type': 'VM',
-                    'state': 3,
-                    'desc': 'nfvo-proxy-node3'
-                },
-                {
-                    'id': '4',
-                    'name': 'qinhe',
-                    'label': 'qinhe',
-                    'type': 'HA',
-                    'state': 0,
-                    'desc': 'qinhe'
-                }
-            ],
-            'links': [
-                {
-                    'source': '4',
-                    'state': 0,
-                    'target': '1'
-                },
-                {
-                    'source': '1',
-                    'state': 1,
-                    'target': '2'
-                },
-                {
-                    'source': '1',
-                    'state': 0,
-                    'target': '3'
-                }
-            ]
-        }
-        if (this.host_info && data) {
+        let { topo } = this.props
+        if (this.host_info && topo) {
             let { id } = this.props.match.params
             let w = document.querySelector('.Pane2').clientWidth - 96
             let h = window.innerHeight - 240
-            let flag = data.nodes.length > 20 ? true : false
+            let flag = topo.nodes && topo.nodes.length > 20 ? true : false
             return (
                 <Tabs
                     size="small"
@@ -272,7 +215,7 @@ class VirtualInfo extends React.Component<any, any> {
                                 <div><span></span>提示</div>
                             </div>
                             <Topology
-                                data={data}
+                                data={topo}
                                 width={w}
                                 height={h}
                                 center={flag}

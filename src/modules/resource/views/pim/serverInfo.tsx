@@ -24,7 +24,7 @@ class ServerInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
         let { match } = this.props
-        let { pageNo, active } = qs.parse(this.props.location.search)
+        let { pageNo } = qs.parse(this.props.location.search)
         this.state = {
             status: null,
             reset: false,
@@ -625,7 +625,7 @@ class ServerInfo extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false} defaultActiveKey={activeKey === 'topo' ? 'topo' : ''}>
+                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false} defaultActiveKey={active === 'topo' ? 'topo' : ''}>
                         <TabPane tab="资源详情" key="detail" >
                             <Tabs
                                 size="small"
