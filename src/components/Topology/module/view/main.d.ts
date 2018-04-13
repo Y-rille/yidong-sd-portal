@@ -12,6 +12,7 @@ export interface MainProps {
     zoomToFit?: boolean;
     paper_width?: number;
     paper_height?: number;
+    cid?: string;
 }
 export default class Main extends React.Component<MainProps, any> {
     paperContainer: HTMLDivElement;
