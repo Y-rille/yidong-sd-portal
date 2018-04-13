@@ -164,7 +164,6 @@ class Dashboard extends React.Component<any, any> {
                         ref={(node) => { editRef = node }}
                     />
                 ) : ''}
-
             </div>
         );
     }

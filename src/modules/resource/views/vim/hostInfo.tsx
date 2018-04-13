@@ -333,36 +333,38 @@ class HostInfo extends React.Component<any, any> {
                 }
             ]
         }
-        let { id } = this.props.match.params
-        let w = document.querySelector('.Pane2').clientWidth - 96
-        let h = window.innerHeight - 240
-        let flag = data.nodes.length > 20 ? true : false
-        let { name } = qs.parse(this.props.location.search)
-        return (
-            <Tabs
-                size="small"
-                tabBarExtraContent={this.topoBtns()}
-                animated={false}>
-                <TabPane tab={name}>
-                    <div style={{ marginTop: '10px' }}>
-                        <div className={styles.legend}>
-                            <div><span></span>严重</div>
-                            <div><span></span>重要</div>
-                            <div><span></span>次重</div>
-                            <div><span></span>提示</div>
+        if (data) {
+            let { id } = this.props.match.params
+            let w = document.querySelector('.Pane2').clientWidth - 96
+            let h = window.innerHeight - 240
+            let flag = data.nodes.length > 20 ? true : false
+            let { name } = qs.parse(this.props.location.search)
+            return (
+                <Tabs
+                    size="small"
+                    tabBarExtraContent={this.topoBtns()}
+                    animated={false}>
+                    <TabPane tab={name}>
+                        <div style={{ marginTop: '10px' }}>
+                            <div className={styles.legend}>
+                                <div><span></span>严重</div>
+                                <div><span></span>重要</div>
+                                <div><span></span>次重</div>
+                                <div><span></span>提示</div>
+                            </div>
+                            <Topology
+                                data={data}
+                                width={w}
+                                height={h}
+                                center={flag}
+                                zoomToFit={flag}
+                                cid={id}
+                                onDblclick={this.nodeDblClick.bind(this)} />
                         </div>
-                        <Topology
-                            data={data}
-                            width={w}
-                            height={h}
-                            center={flag}
-                            zoomToFit={flag}
-                            cid={id}
-                            onDblclick={this.nodeDblClick.bind(this)} />
-                    </div>
-                </TabPane>
-            </Tabs>
-        )
+                    </TabPane>
+                </Tabs>
+            )
+        }
     }
     render() {
         let { activeKey } = this.state

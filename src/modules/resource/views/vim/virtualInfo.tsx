@@ -10,21 +10,37 @@ import { matchPath } from 'react-router'
 const TabPane = Tabs.TabPane;
 import { Topology } from '../../../../components/Topology/topology.js'
 import '../../../../components/Topology/topology.css'
+import qs from 'querystringify'
+import mathMoTypeKeyAndRoute from '../../utils/mathMoTypeKeyAndRoute'
 
 class VirtualInfo extends React.Component<any, any> {
+    host_info: any
     constructor(props) {
         super(props);
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
+        let { active } = qs.parse(this.props.location.search)
         this.state = {
             events: [],
-            vim_id: mp_node ? mp_node.params.id : ''
+            vim_id: mp_node ? mp_node.params.id : '',
+            activeKey: active ? active : 'detail'
         }
     }
     onChange(key) {
+        this.setState({
+            activeKey: key
+        })
         if (key === 'topo') {
             let { id } = this.props.match.params
+            this.props.actions.queryList('imdsVMHostInfo', { vim_id: id }, (err, res) => {
+                if (!err && res['dataList']) {
+                    let host_info = _.head(res['dataList'])
+                    if (host_info) {
+                        this.host_info = host_info
+                    }
+                }
+            })
             let dsname = 'imdsTopoVM'
             this.props.actions.getTopoState(dsname, { moInstId: id })
         }
@@ -91,8 +107,40 @@ class VirtualInfo extends React.Component<any, any> {
             // }
         })
     }
+    goHost() {
+        if (this.host_info) {
+            let vm = this.props.match.params.id;
+            let { active } = qs.parse(this.props.location.search)
+            let type = ''
+            switch (this.host_info.host_type) {
+                case 'compute':
+                    type = 'imdsHost'
+                    break
+                case 'storage':
+                    type = 'imdsStorage'
+                    break
+                default:
+                    type = 'imdsController'
+            }
+            this.props.history.replace(`/resource/vim/${this.host_info.vim_id}/host/${type}/info/${this.host_info.id}/?active=topo&name=${this.host_info.name}`)
+        }
+    }
     nodeDblClick(data) {
-        // console.log(data);
+        if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
+            let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
+            let hostTypePath = ''
+            switch (hostType) {
+                case 'compute':
+                    hostTypePath = '/imdsHost/'
+                    break
+                case 'storage':
+                    hostTypePath = '/imdsStorage/'
+                    break
+                default:
+                    hostTypePath = '/imdsController/'
+            }
+            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${mathMoTypeKeyAndRoute(moTypeKey)}/${hostTypePath}info/${moInstId}?active=topo`)
+        }
     }
     componentWillMount() {
         let moTypeKey = 'vm'
@@ -116,6 +164,17 @@ class VirtualInfo extends React.Component<any, any> {
                     icon="eye-o"
                     onClick={this.showStorageVolume.bind(this)}
                 >查看存储卷</Button>
+            </div>
+        )
+    }
+    topoBtns() {
+        return (
+            <div className={styles.btn}>
+                <Button
+                    type="primary" ghost
+                    icon="fork"
+                    onClick={this.goHost.bind(this)}
+                >物理拓扑</Button>
             </div>
         )
     }
@@ -193,22 +252,41 @@ class VirtualInfo extends React.Component<any, any> {
                 }
             ]
         }
-        let w = document.querySelector('.Pane2').clientWidth - 96
-        let h = window.innerHeight - 240
-        let flag = data.nodes.length > 20 ? true : false
-        return (
-            <Topology
-                data={data}
-                width={w}
-                height={h}
-                center={flag}
-                zoomToFit={flag}
-                onDblclick={this.nodeDblClick.bind(this)} />
-        )
+        if (this.host_info && data) {
+            let { id } = this.props.match.params
+            let w = document.querySelector('.Pane2').clientWidth - 96
+            let h = window.innerHeight - 240
+            let flag = data.nodes.length > 20 ? true : false
+            return (
+                <Tabs
+                    size="small"
+                    tabBarExtraContent={this.topoBtns()}
+                    animated={false}>
+                    <TabPane tab={this.host_info.name}>
+                        <div style={{ marginTop: '10px' }}>
+                            <div className={styles.legend}>
+                                <div><span></span>严重</div>
+                                <div><span></span>重要</div>
+                                <div><span></span>次重</div>
+                                <div><span></span>提示</div>
+                            </div>
+                            <Topology
+                                data={data}
+                                width={w}
+                                height={h}
+                                center={flag}
+                                zoomToFit={flag}
+                                cid={id}
+                                onDblclick={this.nodeDblClick.bind(this)} />
+                        </div>
+                    </TabPane>
+                </Tabs>
+            )
+        }
     }
     render() {
         let { nodeInfo } = this.props
-        let { events } = this.state
+        let { events, activeKey } = this.state
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -229,7 +307,7 @@ class VirtualInfo extends React.Component<any, any> {
                     ) : ''}
                 </div>
                 <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} animated={false} type="card">
+                    <Tabs onChange={this.onChange.bind(this)} animated={false} type="card" defaultActiveKey={activeKey}>
                         <TabPane tab="资源详情" key="detail">
                             <Tabs
                                 defaultActiveKey="1"
