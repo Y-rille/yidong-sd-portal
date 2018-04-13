@@ -12,7 +12,7 @@ function mapProps(state) {
         nodeInfo: state.resourceReducer.nodeInfo,
         objData: state.resourceReducer.objData,
         objAttributes: state.resourceReducer.objAttributes,
-
+        topo: state.resourceReducer.topo
     }
 }
 function mapDispatchToProps(dispatch) {

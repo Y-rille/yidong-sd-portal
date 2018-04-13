@@ -58,7 +58,7 @@ class HostInfo extends React.Component<any, any> {
                 this.getTableData({ pageNo: 1 })
             })
         } else {
-            // this.getTopo()
+            this.getTopo()
         }
     }
     onTab(key) {
@@ -273,101 +273,45 @@ class HostInfo extends React.Component<any, any> {
         }
     }
     renderTopo() {
-        let data = {
-            'nodes': [
-                {
-                    'id': '1',
-                    'name': '10.255.242.115',
-                    'label': 'D03-hpeDL380-COMP05',
-                    'type': 'HOST',
-                    'desc': 'D03-hpeDL380-COMP05',
-                    'state': 0,
-                    'bizFields': {
-                        'ifRedirect': true,
-                        'moMgrType': 'pim',
-                        'moMgrId': '4139d043-9c88-4629-b511-af381d7c49d4',
-                        'moTypeKey': 'server',
-                        'moInstId': '9',
-                    }
-                },
-                {
-                    'id': '2',
-                    'name': 'nfvo-proxy-node2',
-                    'label': 'nfvo-proxy-node2',
-                    'type': 'VM',
-                    'state': 1,
-                    'desc': 'nfvo-proxy-node2'
-                },
-                {
-                    'id': '3',
-                    'name': 'nfvo-proxy-node3',
-                    'label': 'nfvo-proxy-node3',
-                    'type': 'VM',
-                    'state': 3,
-                    'desc': 'nfvo-proxy-node3'
-                },
-                {
-                    'id': '4',
-                    'name': 'qinhe',
-                    'label': 'qinhe',
-                    'type': 'HA',
-                    'state': 0,
-                    'desc': 'qinhe'
-                }
-            ],
-            'links': [
-                {
-                    'source': '4',
-                    'state': 0,
-                    'target': '1'
-                },
-                {
-                    'source': '1',
-                    'state': 1,
-                    'target': '2'
-                },
-                {
-                    'source': '1',
-                    'state': 0,
-                    'target': '3'
-                }
-            ]
-        }
-        let { id } = this.props.match.params
-        let w = document.querySelector('.Pane2').clientWidth - 96
-        let h = window.innerHeight - 240
-        let flag = data.nodes.length > 20 ? true : false
-        let { name } = qs.parse(this.props.location.search)
-        return (
-            <Tabs
-                size="small"
-                tabBarExtraContent={this.topoBtns()}
-                animated={false}>
-                <TabPane tab={name}>
-                    <div style={{ marginTop: '10px' }}>
-                        <div className={styles.legend}>
-                            <div><span></span>严重</div>
-                            <div><span></span>重要</div>
-                            <div><span></span>次重</div>
-                            <div><span></span>提示</div>
+        let { topo } = this.props
+        if (topo) {
+            let { id } = this.props.match.params
+            let w = document.querySelector('.Pane2').clientWidth - 96
+            let h = window.innerHeight - 240
+            let flag = topo.nodes && topo.nodes.length > 20 ? true : false
+            let { name } = qs.parse(this.props.location.search)
+            return (
+                <Tabs
+                    size="small"
+                    tabBarExtraContent={this.topoBtns()}
+                    animated={false}>
+                    <TabPane tab={name}>
+                        <div style={{ marginTop: '10px' }}>
+                            <div className={styles.legend}>
+                                <div><span></span>严重</div>
+                                <div><span></span>重要</div>
+                                <div><span></span>次重</div>
+                                <div><span></span>提示</div>
+                            </div>
+                            <Topology
+                                data={topo}
+                                width={w}
+                                height={h}
+                                center={flag}
+                                zoomToFit={flag}
+                                cid={id}
+                                onDblclick={this.nodeDblClick.bind(this)} />
                         </div>
-                        <Topology
-                            data={data}
-                            width={w}
-                            height={h}
-                            center={flag}
-                            zoomToFit={flag}
-                            cid={id}
-                            onDblclick={this.nodeDblClick.bind(this)} />
-                    </div>
-                </TabPane>
-            </Tabs>
-        )
+                    </TabPane>
+                </Tabs>
+            )
+        }
     }
     render() {
         let { activeKey } = this.state
         let { list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
+        let { active } = qs.parse(this.props.location.search)
         return (
             <div>
                 <div className={styles.header}>
@@ -386,9 +330,8 @@ class HostInfo extends React.Component<any, any> {
                         </Breadcrumb>
                     ) : ''}
                 </div>
-
                 <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false}>
+                    <Tabs onChange={this.onChange.bind(this)} type="card" animated={false} defaultActiveKey={active === 'topo' ? 'topo' : ''}>
                         <TabPane tab="资源详情" key="detail">
                             <Tabs
                                 size="small"
