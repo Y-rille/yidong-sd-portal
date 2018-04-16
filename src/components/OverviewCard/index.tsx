@@ -24,8 +24,9 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         }
     }
     goDelete() {
+        let id = this.props.data.metadata.ID
         if (this.props.goDelete) {
-            this.props.goDelete()
+            this.props.goDelete(id)
         }
     }
 
