@@ -8,6 +8,7 @@ import StorageVolumeInfo from '../../views/vim/storageVolumeInfo'
 
 function mapProps(state) {
     return {
+        config: state.commonReducer.config,
         name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
         objData: state.resourceReducer.objData,

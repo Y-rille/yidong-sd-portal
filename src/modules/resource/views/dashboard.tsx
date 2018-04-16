@@ -46,19 +46,20 @@ class Dashboard extends React.Component<any, any> {
             }
         })
     }
-    goDelete(data) {
+    goDelete(moInstId) {
         let self = this
         confirm({
             title: '确定要删除该VIM吗?',
             onOk() {
-                emitter.emit('message', 'success', '删除成功！')
-                // self.props.actions.deleteInstance('vim', data.id, (id, error) => {
-                //     if (id) {
-                //         emitter.emit('message', 'success', '删除成功！')
-                //     } else {
-                //         emitter.emit('message', 'error', '删除失败！')
-                //     }
-                // })
+                self.props.actions.deleteInstance('vim', moInstId, (data, error) => {
+                    if (data) {
+                        emitter.emit('message', 'success', '删除成功！')
+                        self.props.actions.getMoTree('mgrmoTree')
+                        self.props.actions.getOverview('overviewVIM')
+                    } else {
+                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                })
             },
             okText: '确认',
             cancelText: '取消',
