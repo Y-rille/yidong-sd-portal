@@ -389,6 +389,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 goDelete={this.goDelete.bind(this)}
                                 selectAuth={true}
                                 selectRow={this.selectRow.bind(this)}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 340 }}
                             />) : (<Spin />)}
                         </div>
                     </div>
