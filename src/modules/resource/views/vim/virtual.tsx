@@ -90,7 +90,7 @@ class Virtual extends React.Component<any, any> {
         if (key === 'name') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         } else if (key === 'cHost') {
-            this.props.history.push(`/resource/vim/${vimId}/host/imdsController/info/${obj.id}`)
+            this.props.history.push(`/resource/vim/${vimId}/host/${obj.host_type}/info/${obj.id}?name=${obj.name}`)
         }
     }
     componentWillMount() {
