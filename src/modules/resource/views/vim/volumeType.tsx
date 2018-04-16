@@ -157,6 +157,7 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
                             data={list}
                             loading={tableLoading}
                             actionAuth={[]}
+                            size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 300 }}
                         />
                     ) : (
                             <Spin />

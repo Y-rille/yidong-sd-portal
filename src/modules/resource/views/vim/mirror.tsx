@@ -81,6 +81,7 @@ class Mirror extends React.Component<any, any> {
                     goLink={this.goLink.bind(this)}
                     data={list}
                     actionAuth={[]}
+                    size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 300 }}
                 />
             )
         } else {
