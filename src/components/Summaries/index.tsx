@@ -25,16 +25,15 @@ export default class Summaries extends React.PureComponent<SummariesProps, any> 
     static defaultProps = {
     }
     renderContent() {
-        const { data, colNum } = this.props;
-        const dataValues = _.head(data ? data.dataList : '');
-        // const qqq = _.merge(dataValues, {})
-        // let createdat1, updatedat1
-        // console.log(dataValues, '====dataValues===')
-        // if (dataValues.createdat && dataValues.updatedat) {
-        // dataValues.createdat = moment.tz(dataValues.createdat, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
-        // dataValues.createdat = moment.tz(dataValues.updatedat, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
-        // console.log(dataValues.createdat, '===')
-        // }
+        let { data, colNum } = this.props;
+        let values = _.head(data ? data.dataList : '');
+        let dataValues = _.merge({}, values)
+        if (dataValues.createdat) {
+            dataValues.createdat = moment.tz(dataValues.createdat, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
+        }
+        if (dataValues.updatedat) {
+            dataValues.updatedat = moment.tz(dataValues.updatedat, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
+        }
         const dataKeys = data ? data.header : '';
         let dataCol = (colNum === 2 ? 12 : (colNum === 3 ? 8 : (colNum === 4 ? 6 : 4)))
         let right = (dataCol === 4 ? '28px' : '0')
