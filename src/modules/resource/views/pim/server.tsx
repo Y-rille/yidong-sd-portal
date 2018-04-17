@@ -26,7 +26,7 @@ class Server extends React.Component<any, any> {
         this.state = {
             vendor: vendor ? vendor : '',   // 供应商
             tableLoading: false,
-            pageSize: 5,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             pim_id: mp_node.params.id,
             visible: false,
@@ -344,6 +344,7 @@ class Server extends React.Component<any, any> {
                                         actionAuth={['delete']}
                                         selectAuth={true}
                                         selectRow={this.selectRow.bind(this)}
+                                        size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 340 }}
                                     />
                                 ) : (
                                         <Spin />

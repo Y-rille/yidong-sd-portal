@@ -190,13 +190,13 @@ class HostInfo extends React.Component<any, any> {
         this.props.actions.getObjData(moTypeKey, host)
         switch (type) {
             case 'imdsHost':
-                this.props.actions.getSummary('imdsHostOverview', { host: host }, null, true)
+                this.props.actions.getSummary('imdsHostOverview', { host: host }, null)
                 break;
             case 'imdsController':
-                this.props.actions.getSummary('imdsControllerOverview', { host: host }, null, true)
+                this.props.actions.getSummary('imdsControllerOverview', { host: host }, null)
                 break;
             default:
-                this.props.actions.getSummary('imdsStorageOverview', { host: host }, null, true)
+                this.props.actions.getSummary('imdsStorageOverview', { host: host }, null)
         }
     }
     componentWillUnmount() {
@@ -230,7 +230,7 @@ class HostInfo extends React.Component<any, any> {
     }
     renderDynamicPropertiesCollapse() {
         let { summary } = this.props
-        if (this.props.objAttributes && this.props.objData) {
+        if (summary && this.props.objAttributes && this.props.objData) {
             return (
                 <div style={{ marginTop: '20px' }}>
                     <Summaries

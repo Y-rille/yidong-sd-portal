@@ -37,7 +37,8 @@ class StorgeVolumeInfo extends React.Component<any, any> {
         }
     }
     storageManage() {
-        window.open('http://www.baidu.com')
+        let { config } = this.props
+        window.open(config.IPSAN)
     }
     handleEditData(d, cb) {
         let moTypeKey = 'storageVolum'

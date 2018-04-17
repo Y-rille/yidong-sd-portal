@@ -148,6 +148,7 @@ class Flavor extends React.Component<any, any> {
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={[]}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 340 }}
                             />
                         ) : (
                                 <Spin />

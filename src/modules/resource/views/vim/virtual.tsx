@@ -90,7 +90,7 @@ class Virtual extends React.Component<any, any> {
         if (key === 'name') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         } else if (key === 'cHost') {
-            this.props.history.push(`/resource/vim/${vimId}/host/imdsController/info/${obj.id}`)
+            this.props.history.push(`/resource/vim/${vimId}/host/${obj.host_type}/info/${obj.id}?name=${obj.name}`)
         }
     }
     componentWillMount() {
@@ -153,7 +153,7 @@ class Virtual extends React.Component<any, any> {
                                 loading={tableLoading}
                                 actionAuth={[]}
                                 footInfoAuth={<div>*&nbsp;虚拟机共有{list.totalCount}个</div>}
-                            // size={{ y: window.innerHeight - 365 }}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 405 : window.innerHeight - 370 }}
                             />) : (
                                 <Spin />
                             )

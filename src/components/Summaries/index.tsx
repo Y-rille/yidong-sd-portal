@@ -4,7 +4,7 @@ import _ from 'lodash';
 import styles from './index.less';
 import { Row, Col, Tooltip } from 'antd'
 declare let global: any;
-
+import moment from '../../common/moment'
 export interface SummariesProps {
     data?
     colNum?
@@ -23,56 +23,18 @@ export default class Summaries extends React.PureComponent<SummariesProps, any> 
         super(props);
     }
     static defaultProps = {
-        // colNum: 5,
-        // data: {
-        //     header: [
-        //         {
-        //             key: 'id',
-        //             title: 'ID',
-        //             link: true
-        //         },
-        //         {
-        //             key: 'name',
-        //             title: 'imdsAZ',
-        //             link: false
-        //         },
-        //         {
-        //             key: 'role',
-        //             title: '角色',
-        //             link: false
-        //         },
-        //         {
-        //             key: 'az',
-        //             title: '所属AZ',
-        //             link: false
-        //         },
-        //         {
-        //             key: 'ha',
-        //             title: '所属HA',
-        //             link: false
-        //         }
-        //     ],
-        //     dataList: [
-        //         {
-        //             az: 'Libby.McGlynn,Modesto_Graham20',
-        //             ha: 'Janie.Jacobi58,Lucious.Witting24',
-        //             id: 1,
-        //             name: '106.40.16.140',
-        //             role: 'Kamille3'
-        //         },
-        //         {
-        //             az: 'Thomas_Fadel79,Bailey_Carter',
-        //             ha: 'Jaylan.Littel50,Adeline_Gerlach',
-        //             id: 2,
-        //             name: '66.231.137.210',
-        //             role: 'Nadia_Waters9'
-        //         },
-        //     ]
-        // }
     }
     renderContent() {
         const { data, colNum } = this.props;
         const dataValues = _.head(data ? data.dataList : '');
+        // const qqq = _.merge(dataValues, {})
+        // let createdat1, updatedat1
+        // console.log(dataValues, '====dataValues===')
+        // if (dataValues.createdat && dataValues.updatedat) {
+        // dataValues.createdat = moment.tz(dataValues.createdat, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
+        // dataValues.createdat = moment.tz(dataValues.updatedat, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
+        // console.log(dataValues.createdat, '===')
+        // }
         const dataKeys = data ? data.header : '';
         let dataCol = (colNum === 2 ? 12 : (colNum === 3 ? 8 : (colNum === 4 ? 6 : 4)))
         let right = (dataCol === 4 ? '28px' : '0')
