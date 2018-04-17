@@ -127,9 +127,11 @@ class VirtualInfo extends React.Component<any, any> {
         let { id } = this.props.match.params
         let dsname = 'imdsTopoVM'
         this.props.actions.getTopoState(dsname, { moInstId: id }, (data, err) => {
-            this.setState({
-                topo: data
-            })
+            if (data) {
+                this.setState({
+                    topo: data
+                })
+            }
         })
     }
     nodeDblClick(data) {
@@ -155,13 +157,6 @@ class VirtualInfo extends React.Component<any, any> {
     componentWillMount() {
         let { id } = this.props.match.params
         let { active } = qs.parse(this.props.location.search)
-        if (active && active === 'topo') {
-            this.getTopo()
-        } else {
-            let moTypeKey = 'vm'
-            this.props.actions.getObjAttributes(moTypeKey)
-            this.props.actions.getObjData(moTypeKey, id)
-        }
         this.props.actions.queryList('imdsVMHostInfo', { vm_id: id }, (err, res) => {
             if (!err && res['dataList']) {
                 let host_info = _.head(res['dataList'])
@@ -172,6 +167,13 @@ class VirtualInfo extends React.Component<any, any> {
                 }
             }
         })
+        if (active && active === 'topo') {
+            this.getTopo()
+        } else {
+            let moTypeKey = 'vm'
+            this.props.actions.getObjAttributes(moTypeKey)
+            this.props.actions.getObjData(moTypeKey, id)
+        }
     }
     componentDidMount() {
         let { active } = qs.parse(this.props.location.search)
@@ -217,11 +219,11 @@ class VirtualInfo extends React.Component<any, any> {
                     icon="fork"
                     onClick={this.goHost.bind(this)}
                     style={{ margin: '0px 10px 0px 0' }}
-                >物理拓扑</Button>
+                >主机拓扑</Button>
                 <Button
                     type="primary" ghost
                     icon="reload"
-                    onClick={this.refreshHandler.bind(this, true)}
+                    onClick={this.refreshHandler.bind(this)}
                 >刷新</Button>
             </div>
         )
@@ -254,7 +256,7 @@ class VirtualInfo extends React.Component<any, any> {
                     size="small"
                     tabBarExtraContent={this.topoBtns()}
                     animated={false}>
-                    <TabPane tab={host_info.name}>
+                    <TabPane tab={`所属主机：${host_info.name}`}>
                         <div style={{ marginTop: '10px' }}>
                             <div className={styles.legend}>
                                 <div><span></span>严重</div>
@@ -263,6 +265,7 @@ class VirtualInfo extends React.Component<any, any> {
                                 <div><span></span>提示</div>
                             </div>
                             <Topology
+                                key={UUID.v1()}
                                 data={topo}
                                 width={w}
                                 height={h}

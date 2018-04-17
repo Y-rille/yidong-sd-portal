@@ -283,9 +283,11 @@ class ServerInfo extends React.Component<any, any> {
         let { id } = this.props.match.params
         let dsname = 'imdsTopoServer'
         this.props.actions.getTopoState(dsname, { moInstId: id }, (data, err) => {
-            this.setState({
-                topo: data
-            })
+            if (data) {
+                this.setState({
+                    topo: data
+                })
+            }
         })
     }
     nodeDblClick(data) {
@@ -301,13 +303,6 @@ class ServerInfo extends React.Component<any, any> {
         let moTypeKey = 'server';
         let { id } = this.props.match.params
         let { active } = qs.parse(this.props.location.search)
-        if (active && active === 'topo') {
-            this.getTopo()
-        } else {
-            this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id })
-            this.props.actions.getObjAttributes(moTypeKey)
-            this.getAttributes()
-        }
         this.props.actions.queryList('imdsServerHostInfo', { server: id }, (err, res) => {
             if (!err && res['dataList']) {
                 let host_info = _.head(res['dataList'])
@@ -318,6 +313,13 @@ class ServerInfo extends React.Component<any, any> {
                 }
             }
         })
+        if (active && active === 'topo') {
+            this.getTopo()
+        } else {
+            this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id })
+            this.props.actions.getObjAttributes(moTypeKey)
+            this.getAttributes()
+        }
     }
     componentDidMount() {
         let { active } = qs.parse(this.props.location.search)
@@ -328,12 +330,14 @@ class ServerInfo extends React.Component<any, any> {
         }
     }
     componentWillReceiveProps(nextProps) {
-        let nextTopoNodes = nextProps.topo && nextProps.topo.nodes ? _.keyBy(nextProps.topo.nodes, 'id') : {}
-        let prevTopoNodes = this.state.topo && this.state.topo.nodes ? _.keyBy(this.state.topo.nodes, 'id') : {}
-        if (shallowDiffers(nextTopoNodes, prevTopoNodes)) {
-            this.setState({
-                topo: nextProps.topo
-            })
+        if (nextProps.topo) {
+            let nextTopoNodes = nextProps.topo && nextProps.topo.nodes ? _.keyBy(nextProps.topo.nodes, 'id') : {}
+            let prevTopoNodes = this.state.topo && this.state.topo.nodes ? _.keyBy(this.state.topo.nodes, 'id') : {}
+            if (shallowDiffers(nextTopoNodes, prevTopoNodes)) {
+                this.setState({
+                    topo: nextProps.topo
+                })
+            }
         }
     }
     componentWillUnmount() {
@@ -413,7 +417,7 @@ class ServerInfo extends React.Component<any, any> {
                 <Button
                     type="primary" ghost
                     icon="reload"
-                    onClick={this.refreshHandler.bind(this, true)}
+                    onClick={this.refreshHandler.bind(this)}
                 >刷新</Button>
             </div>
         )

@@ -95,9 +95,11 @@ class HostInfo extends React.Component<any, any> {
                 dsname = 'imdsTopoStorage'
         }
         this.props.actions.getTopoState(dsname, { moInstId: id }, (data, err) => {
-            this.setState({
-                topo: data
-            })
+            if (data) {
+                this.setState({
+                    topo: data
+                })
+            }
         })
     }
     handleEditData(d, cb) {
@@ -191,9 +193,7 @@ class HostInfo extends React.Component<any, any> {
                 default:
                     hostTypePath = '/imdsController/'
             }
-            moInstId = moInstId.split('_')
-            moInstId = moInstId ? moInstId : ''
-            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${mathMoTypeKeyAndRoute(moTypeKey)}/${hostTypePath}info/${moInstId[1]}?active=topo`)
+            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${mathMoTypeKeyAndRoute(moTypeKey)}/${hostTypePath}info/${moInstId}?active=topo`)
         }
     }
     refreshHandler() {
@@ -269,7 +269,7 @@ class HostInfo extends React.Component<any, any> {
                 <Button
                     type="primary" ghost
                     icon="reload"
-                    onClick={this.refreshHandler.bind(this, true)}
+                    onClick={this.refreshHandler.bind(this)}
                 >刷新</Button>
             </div>
         )
