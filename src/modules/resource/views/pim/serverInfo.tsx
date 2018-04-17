@@ -162,7 +162,7 @@ class ServerInfo extends React.Component<any, any> {
                     type = 'imdsController'
             }
             let topoFlag = topo ? `?active=topo&name=${host_info.name}` : ''
-            this.props.history.replace(`/resource/vim/${host_info.vim_id}/host/${type}/info/${host_info.id}${topoFlag}`)
+            this.props.history.push(`/resource/vim/${host_info.vim_id}/host/${type}/info/${host_info.id}${topoFlag}`)
         }
     }
     handleEditData(d, cb) {
@@ -657,10 +657,8 @@ class ServerInfo extends React.Component<any, any> {
                                 </TabPane>
                             </Tabs>
                         </TabPane>
-                        <TabPane tab="拓扑结构" key="topo">
-                            <div style={{ marginBottom: '20px' }}>
-                                {this.renderTopo()}
-                            </div>
+                        <TabPane tab="拓扑结构" key="topo" className={styles.topoTab}>
+                            {this.renderTopo()}
                         </TabPane>
                     </Tabs>
                 </div>

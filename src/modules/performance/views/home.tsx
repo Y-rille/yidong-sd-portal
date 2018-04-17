@@ -68,8 +68,6 @@ class Home extends React.Component<HomeProps, any> {
         let { match, history } = this.props
         if (value) {
             if (value.searchValue) {
-                // console.log(value, '=======>value')
-                // console.log(this.props.location.pathname.split('/').indexOf('search'), '=======>location')
                 if (this.props.location.pathname.split('/').indexOf('search') < 0) {
                     history.push(`${match.url}/search/${value.searchValue}`)
                 } else {
@@ -83,7 +81,6 @@ class Home extends React.Component<HomeProps, any> {
                         defaultNodeId: [firstNode.nodeId]
                     })
                 }
-
             }
             this.setState({
                 searchValue: value
@@ -115,7 +112,6 @@ class Home extends React.Component<HomeProps, any> {
                     defaultNodeId: defaultNodeIdArr
                 })
             }
-
         }
     }
     componentDidMount() {
