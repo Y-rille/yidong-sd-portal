@@ -98,7 +98,7 @@ class VirtualInfo extends React.Component<any, any> {
                 if (sv_info) {
                     let id = sv_info['id']
                     if (id && vim_id) {
-                        this.props.history.replace(`/resource/vim/${vim_id}/storage_volume/info/${id}`)
+                        this.props.history.push(`/resource/vim/${vim_id}/storage_volume/info/${id}`)
                     }
                 }
             }
@@ -317,13 +317,10 @@ class VirtualInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="拓扑结构" key="topo">
-                            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                {this.renderTopo()}
-                            </div>
+                            {this.renderTopo()}
                         </TabPane>
                     </Tabs>
                 </div>
-
             </div>
         );
     }
