@@ -128,9 +128,14 @@ class VirtualInfo extends React.Component<any, any> {
         let dsname = 'imdsTopoVM'
         this.props.actions.getTopoState(dsname, { moInstId: id }, (data, err) => {
             if (data) {
-                this.setState({
-                    topo: data
-                })
+                let nextTopoNodes = data && data.nodes ? _.keyBy(data.nodes, 'id') : {}
+                let { topo } = this.state
+                let prevTopoNodes = topo && topo.nodes ? _.keyBy(topo.nodes, 'id') : {}
+                if (shallowDiffers(nextTopoNodes, prevTopoNodes) || !topo) {
+                    this.setState({
+                        topo: data
+                    })
+                }
             }
         })
     }
@@ -181,15 +186,6 @@ class VirtualInfo extends React.Component<any, any> {
             let timer = setInterval(() => {
                 this.getTopo()
             }, 300000)
-        }
-    }
-    componentWillReceiveProps(nextProps) {
-        let nextTopoNodes = nextProps.topo && nextProps.topo.nodes ? _.keyBy(nextProps.topo.nodes, 'id') : {}
-        let prevTopoNodes = this.state.topo && this.state.topo.nodes ? _.keyBy(this.state.topo.nodes, 'id') : {}
-        if (shallowDiffers(nextTopoNodes, prevTopoNodes)) {
-            this.setState({
-                topo: nextProps.topo
-            })
         }
     }
     componentWillUnmount() {
