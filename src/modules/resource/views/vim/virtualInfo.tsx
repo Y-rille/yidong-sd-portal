@@ -12,9 +12,11 @@ import { Topology } from '../../../../components/Topology/topology.js'
 import '../../../../components/Topology/topology.css'
 import qs from 'querystringify'
 import mathMoTypeKeyAndRoute from '../../utils/mathMoTypeKeyAndRoute'
+import UUID from 'uuid'
+import shallowDiffers from '../../utils/shallowDiffers'
 
 class VirtualInfo extends React.Component<any, any> {
-    host_info: any
+    timer: any
     constructor(props) {
         super(props);
         const mp_node: any = matchPath(this.props.match.url, {
@@ -32,9 +34,12 @@ class VirtualInfo extends React.Component<any, any> {
             activeKey: key
         })
         if (key === 'topo') {
-            let { id } = this.props.match.params
-            let dsname = 'imdsTopoVM'
-            this.props.actions.getTopoState(dsname, { moInstId: id })
+            this.getTopo()
+            if (!this.timer) {
+                let timer = setInterval(() => {
+                    this.getTopo()
+                }, 300000)
+            }
         }
     }
     handleEditData(d, cb) {
@@ -93,19 +98,19 @@ class VirtualInfo extends React.Component<any, any> {
                 if (sv_info) {
                     let id = sv_info['id']
                     if (id && vim_id) {
-                        this.props.history.replace(`/resource/vim/${vim_id}/storage_volume/info/${id}`)
+                        this.props.history.push(`/resource/vim/${vim_id}/storage_volume/info/${id}`)
                     }
                 }
-
             }
         })
     }
     goHost() {
-        if (this.host_info) {
+        let { host_info } = this.state
+        if (host_info) {
             let vm = this.props.match.params.id;
             let { active } = qs.parse(this.props.location.search)
             let type = ''
-            switch (this.host_info.host_type) {
+            switch (host_info.host_type) {
                 case 'compute':
                     type = 'imdsHost'
                     break
@@ -115,8 +120,24 @@ class VirtualInfo extends React.Component<any, any> {
                 default:
                     type = 'imdsController'
             }
-            this.props.history.replace(`/resource/vim/${this.host_info.vim_id}/host/${type}/info/${this.host_info.id}/?active=topo&name=${this.host_info.name}`)
+            this.props.history.push(`/resource/vim/${host_info.vim_id}/host/${type}/info/${host_info.id}/?active=topo&name=${host_info.name}`)
         }
+    }
+    getTopo() {
+        let { id } = this.props.match.params
+        let dsname = 'imdsTopoVM'
+        this.props.actions.getTopoState(dsname, { moInstId: id }, (data, err) => {
+            if (data) {
+                let nextTopoNodes = data && data.nodes ? _.keyBy(data.nodes, 'id') : {}
+                let { topo } = this.state
+                let prevTopoNodes = topo && topo.nodes ? _.keyBy(topo.nodes, 'id') : {}
+                if (shallowDiffers(nextTopoNodes, prevTopoNodes) || !topo) {
+                    this.setState({
+                        topo: data
+                    })
+                }
+            }
+        })
     }
     nodeDblClick(data) {
         if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
@@ -135,19 +156,37 @@ class VirtualInfo extends React.Component<any, any> {
             this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${mathMoTypeKeyAndRoute(moTypeKey)}/${hostTypePath}info/${moInstId}?active=topo`)
         }
     }
+    refreshHandler() {
+        this.getTopo()
+    }
     componentWillMount() {
-        let moTypeKey = 'vm'
         let { id } = this.props.match.params
-        this.props.actions.getObjAttributes(moTypeKey)
-        this.props.actions.getObjData(moTypeKey, id)
+        let { active } = qs.parse(this.props.location.search)
         this.props.actions.queryList('imdsVMHostInfo', { vm_id: id }, (err, res) => {
             if (!err && res['dataList']) {
                 let host_info = _.head(res['dataList'])
                 if (host_info) {
-                    this.host_info = host_info
+                    this.setState({
+                        host_info: host_info
+                    })
                 }
             }
         })
+        if (active && active === 'topo') {
+            this.getTopo()
+        } else {
+            let moTypeKey = 'vm'
+            this.props.actions.getObjAttributes(moTypeKey)
+            this.props.actions.getObjData(moTypeKey, id)
+        }
+    }
+    componentDidMount() {
+        let { active } = qs.parse(this.props.location.search)
+        if (active && active === 'topo' && !this.timer) {
+            let timer = setInterval(() => {
+                this.getTopo()
+            }, 300000)
+        }
     }
     componentWillUnmount() {
         this.props.actions.resetList()
@@ -155,6 +194,7 @@ class VirtualInfo extends React.Component<any, any> {
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
         this.props.actions.resetTopo()
+        clearInterval(this.timer)
     }
     renderBtns() {
         return (
@@ -174,7 +214,13 @@ class VirtualInfo extends React.Component<any, any> {
                     type="primary" ghost
                     icon="fork"
                     onClick={this.goHost.bind(this)}
-                >物理拓扑</Button>
+                    style={{ margin: '0px 10px 0px 0' }}
+                >主机拓扑</Button>
+                <Button
+                    type="primary" ghost
+                    icon="reload"
+                    onClick={this.refreshHandler.bind(this)}
+                >刷新</Button>
             </div>
         )
     }
@@ -195,8 +241,8 @@ class VirtualInfo extends React.Component<any, any> {
         }
     }
     renderTopo() {
-        let { topo } = this.props
-        if (this.host_info && topo) {
+        let { host_info, topo } = this.state
+        if (host_info && topo) {
             let { id } = this.props.match.params
             let w = document.querySelector('.Pane2').clientWidth - 96
             let h = window.innerHeight - 240
@@ -206,7 +252,7 @@ class VirtualInfo extends React.Component<any, any> {
                     size="small"
                     tabBarExtraContent={this.topoBtns()}
                     animated={false}>
-                    <TabPane tab={this.host_info.name}>
+                    <TabPane tab={`所属主机：${host_info.name}`}>
                         <div style={{ marginTop: '10px' }}>
                             <div className={styles.legend}>
                                 <div><span></span>严重</div>
@@ -215,12 +261,13 @@ class VirtualInfo extends React.Component<any, any> {
                                 <div><span></span>提示</div>
                             </div>
                             <Topology
+                                key={UUID.v1()}
                                 data={topo}
                                 width={w}
                                 height={h}
                                 center={flag}
                                 zoomToFit={flag}
-                                cid={id}
+                                cid={`VM_${id}`}
                                 onDblclick={this.nodeDblClick.bind(this)} />
                         </div>
                     </TabPane>
@@ -269,13 +316,10 @@ class VirtualInfo extends React.Component<any, any> {
                             </Tabs>
                         </TabPane>
                         <TabPane tab="拓扑结构" key="topo">
-                            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                {this.renderTopo()}
-                            </div>
+                            {this.renderTopo()}
                         </TabPane>
                     </Tabs>
                 </div>
-
             </div>
         );
     }

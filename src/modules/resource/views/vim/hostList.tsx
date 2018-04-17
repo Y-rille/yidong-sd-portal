@@ -23,13 +23,6 @@ class HostList extends React.Component<any, any> {
         if (this.props.goLink) {
             this.props.goLink(key, obj)
         }
-        // let { pathname } = this.props.location
-        // const mp_node: any = matchPath(this.props.match.url, {
-        //     path: '/resource/vim/:id'
-        // })
-        // if (key === 'name') {
-        //     this.props.history.replace(`/resource/vim/${mp_node.params.id}/host/info/${obj.name}`)
-        // }
     }
     goDelete = () => { }
     goEdit = () => { }

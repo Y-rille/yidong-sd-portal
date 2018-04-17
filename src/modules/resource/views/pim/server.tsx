@@ -344,7 +344,7 @@ class Server extends React.Component<any, any> {
                                         actionAuth={['delete']}
                                         selectAuth={true}
                                         selectRow={this.selectRow.bind(this)}
-                                        size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 340 }}
+                                        size={{ y: list.totalCount > pageSize ? window.innerHeight - 371 : window.innerHeight - 340 }}
                                     />
                                 ) : (
                                         <Spin />
