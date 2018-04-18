@@ -106,7 +106,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                         <Breadcrumb.Item>{modalTitle}</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div className={styles.tb}>
+                <div style={{ padding: '20px', minHeight: `${window.innerHeight - 277}px` }}>
                     <UserForm
                         id={id}
                         userInfo={this.props.userInfo}
