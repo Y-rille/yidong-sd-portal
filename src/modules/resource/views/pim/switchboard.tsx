@@ -52,9 +52,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             findSelected: []
         };
     }
-    goInfo = () => {
-        this.props.history.push(`/resource/pim/1/switchboard/info`)
-    }
     onDataChange(value) {
         this.setState({
             datacenter: value

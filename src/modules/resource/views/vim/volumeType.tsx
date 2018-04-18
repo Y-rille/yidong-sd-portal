@@ -39,9 +39,6 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
             name: name ? name : '',
         }
     }
-    goInfo = () => {
-        this.props.history.push(`/resource/vim/1/volume_type/info`)
-    }
     volumeTypeInputChange(value) {
         this.setState({
             name: value

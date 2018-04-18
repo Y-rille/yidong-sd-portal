@@ -48,10 +48,6 @@ class Firewall extends React.Component<FirewallProps, any> {
             findSelected: []
         }
     }
-    goInfo = () => {
-        this.props.history.push(`/resource/pim/1/firewall/info`)
-    }
-
     getData(formData) { // 发现
         if (formData) {
             this.props.actions.autoDiscovery('firewall', formData, (backdata, err) => {
