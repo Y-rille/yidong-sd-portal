@@ -150,19 +150,8 @@ class ServerInfo extends React.Component<any, any> {
         let { host_info } = this.state
         if (host_info) {
             let vm = this.props.match.params.id;
-            let type = ''
-            switch (host_info.host_type) {
-                case 'compute':
-                    type = 'imdsHost'
-                    break
-                case 'storage':
-                    type = 'imdsStorage'
-                    break
-                default:
-                    type = 'imdsController'
-            }
             let topoFlag = topo ? `?active=topo&name=${host_info.name}` : ''
-            this.props.history.push(`/resource/vim/${host_info.vim_id}/host/${type}/info/${host_info.id}${topoFlag}`)
+            this.props.history.push(`/resource/vim/${host_info.vim_id}/host/${host_info.host_type}/info/${host_info.id}${topoFlag}`)
         }
     }
     handleEditData(d, cb) {
@@ -373,7 +362,7 @@ class ServerInfo extends React.Component<any, any> {
                         <Button type="primary"
                             style={{ margin: '0px 10px 0px 0' }}
                             icon="link" ghost
-                            onClick={this.sshLink.bind(this, 'reset')}>SSH</Button>
+                            onClick={this.sshLink.bind(this, 'reset')}>设备管理</Button>
                         <Button
                             type="primary" ghost
                             icon="dingding"

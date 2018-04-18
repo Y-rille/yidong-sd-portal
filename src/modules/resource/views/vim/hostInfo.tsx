@@ -85,10 +85,10 @@ class HostInfo extends React.Component<any, any> {
         let { type, id } = this.props.match.params
         let dsname = ''
         switch (type) {
-            case 'imdsHost':
+            case 'compute':
                 dsname = 'imdsTopoHost'
                 break;
-            case 'imdsController':
+            case 'controller':
                 dsname = 'imdsTopoController'
                 break;
             default:
@@ -187,17 +187,7 @@ class HostInfo extends React.Component<any, any> {
     nodeDblClick(data) {
         if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
             let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
-            let hostTypePath = ''
-            switch (hostType) {
-                case 'compute':
-                    hostTypePath = '/imdsHost/'
-                    break
-                case 'storage':
-                    hostTypePath = '/imdsStorage/'
-                    break
-                default:
-                    hostTypePath = '/imdsController/'
-            }
+            let hostTypePath = hostType ? `/${hostType}/` : ''
             this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${mathMoTypeKeyAndRoute(moTypeKey)}/${hostTypePath}info/${moInstId}?active=topo`)
         }
     }
@@ -215,10 +205,10 @@ class HostInfo extends React.Component<any, any> {
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey, host)
             switch (type) {
-                case 'imdsHost':
+                case 'compute':
                     this.props.actions.getSummary('imdsHostOverview', { host: host }, null)
                     break;
-                case 'imdsController':
+                case 'controller':
                     this.props.actions.getSummary('imdsControllerOverview', { host: host }, null)
                     break;
                 default:
