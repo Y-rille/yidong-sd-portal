@@ -23,11 +23,7 @@ class Mirror extends React.Component<any, any> {
             project: project ? project : '',
             name: name ? name : '',
             vim_id: mp_node ? mp_node.params.id : ''
-
         }
-    }
-    goInfo = () => {
-        this.props.history.push(`/resource/vim/1/mirror/info`)
     }
     getData(type, value) {
         let { project } = this.state
@@ -120,7 +116,6 @@ class Mirror extends React.Component<any, any> {
             pageNo
         }
         this.getTableData(queryObj)
-
     }
     componentWillUnmount() {
         this.props.actions.resetList()

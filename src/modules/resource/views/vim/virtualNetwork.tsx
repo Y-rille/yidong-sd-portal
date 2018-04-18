@@ -35,9 +35,6 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
             vnGroup: vnGroup ? vnGroup : ''
         }
     }
-    goInfo = () => {
-        this.props.history.push(`/resource/vim/1/virtual_network/info`)
-    }
     virtualNetworkInputChange(value) {
         this.setState({
             name: value
