@@ -44,6 +44,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     keys.push(`/resource/vim/${item.nodeId}`)
                     keys.push(`/resource/vim/${item.nodeId}/host`)
                     keys.push(`/resource/vim/${item.nodeId}/virtual`)
+                    keys.push(`/resource/vim/${item.nodeId}/virtual_group`)
                     keys.push(`/resource/vim/${item.nodeId}/az`)
                     keys.push(`/resource/vim/${item.nodeId}/ha`)
                     keys.push(`/resource/vim/${item.nodeId}/flavor`)
@@ -51,6 +52,16 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     keys.push(`/resource/vim/${item.nodeId}/virtual_network`)
                     keys.push(`/resource/vim/${item.nodeId}/storage_volume`)
                     keys.push(`/resource/vim/${item.nodeId}/volume_type`)
+                    keys.push(`/resource/vim/${item.nodeId}/storage_qos`)
+                    keys.push(`/resource/vim/${item.nodeId}/virtual_subnet`)
+                    keys.push(`/resource/vim/${item.nodeId}/virtual_port`)
+                    keys.push(`/resource/vim/${item.nodeId}/network_qos`)
+                    keys.push(`/resource/vim/${item.nodeId}/virtual_router`)
+                    keys.push(`/resource/vim/${item.nodeId}/virtual_firewall`)
+                    keys.push(`/resource/vim/${item.nodeId}/vf_strategy`)
+                    keys.push(`/resource/vim/${item.nodeId}/vf_rule`)
+                    keys.push(`/resource/vim/${item.nodeId}/user_group`)
+                    keys.push(`/resource/vim/${item.nodeId}/project_quota`)
                 })
             })
             data['物理资源'].map((_item, _key) => {
@@ -91,6 +102,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                                     <SubMenu key={`/resource/vim/${id}`} title={<span><Icon type="dropbox" /><span>{_item.nodeLabel}</span></span>}>
                                         <Menu.Item key={`/resource/vim/${id}/host`} >主机管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/virtual`} >虚拟机管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/virtual_group`} >虚拟机组管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/az`} >AZ管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/ha`} >HA管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/flavor`} >Flavor管理</Menu.Item>
@@ -98,6 +110,16 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                                         <Menu.Item key={`/resource/vim/${id}/virtual_network`} >虚拟网络管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/storage_volume`} >存储卷管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/volume_type`} >卷类型管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/storage_qos`} disabled="false">存储QOS管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/virtual_subnet`}  >虚拟子网管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/virtual_port`} >虚拟端口管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/network_qos`} disabled="false" >网络QOS管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/virtual_router`} >虚拟路由器信息管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/virtual_firewall`} disabled="false" >虚拟防火墙管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/vf_strategy`} disabled="false"  >虚拟防火墙安全策略管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/vf_rule`} disabled="false"  >虚拟防火墙安全规则管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/user_group`} >用户和用户组管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/project_quota`} >项目及配额管理</Menu.Item>
                                     </SubMenu>
                                 )
                             })
@@ -114,11 +136,9 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                                             <Menu.Item key={`/resource/pim/${id}/magnetic`} >磁阵管理</Menu.Item>
                                         </SubMenu>
                                     )
-
                                 })
                             })
                         }
-
                     </Menu>
                 </div >
             )
