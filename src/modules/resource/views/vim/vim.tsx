@@ -20,7 +20,20 @@ import VirtualNetwork from '../../container/vim/virtualNetwork'
 import VirtualNetworkInfo from '../../container/vim/virtualNetworkInfo'
 import VolumeType from '../../container/vim/volumeType'
 import VolumeTypeInfo from '../../container/vim/volumeTypeInfo'
+
+import VirtualGroup from '../../container/vim/virtualGroup'
+import NetworkQos from '../../container/vim/networkQos'
+import ProjectQuota from '../../container/vim/projectQuota'
+import StorageQos from '../../container/vim/storageQos'
+import UserGroup from '../../container/vim/userGroup'
+import VfRule from '../../container/vim/vfRule'
+import VfStrategy from '../../container/vim/vfStrategy'
+import VirtualFirewall from '../../container/vim/virtualFirewall'
+import VirtualPort from '../../container/vim/virtualPort'
+import VirtualRouter from '../../container/vim/virtualRouter'
+import VirtualSubnet from '../../container/vim/virtualSubnet'
 import styles from '../../style/index.less'
+import vfRule from '../../container/vim/vfRule';
 class Vim extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -60,6 +73,17 @@ class Vim extends React.Component<any, any> {
                         <Route path={`${match.url}/virtual_network`} component={VirtualNetwork} />
                         <Route path={`${match.url}/volume_type/info/:id`} component={VolumeTypeInfo} />
                         <Route path={`${match.url}/volume_type`} component={VolumeType} />
+                        <Route path={`${match.url}/virtual_group`} component={VirtualGroup} />
+                        <Route path={`${match.url}/storage_qos`} component={StorageQos} />
+                        <Route path={`${match.url}/virtual_subnet`} component={VirtualSubnet} />
+                        <Route path={`${match.url}/virtual_port`} component={VirtualPort} />
+                        <Route path={`${match.url}/network_qos`} component={NetworkQos} />
+                        <Route path={`${match.url}/virtual_router`} component={VirtualRouter} />
+                        <Route path={`${match.url}/virtual_firewall`} component={VirtualFirewall} />
+                        <Route path={`${match.url}/vf_strategy`} component={VfStrategy} />
+                        <Route path={`${match.url}/vf_rule`} component={VfRule} />
+                        <Route path={`${match.url}/user_group`} component={UserGroup} />
+                        <Route path={`${match.url}/project_quota`} component={ProjectQuota} />
                     </Switch>
                 </div>) : (
                     <div />
