@@ -36,37 +36,33 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         let newArr: any = []
         if (arr1 && arr2) {
             let newObj = _.zipObject(arr1, arr2)
-            // _.forIn(newObj, (value, key) => {
-            //     newArr.push([key, value])
-            // })
-            for (const key in newObj) {
-                if (newObj.hasOwnProperty(key)) {
-                    newArr.push([key, newObj[key]])
-                }
-            }
+            _.forIn(newObj, (value, key) => {
+                newArr.push([key, value])
+            })
         }
         return newArr
     }
 
     toNewData2(arr1, arr2, arrText, percent = false) {
         let newArr: any = []
+        let len = arrText.length
         if (arr1 && arr2) {
             let newObj = _.zipObject(arr1, arr2)
             if (percent) {
                 let total = 0
                 let eachNum: any
-                for (let i = 0; i < arrText.length; i++) {
-                    newArr.push([arrText[i], newObj[arrText[i]]])
-                    eachNum = newObj[arrText[i]]
+                _.times(len, (index) => {
+                    newArr.push([arrText[index], newObj[arrText[index]]])
+                    eachNum = newObj[arrText[index]]
                     total = total + parseInt(eachNum, 10)
-                }
-                for (let i = 0; i < newArr.length; i++) {
-                    newArr[i][1] = _.round((newArr[i][1] / total), 3) * 100
-                }
+                })
+                _.times(len, (index) => {
+                    newArr[index][1] = _.round((newArr[index][1] / total), 3) * 100
+                })
             } else {
-                for (let i = 0; i < arrText.length; i++) {
-                    newArr.push([arrText[i], newObj[arrText[i]]])
-                }
+                _.times(len, (index) => {
+                    newArr.push([arrText[index], newObj[arrText[index]]])
+                })
             }
         }
         return newArr
@@ -210,7 +206,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         let rightTextArr: any = ['计算节点', '控制节点', '存储节点']
         let arrColor = ['#7cd8ba', '#879dbb', '#ffe780']
         let newLeftArr = this.toNewData2(item.data.headers, _.head(item.data.values), leftTextArr)
-        let newRightArr = this.toNewData2(item.data.headers, _.head(item.data.values), rightTextArr)       
+        let newRightArr = this.toNewData2(item.data.headers, _.head(item.data.values), rightTextArr)
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
