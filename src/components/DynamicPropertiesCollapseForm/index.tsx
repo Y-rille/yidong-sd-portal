@@ -94,7 +94,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                             {this.renderForm(this.props.data)}
                         </Row>
                         {isEditor ? <Row>
-                            <Col span={24} style={{ textAlign: 'left' }}>
+                            <Col span={24} style={{ textAlign: 'right' }}>
                                 <Button style={{ marginLeft: 8 }} onClick={this.handleEdit.bind(this)} type="primary">
                                     {this.state.isEdit ? '保存' : '修改'}
                                 </Button>
