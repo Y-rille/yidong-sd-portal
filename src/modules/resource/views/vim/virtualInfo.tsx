@@ -193,7 +193,6 @@ class VirtualInfo extends React.Component<any, any> {
         this.props.actions.resetSyslog();
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
-        this.props.actions.resetTopo()
         clearInterval(this.timer)
     }
     renderBtns() {
