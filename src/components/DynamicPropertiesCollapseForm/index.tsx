@@ -9,7 +9,10 @@ interface DynamicPropertiesCollapseFormProps {
     editData?
     loading?
 }
-
+const formItemLayout = {
+    labelCol: { span: 9 },
+    wrapperCol: { span: 15 },
+};
 class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicPropertiesCollapseFormProps> {
     constructor(props) {
         super(props);
@@ -33,7 +36,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                         loading: false,
                         isEdit: false
                     })
-                    this.handleReset()
+                    this.handleCancle()
                 })
             }
         } else {
@@ -43,8 +46,11 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
         }
 
     }
-    handleReset = () => {
-        this.props.form.resetFields();
+    handleCancle = () => {
+        this.setState({
+            isEdit: false
+        })
+        // this.props.form.resetFields();
     }
 
     componentDidMount() {
@@ -55,8 +61,8 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
         const { getFieldDecorator } = this.props.form;
         data.map((item, index) => {
             items.push(
-                <Col span={8} key={index}>
-                    <FormItem wrapperCol={{ offset: 1 }} label={item.key}>
+                <Col span={12} key={index}>
+                    <FormItem {...formItemLayout} label={item.key}>
                         {getFieldDecorator(`${item.physicalTablefield}`, {
                             initialValue: item.values, rules: [
                                 {
@@ -65,7 +71,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                         })(
                             item.editable && this.state.isEdit ? <Input readOnly={!this.state.isEdit}
                                 name={item.attributeName} /> : (item.values.length > 25 ? <Tooltip placement="topLeft" title={item.values} arrowPointAtCenter>
-                                    <p>{item.values.slice(0, 24)}...</p>
+                                    <p style={{ width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.values}</p>
                                 </Tooltip> : <p>{item.values}</p>)
                         )}
                     </FormItem>
@@ -92,9 +98,9 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                                 <Button style={{ marginLeft: 8 }} onClick={this.handleEdit.bind(this)} type="primary">
                                     {this.state.isEdit ? '保存' : '修改'}
                                 </Button>
-                                {this.state.isEdit ? <Button style={{ marginLeft: 8 }} onClick={this.handleReset.bind(this)}
+                                {this.state.isEdit ? <Button style={{ marginLeft: 8 }} onClick={this.handleCancle.bind(this)}
                                     type="primary">
-                                    重置
+                                    取消
                                     </Button> : null}
                             </Col>
                         </Row> : null}
