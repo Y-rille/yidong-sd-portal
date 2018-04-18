@@ -140,7 +140,7 @@ class Edit extends React.Component<any, any> {
                         <Breadcrumb.Item>{titleTxt}批量更新</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div style={{ padding: '20px' }}>
+                <div style={{ padding: '20px', minHeight: `${window.innerHeight - 277}px` }}>
                     {objAttributes && objData ? this.renderPimEdit() : <div />}
                 </div>
                 <div className={styles.footer}>
