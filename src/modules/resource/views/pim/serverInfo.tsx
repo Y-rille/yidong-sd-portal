@@ -340,7 +340,6 @@ class ServerInfo extends React.Component<any, any> {
         this.props.actions.resetList()
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
-        this.props.actions.resetTopo()
         clearInterval(this.timer)
     }
     renderDynamicPropertiesCollapse() {
