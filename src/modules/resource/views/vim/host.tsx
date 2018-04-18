@@ -206,14 +206,8 @@ class Host extends React.Component<HostProps, any> {
                     </Tabs>
                     <Switch>
                         <Redirect from={`${match.url}`} to={`${match.url}/controller`} exact />
-                        <Route path={`${match.url}/controller`}
-                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} value="控制节点" />}
-                        />
-                        <Route path={`${match.url}/compute`}
-                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} value="计算节点" />}
-                        />
-                        <Route path={`${match.url}/storage`}
-                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} value="存储节点" />}
+                        <Route path={`${match.url}/:type`}
+                            render={() => <HostList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} goLink={this.goLink.bind(this)} data={list} tableLoading={tableLoading} />}
                         />
                     </Switch>
                 </div>
