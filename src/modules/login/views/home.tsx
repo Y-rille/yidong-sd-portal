@@ -33,7 +33,7 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                 self.props.actions.login(values, (data) => {
                     if (data) {
                         emitter.emit('message', 'success', '登录成功！')
-                        this.props.history.replace(`/performance`)
+                        this.props.history.replace(`/resource`)
                     } else {
                         emitter.emit('message', 'error', '用户名或密码错误！')
                     }
@@ -51,14 +51,14 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                             rules: [{ required: true, message: '请输入用户名!' }],
                         })(
                             <Input size="large" prefix={<Icon type="user" className={styles.prefixIcon} />} placeholder="用户名" />
-                            )}
+                        )}
                     </FormItem>
                     <FormItem>
                         {getFieldDecorator('password', {
                             rules: [{ required: true, message: '请输入密码!' }],
                         })(
                             <Input size="large" prefix={<Icon type="lock" className={styles.prefixIcon} />} placeholder="密码" type="password" />
-                            )}
+                        )}
 
                     </FormItem>
 
