@@ -8,6 +8,7 @@ import VirtualRouter from '../../views/vim/virtualRouter'
 
 function mapProps(state) {
     return {
+        config: state.commonReducer.config,
         name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
     }

@@ -9,6 +9,7 @@ import VirtualSubnet from '../../views/vim/virtualSubnet'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
+        config: state.commonReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
     }
 }
