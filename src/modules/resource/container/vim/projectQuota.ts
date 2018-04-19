@@ -8,6 +8,7 @@ import ProjectQuota from '../../views/vim/projectQuota'
 
 function mapProps(state) {
     return {
+        config: state.commonReducer.config,
         name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
     }

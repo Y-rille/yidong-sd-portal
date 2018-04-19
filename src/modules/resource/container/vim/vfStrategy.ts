@@ -8,6 +8,7 @@ import VfStrategy from '../../views/vim/vfStrategy'
 
 function mapProps(state) {
     return {
+        config: state.commonReducer.config,
         name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
     }
