@@ -66,8 +66,8 @@ class Home extends React.Component<any, any> {
                 <SplitPane
                     split="vertical"
                     minSize={100}
-                    maxSize={300}
-                    defaultSize={220} >
+                    maxSize={270}
+                    defaultSize={236} >
                     <div>
                         {this.renderSider(match)}
                     </div>
