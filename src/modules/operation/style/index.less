@@ -1,0 +1,77 @@
+@import "~antd/lib/style/themes/default.less";
+@import "../../../style/index.less";
+.operation {
+    height: 100%;
+    .main {
+        margin: 20px;
+        background: #fff;
+        border-radius: 4px;
+        overflow: hidden;
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e4e9;
+            .title {
+                margin-bottom: 8px;
+                font-size: 20px;
+                color: #525459;
+                font-weight: normal;
+            }
+        }
+        .footer {
+            padding: 20px;
+            border-top: 1px solid #e2e4e9;
+            text-align: right;
+            button:nth-child(2){
+                margin-left: @margin-min;
+            }
+        }
+        .tb{
+            padding: 20px
+        }
+    }
+    .leftBg{
+        background: #fff;
+        li:nth-child(2){
+            border-top: 1px solid #eee
+        }
+    }
+    .filter{
+        margin-bottom: @margin-base;
+        .search{
+            width: 300px;
+            margin-left: 10px
+        }
+        .search_bn{
+            margin-left: 8px
+        }
+        .bn{
+            float: right
+        }
+    }
+}
+
+:global {
+    .gutter-box {
+        min-height: 300px;
+        padding: 16px;
+        border: 1px solid #e8e8e8;
+    }
+    .leftNavItem{
+        display: block;
+        height: 44px;
+        line-height: 44px;
+        border-left: 5px solid #fff;
+        i {
+            margin-left: 20px;
+            margin-right: 5px;
+        }
+    }
+    .selected{
+        border-left-color: @primary-color;
+        color: @primary-color;
+        background-color: #f7fafc;
+    }
+    .leftNavItem:hover{
+        cursor: pointer;
+    }
+}
