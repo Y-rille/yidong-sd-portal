@@ -70,12 +70,12 @@ class Vim extends React.Component<any, any> {
                         <Route path={`${match.url}/virtual/info/:id`} component={VirtualInfo} />
                         <Route path={`${match.url}/virtual`} component={Virtual} />
                         <Route path={`${match.url}/virtual_network/info/:id`} component={VirtualNetworkInfo} />
+                        <Route path={`${match.url}/virtual_network/:id/subnet`} component={VirtualSubnet} />
                         <Route path={`${match.url}/virtual_network`} component={VirtualNetwork} />
                         <Route path={`${match.url}/volume_type/info/:id`} component={VolumeTypeInfo} />
                         <Route path={`${match.url}/volume_type`} component={VolumeType} />
                         <Route path={`${match.url}/virtual_group`} component={VirtualGroup} />
                         <Route path={`${match.url}/storage_qos`} component={StorageQos} />
-                        <Route path={`${match.url}/virtual_subnet`} component={VirtualSubnet} />
                         <Route path={`${match.url}/virtual_port`} component={VirtualPort} />
                         <Route path={`${match.url}/network_qos`} component={NetworkQos} />
                         <Route path={`${match.url}/virtual_router`} component={VirtualRouter} />
