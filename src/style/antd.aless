@@ -159,9 +159,10 @@
 .dynamicPropertiesPanel {
     .ant-advanced-search-form {
       .ant-form-item {
+        margin-bottom: 0;
         display: flex;
-        .ant-form-item-label {width:360px;}
-        .ant-form-item-control-wrapper{width:500px;}
+        //.ant-form-item-label {width:360px;}
+        //.ant-form-item-control-wrapper{width:500px;}
         input:read-only,
         input:read-only:active {border:0; box-shadow:none;}
       }

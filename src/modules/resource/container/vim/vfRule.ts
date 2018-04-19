@@ -4,14 +4,12 @@ import { bindActionCreators } from 'redux';
 
 import HomeActionCreatorsMap from '../../actions/index'
 
-import VirtualInfo from '../../views/vim/virtualInfo'
+import VfRule from '../../views/vim/vfRule'
 
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
-        objData: state.resourceReducer.objData,
-        objAttributes: state.resourceReducer.objAttributes
     }
 }
 function mapDispatchToProps(dispatch) {
@@ -20,4 +18,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapProps, mapDispatchToProps)(VirtualInfo)
+export default connect(mapProps, mapDispatchToProps)(VfRule)

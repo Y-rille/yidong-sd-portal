@@ -34,12 +34,16 @@ class MageneticInfo extends React.Component<any, any> {
         this.props.history.push(`${path}`)
     }
     sshLink = () => {
-        let { config } = this.props
-        let user = {
-            name: 'admin',
-            pwd: '111'
-        };
-        window.open(`${config.ssh}?${qs.stringify(user)}`)
+        let { objAttributes, objData, config } = this.props
+        if (objAttributes && objData) {
+            let _data = {}
+            objData.columns.map((item, index) => {
+                const key = item
+                const values = objData.values[0] && objData.values[0][index]
+                _data[key] = values
+            });
+            window.open(`${config.ssh}?ip=${_data['ManagerV4IP']}`)
+        }
     }
     callback = (key) => {
         if (key === 'detail') {
@@ -182,7 +186,7 @@ class MageneticInfo extends React.Component<any, any> {
                 <Button type="primary"
                     style={{ margin: '0px 10px 0px 0' }}
                     icon="link" ghost
-                    onClick={this.sshLink.bind(this, 'reset')}>SSH</Button>
+                    onClick={this.sshLink.bind(this, 'reset')}>设备管理</Button>
             </div>
         )
     }

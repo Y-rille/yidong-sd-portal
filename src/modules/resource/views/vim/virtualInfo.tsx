@@ -109,18 +109,7 @@ class VirtualInfo extends React.Component<any, any> {
         if (host_info) {
             let vm = this.props.match.params.id;
             let { active } = qs.parse(this.props.location.search)
-            let type = ''
-            switch (host_info.host_type) {
-                case 'compute':
-                    type = 'imdsHost'
-                    break
-                case 'storage':
-                    type = 'imdsStorage'
-                    break
-                default:
-                    type = 'imdsController'
-            }
-            this.props.history.push(`/resource/vim/${host_info.vim_id}/host/${type}/info/${host_info.id}/?active=topo&name=${host_info.name}`)
+            this.props.history.push(`/resource/vim/${host_info.vim_id}/host/${host_info.host_type}/info/${host_info.id}/?active=topo&name=${host_info.name}`)
         }
     }
     getTopo() {
@@ -142,17 +131,7 @@ class VirtualInfo extends React.Component<any, any> {
     nodeDblClick(data) {
         if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
             let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
-            let hostTypePath = ''
-            switch (hostType) {
-                case 'compute':
-                    hostTypePath = '/imdsHost/'
-                    break
-                case 'storage':
-                    hostTypePath = '/imdsStorage/'
-                    break
-                default:
-                    hostTypePath = '/imdsController/'
-            }
+            let hostTypePath = hostType ? `/${hostType}/` : ''
             this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${mathMoTypeKeyAndRoute(moTypeKey)}/${hostTypePath}info/${moInstId}?active=topo`)
         }
     }
@@ -193,7 +172,6 @@ class VirtualInfo extends React.Component<any, any> {
         this.props.actions.resetSyslog();
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
-        this.props.actions.resetTopo()
         clearInterval(this.timer)
     }
     renderBtns() {

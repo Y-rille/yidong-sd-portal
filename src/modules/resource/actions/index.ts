@@ -24,8 +24,7 @@ import {
     resetObjData,
     deleteAll,
     editBatchData,
-    getTopoState,
-    resetTopo
+    getTopoState
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -54,8 +53,7 @@ const HomeActionCreatorsMap = {
     resetObjData,
     deleteAll,
     editBatchData,
-    getTopoState,
-    resetTopo
+    getTopoState
 }
 
 export interface ResourceActions {
@@ -84,8 +82,7 @@ export interface ResourceActions {
     resetObjData: Function,
     deleteAll: Function,
     editBatchData: Function,
-    getTopoState: Function,
-    resetTopo: Function
+    getTopoState: Function
 }
 
 export default HomeActionCreatorsMap;

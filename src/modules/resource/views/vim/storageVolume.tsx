@@ -37,9 +37,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
             svGroup: svGroup ? svGroup : ''
         }
     }
-    goInfo = () => {
-        this.props.history.push(`/resource/vim/1/storage_volume/info`)
-    }
+
     storageVolumeInputChange(value) {
         this.setState({
             name: value
@@ -60,7 +58,6 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
             pageNo
         });
         this.getTableData(queryObj)
-        // console.log(storageVolumeInputValue, storageVolumeSelectValue, 'ppp')
     }
     goPage = (num) => {
         let { match } = this.props
@@ -80,7 +77,11 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
     }
     goLink(key, obj) {
         let { match } = this.props
-        // this.props.history.push(`${match.url}/info/1`)
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
+        let vimId = mp_node.params.id
+        this.props.history.push(`${match.url}/info/${obj.id}`)
     }
     getTableData(queryObj) {
         this.setState({
@@ -173,7 +174,6 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                             <Spin />
                         )
                     }
-
                 </div>
             </div>
         );
