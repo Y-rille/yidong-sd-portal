@@ -8,8 +8,10 @@ import _ from 'lodash';
 export interface OverviewCardProps {
     goEdit?
     data?
-    editable?
+    type?
     goDelete?
+    doFind?
+    goTopo?
 }
 
 export default class OverviewCard extends React.PureComponent<OverviewCardProps, any> {
@@ -27,6 +29,18 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         let id = this.props.data.metadata.ID
         if (this.props.goDelete) {
             this.props.goDelete(id)
+        }
+    }
+    doFind() {
+        let metadata = this.props.data.metadata
+        if (this.props.doFind) {
+            this.props.doFind(metadata)
+        }
+    }
+    goTopo() {
+        let metadata = this.props.data.metadata
+        if (this.props.goTopo) {
+            this.props.goTopo(metadata)
         }
     }
 
@@ -126,7 +140,6 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                 this.chart = Highcharts.chart(this.pie, this.options);
             }
         })
-
     }
 
     renderCardText(item) {
@@ -239,7 +252,6 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                 </div>
             </Card>
         )
-
     }
 
     renderCard() {
@@ -269,12 +281,14 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     render() {
         let { data } = this.props
         let metadata = data.metadata
-        let { editable } = this.props
+        let { type } = this.props
         return (
             <div className={styles.overviewCard}>
                 <div className={styles.title}>
                     <span className={styles.title_header}>{metadata.NAME}</span><span>ID: {metadata.ID}</span>&emsp;<span>位置:{metadata.location}</span>&emsp;
-                    {editable ? (<a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>) : ''}
+                    {type === 'vim' ? (<a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>) : ''}
+                    {type === 'pim' ? (<a href="javascript:;" onClick={this.doFind.bind(this)}>链路发现</a>) : ''}
+                    {type === 'pim' ? (<a className={styles.title_mg} href="javascript:;" onClick={this.goTopo.bind(this)}>网络拓扑</a>) : ''}
                     <a className={styles.title_dele} href="javascript:;" onClick={this.goDelete.bind(this)}>删除</a>
                 </div>
                 {this.renderCard()}

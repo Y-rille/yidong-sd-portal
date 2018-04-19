@@ -8,6 +8,7 @@ import UserGroup from '../../views/vim/userGroup'
 
 function mapProps(state) {
     return {
+        config: state.commonReducer.config,
         name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
     }

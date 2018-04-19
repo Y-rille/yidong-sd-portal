@@ -11,7 +11,7 @@ const TabPane = Tabs.TabPane;
 import { Topology } from '../../../../components/Topology/topology.js'
 import '../../../../components/Topology/topology.css'
 import qs from 'querystringify'
-import mathMoTypeKeyAndRoute from '../../utils/mathMoTypeKeyAndRoute'
+import matchMoTypeKeyAndRoute from '../../utils/matchMoTypeKeyAndRoute'
 import UUID from 'uuid'
 import shallowDiffers from '../../utils/shallowDiffers'
 
@@ -132,7 +132,7 @@ class VirtualInfo extends React.Component<any, any> {
         if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
             let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
             let hostTypePath = hostType ? `/${hostType}/` : ''
-            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${mathMoTypeKeyAndRoute(moTypeKey)}/${hostTypePath}info/${moInstId}?active=topo`)
+            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${matchMoTypeKeyAndRoute(moTypeKey.toLocaleLowerCase())}/${hostTypePath}info/${moInstId}?active=topo`)
         }
     }
     refreshHandler() {

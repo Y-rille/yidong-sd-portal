@@ -9,6 +9,7 @@ import VirtualGroup from '../../views/vim/virtualGroup'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
+        config: state.commonReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
     }
 }

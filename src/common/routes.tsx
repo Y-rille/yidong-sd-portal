@@ -47,6 +47,10 @@ const SearchComponent = Loadable({
   loader: () => import(/* webpackChunkName: "search" */'../modules/search/routes/index'),
   loading: () => { return <Loading /> }
 })
+const OperationComponent = Loadable({
+  loader: () => import(/* webpackChunkName: "operation" */'../modules/operation/routes/index'),
+  loading: () => { return <Loading /> }
+})
 
 export interface MainRouresProps {
   store?
@@ -79,6 +83,7 @@ export default class MainRoures extends React.PureComponent<MainRouresProps, any
             <Route path="/performance" component={PerformanceComponent} />
             <Route path="/log" component={LogComponent} />
             <Route path="/search" component={SearchComponent} />
+            <Route path="/operation" component={OperationComponent} />
           </Switch>
         </Site>
       </Router>

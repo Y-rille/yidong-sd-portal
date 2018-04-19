@@ -8,6 +8,7 @@ import SplitPane from 'react-split-pane'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import Dashboard from '../container/dashboard'
+import Topo from '../container/topo'
 import Vim from '../container/vim/vim'
 import Pim from '../container/pim/pim'
 import styles from '../style/index.less'
@@ -73,6 +74,7 @@ class Home extends React.Component<any, any> {
                     <div className={styles.main} style={{ minHeight: window.innerHeight - 104 }}>
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/dashboard`} exact />
+                            <Route path={`${match.url}/dashboard/topo/:pimId`} component={Topo} />
                             <Route path={`${match.url}/dashboard`} component={Dashboard} />
                             <Route path={`${match.url}/vim/:vimId`} component={Vim} />
                             <Route path={`${match.url}/pim/:pimId`} component={Pim} />

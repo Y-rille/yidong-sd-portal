@@ -1,16 +1,15 @@
-
 const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
 
-import HomeActionCreatorsMap from '../../actions/index'
+import HomeActionCreatorsMap from '../actions/index'
 
-import VirtualSubnet from '../../views/vim/virtualSubnet'
+import Topo from '../views/topo'
 
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
-        config: state.commonReducer.config,
-        nodeInfo: state.resourceReducer.nodeInfo,
+        resourceTree: state.resourceReducer.resourceTree,
+        nodeInfo: state.resourceReducer.nodeInfo
     }
 }
 function mapDispatchToProps(dispatch) {
@@ -19,4 +18,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapProps, mapDispatchToProps)(VirtualSubnet)
+export default connect(mapProps, mapDispatchToProps)(Topo)

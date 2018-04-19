@@ -70,6 +70,7 @@ class Site extends React.Component<SiteProps, any> {
                 matchPath(pathname, { path: '/alarm' }) != null && 'alarm',
                 matchPath(pathname, { path: '/performance' }) != null && 'performance',
                 matchPath(pathname, { path: '/log' }) != null && 'log',
+                matchPath(pathname, { path: '/operation' }) != null && 'operation',
             ]).toString()
         };
     }
@@ -150,6 +151,7 @@ class Site extends React.Component<SiteProps, any> {
                 matchPath(pathname, { path: '/alarm' }) != null && 'alarm',
                 matchPath(pathname, { path: '/performance' }) != null && 'performance',
                 matchPath(pathname, { path: '/log' }) != null && 'log',
+                matchPath(pathname, { path: '/operation' }) != null && 'operation',
             ]).toString()
         };
     }
@@ -180,7 +182,11 @@ class Site extends React.Component<SiteProps, any> {
             {
                 name: '日志管理',
                 route: 'log',
-            }
+            },
+            {
+                name: '运维工具',
+                route: 'operation',
+            },
         ]
         if (this.props.location.pathname.indexOf('/login') > -1) {
             return (

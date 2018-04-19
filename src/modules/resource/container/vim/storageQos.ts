@@ -9,6 +9,7 @@ import StorageQos from '../../views/vim/storageQos'
 function mapProps(state) {
     return {
         name: state.resourceReducer.name,
+        config: state.commonReducer.config,
         nodeInfo: state.resourceReducer.nodeInfo,
     }
 }
