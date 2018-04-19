@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 
-function mathMoTypeKeyAndRoute(moTypeKey) {
+function matchMoTypeKeyAndRoute(moTypeKey) {
     let path = ''
     switch (moTypeKey) {
         case 'vm':
@@ -45,4 +45,4 @@ function mathMoTypeKeyAndRoute(moTypeKey) {
     return path
 }
 
-export default mathMoTypeKeyAndRoute
+export default matchMoTypeKeyAndRoute
