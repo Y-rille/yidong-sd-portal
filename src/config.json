@@ -14,17 +14,18 @@
     "threshold_manage": "http://host:port/app-cfg/ui/resWebUIGroupAdapter.action?object=warning-threshold&login=false&autoload=true",
     "custom_inspection": "http://host:port/app-cfg/ui/resWebUIGroupAdapter.action?object=TaiInspTask&login=false&autoload=true",
     "vim_manage_link": {
-        "virtual_group": "",
+        "virtual_group": "https://188.103.15.250/admin/server_groups/",
         "storage_qos": "",
-        "virtual_subnet": "",
+        "virtual_subnet": "https://188.103.15.250/admin/networks/",
         "virtual_port": "",
         "network_qos": "",
-        "virtual_router": "",
+        "virtual_router": "https://188.103.15.250/admin/routers/",
         "virtual_firewall": "",
         "vf_strategy": "",
         "vf_rule": "",
-        "user_group": "",
-        "project_quota": ""
+        "user": "https://188.103.15.250/identity/users/",
+        "group": "https://188.103.15.250/identity/groups/",
+        "project_quota": "https://188.103.15.250/identity/"
     },
     "link_find": ""
 }

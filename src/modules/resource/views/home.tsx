@@ -67,7 +67,7 @@ class Home extends React.Component<any, any> {
                     split="vertical"
                     minSize={100}
                     maxSize={300}
-                    defaultSize={200} >
+                    defaultSize={220} >
                     <div>
                         {this.renderSider(match)}
                     </div>

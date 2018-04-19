@@ -76,6 +76,8 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         let { match } = this.props
         if (key === 'name') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
+        } else if (key === 'subnetList') {
+            this.props.history.push(`${match.url}/${obj.id}/subnet`)
         }
     }
     getTableData(queryObj) {
