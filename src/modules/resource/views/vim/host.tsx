@@ -34,7 +34,8 @@ class Host extends React.Component<HostProps, any> {
             activeKey: _.compact([
                 matchPath(pathname, { path: `${match.url}/controller` }) != null && 'controller',
                 matchPath(pathname, { path: `${match.url}/compute` }) != null && 'compute',
-                matchPath(pathname, { path: `${match.url}/storage` }) != null && 'storage'
+                matchPath(pathname, { path: `${match.url}/storage` }) != null && 'storage',
+                matchPath(pathname, { path: `${match.url}/favorite` }) != null && 'favorite',
             ]).toString(),
             tableLoading: false,
             pageSize: 10,
@@ -123,6 +124,9 @@ class Host extends React.Component<HostProps, any> {
             case 'storage':
                 dsname = 'imdsStorage'
                 break
+            case 'favorite':
+                dsname = 'imdsFavoriteHosts'
+                break
             default:
                 dsname = 'imdsController'
         }
@@ -149,7 +153,8 @@ class Host extends React.Component<HostProps, any> {
         let actKey = _.compact([
             matchPath(pathname, { path: `${match.url}/controller` }) != null && 'controller',
             matchPath(pathname, { path: `${match.url}/compute` }) != null && 'compute',
-            matchPath(pathname, { path: `${match.url}/storage` }) != null && 'storage'
+            matchPath(pathname, { path: `${match.url}/storage` }) != null && 'storage',
+            matchPath(pathname, { path: `${match.url}/favorite` }) != null && 'favorite'
         ]).toString()
 
         if (this.state.activeKey.length === 0 && actKey.length > 0) {    // 第一次进入;info返回；进入info
@@ -203,6 +208,7 @@ class Host extends React.Component<HostProps, any> {
                         <TabPane tab="控制节点" key="controller"></TabPane>
                         <TabPane tab="计算节点" key="compute"></TabPane>
                         <TabPane tab="存储节点" key="storage"></TabPane>
+                        <TabPane tab="关注设备" key="favorite"></TabPane>
                     </Tabs>
                     <Switch>
                         <Redirect from={`${match.url}`} to={`${match.url}/controller`} exact />
