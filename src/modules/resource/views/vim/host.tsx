@@ -73,6 +73,9 @@ class Host extends React.Component<HostProps, any> {
         let { match } = this.props
         let { activeKey } = this.state
         if (key === 'name') {
+            if (activeKey === 'favorite') {
+                activeKey = obj.host_type
+            }
             this.props.history.push(`${match.url}/${activeKey}/info/${obj.id}?name=${obj.name}`)
         }
     }
