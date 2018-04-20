@@ -31,7 +31,7 @@ class HostList extends React.Component<any, any> {
         })
         let ft = ''
         if (mp_node && mp_node.params.type) {
-            ft = mp_node.params.type === 'compute' ? '计算节点' : (mp_node.params.type === 'controller' ? '控制节点' : '存储节点')
+            ft = mp_node.params.type === 'compute' ? '计算节点' : (mp_node.params.type === 'controller' ? '控制节点' : (mp_node.params.type === 'storage') ? '存储节点' : '关注设备')
         }
         return (
             <div>
