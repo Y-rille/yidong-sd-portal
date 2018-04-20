@@ -134,6 +134,7 @@ class HostInfo extends React.Component<any, any> {
             }
         })
     }
+    payAttention() { }
     showServer(e, topo?) {
         let host = this.props.match.params.id;
         this.props.actions.queryList('imdsHostServerInfo', { host }, (err, res) => {
@@ -236,8 +237,13 @@ class HostInfo extends React.Component<any, any> {
             <div className={styles.btn}>
                 <Button
                     type="primary" ghost
-                    icon="eye-o"
+                    icon="star-o"
                     onClick={this.showServer.bind(this)}
+                >关注</Button>
+                <Button
+                    type="primary" ghost
+                    icon="eye-o"
+                    onClick={this.payAttention.bind(this)}
                 >查看服务器</Button>
             </div>
         )
