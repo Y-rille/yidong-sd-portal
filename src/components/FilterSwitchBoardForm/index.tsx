@@ -26,8 +26,8 @@ export interface FilterSwitchBoardFormProps {
  */
 
 const formItemLayout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
+    labelCol: { span: 9 },
+    wrapperCol: { span: 15 },
 };
 class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardFormProps, any> {
     constructor(props) {
@@ -126,30 +126,9 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                         </FormItem>
                     </Col>
                     <Col span={8}>
-                        <FormItem label="用户名" {...formItemLayout}>
-                            {getFieldDecorator('username', {
-                                rules: [{ required: true, message: '请输入用户名！' }],
-                                initialValue: ''
-                            })(
-                                <Input placeholder="请输入用户名" />
-                            )}
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label="密码" {...formItemLayout}>
-                            {getFieldDecorator('password', {
-                                rules: [{ required: true, message: '请输入密码！' }],
-                                initialValue: ''
-                            })(
-                                <Input placeholder="请输入密码" />
-                            )}
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={8}>
                         <FormItem label="协议" {...formItemLayout}>
                             {getFieldDecorator('protocol', {
+                                rules: [{ required: true, message: '请输入协议！' }],
                                 initialValue: ''
                             })(
                                 <Input placeholder="请输入协议" />

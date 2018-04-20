@@ -41,7 +41,6 @@ class Server extends React.Component<any, any> {
                 if (err || backdata.code !== 1) {
                     emitter.emit('message', 'error', '发现失败！')
                 }
-
             })
         }
     }
@@ -57,11 +56,6 @@ class Server extends React.Component<any, any> {
             dataSelectValue: value
         })
     }
-    // supplierSelectChange(value) {    // 数据中心 
-    //     this.setState({
-    //         supplierSelectValue: value
-    //     })
-    // }
     handleClick() { // 查询按钮
         this.setState({
             pageNo: 1
@@ -72,7 +66,6 @@ class Server extends React.Component<any, any> {
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
             this.getTableData()
         });
-
     }
     showModal = () => {
         this.setState({
@@ -190,7 +183,6 @@ class Server extends React.Component<any, any> {
         let { pageNo, selected } = this.state
         let newSelected = selected
         newSelected[pageNo] = data
-        // console.log(data, newSelected, '---');
         this.setState({
             selected: newSelected
         })
@@ -322,7 +314,7 @@ class Server extends React.Component<any, any> {
                                     visible={this.state.visible}
                                     onCancel={this.handleCancel}
                                     footer={null}
-                                    width="70%"
+                                    width="80%"
                                     style={{ top: '8%' }}
                                 >
                                     <FilterServerForm
