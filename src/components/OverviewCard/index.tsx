@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, Button } from 'antd';
+import { Card, Popover, Button } from 'antd';
 import * as Highcharts from 'highcharts';
 import classNames from 'classnames';
 import styles from './index.less';
@@ -155,7 +155,9 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                         return (
                             <p className={styles.card_header} key={key}>
                                 {header[0]}
-                                <span className={styles.card_value}>：{header[1]}</span>
+                                <Popover content={header[1]}>
+                                    <span className={styles.card_value}>：{header[1]}</span>
+                                </Popover>
                             </p>
                         )
                     }) : ''}
