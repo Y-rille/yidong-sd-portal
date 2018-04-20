@@ -336,7 +336,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                                     visible={this.state.visible}
                                     onCancel={this.handleCancel}
                                     footer={null}
-                                    width="70%"
+                                    width="80%"
                                     style={{ top: '8%' }}
                                 >
                                     <FilterFireWallForm

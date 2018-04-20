@@ -9,10 +9,11 @@ import { FormComponentProps } from 'antd/lib/form/Form';
 export interface MagneticTableClsProps extends FormComponentProps {
     getData?
     data?
+    subDataVendor?
 }
 const formItemLayout = {
-    labelCol: { span: 7 },
-    wrapperCol: { span: 16 },
+    labelCol: { span: 9 },
+    wrapperCol: { span: 15 },
 };
 
 class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
@@ -42,124 +43,168 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
             return <Option value={item.value}>{item.text}</Option>
         })
     }
+    renderVendorOptions() {
+        let { subDataVendor } = this.props
+        return _.map(subDataVendor, (item) => {
+            return <Option value={item.value}>{item.text}</Option>
+        })
+    }
     render() {
         const { menuValue, secondMenuValue } = this.state;
         const { getFieldDecorator } = this.props.form;
-        const { data } = this.props;
+        const { data, subDataVendor } = this.props;
         const firstData = _.head(data);
+        let subDataVendorDefault = (subDataVendor ? _.head(subDataVendor) : '') ? _.head(subDataVendor).text : ''
         return (
             <Form className={styles.MagneticTable}>
-                <Row>
+                <Row gutter={24}>
+                    <Col span={8}>
+                        <FormItem label="供应商" {...formItemLayout}>
+                            {getFieldDecorator('provider', {
+                                rules: [{ required: true, message: '请输入供应商！' }],
+                                initialValue: subDataVendorDefault
+                            })(
+                                <Select>
+                                    {this.renderVendorOptions()}
+                                </Select>
+                            )}
+                        </FormItem>
+                    </Col>
+
                     <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
-                            label="发现服务"
-                        // hasFeedback
-                        // required
+                            label="管理IP"
                         >
-                            {getFieldDecorator('server', {
-                                initialValue: firstData.value,
+                            {getFieldDecorator('m_ip', {
                                 rules: [{
-                                    required: true, message: '请选择发现服务',
+                                    required: true, message: '请输入管理IP!',
+                                }],
+                            })(
+                                <Input placeholder="请输入管理IP" />
+                            )}
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            {...formItemLayout}
+                            label="Provider IP"
+                        >
+                            {getFieldDecorator('p_ip', {
+                                rules: [{
+                                    required: true, message: '请输入Provider IP!',
+                                }],
+                            })(
+                                <Input placeholder="请输入Provider IP" />
+                            )}
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={24}>
+                    <Col span={8}>
+                        <Form.Item
+                            {...formItemLayout}
+                            label="Provider 用户名"
+                        >
+                            {getFieldDecorator('p_user', {
+                                rules: [{
+                                    required: true, message: '请输入Provider用户名!',
+                                }],
+                            })(
+                                <Input placeholder="请输入Provider用户名" />
+                            )}
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <FormItem
+                            {...formItemLayout}
+                            label="Provider 密码"
+                        >
+                            {getFieldDecorator('p_password', {
+                                rules: [{
+                                    required: true, message: '请输入Provider密码!',
+                                }],
+                            })(
+                                <Input type="password" placeholder="请输入Provider密码" />
+                            )}
+                        </FormItem>
+                    </Col>
+                    <Col span={8}>
+                        <FormItem
+                            {...formItemLayout}
+                            label="Provider 命名空间"
+                        >
+                            {getFieldDecorator('namespace', {
+                                rules: [{
+                                    required: true, message: '请输入Provider命名空间!',
+                                }],
+                            })(
+                                <Input placeholder="请输入Provider命名空间" />
+                            )}
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row gutter={24}>
+                    <Col span={8}>
+                        <Form.Item
+                            {...formItemLayout}
+                            label="数据中心"
+                        >
+                            {getFieldDecorator('datacenter', {
+                                initialValue: '请选择',
+                                rules: [{
+                                    required: true, message: '请选择！',
                                 }],
                             })(
                                 <Select>
-                                    {this.renderOptions(data)}
                                 </Select>
                             )}
                         </Form.Item>
+                    </Col>
+                    <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
-                            label="用户名"
+                            label="机房"
                         >
-                            {getFieldDecorator('username', {
-                                // initialValue: fireWallInfo.name,
+                            {getFieldDecorator('engine_room', {
+                                initialValue: '请选择',
                                 rules: [{
-                                    required: true, message: '请输入用户名！',
+                                    required: true, message: '请选择！',
                                 }],
                             })(
-                                <Input placeholder="请输入用户名" />
-                            )}
-                        </Form.Item>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="子网掩码"
-                        >
-                            {getFieldDecorator('subnetmask', {
-                                // initialValue: fireWallInfo.name,
-                                rules: [{
-                                    required: true, message: '请输入子网掩码！',
-                                }],
-                            })(
-                                <Input placeholder="请输入子网掩码" />
+                                <Select>
+                                </Select>
                             )}
                         </Form.Item>
                     </Col>
                     <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
-                            label="开始IP"
+                            label="机柜"
                         >
-                            {getFieldDecorator('startip', {
+                            {getFieldDecorator('cabinet', {
+                                initialValue: '请选择',
                                 rules: [{
-                                    required: true, message: '请输入开始IP！',
+                                    required: true, message: '请选择！',
                                 }],
                             })(
-                                <Input placeholder="请输入开始IP" />
+                                <Select>
+                                </Select>
                             )}
                         </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={24}>
+                    <Col span={8}>
                         <FormItem
                             {...formItemLayout}
-                            label="密码"
+                            label="安装U位"
                         >
                             {getFieldDecorator('password', {
-                                rules: [{
-                                    required: true, message: '请输入密码！',
-                                }],
                             })(
-                                <Input type="password" placeholder="请输入密码" />
+                                <Input type="password" placeholder="安装U位" />
                             )}
                         </FormItem>
-                        <FormItem
-                            {...formItemLayout}
-                            label="DNS"
-                        >
-                            {getFieldDecorator('dns', {
-
-                                rules: [{
-                                    required: false, message: '请输入DNS！',
-                                }],
-                            })(
-                                <Input placeholder="请输入DNS" />
-                            )}
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="结束IP"
-                        >
-                            {getFieldDecorator('endip', {
-                                rules: [{
-                                    required: true, message: '请输入结束IP！',
-                                }],
-                            })(
-                                <Input placeholder="请输入结束IP" />
-                            )}
-                        </Form.Item>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="网关"
-                        >
-                            {getFieldDecorator('gateway', {
-                                // initialValue: fireWallInfo.protocol,
-                                rules: [{
-                                    required: true, message: '请输入网关！',
-                                }],
-                            })(
-                                <Input placeholder="请输入网关" />
-                            )}
-                        </Form.Item>
                     </Col>
                 </Row>
                 <Row>

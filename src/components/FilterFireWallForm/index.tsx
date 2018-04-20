@@ -13,8 +13,8 @@ export interface FilterFireWallFormClsProps extends FormComponentProps {
     subDataVendor?
 }
 const formItemLayout = {
-    labelCol: { span: 7 },
-    wrapperCol: { span: 16 },
+    labelCol: { span: 9 },
+    wrapperCol: { span: 15 },
 };
 
 class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsProps, any> {
@@ -58,13 +58,11 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
         const firstProviderValue = _.head(subDataVendor)['text'];
         return (
             <Form className={styles.filterFireWallForm}>
-                <Row>
+                <Row gutter={24}>
                     <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
                             label="发现服务"
-                        // hasFeedback
-                        // required
                         >
                             {getFieldDecorator('server', {
                                 initialValue: firstServerValue,
@@ -75,19 +73,6 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 <Select>
                                     {this.renderServerOptions(subDataPIM)}
                                 </Select>
-                            )}
-                        </Form.Item>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="用户名"
-                        >
-                            {getFieldDecorator('username', {
-                                // initialValue: fireWallInfo.name,
-                                rules: [{
-                                    required: true, message: '请输入用户名！',
-                                }],
-                            })(
-                                <Input placeholder="请输入用户名" />
                             )}
                         </Form.Item>
                     </Col>
@@ -108,19 +93,6 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 </Select>
                             )}
                         </Form.Item>
-                        <FormItem
-                            {...formItemLayout}
-                            label="密码"
-                        >
-                            {getFieldDecorator('password', {
-                                // initialValue: fireWallInfo.password,
-                                rules: [{
-                                    required: true, message: '请输入密码！',
-                                }],
-                            })(
-                                <Input type="password" placeholder="请输入密码" />
-                            )}
-                        </FormItem>
                     </Col>
                     <Col span={8}>
                         <Form.Item
@@ -136,6 +108,10 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                                 <Input placeholder="请输入设备IP" />
                             )}
                         </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={24}>
+                    <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
                             label="协议"
