@@ -79,7 +79,7 @@ class Home extends React.Component<any, any> {
                     size="small"
                     tabBarExtraContent={this.topoBtns()}
                     animated={false}>
-                    <TabPane tab={name}>
+                    <TabPane tab="">
                         <div style={{ marginTop: '10px' }}>
                             <div className={styles.legend}>
                                 <div><span></span>严重</div>
@@ -116,7 +116,7 @@ class Home extends React.Component<any, any> {
                         <Breadcrumb.Item>网络拓扑</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <div style={{ padding: '20px' }}>
+                <div style={{ padding: '2px 20px 20px' }}>
                     <div className={styles.topoTab}>
                         {this.renderTopo()}
                     </div>
