@@ -8,6 +8,7 @@ import VirtualFirewall from '../../views/vim/virtualFirewall'
 
 function mapProps(state) {
     return {
+        config: state.commonReducer.config,
         name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
     }

@@ -1,15 +1,14 @@
-
 const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
 
 import HomeActionCreatorsMap from '../../actions/index'
 
-import VirtualSubnet from '../../views/vim/virtualSubnet'
+import UserGroupList from '../../views/vim/userGroupList'
 
 function mapProps(state) {
     return {
-        name: state.resourceReducer.name,
         config: state.commonReducer.config,
+        name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
     }
 }
@@ -19,4 +18,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapProps, mapDispatchToProps)(VirtualSubnet)
+export default connect(mapProps, mapDispatchToProps)(UserGroupList)

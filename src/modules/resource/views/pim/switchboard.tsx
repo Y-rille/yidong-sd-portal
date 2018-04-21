@@ -187,7 +187,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
 
                     }
                 }
-                // console.log(param, '---p');
                 self.props.actions.deleteAll(param, (data, err) => {
                     if (data && data.code === 1) {
                         emitter.emit('message', 'success', '批量删除成功！')
@@ -362,7 +361,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                         visible={this.state.visible}
                                         onCancel={this.handleCancel}
                                         footer={null}
-                                        width="70%"
+                                        width="80%"
                                     >
                                         <FilterSwitchBoardForm
                                             getData={this.getData.bind(this)}

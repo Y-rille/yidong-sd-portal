@@ -53,7 +53,6 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     keys.push(`/resource/vim/${item.nodeId}/storage_volume`)
                     keys.push(`/resource/vim/${item.nodeId}/volume_type`)
                     keys.push(`/resource/vim/${item.nodeId}/storage_qos`)
-                    keys.push(`/resource/vim/${item.nodeId}/virtual_subnet`)
                     keys.push(`/resource/vim/${item.nodeId}/virtual_port`)
                     keys.push(`/resource/vim/${item.nodeId}/network_qos`)
                     keys.push(`/resource/vim/${item.nodeId}/virtual_router`)
@@ -111,7 +110,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                                         <Menu.Item key={`/resource/vim/${id}/storage_volume`} >存储卷管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/volume_type`} >卷类型管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/storage_qos`} disabled="false">存储QOS管理</Menu.Item>
-                                        <Menu.Item key={`/resource/vim/${id}/virtual_subnet`}  >虚拟子网管理</Menu.Item>
+                                        {/* <Menu.Item key={`/resource/vim/${id}/virtual_subnet`}  >虚拟子网管理</Menu.Item> */}
                                         <Menu.Item key={`/resource/vim/${id}/virtual_port`} >虚拟端口管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/network_qos`} disabled="false" >网络QOS管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/virtual_router`} >虚拟路由器信息管理</Menu.Item>

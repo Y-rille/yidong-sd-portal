@@ -15,7 +15,7 @@ import Item from 'antd/lib/list/Item';
 import emitter from '../../../../common/emitter'
 import { Topology } from '../../../../components/Topology/topology.js'
 import '../../../../components/Topology/topology.css'
-import mathMoTypeKeyAndRoute from '../../utils/mathMoTypeKeyAndRoute'
+import matchMoTypeKeyAndRoute from '../../utils/matchMoTypeKeyAndRoute'
 import UUID from 'uuid'
 import shallowDiffers from '../../utils/shallowDiffers'
 
@@ -134,6 +134,7 @@ class HostInfo extends React.Component<any, any> {
             }
         })
     }
+    payAttention() { }
     showServer(e, topo?) {
         let host = this.props.match.params.id;
         this.props.actions.queryList('imdsHostServerInfo', { host }, (err, res) => {
@@ -188,7 +189,7 @@ class HostInfo extends React.Component<any, any> {
         if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
             let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
             let hostTypePath = hostType ? `/${hostType}/` : ''
-            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${mathMoTypeKeyAndRoute(moTypeKey)}/${hostTypePath}info/${moInstId}?active=topo`)
+            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${matchMoTypeKeyAndRoute(moTypeKey.toLocaleLowerCase())}/${hostTypePath}info/${moInstId}?active=topo`)
         }
     }
     refreshHandler() {
@@ -236,8 +237,13 @@ class HostInfo extends React.Component<any, any> {
             <div className={styles.btn}>
                 <Button
                     type="primary" ghost
-                    icon="eye-o"
+                    icon="star-o"
                     onClick={this.showServer.bind(this)}
+                >关注</Button>
+                <Button
+                    type="primary" ghost
+                    icon="eye-o"
+                    onClick={this.payAttention.bind(this)}
                 >查看服务器</Button>
             </div>
         )

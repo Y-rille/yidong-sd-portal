@@ -26,7 +26,9 @@ class Dashboard extends React.Component<any, any> {
             visible: false,
             vimInfo: null,
             loading: false,
-            curId: null
+            curId: null,
+            findVisible: false,
+            pimInfo: null
         }
     }
     showModal() {
@@ -114,6 +116,29 @@ class Dashboard extends React.Component<any, any> {
         })
         this.props.actions.resetObjData()
     }
+    doFind(metadata) {
+        this.setState({
+            findVisible: true,
+            pimInfo: metadata
+        })
+    }
+    goTopo(metadata) {
+        let { match } = this.props
+        if (metadata.ID && metadata.metaname) {
+            this.props.history.push(`${match.url}/topo/${metadata.ID}?name=${metadata.metaname}`)
+        }
+    }
+    findHandleOk() {
+        let { pimInfo } = this.state
+        let { match } = this.props
+        if (pimInfo.ID && pimInfo.metaname) {
+            this.props.history.push(`${match.url}/topo/${pimInfo.ID}?name=${pimInfo.metaname}`)
+        }
+        this.setState({
+            findVisible: false,
+            pimId: null
+        })
+    }
     componentWillMount() {
         this.props.actions.getOverview('overviewVIM')
         this.props.actions.getOverview('overviewPIM')
@@ -124,16 +149,18 @@ class Dashboard extends React.Component<any, any> {
             return (
                 <OverviewCard
                     data={item}
-                    editable={type === 'vim' ? true : false}
+                    type={type}
                     goEdit={type === 'vim' ? this.goEdit.bind(this) : null}
                     goDelete={type === 'vim' ? this.goDelete.bind(this) : null}
+                    doFind={type === 'pim' ? this.doFind.bind(this) : null}
+                    goTopo={type === 'pim' ? this.goTopo.bind(this) : null}
                 />
             )
         })
     }
     render() {
-        let { visible, vimInfo } = this.state
-        let { overviewVIM, overviewPIM } = this.props
+        let { visible, vimInfo, findVisible } = this.state
+        let { overviewVIM, overviewPIM, config } = this.props
         return (
             <div className={styles.resource}>
                 <div className={styles.header}>
@@ -165,6 +192,19 @@ class Dashboard extends React.Component<any, any> {
                         handleCancel={this.handleCancel.bind(this)}
                         ref={(node) => { editRef = node }}
                     />
+                ) : ''}
+                {findVisible ? (
+                    <Modal
+                        title="链路发现"
+                        visible={findVisible}
+                        footer={[
+                            <Button key="submit" type="primary" onClick={this.findHandleOk.bind(this)}>关闭</Button>
+                        ]}
+                        width="70%"
+                        style={{ top: '30px' }}
+                    >
+                        <iframe style={{ width: '100%', height: window.innerHeight - 208, border: '0px' }} src={`${config.link_find}`}></iframe>
+                    </Modal>
                 ) : ''}
             </div>
         );

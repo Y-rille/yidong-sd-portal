@@ -23,7 +23,6 @@ class Magnetic extends React.Component<any, any> {
         })
         this.state = {
             visible: false,
-
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
@@ -31,7 +30,7 @@ class Magnetic extends React.Component<any, any> {
             vendor: vendor ? vendor : '',
             pim_id: mp_node.params.id ? mp_node.params.id : '',
             selected: {},
-            findSelected: []
+            findSelected: [],
         };
     }
     getData(data) {
@@ -40,7 +39,6 @@ class Magnetic extends React.Component<any, any> {
                 if (err || backdata.code !== 1) {
                     emitter.emit('message', 'error', '发现失败！')
                 }
-
             })
         }
     }
@@ -159,7 +157,6 @@ class Magnetic extends React.Component<any, any> {
                             }
                             param.delmoInsts.push(sObj)
                         }
-
                     }
                 }
                 // console.log(param, '---p');
@@ -236,7 +233,6 @@ class Magnetic extends React.Component<any, any> {
             _.map(data_fixed.header, (item) => {
                 item.width = '23%'
             })
-
             return (
                 <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
                     <CompactTable
@@ -259,7 +255,7 @@ class Magnetic extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     render() {
-        let { match, nodeInfo, list, subDataPIM } = this.props;
+        let { match, nodeInfo, list, subDataPIM, subDataVendor } = this.props;
         const { datacenter, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let selectLength = 0
@@ -287,7 +283,7 @@ class Magnetic extends React.Component<any, any> {
                         <div style={{ padding: '20px 20px 0px' }}>
                             <div className={styles.queryBar}>
                                 <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
-                                <Selector type="Vendor" data={this.props.subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
+                                <Selector type="Vendor" data={subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
                                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
                                 <div style={{ float: 'right' }}>
                                     <Button type="primary" onClick={this.showModal}>发现</Button>
@@ -300,10 +296,11 @@ class Magnetic extends React.Component<any, any> {
                                     visible={this.state.visible}
                                     onCancel={this.handleCancel}
                                     footer={null}
-                                    width="70%"
+                                    width="80%"
                                 >
                                     <FilterMageticForm
                                         getData={this.getData.bind(this)}
+                                        subDataVendor={subDataVendor}
                                         wrappedComponentRef={(node) => { this.formRef = node }}
                                         data={subDataPIM}
                                     />
