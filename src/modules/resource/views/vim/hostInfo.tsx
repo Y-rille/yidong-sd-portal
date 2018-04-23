@@ -151,24 +151,23 @@ class HostInfo extends React.Component<any, any> {
     }
     getObserve(objData) {
         let observe
-        if (objData) {
-            let baseData = _.zipObject(objData.columns, _.head(objData.values))
-            observe = baseData.observe
-        }
+        let baseData = _.zipObject(objData.columns, _.head(objData.values))
+        observe = baseData.observe
         return observe
     }
     payAttention() {
         let moTypeKey = 'host'
-        let host = this.state.host
-        this.props.actions.getObjData(moTypeKey, host, (err, data) => {
-            if (data) {
-                let baseData = _.zipObject(data.columns, _.head(data.values))
-                this.setState({
-                    observe: baseData.observe
-                })
-                emitter.emit('message', 'success', '修改成功！')
-            } else {
+        let { host, observe } = this.state
+        // let observe = this.getObserve(this.props.objData)
+        // console.log(observe, '====observe')
+        this.props.actions.editObjData(moTypeKey, host, observe, (err, data) => {
+            if (err || data.code !== 1) {
                 emitter.emit('message', 'error', '修改失败')
+                this.setState({
+                    observe: observe
+                })
+            } else if (data.code === 1) {
+                emitter.emit('message', 'success', '修改成功！')
             }
         })
     }
@@ -241,7 +240,13 @@ class HostInfo extends React.Component<any, any> {
             let moTypeKey = 'host'
             let host = this.state.host
             this.props.actions.getObjAttributes(moTypeKey)
-            this.props.actions.getObjData(moTypeKey, host)
+            this.props.actions.getObjData(moTypeKey, host, (err, data) => {
+                if (data) {
+                    this.setState({
+                        observe: this.getObserve(data)
+                    })
+                }
+            })
             switch (type) {
                 case 'compute':
                     this.props.actions.getSummary('imdsHostOverview', { host: host }, null)
@@ -275,15 +280,18 @@ class HostInfo extends React.Component<any, any> {
     }
     renderBtns() {
         let { observe } = this.state
+        let { objData } = this.props
         let icon = observe ? 'star' : 'star-o'
         let btnTxt = observe ? '取消关注' : '关注'
         return (
             <div className={styles.btn}>
-                <Button
-                    type="primary" ghost
-                    icon={icon}
-                    onClick={this.payAttention.bind(this)}
-                >{btnTxt}</Button>
+                {(objData && observe !== undefined && observe !== '') ? (
+                    <Button
+                        type="primary" ghost
+                        icon={icon}
+                        onClick={this.payAttention.bind(this)}
+                    >{btnTxt}</Button>
+                ) : ''}
                 <Button
                     type="primary" ghost
                     icon="eye-o"
