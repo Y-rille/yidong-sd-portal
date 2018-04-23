@@ -51,7 +51,7 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             title: '用户名',
             dataIndex: 'email',
             key: 'email',
-            render: text => <a href="javascript:;">{text}</a>,
+            // render: text => <a href="javascript:;">{text}</a>,
             width: '20%'
         }, {
             title: '真实姓名',
@@ -86,7 +86,8 @@ export default class UserTable extends React.PureComponent<UserTableProps, any> 
             admin: '系统管理员',
             resource: '资源运维人员',
             alarm: '告警运维人员',
-            performance: '性能运维人员'
+            performance: '性能运维人员',
+            log: '日志运维人员'
         }
         let userListFix = _.merge({}, userList)
         _.map(userListFix.rows, function (item, index) {
