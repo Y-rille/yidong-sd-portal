@@ -59,6 +59,9 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
             }, {
                 name: '日志管理',
                 route: 'log',
+            }, {
+                name: '运维工具',
+                route: 'operation',
             }
         ],
     };
@@ -86,10 +89,14 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
             newMenu = menu
         } else {
             newMenu = _.compact(_.map(menu, (item) => {
-                if (currentUser.roles && currentUser.roles.split(',').indexOf(item.route) > 0) {
+                if (currentUser.roles && currentUser.roles.split(',').indexOf(item.route) >= 0) {
                     return item
                 }
             }))
+            newMenu.push({
+                name: '运维工具',
+                route: 'operation',
+            })
         }
 
         return _.map(newMenu, (item) => {
