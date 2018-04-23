@@ -23,15 +23,17 @@ class HostInfo extends React.Component<any, any> {
     timer: any
     constructor(props) {
         super(props);
-        let { match } = this.props
+        let { match, objData } = this.props
         let { pageNo } = qs.parse(this.props.location.search)
+        // let baseData = _.zipObject(objData.columns, _.head(objData.values))
         this.state = {
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
             pageSize: 9999,
             activeKey: 'imdsHostProcessor',
             host: match.params.id,
-            topo: null
+            topo: null,
+            observe: this.getObserve(objData)
         }
     }
     onChange(key) {
@@ -134,7 +136,29 @@ class HostInfo extends React.Component<any, any> {
             }
         })
     }
-    payAttention() { }
+    getObserve(objData) {
+        let observe
+        if (objData) {
+            let baseData = _.zipObject(objData.columns, _.head(objData.values))
+            observe = baseData.observe
+        }
+        return observe
+    }
+    payAttention() {
+        let moTypeKey = 'host'
+        let host = this.state.host
+        this.props.actions.getObjData(moTypeKey, host, (err, data) => {
+            if (data) {
+                let baseData = _.zipObject(data.columns, _.head(data.values))
+                this.setState({
+                    observe: baseData.observe
+                })
+                emitter.emit('message', 'success', '修改成功！')
+            } else {
+                emitter.emit('message', 'error', '修改失败')
+            }
+        })
+    }
     showServer(e, topo?) {
         let host = this.props.match.params.id;
         this.props.actions.queryList('imdsHostServerInfo', { host }, (err, res) => {
@@ -233,17 +257,20 @@ class HostInfo extends React.Component<any, any> {
         clearInterval(this.timer)
     }
     renderBtns() {
+        let { observe } = this.state
+        let icon = observe ? 'star' : 'star-o'
+        let btnTxt = observe ? '取消关注' : '关注'
         return (
             <div className={styles.btn}>
                 <Button
                     type="primary" ghost
-                    icon="star-o"
-                    onClick={this.showServer.bind(this)}
-                >关注</Button>
+                    icon={icon}
+                    onClick={this.payAttention.bind(this)}
+                >{btnTxt}</Button>
                 <Button
                     type="primary" ghost
                     icon="eye-o"
-                    onClick={this.payAttention.bind(this)}
+                    onClick={this.showServer.bind(this)}
                 >查看服务器</Button>
             </div>
         )
