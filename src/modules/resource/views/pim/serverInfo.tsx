@@ -103,12 +103,16 @@ class ServerInfo extends React.Component<any, any> {
         }
     }
     sshLink = () => {
-        let { config } = this.props
-        let user = {
-            name: 'admin',
-            pwd: '111'
-        };
-        window.open(`${config.ssh}?${qs.stringify(user)}`)
+        let { objAttributes, objData } = this.props
+        if (objAttributes && objData) {
+            let _data = {}
+            objData.columns.map((item, index) => {
+                const key = item
+                const values = objData.values[0] && objData.values[0][index]
+                _data[key] = values
+            });
+            window.open(_data['manageURL'])
+        }
     }
     confirmRest = () => {
         let self = this
@@ -359,26 +363,29 @@ class ServerInfo extends React.Component<any, any> {
             if (_power) {
                 return (
                     <div className={styles.btn}>
-                        <Button type="primary"
-                            style={{ margin: '0px 10px 0px 0' }}
-                            icon="link" ghost
-                            onClick={this.sshLink.bind(this, 'reset')}>设备管理</Button>
                         <Button
                             type="primary" ghost
                             icon="dingding"
-                            style={{ margin: '0px 10px 0px 0' }}
                             onClick={this.confirmUpOrDown}
                         >{this.state.status === 2 ? '上电' : '下电'}</Button>
-                        <Button type="primary" disabled={this.state.status === 2} style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
-                            onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                        <Button type="primary" disabled={this.state.status === 2} ghost icon="retweet"
+                            onClick={this.confirmRest.bind(this, 'reset')}
+                        >复位</Button>
+                        <Button type="primary"
+                            icon="link" ghost
+                            onClick={this.sshLink.bind(this, 'reset')}
+                        >设备管理</Button>
                         <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
                     </div>
                 )
             } else {
                 return (
                     <div className={styles.btn}>
-                        <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
+                        <Button type="primary" disabled={this.state.status === 2} ghost icon="retweet"
                             onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                        <Button type="primary"
+                            icon="link" ghost
+                            onClick={this.sshLink.bind(this, 'reset')}>设备管理</Button>
                         <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
                     </div>
                 )
@@ -394,7 +401,6 @@ class ServerInfo extends React.Component<any, any> {
                     type="primary" ghost
                     icon="fork"
                     onClick={this.goHost.bind(this, true)}
-                    style={{ margin: '0px 10px 0px 0' }}
                 >虚拟拓扑</Button>
                 <Button
                     type="primary" ghost

@@ -184,7 +184,6 @@ class MageneticInfo extends React.Component<any, any> {
         return (
             <div className={styles.btn}>
                 <Button type="primary"
-                    style={{ margin: '0px 10px 0px 0' }}
                     icon="link" ghost
                     onClick={this.sshLink.bind(this, 'reset')}>设备管理</Button>
             </div>

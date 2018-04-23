@@ -255,7 +255,6 @@ class HostInfo extends React.Component<any, any> {
                     type="primary" ghost
                     icon="fork"
                     onClick={this.showServer.bind(this, true)}
-                    style={{ margin: '0px 10px 0px 0' }}
                 >物理拓扑</Button>
                 <Button
                     type="primary" ghost

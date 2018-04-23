@@ -192,7 +192,6 @@ class VirtualInfo extends React.Component<any, any> {
                     type="primary" ghost
                     icon="fork"
                     onClick={this.goHost.bind(this)}
-                    style={{ margin: '0px 10px 0px 0' }}
                 >主机拓扑</Button>
                 <Button
                     type="primary" ghost
