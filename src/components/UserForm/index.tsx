@@ -53,7 +53,8 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
             admin: '系统管理员',
             resource: '资源运维人员',
             alarm: '告警运维人员',
-            performance: '性能运维人员'
+            performance: '性能运维人员',
+            log: '日志运维人员',
         }
         let rolesArr = []
         if (this.props.userInfo) {
@@ -64,7 +65,7 @@ class UserFormCls extends React.PureComponent<UserFormClsProps, any> {
         }
         const { getFieldDecorator } = this.props.form;
         const children = [];
-        const arr = ['系统管理员', '性能运维人员', '资源运维人员', '告警运维人员']
+        const arr = ['系统管理员', '性能运维人员', '资源运维人员', '告警运维人员', '日志运维人员']
         arr.map((item, index) => {
             children.push(<Option key={item}>{item}</Option>)
         })

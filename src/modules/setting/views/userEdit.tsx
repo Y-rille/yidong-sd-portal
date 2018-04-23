@@ -38,7 +38,8 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
             admin: '系统管理员',
             resource: '资源运维人员',
             alarm: '告警运维人员',
-            performance: '性能运维人员'
+            performance: '性能运维人员',
+            log: '日志运维人员'
         }
         let rolesArr = []
         for (var i = 0; i < arr.length; i++) {
