@@ -22,10 +22,11 @@ import UUID from 'uuid'
 import shallowDiffers from '../../utils/shallowDiffers'
 
 class ServerInfo extends React.Component<any, any> {
-    timer: any
+    topoTimer: any
+    topoStateTimer: any
     constructor(props) {
         super(props);
-        let { match } = this.props
+        let { id } = this.props.match.params
         let { pageNo } = qs.parse(this.props.location.search)
         this.state = {
             status: null,
@@ -38,8 +39,8 @@ class ServerInfo extends React.Component<any, any> {
             activeKey: 'imdsServerProcessor',
             detailKey: 'overview',
             host_info: null,
-            server: match.params.id,
-            topoData: null
+            server: id,
+            topo: null
         }
     }
     goList() {
@@ -207,10 +208,14 @@ class ServerInfo extends React.Component<any, any> {
             this.props.actions.getObjData(moTypeKey, moInstId);
         } else {
             this.getTopo()
-            if (!this.timer) {
-                let timer = setInterval(() => {
+            this.getTopoState()
+            if (!this.topoTimer && !this.topoStateTimer) {
+                let topoTimer = setInterval(() => {
                     this.getTopo()
                 }, 300000)
+                let topoStateTimer = setInterval(() => {
+                    this.getTopoState()
+                }, 5000)
             }
         }
     }
@@ -272,10 +277,19 @@ class ServerInfo extends React.Component<any, any> {
         let id = match.params.id
         this.props.actions.getObjData(moTypeKey, id);
     }
-    getTopo() {
-        let { id } = this.props.match.params
+    getTopo(cb?) {
+        let { server } = this.state
         let dsname = 'imdsTopoServer'
-        this.props.actions.getTopoState(dsname, { moInstId: id }, (data, err) => {
+        this.props.actions.getTopo(dsname, { moInstId: server }, (data, err) => {
+            if (data) {
+                if (cb) { cb() }
+            }
+        })
+    }
+    getTopoState() {
+        let { server } = this.state
+        let dsname = 'imdsTopoServer'
+        this.props.actions.getTopoState(dsname, { moInstId: server }, (data, err) => {
             if (data) {
                 let nextTopoNodes = data && data.nodes ? _.keyBy(data.nodes, 'id') : {}
                 let { topo } = this.state
@@ -312,7 +326,7 @@ class ServerInfo extends React.Component<any, any> {
             }
         })
         if (active && active === 'topo') {
-            this.getTopo()
+            this.getTopo(this.getTopoState())
         } else {
             this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id })
             this.props.actions.getObjAttributes(moTypeKey)
@@ -321,10 +335,13 @@ class ServerInfo extends React.Component<any, any> {
     }
     componentDidMount() {
         let { active } = qs.parse(this.props.location.search)
-        if (active && active === 'topo' && !this.timer) {
+        if (active && active === 'topo' && !this.topoTimer && !this.topoStateTimer) {
             let timer = setInterval(() => {
                 this.getTopo()
             }, 300000)
+            let topoStateTimer = setInterval(() => {
+                this.getTopoState()
+            }, 5000)
         }
     }
     componentWillUnmount() {
@@ -333,7 +350,8 @@ class ServerInfo extends React.Component<any, any> {
         this.props.actions.resetList()
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
-        clearInterval(this.timer)
+        clearInterval(this.topoTimer)
+        clearInterval(this.topoStateTimer)
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {

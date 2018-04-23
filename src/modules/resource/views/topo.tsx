@@ -11,17 +11,29 @@ import { Topology } from '../../../components/Topology/topology.js'
 import '../../../components/Topology/topology.css'
 
 class Home extends React.Component<any, any> {
-    timer: any
+    topoTimer: any
+    topoStateTimer: any
     constructor(props) {
         super(props);
+        let { pimId } = this.props.match.params
         this.state = {
+            pimId: pimId,
             topo: null
         }
     }
-    getTopo() {
-        let { pimId } = this.props.match.params
+    getTopo(cb?) {
+        let { pimId } = this.state
         let dsname = 'imdsTopoPIM'
-        this.props.actions.getTopoState(dsname, { pimId }, (data, err) => {
+        this.props.actions.getTopo(dsname, { moInstId: pimId }, (data, err) => {
+            if (data) {
+                if (cb) { cb() }
+            }
+        })
+    }
+    getTopoState() {
+        let { pimId } = this.state
+        let dsname = 'imdsTopoPIM'
+        this.props.actions.getTopoState(dsname, { moInstId: pimId }, (data, err) => {
             if (data) {
                 let nextTopoNodes = data && data.nodes ? _.keyBy(data.nodes, 'id') : {}
                 let { topo } = this.state
@@ -45,15 +57,19 @@ class Home extends React.Component<any, any> {
         this.getTopo()
     }
     componentWillMount() {
-        this.getTopo()
+        this.getTopo(this.getTopoState())
     }
     componentDidMount() {
         let timer = setInterval(() => {
             this.getTopo()
         }, 300000)
+        let topoStateTimer = setInterval(() => {
+            this.getTopoState()
+        }, 5000)
     }
     componentWillUnmount() {
-        clearInterval(this.timer)
+        clearInterval(this.topoTimer)
+        clearInterval(this.topoStateTimer)
     }
     topoBtns() {
         return (

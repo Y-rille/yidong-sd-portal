@@ -178,6 +178,9 @@ class API {
   getOverview(dsname) {
     return axios.get(`/api_resource/datashare-svr/api/imds/report/${dsname}`)
   }
+  getTopo(dsname, params) {
+    return axios.get(`/api_resource/datashare-svr/api/dssvr/topo/${dsname}?${stringify(params)}`)
+  }
   getTopoState(dsname, params) {
     return axios.get(`/api_resource/datashare-svr/api/dssvr/topostate/${dsname}?${stringify(params)}`)
   }

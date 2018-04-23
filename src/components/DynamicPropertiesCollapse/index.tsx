@@ -16,37 +16,35 @@ interface DynamicPropertiesCollapseProps {
 interface DynamicPropertiesPanelState {
 }
 
-const conversion = (attributes, data) => {
-    let temp = {
-        groups: [],
-        list: []
-    };
-
-    data.columns.map((item, index) => {
-        const key = data.headers[index];
-        const values = data.values.length > 0 ? data.values[0][index] : [];
-        let summary = _.find(attributes, attr => (attr.physicalTablefield === item));
-
-        if (summary) {
-            summary = _.assign({ key, values }, summary);
-            summary.attributeGroup = summary.attributeGroup ? summary.attributeGroup : '其他'
-            temp.list.push(summary);
-
-            if (_.indexOf(temp.groups, summary.attributeGroup) < 0) {
-                temp.groups.push(summary.attributeGroup);
-            }
-        }
-    });
-    return temp;
-};
-
 export default class DynamicPropertiesCollapse extends React.PureComponent<DynamicPropertiesCollapseProps> {
     constructor(props) {
         super(props);
         this.state = {
-            data: conversion(this.props.attributes, this.props.data)
+            data: this.conversion(this.props.attributes, this.props.data)
         };
     }
+    conversion = (attributes, data) => {
+        let temp = {
+            groups: [],
+            list: []
+        };
+
+        data.columns.map((item, index) => {
+            const key = data.headers[index];
+            const values = data.values.length > 0 ? data.values[0][index] : [];
+            let summary = _.find(attributes, attr => (attr.physicalTablefield === item));
+            if (summary) {
+                summary = _.assign({ key, values }, summary);
+                summary.attributeGroup = summary.attributeGroup ? summary.attributeGroup : '其他'
+                temp.list.push(summary);
+
+                if (_.indexOf(temp.groups, summary.attributeGroup) < 0) {
+                    temp.groups.push(summary.attributeGroup);
+                }
+            }
+        });
+        return temp;
+    };
     handleEditData(data, cb) {
         if (this.props.editData) {
             this.props.editData(data, cb)
@@ -57,7 +55,7 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
     componentWillReceiveProps(nextprops) {
         if (nextprops.data && nextprops.data !== this.props.data) {
             this.setState({
-                data: conversion(this.props.attributes, nextprops.data)
+                data: this.conversion(this.props.attributes, nextprops.data)
             })
         }
     }

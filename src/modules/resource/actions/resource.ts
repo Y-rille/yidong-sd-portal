@@ -448,6 +448,21 @@ export const editBatchData = (editData, cb) => (dispatch) => {
         }
     })
 }
+/* 资源拓扑查询
+ * @param dsname
+ * @param cb 
+ */
+export const getTopo = (dsname, params, cb) => (dispatch) => {
+    return API.getTopo(dsname, params).then((res: any) => {
+        if (cb) {
+            cb(res.data.data, null)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(null, err)
+        }
+    })
+}
 
 /* 拓扑告警查询
  * @param dsname
