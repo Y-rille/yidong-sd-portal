@@ -139,6 +139,11 @@ class Dashboard extends React.Component<any, any> {
             pimId: null
         })
     }
+    findHandleCancle() {
+        this.setState({
+            findVisible: false
+        })
+    }
     componentWillMount() {
         this.props.actions.getOverview('overviewVIM')
         this.props.actions.getOverview('overviewPIM')
@@ -197,6 +202,7 @@ class Dashboard extends React.Component<any, any> {
                     <Modal
                         title="链路发现"
                         visible={findVisible}
+                        onCancel={this.findHandleCancle.bind(this)}
                         footer={[
                             <Button key="submit" type="primary" onClick={this.findHandleOk.bind(this)}>关闭</Button>
                         ]}

@@ -20,18 +20,31 @@ import UUID from 'uuid'
 import shallowDiffers from '../../utils/shallowDiffers'
 
 class HostInfo extends React.Component<any, any> {
-    timer: any
+    topoTimer: any
+    topoStateTimer: any
     constructor(props) {
         super(props);
-        let { match } = this.props
         let { pageNo } = qs.parse(this.props.location.search)
+        let { type, id } = this.props.match.params
+        let dsname = ''
+        switch (type) {
+            case 'compute':
+                dsname = 'imdsTopoHost'
+                break;
+            case 'controller':
+                dsname = 'imdsTopoController'
+                break;
+            default:
+                dsname = 'imdsTopoStorage'
+        }
         this.state = {
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
             pageSize: 9999,
             activeKey: 'imdsHostProcessor',
-            host: match.params.id,
-            topo: null
+            host: id,
+            topo: null,
+            topoDsname: dsname
         }
     }
     onChange(key) {
@@ -63,10 +76,14 @@ class HostInfo extends React.Component<any, any> {
             })
         } else {
             this.getTopo()
-            if (!this.timer) {
-                let timer = setInterval(() => {
+            this.getTopoState()
+            if (!this.topoTimer && !this.topoStateTimer) {
+                let topoTimer = setInterval(() => {
                     this.getTopo()
                 }, 300000)
+                let topoStateTimer = setInterval(() => {
+                    this.getTopoState()
+                }, 5000)
             }
         }
     }
@@ -81,20 +98,17 @@ class HostInfo extends React.Component<any, any> {
             this.goPage(1)
         })
     }
-    getTopo() {
-        let { type, id } = this.props.match.params
-        let dsname = ''
-        switch (type) {
-            case 'compute':
-                dsname = 'imdsTopoHost'
-                break;
-            case 'controller':
-                dsname = 'imdsTopoController'
-                break;
-            default:
-                dsname = 'imdsTopoStorage'
-        }
-        this.props.actions.getTopoState(dsname, { moInstId: id }, (data, err) => {
+    getTopo(cb?) {
+        let { topoDsname, host } = this.state
+        this.props.actions.getTopo(topoDsname, { moInstId: host }, (data, err) => {
+            if (data) {
+                if (cb) { cb() }
+            }
+        })
+    }
+    getTopoState() {
+        let { topoDsname, host } = this.state
+        this.props.actions.getTopoState(topoDsname, { moInstId: host }, (data, err) => {
             if (data) {
                 let nextTopoNodes = data && data.nodes ? _.keyBy(data.nodes, 'id') : {}
                 let { topo } = this.state
@@ -199,7 +213,7 @@ class HostInfo extends React.Component<any, any> {
         let { type } = this.props.match.params
         let { active } = qs.parse(this.props.location.search)
         if (active && active === 'topo') {
-            this.getTopo()
+            this.getTopo(this.getTopoState())
         } else {
             let moTypeKey = 'host'
             let host = this.state.host
@@ -219,10 +233,13 @@ class HostInfo extends React.Component<any, any> {
     }
     componentDidMount() {
         let { active } = qs.parse(this.props.location.search)
-        if (active && active === 'topo' && !this.timer) {
-            let timer = setInterval(() => {
+        if (active && active === 'topo' && !this.topoTimer && !this.topoStateTimer) {
+            let topoTimer = setInterval(() => {
                 this.getTopo()
             }, 300000)
+            let topoStateTimer = setInterval(() => {
+                this.getTopoState()
+            }, 5000)
         }
     }
     componentWillUnmount() {
@@ -230,7 +247,8 @@ class HostInfo extends React.Component<any, any> {
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
         this.props.actions.resetSummary()
-        clearInterval(this.timer)
+        clearInterval(this.topoTimer)
+        clearInterval(this.topoStateTimer)
     }
     renderBtns() {
         return (

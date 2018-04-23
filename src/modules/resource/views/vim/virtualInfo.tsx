@@ -16,17 +16,21 @@ import UUID from 'uuid'
 import shallowDiffers from '../../utils/shallowDiffers'
 
 class VirtualInfo extends React.Component<any, any> {
-    timer: any
+    topoTimer: any
+    topoStateTimer: any
     constructor(props) {
         super(props);
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
         let { active } = qs.parse(this.props.location.search)
+        let { id } = this.props.match.params
         this.state = {
             events: [],
             vim_id: mp_node ? mp_node.params.id : '',
-            activeKey: active ? active : 'detail'
+            activeKey: active ? active : 'detail',
+            id: id,
+            topo: null
         }
     }
     onChange(key) {
@@ -35,10 +39,14 @@ class VirtualInfo extends React.Component<any, any> {
         })
         if (key === 'topo') {
             this.getTopo()
-            if (!this.timer) {
-                let timer = setInterval(() => {
+            this.getTopoState()
+            if (!this.topoTimer && !this.topoStateTimer) {
+                let topoTimer = setInterval(() => {
                     this.getTopo()
                 }, 300000)
+                let topoStateTimer = setInterval(() => {
+                    this.getTopoState()
+                }, 5000)
             }
         }
     }
@@ -112,8 +120,17 @@ class VirtualInfo extends React.Component<any, any> {
             this.props.history.push(`/resource/vim/${host_info.vim_id}/host/${host_info.host_type}/info/${host_info.id}/?active=topo&name=${host_info.name}`)
         }
     }
-    getTopo() {
-        let { id } = this.props.match.params
+    getTopo(cb?) {
+        let { id } = this.state
+        let dsname = 'imdsTopoVM'
+        this.props.actions.getTopo(dsname, { moInstId: id }, (data, err) => {
+            if (data) {
+                if (cb) { cb() }
+            }
+        })
+    }
+    getTopoState() {
+        let { id } = this.state
         let dsname = 'imdsTopoVM'
         this.props.actions.getTopoState(dsname, { moInstId: id }, (data, err) => {
             if (data) {
@@ -152,7 +169,7 @@ class VirtualInfo extends React.Component<any, any> {
             }
         })
         if (active && active === 'topo') {
-            this.getTopo()
+            this.getTopo(this.getTopoState())
         } else {
             let moTypeKey = 'vm'
             this.props.actions.getObjAttributes(moTypeKey)
@@ -161,10 +178,13 @@ class VirtualInfo extends React.Component<any, any> {
     }
     componentDidMount() {
         let { active } = qs.parse(this.props.location.search)
-        if (active && active === 'topo' && !this.timer) {
+        if (active && active === 'topo' && !this.topoTimer && !this.topoStateTimer) {
             let timer = setInterval(() => {
                 this.getTopo()
             }, 300000)
+            let topoStateTimer = setInterval(() => {
+                this.getTopoState()
+            }, 5000)
         }
     }
     componentWillUnmount() {
@@ -172,7 +192,8 @@ class VirtualInfo extends React.Component<any, any> {
         this.props.actions.resetSyslog();
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
-        clearInterval(this.timer)
+        clearInterval(this.topoTimer)
+        clearInterval(this.topoStateTimer)
     }
     renderBtns() {
         return (
