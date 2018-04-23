@@ -20,18 +20,32 @@ import UUID from 'uuid'
 import shallowDiffers from '../../utils/shallowDiffers'
 
 class HostInfo extends React.Component<any, any> {
-    timer: any
+    topoTimer: any
+    topoStateTimer: any
     constructor(props) {
         super(props);
-        let { match } = this.props
         let { pageNo } = qs.parse(this.props.location.search)
+        let { type, id } = this.props.match.params
+        let dsname = ''
+        switch (type) {
+            case 'compute':
+                dsname = 'imdsTopoHost'
+                break;
+            case 'controller':
+                dsname = 'imdsTopoController'
+                break;
+            default:
+                dsname = 'imdsTopoStorage'
+        }
         this.state = {
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
             pageSize: 9999,
             activeKey: 'imdsHostProcessor',
-            host: match.params.id,
-            topo: null
+            host: id,
+            topoDsname: dsname,
+            topo: null,
+            observe: null
         }
     }
     onChange(key) {
@@ -63,10 +77,14 @@ class HostInfo extends React.Component<any, any> {
             })
         } else {
             this.getTopo()
-            if (!this.timer) {
-                let timer = setInterval(() => {
+            this.getTopoState()
+            if (!this.topoTimer && !this.topoStateTimer) {
+                let topoTimer = setInterval(() => {
                     this.getTopo()
                 }, 300000)
+                let topoStateTimer = setInterval(() => {
+                    this.getTopoState()
+                }, 5000)
             }
         }
     }
@@ -81,20 +99,17 @@ class HostInfo extends React.Component<any, any> {
             this.goPage(1)
         })
     }
-    getTopo() {
-        let { type, id } = this.props.match.params
-        let dsname = ''
-        switch (type) {
-            case 'compute':
-                dsname = 'imdsTopoHost'
-                break;
-            case 'controller':
-                dsname = 'imdsTopoController'
-                break;
-            default:
-                dsname = 'imdsTopoStorage'
-        }
-        this.props.actions.getTopoState(dsname, { moInstId: id }, (data, err) => {
+    getTopo(cb?) {
+        let { topoDsname, host } = this.state
+        this.props.actions.getTopo(topoDsname, { moInstId: host }, (data, err) => {
+            if (data) {
+                if (cb) { cb() }
+            }
+        })
+    }
+    getTopoState() {
+        let { topoDsname, host } = this.state
+        this.props.actions.getTopoState(topoDsname, { moInstId: host }, (data, err) => {
             if (data) {
                 let nextTopoNodes = data && data.nodes ? _.keyBy(data.nodes, 'id') : {}
                 let { topo } = this.state
@@ -134,7 +149,29 @@ class HostInfo extends React.Component<any, any> {
             }
         })
     }
-    payAttention() { }
+    getObserve(objData) {
+        let observe
+        if (objData) {
+            let baseData = _.zipObject(objData.columns, _.head(objData.values))
+            observe = baseData.observe
+        }
+        return observe
+    }
+    payAttention() {
+        let moTypeKey = 'host'
+        let host = this.state.host
+        this.props.actions.getObjData(moTypeKey, host, (err, data) => {
+            if (data) {
+                let baseData = _.zipObject(data.columns, _.head(data.values))
+                this.setState({
+                    observe: baseData.observe
+                })
+                emitter.emit('message', 'success', '修改成功！')
+            } else {
+                emitter.emit('message', 'error', '修改失败')
+            }
+        })
+    }
     showServer(e, topo?) {
         let host = this.props.match.params.id;
         this.props.actions.queryList('imdsHostServerInfo', { host }, (err, res) => {
@@ -199,7 +236,7 @@ class HostInfo extends React.Component<any, any> {
         let { type } = this.props.match.params
         let { active } = qs.parse(this.props.location.search)
         if (active && active === 'topo') {
-            this.getTopo()
+            this.getTopo(this.getTopoState())
         } else {
             let moTypeKey = 'host'
             let host = this.state.host
@@ -219,10 +256,13 @@ class HostInfo extends React.Component<any, any> {
     }
     componentDidMount() {
         let { active } = qs.parse(this.props.location.search)
-        if (active && active === 'topo' && !this.timer) {
-            let timer = setInterval(() => {
+        if (active && active === 'topo' && !this.topoTimer && !this.topoStateTimer) {
+            let topoTimer = setInterval(() => {
                 this.getTopo()
             }, 300000)
+            let topoStateTimer = setInterval(() => {
+                this.getTopoState()
+            }, 5000)
         }
     }
     componentWillUnmount() {
@@ -230,20 +270,24 @@ class HostInfo extends React.Component<any, any> {
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
         this.props.actions.resetSummary()
-        clearInterval(this.timer)
+        clearInterval(this.topoTimer)
+        clearInterval(this.topoStateTimer)
     }
     renderBtns() {
+        let { observe } = this.state
+        let icon = observe ? 'star' : 'star-o'
+        let btnTxt = observe ? '取消关注' : '关注'
         return (
             <div className={styles.btn}>
                 <Button
                     type="primary" ghost
-                    icon="star-o"
-                    onClick={this.showServer.bind(this)}
-                >关注</Button>
+                    icon={icon}
+                    onClick={this.payAttention.bind(this)}
+                >{btnTxt}</Button>
                 <Button
                     type="primary" ghost
                     icon="eye-o"
-                    onClick={this.payAttention.bind(this)}
+                    onClick={this.showServer.bind(this)}
                 >查看服务器</Button>
             </div>
         )
@@ -255,7 +299,6 @@ class HostInfo extends React.Component<any, any> {
                     type="primary" ghost
                     icon="fork"
                     onClick={this.showServer.bind(this, true)}
-                    style={{ margin: '0px 10px 0px 0' }}
                 >物理拓扑</Button>
                 <Button
                     type="primary" ghost

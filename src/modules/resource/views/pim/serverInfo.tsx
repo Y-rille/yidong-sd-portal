@@ -22,10 +22,11 @@ import UUID from 'uuid'
 import shallowDiffers from '../../utils/shallowDiffers'
 
 class ServerInfo extends React.Component<any, any> {
-    timer: any
+    topoTimer: any
+    topoStateTimer: any
     constructor(props) {
         super(props);
-        let { match } = this.props
+        let { id } = this.props.match.params
         let { pageNo } = qs.parse(this.props.location.search)
         this.state = {
             status: null,
@@ -38,8 +39,8 @@ class ServerInfo extends React.Component<any, any> {
             activeKey: 'imdsServerProcessor',
             detailKey: 'overview',
             host_info: null,
-            server: match.params.id,
-            topoData: null
+            server: id,
+            topo: null
         }
     }
     goList() {
@@ -103,12 +104,16 @@ class ServerInfo extends React.Component<any, any> {
         }
     }
     sshLink = () => {
-        let { config } = this.props
-        let user = {
-            name: 'admin',
-            pwd: '111'
-        };
-        window.open(`${config.ssh}?${qs.stringify(user)}`)
+        let { objAttributes, objData } = this.props
+        if (objAttributes && objData) {
+            let _data = {}
+            objData.columns.map((item, index) => {
+                const key = item
+                const values = objData.values[0] && objData.values[0][index]
+                _data[key] = values
+            });
+            window.open(_data['manageURL'])
+        }
     }
     confirmRest = () => {
         let self = this
@@ -203,10 +208,14 @@ class ServerInfo extends React.Component<any, any> {
             this.props.actions.getObjData(moTypeKey, moInstId);
         } else {
             this.getTopo()
-            if (!this.timer) {
-                let timer = setInterval(() => {
+            this.getTopoState()
+            if (!this.topoTimer && !this.topoStateTimer) {
+                let topoTimer = setInterval(() => {
                     this.getTopo()
                 }, 300000)
+                let topoStateTimer = setInterval(() => {
+                    this.getTopoState()
+                }, 5000)
             }
         }
     }
@@ -268,10 +277,19 @@ class ServerInfo extends React.Component<any, any> {
         let id = match.params.id
         this.props.actions.getObjData(moTypeKey, id);
     }
-    getTopo() {
-        let { id } = this.props.match.params
+    getTopo(cb?) {
+        let { server } = this.state
         let dsname = 'imdsTopoServer'
-        this.props.actions.getTopoState(dsname, { moInstId: id }, (data, err) => {
+        this.props.actions.getTopo(dsname, { moInstId: server }, (data, err) => {
+            if (data) {
+                if (cb) { cb() }
+            }
+        })
+    }
+    getTopoState() {
+        let { server } = this.state
+        let dsname = 'imdsTopoServer'
+        this.props.actions.getTopoState(dsname, { moInstId: server }, (data, err) => {
             if (data) {
                 let nextTopoNodes = data && data.nodes ? _.keyBy(data.nodes, 'id') : {}
                 let { topo } = this.state
@@ -308,7 +326,7 @@ class ServerInfo extends React.Component<any, any> {
             }
         })
         if (active && active === 'topo') {
-            this.getTopo()
+            this.getTopo(this.getTopoState())
         } else {
             this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id })
             this.props.actions.getObjAttributes(moTypeKey)
@@ -317,10 +335,13 @@ class ServerInfo extends React.Component<any, any> {
     }
     componentDidMount() {
         let { active } = qs.parse(this.props.location.search)
-        if (active && active === 'topo' && !this.timer) {
+        if (active && active === 'topo' && !this.topoTimer && !this.topoStateTimer) {
             let timer = setInterval(() => {
                 this.getTopo()
             }, 300000)
+            let topoStateTimer = setInterval(() => {
+                this.getTopoState()
+            }, 5000)
         }
     }
     componentWillUnmount() {
@@ -329,7 +350,8 @@ class ServerInfo extends React.Component<any, any> {
         this.props.actions.resetList()
         this.props.actions.resetObjAttributes()
         this.props.actions.resetObjData()
-        clearInterval(this.timer)
+        clearInterval(this.topoTimer)
+        clearInterval(this.topoStateTimer)
     }
     renderDynamicPropertiesCollapse() {
         if (this.props.objAttributes && this.props.objData) {
@@ -359,26 +381,29 @@ class ServerInfo extends React.Component<any, any> {
             if (_power) {
                 return (
                     <div className={styles.btn}>
-                        <Button type="primary"
-                            style={{ margin: '0px 10px 0px 0' }}
-                            icon="link" ghost
-                            onClick={this.sshLink.bind(this, 'reset')}>设备管理</Button>
                         <Button
                             type="primary" ghost
                             icon="dingding"
-                            style={{ margin: '0px 10px 0px 0' }}
                             onClick={this.confirmUpOrDown}
                         >{this.state.status === 2 ? '上电' : '下电'}</Button>
-                        <Button type="primary" disabled={this.state.status === 2} style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
-                            onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                        <Button type="primary" disabled={this.state.status === 2} ghost icon="retweet"
+                            onClick={this.confirmRest.bind(this, 'reset')}
+                        >复位</Button>
+                        <Button type="primary"
+                            icon="link" ghost
+                            onClick={this.sshLink.bind(this, 'reset')}
+                        >设备管理</Button>
                         <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
                     </div>
                 )
             } else {
                 return (
                     <div className={styles.btn}>
-                        <Button type="primary" style={{ margin: '0px 10px 0px 0' }} ghost icon="retweet"
+                        <Button type="primary" disabled={this.state.status === 2} ghost icon="retweet"
                             onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
+                        <Button type="primary"
+                            icon="link" ghost
+                            onClick={this.sshLink.bind(this, 'reset')}>设备管理</Button>
                         <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
                     </div>
                 )
@@ -394,7 +419,6 @@ class ServerInfo extends React.Component<any, any> {
                     type="primary" ghost
                     icon="fork"
                     onClick={this.goHost.bind(this, true)}
-                    style={{ margin: '0px 10px 0px 0' }}
                 >虚拟拓扑</Button>
                 <Button
                     type="primary" ghost
