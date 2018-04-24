@@ -160,13 +160,14 @@ class HostInfo extends React.Component<any, any> {
     payAttention() {
         let moTypeKey = 'host'
         let { host, observe } = this.state
-        this.props.actions.editObjData(moTypeKey, host, observe, (err, data) => {
+        let editObserve = (observe === 0) ? 1 : 0
+        this.props.actions.editObjData(moTypeKey, host, editObserve, (err, data) => {
             if (err || data.code !== 1) {
                 emitter.emit('message', 'error', '修改失败')
             } else if (data.code === 1) {
                 emitter.emit('message', 'success', '修改成功！')
                 this.setState({
-                    observe: observe
+                    observe: editObserve
                 })
             }
         })
