@@ -14,6 +14,7 @@ const InputGroup = Input.Group;
 const Option = Select.Option;
 const confirm = Modal.confirm
 import emitter from '../../../../common/emitter'
+import FindUpload from '../../../../components/FindUpload/'
 
 export interface SwitchboardProps {
     location?,
@@ -293,7 +294,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                     </div>
                     <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
-                            <Button icon="upload" >上传文件</Button><span style={{ marginLeft: '10px', color: '#e2e4e9' }}>支持扩展名：.xlsx...</span>
+                            <FindUpload />
                         </div>
                         <div>
                             <Button type="primary">发现</Button>
