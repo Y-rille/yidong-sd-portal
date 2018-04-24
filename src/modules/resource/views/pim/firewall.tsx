@@ -14,6 +14,8 @@ import { ResourceActions } from '../../actions/index'
 import qs from 'querystringify'
 import { stringify } from 'querystringify'
 import emitter from '../../../../common/emitter'
+import FindUpload from '../../../../components/FindUpload/'
+
 const confirm = Modal.confirm
 export interface FirewallProps {
     location?
@@ -268,26 +270,32 @@ class Firewall extends React.Component<FirewallProps, any> {
                 item.width = '23%'
             })
             return (
-                <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+                <div className={styles.projectile}
+                >
                     <CompactTable
-                        // goPage={this.goPage.bind(this)} // 翻页
                         data={data_fixed}
-                        actionAuth=""
                         selectAuth={true}
                         selectRow={this.findSelectRow.bind(this)}
-                        size={{ y: '113px' }}
-                        pageSize="999"
+                        size={{ y: 113 }}
+                        pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" disabled={findSelected.length > 0 ? false : true} onClick={this.addData.bind(this)}>添加</Button>
-                        <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.addData.bind(this)}>生成模板</Button>
+                        <Button icon="download" >下载模版</Button>
+                    </div>
+                    <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div>
+                            <FindUpload />
+                        </div>
+                        <div>
+                            <Button type="primary">发现</Button>
+                        </div>
                     </div>
                 </div >
             )
         } else {
             return <div />
         }
-
     }
     render() {
         let { match, list, nodeInfo, subDataPIM } = this.props;
@@ -337,7 +345,6 @@ class Firewall extends React.Component<FirewallProps, any> {
                                     onCancel={this.handleCancel}
                                     footer={null}
                                     width="80%"
-                                    style={{ top: '8%' }}
                                 >
                                     <FilterFireWallForm
                                         subDataPIM={subDataPIM}

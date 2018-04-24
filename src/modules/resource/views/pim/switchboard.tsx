@@ -14,6 +14,7 @@ const InputGroup = Input.Group;
 const Option = Select.Option;
 const confirm = Modal.confirm
 import emitter from '../../../../common/emitter'
+import FindUpload from '../../../../components/FindUpload/'
 
 export interface SwitchboardProps {
     location?,
@@ -278,7 +279,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                 item.width = '23%'
             })
             return (
-                <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+                <div className={styles.projectile}
+                >
                     <CompactTable
                         data={data_fixed}
                         selectAuth={true}
@@ -287,14 +289,23 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                         pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)} disabled={findSelected.length ? false : true}>添加</Button>
-                        <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.addData.bind(this)}>生成模板</Button>
+                        <Button icon="download" >下载模版</Button>
+                    </div>
+                    <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div>
+                            <FindUpload />
+                        </div>
+                        <div>
+                            <Button type="primary">发现</Button>
+                        </div>
                     </div>
                 </div >
             )
         } else {
             return <div />
         }
+
     }
     render() {
         const { name, datacenter, pageSize, tableLoading, assettag, selected } = this.state;
