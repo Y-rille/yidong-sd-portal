@@ -249,7 +249,8 @@ class Server extends React.Component<any, any> {
                 item.width = '23%'
             })
             return (
-                <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+                <div className={styles.projectile}
+                >
                     <CompactTable
                         data={data_fixed}
                         selectAuth={true}
@@ -258,14 +259,23 @@ class Server extends React.Component<any, any> {
                         pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)} disabled={findSelected.length ? false : true}>生成模板</Button>
-                        {/* <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button> */}
+                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.addData.bind(this)}>生成模板</Button>
+                        <Button icon="download" >下载模版</Button>
+                    </div>
+                    <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div>
+                            <Button icon="upload" >上传文件</Button><span style={{ marginLeft: '10px', color: '#e2e4e9' }}>支持扩展名：.xlsx...</span>
+                        </div>
+                        <div>
+                            <Button type="primary">发现</Button>
+                        </div>
                     </div>
                 </div >
             )
         } else {
             return <div />
         }
+
     }
     render() {
         let { match, nodeInfo, subDataVendor, subDataCenter, list, subDataPIM } = this.props;
@@ -315,16 +325,13 @@ class Server extends React.Component<any, any> {
                                     onCancel={this.handleCancel}
                                     footer={null}
                                     width="80%"
-                                    style={{ top: '8%' }}
                                 >
                                     <FilterServerForm
                                         wrappedComponentRef={(node) => { this.formRef = node }}
-                                        getData={this.getData.bind(this)} data={subDataPIM}
+                                        getData={this.getData.bind(this)}
+                                        data={subDataPIM}
                                     />
                                     {this.renderAddData()}
-                                    <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
-
-                                    </div>
                                 </Modal>
                             </div>
                             {
