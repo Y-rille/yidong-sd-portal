@@ -150,10 +150,12 @@ class HostInfo extends React.Component<any, any> {
         })
     }
     getObserve(objData) {
+        let { columns, values } = objData.data
         let observe
-        let baseData = _.zipObject(objData.columns, _.head(objData.values))
+        let baseData = _.zipObject(columns, _.head(values))
         observe = baseData.observe
-        return observe
+        let fix_observe = _.parseInt(observe, 10)
+        return fix_observe
     }
     payAttention() {
         let moTypeKey = 'host'
@@ -279,11 +281,11 @@ class HostInfo extends React.Component<any, any> {
     renderBtns() {
         let { observe } = this.state
         let { objData } = this.props
-        let icon = observe ? 'star' : 'star-o'
-        let btnTxt = observe ? '取消关注' : '关注'
+        let icon = (observe === 0) ? 'star-o' : 'star'
+        let btnTxt = (observe === 0) ? '关注' : '取消关注'
         return (
             <div className={styles.btn}>
-                {(objData && observe !== undefined && observe !== '') ? (
+                {(objData && !isNaN(observe)) ? (
                     <Button
                         type="primary" ghost
                         icon={icon}
