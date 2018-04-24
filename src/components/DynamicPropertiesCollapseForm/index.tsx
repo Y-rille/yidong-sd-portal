@@ -70,7 +70,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                                 }]
                         })(
                             item.editable && this.state.isEdit ? <Input readOnly={!this.state.isEdit}
-                                name={item.attributeName} /> : (item.values.length > 25 ? <Tooltip placement="topLeft" title={item.values} arrowPointAtCenter>
+                                name={item.attributeName} /> : (item.values.length > 25 ? <Tooltip placement="top" title={item.values} arrowPointAtCenter>
                                     <p style={{ width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.values}</p>
                                 </Tooltip> : <p>{item.values}</p>)
                         )}
@@ -94,7 +94,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                             {this.renderForm(this.props.data)}
                         </Row>
                         {isEditor ? <Row>
-                            <Col span={24} style={{ textAlign: 'right' }}>
+                            <Col span={24} style={{ marginTop: '10px', textAlign: 'right' }}>
                                 <Button style={{ marginLeft: 8 }} onClick={this.handleEdit.bind(this)} type="primary">
                                     {this.state.isEdit ? '保存' : '修改'}
                                 </Button>
