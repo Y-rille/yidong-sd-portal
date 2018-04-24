@@ -155,7 +155,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                         return (
                             <p className={styles.card_header} key={key}>
                                 {header[0]}
-                                <Tooltip title={header[1]}>
+                                <Tooltip placement="top" title={header[1]} arrowPointAtCenter>
                                     <span className={styles.card_value}>：{header[1]}</span>
                                 </Tooltip>
                             </p>
