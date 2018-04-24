@@ -258,8 +258,8 @@ class Server extends React.Component<any, any> {
                         pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button type="primary" onClick={this.addData.bind(this)} disabled={findSelected.length ? false : true}>添加</Button>
-                        <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button>
+                        <Button type="primary" onClick={this.addData.bind(this)} disabled={findSelected.length ? false : true}>生成模板</Button>
+                        {/* <Button onClick={this.handleCancel} style={{ marginLeft: '10px' }}>取消</Button> */}
                     </div>
                 </div >
             )
@@ -322,6 +322,9 @@ class Server extends React.Component<any, any> {
                                         getData={this.getData.bind(this)} data={subDataPIM}
                                     />
                                     {this.renderAddData()}
+                                    <div style={{ padding: '20px 0 0 0', borderTop: '1px dashed #ddd', marginTop: '20px' }}>
+
+                                    </div>
                                 </Modal>
                             </div>
                             {
