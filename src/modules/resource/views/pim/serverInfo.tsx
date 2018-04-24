@@ -460,11 +460,13 @@ class ServerInfo extends React.Component<any, any> {
         let { tableLoading } = this.state
         if (list && list.header) {
             return (
-                <CompactTable
-                    goPage={this.goPage.bind(this)}
-                    loading={tableLoading}
-                    data={list}
-                />
+                <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                    <CompactTable
+                        goPage={this.goPage.bind(this)}
+                        loading={tableLoading}
+                        data={list}
+                    />
+                </div>
             )
         } else {
             return (
@@ -627,9 +629,7 @@ class ServerInfo extends React.Component<any, any> {
                                 animated={false}
                                 onChange={this.onTab.bind(this)}>
                                 <TabPane tab="处理器信息" key="imdsServerProcessor">
-                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        {this.renderNormalTable()}
-                                    </div>
+                                    {this.renderNormalTable()}
                                 </TabPane>
                                 <TabPane tab="内存信息" key="imdsServerMemory">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
@@ -642,19 +642,13 @@ class ServerInfo extends React.Component<any, any> {
                                     </div>
                                 </TabPane>
                                 <TabPane tab="硬盘信息" key="imdsServerDisk">
-                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        {this.renderNormalTable()}
-                                    </div>
+                                    {this.renderNormalTable()}
                                 </TabPane>
                                 <TabPane tab="风扇信息" key="imdsServerFan">
-                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        {this.renderNormalTable()}
-                                    </div>
+                                    {this.renderNormalTable()}
                                 </TabPane>
                                 <TabPane tab="电源信息" key="imdsServerPower">
-                                    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                        {this.renderNormalTable()}
-                                    </div>
+                                    {this.renderNormalTable()}
                                 </TabPane>
                                 <TabPane tab="其它信息" key="imdsServer15MiKpis">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
@@ -668,7 +662,7 @@ class ServerInfo extends React.Component<any, any> {
                         </TabPane>
                     </Tabs>
                 </div>
-            </div>
+            </div >
         );
     }
 }
