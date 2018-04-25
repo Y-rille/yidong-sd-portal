@@ -24,7 +24,7 @@ class Home extends React.Component<any, any> {
     getTopo(cb?) {
         let { pimId } = this.state
         let dsname = 'imdsTopoPIM'
-        this.props.actions.getTopo(dsname, { moInstId: pimId }, (data, err) => {
+        this.props.actions.getTopo(dsname, { pimId }, (data, err) => {
             if (data) {
                 if (cb) { cb() }
             }
@@ -33,7 +33,7 @@ class Home extends React.Component<any, any> {
     getTopoState() {
         let { pimId } = this.state
         let dsname = 'imdsTopoPIM'
-        this.props.actions.getTopoState(dsname, { moInstId: pimId }, (data, err) => {
+        this.props.actions.getTopoState(dsname, { pimId }, (data, err) => {
             if (data) {
                 let nextTopoNodes = data && data.nodes ? _.keyBy(data.nodes, 'id') : {}
                 let { topo } = this.state
