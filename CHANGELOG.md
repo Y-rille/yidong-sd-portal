@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0-4"></a>
+# [1.1.0-4](http://git.klz-qcloud.cn/nfv/cloud-management-platform/compare/v1.0.3-2...v1.1.0-4) (2018-04-25)
+
+
+### Features
+
+* **new-parser:** 完成拓扑图高亮 ([acf7f92](http://git.klz-qcloud.cn/nfv/cloud-management-platform/commits/acf7f92))
+
+
+
 <a name="1.1.0-3"></a>
 # [1.1.0-3](http://git.klz-qcloud.cn/nfv/cloud-management-platform/compare/v1.0.3-2...v1.1.0-3) (2018-04-21)
 
