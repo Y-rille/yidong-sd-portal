@@ -384,7 +384,7 @@ class HostInfo extends React.Component<any, any> {
                             </div>
                             <Topology
                                 key={UUID.v1()}
-                                data={topo}
+                                data={_.merge({}, topo)}
                                 width={w}
                                 height={h}
                                 center={flag}
