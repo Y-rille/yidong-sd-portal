@@ -11,6 +11,7 @@ function mapProps(state) {
         config: state.commonReducer.config,
         name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
+        list: state.resourceReducer.list
     }
 }
 function mapDispatchToProps(dispatch) {
