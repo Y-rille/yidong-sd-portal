@@ -154,19 +154,20 @@ class HostInfo extends React.Component<any, any> {
         let observe
         let baseData = _.zipObject(columns, _.head(values))
         observe = baseData.observe
-        let fix_observe = _.parseInt(observe, 10)
-        return fix_observe
+        return observe
     }
     payAttention() {
         let moTypeKey = 'host'
         let { host, observe } = this.state
-        this.props.actions.editObjData(moTypeKey, host, observe, (err, data) => {
+        let editObserve = (observe === '0') ? '1' : '0'
+        let tipTxt = (editObserve === '1') ? '关注' : '取消关注'
+        this.props.actions.editObjData(moTypeKey, host, { observe: editObserve }, (err, data) => {
             if (err || data.code !== 1) {
-                emitter.emit('message', 'error', '修改失败')
+                emitter.emit('message', 'error', `${tipTxt}失败！`)
             } else if (data.code === 1) {
-                emitter.emit('message', 'success', '修改成功！')
+                emitter.emit('message', 'success', `${tipTxt}成功！`)
                 this.setState({
-                    observe: observe
+                    observe: editObserve
                 })
             }
         })
@@ -281,11 +282,11 @@ class HostInfo extends React.Component<any, any> {
     renderBtns() {
         let { observe } = this.state
         let { objData } = this.props
-        let icon = (observe === 0) ? 'star-o' : 'star'
-        let btnTxt = (observe === 0) ? '关注' : '取消关注'
+        let icon = (observe === '1') ? 'star' : 'star-o'
+        let btnTxt = (observe === '1') ? '取消关注' : '关注'
         return (
             <div className={styles.btn}>
-                {(objData && !isNaN(observe)) ? (
+                {(objData) ? (
                     <Button
                         type="primary" ghost
                         icon={icon}
@@ -383,7 +384,7 @@ class HostInfo extends React.Component<any, any> {
                             </div>
                             <Topology
                                 key={UUID.v1()}
-                                data={topo}
+                                data={_.merge({}, topo)}
                                 width={w}
                                 height={h}
                                 center={flag}

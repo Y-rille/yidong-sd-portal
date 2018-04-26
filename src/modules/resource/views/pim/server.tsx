@@ -11,6 +11,7 @@ import CompactTable from '../../../../components/CompactTable/'
 import Selector from '../../../../components/Selector'
 import FilterServerForm from '../../../../components/FilterServerForm'
 import Cascaderor from '../../../../components/Cascaderor'
+import FindUpload from '../../../../components/FindUpload/'
 
 import emitter from '../../../../common/emitter'
 
@@ -264,7 +265,7 @@ class Server extends React.Component<any, any> {
                     </div>
                     <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
-                            <Button icon="upload" >上传文件</Button><span style={{ marginLeft: '10px', color: '#e2e4e9' }}>支持扩展名：.xlsx...</span>
+                            <FindUpload />
                         </div>
                         <div>
                             <Button type="primary">发现</Button>
@@ -275,7 +276,6 @@ class Server extends React.Component<any, any> {
         } else {
             return <div />
         }
-
     }
     render() {
         let { match, nodeInfo, subDataVendor, subDataCenter, list, subDataPIM } = this.props;

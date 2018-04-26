@@ -14,6 +14,8 @@ import { ResourceActions } from '../../actions/index'
 import qs from 'querystringify'
 import { stringify } from 'querystringify'
 import emitter from '../../../../common/emitter'
+import FindUpload from '../../../../components/FindUpload/'
+
 const confirm = Modal.confirm
 export interface FirewallProps {
     location?
@@ -283,7 +285,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                     </div>
                     <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
-                            <Button icon="upload" >上传文件</Button><span style={{ marginLeft: '10px', color: '#e2e4e9' }}>支持扩展名：.xlsx...</span>
+                            <FindUpload />
                         </div>
                         <div>
                             <Button type="primary">发现</Button>

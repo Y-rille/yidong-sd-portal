@@ -91,7 +91,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                     </Col>
                     <Col span={8}>
                         <FormItem label="供应商" {...formItemLayout}>
-                            {getFieldDecorator('provider', {
+                            {getFieldDecorator('vendor', {
                                 rules: [{ required: true, message: '请输入供应商！' }],
                                 initialValue: subDataVendorDefault
                             })(
@@ -103,7 +103,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                     </Col>
                     <Col span={8}>
                         <FormItem label="设备类型" {...formItemLayout}>
-                            {getFieldDecorator('devicetype', {
+                            {getFieldDecorator('switchtype', {
                                 rules: [{ required: true, message: '请输入设备类型！' }],
                                 initialValue: subDataSwitchDefault
                             })(
@@ -116,14 +116,29 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                 </Row>
                 <Row>
                     <Col span={8}>
-                        <FormItem label="设备IP" {...formItemLayout}>
-                            {getFieldDecorator('deviceip', {
-                                rules: [{ required: true, message: '请输入设备IP！' }],
-                                initialValue: ''
+                        <Form.Item label="开始IP" {...formItemLayout}
+                        >
+                            {getFieldDecorator('startip', {
+                                initialValue: '',
+                                rules: [{
+                                    required: true, message: '请输入开始IP!',
+                                }],
                             })(
-                                <Input placeholder="请输入设备IP" />
+                                <Input placeholder="请输入开始IP" />
                             )}
-                        </FormItem>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item label="结束IP" {...formItemLayout}>
+                            {getFieldDecorator('endip', {
+                                initialValue: '',
+                                rules: [{
+                                    required: true, message: '请输入结束IP!',
+                                }],
+                            })(
+                                <Input placeholder="请输入结束IP" />
+                            )}
+                        </Form.Item>
                     </Col>
                     <Col span={8}>
                         <FormItem label="协议" {...formItemLayout}>

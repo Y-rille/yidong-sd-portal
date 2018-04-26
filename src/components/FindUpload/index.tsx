@@ -55,7 +55,7 @@ export default class FindUpload extends React.PureComponent<FindUploadProps, any
                     beforeUpload={this.beforeUpload.bind(this)}
                     onChange={this.handleChange.bind(this)}>
                     <Button icon="upload" disabled={disabled}>上传文件</Button>
-                    <span style={{ display: 'inlineBlock', marginLeft: '10px' }}>支持扩展名：.xlsx</span>
+                    <span style={{ display: 'inlineBlock', marginLeft: '10px', color: '#e2e4e9' }}>支持扩展名：.xlsx</span>
                 </Upload>
             </div>
         );
