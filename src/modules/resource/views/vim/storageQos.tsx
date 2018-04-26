@@ -42,7 +42,7 @@ class StorageQos extends React.Component<any, any> {
                 delete params_obj[key]
             }
         }));
-        this.props.actions.queryList('imdsHA', params_obj, () => {
+        this.props.actions.queryList('imdsVM', params_obj, () => {
             this.setState({
                 tableLoading: false
             });

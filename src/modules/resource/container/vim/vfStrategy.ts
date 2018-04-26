@@ -11,6 +11,7 @@ function mapProps(state) {
         config: state.commonReducer.config,
         name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
+        subDataProject: state.resourceReducer.subDataProject,
         list: state.resourceReducer.list
     }
 }
