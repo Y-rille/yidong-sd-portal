@@ -100,7 +100,6 @@ class Flavor extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     render() {
-        // console.log(this.props.config);
         let { match, nodeInfo, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { name, project, pageSize, tableLoading } = this.state;

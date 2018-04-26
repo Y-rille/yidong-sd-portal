@@ -91,7 +91,7 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
                     </Col>
                     <Col span={8}>
                         <FormItem label="供应商" {...formItemLayout}>
-                            {getFieldDecorator('provider', {
+                            {getFieldDecorator('vendor', {
                                 rules: [{ required: true, message: '请输入供应商！' }],
                                 initialValue: subDataVendorDefault
                             })(

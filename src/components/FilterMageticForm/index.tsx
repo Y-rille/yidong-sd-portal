@@ -212,7 +212,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                         >
                             {getFieldDecorator('password', {
                             })(
-                                <Input type="password" placeholder="安装U位" />
+                                <Input type="password" placeholder="请输入安装U位" />
                             )}
                         </FormItem>
                     </Col>
