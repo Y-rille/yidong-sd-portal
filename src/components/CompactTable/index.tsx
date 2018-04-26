@@ -14,11 +14,12 @@ export interface CompactTableProps {
     goLink?
     goDelete?
     actionAuth? // 操作权限
-    actionWidth?// 操作宽度
+    actionWidth? // 操作宽度
     // pageAuth?
     footInfoAuth? // 页脚信息
     outStyle?
     selectAuth? // 选择权限
+    sortAuth?   // 排序权限
     selectRow?
     pageSize?
     loading?
@@ -203,7 +204,7 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
         this.props.goLink(key, obj)
     }
     renderTable() {
-        let { actionAuth, data, selectAuth, selectRow, loading, size } = this.props
+        let { actionAuth, data, selectAuth, selectRow, loading, size, sortAuth } = this.props
         let header = data.header || []
         let dataList: any = _.merge([], data.dataList)
         let columns = []
@@ -214,7 +215,16 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
                 key: header[i].key,
                 fixed: header[i].fixed ? 'left' : null,
                 width: header[i].width ? header[i].width : null,
-                // sorter: header[i].sorter ? (a, b) => a[header[i].key] - b[header[i].key] : null,
+                sorter: sortAuth ? (a, b) => {
+
+                    let aV = a[header[i].key]
+                    let bV = b[header[i].key]
+                    if (isNaN(aV)) {
+                        return aV.charCodeAt(0) - bV.charCodeAt(0)
+                    } else {
+                        return aV - bV
+                    }
+                } : null,
             }
             if (header[i].link) {
                 obj.render = (text, record) => <a href="javascript:;" onClick={this.goLink.bind(this, header[i].key, record)}>{text}</a>
