@@ -48,7 +48,7 @@ class Home extends React.Component<any, any> {
         const next_mp_node: any = matchPath(nextProps.location.pathname, {
             path: '/resource/:type/:id'
         })
-        if ((dshboard_mp_node.params.dashboard === 'dashboard' && next_mp_node) || (pre_mp_node && next_mp_node && (pre_mp_node.params.id !== next_mp_node.params.id))) {
+        if ((dshboard_mp_node && dshboard_mp_node.params && dshboard_mp_node.params.dashboard === 'dashboard' && next_mp_node) || (pre_mp_node && next_mp_node && (pre_mp_node.params.id !== next_mp_node.params.id))) {
             this.getNodeInfo(next_mp_node.params.id)
         }
     }
