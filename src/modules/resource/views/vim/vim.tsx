@@ -13,6 +13,7 @@ import HaInfo from '../../container/vim/haInfo'
 import Mirror from '../../container/vim/mirror'
 import MirrorInfo from '../../container/vim/mirrorInfo'
 import StorageVolume from '../../container/vim/storageVolume'
+import StorageSnapshot from '../../container/vim/storageSnapshot'
 import StorageVolumeInfo from '../../container/vim/storageVolumeInfo'
 import Virtual from '../../container/vim/virtual'
 import VirtualInfo from '../../container/vim/virtualInfo'
@@ -20,7 +21,6 @@ import VirtualNetwork from '../../container/vim/virtualNetwork'
 import VirtualNetworkInfo from '../../container/vim/virtualNetworkInfo'
 import VolumeType from '../../container/vim/volumeType'
 import VolumeTypeInfo from '../../container/vim/volumeTypeInfo'
-
 import VirtualGroup from '../../container/vim/virtualGroup'
 import NetworkQos from '../../container/vim/networkQos'
 import ProjectQuota from '../../container/vim/projectQuota'
@@ -67,6 +67,7 @@ class Vim extends React.Component<any, any> {
                         <Route path={`${match.url}/mirror`} component={Mirror} />
                         <Route path={`${match.url}/storage_volume/info/:id`} component={StorageVolumeInfo} />
                         <Route path={`${match.url}/storage_volume`} component={StorageVolume} />
+                        <Route path={`${match.url}/storage_snapshot`} component={StorageSnapshot} />
                         <Route path={`${match.url}/virtual/info/:id`} component={VirtualInfo} />
                         <Route path={`${match.url}/virtual`} component={Virtual} />
                         <Route path={`${match.url}/virtual_network/info/:id`} component={VirtualNetworkInfo} />
