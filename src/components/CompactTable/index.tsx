@@ -5,26 +5,27 @@ import moment from '../../common/moment'
 import * as _ from 'lodash';
 
 export interface CompactTableProps {
-    goEdit?
+    // pageAuth?
     // showModal?
-    data?
     // page_num?
     // page_size?
+    goEdit?
+    data?
     goPage?
     goLink?
     goDelete?
-    gobackup?   // 备份
-    actionAuth? // 操作权限
-    actionWidth? // 操作宽度
-    // pageAuth?
-    footInfoAuth? // 页脚信息
+    goBackup?       // 备份
+    goRecover?      // 恢复
+    actionAuth?     // [ 'edit','delete','backup','recover' ] -- 操作权限
+    actionWidth?    // 操作宽度
+    footInfoAuth?   // 页脚信息
     outStyle?
-    selectAuth? // 选择权限
-    sortAuth?   // 排序权限
+    selectAuth?     // 选择权限
+    sortAuth?       // 排序权限
     selectRow?
     pageSize?
     loading?
-    size?   // {y:185},传size，需在header里添加width
+    size?           // {y:185},传size，需在header里添加width
 }
 
 export default class CompactTable extends React.PureComponent<CompactTableProps, any> {
@@ -195,9 +196,14 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
             this.props.goDelete(record)
         }
     }
-    gobackup(record) {
-        if (this.props.gobackup) {
-            this.props.gobackup(record)
+    goBackup(record) {
+        if (this.props.goBackup) {
+            this.props.goBackup(record)
+        }
+    }
+    goRecover(record) {
+        if (this.props.goRecover) {
+            this.props.goRecover(record)
         }
     }
     goPage(current) {
@@ -255,8 +261,12 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
                                 actionArr.push(<a onClick={this.goDelete.bind(this, record)} id={record.id} href="javascript:;" type="vertical">删除</a>)
                                 break
                             case 'backup':
-                                actionArr.push(<a onClick={this.gobackup.bind(this, record)} id={record.id} href="javascript:;" type="vertical">备份</a>)
+                                actionArr.push(<a onClick={this.goBackup.bind(this, record)} id={record.id} href="javascript:;" type="vertical">备份</a>)
                                 break
+                            case 'recover':
+                                actionArr.push(<a onClick={this.goRecover.bind(this, record)} id={record.id} href="javascript:;" type="vertical">恢复</a>)
+                                break
+
                             default:
                                 break
                         }
