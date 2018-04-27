@@ -67,6 +67,12 @@ class Dashboard extends React.Component<any, any> {
             cancelText: '取消',
         });
     }
+    goBackup(metadata) {
+        let { match } = this.props
+        if (metadata.ID && metadata.metadata_name) {
+            this.props.history.push(`${match.url}/backup/${metadata.ID}/clusterConfig?name=${metadata.metadata_name}`)
+        }
+    }
     handleOk(formdata) {
         let moTypeKey = 'vim'
         this.setState({
@@ -157,6 +163,7 @@ class Dashboard extends React.Component<any, any> {
                     type={type}
                     goEdit={type === 'vim' ? this.goEdit.bind(this) : null}
                     goDelete={type === 'vim' ? this.goDelete.bind(this) : null}
+                    goBackup={type === 'vim' ? this.goBackup.bind(this) : null}
                     doFind={type === 'pim' ? this.doFind.bind(this) : null}
                     goTopo={type === 'pim' ? this.goTopo.bind(this) : null}
                 />
