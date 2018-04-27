@@ -60,9 +60,9 @@ class VirtualRouter extends React.Component<any, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { project, name, vim_id } = this.state
+            let { project, name } = this.state
             let pageNo = num
-            let queryObj = { pageNo, project, name, vim_id }
+            let queryObj = { pageNo, project, name }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })

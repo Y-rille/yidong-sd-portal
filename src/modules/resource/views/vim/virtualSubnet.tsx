@@ -64,9 +64,9 @@ class VirtualSubnet extends React.Component<any, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { project, vsname, vim_id } = this.state
+            let { project, vsname } = this.state
             let pageNo = num
-            let queryObj = { pageNo, project, vsname, vim_id }
+            let queryObj = { pageNo, project, vsname }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })
