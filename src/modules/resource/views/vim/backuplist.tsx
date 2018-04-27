@@ -4,8 +4,9 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import CompactTable from '../../../../components/CompactTable/'
 import HostInfo from '../../container/vim/hostInfo'
-import { Spin } from 'antd';
+import { Modal, Spin } from 'antd';
 import styles from '../../style/index.less'
+import { stringify } from 'querystringify'
 
 class BackupList extends React.Component<any, any> {
     constructor(props) {
@@ -24,6 +25,7 @@ class BackupList extends React.Component<any, any> {
             this.props.goLink(key, obj)
         }
     }
+    handleCancel() { }
     render() {
         let { list, pageSize, tableLoading, location } = this.props;
         const mp_node: any = matchPath(location.pathname, {
@@ -38,10 +40,10 @@ class BackupList extends React.Component<any, any> {
                 {
                     list ? (
                         <CompactTable
-                            goPage={this.goPage.bind(this)} // 翻页
+                            goPage={this.goPage.bind(this)}
                             goLink={this.goLink.bind(this)}
                             data={list}
-                            actionAuth={[]}
+                            actionAuth={['edit']}
                             pageSize={pageSize}
                             loading={tableLoading}
                             outStyle={{ 'marginTop': '20px' }}
@@ -52,7 +54,6 @@ class BackupList extends React.Component<any, any> {
                         )
                 }
             </div>
-
         );
     }
 }

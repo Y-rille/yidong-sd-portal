@@ -3,7 +3,7 @@ import { matchPath } from 'react-router'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import * as _ from 'lodash';
 import qs from 'querystringify'
-import { Icon, Breadcrumb, Tabs, Button, Spin } from 'antd';
+import { Icon, Breadcrumb, Tabs, Button, Spin, Input } from 'antd';
 const TabPane = Tabs.TabPane;
 import styles from '../style/index.less'
 import { stringify } from 'querystringify'
@@ -30,6 +30,12 @@ class Backup extends React.Component<any, any> {
             pageSize: 10,
         }
     }
+    backupInput(value) {
+        this.setState({
+            vgname: value
+        })
+    }
+    handleClick() { }
     onChange(key) {
         let { match } = this.props
         let { pathname } = this.props.location
@@ -102,7 +108,7 @@ class Backup extends React.Component<any, any> {
             let queryObj = {
                 pageNo
             }
-            // this.getTableData(queryObj, actKey)
+            this.getTableData(queryObj, actKey)
         }
         this.setState({
             activeKey: actKey
@@ -128,18 +134,32 @@ class Backup extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    <Tabs onChange={this.onChange.bind(this)} type="card" activeKey={activeKey} animated={false}>
-                        <TabPane tab="集群配置" key="clusterConfig"></TabPane>
-                        <TabPane tab="数据库" key="database"></TabPane>
-                        <TabPane tab="数据库增量" key="databaseIncrement"></TabPane>
-                    </Tabs>
-                    <Switch>
-                        <Redirect from={`${match.url}`} to={`${match.url}/clusterConfig${location.search}`} exact />
-                        {/* <Route path={`${match.url}/:type`}
-                            render={() => <BackupList {...this.props} />}
-                        /> */}
-                        <Route component={BackupList} path={`${match.url}/:type`} />
-                    </Switch>
+                    <div className={styles.queryBar}>
+                        <Input placeholder="名称"
+                            type="text"
+                            onChange={e => this.backupInput(e.target.value)} />
+                        <Button
+                            type="primary"
+                            onClick={this.handleClick.bind(this)}
+                        >
+                            查询
+                                </Button>
+                        <div style={{ float: 'right' }}>
+                            <Button type="primary">备份管理</Button>
+                        </div>
+
+                    </div>
+                    <div>
+                        <Tabs onChange={this.onChange.bind(this)} type="card" activeKey={activeKey} animated={false}>
+                            <TabPane tab="集群配置" key="clusterConfig"></TabPane>
+                            <TabPane tab="数据库" key="database"></TabPane>
+                            <TabPane tab="数据库增量" key="databaseIncrement"></TabPane>
+                        </Tabs>
+                        <Switch>
+                            <Redirect from={`${match.url}`} to={`${match.url}/clusterConfig${location.search}`} exact />
+                            <Route component={BackupList} path={`${match.url}/:type`} />
+                        </Switch>
+                    </div>
                 </div>
             </div>
         );
