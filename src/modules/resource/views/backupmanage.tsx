@@ -90,8 +90,8 @@ class BackUpManage extends React.Component<any, any> {
         let { pageNo } = queryObj
         let { cfbName, dbName, dibName, name, pageSize, activeKey } = this.state
         let act_Key = actKey || activeKey
-        // let params_obj = { pageNo, pageSize, name, vim_id }
-        let params_obj = this.getName(act_Key, true)
+        let params_obj = { pageNo, pageSize, name, vim_id }
+        // let params_obj = this.getName(act_Key, true)
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -119,8 +119,8 @@ class BackUpManage extends React.Component<any, any> {
         let { match } = this.props
         let { cfbName, dbName, dibName, name, activeKey } = this.state
         let pageNo = num
-        // let queryObj = { pageNo, name }
-        let queryObj = this.getName(activeKey)
+        let queryObj = { pageNo, name }
+        // let queryObj = this.getName(activeKey)
         this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
@@ -130,8 +130,8 @@ class BackUpManage extends React.Component<any, any> {
         let { match } = this.props
         let { cfbName, dbName, dibName, name, activeKey } = this.state
         let pageNo = 1
-        // let queryObj = { pageNo, name }
-        let queryObj = this.getName(activeKey)
+        let queryObj = { pageNo, name }
+        // let queryObj = this.getName(activeKey)
         this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
         this.setState({
             // pageNo
@@ -143,8 +143,8 @@ class BackUpManage extends React.Component<any, any> {
         let { pathname } = this.props.location
         let { cfbName, dbName, dibName, name } = this.state
         let pageNo = 1
-        // let queryObj = { pageNo, name }
-        let queryObj = this.getName(key)
+        let queryObj = { pageNo, name }
+        // let queryObj = this.getName(key)
         this.props.history.push(`${match.url}/${key}?${qs.stringify(queryObj)}`)
         this.setState({
             activeKey: key,
@@ -244,10 +244,10 @@ class BackUpManage extends React.Component<any, any> {
                 </div> */}
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
-                        {/* <Input placeholder="名称"
+                        <Input placeholder="名称"
                             value={name} type="text"
-                            onChange={e => this.changeInputValue(e.target.value)} /> */}
-                        {this.renderInput(activeKey)}
+                            onChange={e => this.changeInputValue(e.target.value)} />
+                        {/* {this.renderInput(activeKey)} */}
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}
