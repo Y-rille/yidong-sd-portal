@@ -1,12 +1,14 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
-import { Breadcrumb, Icon, Button, Tabs, Spin } from 'antd';
+import { Breadcrumb, Icon, Button, Tabs, Spin, Modal } from 'antd';
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import LogShine from '../../../../components/LogShine/'
 import fmtLog from '../../utils/fmtLog'
 const TabPane = Tabs.TabPane;
 import emitter from '../../../../common/emitter'
+import CreateSnapshotForm from '../../../../components/CreateSnapshotForm'
+
 class StorgeVolumeInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -36,9 +38,38 @@ class StorgeVolumeInfo extends React.Component<any, any> {
             })
         }
     }
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    }
+    handleCancel = () => {
+        this.setState({
+            visible: false,
+        });
+    }
+    getData() {
+        let data = null
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                data = values
+            } else {
+                data = null
+            }
+        })
+        if (this.props.getData) {
+            this.props.getData(data)
+        }
+    }
+    resetForm() {
+        this.props.form.resetFields()
+    }
     storageManage() {
         let { config } = this.props
         window.open(config.IPSAN)
+    }
+    createSnapshot() {
+
     }
     handleEditData(d, cb) {
         let moTypeKey = 'storageVolum'
@@ -84,9 +115,32 @@ class StorgeVolumeInfo extends React.Component<any, any> {
             <div className={styles.btn}>
                 <Button
                     type="primary" ghost
+                    icon="credit-card"
+                    onClick={this.showModal}
+                >创建快照</Button>
+                <Button
+                    type="primary" ghost
                     icon="eye-o"
                     onClick={this.storageManage.bind(this)}
                 >存储管理</Button>
+                <Modal
+                    title="创建快照"
+                    visible={this.state.visible}
+                    onCancel={this.handleCancel}
+                    footer={[
+                        <div key="1">
+                            <div style={{ textAlign: 'left' }}>
+                                卷大小：<span>2GB</span>&nbsp;&nbsp;可用容量：<span>3GB</span>
+                            </div>
+                            <div className={styles.btn}>
+                                <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.getData.bind(this)}>确定</Button>
+                                <Button key="reset" onClick={this.resetForm.bind(this)}>重置</Button>
+                            </div>
+                        </div>
+                    ]}
+                >
+                    < CreateSnapshotForm />
+                </Modal>
             </div>
         )
     }
