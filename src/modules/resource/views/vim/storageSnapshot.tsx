@@ -2,31 +2,34 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
 import { Breadcrumb, Icon, Input, Button, Spin } from 'antd';
+import { matchPath } from 'react-router'
 import CompactTable from '../../../../components/CompactTable/'
-import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
 import { stringify } from 'querystringify'
 class StorageSnapshot extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        let { pageNo, project, name } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/vim/:id'
+        })
+        let { pageNo, svname, ssname } = qs.parse(this.props.location.search)
         this.state = {
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
-            project: project ? project : '',
-            name: name ? name : '',
+            svname: svname ? svname : '',
+            ssname: ssname ? ssname : '',
+            vim_id: mp_node.params.id
         }
     }
-    getData(type, value) {
-        let { project } = this.state
+    storageVolumeInput(value) {
         this.setState({
-            project: type === 'Project' ? value : project,
+            svname: value
         })
     }
-    storageSnapshotInput(value) {
+    SnapshotInput(value) {
         this.setState({
-            name: value
+            ssname: value
         })
     }
     handleManage() {
@@ -37,14 +40,14 @@ class StorageSnapshot extends React.Component<any, any> {
         this.setState({
             tableLoading: true
         });
-        let { project, pageSize, pageNo, vim_id, name } = this.state
-        let params_obj = { pageNo, pageSize, project, vim_id, name }
+        let { pageSize, pageNo, vim_id, svname, ssname } = this.state
+        let params_obj = { pageNo, pageSize, vim_id, svname, ssname }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
             }
         }));
-        this.props.actions.queryList('imdsVM', params_obj, () => {
+        this.props.actions.queryList('imdsStorageVolumSnapshot', params_obj, () => {
             this.setState({
                 tableLoading: false
             });
@@ -55,18 +58,18 @@ class StorageSnapshot extends React.Component<any, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { project, name, vim_id } = this.state
+            let { svname, ssname } = this.state
             let pageNo = num
-            let queryObj = { pageNo, project, name, vim_id }
+            let queryObj = { pageNo, svname, ssname }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })
     }
     handleClick() {
         let { match } = this.props
-        let { project, name } = this.state
+        let { svname, ssname } = this.state
         let pageNo = 1
-        let queryObj = { pageNo, project, name }
+        let queryObj = { pageNo, svname, ssname }
         this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -81,7 +84,7 @@ class StorageSnapshot extends React.Component<any, any> {
     }
     render() {
         let { match, nodeInfo, config, list } = this.props
-        let { pageSize, tableLoading, project, name } = this.state
+        let { pageSize, tableLoading, svname, ssname } = this.state
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -102,10 +105,12 @@ class StorageSnapshot extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
-                        <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
-                        <Input placeholder="存储卷快照名称"
-                            value={name} type="text"
-                            onChange={e => this.storageSnapshotInput(e.target.value)} />
+                        <Input placeholder="快照名称"
+                            value={ssname} type="text"
+                            onChange={e => this.SnapshotInput(e.target.value)} />
+                        <Input placeholder="存储卷名称"
+                            value={svname} type="text"
+                            onChange={e => this.storageVolumeInput(e.target.value)} />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}

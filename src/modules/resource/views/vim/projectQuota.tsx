@@ -54,9 +54,9 @@ class ProjectQuota extends React.Component<any, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { project, vim_id } = this.state
+            let { project } = this.state
             let pageNo = num
-            let queryObj = { pageNo, project, vim_id }
+            let queryObj = { pageNo, project }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })

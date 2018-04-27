@@ -60,9 +60,9 @@ class VirtualGroup extends React.Component<any, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { project, vgname, vim_id } = this.state
+            let { project, vgname } = this.state
             let pageNo = num
-            let queryObj = { pageNo, project, vgname, vim_id }
+            let queryObj = { pageNo, project, vgname }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })
