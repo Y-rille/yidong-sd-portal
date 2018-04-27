@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
 import { Breadcrumb, Icon, Input, Button, Spin } from 'antd';
+import { matchPath } from 'react-router'
 import CompactTable from '../../../../components/CompactTable/'
 import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
@@ -9,24 +10,22 @@ import { stringify } from 'querystringify'
 class ProjectQuota extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        let { pageNo, project, name } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/vim/:id'
+        })
+        let { pageNo, project } = qs.parse(this.props.location.search)
         this.state = {
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
-            name: name ? name : '',
+            vim_id: mp_node.params.id
         }
     }
     getData(type, value) {
         let { project } = this.state
         this.setState({
             project: type === 'Project' ? value : project,
-        })
-    }
-    projectQuotaInput(value) {
-        this.setState({
-            name: value
         })
     }
     handleManage() {
@@ -37,8 +36,8 @@ class ProjectQuota extends React.Component<any, any> {
         this.setState({
             tableLoading: true
         });
-        let { pageSize, pageNo, project, name, vim_id } = this.state
-        let params_obj = { pageNo, pageSize, project, name, vim_id }
+        let { pageSize, pageNo, project, vim_id } = this.state
+        let params_obj = { pageNo, pageSize, project, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -55,18 +54,18 @@ class ProjectQuota extends React.Component<any, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { project, name, vim_id } = this.state
+            let { project, vim_id } = this.state
             let pageNo = num
-            let queryObj = { pageNo, project, name, vim_id }
+            let queryObj = { pageNo, project, vim_id }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })
     }
     handleClick() {
         let { match } = this.props
-        let { project, name } = this.state
+        let { project } = this.state
         let pageNo = 1
-        let queryObj = { pageNo, project, name }
+        let queryObj = { pageNo, project }
         this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -86,7 +85,7 @@ class ProjectQuota extends React.Component<any, any> {
     render() {
         let { match, nodeInfo, list } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading, project, name } = this.state
+        let { pageSize, tableLoading, project } = this.state
         return (
             <div>
                 <div className={styles.header}>
@@ -106,9 +105,6 @@ class ProjectQuota extends React.Component<any, any> {
                     {/*<iframe style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }} src={`${config.vim_manage_link.project_quota}`}></iframe>*/}
                     <div className={styles.queryBar}>
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
-                        <Input placeholder="项目及配额名称"
-                            value={name} type="text"
-                            onChange={e => this.projectQuotaInput(e.target.value)} />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}
