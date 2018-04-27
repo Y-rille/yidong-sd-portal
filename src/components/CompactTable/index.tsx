@@ -13,6 +13,7 @@ export interface CompactTableProps {
     goPage?
     goLink?
     goDelete?
+    gobackup?   // 备份
     actionAuth? // 操作权限
     actionWidth? // 操作宽度
     // pageAuth?
@@ -194,6 +195,11 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
             this.props.goDelete(record)
         }
     }
+    gobackup(record) {
+        if (this.props.gobackup) {
+            this.props.gobackup(record)
+        }
+    }
     goPage(current) {
         this.setState({ page_num: current })
         if (this.props.goPage) {
@@ -231,23 +237,37 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
             }
             columns.push(obj)
         }
+
         if (actionAuth && actionAuth.length > 0) {
+
             columns.push({
                 title: '操作',
                 key: 'action',
                 width: this.props.actionWidth ? this.props.actionWidth : 150,
-                render: (text, record) => (
-                    <span>
-                        {actionAuth.indexOf('edit') > -1 ? (
-                            <a onClick={this.goEdit.bind(this, record)} id={record.id} href="javascript:;">编辑</a>
-                        ) : ''}
-                        {actionAuth.length > 1 ? (<Divider type="vertical" />) : ''}
-                        {actionAuth.indexOf('delete') > -1 ? (
-                            <a onClick={this.goDelete.bind(this, record)} rel={record.name} id={record.id} href="javascript:;" type="vertical">删除</a>
-                        ) : ''}
-
-                    </span>
-                )
+                render: (text, record) => {
+                    let actionArr = []
+                    for (let i = 0; i < actionAuth.length; i++) {
+                        switch (actionAuth[i]) {
+                            case 'edit':
+                                actionArr.push(<a onClick={this.goEdit.bind(this, record)} id={record.id} href="javascript:;" type="vertical">编辑</a>)
+                                break
+                            case 'delete':
+                                actionArr.push(<a onClick={this.goDelete.bind(this, record)} id={record.id} href="javascript:;" type="vertical">删除</a>)
+                                break
+                            case 'backup':
+                                actionArr.push(<a onClick={this.gobackup.bind(this, record)} id={record.id} href="javascript:;" type="vertical">备份</a>)
+                                break
+                            default:
+                                break
+                        }
+                        if (i < actionAuth.length - 1) {
+                            actionArr.push(<Divider type="vertical" />)
+                        }
+                    }
+                    return (
+                        <span>{actionArr}</span>
+                    )
+                }
             })
         }
         let { page_num, page_size } = this.state
