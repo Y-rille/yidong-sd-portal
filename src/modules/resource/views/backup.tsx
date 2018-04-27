@@ -46,6 +46,16 @@ class Backup extends React.Component<any, any> {
         });
         this.getTableData(queryObj)
     }
+    handleBackUpManage() {
+        let mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/dashboard/backup/:vimId'
+        })
+        let vim_id = mp_node.params.vimId
+        let { match } = this.props
+        if (vim_id) {
+            this.props.history.push(`/resource/dashboard/backupmanage/${vim_id}/clusterConfigBackup`)
+        }
+    }
     onChange(key) {
         let { match } = this.props
         let { pathname } = this.props.location
@@ -155,7 +165,7 @@ class Backup extends React.Component<any, any> {
                             查询
                                 </Button>
                         <div style={{ float: 'right' }}>
-                            <Button type="primary">备份管理</Button>
+                            <Button type="primary" onClick={this.handleBackUpManage.bind(this)}>备份管理</Button>
                         </div>
 
                     </div>

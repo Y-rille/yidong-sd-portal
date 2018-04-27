@@ -10,6 +10,7 @@ import { matchPath } from 'react-router'
 import Dashboard from '../container/dashboard'
 import Topo from '../container/topo'
 import Backup from '../container/backup'
+import BackUpManage from '../container/backupmanage'
 import Vim from '../container/vim/vim'
 import Pim from '../container/pim/pim'
 import styles from '../style/index.less'
@@ -77,6 +78,7 @@ class Home extends React.Component<any, any> {
                             <Redirect from={`${match.url}`} to={`${match.url}/dashboard`} exact />
                             <Route path={`${match.url}/dashboard/topo/:pimId`} component={Topo} />
                             <Route path={`${match.url}/dashboard/backup/:vimId`} component={Backup} />
+                            <Route path={`${match.url}/dashboard/backupmanage/:vimId`} component={BackUpManage} />
                             <Route path={`${match.url}/dashboard`} component={Dashboard} />
                             <Route path={`${match.url}/vim/:vimId`} component={Vim} />
                             <Route path={`${match.url}/pim/:pimId`} component={Pim} />
