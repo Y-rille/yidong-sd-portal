@@ -129,7 +129,7 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                     onCancel={this.handleCancel}
                     footer={[
                         <div key="1">
-                            <div style={{ textAlign: 'left' }}>
+                            <div style={{ textAlign: 'left', marginBottom: '30px' }}>
                                 卷大小：<span>2GB</span>&nbsp;&nbsp;可用容量：<span>3GB</span>
                             </div>
                             <div className={styles.btn}>

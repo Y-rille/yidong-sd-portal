@@ -49,7 +49,7 @@ class VirtualRouter extends React.Component<any, any> {
                 delete params_obj[key]
             }
         }));
-        this.props.actions.queryList('imdsProjectQuota', params_obj, () => {
+        this.props.actions.queryList('imdsVirtualSwitch', params_obj, () => {
             this.setState({
                 tableLoading: false
             });

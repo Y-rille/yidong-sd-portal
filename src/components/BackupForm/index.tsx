@@ -7,15 +7,15 @@ import styles from './index.less';
 import _ from 'lodash'
 import { FormComponentProps } from 'antd/lib/form/Form';
 
-export interface CreateSnapshotFormClsProps extends FormComponentProps {
+export interface BackupFormClsProps extends FormComponentProps {
     data?
     getData?
 }
 const formItemLayout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 18 },
+    labelCol: { span: 6 },
+    wrapperCol: { span: 16 },
 };
-class CreateSnapshotFormCls extends React.PureComponent<CreateSnapshotFormClsProps, any> {
+class BackupFormCls extends React.PureComponent<BackupFormClsProps, any> {
     constructor(props: any) {
         super(props)
         this.state = {
@@ -25,17 +25,29 @@ class CreateSnapshotFormCls extends React.PureComponent<CreateSnapshotFormClsPro
         const { getFieldDecorator } = this.props.form;
         const { data } = this.props;
         return (
-            <Form className={styles.createSnapshotForm}>
+            <Form className={styles.backupForm}>
                 <Form.Item
                     {...formItemLayout}
-                    label="名称"
+                    label="存储目标地址"
                 >
                     {getFieldDecorator('startip', {
                         rules: [{
-                            required: true, message: '请输入名称!',
+                            required: true, message: '请输入存储目标地址!',
                         }],
                     })(
-                        <Input placeholder="请输入名称" />
+                        <Input placeholder="请输入存储目标地址" />
+                    )}
+                </Form.Item>
+                <Form.Item
+                    {...formItemLayout}
+                    label="存储名称"
+                >
+                    {getFieldDecorator('startip', {
+                        rules: [{
+                            required: true, message: '请输入存储名称!',
+                        }],
+                    })(
+                        <Input placeholder="请输入存储名称" />
                     )}
                 </Form.Item>
                 <Form.Item
@@ -54,6 +66,6 @@ class CreateSnapshotFormCls extends React.PureComponent<CreateSnapshotFormClsPro
         )
     }
 }
-const CreateSnapshotForm = Form.create<any>()(CreateSnapshotFormCls);
+const BackupForm = Form.create<any>()(BackupFormCls);
 
-export default CreateSnapshotForm;
+export default BackupForm;

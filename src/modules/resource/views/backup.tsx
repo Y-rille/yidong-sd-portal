@@ -32,10 +32,20 @@ class Backup extends React.Component<any, any> {
     }
     backupInput(value) {
         this.setState({
-            vgname: value
+            name: value
         })
     }
-    handleClick() { }
+    handleClick() {
+        let { match } = this.props
+        let pageNo = 1
+        let { name } = this.state
+        let queryObj = { pageNo, name }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.setState({
+            pageNo
+        });
+        this.getTableData(queryObj)
+    }
     onChange(key) {
         let { match } = this.props
         let { pathname } = this.props.location
