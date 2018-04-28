@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
 import { Breadcrumb, Icon, Button, Input, Spin } from 'antd';
+import { matchPath } from 'react-router'
 import CompactTable from '../../../../components/CompactTable/'
 import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
@@ -9,6 +10,9 @@ import { stringify } from 'querystringify'
 class VfStrategy extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/vim/:id'
+        })
         let { pageNo, project, name } = qs.parse(this.props.location.search)
         this.state = {
             tableLoading: false,
@@ -16,6 +20,7 @@ class VfStrategy extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             name: name ? name : '',
+            vim_id: mp_node.params.id
         }
     }
     getData(type, value) {
@@ -55,9 +60,9 @@ class VfStrategy extends React.Component<any, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { project, name, vim_id } = this.state
+            let { project, name } = this.state
             let pageNo = num
-            let queryObj = { pageNo, project, name, vim_id }
+            let queryObj = { pageNo, project, name }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })

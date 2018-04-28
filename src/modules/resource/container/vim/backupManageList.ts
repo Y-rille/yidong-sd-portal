@@ -1,18 +1,15 @@
-
 const { connect } = require('react-redux')
 import { bindActionCreators } from 'redux';
 
 import HomeActionCreatorsMap from '../../actions/index'
 
-import VirtualGroup from '../../views/vim/virtualGroup'
+import BackupManageList from '../../views/vim/backupManageList'
 
 function mapProps(state) {
     return {
-        name: state.resourceReducer.name,
         config: state.commonReducer.config,
+        name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
-        subDataProject: state.resourceReducer.subDataProject,
-        list: state.resourceReducer.list
     }
 }
 function mapDispatchToProps(dispatch) {
@@ -21,4 +18,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapProps, mapDispatchToProps)(VirtualGroup)
+export default connect(mapProps, mapDispatchToProps)(BackupManageList)

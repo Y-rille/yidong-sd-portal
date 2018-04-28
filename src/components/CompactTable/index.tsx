@@ -9,10 +9,10 @@ export interface CompactTableProps {
     // showModal?
     // page_num?
     // page_size?
-    goEdit?
     data?
     goPage?
     goLink?
+    goEdit?
     goDelete?
     goBackup?       // 备份
     goRecover?      // 恢复
@@ -266,7 +266,6 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
                             case 'recover':
                                 actionArr.push(<a onClick={this.goRecover.bind(this, record)} id={record.id} href="javascript:;" type="vertical">恢复</a>)
                                 break
-
                             default:
                                 break
                         }

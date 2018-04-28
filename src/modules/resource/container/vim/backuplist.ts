@@ -4,12 +4,12 @@ import { bindActionCreators } from 'redux';
 
 import HomeActionCreatorsMap from '../../actions/index'
 
-import VirtualGroup from '../../views/vim/virtualGroup'
+import BackupList from '../../views/vim/backuplist'
 
 function mapProps(state) {
     return {
-        name: state.resourceReducer.name,
         config: state.commonReducer.config,
+        name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
         subDataProject: state.resourceReducer.subDataProject,
         list: state.resourceReducer.list
@@ -21,4 +21,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapProps, mapDispatchToProps)(VirtualGroup)
+export default connect(mapProps, mapDispatchToProps)(BackupList)

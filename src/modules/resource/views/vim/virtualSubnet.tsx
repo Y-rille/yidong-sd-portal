@@ -1,19 +1,102 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
-import { Breadcrumb, Icon } from 'antd';
+import { Breadcrumb, Icon, Input, Button, Spin } from 'antd';
+import { matchPath } from 'react-router'
+import CompactTable from '../../../../components/CompactTable/'
+import Selector from '../../../../components/Selector'
+import qs from 'querystringify'
+import { stringify } from 'querystringify'
 class VirtualSubnet extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/vim/:id'
+        })
+        let { pageNo, project, vsname } = qs.parse(this.props.location.search)
+        this.state = {
+            tableLoading: false,
+            pageSize: 10,
+            pageNo: pageNo ? pageNo : 1,
+            project: project ? project : '',
+            vsname: vsname ? vsname : '',
+            vim_id: mp_node.params.id
+        }
     }
     goList() {
         let path = this.props.location.pathname.replace(/\/(\w+)\/subnet/, '')
         this.props.history.push(`${path}`)
     }
+    getData(type, value) {
+        let { project } = this.state
+        this.setState({
+            project: type === 'Project' ? value : project,
+        })
+    }
+    projectQuotaInput(value) {
+        this.setState({
+            vsname: value
+        })
+    }
+    handleManage() {
+        let { config } = this.props
+        // window.open(config.manage_link.flavor)
+    }
+    getTableData() {
+        this.setState({
+            tableLoading: true
+        });
+        let { pageSize, pageNo, project, vsname, vim_id } = this.state
+        let params_obj = { pageNo, pageSize, project, vsname, vim_id }
+        _.forIn(params_obj, ((val, key) => {
+            if (val === '' || !val || val.length === 0) {
+                delete params_obj[key]
+            }
+        }));
+        this.props.actions.queryList('imdsVirtualSubnet', params_obj, () => {
+            this.setState({
+                tableLoading: false
+            });
+        })
+    }
+    goPage = (num) => {
+        this.setState({
+            pageNo: num
+        }, () => {
+            let { match } = this.props
+            let { project, vsname } = this.state
+            let pageNo = num
+            let queryObj = { pageNo, project, vsname }
+            this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
+            this.getTableData()
+        })
+    }
+    handleClick() {
+        let { match } = this.props
+        let { project, vsname } = this.state
+        let pageNo = 1
+        let queryObj = { pageNo, project, vsname }
+        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.setState({
+            pageNo
+        });
+        this.getTableData()
+    }
+    componentWillMount() {
+        let { pageNo } = this.state
+        let queryObj = {
+            pageNo
+        }
+        this.getTableData()
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     render() {
-        let { match, nodeInfo, config } = this.props;
+        let { match, nodeInfo, config, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let id = this.props.match.params.id
+        let { pageSize, tableLoading, project, vsname } = this.state
         return (
             <div>
                 <div className={styles.header}>
@@ -33,7 +116,39 @@ class VirtualSubnet extends React.Component<any, any> {
                     ) : ''}
                 </div>
                 <div style={{ padding: '20px', height: window.innerHeight - 204 }}>
-                    <iframe src={`${config.vim_manage_link.virtual_subnet}/${id}/detail`} style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }}></iframe>
+                    {/* <iframe src={`${config.vim_manage_link.virtual_subnet}/${id}/detail`} style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }}></iframe> */}
+                    <div className={styles.queryBar}>
+                        <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
+                        <Input placeholder="虚拟子网名称"
+                            value={vsname} type="text"
+                            onChange={e => this.projectQuotaInput(e.target.value)} />
+                        <Button
+                            type="primary"
+                            onClick={this.handleClick.bind(this)}
+                        >
+                            查询
+                                </Button>
+                        <Button style={{ float: 'right' }}
+                            type="primary"
+                            onClick={this.handleManage.bind(this)}
+                        >
+                            管理
+                            </Button>
+                    </div>
+                    {
+                        list ? (
+                            <CompactTable
+                                outStyle={{ marginTop: '20px' }}
+                                goPage={this.goPage.bind(this)}
+                                data={list}
+                                pageSize={pageSize}
+                                loading={tableLoading}
+                                actionAuth={[]}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 386 : window.innerHeight - 333 }}
+                            />) : (
+                                <Spin />
+                            )
+                    }
                 </div>
             </div>
         );
