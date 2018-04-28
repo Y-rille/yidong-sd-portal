@@ -7,16 +7,8 @@ import VimEdit from '../../../components/VimEdit/'
 import Headline from '../../../components/Headline'
 import emitter from '../../../common/emitter'
 import styles from '../style/index.less'
-
 const confirm = Modal.confirm
 let editRef = null
-// let vimInfo = {
-//     vim_id: 'A12WED34212344RED',
-//     name: 'vimxxxx',
-//     url: 'http://www.hpe.com/kkkk',
-//     position: '北京futong',
-//     description: '这里是一段资源结构组织的描述描述描述'
-// }
 class Dashboard extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -67,8 +59,8 @@ class Dashboard extends React.Component<any, any> {
     }
     goBackup(metadata) {
         let { match } = this.props
-        if (metadata.ID && metadata.metadata_name) {
-            this.props.history.push(`${match.url}/backup/${metadata.ID}/clusterConfig?vimName=${metadata.metadata_name}`)
+        if (metadata.ID) {
+            this.props.history.push(`${match.url}/backup/${metadata.ID}/clusterConfig`)
         }
     }
     handleOk(formdata) {
