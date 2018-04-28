@@ -21,6 +21,17 @@ class BackupFormCls extends React.PureComponent<BackupFormClsProps, any> {
         this.state = {
         }
     }
+    getData() {
+        let data = null
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                data = values
+            } else {
+                data = null
+            }
+        })
+        return data
+    }
     renderOptions(data) {
         return _.map(data, (item) => {
             return <Option value={item.value}>{item.text}</Option>
