@@ -15,7 +15,7 @@ class Backup extends React.Component<any, any> {
         super(props);
         let { match } = this.props
         let { vim_id } = this.props.match.params
-        let { pageNo, name } = qs.parse(this.props.location.search)
+        let { pageNo, vimName } = qs.parse(this.props.location.search)
         let { pathname } = this.props.location
         this.state = {
             activeKey: _.compact([
@@ -23,6 +23,7 @@ class Backup extends React.Component<any, any> {
                 matchPath(pathname, { path: `${match.url}/database` }) != null && 'database',
                 matchPath(pathname, { path: `${match.url}/databaseIncrement` }) != null && 'databaseIncrement',
             ]).toString(),
+            vimName: vimName ? vimName : '',
             name: name ? name : '',
             vim_id: vim_id,
             tableLoading: false,
@@ -38,8 +39,8 @@ class Backup extends React.Component<any, any> {
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { name } = this.state
-        let queryObj = { pageNo, name }
+        let { vimName, name } = this.state
+        let queryObj = { vimName, pageNo, name }
         this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.setState({
             pageNo
@@ -139,7 +140,7 @@ class Backup extends React.Component<any, any> {
     }
     render() {
         let { match, nodeInfo, list, location } = this.props;
-        const { name, tableLoading, pageSize, activeKey } = this.state;
+        const { name, vimName, tableLoading, pageSize, activeKey } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -148,8 +149,8 @@ class Backup extends React.Component<any, any> {
                     <Breadcrumb>
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>物理资源</Breadcrumb.Item>
-                        <Breadcrumb.Item>{name}</Breadcrumb.Item>
+                        <Breadcrumb.Item>虚拟资源</Breadcrumb.Item>
+                        <Breadcrumb.Item>{vimName}</Breadcrumb.Item>
                         <Breadcrumb.Item>备份与恢复</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
@@ -167,7 +168,6 @@ class Backup extends React.Component<any, any> {
                         <div style={{ float: 'right' }}>
                             <Button type="primary" onClick={this.handleBackUpManage.bind(this)}>备份管理</Button>
                         </div>
-
                     </div>
                     <div>
                         <Tabs onChange={this.onChange.bind(this)} type="card" activeKey={activeKey} animated={false}>

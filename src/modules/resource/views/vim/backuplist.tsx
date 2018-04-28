@@ -31,7 +31,7 @@ class BackupList extends React.Component<any, any> {
             this.props.goLink(key, obj)
         }
     }
-    gobackup() {
+    goBackup() {
         this.setState({
             visible: true,
         });
@@ -74,7 +74,7 @@ class BackupList extends React.Component<any, any> {
                         <CompactTable
                             goPage={this.goPage.bind(this)}
                             goLink={this.goLink.bind(this)}
-                            gobackup={this.gobackup.bind(this)}
+                            goBackup={this.goBackup.bind(this)}
                             data={list}
                             actionAuth={['backup']}
                             pageSize={pageSize}

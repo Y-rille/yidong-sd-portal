@@ -1,15 +1,13 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import { Row, Breadcrumb, Icon, Button, Spin, Modal } from 'antd';
-import styles from '../style/index.less'
-
 import OverviewCard from '../../../components/OverviewCard'
-// import VimSummary from '../../../components/VimSummary'
 import PimSummary from '../../../components/PimSummary'
 import VimEdit from '../../../components/VimEdit/'
-
 import Headline from '../../../components/Headline'
 import emitter from '../../../common/emitter'
+import styles from '../style/index.less'
+
 const confirm = Modal.confirm
 let editRef = null
 // let vimInfo = {
@@ -70,7 +68,7 @@ class Dashboard extends React.Component<any, any> {
     goBackup(metadata) {
         let { match } = this.props
         if (metadata.ID && metadata.metadata_name) {
-            this.props.history.push(`${match.url}/backup/${metadata.ID}/clusterConfig?name=${metadata.metadata_name}`)
+            this.props.history.push(`${match.url}/backup/${metadata.ID}/clusterConfig?vimName=${metadata.metadata_name}`)
         }
     }
     handleOk(formdata) {
