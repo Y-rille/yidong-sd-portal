@@ -13,6 +13,7 @@ class BackupManageList extends React.Component<any, any> {
         })
         this.state = {
             type: mp_node ? mp_node.params.type : '',
+            vim_id: mp_node ? mp_node.params.vimId : ''
         }
     }
     goPage = (n) => {
@@ -42,20 +43,25 @@ class BackupManageList extends React.Component<any, any> {
             onCancel() { },
         });
     }
-    goRecover() {
+    goRecover(obj) {
         let self = this
+        let moInstId = obj.id
         Modal.confirm({
             title: '您确定恢复该备份吗？',
             content: '源文件将被恢复',
             okText: '确定',
             cancelText: '取消',
             onOk() {
+                let moTypeKey = 'backupmanage'
+                // let moInstId = self.state.vim_id
+                let operateType = 'restore'
                 emitter.emit('message', 'success', '恢复成功！')
-                // self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
-                //     if (data.code === 1) {
+                // self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
+                //     console.log(res, '----res')
+                //     if (res.code === 1) {
                 //         emitter.emit('message', 'success', '恢复成功！')
                 //     }
-                //     if (err || (data && data.code !== 1)) {
+                //     if (err || (res && res.code !== 1)) {
                 //         let msg = err && err.message ? err.message : '恢复失败！'
                 //         emitter.emit('message', 'error', msg)
                 //     }
