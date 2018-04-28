@@ -13,8 +13,11 @@ import BackupList from '../container/vim/backuplist'
 class Backup extends React.Component<any, any> {
     constructor(props) {
         super(props);
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/dashboard/backup/:vimId'
+        })
         let { match } = this.props
-        let { vim_id } = this.props.match.params
+        // let { vim_id } = this.props.match.params
         let { pageNo, vimName } = qs.parse(this.props.location.search)
         let { pathname } = this.props.location
         this.state = {
@@ -25,7 +28,7 @@ class Backup extends React.Component<any, any> {
             ]).toString(),
             vimName: vimName ? vimName : '',
             name: name ? name : '',
-            vim_id: vim_id,
+            vim_id: mp_node.params.vimId,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
             pageSize: 10,
@@ -48,6 +51,7 @@ class Backup extends React.Component<any, any> {
         this.getTableData(queryObj)
     }
     handleBackUpManage() {
+        let { vimName } = this.state
         let mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/dashboard/backup/:vimId'
         })
@@ -70,18 +74,14 @@ class Backup extends React.Component<any, any> {
         this.getTableData(queryObj, key)
     }
     getTableData(queryObj, actKey = null) {
-        const mp_node: any = matchPath(this.props.match.url, {
-            path: '/resource/dashboard/backup/:vimId'
-        })
-        let vim_id = mp_node.params.id
         this.setState({
             tableLoading: true
         });
         let self = this
         let { pageNo } = queryObj
-        let { pageSize, activeKey } = this.state
+        let { pageSize, activeKey, vim_id } = this.state
         let act_Key = actKey || activeKey
-        let params_obj = { pageNo, pageSize, vim_id }
+        let params_obj = { pageNo, pageSize }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -107,6 +107,8 @@ class Backup extends React.Component<any, any> {
     }
     componentWillMount() {
         let { pathname } = this.props.location
+        let { vim_id } = this.state
+        let { resourceTree } = this.props
         if (this.state.activeKey.length > 0) {
             let { pageNo } = this.state
             let queryObj = {
@@ -114,16 +116,21 @@ class Backup extends React.Component<any, any> {
             }
             this.getTableData(queryObj, 'imdsClusterConfig')
         }
+        if (resourceTree) {
+            this.props.actions.getNodeData(vim_id, resourceTree)
+        }
     }
     componentWillReceiveProps(nextProps) {
-        let { match } = nextProps
+        let { match, resourceTree, nodeInfo } = nextProps
         let { pathname } = nextProps.location
         let actKey = _.compact([
             matchPath(pathname, { path: `${match.url}/clusterConfig` }) != null && 'clusterConfig',
             matchPath(pathname, { path: `${match.url}/database` }) != null && 'database',
             matchPath(pathname, { path: `${match.url}/databaseIncrement` }) != null && 'databaseIncrement',
         ]).toString()
-
+        if (resourceTree && !nodeInfo) {
+            this.props.actions.getNodeData(this.state.vim_id, resourceTree)
+        }
         if (this.state.activeKey.length === 0 && actKey.length > 0) {
             let pageNo = qs.parse(nextProps.location.search).pageNo || 1
             let queryObj = {
@@ -146,13 +153,25 @@ class Backup extends React.Component<any, any> {
             <div>
                 <div className={styles.header}>
                     <h1 className={styles.title}>备份与恢复</h1>
-                    <Breadcrumb>
+                    {nodeInfo ? (
+                        <Breadcrumb>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                            {
+                                labelPathArr.map((item, index) => {
+                                    return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                })
+                            }
+                            <Breadcrumb.Item>备份管理</Breadcrumb.Item>
+                        </Breadcrumb>
+                    ) : ''}
+                    {/*<Breadcrumb>
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
                         <Breadcrumb.Item>虚拟资源</Breadcrumb.Item>
                         <Breadcrumb.Item>{vimName}</Breadcrumb.Item>
                         <Breadcrumb.Item>备份与恢复</Breadcrumb.Item>
-                    </Breadcrumb>
+                    </Breadcrumb>*/}
                 </div>
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
