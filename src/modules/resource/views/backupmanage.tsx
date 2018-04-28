@@ -18,7 +18,7 @@ class BackUpManage extends React.Component<any, any> {
         })
         let { match } = this.props
         let { pathname } = this.props.location
-        let { pageNo, cfbName, dbName, dibName } = qs.parse(this.props.location.search)
+        let { pageNo, name, cfbName, dbName, dibName } = qs.parse(this.props.location.search)
         this.state = {
             activeKey: _.compact([
                 matchPath(pathname, { path: `${match.url}/clusterConfigBackup` }) != null && 'clusterConfigBackup',
@@ -28,6 +28,7 @@ class BackUpManage extends React.Component<any, any> {
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
+            name: name ? name : '',
             cfbName: cfbName ? cfbName : '',
             dbName: dbName ? dbName : '',
             dibName: dibName ? dibName : '',
@@ -43,6 +44,11 @@ class BackUpManage extends React.Component<any, any> {
         if (vim_id) {
             this.props.history.push(`/resource/dashboard/backup/${vim_id}/clusterConfig`)
         }
+    }
+    changeInputValue(value) {
+        this.setState({
+            name: value
+        })
     }
     changecfbNameValue(value) {
         this.setState({
@@ -74,6 +80,7 @@ class BackUpManage extends React.Component<any, any> {
         }
         return queryObj
     }
+
     getTableData(queryObj, actKey = null) {
         let vim_id = this.state.vim_id
         this.setState({
@@ -81,9 +88,10 @@ class BackUpManage extends React.Component<any, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { cfbName, dbName, dibName, pageSize, activeKey } = this.state
+        let { cfbName, dbName, dibName, name, pageSize, activeKey } = this.state
         let act_Key = actKey || activeKey
-        let params_obj = this.getName(act_Key, true)
+        let params_obj = { pageNo, pageSize, name, vim_id }
+        // let params_obj = this.getName(act_Key, true)
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -109,9 +117,10 @@ class BackUpManage extends React.Component<any, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { cfbName, dbName, dibName, activeKey } = this.state
+        let { cfbName, dbName, dibName, name, activeKey } = this.state
         let pageNo = num
-        let queryObj = this.getName(activeKey)
+        let queryObj = { pageNo, name }
+        // let queryObj = this.getName(activeKey)
         this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
@@ -119,9 +128,10 @@ class BackUpManage extends React.Component<any, any> {
     }
     handleClick() {
         let { match } = this.props
-        let { cfbName, dbName, dibName, activeKey } = this.state
+        let { cfbName, dbName, dibName, name, activeKey } = this.state
         let pageNo = 1
-        let queryObj = this.getName(activeKey)
+        let queryObj = { pageNo, name }
+        // let queryObj = this.getName(activeKey)
         this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
         this.setState({
             // pageNo
@@ -131,9 +141,10 @@ class BackUpManage extends React.Component<any, any> {
     onChange(key) {
         let { match } = this.props
         let { pathname } = this.props.location
-        let { cfbName, dbName, dibName } = this.state
+        let { cfbName, dbName, dibName, name } = this.state
         let pageNo = 1
-        let queryObj = this.getName(key)
+        let queryObj = { pageNo, name }
+        // let queryObj = this.getName(key)
         this.props.history.push(`${match.url}/${key}?${qs.stringify(queryObj)}`)
         this.setState({
             activeKey: key,
@@ -202,7 +213,7 @@ class BackUpManage extends React.Component<any, any> {
     render() {
         let { match, nodeInfo, list } = this.props;
 
-        let { activeKey, pageSize, tableLoading, cfbName, dbName, dibName } = this.state
+        let { activeKey, pageSize, tableLoading, cfbName, dbName, dibName, name } = this.state
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -233,7 +244,10 @@ class BackUpManage extends React.Component<any, any> {
                 </div> */}
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
-                        {this.renderInput(activeKey)}
+                        <Input placeholder="名称"
+                            value={name} type="text"
+                            onChange={e => this.changeInputValue(e.target.value)} />
+                        {/* {this.renderInput(activeKey)} */}
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}
