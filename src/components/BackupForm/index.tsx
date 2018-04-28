@@ -21,40 +21,37 @@ class BackupFormCls extends React.PureComponent<BackupFormClsProps, any> {
         this.state = {
         }
     }
+    renderOptions(data) {
+        return _.map(data, (item) => {
+            return <Option value={item.value}>{item.text}</Option>
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const { data } = this.props;
+        const firstData = _.head(data).value;
         return (
             <Form className={styles.backupForm}>
                 <Form.Item
                     {...formItemLayout}
                     label="存储目标地址"
                 >
-                    {getFieldDecorator('startip', {
+                    {getFieldDecorator('target', {
+                        initialValue: firstData,
                         rules: [{
-                            required: true, message: '请输入存储目标地址!',
+                            required: true, message: '请选择存储目标地址!',
                         }],
                     })(
-                        <Input placeholder="请输入存储目标地址" />
-                    )}
-                </Form.Item>
-                <Form.Item
-                    {...formItemLayout}
-                    label="存储名称"
-                >
-                    {getFieldDecorator('startip', {
-                        rules: [{
-                            required: true, message: '请输入存储名称!',
-                        }],
-                    })(
-                        <Input placeholder="请输入存储名称" />
+                        <Select>
+                            {this.renderOptions(data)}
+                        </Select>
                     )}
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
                     label="描述"
                 >
-                    {getFieldDecorator('endip', {
+                    {getFieldDecorator('des', {
                         rules: [{
                             required: false,
                         }],
