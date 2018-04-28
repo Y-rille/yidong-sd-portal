@@ -70,21 +70,33 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             )}
                         </FormItem>
                     </Col>
-
                     <Col span={8}>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="管理IP"
+                        <Form.Item label="开始IP" {...formItemLayout}
                         >
-                            {getFieldDecorator('m_ip', {
+                            {getFieldDecorator('startip', {
+                                initialValue: '',
                                 rules: [{
-                                    required: true, message: '请输入管理IP!',
+                                    required: true, message: '请输入开始IP!',
                                 }],
                             })(
-                                <Input placeholder="请输入管理IP" />
+                                <Input placeholder="请输入开始IP" />
                             )}
                         </Form.Item>
                     </Col>
+                    <Col span={8}>
+                        <Form.Item label="结束IP" {...formItemLayout}>
+                            {getFieldDecorator('endip', {
+                                initialValue: '',
+                                rules: [{
+                                    required: true, message: '请输入结束IP!',
+                                }],
+                            })(
+                                <Input placeholder="请输入结束IP" />
+                            )}
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter={24}>
                     <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
@@ -99,8 +111,6 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             )}
                         </Form.Item>
                     </Col>
-                </Row>
-                <Row gutter={24}>
                     <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
@@ -129,6 +139,8 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             )}
                         </FormItem>
                     </Col>
+                </Row>
+                <Row gutter={24}>
                     <Col span={8}>
                         <FormItem
                             {...formItemLayout}
@@ -143,8 +155,6 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             )}
                         </FormItem>
                     </Col>
-                </Row>
-                <Row gutter={24}>
                     <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
@@ -177,6 +187,8 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             )}
                         </Form.Item>
                     </Col>
+                </Row>
+                <Row gutter={24}>
                     <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
@@ -193,8 +205,6 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             )}
                         </Form.Item>
                     </Col>
-                </Row>
-                <Row gutter={24}>
                     <Col span={8}>
                         <FormItem
                             {...formItemLayout}
@@ -202,7 +212,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                         >
                             {getFieldDecorator('password', {
                             })(
-                                <Input type="password" placeholder="安装U位" />
+                                <Input type="password" placeholder="请输入安装U位" />
                             )}
                         </FormItem>
                     </Col>

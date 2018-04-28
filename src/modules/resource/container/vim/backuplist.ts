@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import HomeActionCreatorsMap from '../../actions/index'
 
-import VirtualRouter from '../../views/vim/virtualRouter'
+import BackupList from '../../views/vim/backuplist'
 
 function mapProps(state) {
     return {
@@ -21,4 +21,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapProps, mapDispatchToProps)(VirtualRouter)
+export default connect(mapProps, mapDispatchToProps)(BackupList)

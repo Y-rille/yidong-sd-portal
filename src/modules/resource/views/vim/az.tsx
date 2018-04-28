@@ -141,7 +141,7 @@ class Az extends React.Component<AzProps, any> {
                             goPage={this.goPage.bind(this)} // 翻页
                             goLink={this.goLink.bind(this)}
                             data={list}
-                            actionAuth={[]}
+                            sortAuth={true}
                             pageSize={pageSize}
                             loading={tableLoading}
                             outStyle={{ 'marginTop': '20px' }}

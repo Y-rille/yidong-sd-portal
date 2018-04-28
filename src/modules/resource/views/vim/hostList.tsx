@@ -33,6 +33,7 @@ class HostList extends React.Component<any, any> {
         if (mp_node && mp_node.params.type) {
             ft = mp_node.params.type === 'compute' ? '计算节点' : (mp_node.params.type === 'controller' ? '控制节点' : (mp_node.params.type === 'storage') ? '存储节点' : '关注设备')
         }
+        let sortAuth = mp_node.params.type === 'favorite' ? true : false
         return (
             <div>
                 {
@@ -45,6 +46,7 @@ class HostList extends React.Component<any, any> {
                             pageSize={pageSize}
                             loading={tableLoading}
                             outStyle={{ 'marginTop': '20px' }}
+                            sortAuth={sortAuth}
                             footInfoAuth={<div>*&nbsp;主机共有{ft}{data.totalCount}个</div>}
                             size={{ y: data.totalCount > pageSize ? window.innerHeight - 430 : window.innerHeight - 420 }}
                         />

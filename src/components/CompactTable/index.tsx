@@ -5,24 +5,27 @@ import moment from '../../common/moment'
 import * as _ from 'lodash';
 
 export interface CompactTableProps {
-    goEdit?
+    // pageAuth?
     // showModal?
-    data?
     // page_num?
     // page_size?
+    data?
     goPage?
     goLink?
+    goEdit?
     goDelete?
-    actionAuth? // 操作权限
-    actionWidth?// 操作宽度
-    // pageAuth?
-    footInfoAuth? // 页脚信息
+    goBackup?       // 备份
+    goRecover?      // 恢复
+    actionAuth?     // [ 'edit','delete','backup','recover' ] -- 操作权限
+    actionWidth?    // 操作宽度
+    footInfoAuth?   // 页脚信息
     outStyle?
-    selectAuth? // 选择权限
+    selectAuth?     // 选择权限
+    sortAuth?       // 排序权限
     selectRow?
     pageSize?
     loading?
-    size?   // {y:185},传size，需在header里添加width
+    size?           // {y:185},传size，需在header里添加width
 }
 
 export default class CompactTable extends React.PureComponent<CompactTableProps, any> {
@@ -193,6 +196,16 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
             this.props.goDelete(record)
         }
     }
+    goBackup(record) {
+        if (this.props.goBackup) {
+            this.props.goBackup(record)
+        }
+    }
+    goRecover(record) {
+        if (this.props.goRecover) {
+            this.props.goRecover(record)
+        }
+    }
     goPage(current) {
         this.setState({ page_num: current })
         if (this.props.goPage) {
@@ -203,7 +216,7 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
         this.props.goLink(key, obj)
     }
     renderTable() {
-        let { actionAuth, data, selectAuth, selectRow, loading, size } = this.props
+        let { actionAuth, data, selectAuth, selectRow, loading, size, sortAuth } = this.props
         let header = data.header || []
         let dataList: any = _.merge([], data.dataList)
         let columns = []
@@ -214,30 +227,56 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
                 key: header[i].key,
                 fixed: header[i].fixed ? 'left' : null,
                 width: header[i].width ? header[i].width : null,
-                // sorter: header[i].sorter ? (a, b) => a[header[i].key] - b[header[i].key] : null,
+                sorter: sortAuth ? (a, b) => {
+
+                    let aV = a[header[i].key]
+                    let bV = b[header[i].key]
+                    if (isNaN(aV)) {
+                        return aV.charCodeAt(0) - bV.charCodeAt(0)
+                    } else {
+                        return aV - bV
+                    }
+                } : null,
             }
             if (header[i].link) {
                 obj.render = (text, record) => <a href="javascript:;" onClick={this.goLink.bind(this, header[i].key, record)}>{text}</a>
             }
             columns.push(obj)
         }
+
         if (actionAuth && actionAuth.length > 0) {
+
             columns.push({
                 title: '操作',
                 key: 'action',
                 width: this.props.actionWidth ? this.props.actionWidth : 150,
-                render: (text, record) => (
-                    <span>
-                        {actionAuth.indexOf('edit') > -1 ? (
-                            <a onClick={this.goEdit.bind(this, record)} id={record.id} href="javascript:;">编辑</a>
-                        ) : ''}
-                        {actionAuth.length > 1 ? (<Divider type="vertical" />) : ''}
-                        {actionAuth.indexOf('delete') > -1 ? (
-                            <a onClick={this.goDelete.bind(this, record)} rel={record.name} id={record.id} href="javascript:;" type="vertical">删除</a>
-                        ) : ''}
-
-                    </span>
-                )
+                render: (text, record) => {
+                    let actionArr = []
+                    for (let i = 0; i < actionAuth.length; i++) {
+                        switch (actionAuth[i]) {
+                            case 'edit':
+                                actionArr.push(<a onClick={this.goEdit.bind(this, record)} id={record.id} href="javascript:;" type="vertical">编辑</a>)
+                                break
+                            case 'delete':
+                                actionArr.push(<a onClick={this.goDelete.bind(this, record)} id={record.id} href="javascript:;" type="vertical">删除</a>)
+                                break
+                            case 'backup':
+                                actionArr.push(<a onClick={this.goBackup.bind(this, record)} id={record.id} href="javascript:;" type="vertical">备份</a>)
+                                break
+                            case 'recover':
+                                actionArr.push(<a onClick={this.goRecover.bind(this, record)} id={record.id} href="javascript:;" type="vertical">恢复</a>)
+                                break
+                            default:
+                                break
+                        }
+                        if (i < actionAuth.length - 1) {
+                            actionArr.push(<Divider type="vertical" />)
+                        }
+                    }
+                    return (
+                        <span>{actionArr}</span>
+                    )
+                }
             })
         }
         let { page_num, page_size } = this.state

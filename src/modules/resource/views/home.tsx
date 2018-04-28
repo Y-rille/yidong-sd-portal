@@ -9,6 +9,8 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { matchPath } from 'react-router'
 import Dashboard from '../container/dashboard'
 import Topo from '../container/topo'
+import Backup from '../container/backup'
+import BackUpManage from '../container/backupmanage'
 import Vim from '../container/vim/vim'
 import Pim from '../container/pim/pim'
 import styles from '../style/index.less'
@@ -39,16 +41,13 @@ class Home extends React.Component<any, any> {
         })
     }
     componentWillReceiveProps(nextProps) {
-        const dshboard_mp_node: any = matchPath(this.props.location.pathname, {
-            path: '/resource/:dashboard'
-        })
         const pre_mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/:type/:id'
         })
         const next_mp_node: any = matchPath(nextProps.location.pathname, {
             path: '/resource/:type/:id'
         })
-        if ((dshboard_mp_node && dshboard_mp_node.params && dshboard_mp_node.params.dashboard === 'dashboard' && next_mp_node) || (pre_mp_node && next_mp_node && (pre_mp_node.params.id !== next_mp_node.params.id))) {
+        if ((!pre_mp_node && next_mp_node) || (pre_mp_node && next_mp_node && (pre_mp_node.params.id !== next_mp_node.params.id))) {
             this.getNodeInfo(next_mp_node.params.id)
         }
     }
@@ -78,6 +77,8 @@ class Home extends React.Component<any, any> {
                         <Switch>
                             <Redirect from={`${match.url}`} to={`${match.url}/dashboard`} exact />
                             <Route path={`${match.url}/dashboard/topo/:pimId`} component={Topo} />
+                            <Route path={`${match.url}/dashboard/backup/:vimId`} component={Backup} />
+                            <Route path={`${match.url}/dashboard/backupmanage/:vimId`} component={BackUpManage} />
                             <Route path={`${match.url}/dashboard`} component={Dashboard} />
                             <Route path={`${match.url}/vim/:vimId`} component={Vim} />
                             <Route path={`${match.url}/pim/:pimId`} component={Pim} />

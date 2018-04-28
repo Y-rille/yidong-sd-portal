@@ -113,6 +113,9 @@ class Host extends React.Component<HostProps, any> {
         let { pageNo } = queryObj
         let { region, az, ha, pageSize, activeKey } = this.state
         let act_Key = actKey || activeKey
+        if (act_Key === 'favorite') {
+            pageSize = 9999
+        }
         let params_obj = { pageNo, pageSize, region, az, ha, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
@@ -133,6 +136,7 @@ class Host extends React.Component<HostProps, any> {
             default:
                 dsname = 'imdsController'
         }
+
         this.props.actions.queryList(dsname, params_obj, () => {
             self.setState({
                 tableLoading: false
@@ -176,7 +180,10 @@ class Host extends React.Component<HostProps, any> {
     }
     render() {
         let { match, list, nodeInfo } = this.props;
-        const { region, az, ha, activeKey, pageSize, tableLoading } = this.state;
+        let { region, az, ha, activeKey, pageSize, tableLoading } = this.state;
+        if (activeKey === 'favorite') {
+            pageSize = 9999
+        }
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
