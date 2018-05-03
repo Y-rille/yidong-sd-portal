@@ -52,20 +52,17 @@ class BackupManageList extends React.Component<any, any> {
             okText: '确定',
             cancelText: '取消',
             onOk() {
-                let moTypeKey = 'backupmanage'
-                // let moInstId = self.state.vim_id
+                let moTypeKey = 'vim'
                 let operateType = 'restore'
-                emitter.emit('message', 'success', '恢复成功！')
-                // self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
-                //     console.log(res, '----res')
-                //     if (res.code === 1) {
-                //         emitter.emit('message', 'success', '恢复成功！')
-                //     }
-                //     if (err || (res && res.code !== 1)) {
-                //         let msg = err && err.message ? err.message : '恢复失败！'
-                //         emitter.emit('message', 'error', msg)
-                //     }
-                // })
+                self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, data) => {
+                    if (data && data.code === 1) {
+                        emitter.emit('message', 'success', '恢复成功！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.message ? err.message : '恢复失败！'
+                        emitter.emit('message', 'error', msg)
+                    }
+                })
             },
             onCancel() { },
         });
