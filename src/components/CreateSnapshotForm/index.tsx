@@ -32,6 +32,9 @@ class CreateSnapshotFormCls extends React.PureComponent<CreateSnapshotFormClsPro
         })
         return data
     }
+    handleReset() {
+        this.props.form.resetFields()
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const { data } = this.props;

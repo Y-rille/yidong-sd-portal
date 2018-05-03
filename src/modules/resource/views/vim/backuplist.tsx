@@ -44,13 +44,13 @@ class BackupList extends React.Component<any, any> {
             visible: false,
             filterDate: null
         });
+        this.formRef.handleReset()
     }
     handleOk() {
         let moTypeKey = 'vim'
         let operateType = 'backup'
         let moInstId = this.state.id
         let formdata = this.formRef.getData()
-        // console.log(formdata, 'formdata')
         if (formdata) {
             this.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
                 // console.log(res, 'res')
@@ -64,9 +64,6 @@ class BackupList extends React.Component<any, any> {
             }, formdata)
 
         }
-    }
-    resetForm() {
-        this.props.form.resetFields()
     }
     render() {
         let { list, pageSize, tableLoading, location } = this.props;
@@ -101,7 +98,7 @@ class BackupList extends React.Component<any, any> {
                     footer={[
                         <div className={styles.btn} key="1">
                             <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.handleOk.bind(this)}>确定</Button>
-                            <Button key="reset" onClick={this.resetForm.bind(this)}>取消</Button>
+                            <Button key="reset" onClick={this.handleCancel.bind(this)}>取消</Button>
                         </div>
                     ]}
                 >
