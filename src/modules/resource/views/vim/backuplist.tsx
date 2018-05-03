@@ -11,6 +11,7 @@ import styles from '../../style/index.less'
 import BackupForm from '../../../../components/BackupForm'
 
 class BackupList extends React.Component<any, any> {
+    formRef: any
     constructor(props) {
         super(props);
         let { pageNo, pim_id } = qs.parse
@@ -42,17 +43,23 @@ class BackupList extends React.Component<any, any> {
             filterDate: null
         });
     }
-    getData() {
-        let data = null
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                data = values
-            } else {
-                data = null
-            }
-        })
-        if (this.props.getData) {
-            this.props.getData(data)
+    handleOk() {
+        let moTypeKey = 'vim'
+        let operateType = 'backup'
+        let moInstId = this.props.match.params.id
+        let formdata = this.formRef.getData()
+        // console.log(formdata, 'formdata')
+        if (formdata) {
+            this.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
+                // if (res.code === 1) {
+                //     emitter.emit('message', 'success', '操作成功！')
+                // }
+                // if (err || (res && res.code !== 1)) {
+                //     let msg = err && err.message ? err.message : '操作失败！'
+                //     emitter.emit('message', 'error', msg)
+                // }
+            })
+
         }
     }
     resetForm() {
@@ -60,9 +67,7 @@ class BackupList extends React.Component<any, any> {
     }
     render() {
         let { list, pageSize, tableLoading, location } = this.props;
-        const mp_node: any = matchPath(location.pathname, {
-            // path: '/resource/dashbord/:id/host/:type'
-        })
+        const mp_node: any = matchPath(location.pathname, {})
         let ft = ''
         if (mp_node && mp_node.params.type) {
             ft = mp_node.params.type === 'clusterConfig' ? '集群配置' : (mp_node.params.type === 'database' ? '数据库' : '数据库增量')
@@ -91,18 +96,18 @@ class BackupList extends React.Component<any, any> {
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
-                        <div key="1">
-                            <div style={{ textAlign: 'left', marginBottom: '30px' }}>
+                        <div key="1" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div className={styles.size}>
                                 文件大小：<span>20k</span>&nbsp;&nbsp;目标地址可用容量：<span>30M</span>
                             </div>
                             <div className={styles.btn}>
-                                <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.getData.bind(this)}>确定</Button>
-                                <Button key="reset" onClick={this.resetForm.bind(this)}>重置</Button>
+                                <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.handleOk.bind(this)}>确定</Button>
+                                <Button key="reset" onClick={this.resetForm.bind(this)}>取消</Button>
                             </div>
                         </div>
                     ]}
                 >
-                    < BackupForm />
+                    < BackupForm wrappedComponentRef={(node) => { this.formRef = node }} />
                 </Modal>
             </div>
         );

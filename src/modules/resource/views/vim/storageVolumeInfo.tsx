@@ -48,10 +48,11 @@ class StorgeVolumeInfo extends React.Component<any, any> {
         });
     }
     handleOk() {
-        let moTypeKey = 'vim'
+        let moTypeKey = 'volumesnapshots'
         let operateType = 'snapshot'
         let moInstId = this.props.match.params.id
         let formdata = this.formRef.getData()
+        // console.log(formdata, 'formdata')
         if (formdata) {
             this.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
                 // if (res.code === 1) {
@@ -67,15 +68,13 @@ class StorgeVolumeInfo extends React.Component<any, any> {
     }
 
     resetForm() {
-        this.props.form.resetFields()
+        // this.props.form.resetFields()
     }
     storageManage() {
         let { config } = this.props
         window.open(config.IPSAN)
     }
-    createSnapshot() {
 
-    }
     handleEditData(d, cb) {
         let moTypeKey = 'storageVolum'
         let match = this.props.match
@@ -116,6 +115,14 @@ class StorgeVolumeInfo extends React.Component<any, any> {
         this.props.actions.resetObjData()
     }
     renderBtns() {
+        let { objData, objAttributes } = this.props
+        let storageVolumeSize
+        if (objData) {
+            let { columns, values } = objData
+            let observe
+            let baseData = _.zipObject(columns, _.head(values))
+            storageVolumeSize = baseData.storageVolumeSize
+        }
         return (
             <div className={styles.btn}>
                 <Button
@@ -131,16 +138,15 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                 <Modal
                     title="创建快照"
                     visible={this.state.visible}
-                    onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     footer={[
-                        <div key="1">
-                            <div style={{ textAlign: 'left', marginBottom: '30px' }}>
-                                卷大小：<span>2GB</span>&nbsp;&nbsp;可用容量：<span>3GB</span>
+                        <div key="1" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div className={styles.size}>
+                                卷大小：<span>{storageVolumeSize}MB</span>&nbsp;&nbsp;可用容量：<span>3GB</span>
                             </div>
                             <div className={styles.btn}>
                                 <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.handleOk.bind(this)}>确定</Button>
-                                <Button key="reset" onClick={this.resetForm.bind(this)}>重置</Button>
+                                <Button key="reset" onClick={this.resetForm.bind(this)}>取消</Button>
                             </div>
                         </div>
                     ]}
