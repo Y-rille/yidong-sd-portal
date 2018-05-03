@@ -150,7 +150,7 @@ class Backup extends React.Component<any, any> {
         return (
             <div>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>备份与恢复</h1>
+                    <h1 className={styles.title}>源文件管理</h1>
                     {nodeInfo ? (
                         <Breadcrumb>
                             <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
@@ -160,7 +160,7 @@ class Backup extends React.Component<any, any> {
                                     return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                                 })
                             }
-                            <Breadcrumb.Item>备份管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>源文件管理</Breadcrumb.Item>
                         </Breadcrumb>
                     ) : ''}
                 </div>

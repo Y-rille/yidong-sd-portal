@@ -21,6 +21,17 @@ class BackupFormCls extends React.PureComponent<BackupFormClsProps, any> {
         this.state = {
         }
     }
+    getData() {
+        let data = null
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                data = values
+            } else {
+                data = null
+            }
+        })
+        return data
+    }
     renderOptions(data) {
         return _.map(data, (item) => {
             return <Option value={item.value}>{item.text}</Option>
@@ -29,15 +40,15 @@ class BackupFormCls extends React.PureComponent<BackupFormClsProps, any> {
     render() {
         const { getFieldDecorator } = this.props.form;
         const { data } = this.props;
-        const firstData = _.head(data).value;
+        // const firstData = _.head(data).value;
         return (
             <Form className={styles.backupForm}>
                 <Form.Item
                     {...formItemLayout}
                     label="存储目标地址"
                 >
-                    {getFieldDecorator('target', {
-                        initialValue: firstData,
+                    {getFieldDecorator('storageTargetType', {
+                        // initialValue: firstData,
                         rules: [{
                             required: true, message: '请选择存储目标地址!',
                         }],

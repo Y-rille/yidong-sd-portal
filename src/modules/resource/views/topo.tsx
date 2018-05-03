@@ -57,6 +57,11 @@ class Home extends React.Component<any, any> {
         this.getTopo()
     }
     componentWillMount() {
+        let { pimId } = this.state
+        let { resourceTree } = this.props
+        if (resourceTree) {
+            this.props.actions.getNodeData(pimId, resourceTree)
+        }
         this.getTopo(this.getTopoState())
     }
     componentDidMount() {
@@ -119,18 +124,25 @@ class Home extends React.Component<any, any> {
         }
     }
     render() {
+        let { nodeInfo } = this.props
+        let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let { name } = qs.parse(this.props.location.search)
         return (
             <div>
                 <div className={styles.header}>
                     <h1 className={styles.title}>网络拓扑</h1>
-                    <Breadcrumb>
-                        <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
-                        <Breadcrumb.Item>资源管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>物理资源</Breadcrumb.Item>
-                        <Breadcrumb.Item>{name}</Breadcrumb.Item>
-                        <Breadcrumb.Item>网络拓扑</Breadcrumb.Item>
-                    </Breadcrumb>
+                    {nodeInfo ? (
+                        <Breadcrumb>
+                            <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
+                            <Breadcrumb.Item>资源管理</Breadcrumb.Item>
+                            {
+                                labelPathArr.map((item, index) => {
+                                    return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                                })
+                            }
+                            <Breadcrumb.Item>网络拓扑</Breadcrumb.Item>
+                        </Breadcrumb>
+                    ) : ''}
                 </div>
                 <div style={{ padding: '2px 20px 20px' }}>
                     <div className={styles.topoTab}>

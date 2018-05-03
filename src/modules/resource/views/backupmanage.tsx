@@ -162,7 +162,6 @@ class BackUpManage extends React.Component<any, any> {
             <div>
                 <div className={styles.header}>
                     <h1 className={styles.title}>备份管理</h1>
-
                     <Breadcrumb>
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
