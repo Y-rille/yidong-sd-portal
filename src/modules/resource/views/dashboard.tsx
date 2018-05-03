@@ -121,14 +121,14 @@ class Dashboard extends React.Component<any, any> {
     goTopo(metadata) {
         let { match } = this.props
         if (metadata.ID && metadata.metaname) {
-            this.props.history.push(`${match.url}/topo/${metadata.ID}?name=${metadata.metaname}`)
+            this.props.history.push(`${match.url}/topo/${metadata.ID}`)
         }
     }
     findHandleOk() {
         let { pimInfo } = this.state
         let { match } = this.props
         if (pimInfo.ID && pimInfo.metaname) {
-            this.props.history.push(`${match.url}/topo/${pimInfo.ID}?name=${pimInfo.metaname}`)
+            this.props.history.push(`${match.url}/topo/${pimInfo.ID}`)
         }
         this.setState({
             findVisible: false,
