@@ -20,6 +20,7 @@ class BackupList extends React.Component<any, any> {
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
+            id: null
         }
     }
     goPage = (n) => {
@@ -32,9 +33,10 @@ class BackupList extends React.Component<any, any> {
             this.props.goLink(key, obj)
         }
     }
-    goBackup() {
+    goBackup(data) {
         this.setState({
             visible: true,
+            id: data.id
         });
     }
     handleCancel = () => {
@@ -46,11 +48,12 @@ class BackupList extends React.Component<any, any> {
     handleOk() {
         let moTypeKey = 'vim'
         let operateType = 'backup'
-        let moInstId = this.props.match.params.id
+        let moInstId = this.state.id
         let formdata = this.formRef.getData()
         // console.log(formdata, 'formdata')
         if (formdata) {
             this.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
+                // console.log(res, 'res')
                 // if (res.code === 1) {
                 //     emitter.emit('message', 'success', '操作成功！')
                 // }
@@ -58,7 +61,7 @@ class BackupList extends React.Component<any, any> {
                 //     let msg = err && err.message ? err.message : '操作失败！'
                 //     emitter.emit('message', 'error', msg)
                 // }
-            })
+            }, formdata)
 
         }
     }
@@ -96,14 +99,9 @@ class BackupList extends React.Component<any, any> {
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
-                        <div key="1" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div className={styles.size}>
-                                文件大小：<span>20k</span>&nbsp;&nbsp;目标地址可用容量：<span>30M</span>
-                            </div>
-                            <div className={styles.btn}>
-                                <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.handleOk.bind(this)}>确定</Button>
-                                <Button key="reset" onClick={this.resetForm.bind(this)}>取消</Button>
-                            </div>
+                        <div className={styles.btn} key="1">
+                            <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.handleOk.bind(this)}>确定</Button>
+                            <Button key="reset" onClick={this.resetForm.bind(this)}>取消</Button>
                         </div>
                     ]}
                 >
