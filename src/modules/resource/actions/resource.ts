@@ -278,8 +278,8 @@ export const editObjData = (moTypeKey, moInstId, editData, cb) => (dispatch) => 
  * @param operateType 操作类型
  * @param cb 
  */
-export const operateStatus = (moTypeKey, moInstId, operateType, cb) => (dispatch) => {
-    return API.operateStatus(moTypeKey, moInstId, operateType).then((res: any) => {
+export const operateStatus = (moTypeKey, moInstId, operateType, cb, params) => (dispatch) => {
+    return API.operateStatus(moTypeKey, moInstId, operateType, params).then((res: any) => {
         if (cb) {
             cb(null, res.data)
         }
