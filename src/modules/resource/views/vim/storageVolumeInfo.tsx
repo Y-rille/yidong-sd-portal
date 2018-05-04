@@ -60,6 +60,7 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                     this.setState({
                         visible: false,
                     });
+                    this.formRef.handleReset()
                 }
                 if (err || (res && res.code !== 1)) {
                     let msg = err && err.response.data.message ? err.response.data.message : '创建失败！'
@@ -142,7 +143,7 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                     footer={[
                         <div style={{ display: 'flex', justifyContent: 'space-between' }} key="1">
                             <div className={styles.size}>
-                                卷大小：<span>{storageVolumeSize}MB</span>&nbsp;&nbsp;可用容量：<span>{AvailableCapacity}GB</span>
+                                卷大小：<span>{storageVolumeSize}GB</span>&nbsp;&nbsp;可用容量：<span>{AvailableCapacity}GB</span>
                             </div>
                             <div className={styles.btn}>
                                 <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.handleOk.bind(this)}>确定</Button>

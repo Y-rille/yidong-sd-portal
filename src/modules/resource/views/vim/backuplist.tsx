@@ -59,6 +59,7 @@ class BackupList extends React.Component<any, any> {
                     this.setState({
                         visible: false,
                     });
+                    this.formRef.handleReset()
                 }
                 if (err || (res && res.code !== 1)) {
                     let msg = err && err.response.data.message ? err.response.data.message : '备份失败！'
