@@ -54,14 +54,14 @@ class BackupList extends React.Component<any, any> {
         let formdata = this.formRef.getData()
         if (formdata) {
             this.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
-                if (res.code === 1) {
+                if (res && res.code === 1) {
                     emitter.emit('message', 'success', '备份成功！')
                     this.setState({
                         visible: false,
                     });
                 }
                 if (err || (res && res.code !== 1)) {
-                    let msg = err && err.message ? err.message : '备份失败！'
+                    let msg = err && err.response.data.message ? err.response.data.message : '备份失败！'
                     emitter.emit('message', 'error', msg)
                 }
             }, formdata)

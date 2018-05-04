@@ -79,7 +79,7 @@ class Dashboard extends React.Component<any, any> {
                         curId: null
                     });
                     this.props.actions.resetObjData()
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '编辑成功！')
@@ -93,7 +93,7 @@ class Dashboard extends React.Component<any, any> {
                         visible: false,
                         loading: false
                     });
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '创建成功！')

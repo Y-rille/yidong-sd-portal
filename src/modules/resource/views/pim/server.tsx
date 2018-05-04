@@ -39,7 +39,7 @@ class Server extends React.Component<any, any> {
     getData(data) { // 发现
         if (data) {
             this.props.actions.autoDiscovery('server', data, (backdata, err) => {
-                if (err || backdata.code !== 1) {
+                if (err || (backdata && backdata.code !== 1)) {
                     emitter.emit('message', 'error', '发现失败！')
                 }
             })
@@ -83,7 +83,7 @@ class Server extends React.Component<any, any> {
     addData = () => {
         let { selected } = this.state
         this.props.actions.findConfirm('server', { data: { dataList: selected } }, (data, err) => {
-            if (data.code === 1) {
+            if (data && data.code === 1) {
                 emitter.emit('message', 'success', '添加成功！')
                 this.setState({
                     pageNo: 1
@@ -91,7 +91,7 @@ class Server extends React.Component<any, any> {
                     this.getTableData()
                 })
             }
-            if (err || data.code !== 1) {
+            if (err || (data && data.code !== 1)) {
                 emitter.emit('message', 'error', '添加失败！')
             }
             this.setState({
@@ -148,7 +148,7 @@ class Server extends React.Component<any, any> {
 
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? '批量删除失败，' + err.message : '批量删除失败！'
+                        let msg = err && err.response.data.message ? '批量删除失败，' + err.response.data.message : '批量删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -168,11 +168,11 @@ class Server extends React.Component<any, any> {
             cancelText: '取消',
             onOk() {
                 self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? err.message : '删除失败！'
+                        let msg = err && err.response.data.message ? err.response.data.message : '删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })

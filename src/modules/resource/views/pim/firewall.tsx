@@ -133,7 +133,7 @@ class Firewall extends React.Component<FirewallProps, any> {
     addData = () => {
         let { selected } = this.state
         this.props.actions.findConfirm('firewall', { data: { dataList: selected } }, (data, err) => {
-            if (data.code === 1) {
+            if (data && data.code === 1) {
                 emitter.emit('message', 'success', '添加成功！')
                 let pageNo = 1
                 let { datacenter, vendor } = this.state
@@ -200,7 +200,7 @@ class Firewall extends React.Component<FirewallProps, any> {
 
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? '批量删除失败, ' + err.message : '批量删除失败！'
+                        let msg = err && err.response.data.message ? '批量删除失败, ' + err.response.data.message : '批量删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -220,11 +220,11 @@ class Firewall extends React.Component<FirewallProps, any> {
             cancelText: '取消',
             onOk() {
                 self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? err.message : '删除失败！'
+                        let msg = err && err.response.data.message ? err.response.data.message : '删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })

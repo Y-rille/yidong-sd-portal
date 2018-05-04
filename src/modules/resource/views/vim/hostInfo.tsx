@@ -127,12 +127,13 @@ class HostInfo extends React.Component<any, any> {
         let match = this.props.match
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
-            if (err || qdata.code !== 1) {
+            if (err || (qdata && qdata.code !== 1)) {
                 emitter.emit('message', 'error', '修改失败')
                 if (cb) {
                     cb()
                 }
-            } else if (qdata.code === 1) {
+            } else if (qdata && qdata.code === 1) {
+                emitter.emit('message', 'success', '修改成功')
                 this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
                     if (res && res.code === 1) {
                         if (cb) {
@@ -162,9 +163,9 @@ class HostInfo extends React.Component<any, any> {
         let editObserve = (observe === '0') ? '1' : '0'
         let tipTxt = (editObserve === '1') ? '关注' : '取消关注'
         this.props.actions.editObjData(moTypeKey, host, { observe: editObserve }, (err, data) => {
-            if (err || data.code !== 1) {
+            if (err || (data && data.code !== 1)) {
                 emitter.emit('message', 'error', `${tipTxt}失败！`)
-            } else if (data.code === 1) {
+            } else if (data && data.code === 1) {
                 emitter.emit('message', 'success', `${tipTxt}成功！`)
                 this.setState({
                     observe: editObserve

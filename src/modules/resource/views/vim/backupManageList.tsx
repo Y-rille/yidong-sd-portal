@@ -31,11 +31,11 @@ class BackupManageList extends React.Component<any, any> {
             cancelText: '取消',
             onOk() {
                 self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? err.message : '删除失败！'
+                        let msg = err && err.response.data.message ? err.response.data.message : '删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -59,7 +59,7 @@ class BackupManageList extends React.Component<any, any> {
                         emitter.emit('message', 'success', '恢复成功！')
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? err.message : '恢复失败！'
+                        let msg = err && err.response.data.message ? err.response.data.message : '恢复失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
