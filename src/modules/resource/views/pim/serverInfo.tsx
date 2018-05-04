@@ -70,7 +70,7 @@ class ServerInfo extends React.Component<any, any> {
                 let match = self.props.match
                 let moInstId = match.params.id
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
-                    if (res.code === 1) {
+                    if (res && res.code === 1) {
                         emitter.emit('message', 'success', '操作成功！')
                         self.setState({
                             status: self.state.status === 2 ? 1 : 2
@@ -78,7 +78,7 @@ class ServerInfo extends React.Component<any, any> {
                         self.getAttributes()
                     }
                     if (err || (res && res.code !== 1)) {
-                        let msg = err && err.message ? err.message : '操作失败！'
+                        let msg = err && err.response.message ? err.response.message : '操作失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -133,12 +133,12 @@ class ServerInfo extends React.Component<any, any> {
                 let match = self.props.match
                 let moInstId = match.params.id
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
-                    if (res.code === 1) {
+                    if (res && res.code === 1) {
                         emitter.emit('message', 'success', '操作成功！')
                         self.getAttributes()
                     }
                     if (err || (res && res.code !== 1)) {
-                        let msg = err && err.message ? err.message : '操作失败！'
+                        let msg = err && err.response.message ? err.response.message : '操作失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
