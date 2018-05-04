@@ -9,6 +9,7 @@ import qs from 'querystringify'
 import { stringify } from 'querystringify'
 import styles from '../../style/index.less'
 import BackupForm from '../../../../components/BackupForm'
+import emitter from '../../../../common/emitter'
 
 class BackupList extends React.Component<any, any> {
     formRef: any
@@ -53,14 +54,16 @@ class BackupList extends React.Component<any, any> {
         let formdata = this.formRef.getData()
         if (formdata) {
             this.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
-                // console.log(res, 'res')
-                // if (res.code === 1) {
-                //     emitter.emit('message', 'success', '操作成功！')
-                // }
-                // if (err || (res && res.code !== 1)) {
-                //     let msg = err && err.message ? err.message : '操作失败！'
-                //     emitter.emit('message', 'error', msg)
-                // }
+                if (res.code === 1) {
+                    emitter.emit('message', 'success', '备份成功！')
+                    this.setState({
+                        visible: false,
+                    });
+                }
+                if (err || (res && res.code !== 1)) {
+                    let msg = err && err.message ? err.message : '备份失败！'
+                    emitter.emit('message', 'error', msg)
+                }
             }, formdata)
 
         }
