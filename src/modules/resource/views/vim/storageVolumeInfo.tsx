@@ -46,6 +46,7 @@ class StorgeVolumeInfo extends React.Component<any, any> {
         this.setState({
             visible: false,
         });
+        this.formRef.handleReset()
     }
     handleOk() {
         let moTypeKey = 'storageVolum'
@@ -63,7 +64,6 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                 //     emitter.emit('message', 'error', msg)
                 // }
             }, formdata)
-
         }
     }
     storageManage() {
@@ -135,6 +135,7 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                 <Modal
                     title="创建快照"
                     visible={this.state.visible}
+                    onCancel={this.handleCancel}
                     footer={[
                         <div style={{ display: 'flex', justifyContent: 'space-between' }} key="1">
                             <div className={styles.size}>
@@ -203,9 +204,6 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                                 <TabPane tab="资源概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
-                                {/* <TabPane tab="日志" key="log">
-                                    <LogShine events={events} />
-                                </TabPane> */}
                             </Tabs>
                         </TabPane>
                     </Tabs>

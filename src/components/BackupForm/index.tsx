@@ -32,7 +32,9 @@ class BackupFormCls extends React.PureComponent<BackupFormClsProps, any> {
         })
         return data
     }
-
+    handleReset() {
+        this.props.form.resetFields()
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const { data } = this.props;
