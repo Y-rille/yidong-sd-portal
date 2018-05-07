@@ -21,6 +21,20 @@ class CreateSnapshotFormCls extends React.PureComponent<CreateSnapshotFormClsPro
         this.state = {
         }
     }
+    getData() {
+        let data = null
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                data = values
+            } else {
+                data = null
+            }
+        })
+        return data
+    }
+    handleReset() {
+        this.props.form.resetFields()
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const { data } = this.props;
@@ -30,7 +44,7 @@ class CreateSnapshotFormCls extends React.PureComponent<CreateSnapshotFormClsPro
                     {...formItemLayout}
                     label="名称"
                 >
-                    {getFieldDecorator('startip', {
+                    {getFieldDecorator('name', {
                         rules: [{
                             required: true, message: '请输入名称!',
                         }],
@@ -42,7 +56,7 @@ class CreateSnapshotFormCls extends React.PureComponent<CreateSnapshotFormClsPro
                     {...formItemLayout}
                     label="描述"
                 >
-                    {getFieldDecorator('endip', {
+                    {getFieldDecorator('desciption', {
                         rules: [{
                             required: false,
                         }],

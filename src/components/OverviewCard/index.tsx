@@ -298,8 +298,8 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     {type === 'vim' ? (<a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>) : ''}
                     {type === 'pim' ? (<a href="javascript:;" onClick={this.doFind.bind(this)}>链路发现</a>) : ''}
                     {type === 'pim' ? (<a className={styles.title_mg} href="javascript:;" onClick={this.goTopo.bind(this)}>网络拓扑</a>) : ''}
-                    <a className={styles.title_dele} href="javascript:;" onClick={this.goDelete.bind(this)}>删除</a>
                     {type === 'vim' ? (<a href="javascript:;" className={styles.title_mg} onClick={this.goBackup.bind(this)}>备份</a>) : ''}
+                    <a className={styles.title_dele} href="javascript:;" onClick={this.goDelete.bind(this)}>删除</a>
                 </div>
                 {this.renderCard()}
             </div>

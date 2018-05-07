@@ -21,6 +21,20 @@ class BackupFormCls extends React.PureComponent<BackupFormClsProps, any> {
         this.state = {
         }
     }
+    getData() {
+        let data = null
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                data = values
+            } else {
+                data = null
+            }
+        })
+        return data
+    }
+    handleReset() {
+        this.props.form.resetFields()
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const { data } = this.props;
@@ -30,31 +44,23 @@ class BackupFormCls extends React.PureComponent<BackupFormClsProps, any> {
                     {...formItemLayout}
                     label="存储目标地址"
                 >
-                    {getFieldDecorator('startip', {
+                    {getFieldDecorator('storageTargetType', {
+                        initialValue: '1',
                         rules: [{
-                            required: true, message: '请输入存储目标地址!',
+                            required: true, message: '请选择存储目标地址!',
                         }],
                     })(
-                        <Input placeholder="请输入存储目标地址" />
-                    )}
-                </Form.Item>
-                <Form.Item
-                    {...formItemLayout}
-                    label="存储名称"
-                >
-                    {getFieldDecorator('startip', {
-                        rules: [{
-                            required: true, message: '请输入存储名称!',
-                        }],
-                    })(
-                        <Input placeholder="请输入存储名称" />
+                        <Select>
+                            <Option value="1">本地服务器</Option>
+                            <Option value="2">备份服务器(sftp)</Option>
+                        </Select>
                     )}
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
                     label="描述"
                 >
-                    {getFieldDecorator('endip', {
+                    {getFieldDecorator('desciption', {
                         rules: [{
                             required: false,
                         }],

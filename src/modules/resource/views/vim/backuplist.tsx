@@ -9,8 +9,10 @@ import qs from 'querystringify'
 import { stringify } from 'querystringify'
 import styles from '../../style/index.less'
 import BackupForm from '../../../../components/BackupForm'
+import emitter from '../../../../common/emitter'
 
 class BackupList extends React.Component<any, any> {
+    formRef: any
     constructor(props) {
         super(props);
         let { pageNo, pim_id } = qs.parse
@@ -19,6 +21,7 @@ class BackupList extends React.Component<any, any> {
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
+            id: null
         }
     }
     goPage = (n) => {
@@ -31,9 +34,10 @@ class BackupList extends React.Component<any, any> {
             this.props.goLink(key, obj)
         }
     }
-    gobackup() {
+    goBackup(data) {
         this.setState({
             visible: true,
+            id: data.id
         });
     }
     handleCancel = () => {
@@ -41,28 +45,33 @@ class BackupList extends React.Component<any, any> {
             visible: false,
             filterDate: null
         });
+        this.formRef.handleReset()
     }
-    getData() {
-        let data = null
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                data = values
-            } else {
-                data = null
-            }
-        })
-        if (this.props.getData) {
-            this.props.getData(data)
+    handleOk() {
+        let moTypeKey = 'vim'
+        let operateType = 'backup'
+        let moInstId = this.state.id
+        let formdata = this.formRef.getData()
+        if (formdata) {
+            this.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
+                if (res && res.code === 1) {
+                    emitter.emit('message', 'success', '备份成功！')
+                    this.setState({
+                        visible: false,
+                    });
+                    this.formRef.handleReset()
+                }
+                if (err || (res && res.code !== 1)) {
+                    let msg = err && err.response.data.message ? err.response.data.message : '备份失败！'
+                    emitter.emit('message', 'error', msg)
+                }
+            }, formdata)
+
         }
-    }
-    resetForm() {
-        this.props.form.resetFields()
     }
     render() {
         let { list, pageSize, tableLoading, location } = this.props;
-        const mp_node: any = matchPath(location.pathname, {
-            // path: '/resource/dashbord/:id/host/:type'
-        })
+        const mp_node: any = matchPath(location.pathname, {})
         let ft = ''
         if (mp_node && mp_node.params.type) {
             ft = mp_node.params.type === 'clusterConfig' ? '集群配置' : (mp_node.params.type === 'database' ? '数据库' : '数据库增量')
@@ -74,7 +83,7 @@ class BackupList extends React.Component<any, any> {
                         <CompactTable
                             goPage={this.goPage.bind(this)}
                             goLink={this.goLink.bind(this)}
-                            gobackup={this.gobackup.bind(this)}
+                            goBackup={this.goBackup.bind(this)}
                             data={list}
                             actionAuth={['backup']}
                             pageSize={pageSize}
@@ -91,18 +100,13 @@ class BackupList extends React.Component<any, any> {
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
-                        <div key="1">
-                            <div style={{ textAlign: 'left', marginBottom: '30px' }}>
-                                文件大小：<span>20k</span>&nbsp;&nbsp;目标地址可用容量：<span>30M</span>
-                            </div>
-                            <div className={styles.btn}>
-                                <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.getData.bind(this)}>确定</Button>
-                                <Button key="reset" onClick={this.resetForm.bind(this)}>重置</Button>
-                            </div>
+                        <div className={styles.btn} key="1">
+                            <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.handleOk.bind(this)}>确定</Button>
+                            <Button key="reset" onClick={this.handleCancel.bind(this)}>取消</Button>
                         </div>
                     ]}
                 >
-                    < BackupForm />
+                    < BackupForm wrappedComponentRef={(node) => { this.formRef = node }} />
                 </Modal>
             </div>
         );

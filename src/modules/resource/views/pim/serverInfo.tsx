@@ -70,7 +70,7 @@ class ServerInfo extends React.Component<any, any> {
                 let match = self.props.match
                 let moInstId = match.params.id
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
-                    if (res.code === 1) {
+                    if (res && res.code === 1) {
                         emitter.emit('message', 'success', '操作成功！')
                         self.setState({
                             status: self.state.status === 2 ? 1 : 2
@@ -78,7 +78,7 @@ class ServerInfo extends React.Component<any, any> {
                         self.getAttributes()
                     }
                     if (err || (res && res.code !== 1)) {
-                        let msg = err && err.message ? err.message : '操作失败！'
+                        let msg = err && err.response.data.message ? err.response.data.message : '操作失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -133,12 +133,12 @@ class ServerInfo extends React.Component<any, any> {
                 let match = self.props.match
                 let moInstId = match.params.id
                 self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
-                    if (res.code === 1) {
+                    if (res && res.code === 1) {
                         emitter.emit('message', 'success', '操作成功！')
                         self.getAttributes()
                     }
                     if (err || (res && res.code !== 1)) {
-                        let msg = err && err.message ? err.message : '操作失败！'
+                        let msg = err && err.response.data.message ? err.response.data.message : '操作失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -164,12 +164,13 @@ class ServerInfo extends React.Component<any, any> {
         let match = this.props.match
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
-            if (err || qdata.code !== 1) {
+            if (err || (qdata && qdata.code !== 1)) {
                 emitter.emit('message', 'error', '修改失败')
                 if (cb) {
                     cb()
                 }
-            } else if (qdata.code === 1) {
+            } else if (qdata && qdata.code === 1) {
+                emitter.emit('message', 'success', '修改成功')
                 this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
                     if (res && res.code === 1) {
                         if (cb) {

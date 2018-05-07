@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.less';
-import { Form, Input, Button, Select, Row, Col } from 'antd';
+import { Form, Input, Button, Select, Row, Col, Cascader } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import _ from 'lodash'
@@ -10,16 +10,18 @@ export interface MagneticTableClsProps extends FormComponentProps {
     getData?
     data?
     subDataVendor?
+    subDataCenter?
 }
 const formItemLayout = {
-    labelCol: { span: 9 },
-    wrapperCol: { span: 15 },
+    labelCol: { span: 10 },
+    wrapperCol: { span: 14 },
 };
 
 class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
     constructor(props: any) {
         super(props)
         this.state = {
+            datacenter: ''
         }
     }
     getData() {
@@ -34,6 +36,12 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
         if (this.props.getData) {
             this.props.getData(data)
         }
+    }
+    getCascaderData(type, value) {
+        let { datacenter } = this.state
+        this.setState({
+            datacenter: type === 'DataCenter' ? value : datacenter,
+        })
     }
     handleReset() {
         this.props.form.resetFields();
@@ -50,9 +58,9 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
         })
     }
     render() {
-        const { menuValue, secondMenuValue } = this.state;
+        const { menuValue, secondMenuValue, datacenter } = this.state;
         const { getFieldDecorator } = this.props.form;
-        const { data, subDataVendor } = this.props;
+        const { data, subDataVendor, subDataCenter } = this.props;
         const firstData = _.head(data);
         let subDataVendorDefault = (subDataVendor ? _.head(subDataVendor) : '') ? _.head(subDataVendor).text : ''
         return (
@@ -102,7 +110,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             {...formItemLayout}
                             label="Provider IP"
                         >
-                            {getFieldDecorator('p_ip', {
+                            {getFieldDecorator('providerip', {
                                 rules: [{
                                     required: true, message: '请输入Provider IP!',
                                 }],
@@ -114,9 +122,9 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                     <Col span={8}>
                         <Form.Item
                             {...formItemLayout}
-                            label="Provider 用户名"
+                            label="Provider用户名"
                         >
-                            {getFieldDecorator('p_user', {
+                            {getFieldDecorator('providerusername', {
                                 rules: [{
                                     required: true, message: '请输入Provider用户名!',
                                 }],
@@ -128,9 +136,9 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                     <Col span={8}>
                         <FormItem
                             {...formItemLayout}
-                            label="Provider 密码"
+                            label="Provider密码"
                         >
-                            {getFieldDecorator('p_password', {
+                            {getFieldDecorator('providerpassword', {
                                 rules: [{
                                     required: true, message: '请输入Provider密码!',
                                 }],
@@ -144,9 +152,9 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                     <Col span={8}>
                         <FormItem
                             {...formItemLayout}
-                            label="Provider 命名空间"
+                            label="Provider命名空间"
                         >
-                            {getFieldDecorator('namespace', {
+                            {getFieldDecorator('providernamespace', {
                                 rules: [{
                                     required: true, message: '请输入Provider命名空间!',
                                 }],
@@ -161,47 +169,15 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             label="数据中心"
                         >
                             {getFieldDecorator('datacenter', {
-                                initialValue: '请选择',
                                 rules: [{
                                     required: true, message: '请选择！',
                                 }],
                             })(
-                                <Select>
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="机房"
-                        >
-                            {getFieldDecorator('engine_room', {
-                                initialValue: '请选择',
-                                rules: [{
-                                    required: true, message: '请选择！',
-                                }],
-                            })(
-                                <Select>
-                                </Select>
-                            )}
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row gutter={24}>
-                    <Col span={8}>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="机柜"
-                        >
-                            {getFieldDecorator('cabinet', {
-                                initialValue: '请选择',
-                                rules: [{
-                                    required: true, message: '请选择！',
-                                }],
-                            })(
-                                <Select>
-                                </Select>
+                                <Cascader
+                                    value={datacenter}
+                                    options={this.props.subDataCenter}
+                                />
+
                             )}
                         </Form.Item>
                     </Col>
@@ -210,9 +186,9 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             {...formItemLayout}
                             label="安装U位"
                         >
-                            {getFieldDecorator('password', {
+                            {getFieldDecorator('slot', {
                             })(
-                                <Input type="password" placeholder="请输入安装U位" />
+                                <Input placeholder="请输入安装U位" />
                             )}
                         </FormItem>
                     </Col>

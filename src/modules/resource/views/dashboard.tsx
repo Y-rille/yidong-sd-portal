@@ -1,24 +1,14 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import { Row, Breadcrumb, Icon, Button, Spin, Modal } from 'antd';
-import styles from '../style/index.less'
-
 import OverviewCard from '../../../components/OverviewCard'
-// import VimSummary from '../../../components/VimSummary'
 import PimSummary from '../../../components/PimSummary'
 import VimEdit from '../../../components/VimEdit/'
-
 import Headline from '../../../components/Headline'
 import emitter from '../../../common/emitter'
+import styles from '../style/index.less'
 const confirm = Modal.confirm
 let editRef = null
-// let vimInfo = {
-//     vim_id: 'A12WED34212344RED',
-//     name: 'vimxxxx',
-//     url: 'http://www.hpe.com/kkkk',
-//     position: '北京futong',
-//     description: '这里是一段资源结构组织的描述描述描述'
-// }
 class Dashboard extends React.Component<any, any> {
     constructor(props) {
         super(props);
@@ -69,8 +59,8 @@ class Dashboard extends React.Component<any, any> {
     }
     goBackup(metadata) {
         let { match } = this.props
-        if (metadata.ID && metadata.metadata_name) {
-            this.props.history.push(`${match.url}/backup/${metadata.ID}/clusterConfig?name=${metadata.metadata_name}`)
+        if (metadata.ID) {
+            this.props.history.push(`${match.url}/backup/${metadata.ID}/clusterConfig`)
         }
     }
     handleOk(formdata) {
@@ -89,7 +79,7 @@ class Dashboard extends React.Component<any, any> {
                         curId: null
                     });
                     this.props.actions.resetObjData()
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '编辑成功！')
@@ -103,7 +93,7 @@ class Dashboard extends React.Component<any, any> {
                         visible: false,
                         loading: false
                     });
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '创建成功！')
@@ -131,14 +121,14 @@ class Dashboard extends React.Component<any, any> {
     goTopo(metadata) {
         let { match } = this.props
         if (metadata.ID && metadata.metaname) {
-            this.props.history.push(`${match.url}/topo/${metadata.ID}?name=${metadata.metaname}`)
+            this.props.history.push(`${match.url}/topo/${metadata.ID}`)
         }
     }
     findHandleOk() {
         let { pimInfo } = this.state
         let { match } = this.props
         if (pimInfo.ID && pimInfo.metaname) {
-            this.props.history.push(`${match.url}/topo/${pimInfo.ID}?name=${pimInfo.metaname}`)
+            this.props.history.push(`${match.url}/topo/${pimInfo.ID}`)
         }
         this.setState({
             findVisible: false,

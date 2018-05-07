@@ -144,22 +144,10 @@ export default class ResourceTable extends React.PureComponent<UserTableProps, a
                 )
             })
         }
-        // const columns = [{
-        //     title: '用户名',
-        //     dataIndex: 'email',
-        //     key: 'email',
-        //     render: text => <a href="javascript:;">{text}</a>,
-        //     width: '20%'
-        // }];
         let dataList = data.body
-
         _.map(dataList, function (item: any, index) {
-
-            // item._roles = _roles.toString()
-            // item.create_time = moment.tz(item.create_time, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
             item.key = item.id
         })
-
         return (
             <Table
                 pagination={false}

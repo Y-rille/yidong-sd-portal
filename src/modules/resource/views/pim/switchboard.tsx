@@ -138,11 +138,11 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             cancelText: '取消',
             onOk() {
                 self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? err.message : '删除失败！'
+                        let msg = err && err.response.data.message ? err.response.data.message : '删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -195,7 +195,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
 
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? '批量删除失败, ' + err.message : '批量删除失败！'
+                        let msg = err && err.response.data.message ? '批量删除失败, ' + err.response.data.message : '批量删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -210,7 +210,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             visible: false,
         });
         this.props.actions.findConfirm('switch', { data: { dataList: selected } }, (data, err) => {
-            if (data.code === 1) {
+            if (data && data.code === 1) {
                 emitter.emit('message', 'success', '添加成功！')
                 this.setState({
                     pageNo: 1
@@ -218,7 +218,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                     this.getTableData()
                 })
             }
-            if (err || data.code !== 1) {
+            if (err || (data && data.code !== 1)) {
                 emitter.emit('message', 'error', '添加失败！')
             }
             this.props.actions.resetfindData()
@@ -228,7 +228,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
     getData(data) { // 发现
         if (data) {
             this.props.actions.autoDiscovery('switch', data, (backdata, err) => {
-                if (err || backdata.code !== 1) {
+                if (err || (backdata && backdata.code !== 1)) {
                     emitter.emit('message', 'error', '发现失败！')
                 }
 

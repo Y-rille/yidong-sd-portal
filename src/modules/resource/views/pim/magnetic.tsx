@@ -37,7 +37,7 @@ class Magnetic extends React.Component<any, any> {
     getData(data) {
         if (data) {
             this.props.actions.autoDiscovery('diskarray', data, (backdata, err) => {
-                if (err || backdata.code !== 1) {
+                if (err || (backdata && backdata.code !== 1)) {
                     emitter.emit('message', 'error', '发现失败！')
                 }
             })
@@ -112,11 +112,11 @@ class Magnetic extends React.Component<any, any> {
             cancelText: '取消',
             onOk() {
                 self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? err.message : '删除失败！'
+                        let msg = err && err.response.data.message ? err.response.data.message : '删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -160,14 +160,13 @@ class Magnetic extends React.Component<any, any> {
                         }
                     }
                 }
-                // console.log(param, '---p');
                 self.props.actions.deleteAll(param, (data, err) => {
                     if (data && data.code === 1) {
                         emitter.emit('message', 'success', '批量删除成功！')
                         self.getTableData({ pageNo: self.state.pageNo })
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? '批量删除失败, ' + err.message : '批量删除失败！'
+                        let msg = err && err.response.data.message ? '批量删除失败, ' + err.response.data.message : '批量删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -208,14 +207,14 @@ class Magnetic extends React.Component<any, any> {
 
         let { selected } = this.state
         this.props.actions.findConfirm('diskarray', { data: { dataList: selected } }, (data, err) => {
-            if (data.code === 1) {
+            if (data && data.code === 1) {
                 emitter.emit('message', 'success', '添加成功！')
                 let queryObj = {
                     pageNo: 1
                 }
                 this.getTableData(queryObj)
             }
-            if (err || data.code !== 1) {
+            if (err || (data && data.code !== 1)) {
                 emitter.emit('message', 'error', '添加失败！')
             }
             this.setState({
@@ -266,7 +265,7 @@ class Magnetic extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     render() {
-        let { match, nodeInfo, list, subDataPIM, subDataVendor } = this.props;
+        let { match, nodeInfo, list, subDataPIM, subDataVendor, subDataCenter } = this.props;
         const { datacenter, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let selectLength = 0
@@ -313,6 +312,7 @@ class Magnetic extends React.Component<any, any> {
                                     <FilterMageticForm
                                         getData={this.getData.bind(this)}
                                         subDataVendor={subDataVendor}
+                                        subDataCenter={subDataCenter}
                                         wrappedComponentRef={(node) => { this.formRef = node }}
                                         data={subDataPIM}
                                     />

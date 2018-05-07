@@ -13,6 +13,7 @@ class BackupManageList extends React.Component<any, any> {
         })
         this.state = {
             type: mp_node ? mp_node.params.type : '',
+            vim_id: mp_node ? mp_node.params.vimId : ''
         }
     }
     goPage = (n) => {
@@ -30,11 +31,11 @@ class BackupManageList extends React.Component<any, any> {
             cancelText: '取消',
             onOk() {
                 self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
-                    if (data.code === 1) {
+                    if (data && data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
                     }
                     if (err || (data && data.code !== 1)) {
-                        let msg = err && err.message ? err.message : '删除失败！'
+                        let msg = err && err.response.data.message ? err.response.data.message : '删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
@@ -42,24 +43,26 @@ class BackupManageList extends React.Component<any, any> {
             onCancel() { },
         });
     }
-    goRecover() {
+    goRecover(obj) {
         let self = this
+        let moInstId = obj.id
         Modal.confirm({
             title: '您确定恢复该备份吗？',
             content: '源文件将被恢复',
             okText: '确定',
             cancelText: '取消',
             onOk() {
-                emitter.emit('message', 'success', '恢复成功！')
-                // self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
-                //     if (data.code === 1) {
-                //         emitter.emit('message', 'success', '恢复成功！')
-                //     }
-                //     if (err || (data && data.code !== 1)) {
-                //         let msg = err && err.message ? err.message : '恢复失败！'
-                //         emitter.emit('message', 'error', msg)
-                //     }
-                // })
+                let moTypeKey = 'vim'
+                let operateType = 'restore'
+                self.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, data) => {
+                    if (data && data.code === 1) {
+                        emitter.emit('message', 'success', '恢复成功！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.response.data.message ? err.response.data.message : '恢复失败！'
+                        emitter.emit('message', 'error', msg)
+                    }
+                })
             },
             onCancel() { },
         });

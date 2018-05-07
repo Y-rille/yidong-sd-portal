@@ -188,9 +188,9 @@ class API {
     // 1.4   
     return axios.post(`/api_agent/rms-agent/api/configure/${moTypeKey}/${moInstId}`, editData)
   }
-  operateStatus(moTypeKey, moInstId, operateType) {
+  operateStatus(moTypeKey, moInstId, operateType, params) {
     // 1.2
-    return axios.post(`/api_agent/rms-agent/api/operate/${moTypeKey}/${moInstId}/${operateType}`)
+    return axios.post(`/api_agent/rms-agent/api/operate/${moTypeKey}/${moInstId}/${operateType}`, params)
   }
   autoDiscovery(moTypeKey, params?: DiscoveryParams) {
     // 1.5

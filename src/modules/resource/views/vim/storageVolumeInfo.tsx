@@ -10,14 +10,12 @@ import emitter from '../../../../common/emitter'
 import CreateSnapshotForm from '../../../../components/CreateSnapshotForm'
 
 class StorgeVolumeInfo extends React.Component<any, any> {
+    formRef: any
     constructor(props) {
         super(props);
         this.state = {
             events: [],
         }
-    }
-    onChange() {
-
     }
     goList() {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
@@ -38,6 +36,7 @@ class StorgeVolumeInfo extends React.Component<any, any> {
             })
         }
     }
+    onChange() { }
     showModal = () => {
         this.setState({
             visible: true,
@@ -47,41 +46,46 @@ class StorgeVolumeInfo extends React.Component<any, any> {
         this.setState({
             visible: false,
         });
+        this.formRef.handleReset()
     }
-    getData() {
-        let data = null
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                data = values
-            } else {
-                data = null
-            }
-        })
-        if (this.props.getData) {
-            this.props.getData(data)
+    handleOk() {
+        let moTypeKey = 'storageVolum'
+        let operateType = 'snapshot'
+        let moInstId = this.props.match.params.id
+        let formdata = this.formRef.getData()
+        if (formdata) {
+            this.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
+                if (res && res.code === 1) {
+                    emitter.emit('message', 'success', '创建成功！')
+                    this.setState({
+                        visible: false,
+                    });
+                    this.formRef.handleReset()
+                }
+                if (err || (res && res.code !== 1)) {
+                    let msg = err && err.response.data.message ? err.response.data.message : '创建失败！'
+                    emitter.emit('message', 'error', msg)
+                }
+            }, formdata)
         }
-    }
-    resetForm() {
-        this.props.form.resetFields()
     }
     storageManage() {
         let { config } = this.props
         window.open(config.IPSAN)
     }
-    createSnapshot() {
 
-    }
     handleEditData(d, cb) {
         let moTypeKey = 'storageVolum'
         let match = this.props.match
         let moInstId = match.params.id
         this.props.actions.editObjData(moTypeKey, moInstId, d, (err, qdata) => {
-            if (err || qdata.code !== 1) {
+            if (err || (qdata && qdata.code !== 1)) {
                 emitter.emit('message', 'error', '修改失败')
                 if (cb) {
                     cb()
                 }
-            } else if (qdata.code === 1) {
+            } else if (qdata && qdata.code === 1) {
+                emitter.emit('message', 'success', '修改成功')
                 this.props.actions.getObjData(moTypeKey, moInstId, (error, res) => {
                     if (res && res.code === 1) {
                         if (cb) {
@@ -111,6 +115,15 @@ class StorgeVolumeInfo extends React.Component<any, any> {
         this.props.actions.resetObjData()
     }
     renderBtns() {
+        let { objData, objAttributes } = this.props
+        let storageVolumeSize, AvailableCapacity
+        if (objData) {
+            let { columns, values } = objData
+            let observe
+            let baseData = _.zipObject(columns, _.head(values))
+            storageVolumeSize = baseData.storageVolumeSize
+            AvailableCapacity = baseData.AvailableCapacity
+        }
         return (
             <div className={styles.btn}>
                 <Button
@@ -128,18 +141,18 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
-                        <div key="1">
-                            <div style={{ textAlign: 'left', marginBottom: '30px' }}>
-                                卷大小：<span>2GB</span>&nbsp;&nbsp;可用容量：<span>3GB</span>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }} key="1">
+                            <div className={styles.size}>
+                                卷大小：<span>{storageVolumeSize}GB</span>&nbsp;&nbsp;可用容量：<span>{AvailableCapacity}GB</span>
                             </div>
                             <div className={styles.btn}>
-                                <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.getData.bind(this)}>确定</Button>
-                                <Button key="reset" onClick={this.resetForm.bind(this)}>重置</Button>
+                                <Button className={styles.btn_ok} type="primary" key="submit" onClick={this.handleOk.bind(this)}>确定</Button>
+                                <Button key="reset" onClick={this.handleCancel.bind(this)}>取消</Button>
                             </div>
                         </div>
                     ]}
                 >
-                    < CreateSnapshotForm />
+                    < CreateSnapshotForm wrappedComponentRef={(node) => { this.formRef = node }} />
                 </Modal>
             </div>
         )
@@ -195,9 +208,6 @@ class StorgeVolumeInfo extends React.Component<any, any> {
                                 <TabPane tab="资源概况" key="overview">
                                     {this.renderDynamicPropertiesCollapse()}
                                 </TabPane>
-                                {/* <TabPane tab="日志" key="log">
-                                    <LogShine events={events} />
-                                </TabPane> */}
                             </Tabs>
                         </TabPane>
                     </Tabs>
