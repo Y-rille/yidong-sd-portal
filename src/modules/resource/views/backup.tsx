@@ -40,9 +40,9 @@ class Backup extends React.Component<any, any> {
     handleClick() {
         let { match } = this.props
         let pageNo = 1
-        let { name } = this.state
+        let { name, activeKey } = this.state
         let queryObj = { pageNo, name }
-        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+        this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
         this.setState({
             pageNo
         });

@@ -57,6 +57,10 @@ class HostInfo extends React.Component<any, any> {
             let id = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey, id)
+            if (this.topoTimer && this.topoStateTimer) {
+                clearInterval(this.topoTimer)
+                clearInterval(this.topoStateTimer)
+            }
         } else if (key === 'relation') {
             this.props.actions.resetList();
             this.setState({
@@ -66,6 +70,10 @@ class HostInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
+            if (this.topoTimer && this.topoStateTimer) {
+                clearInterval(this.topoTimer)
+                clearInterval(this.topoStateTimer)
+            }
         } else if (key === 'imdsHostSubRes') {
             this.props.actions.resetList();
             this.setState({
@@ -75,14 +83,18 @@ class HostInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
+            if (this.topoTimer && this.topoStateTimer) {
+                clearInterval(this.topoTimer)
+                clearInterval(this.topoStateTimer)
+            }
         } else {
             this.getTopo()
             this.getTopoState()
             if (!this.topoTimer && !this.topoStateTimer) {
-                let topoTimer = setInterval(() => {
+                this.topoTimer = setInterval(() => {
                     this.getTopo()
                 }, 300000)
-                let topoStateTimer = setInterval(() => {
+                this.topoStateTimer = setInterval(() => {
                     this.getTopoState()
                 }, 5000)
             }
@@ -264,10 +276,10 @@ class HostInfo extends React.Component<any, any> {
     componentDidMount() {
         let { active } = qs.parse(this.props.location.search)
         if (active && active === 'topo' && !this.topoTimer && !this.topoStateTimer) {
-            let topoTimer = setInterval(() => {
+            this.topoTimer = setInterval(() => {
                 this.getTopo()
             }, 300000)
-            let topoStateTimer = setInterval(() => {
+            this.topoStateTimer = setInterval(() => {
                 this.getTopoState()
             }, 5000)
         }
@@ -340,7 +352,7 @@ class HostInfo extends React.Component<any, any> {
             )
         }
     }
-    renderNormalTable() {
+    renderInfoTable() {
         let { list } = this.props
         let { tableLoading, pageSize } = this.state
         if (list && list.header) {
@@ -351,7 +363,49 @@ class HostInfo extends React.Component<any, any> {
                     loading={tableLoading}
                     data={list}
                     goLink={this.goLink.bind(this)}
+                />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
+    renderHostSubRes() {
+        let { list } = this.props
+        let { tableLoading, pageSize } = this.state
+        if (list && list.header) {
+            return (
+                <CompactTable
+                    pageSize={pageSize}
+                    goPage={this.goPage.bind(this)}
+                    loading={tableLoading}
+                    data={list}
+                    goLink={this.goLink.bind(this)}
                     footInfoAuth={<div>*&nbsp;主机下级资源共有{list.totalCount}个</div>}
+                />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
+    renderNormalTable() {
+        let { list } = this.props
+        let { tableLoading, pageSize } = this.state
+        if (list && list.header) {
+            return (
+                <CompactTable
+                    pageSize={pageSize}
+                    goPage={this.goPage.bind(this)}
+                    loading={tableLoading}
+                    data={list}
+                    goLink={this.goLink.bind(this)}
                 />
             )
         } else {
@@ -461,7 +515,7 @@ class HostInfo extends React.Component<any, any> {
                         </TabPane>
                         <TabPane tab="下级资源" key="imdsHostSubRes">
                             <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                {this.renderNormalTable()}
+                                {this.renderHostSubRes()}
                             </div>
                         </TabPane>
                         <TabPane tab="拓扑结构" key="topo">

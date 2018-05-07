@@ -265,7 +265,7 @@ class Magnetic extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     render() {
-        let { match, nodeInfo, list, subDataPIM, subDataVendor } = this.props;
+        let { match, nodeInfo, list, subDataPIM, subDataVendor, subDataCenter } = this.props;
         const { datacenter, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let selectLength = 0
@@ -312,6 +312,7 @@ class Magnetic extends React.Component<any, any> {
                                     <FilterMageticForm
                                         getData={this.getData.bind(this)}
                                         subDataVendor={subDataVendor}
+                                        subDataCenter={subDataCenter}
                                         wrappedComponentRef={(node) => { this.formRef = node }}
                                         data={subDataPIM}
                                     />

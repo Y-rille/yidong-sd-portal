@@ -65,10 +65,10 @@ class Home extends React.Component<any, any> {
         this.getTopo(this.getTopoState())
     }
     componentDidMount() {
-        let timer = setInterval(() => {
+        this.topoTimer = setInterval(() => {
             this.getTopo()
         }, 300000)
-        let topoStateTimer = setInterval(() => {
+        this.topoStateTimer = setInterval(() => {
             this.getTopoState()
         }, 5000)
     }
