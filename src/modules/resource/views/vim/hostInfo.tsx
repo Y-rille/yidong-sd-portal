@@ -352,7 +352,7 @@ class HostInfo extends React.Component<any, any> {
             )
         }
     }
-    renderNormalTable() {
+    renderInfoTable() {
         let { list } = this.props
         let { tableLoading, pageSize } = this.state
         if (list && list.header) {
@@ -363,7 +363,49 @@ class HostInfo extends React.Component<any, any> {
                     loading={tableLoading}
                     data={list}
                     goLink={this.goLink.bind(this)}
+                />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
+    renderHostSubRes() {
+        let { list } = this.props
+        let { tableLoading, pageSize } = this.state
+        if (list && list.header) {
+            return (
+                <CompactTable
+                    pageSize={pageSize}
+                    goPage={this.goPage.bind(this)}
+                    loading={tableLoading}
+                    data={list}
+                    goLink={this.goLink.bind(this)}
                     footInfoAuth={<div>*&nbsp;主机下级资源共有{list.totalCount}个</div>}
+                />
+            )
+        } else {
+            return (
+                <div style={{ position: 'relative', height: '30px' }}>
+                    <Spin />
+                </div>
+            )
+        }
+    }
+    renderNormalTable() {
+        let { list } = this.props
+        let { tableLoading, pageSize } = this.state
+        if (list && list.header) {
+            return (
+                <CompactTable
+                    pageSize={pageSize}
+                    goPage={this.goPage.bind(this)}
+                    loading={tableLoading}
+                    data={list}
+                    goLink={this.goLink.bind(this)}
                 />
             )
         } else {
@@ -473,7 +515,7 @@ class HostInfo extends React.Component<any, any> {
                         </TabPane>
                         <TabPane tab="下级资源" key="imdsHostSubRes">
                             <div style={{ marginTop: '20px', marginBottom: '20px' }}>
-                                {this.renderNormalTable()}
+                                {this.renderHostSubRes()}
                             </div>
                         </TabPane>
                         <TabPane tab="拓扑结构" key="topo">
