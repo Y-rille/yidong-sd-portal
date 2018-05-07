@@ -139,7 +139,6 @@ class Ha extends React.Component<HaProps, any> {
                             goLink={this.goLink.bind(this)}
                             data={list}
                             pageSize={pageSize}
-                            sortAuth={true}
                             loading={tableLoading}
                             footInfoAuth={<div>*&nbsp;HA共有{list.totalCount}个</div>}
                             size={{ y: list.totalCount > pageSize ? window.innerHeight - 405 : window.innerHeight - 361 }}

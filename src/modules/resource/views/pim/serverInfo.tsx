@@ -196,6 +196,10 @@ class ServerInfo extends React.Component<any, any> {
             }, () => {
                 this.getTableData({ pageNo: 1 })
             })
+            if (this.topoTimer && this.topoStateTimer) {
+                clearInterval(this.topoTimer)
+                clearInterval(this.topoStateTimer)
+            }
         } else if (key === 'detail') {
             this.setState({
                 detailKey: 'overview'
@@ -207,14 +211,18 @@ class ServerInfo extends React.Component<any, any> {
             let moInstId = match.params.id
             this.props.actions.getObjAttributes(moTypeKey)
             this.props.actions.getObjData(moTypeKey, moInstId);
+            if (this.topoTimer && this.topoStateTimer) {
+                clearInterval(this.topoTimer)
+                clearInterval(this.topoStateTimer)
+            }
         } else {
             this.getTopo()
             this.getTopoState()
             if (!this.topoTimer && !this.topoStateTimer) {
-                let topoTimer = setInterval(() => {
+                this.topoTimer = setInterval(() => {
                     this.getTopo()
                 }, 300000)
-                let topoStateTimer = setInterval(() => {
+                this.topoStateTimer = setInterval(() => {
                     this.getTopoState()
                 }, 5000)
             }
@@ -337,10 +345,10 @@ class ServerInfo extends React.Component<any, any> {
     componentDidMount() {
         let { active } = qs.parse(this.props.location.search)
         if (active && active === 'topo' && !this.topoTimer && !this.topoStateTimer) {
-            let timer = setInterval(() => {
+            this.topoTimer = setInterval(() => {
                 this.getTopo()
             }, 300000)
-            let topoStateTimer = setInterval(() => {
+            this.topoStateTimer = setInterval(() => {
                 this.getTopoState()
             }, 5000)
         }
