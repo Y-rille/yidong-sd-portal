@@ -20,9 +20,7 @@ const formItemLayout = {
 class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
     constructor(props: any) {
         super(props)
-        this.state = {
-            datacenter: ''
-        }
+
     }
     getData() {
         let data = null
@@ -36,12 +34,6 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
         if (this.props.getData) {
             this.props.getData(data)
         }
-    }
-    getCascaderData(type, value) {
-        let { datacenter } = this.state
-        this.setState({
-            datacenter: type === 'DataCenter' ? value : datacenter,
-        })
     }
     handleReset() {
         this.props.form.resetFields();
@@ -58,7 +50,6 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
         })
     }
     render() {
-        const { menuValue, secondMenuValue, datacenter } = this.state;
         const { getFieldDecorator } = this.props.form;
         const { data, subDataVendor, subDataCenter } = this.props;
         const firstData = _.head(data);
@@ -174,7 +165,6 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 }],
                             })(
                                 <Cascader
-                                    value={datacenter}
                                     options={this.props.subDataCenter}
                                 />
 
