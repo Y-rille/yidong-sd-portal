@@ -50,7 +50,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
         this.setState({
             isEdit: false
         })
-        // this.props.form.resetFields();
+        this.props.form.resetFields();
     }
 
     componentDidMount() {

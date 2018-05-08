@@ -41,12 +41,17 @@ class VirtualInfo extends React.Component<any, any> {
             this.getTopo()
             this.getTopoState()
             if (!this.topoTimer && !this.topoStateTimer) {
-                let topoTimer = setInterval(() => {
+                this.topoTimer = setInterval(() => {
                     this.getTopo()
                 }, 300000)
-                let topoStateTimer = setInterval(() => {
+                this.topoStateTimer = setInterval(() => {
                     this.getTopoState()
                 }, 5000)
+            }
+        } else {
+            if (this.topoTimer && this.topoStateTimer) {
+                clearInterval(this.topoTimer)
+                clearInterval(this.topoStateTimer)
             }
         }
     }
@@ -180,10 +185,10 @@ class VirtualInfo extends React.Component<any, any> {
     componentDidMount() {
         let { active } = qs.parse(this.props.location.search)
         if (active && active === 'topo' && !this.topoTimer && !this.topoStateTimer) {
-            let timer = setInterval(() => {
+            this.topoTimer = setInterval(() => {
                 this.getTopo()
             }, 300000)
-            let topoStateTimer = setInterval(() => {
+            this.topoStateTimer = setInterval(() => {
                 this.getTopoState()
             }, 5000)
         }

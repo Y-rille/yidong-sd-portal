@@ -46,8 +46,9 @@ class VirtualSubnet extends React.Component<any, any> {
         this.setState({
             tableLoading: true
         });
+        let network = this.props.match.params.id
         let { pageSize, pageNo, project, vsname, vim_id } = this.state
-        let params_obj = { pageNo, pageSize, project, vsname, vim_id }
+        let params_obj = { pageNo, pageSize, project, vsname, network, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
