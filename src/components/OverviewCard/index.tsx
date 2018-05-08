@@ -21,13 +21,13 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     chart: any
     newObj: any
     goEdit() {
-        let id = this.props.data.metadata.ID
+        let id = this.props.data.metadata.moInstId
         if (this.props.goEdit) {
             this.props.goEdit(id)
         }
     }
     goDelete() {
-        let id = this.props.data.metadata.ID
+        let id = this.props.data.metadata.moInstId
         if (this.props.goDelete) {
             this.props.goDelete(id)
         }
