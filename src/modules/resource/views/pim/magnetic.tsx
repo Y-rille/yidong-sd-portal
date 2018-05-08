@@ -181,7 +181,7 @@ class Magnetic extends React.Component<any, any> {
 
         });
     }
-    handleManage() { }
+
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -297,7 +297,6 @@ class Magnetic extends React.Component<any, any> {
                                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
                                 <div style={{ float: 'right' }}>
                                     <Button type="primary" onClick={this.showModal}>发现</Button>
-                                    <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
                                     <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
                                     <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
                                 </div>
