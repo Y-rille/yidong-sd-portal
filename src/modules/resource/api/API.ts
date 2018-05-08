@@ -196,8 +196,12 @@ class API {
     // 1.5
     return axios.post(`/api_agent/rms-agent/api/find/${moTypeKey}`, params)
   }
+  findtemplate(moTypeKey, queryData) {
+    // 1.6
+    return axios.post(`/api_agent/rms-agent/api/findtemplate/${moTypeKey}`, queryData)
+  }
   findConfirm(moTypeKey, queryData) {
-    // 1.2
+    // 1.8
     return axios.post(`/api_agent/rms-agent/api/findconfirm/${moTypeKey}`, queryData)
   }
   delInstance(moTypeKey, moInstId) {

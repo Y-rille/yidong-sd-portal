@@ -25,7 +25,8 @@ import {
     deleteAll,
     editBatchData,
     getTopo,
-    getTopoState
+    getTopoState,
+    findtemplate
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -55,7 +56,8 @@ const HomeActionCreatorsMap = {
     deleteAll,
     editBatchData,
     getTopo,
-    getTopoState
+    getTopoState,
+    findtemplate
 }
 
 export interface ResourceActions {
@@ -85,7 +87,8 @@ export interface ResourceActions {
     deleteAll: Function,
     editBatchData: Function,
     getTopo: Function,
-    getTopoState: Function
+    getTopoState: Function,
+    findtemplate: Function
 }
 
 export default HomeActionCreatorsMap;

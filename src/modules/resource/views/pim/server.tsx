@@ -17,6 +17,7 @@ import emitter from '../../../../common/emitter'
 
 class Server extends React.Component<any, any> {
     formRef: any;
+    uploadRef: any
     constructor(props) {
         super(props);
 
@@ -33,7 +34,10 @@ class Server extends React.Component<any, any> {
             visible: false,
             datacenter: datacenter ? datacenter.split(',') : '',    // 数据中心
             selected: {},
-            findSelected: []
+            findSelected: [],
+            btnDisabled: true,
+            downloadUrl: '',
+            uploadUrl: ''
         }
     }
     getData(data) { // 发现
@@ -79,12 +83,46 @@ class Server extends React.Component<any, any> {
         });
         this.formRef.resetForm()
     }
-
-    addData = () => {
-        let { selected } = this.state
-        this.props.actions.findConfirm('server', { data: { dataList: selected } }, (data, err) => {
+    createTemplate = () => {
+        let { findSelected } = this.state
+        let { findData } = this.props
+        let params = {
+            code: 1,
+            data: {
+                header: findData.header,
+                dataList: findSelected
+            }
+        }
+        this.props.actions.findtemplate('server', params, (data, err) => {
             if (data && data.code === 1) {
-                emitter.emit('message', 'success', '添加成功！')
+                this.setState({
+                    downloadUrl: data.url
+                })
+                emitter.emit('message', 'success', '模板生成成功！')
+            }
+            if (err || (data && data.code !== 1)) {
+                emitter.emit('message', 'error', '模板生成失败！')
+            }
+        })
+    }
+    downloadTemplate() {
+        let { downloadUrl } = this.state
+        if (downloadUrl) {
+            window.open(downloadUrl)
+        } else {
+            emitter.emit('message', 'error', '请先生成模板！')
+        }
+    }
+    findConfirm() {
+        let { uploadUrl } = this.props
+        if (!uploadUrl) {
+            this.uploadRef.removeFileList()
+            emitter.emit('message', 'error', '请先上传模板文件！')
+            return
+        }
+        this.props.actions.findConfirm('server', { url: '' }, (data, err) => {
+            if (data && data.code === 1) {
+                emitter.emit('message', 'success', '发现成功！')
                 this.setState({
                     pageNo: 1
                 }, () => {
@@ -92,14 +130,17 @@ class Server extends React.Component<any, any> {
                 })
             }
             if (err || (data && data.code !== 1)) {
-                emitter.emit('message', 'error', '添加失败！')
+                emitter.emit('message', 'error', '发现失败！')
             }
             this.setState({
                 visible: false,
             });
             this.props.actions.resetfindData()
             this.formRef.resetForm()
+            this.uploadRef.removeFileList()
         })
+    }
+    uploadChange() {
 
     }
     updateAll() {
@@ -119,7 +160,6 @@ class Server extends React.Component<any, any> {
     deleteAll() {
         let { selected } = this.state
         let self = this
-
         Modal.confirm({
             title: '确定要批量删除所选服务器吗?',
             onOk() {
@@ -137,10 +177,8 @@ class Server extends React.Component<any, any> {
                             }
                             param.delmoInsts.push(sObj)
                         }
-
                     }
                 }
-
                 self.props.actions.deleteAll(param, (data, err) => {
                     if (data && data.code === 1) {
                         emitter.emit('message', 'success', '批量删除成功！')
@@ -152,7 +190,6 @@ class Server extends React.Component<any, any> {
                         emitter.emit('message', 'error', msg)
                     }
                 })
-
             },
             okText: '确认',
             cancelText: '取消',
@@ -190,7 +227,8 @@ class Server extends React.Component<any, any> {
     }
     findSelectRow(data) {
         this.setState({
-            findSelected: data
+            findSelected: data,
+            btnDisabled: data.length > 0 ? false : true
         })
     }
     goPage = (num) => {
@@ -242,7 +280,7 @@ class Server extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     renderAddData() {
-        let { findSelected } = this.state
+        let { btnDisabled } = this.state
         let { findData } = this.props
         if (findData) {
             let data_fixed = _.merge({}, findData)
@@ -260,15 +298,15 @@ class Server extends React.Component<any, any> {
                         pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.addData.bind(this)}>生成模板</Button>
-                        <Button icon="download" >下载模版</Button>
+                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.createTemplate.bind(this)} disabled={btnDisabled}>生成模板</Button>
+                        <Button icon="download" onClick={this.downloadTemplate.bind(this)} disabled={btnDisabled}>下载模版</Button>
                     </div>
                     <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
-                            <FindUpload />
+                            <FindUpload ref={(node) => { this.uploadRef = node }} disabled={btnDisabled} uploadChange={this.uploadChange.bind(this)} moTypeKey="server" />
                         </div>
                         <div>
-                            <Button type="primary">发现</Button>
+                            <Button type="primary" onClick={this.findConfirm.bind(this)} disabled={btnDisabled}>发现</Button>
                         </div>
                     </div>
                 </div >
@@ -324,6 +362,7 @@ class Server extends React.Component<any, any> {
                                     onCancel={this.handleCancel}
                                     footer={null}
                                     width="80%"
+                                    style={{ top: '8%' }}
                                 >
                                     <FilterServerForm
                                         wrappedComponentRef={(node) => { this.formRef = node }}

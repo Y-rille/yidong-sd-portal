@@ -4,60 +4,66 @@ import styles from './index.less';
 
 export interface FindUploadProps {
     disabled?
-    onChange?
+    uploadChange?
+    moTypeKey
 }
 export default class FindUpload extends React.PureComponent<FindUploadProps, any> {
     constructor(props) {
         super(props)
+        let { disabled } = this.props
         this.state = {
-            disabled: false
+            disabled: disabled ? disabled : false,
+            fileList: []
         }
     }
     handleChange(info) {
-        // this.setState({
-        //     disabled: info.file.status === 'uploading' ? true : false
-        // })
-        // if (info.file.status !== 'uploading') {
-        //     let fileList = info.fileList
-        //     this.setState({
-        //         disabled: info.fileList.length ? true : false
-        //     })
-        //     this.props.onChange && this.props.onChange('')
-        // }
-        // if (info.file.status === 'done') {
-        //     let fileList = info.fileList
-        //     this.setState({
-        //         disabled: info.fileList.length ? true : false
-        //     })
-        //     message.success('文件上传成功!');
-        //     this.props.onChange && this.props.onChange(info.file.response.path)
-        // } else if (info.file.status === 'error') {
-        //     message.error('文件上传失败!');
-        //     this.setState({
-        //         disabled: true
-        //     })
-        // }
+        let fileList = info.fileList
+        this.setState({
+            disabled: info.fileList.length ? true : false,
+            fileList
+        })
+        if (info.file.status === 'done') {
+            let { uploadChange } = this.props
+            message.success('文件上传成功!');
+            if (uploadChange) {
+                uploadChange(info.file.response.path)
+            }
+        } else if (info.file.status === 'error') {
+            message.error('文件上传失败!');
+        }
     }
     beforeUpload(file) {
-        const isXlsx = file.name.indexOf('.xlsx') > -1 ? true : false;
-        if (!isXlsx) {
-            message.error('只能上传xlsx格式的文件!');
+        const isCsv = file.name.indexOf('.csv') > -1 ? true : false;
+        if (!isCsv) {
+            message.error('只能上传csv格式的文件!');
         }
-        return isXlsx
+        return isCsv
+    }
+    removeFileList() {
+        this.setState({
+            fileList: []
+        })
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            disabled: nextProps.disabled
+        })
     }
     render() {
-        let { disabled } = this.state
+        let { disabled, fileList } = this.state
+        let { moTypeKey } = this.props
         return (
             <div className={styles.findUpload}>
                 <Upload
                     name="file"
-                    action="/api/upload"
+                    action={`/api_agent/rms-agent/api/findupload/${moTypeKey}`}
+                    fileList={fileList}
                     beforeUpload={this.beforeUpload.bind(this)}
                     onChange={this.handleChange.bind(this)}>
                     <Button icon="upload" disabled={disabled}>上传文件</Button>
-                    <span style={{ display: 'inlineBlock', marginLeft: '10px', color: '#e2e4e9' }}>支持扩展名：.xlsx</span>
+                    <span style={{ display: 'inlineBlock', marginLeft: '10px', color: '#e2e4e9' }}>支持扩展名：.csv</span>
                 </Upload>
-            </div>
+            </div >
         );
     }
 }

@@ -317,6 +317,22 @@ export const resetfindData = () => (dispatch) => {
     return dispatch({ type: ActionTypes.RESOURCE_SAY_HELLO, findData: null })
 }
 /**
+ * 发现生成模板
+ * @param moTypeKey 对象类型ID或对象类型英文名
+ * @param cb 
+ */
+export const findtemplate = (moTypeKey, queryData, cb) => (dispatch) => {
+    return API.findtemplate(moTypeKey, queryData).then((res: any) => {
+        if (cb) {
+            cb(res.data, null)
+        }
+    }).catch((err) => {
+        if (cb) {
+            cb(null, err)
+        }
+    })
+}
+/**
  * 自动发现确认接口
  * @param moTypeKey 对象类型ID或对象类型英文名
  * @param cb 
