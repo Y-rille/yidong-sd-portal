@@ -70,10 +70,10 @@ class Ha extends React.Component<HaProps, any> {
             this.props.history.push(`${match.url}/info/${obj.id}`)
         }
     }
-    getData(value) {
+    getData(type, value) {
         let { region } = this.state
         this.setState({
-            region: value
+            region: type === 'Region' ? value : region
         })
     }
     getTableData() {

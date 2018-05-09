@@ -22,13 +22,15 @@ export default class UserEditPassword extends React.PureComponent<UserEditPasswo
             visible: false
         };
     }
+    afterClose() {
+        this.formRef.resetForm();
+    }
     handleOk() {
         let data = this.formRef.getData();
         if (data) {
             let { handleOk } = this.props
             if (handleOk) {
                 handleOk(data)
-                this.formRef.resetForm();
             }
         }
     }
@@ -37,7 +39,6 @@ export default class UserEditPassword extends React.PureComponent<UserEditPasswo
         if (handleCancel) {
             handleCancel()
         }
-        this.formRef.resetForm()
     }
     render() {
         const { visible } = this.props
@@ -49,6 +50,7 @@ export default class UserEditPassword extends React.PureComponent<UserEditPasswo
                 visible={visible}
                 onOk={this.handleOk.bind(this)}
                 onCancel={this.handleCancel.bind(this)}
+                afterClose={this.afterClose.bind(this)}
             >
                 <UserPasswordForm wrappedComponentRef={(node) => { this.formRef = node }} />
             </Modal>
