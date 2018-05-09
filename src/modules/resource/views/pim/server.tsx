@@ -113,7 +113,7 @@ class Server extends React.Component<any, any> {
             emitter.emit('message', 'error', '请先生成模板！')
         }
     }
-    findConfirm() {
+    findConfirm(url) {
         let { uploadUrl } = this.props
         if (!uploadUrl) {
             this.uploadRef.removeFileList()

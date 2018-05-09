@@ -32,6 +32,7 @@ export interface FirewallProps {
 }
 class Firewall extends React.Component<FirewallProps, any> {
     formRef: any
+    uploadRef: any
     constructor(props) {
         super(props);
         let { pageNo, datacenter, vendor, pim_id } = qs.parse(this.props.location.search)
@@ -47,16 +48,17 @@ class Firewall extends React.Component<FirewallProps, any> {
             vendor: vendor ? vendor : '',
             pim_id: mp_node ? mp_node.params.id : '',
             selected: {},
-            findSelected: []
+            btnDisabled: true,
+            findSelected: [],
+            uploadUrl: ''
         }
     }
-    getData(formData) { // 发现
+    getData(formData) {
         if (formData) {
             this.props.actions.autoDiscovery('firewall', formData, (backdata, err) => {
                 if (err || backdata.code !== 1) {
                     emitter.emit('message', 'error', '发现失败！')
                 }
-
             })
         }
     }
@@ -69,27 +71,29 @@ class Firewall extends React.Component<FirewallProps, any> {
     }
 
     handleClick() {
-        let { match } = this.props
-        let pageNo = 1
-        let { datacenter, vendor } = this.state
-        let queryObj = { pageNo, datacenter, vendor }
-        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         this.setState({
-            pageNo
+            pageNo: 1
+        }, () => {
+            let { match } = this.props
+            const { vendor, pageNo, datacenter } = this.state;
+            let queryObj = { pageNo, datacenter, vendor }
+            this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+            this.getTableData()
         });
-        this.getTableData(queryObj)
     }
     goPage = (num) => {
         let { match } = this.props
-        let { datacenter, vendor } = this.state
+        let { vendor, datacenter } = this.state
         let pageNo = num
-        let queryObj = { pageNo, datacenter, vendor }
-        this.props.history.push(`${match.url}?${stringify(queryObj)}`)
-        this.getTableData({
-            pageNo
+        this.setState({
+            pageNo: num
+        }, () => {
+            this.getTableData()
+            let queryObj = { pageNo, vendor, datacenter }
+            this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         })
     }
-    searchData(type, value) {  // 查询条件切换
+    searchData(type, value) {
         let { vendor } = this.state
         this.setState({
             vendor: type === 'Vendor' ? value : vendor,
@@ -124,33 +128,63 @@ class Firewall extends React.Component<FirewallProps, any> {
     }
     findSelectRow(data) {
         this.setState({
-            findSelected: data
+            findSelected: data,
+            btnDisabled: data.length > 0 ? false : true
         })
     }
-    addData = () => {
-        let { selected } = this.state
-        this.props.actions.findConfirm('firewall', { data: { dataList: selected } }, (data, err) => {
-            if (data && data.code === 1) {
-                emitter.emit('message', 'success', '添加成功！')
-                let pageNo = 1
-                let { datacenter, vendor } = this.state
-                let queryObj = { pageNo, datacenter, vendor }
-                this.setState({
-                    pageNo
-                });
-                this.getTableData(queryObj)
+    createTemplate = () => {
+        let { findSelected } = this.state
+        let { findData } = this.props
+        let params = {
+            code: 1,
+            data: {
+                header: findData.header,
+                dataList: findSelected
             }
-            if (err || data.code !== 1) {
-                emitter.emit('message', 'error', '添加失败！')
+        }
+        this.props.actions.findtemplate('firewall', params, (data, err) => {
+            if (data && data.code === 1) {
+                this.setState({
+                    downloadUrl: data.url
+                })
+                emitter.emit('message', 'success', '模板生成成功！')
+            }
+            if (err || (data && data.code !== 1)) {
+                emitter.emit('message', 'error', '模板生成失败！')
+            }
+        })
+    }
+    findConfirm() {
+        let { uploadUrl } = this.state
+        if (!uploadUrl) {
+            this.uploadRef.removeFileList()
+            emitter.emit('message', 'error', '请先上传模板文件！')
+            return
+        }
+        this.props.actions.findConfirm('firewall', { url: uploadUrl }, (data, err) => {
+            if (data && data.code === 1) {
+                emitter.emit('message', 'success', '发现成功！')
+                this.setState({
+                    pageNo: 1
+                }, () => {
+                    this.getTableData()
+                })
+            }
+            if (err || (data && data.code !== 1)) {
+                emitter.emit('message', 'error', '发现失败！')
             }
             this.setState({
                 visible: false,
-                filterDate: null,
             });
-            this.formRef.handleReset()
             this.props.actions.resetfindData()
+            this.formRef.resetForm()
+            this.uploadRef.removeFileList()
         })
-
+    }
+    uploadChange(url) {
+        this.setState({
+            uploadUrl: url
+        })
     }
     updateAll() {
         let { match } = this.props
@@ -186,22 +220,18 @@ class Firewall extends React.Component<FirewallProps, any> {
                             }
                             param.delmoInsts.push(sObj)
                         }
-
                     }
                 }
-                // console.log(param, '---p');
                 self.props.actions.deleteAll(param, (data, err) => {
                     if (data && data.code === 1) {
                         emitter.emit('message', 'success', '批量删除成功！')
-                        self.getTableData({})
-
+                        self.getTableData()
                     }
                     if (err || (data && data.code !== 1)) {
                         let msg = err && err.response.data.message ? '批量删除失败, ' + err.response.data.message : '批量删除失败！'
                         emitter.emit('message', 'error', msg)
                     }
                 })
-
             },
             okText: '确认',
             cancelText: '取消',
@@ -226,17 +256,15 @@ class Firewall extends React.Component<FirewallProps, any> {
                     }
                 })
             },
-
         });
     }
-
-    getTableData(queryObj) {
+    getTableData() {
         this.setState({
             tableLoading: true
         });
         let self = this
-        let { pageSize, pageNo, datacenter, vendor, pim_id } = this.state
-        let params_obj = { pageSize, pageNo, datacenter, vendor, pim_id }
+        let { vendor, datacenter, pageSize, pim_id, pageNo } = this.state
+        let params_obj = { pageNo, pageSize, vendor, datacenter, pim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -249,18 +277,14 @@ class Firewall extends React.Component<FirewallProps, any> {
         })
     }
     componentWillMount() {
-        let { pageNo } = this.state
-        let queryObj = {
-            pageNo
-        }
-        this.getTableData(queryObj)
+        this.getTableData()
     }
     componentWillUnmount() {
         this.props.actions.resetList()
     }
     renderAddData() {
         let { findData } = this.props
-        let { findSelected } = this.state
+        let { btnDisabled } = this.state
         if (findData) {
             let data_fixed = _.merge({}, findData)
             _.map(data_fixed.header, (item) => {
@@ -277,15 +301,15 @@ class Firewall extends React.Component<FirewallProps, any> {
                         pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.addData.bind(this)}>生成模板</Button>
-                        <Button icon="download" >下载模版</Button>
+                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.createTemplate.bind(this)} disabled={btnDisabled}>生成模板</Button>
+                        <Button icon="download" disabled={btnDisabled}>下载模版</Button>
                     </div>
                     <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
-                            <FindUpload />
+                            <FindUpload ref={(node) => { this.uploadRef = node }} disabled={btnDisabled} uploadChange={this.uploadChange.bind(this)} moTypeKey="firewall" />
                         </div>
                         <div>
-                            <Button type="primary">发现</Button>
+                            <Button type="primary" onClick={this.findConfirm.bind(this)} disabled={btnDisabled}>发现</Button>
                         </div>
                     </div>
                 </div >
