@@ -7,7 +7,6 @@ import { FormComponentProps } from 'antd/lib/form/Form';
 import * as _ from 'lodash';
 
 export interface FilterFireWallFormClsProps extends FormComponentProps {
-    // data?
     getData?
     subDataPIM?
     subDataVendor?
@@ -127,7 +126,6 @@ class FilterFireWallFormCls extends React.PureComponent<FilterFireWallFormClsPro
                             label="协议"
                         >
                             {getFieldDecorator('protocol', {
-                                // initialValue: fireWallInfo.protocol,
                                 rules: [{
                                     required: true, message: '请输入协议！',
                                 }],
