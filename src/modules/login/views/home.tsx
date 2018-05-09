@@ -33,7 +33,7 @@ class LoginCls extends React.PureComponent<LoginProps, any> {
                 self.props.actions.login(values, (data) => {
                     if (data) {
                         emitter.emit('message', 'success', '登录成功！')
-                        this.props.history.replace(`/resource`)
+                        this.props.history.replace(`/setting`)
                     } else {
                         emitter.emit('message', 'error', '用户名或密码错误！')
                     }

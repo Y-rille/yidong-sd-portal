@@ -81,7 +81,9 @@ class Server extends React.Component<any, any> {
         this.setState({
             visible: false,
         });
+        this.props.actions.resetfindData()
         this.formRef.resetForm()
+        this.uploadRef.removeFileList()
     }
     createTemplate = () => {
         let { findSelected } = this.state
@@ -287,7 +289,7 @@ class Server extends React.Component<any, any> {
         if (findData) {
             let data_fixed = _.merge({}, findData)
             _.map(data_fixed.header, (item) => {
-                item.width = '23%'
+                item.width = `${100 / data_fixed.header.length}%`
             })
             return (
                 <div className={styles.projectile}
