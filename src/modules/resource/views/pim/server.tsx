@@ -113,14 +113,14 @@ class Server extends React.Component<any, any> {
             emitter.emit('message', 'error', '请先生成模板！')
         }
     }
-    findConfirm(url) {
-        let { uploadUrl } = this.props
+    findConfirm() {
+        let { uploadUrl } = this.state
         if (!uploadUrl) {
             this.uploadRef.removeFileList()
             emitter.emit('message', 'error', '请先上传模板文件！')
             return
         }
-        this.props.actions.findConfirm('server', { url: '' }, (data, err) => {
+        this.props.actions.findConfirm('server', { url: uploadUrl }, (data, err) => {
             if (data && data.code === 1) {
                 emitter.emit('message', 'success', '发现成功！')
                 this.setState({
@@ -140,8 +140,10 @@ class Server extends React.Component<any, any> {
             this.uploadRef.removeFileList()
         })
     }
-    uploadChange() {
-
+    uploadChange(url) {
+        this.setState({
+            uploadUrl: url
+        })
     }
     updateAll() {
         let { match } = this.props

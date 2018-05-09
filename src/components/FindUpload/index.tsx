@@ -18,17 +18,21 @@ export default class FindUpload extends React.PureComponent<FindUploadProps, any
     }
     handleChange(info) {
         let fileList = info.fileList
-        this.setState({
-            disabled: info.fileList.length ? true : false,
-            fileList
-        })
         if (info.file.status === 'done') {
+            this.setState({
+                disabled: info.fileList.length ? true : false,
+                fileList
+            })
             let { uploadChange } = this.props
             message.success('文件上传成功!');
             if (uploadChange) {
-                uploadChange(info.file.response.path)
+                uploadChange(info.file.response.url)
             }
         } else if (info.file.status === 'error') {
+            this.setState({
+                disabled: info.fileList.length ? true : false,
+                fileList
+            })
             message.error('文件上传失败!');
         }
     }
@@ -55,9 +59,10 @@ export default class FindUpload extends React.PureComponent<FindUploadProps, any
         return (
             <div className={styles.findUpload}>
                 <Upload
+                    key={Math.random()}
                     name="file"
                     action={`/api_agent/rms-agent/api/findupload/${moTypeKey}`}
-                    fileList={fileList}
+                    defaultFileList={fileList}
                     beforeUpload={this.beforeUpload.bind(this)}
                     onChange={this.handleChange.bind(this)}>
                     <Button icon="upload" disabled={disabled}>上传文件</Button>
