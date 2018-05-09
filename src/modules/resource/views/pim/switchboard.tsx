@@ -107,7 +107,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             visible: true,
         });
     }
-    handleManage() { }
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -363,7 +362,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 <div>
                                     <div style={{ float: 'right' }}>
                                         <Button type="primary" onClick={this.showModal}>发现</Button>
-                                        <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
                                         <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
                                         <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
                                     </div>
