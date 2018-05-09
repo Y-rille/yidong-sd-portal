@@ -30,15 +30,13 @@ export const getList = (params, cb) => (dispatch) => {
 export const deleteUser = (userId, cb) => (dispatch) => {
     return UserAPI.deleteUser(userId).then((res) => {
         let action = { type: ActionTypes.SETTING_DELETE_USER, id: userId }
+        dispatch(action);
         if (cb) {
-            cb(res.data)
+            cb(null, res.data)
         }
-        dispatch(action);
     }).catch((err) => {
-        let action = { type: ActionTypes.SETTING_DELETE_USER, userList: {} }
-        dispatch(action);
         if (cb) {
-            cb(err)
+            cb(err, null)
         }
     })
 }
@@ -67,14 +65,17 @@ export const getUserInfo = (userId, cb) => (dispatch) => {
  */
 export const createUser = (params: CreateUserParams, cb) => (dispatch) => {
     return UserAPI.createUser(params).then((res: any) => {
-        let action = { type: ActionTypes.SETTING_ADD_USER, user: res.data }
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, user: res.data }
         dispatch(action);
         if (cb) {
             cb(null, res.data)
         }
     }).catch((err) => {
-        let action = { type: ActionTypes.SETTING_ADD_USER, user: null }
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, user: null }
         dispatch(action);
+        if (cb) {
+            cb(err, null)
+        }
     })
 }
 
@@ -84,14 +85,15 @@ export const createUser = (params: CreateUserParams, cb) => (dispatch) => {
  */
 export const editUser = (userId, params: EditUserParams, cb) => (dispatch) => {
     return UserAPI.editUser(userId, params).then((res) => {
-        let action = { type: ActionTypes.SETTING_EDIT_USER, user: res.data }
-        dispatch(action)
         if (cb) {
             cb(null, res.data)
         }
     }).catch((err) => {
-        let action = { type: ActionTypes.SETTING_EDIT_USER, user: null }
+        let action = { type: ActionTypes.SETTING_SAY_HELLO, user: null }
         dispatch(action);
+        if (cb) {
+            cb(err, null)
+        }
     })
 }
 

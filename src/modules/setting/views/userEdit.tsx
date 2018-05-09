@@ -67,7 +67,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                     if (data) {
                         emitter.emit('message', 'success', '创建成功！')
                         setTimeout(() => {
-                            history.push('/setting/user')
+                            this.props.history.push('/setting/user')
                         }, 1000)
                     }
                 })
@@ -85,9 +85,7 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
     }
 
     componentWillUnmount() {
-        let { page_num, page_size, query_key } = this.state
         this.props.actions.resetUserInfo()
-        this.props.actions.getList({ page_num, page_size, query_key }, () => { })
     }
     goUserList() {
         this.props.history.push('/setting/user')
