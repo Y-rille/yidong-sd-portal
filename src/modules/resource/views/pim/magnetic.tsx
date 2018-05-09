@@ -147,7 +147,7 @@ class Magnetic extends React.Component<any, any> {
                 let param = {
                     delmoInsts: []
                 }
-                let moTypeKey = 'magnetic'
+                let moTypeKey = 'diskarray'
                 for (let page in selected) {
                     if (selected.hasOwnProperty(page)) {
                         let selectArr = selected[page]
@@ -178,7 +178,6 @@ class Magnetic extends React.Component<any, any> {
     showModal = () => {
         this.setState({
             visible: true,
-
         });
     }
 
@@ -204,7 +203,6 @@ class Magnetic extends React.Component<any, any> {
         })
     }
     addData = () => {
-
         let { selected } = this.state
         this.props.actions.findConfirm('diskarray', { data: { dataList: selected } }, (data, err) => {
             if (data && data.code === 1) {
