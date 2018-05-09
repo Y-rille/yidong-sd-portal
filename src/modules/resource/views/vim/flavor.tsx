@@ -100,7 +100,7 @@ class Flavor extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     render() {
-        let { match, nodeInfo, list } = this.props;
+        let { match, nodeInfo, list, subDataProject } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { name, project, pageSize, tableLoading } = this.state;
         return (
@@ -120,7 +120,7 @@ class Flavor extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
-                        <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
+                        <Selector type="Project" data={subDataProject} getData={this.getData.bind(this)} value={project} />
                         <Input
                             placeholder="Flavor名称"
                             value={name} type="text"
