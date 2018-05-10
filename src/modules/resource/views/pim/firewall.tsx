@@ -154,6 +154,19 @@ class Firewall extends React.Component<FirewallProps, any> {
             }
         })
     }
+    downloadTemplate() {
+        let { downloadUrl } = this.state
+        if (downloadUrl) {
+            window.open(downloadUrl)
+        } else {
+            emitter.emit('message', 'error', '请先生成模板！')
+        }
+    }
+    uploadChange(url) {
+        this.setState({
+            uploadUrl: url
+        })
+    }
     findConfirm() {
         let { uploadUrl } = this.state
         if (!uploadUrl) {
@@ -179,11 +192,6 @@ class Firewall extends React.Component<FirewallProps, any> {
             this.props.actions.resetfindData()
             this.formRef.resetForm()
             this.uploadRef.removeFileList()
-        })
-    }
-    uploadChange(url) {
-        this.setState({
-            uploadUrl: url
         })
     }
     updateAll() {
@@ -302,7 +310,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
                         <Button icon="table" style={{ marginRight: '10px' }} onClick={this.createTemplate.bind(this)} disabled={btnDisabled}>生成模板</Button>
-                        <Button icon="download" disabled={btnDisabled}>下载模版</Button>
+                        <Button icon="download" disabled={btnDisabled} onClick={this.downloadTemplate.bind(this)} >下载模版</Button>
                     </div>
                     <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
