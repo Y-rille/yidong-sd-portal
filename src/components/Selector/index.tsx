@@ -25,9 +25,9 @@ export default class Selector extends React.PureComponent<SelectorProps, any> {
         }
     }
     renderOptions() {
-        let { data } = this.props
+        let { type, data } = this.props
         return _.map(data, (item) => {
-            return <Option value={item.value}>{item.text}</Option>
+            return <Option value={type === 'Project' ? item.text : item.value}>{item.text}</Option>
         })
     }
     render() {

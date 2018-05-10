@@ -121,7 +121,7 @@ class Mirror extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     render() {
-        let { match, list, nodeInfo } = this.props
+        let { match, list, nodeInfo, subDataProject } = this.props
         const { pageSize, tableLoading, project, name } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -141,7 +141,7 @@ class Mirror extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
-                        <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
+                        <Selector type="Project" data={subDataProject} getData={this.getData.bind(this)} value={project} />
                         <Input placeholder="镜像名称"
                             value={name} type="text"
                             onChange={e => this.mirrorInput(e.target.value)} />
