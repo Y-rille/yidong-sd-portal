@@ -3,6 +3,9 @@ import * as _ from 'lodash'
 function matchMoTypeKeyAndRoute(moTypeKey) {
     let path = ''
     switch (moTypeKey) {
+        case 'host':
+            path = 'host'
+            break
         case 'vm':
             path = 'virtual'
             break
@@ -40,7 +43,7 @@ function matchMoTypeKeyAndRoute(moTypeKey) {
             path = 'magnetic'
             break
         default:
-            path = 'host'
+            path = ''
     }
     return path
 }

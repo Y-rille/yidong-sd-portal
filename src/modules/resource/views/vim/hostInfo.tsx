@@ -45,6 +45,7 @@ class HostInfo extends React.Component<any, any> {
             host: id,
             topoDsname: dsname,
             topo: null,
+            uuid: null,
             observe: null
         }
     }
@@ -128,7 +129,8 @@ class HostInfo extends React.Component<any, any> {
                 let prevTopoNodes = topo && topo.nodes ? _.keyBy(topo.nodes, 'id') : {}
                 if (shallowDiffers(nextTopoNodes, prevTopoNodes) || !topo) {
                     this.setState({
-                        topo: data
+                        topo: data,
+                        uuid: UUID.v1()
                     })
                 }
             }
@@ -417,7 +419,7 @@ class HostInfo extends React.Component<any, any> {
         }
     }
     renderTopo() {
-        let { topo } = this.state
+        let { topo, uuid } = this.state
         if (topo) {
             let { id } = this.props.match.params
             let w = document.querySelector('.Pane2').clientWidth - 96
@@ -438,7 +440,7 @@ class HostInfo extends React.Component<any, any> {
                                 <div><span></span>提示</div>
                             </div>
                             <Topology
-                                key={UUID.v1()}
+                                key={uuid}
                                 data={_.merge({}, topo)}
                                 width={w}
                                 height={h}
