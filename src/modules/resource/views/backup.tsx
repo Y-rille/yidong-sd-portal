@@ -77,9 +77,9 @@ class Backup extends React.Component<any, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { pageSize, activeKey, vim_id } = this.state
+        let { pageSize, activeKey, vim_id, name } = this.state
         let act_Key = actKey || activeKey
-        let params_obj = { pageNo, pageSize }
+        let params_obj = { pageNo, pageSize, vim_id, name }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]

@@ -32,6 +32,7 @@ export interface SwitchboardProps {
 }
 class Switchboard extends React.Component<SwitchboardProps, any> {
     formRef: any;
+    uploadRef: any
     constructor(props) {
         super(props);
         let { pageNo, datacenter, name, assettag } = qs.parse(this.props.location.search)
@@ -40,7 +41,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         })
         this.state = {
             visible: false,
-            dataVisible: false,
             tableLoading: false,
             pim_id: mp_node ? mp_node.params.id : '',
             name: name ? name : '',
@@ -50,7 +50,9 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             inputStatus: assettag ? 'switchID' : 'switchName',
             assettag: assettag ? assettag : '',
             selected: {},
-            findSelected: []
+            findSelected: [],
+            btnDisabled: true,
+            uploadUrl: ''
         };
     }
     onDataChange(value) {
@@ -94,7 +96,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })
-
     }
     goLink(key, obj) {
         let { match } = this.props
@@ -110,7 +111,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
     handleCancel = () => {
         this.setState({
             visible: false,
-            dataVisible: false
         });
         this.formRef.handleReset()
     }
@@ -124,7 +124,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
     }
     findSelectRow(data) {
         this.setState({
-            findSelected: data
+            findSelected: data,
+            btnDisabled: data.length > 0 ? false : true
         })
     }
     goDelete(obj) {
@@ -146,9 +147,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                     }
                 })
             },
-
         });
-
     }
     updateAll() {
         let { match } = this.props
@@ -184,7 +183,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                             }
                             param.delmoInsts.push(sObj)
                         }
-
                     }
                 }
                 self.props.actions.deleteAll(param, (data, err) => {
@@ -203,14 +201,51 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             cancelText: '取消',
         });
     }
-    addData = () => {
-        let { selected } = this.state
-        this.setState({
-            visible: false,
-        });
-        this.props.actions.findConfirm('switch', { data: { dataList: selected } }, (data, err) => {
+    createTemplate = () => {
+        let { findSelected } = this.state
+        let { findData } = this.props
+        let params = {
+            code: 1,
+            data: {
+                header: findData.header,
+                dataList: findSelected
+            }
+        }
+        this.props.actions.findtemplate('switch', params, (data, err) => {
             if (data && data.code === 1) {
-                emitter.emit('message', 'success', '添加成功！')
+                this.setState({
+                    downloadUrl: data.url
+                })
+                emitter.emit('message', 'success', '模板生成成功！')
+            }
+            if (err || (data && data.code !== 1)) {
+                emitter.emit('message', 'error', '模板生成失败！')
+            }
+        })
+    }
+    downloadTemplate() {
+        let { downloadUrl } = this.state
+        if (downloadUrl) {
+            window.open(downloadUrl)
+        } else {
+            emitter.emit('message', 'error', '请先生成模板！')
+        }
+    }
+    uploadChange(url) {
+        this.setState({
+            uploadUrl: url
+        })
+    }
+    findConfirm() {
+        let { uploadUrl } = this.state
+        if (!uploadUrl) {
+            this.uploadRef.removeFileList()
+            emitter.emit('message', 'error', '请先上传模板文件！')
+            return
+        }
+        this.props.actions.findConfirm('switch', { url: uploadUrl }, (data, err) => {
+            if (data && data.code === 1) {
+                emitter.emit('message', 'success', '发现成功！')
                 this.setState({
                     pageNo: 1
                 }, () => {
@@ -218,19 +253,22 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                 })
             }
             if (err || (data && data.code !== 1)) {
-                emitter.emit('message', 'error', '添加失败！')
+                emitter.emit('message', 'error', '发现失败！')
             }
+            this.setState({
+                visible: false,
+            });
             this.props.actions.resetfindData()
-            this.formRef.handleReset()
+            this.formRef.resetForm()
+            this.uploadRef.removeFileList()
         })
     }
-    getData(data) { // 发现
+    getData(data) {
         if (data) {
             this.props.actions.autoDiscovery('switch', data, (backdata, err) => {
                 if (err || (backdata && backdata.code !== 1)) {
                     emitter.emit('message', 'error', '发现失败！')
                 }
-
             })
         }
     }
@@ -269,9 +307,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.props.actions.resetList()
     }
     renderAddData() {
-        const { dataVisible } = this.state;
-        let { findSelected } = this.state
         let { findData } = this.props
+        let { btnDisabled } = this.state
         if (findData) {
             let data_fixed = _.merge({}, findData)
             _.map(data_fixed.header, (item) => {
@@ -288,15 +325,15 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                         pageSize={999}
                     />
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.addData.bind(this)}>生成模板</Button>
-                        <Button icon="download" >下载模版</Button>
+                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.createTemplate.bind(this)} disabled={btnDisabled}>生成模板</Button>
+                        <Button icon="download" disabled={btnDisabled} onClick={this.downloadTemplate.bind(this)} >下载模版</Button>
                     </div>
                     <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
-                            <FindUpload />
+                            <FindUpload ref={(node) => { this.uploadRef = node }} disabled={btnDisabled} uploadChange={this.uploadChange.bind(this)} moTypeKey="switch" />
                         </div>
                         <div>
-                            <Button type="primary">发现</Button>
+                            <Button type="primary" onClick={this.findConfirm.bind(this)} disabled={btnDisabled}>发现</Button>
                         </div>
                     </div>
                 </div >
@@ -304,7 +341,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         } else {
             return <div />
         }
-
     }
     render() {
         const { name, datacenter, pageSize, tableLoading, assettag, selected } = this.state;
