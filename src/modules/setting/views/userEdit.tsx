@@ -61,6 +61,9 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                             history.push('/setting/user')
                         }, 1000)
                     }
+                    if (err) {
+                        emitter.emit('message', 'error', '修改失败！')
+                    }
                 })
             } else {
                 this.props.actions.createUser(formdata, (err, data) => {
@@ -69,6 +72,9 @@ class UserEdit extends React.PureComponent<UserEditProps, any> {
                         setTimeout(() => {
                             this.props.history.push('/setting/user')
                         }, 1000)
+                    }
+                    if (err) {
+                        emitter.emit('message', 'error', '创建失败！')
                     }
                 })
             }
