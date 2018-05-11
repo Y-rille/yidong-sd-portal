@@ -10,12 +10,14 @@ import FilterMageticForm from '../../../../components/FilterMageticForm/'
 import Cascaderor from '../../../../components/Cascaderor'
 import Selector from '../../../../components/Selector'
 import qs from 'querystringify'
+import { stringify } from 'querystringify'
 import emitter from '../../../../common/emitter'
 const confirm = Modal.confirm
 import FindUpload from '../../../../components/FindUpload/'
 
 class Magnetic extends React.Component<any, any> {
     formRef: any
+    uploadRef: any
     constructor(props) {
         super(props);
         let { datacenter, vendor, pageNo } = qs.parse(this.props.location.search)
@@ -32,6 +34,9 @@ class Magnetic extends React.Component<any, any> {
             pim_id: mp_node.params.id ? mp_node.params.id : '',
             selected: {},
             findSelected: [],
+            btnDisabled: true,
+            downloadUrl: '',
+            uploadUrl: ''
         };
     }
     getData(data) {
@@ -44,23 +49,22 @@ class Magnetic extends React.Component<any, any> {
         }
     }
     handleClick() {
-        let { match } = this.props
-        let pageNo = 1
-        let { datacenter, vendor } = this.state
-        let queryObj = { pageNo, datacenter, vendor }
-        this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
         this.setState({
-            pageNo
+            pageNo: 1
+        }, () => {
+            let { match } = this.props
+            const { vendor, pageNo, datacenter } = this.state;
+            let queryObj = { pageNo, datacenter, vendor }
+            this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+            this.getTableData()
         });
-        this.getTableData(queryObj)
     }
-    getTableData(queryObj) {
+    getTableData() {
         this.setState({
             tableLoading: true
         });
         let self = this
-        let { pageNo } = queryObj
-        let { datacenter, vendor, pageSize, pim_id } = this.state
+        let { datacenter, vendor, pageSize, pim_id, pageNo } = this.state
         let params_obj = { pageNo, datacenter, vendor, pageSize, pim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
@@ -73,13 +77,70 @@ class Magnetic extends React.Component<any, any> {
             });
         })
     }
-    componentWillMount() {
-        let { pathname } = this.props.location
-        let { pageNo } = this.state
-        let queryObj = {
-            pageNo
+    createTemplate = () => {
+        let { findSelected } = this.state
+        let { findData } = this.props
+        let params = {
+            code: 1,
+            data: {
+                header: findData.header,
+                dataList: findSelected
+            }
         }
-        this.getTableData(queryObj)
+        this.props.actions.findtemplate('diskarray', params, (data, err) => {
+            if (data && data.code === 1) {
+                this.setState({
+                    downloadUrl: data.url
+                })
+                emitter.emit('message', 'success', '模板生成成功！')
+            }
+            if (err || (data && data.code !== 1)) {
+                emitter.emit('message', 'error', '模板生成失败！')
+            }
+        })
+    }
+    downloadTemplate() {
+        let { downloadUrl } = this.state
+        if (downloadUrl) {
+            window.open(downloadUrl)
+        } else {
+            emitter.emit('message', 'error', '请先生成模板！')
+        }
+    }
+    findConfirm() {
+        let { uploadUrl } = this.state
+        if (!uploadUrl) {
+            this.uploadRef.removeFileList()
+            emitter.emit('message', 'error', '请先上传模板文件！')
+            return
+        }
+        this.props.actions.findConfirm('diskarray', { url: uploadUrl }, (data, err) => {
+            if (data && data.code === 1) {
+                emitter.emit('message', 'success', '发现成功！')
+                this.setState({
+                    pageNo: 1
+                }, () => {
+                    this.getTableData()
+                })
+            }
+            if (err || (data && data.code !== 1)) {
+                emitter.emit('message', 'error', '发现失败！')
+            }
+            this.setState({
+                visible: false,
+            });
+            this.props.actions.resetfindData()
+            this.formRef.resetForm()
+            this.uploadRef.removeFileList()
+        })
+    }
+    uploadChange(url) {
+        this.setState({
+            uploadUrl: url
+        })
+    }
+    componentWillMount() {
+        this.getTableData()
     }
     getCascaderData(type, value) {
         let { datacenter, vendor } = this.state
@@ -92,10 +153,13 @@ class Magnetic extends React.Component<any, any> {
         let { match } = this.props
         let { datacenter, vendor } = this.state
         let pageNo = num
-        let queryObj = { pageNo, datacenter, vendor }
-        this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
-        this.getTableData({
-            pageNo
+
+        this.setState({
+            pageNo: num
+        }, () => {
+            this.getTableData()
+            let queryObj = { pageNo, datacenter, vendor }
+            this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         })
     }
     goLink(key, obj) {
@@ -163,7 +227,7 @@ class Magnetic extends React.Component<any, any> {
                 self.props.actions.deleteAll(param, (data, err) => {
                     if (data && data.code === 1) {
                         emitter.emit('message', 'success', '批量删除成功！')
-                        self.getTableData({ pageNo: self.state.pageNo })
+                        self.getTableData()
                     }
                     if (err || (data && data.code !== 1)) {
                         let msg = err && err.response.data.message ? '批量删除失败, ' + err.response.data.message : '批量删除失败！'
@@ -180,7 +244,6 @@ class Magnetic extends React.Component<any, any> {
             visible: true,
         });
     }
-
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -188,6 +251,9 @@ class Magnetic extends React.Component<any, any> {
         });
         this.formRef.handleReset()
         this.props.actions.resetfindData()
+        if (this.uploadRef) {
+            this.uploadRef.removeFileList()
+        }
     }
     selectRow = (data) => {
         let { pageNo, selected } = this.state
@@ -199,32 +265,33 @@ class Magnetic extends React.Component<any, any> {
     }
     findSelectRow(data) {
         this.setState({
-            findSelected: data
+            findSelected: data,
+            btnDisabled: data.length > 0 ? false : true
         })
     }
-    addData = () => {
-        let { selected } = this.state
-        this.props.actions.findConfirm('diskarray', { data: { dataList: selected } }, (data, err) => {
-            if (data && data.code === 1) {
-                emitter.emit('message', 'success', '添加成功！')
-                let queryObj = {
-                    pageNo: 1
-                }
-                this.getTableData(queryObj)
-            }
-            if (err || (data && data.code !== 1)) {
-                emitter.emit('message', 'error', '添加失败！')
-            }
-            this.setState({
-                visible: false,
-                selected: []
-            });
-            this.formRef.handleReset()
-            this.props.actions.resetfindData()
-        })
-    }
+    // addData = () => {
+    //     let { selected } = this.state
+    //     this.props.actions.findConfirm('diskarray', { data: { dataList: selected } }, (data, err) => {
+    //         if (data && data.code === 1) {
+    //             emitter.emit('message', 'success', '添加成功！')
+    //             let queryObj = {
+    //                 pageNo: 1
+    //             }
+    //             this.getTableData()
+    //         }
+    //         if (err || (data && data.code !== 1)) {
+    //             emitter.emit('message', 'error', '添加失败！')
+    //         }
+    //         this.setState({
+    //             visible: false,
+    //             selected: []
+    //         });
+    //         this.formRef.handleReset()
+    //         this.props.actions.resetfindData()
+    //     })
+    // }
     renderAddData() {
-        let { findSelected } = this.state
+        let { btnDisabled } = this.state
         let { findData } = this.props
         if (findData) {
             let data_fixed = _.merge({}, findData)
@@ -241,16 +308,17 @@ class Magnetic extends React.Component<any, any> {
                         size={{ y: 113 }}
                         pageSize={999}
                     />
+
                     <div className="btn" style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.addData.bind(this)}>生成模板</Button>
-                        <Button icon="download" >下载模版</Button>
+                        <Button icon="table" style={{ marginRight: '10px' }} onClick={this.createTemplate.bind(this)} disabled={btnDisabled}>生成模板</Button>
+                        <Button icon="download" onClick={this.downloadTemplate.bind(this)} disabled={btnDisabled}>下载模版</Button>
                     </div>
                     <div className={styles.projectile} style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
-                            <FindUpload />
+                            <FindUpload ref={(node) => { this.uploadRef = node }} disabled={btnDisabled} uploadChange={this.uploadChange.bind(this)} moTypeKey="diskarray" />
                         </div>
                         <div>
-                            <Button type="primary">发现</Button>
+                            <Button type="primary" onClick={this.findConfirm.bind(this)} disabled={btnDisabled}>发现</Button>
                         </div>
                     </div>
                 </div >

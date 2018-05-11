@@ -63,6 +63,10 @@ class Dashboard extends React.Component<any, any> {
             this.props.history.push(`${match.url}/backup/${metadata.ID}/clusterConfig`)
         }
     }
+    goManage() {
+        let { config } = this.props
+        window.open(config.vim_manage)
+    }
     handleOk(formdata) {
         let moTypeKey = 'vim'
         this.setState({
@@ -154,6 +158,7 @@ class Dashboard extends React.Component<any, any> {
                     goEdit={type === 'vim' ? this.goEdit.bind(this) : null}
                     goDelete={type === 'vim' ? this.goDelete.bind(this) : null}
                     goBackup={type === 'vim' ? this.goBackup.bind(this) : null}
+                    goManage={type === 'vim' ? this.goManage.bind(this) : null}
                     doFind={type === 'pim' ? this.doFind.bind(this) : null}
                     goTopo={type === 'pim' ? this.goTopo.bind(this) : null}
                 />

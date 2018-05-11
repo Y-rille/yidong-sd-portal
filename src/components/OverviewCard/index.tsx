@@ -11,6 +11,7 @@ export interface OverviewCardProps {
     type?
     goDelete?
     goBackup?
+    goManage?
     doFind?
     goTopo?
 }
@@ -36,6 +37,11 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         let metadata = this.props.data.metadata
         if (this.props.goBackup) {
             this.props.goBackup(metadata)
+        }
+    }
+    goManage() {
+        if (this.props.goManage) {
+            this.props.goManage()
         }
     }
     doFind() {
@@ -299,7 +305,8 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     {type === 'pim' ? (<a href="javascript:;" onClick={this.doFind.bind(this)}>链路发现</a>) : ''}
                     {type === 'pim' ? (<a className={styles.title_mg} href="javascript:;" onClick={this.goTopo.bind(this)}>网络拓扑</a>) : ''}
                     {type === 'vim' ? (<a href="javascript:;" className={styles.title_mg} onClick={this.goBackup.bind(this)}>备份</a>) : ''}
-                    <a className={styles.title_dele} href="javascript:;" onClick={this.goDelete.bind(this)}>删除</a>
+                    {type === 'vim' ? (<a href="javascript:;" className={styles.title_mg} onClick={this.goManage.bind(this)}>管理</a>) : ''}
+                    {type === 'vim' ? (<a className={styles.title_dele} href="javascript:;" onClick={this.goDelete.bind(this)}>删除</a>) : ''}
                 </div>
                 {this.renderCard()}
             </div>

@@ -83,7 +83,9 @@ class Server extends React.Component<any, any> {
         });
         this.props.actions.resetfindData()
         this.formRef.resetForm()
-        this.uploadRef.removeFileList()
+        if (this.uploadRef) {
+            this.uploadRef.removeFileList()
+        }
     }
     createTemplate = () => {
         let { findSelected } = this.state
@@ -277,7 +279,7 @@ class Server extends React.Component<any, any> {
             });
         })
     }
-    componentDidMount() {
+    componentWillMount() {
         this.getTableData()
     }
     componentWillUnmount() {
