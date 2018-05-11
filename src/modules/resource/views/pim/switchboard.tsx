@@ -114,7 +114,9 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         });
         this.formRef.handleReset()
         this.props.actions.resetfindData()
-        this.uploadRef.removeFileList()
+        if (this.uploadRef) {
+            this.uploadRef.removeFileList()
+        }
     }
     selectRow = (data) => {
         let { pageNo, selected } = this.state
