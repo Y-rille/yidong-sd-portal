@@ -41,7 +41,6 @@ class FilterSwitchBoardFormCls extends React.PureComponent<FilterSwitchBoardForm
         let self = this;
         self.props.form.validateFields((err, values) => {
             if (!err) {
-                // console.log('Received values of form: ', values);
                 values.type = 'switchtype';
                 self.props.getData(values);
             }

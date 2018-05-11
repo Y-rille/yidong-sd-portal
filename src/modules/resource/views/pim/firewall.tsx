@@ -6,7 +6,6 @@ import { matchPath } from 'react-router'
 import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Cascader, Modal } from 'antd';
 import Selector from '../../../../components/Selector'
 import styles from '../../style/index.less'
-
 import FilterFireWallForm from '../../../../components/FilterFireWallForm'
 import CompactTable from '../../../../components/CompactTable'
 import Cascaderor from '../../../../components/Cascaderor'
@@ -69,7 +68,6 @@ class Firewall extends React.Component<FirewallProps, any> {
             vendor: type === 'DataVendor' ? value : vendor
         })
     }
-
     handleClick() {
         this.setState({
             pageNo: 1
@@ -99,7 +97,6 @@ class Firewall extends React.Component<FirewallProps, any> {
             vendor: type === 'Vendor' ? value : vendor,
         })
     }
-
     goLink(key, obj) {
         let { match } = this.props
         if (key === 'name') {
@@ -117,6 +114,10 @@ class Firewall extends React.Component<FirewallProps, any> {
             filterDate: null
         });
         this.formRef.handleReset()
+        this.props.actions.resetfindData()
+        if (this.uploadRef) {
+            this.uploadRef.removeFileList()
+        }
     }
     selectRow = (data) => {
         let { pageNo, selected } = this.state
@@ -189,8 +190,8 @@ class Firewall extends React.Component<FirewallProps, any> {
             this.setState({
                 visible: false,
             });
+            this.formRef.handleReset()
             this.props.actions.resetfindData()
-            this.formRef.resetForm()
             this.uploadRef.removeFileList()
         })
     }
@@ -296,7 +297,7 @@ class Firewall extends React.Component<FirewallProps, any> {
         if (findData) {
             let data_fixed = _.merge({}, findData)
             _.map(data_fixed.header, (item) => {
-                item.width = '23%'
+                item.width = `${100 / data_fixed.header.length}%`
             })
             return (
                 <div className={styles.projectile}
@@ -396,7 +397,6 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 selectRow={this.selectRow.bind(this)}
                                 size={{ y: list.totalCount > pageSize ? window.innerHeight - 371 : window.innerHeight - 340 }}
                             />) : (<Spin />)}
-
                         </div>
                     </div>
                 )} />
