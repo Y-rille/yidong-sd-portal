@@ -113,6 +113,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             visible: false,
         });
         this.formRef.handleReset()
+        this.props.actions.resetfindData()
+        this.uploadRef.removeFileList()
     }
     selectRow = (data) => {
         let { pageNo, selected } = this.state
@@ -259,7 +261,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                 visible: false,
             });
             this.props.actions.resetfindData()
-            this.formRef.resetForm()
+            this.formRef.handleReset()
             this.uploadRef.removeFileList()
         })
     }
@@ -312,7 +314,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         if (findData) {
             let data_fixed = _.merge({}, findData)
             _.map(data_fixed.header, (item) => {
-                item.width = '23%'
+                item.width = `${100 / data_fixed.header.length}%`
             })
             return (
                 <div className={styles.projectile}
