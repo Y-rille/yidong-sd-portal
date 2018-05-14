@@ -108,7 +108,7 @@ class Mirror extends React.Component<any, any> {
     }
     handleManage() {
         let { config } = this.props
-        window.open(config.manage_link.mirror)
+        window.open(config.vim_manage_link.mirror)
     }
     componentWillMount() {
         let { pageNo } = this.state
