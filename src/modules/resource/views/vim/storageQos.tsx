@@ -27,7 +27,7 @@ class StorageQos extends React.Component<any, any> {
     }
     handleManage() {
         let { config } = this.props
-        // window.open(config.manage_link.flavor)
+        window.open(config.vim_manage_link.storage_volume)
     }
     goPage(num) {
         let { match } = this.props
@@ -112,9 +112,6 @@ class StorageQos extends React.Component<any, any> {
                         </Breadcrumb>
                     ) : ''}
                 </div>
-                {/* <div style={{ padding: '20px', height: window.innerHeight - 204 }}>
-                    <iframe src={`${config.vim_manage_link.storage_qos}`} style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }}></iframe>
-                </div> */}
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />

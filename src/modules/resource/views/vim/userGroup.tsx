@@ -30,10 +30,13 @@ class UserGroup extends React.Component<any, any> {
             vim_id: mp_node.params.id
         }
     }
-
     handleManage() {
         let { config } = this.props
-        // window.open(config.manage_link.flavor)
+        if (this.state.activeKey === 'user') {
+            window.open(config.vim_manage_link.user)
+        } else {
+            window.open(config.vim_manage_link.group)
+        }
     }
     changeUserNameValue(value) {
         this.setState({
@@ -130,13 +133,6 @@ class UserGroup extends React.Component<any, any> {
             matchPath(pathname, { path: `${match.url}/user` }) != null && 'user',
             matchPath(pathname, { path: `${match.url}/group` }) != null && 'group'
         ]).toString()
-        // this.state = {
-        //     activeKey: _.compact([
-        //         matchPath(pathname, { path: `${match.url}/user` }) != null && 'user',
-        //         matchPath(pathname, { path: `${match.url}/group` }) != null && 'group'
-        //     ]).toString(),
-        // }
-
         if (this.state.activeKey.length === 0 && actKey.length > 0) {    // 第一次进入;info返回；进入info
             let pageNo = qs.parse(nextProps.location.search).pageNo || 1
             let queryObj = {
@@ -172,7 +168,6 @@ class UserGroup extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
-                        {/* <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} /> */}
                         {
                             activeKey === 'user' ? (
                                 <Input placeholder="用户名称"

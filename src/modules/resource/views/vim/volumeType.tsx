@@ -97,7 +97,7 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
     }
     handleManage() {
         let { config } = this.props
-        window.open(config.manage_link.volume_type)
+        window.open(config.vim_manage_link.storage_volume)
     }
     componentWillMount() {
         let { pathname } = this.props.location
