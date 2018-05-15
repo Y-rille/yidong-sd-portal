@@ -182,7 +182,7 @@ class Host extends React.Component<HostProps, any> {
         let { match, list, nodeInfo } = this.props;
         let { region, az, ha, activeKey, pageSize, tableLoading } = this.state;
         if (activeKey === 'favorite') {
-            pageSize = 9999
+            pageSize = 999
         }
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (

@@ -123,7 +123,7 @@ class NetworkQos extends React.Component<any, any> {
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={[]}
-                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 386 : window.innerHeight - 333 }}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 352 }}
                             />
                         ) : (
                                 <Spin />

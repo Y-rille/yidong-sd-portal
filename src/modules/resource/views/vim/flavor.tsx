@@ -20,7 +20,7 @@ class Flavor extends React.Component<any, any> {
         this.state = {
             name: name ? name : '',
             tableLoading: false,
-            pageSize: 10,
+            pageSize: 1000,
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             vim_id: mp_node.params.id
@@ -146,8 +146,7 @@ class Flavor extends React.Component<any, any> {
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
-                                actionAuth={[]}
-                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 340 }}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 340 }}
                             />
                         ) : (
                                 <Spin />

@@ -145,15 +145,13 @@ class Virtual extends React.Component<any, any> {
                     </div>{
                         list ? (
                             <CompactTable
-                                outStyle={{ marginTop: '20px' }}
-                                goPage={this.goPage.bind(this)} // 翻页
+                                goPage={this.goPage.bind(this)}
                                 goLink={this.goLink.bind(this)}
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
-                                actionAuth={[]}
                                 footInfoAuth={<div>*&nbsp;虚拟机共有{list.totalCount}个</div>}
-                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 405 : window.innerHeight - 361 }}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 386 : window.innerHeight - 380 }}
                             />) : (
                                 <Spin />
                             )
