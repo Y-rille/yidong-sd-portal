@@ -16,7 +16,7 @@ class VirtualGroup extends React.Component<any, any> {
         let { pageNo, project, vgname } = qs.parse(this.props.location.search)
         this.state = {
             tableLoading: false,
-            pageSize: 1000,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             vgname: vgname ? vgname : '',
