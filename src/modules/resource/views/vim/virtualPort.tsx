@@ -27,7 +27,8 @@ class VirtualPort extends React.Component<any, any> {
     }
     handleManage() {
         let { config } = this.props
-        // window.open(config.manage_link.flavor)
+        let id = this.props.match.params.id
+        window.open(`${config.vim_manage_link.virtual_network}${id}/detail`)
     }
     goPage(num) {
         let { match } = this.props

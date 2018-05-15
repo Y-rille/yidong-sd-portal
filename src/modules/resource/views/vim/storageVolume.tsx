@@ -108,7 +108,6 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
     }
     componentWillMount() {
         let { pathname } = this.props.location
-
         // if (this.state.activeKey.length > 0) {  // 刷新
         let { pageNo } = this.state
         let queryObj = {

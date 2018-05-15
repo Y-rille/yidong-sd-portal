@@ -34,10 +34,6 @@ class VfStrategy extends React.Component<any, any> {
             name: value
         })
     }
-    handleManage() {
-        let { config } = this.props
-        // window.open(config.manage_link.flavor)
-    }
     getTableData() {
         this.setState({
             tableLoading: true
@@ -104,7 +100,6 @@ class VfStrategy extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    {/*<iframe style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }} src={`${config.vim_manage_link.vf_strategy}`}></iframe>*/}
                     <div className={styles.queryBar}>
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
                         <Input placeholder="虚拟防火墙安全策略名称"
@@ -116,12 +111,6 @@ class VfStrategy extends React.Component<any, any> {
                         >
                             查询
                                 </Button>
-                        <Button style={{ float: 'right' }}
-                            type="primary"
-                            onClick={this.handleManage.bind(this)}
-                        >
-                            管理
-                            </Button>
                     </div>
                     {
                         list ? (
