@@ -119,7 +119,6 @@ class VirtualSubnet extends React.Component<any, any> {
                     ) : ''}
                 </div>
                 <div style={{ padding: '20px', height: window.innerHeight - 204 }}>
-                    {/* <iframe src={`${config.vim_manage_link.virtual_subnet}/${id}/detail`} style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }}></iframe> */}
                     <div className={styles.queryBar}>
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
                         <Input placeholder="虚拟子网名称"
