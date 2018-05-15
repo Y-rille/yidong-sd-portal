@@ -28,7 +28,6 @@ class UserGroupList extends React.Component<any, any> {
         let src = (type === 'user') ? `${config.vim_manage_link.user}` : `${config.vim_manage_link.group}`
         return (
             <div style={{ paddingTop: '20px' }}>
-                {/* <iframe style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }} src={src}></iframe> */}
                 {
                     data ? (
                         <CompactTable

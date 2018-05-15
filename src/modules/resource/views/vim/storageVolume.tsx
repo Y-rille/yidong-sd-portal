@@ -166,8 +166,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                             pageSize={pageSize}
                             data={list}
                             loading={tableLoading}
-                            actionAuth={[]}
-                            size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 352 }}
+                            size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 352 }}
                         />
                     ) : (
                             <Spin />

@@ -16,7 +16,7 @@ class VirtualGroup extends React.Component<any, any> {
         let { pageNo, project, vgname } = qs.parse(this.props.location.search)
         this.state = {
             tableLoading: false,
-            pageSize: 10,
+            pageSize: 1000,
             pageNo: pageNo ? pageNo : 1,
             project: project ? project : '',
             vgname: vgname ? vgname : '',
@@ -110,7 +110,6 @@ class VirtualGroup extends React.Component<any, any> {
                     ) : ''}
                 </div>
                 <div style={{ padding: '20px', height: window.innerHeight - 204 }}>
-                    {/* <iframe src={`${config.vim_manage_link.virtual_group}`} style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }}></iframe> */}
                     <div className={styles.queryBar}>
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
                         <Input placeholder="虚拟机组名称"
@@ -132,13 +131,12 @@ class VirtualGroup extends React.Component<any, any> {
                     {
                         list ? (
                             <CompactTable
-                                outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)}
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={[]}
-                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 386 : window.innerHeight - 333 }}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 334 }}
                             />) : (
                                 <Spin />
                             )

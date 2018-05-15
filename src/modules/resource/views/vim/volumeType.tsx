@@ -148,13 +148,12 @@ class VolumeType extends React.Component<VolumeTypeProps, any> {
                     </div>
                     {list ? (
                         <CompactTable
-                            goPage={this.goPage.bind(this)} // 翻页
+                            goPage={this.goPage.bind(this)}
                             goLink={this.goLink.bind(this)}
                             pageSize={pageSize}
                             data={list}
                             loading={tableLoading}
-                            actionAuth={[]}
-                            size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 340 }}
+                            size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 352 }}
                         />
                     ) : (
                             <Spin />

@@ -170,7 +170,6 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                 </Button>
                     </div>
                     {list ? (<CompactTable
-                        outStyle={{ marginTop: '20px' }}
                         pageSize={pageSize}
                         goPage={this.goPage.bind(this)}
                         goLink={this.goLink.bind(this)}
@@ -179,7 +178,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                         data={list}
                         loading={tableLoading}
                         actionAuth={['view']}
-                        size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 340 }}
+                        size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 340 }}
                     />) : (<Spin />)}
                 </div>
             </div>

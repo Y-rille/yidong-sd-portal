@@ -28,7 +28,7 @@ class Server extends React.Component<any, any> {
         this.state = {
             vendor: vendor ? vendor : '',   // 供应商
             tableLoading: false,
-            pageSize: 10,
+            pageSize: 6,
             pageNo: pageNo ? pageNo : 1,
             pim_id: mp_node.params.id,
             visible: false,
