@@ -20,7 +20,6 @@ class Server extends React.Component<any, any> {
     uploadRef: any
     constructor(props) {
         super(props);
-
         let { pageNo, vendor, datacenter } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/:type/:id'
@@ -28,7 +27,7 @@ class Server extends React.Component<any, any> {
         this.state = {
             vendor: vendor ? vendor : '',   // 供应商
             tableLoading: false,
-            pageSize: 6,
+            pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             pim_id: mp_node.params.id,
             visible: false,
