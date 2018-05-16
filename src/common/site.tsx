@@ -62,17 +62,17 @@ class Site extends React.Component<SiteProps, any> {
         super(props);
         let { pathname } = this.props.location
 
-        this.state = {
-            activeKey: _.compact([
-                matchPath(pathname, { path: '/dashboard' }) != null && 'dashboard',
-                matchPath(pathname, { path: '/setting' }) != null && 'setting',
-                matchPath(pathname, { path: '/resource' }) != null && 'resource',
-                matchPath(pathname, { path: '/alarm' }) != null && 'alarm',
-                matchPath(pathname, { path: '/performance' }) != null && 'performance',
-                matchPath(pathname, { path: '/log' }) != null && 'log',
-                matchPath(pathname, { path: '/operation' }) != null && 'operation',
-            ]).toString()
-        };
+        // this.state = {
+        //     activeKey: _.compact([
+        //         matchPath(pathname, { path: '/dashboard' }) != null && 'dashboard',
+        //         matchPath(pathname, { path: '/setting' }) != null && 'setting',
+        //         matchPath(pathname, { path: '/resource' }) != null && 'resource',
+        //         matchPath(pathname, { path: '/alarm' }) != null && 'alarm',
+        //         matchPath(pathname, { path: '/performance' }) != null && 'performance',
+        //         matchPath(pathname, { path: '/log' }) != null && 'log',
+        //         matchPath(pathname, { path: '/operation' }) != null && 'operation',
+        //     ]).toString()
+        // };
     }
     navClickHandler(key) {
         if (!matchPath(this.props.location.pathname, { path: `/${key}` })) {
@@ -143,17 +143,19 @@ class Site extends React.Component<SiteProps, any> {
         if (!nextProps.tree && nextProps.currentUser) {
             this.props.actions.querytree('1')
         }
-        this.state = {
-            activeKey: _.compact([
-                matchPath(pathname, { path: '/dashboard' }) != null && 'dashboard',
-                matchPath(pathname, { path: '/setting' }) != null && 'setting',
-                matchPath(pathname, { path: '/resource' }) != null && 'resource',
-                matchPath(pathname, { path: '/alarm' }) != null && 'alarm',
-                matchPath(pathname, { path: '/performance' }) != null && 'performance',
-                matchPath(pathname, { path: '/log' }) != null && 'log',
-                matchPath(pathname, { path: '/operation' }) != null && 'operation',
-            ]).toString()
-        };
+        // console.log(matchPath(pathname, { path: '/log' }) != null && 'log', 'qqqqqqqq');
+        // console.log(matchPath(pathname, { path: '/operation' }) != null && 'operation', 'operation');
+        // this.state = {
+        //     activeKey: _.compact([
+        //         matchPath(pathname, { path: '/dashboard' }) != null && 'dashboard',
+        //         matchPath(pathname, { path: '/setting' }) != null && 'setting',
+        //         matchPath(pathname, { path: '/resource' }) != null && 'resource',
+        //         matchPath(pathname, { path: '/alarm' }) != null && 'alarm',
+        //         matchPath(pathname, { path: '/performance' }) != null && 'performance',
+        //         matchPath(pathname, { path: '/log' }) != null && 'log',
+        //         matchPath(pathname, { path: '/operation' }) != null && 'operation',
+        //     ]).toString()
+        // };
     }
     componentDidMount() {
     }
@@ -196,7 +198,14 @@ class Site extends React.Component<SiteProps, any> {
             );
         } else {
             let { currentUser } = this.props
-            let { activeKey } = this.state
+            let { pathname } = this.props.location
+            // let { activeKey } = this.state
+            let activeKey = []
+            _.map(menu, fun => {
+                if (matchPath(pathname, { path: `/${fun.route}` }) != null) {
+                    activeKey.push(fun.route);
+                }
+            });
             if (this.props.tree) {
                 return (
                     <BasicLayout
