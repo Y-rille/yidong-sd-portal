@@ -32,6 +32,7 @@ export default class Selector extends React.PureComponent<SelectorProps, any> {
     }
     render() {
         let { type, value } = this.props
+        type = type === 'Project' ? '租户' : type
         return (
             <Select defaultValue={value} onChange={this.changeHandle.bind(this)}>
                 <Option value="">{`请选择${type}`}</Option>
