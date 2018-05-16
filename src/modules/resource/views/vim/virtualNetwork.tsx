@@ -178,7 +178,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                         data={list}
                         loading={tableLoading}
                         actionAuth={['view']}
-                        size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 340 }}
+                        size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 334 }}
                     />) : (<Spin />)}
                 </div>
             </div>

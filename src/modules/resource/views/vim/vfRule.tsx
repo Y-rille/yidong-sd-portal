@@ -115,7 +115,6 @@ class VfRule extends React.Component<any, any> {
                     {
                         list ? (
                             <CompactTable
-                                outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)}
                                 data={list}
                                 pageSize={pageSize}

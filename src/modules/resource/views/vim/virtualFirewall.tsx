@@ -115,12 +115,10 @@ class VirtualFirewall extends React.Component<any, any> {
                     {
                         list ? (
                             <CompactTable
-                                outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)}
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
-                                actionAuth={[]}
                                 size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 334 }}
                             />) : (
                                 <Spin />
