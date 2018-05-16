@@ -161,13 +161,11 @@ class AzInfo extends React.Component<any, any> {
                         </div>
                     </div>
                     <CompactTable
-                        goPage={this.goPage.bind(this)} // 翻页
+                        goPage={this.goPage.bind(this)}
                         data={list}
                         pageSize={pageSize}
                         loading={tableLoading}
-                        outStyle={{ 'marginTop': '20px' }}
                     />
-
                 </div>
             </div>
         );

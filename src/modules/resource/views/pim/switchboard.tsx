@@ -424,7 +424,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                 </div>
                             </div>
                             {list ? (<CompactTable
-                                outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)}
                                 goLink={this.goLink.bind(this)}
                                 data={list}
