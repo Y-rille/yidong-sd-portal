@@ -1,7 +1,7 @@
 {
   "name": "cloud-management-platform",
   "title": "云管平台",
-  "version": "1.1.0-8",
+  "version": "1.1.0-9",
   "description": "cloud management platform",
   "scripts": {
     "start": "node ./tools/server.js",
