@@ -27,7 +27,8 @@ class VirtualPort extends React.Component<any, any> {
     }
     handleManage() {
         let { config } = this.props
-        // window.open(config.manage_link.flavor)
+        let id = this.props.match.params.id
+        window.open(`${config.vim_manage_link.virtual_network}${id}/detail`)
     }
     goPage(num) {
         let { match } = this.props
@@ -55,13 +56,16 @@ class VirtualPort extends React.Component<any, any> {
             name: value
         })
     }
+    goList() {
+        let path = this.props.location.pathname.replace(/\/(\w+)\/port/, '')
+        this.props.history.push(`${path}`)
+    }
     getData(type, value) {
         let { project } = this.state
         this.setState({
             project: type === 'Project' ? value : project,
         })
     }
-
     getTableData(queryObj) {
         this.setState({
             tableLoading: true
@@ -108,13 +112,11 @@ class VirtualPort extends React.Component<any, any> {
                                     return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                                 })
                             }
+                            <Breadcrumb.Item><a onClick={this.goList.bind(this)}>虚拟网络管理</a></Breadcrumb.Item>
                             <Breadcrumb.Item>虚拟端口管理</Breadcrumb.Item>
                         </Breadcrumb>
                     ) : ''}
                 </div>
-                {/* <div style={{ padding: '20px', height: window.innerHeight - 204 }}>
-                    <iframe src={`${config.vim_manage_link.virtual_port}`} style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }}></iframe>
-                </div> */}
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
@@ -137,13 +139,11 @@ class VirtualPort extends React.Component<any, any> {
                     {
                         list ? (
                             <CompactTable
-                                outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)}
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
-                                actionAuth={[]}
-                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 386 : window.innerHeight - 333 }}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 334 }}
                             />
                         ) : (
                                 <Spin />

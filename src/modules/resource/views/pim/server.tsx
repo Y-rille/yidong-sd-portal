@@ -20,7 +20,6 @@ class Server extends React.Component<any, any> {
     uploadRef: any
     constructor(props) {
         super(props);
-
         let { pageNo, vendor, datacenter } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/:type/:id'

@@ -80,6 +80,10 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
             this.props.history.push(`${match.url}/${obj.id}/subnet`)
         }
     }
+    goView(key, obj) {
+        let { match } = this.props
+        this.props.history.push(`${match.url}/${obj.id}/port`)
+    }
     getTableData(queryObj) {
         this.setState({
             tableLoading: true
@@ -101,7 +105,7 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
     }
     handleManage() {
         let { config } = this.props
-        window.open(config.manage_link.virtual_network)
+        window.open(config.vim_manage_link.virtual_network)
     }
     componentWillMount() {
         let { pageNo } = this.state
@@ -117,6 +121,12 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         let { match, list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading, project, name, vnGroup } = this.state;
+        let viewList = [
+            {
+                'key': 'port',
+                'value': '查看虚拟端口'
+            }
+        ]
         return (
             <div>
                 <div className={styles.header}>
@@ -160,15 +170,15 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                 </Button>
                     </div>
                     {list ? (<CompactTable
-                        outStyle={{ marginTop: '20px' }}
                         pageSize={pageSize}
-                        goPage={this.goPage.bind(this)} // 翻页
+                        goPage={this.goPage.bind(this)}
                         goLink={this.goLink.bind(this)}
+                        goView={this.goView.bind(this)}
+                        viewList={viewList}
                         data={list}
                         loading={tableLoading}
-                        // pageAuth={true}
-                        actionAuth={[]}
-                        size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 340 }}
+                        actionAuth={['view']}
+                        size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 334 }}
                     />) : (<Spin />)}
                 </div>
             </div>

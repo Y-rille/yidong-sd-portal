@@ -33,7 +33,7 @@ class Log extends React.PureComponent<LogProps, any> {
         this.state = {
             visible: false,
             listLoading: false,
-            page_size: 5,
+            page_size: 6,
             page_num: page_num ? page_num : 1,
             query_key: query_key ? query_key : '',
             start_time: '',

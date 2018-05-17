@@ -135,13 +135,13 @@ class Ha extends React.Component<HaProps, any> {
                     </div>
                     {list ?
                         <CompactTable
-                            goPage={this.goPage.bind(this)} // 翻页
+                            goPage={this.goPage.bind(this)}
                             goLink={this.goLink.bind(this)}
                             data={list}
                             pageSize={pageSize}
                             loading={tableLoading}
                             footInfoAuth={<div>*&nbsp;HA共有{list.totalCount}个</div>}
-                            size={{ y: list.totalCount > pageSize ? window.innerHeight - 405 : window.innerHeight - 361 }}
+                            size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 361 }}
                         /> : <Spin />}
                 </div>
             </div>

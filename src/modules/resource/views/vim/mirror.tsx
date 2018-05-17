@@ -66,18 +66,15 @@ class Mirror extends React.Component<any, any> {
     tableList() {
         let list = this.props.list
         const { pageSize, tableLoading, project, name } = this.state;
-
         if (list) {
             return (
                 <CompactTable
-                    outStyle={{ marginTop: '20px' }}
                     pageSize={pageSize}
                     loading={tableLoading}
-                    goPage={this.goPage.bind(this)} // 翻页
+                    goPage={this.goPage.bind(this)}
                     goLink={this.goLink.bind(this)}
                     data={list}
-                    actionAuth={[]}
-                    size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 340 }}
+                    size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 340 }}
                 />
             )
         } else {
@@ -85,7 +82,6 @@ class Mirror extends React.Component<any, any> {
                 <Spin />
             )
         }
-
     }
     getTableData(queryObj) {
         this.setState({
@@ -108,7 +104,7 @@ class Mirror extends React.Component<any, any> {
     }
     handleManage() {
         let { config } = this.props
-        window.open(config.manage_link.mirror)
+        window.open(config.vim_manage_link.mirror)
     }
     componentWillMount() {
         let { pageNo } = this.state

@@ -6,7 +6,6 @@ import * as _ from 'lodash';
 
 export interface CompactTableProps {
     // pageAuth?
-    // showModal?
     // page_num?
     // page_size?
     data?
@@ -26,6 +25,8 @@ export interface CompactTableProps {
     pageSize?
     loading?
     size?           // {y:185},传size，需在header里添加width
+    goView?         // 虚拟端口管理
+    viewList?       // 查看
 }
 
 export default class CompactTable extends React.PureComponent<CompactTableProps, any> {
@@ -185,12 +186,6 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
             this.props.goEdit(record)
         }
     }
-    // showModal(e) {
-    //     let userId = e.currentTarget.id
-    //     if (this.props.showModal) {
-    //         this.props.showModal(userId)
-    //     }
-    // }
     goDelete(record) {
         if (this.props.goDelete) {
             this.props.goDelete(record)
@@ -199,6 +194,11 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
     goBackup(record) {
         if (this.props.goBackup) {
             this.props.goBackup(record)
+        }
+    }
+    goView(key, record) {
+        if (this.props.goView) {
+            this.props.goView(key, record)
         }
     }
     goRecover(record) {
@@ -216,7 +216,7 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
         this.props.goLink(key, obj)
     }
     renderTable() {
-        let { actionAuth, data, selectAuth, selectRow, loading, size, sortAuth } = this.props
+        let { actionAuth, data, selectAuth, selectRow, loading, size, sortAuth, viewList } = this.props
         let header = data.header || []
         let dataList: any = _.merge([], data.dataList)
         let columns = []
@@ -265,6 +265,11 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
                                 break
                             case 'recover':
                                 actionArr.push(<a onClick={this.goRecover.bind(this, record)} id={record.id} href="javascript:;" type="vertical">恢复</a>)
+                                break
+                            case 'view':
+                                _.map(viewList, (item) => {
+                                    actionArr.push(<a onClick={this.goView.bind(this, item.key, record)} id={record.id} data-key={item.key} href="javascript:;" type="vertical">{item.value}</a>)
+                                })
                                 break
                             default:
                                 break

@@ -128,7 +128,7 @@ export default class HeaderBar extends React.PureComponent<HeaderBarProps, any> 
                     <Menu
                         theme="light"
                         mode="horizontal"
-                        selectedKeys={[activeKey]}
+                        selectedKeys={activeKey}
                         className={styles.nav}
                         onClick={this.handleClick.bind(this)}
                         style={{ color: '#fff' }}

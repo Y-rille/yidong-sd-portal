@@ -19,26 +19,44 @@ class UserGroupList extends React.Component<any, any> {
             this.props.goPage(n)
         }
     }
+    goView(key, obj) {
+        this.props.goView(key, obj)
+    }
     render() {
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/vim/:id/user_group/:type'
         })
+        let viewList = [
+            {
+                'key': 'userList',
+                'value': '查看用户列表'
+            }
+        ]
         let type = mp_node ? mp_node.params.type : ''
         let { config, data, pageSize, tableLoading, location } = this.props
-        let src = (type === 'user') ? `${config.vim_manage_link.user}` : `${config.vim_manage_link.group}`
         return (
             <div style={{ paddingTop: '20px' }}>
-                {/* <iframe style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }} src={src}></iframe> */}
                 {
                     data ? (
-                        <CompactTable
+                        type === 'user' ? (<CompactTable
                             goPage={this.goPage.bind(this)}
                             data={data}
                             pageSize={pageSize}
                             loading={tableLoading}
-                            actionAuth={[]}
                             size={{ y: data.totalCount > pageSize ? window.innerHeight - 430 : window.innerHeight - 420 }}
-                        />
+                        />) : (
+                                <CompactTable
+                                    goPage={this.goPage.bind(this)}
+                                    data={data}
+                                    pageSize={pageSize}
+                                    loading={tableLoading}
+                                    viewList={viewList}
+                                    actionAuth={['view']}
+                                    goView={this.goView.bind(this)}
+                                    size={{ y: data.totalCount > pageSize ? window.innerHeight - 430 : window.innerHeight - 420 }}
+                                />
+                            )
+
                     ) : (
                             <Spin />
                         )

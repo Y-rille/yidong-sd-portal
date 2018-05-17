@@ -148,12 +148,8 @@ class SwitchboardInfo extends React.Component<any, any> {
         if (list) {
             return (
                 <CompactTable
-                    // goPage={this.goPage.bind(this)} // 翻页
-                    // goLink={this.goLink.bind(this)}
                     pageSize={pageSize}
                     loading={tableLoading}
-                    actionAuth={[]}
-                    // pageAuth={false}
                     data={list}
                     outStyle={{ 'marginTop': '20px' }}
                 />
@@ -181,12 +177,9 @@ class SwitchboardInfo extends React.Component<any, any> {
                     <Headline
                         title="接口信息（按端口统计）"
                     />
-
                     <CompactTable
                         pageSize={pageSize}
-                        actionAuth={[]}
                         data={list}
-                        outStyle={{ 'marginTop': '20px' }}
                     />
                 </div>
             )

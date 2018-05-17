@@ -34,10 +34,6 @@ class NetworkQos extends React.Component<any, any> {
             name: value
         })
     }
-    handleManage() {
-        let { config } = this.props
-        // window.open(config.manage_link.flavor)
-    }
     getTableData() {
         this.setState({
             tableLoading: true
@@ -85,7 +81,7 @@ class NetworkQos extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     render() {
-        let { match, nodeInfo, config, list } = this.props
+        let { match, nodeInfo, list } = this.props
         let { pageSize, tableLoading, project, name } = this.state
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
@@ -105,9 +101,6 @@ class NetworkQos extends React.Component<any, any> {
                         </Breadcrumb>
                     ) : ''}
                 </div>
-                {/* <div style={{ padding: '20px', height: window.innerHeight - 204 }}>
-                    <iframe src={`${config.vim_manage_link.network_qos}`} style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }}></iframe>
-                </div> */}
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
@@ -120,23 +113,15 @@ class NetworkQos extends React.Component<any, any> {
                         >
                             查询
                                 </Button>
-                        <Button style={{ float: 'right' }}
-                            type="primary"
-                            onClick={this.handleManage.bind(this)}
-                        >
-                            管理
-                            </Button>
                     </div>
                     {
                         list ? (
                             <CompactTable
-                                outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)}
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
-                                actionAuth={[]}
-                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 386 : window.innerHeight - 333 }}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 334 }}
                             />
                         ) : (
                                 <Spin />

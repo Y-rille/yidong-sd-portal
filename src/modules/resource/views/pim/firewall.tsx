@@ -385,9 +385,8 @@ class Firewall extends React.Component<FirewallProps, any> {
                                 </Modal>
                             </div>
                             {list ? (<CompactTable
-                                outStyle={{ 'marginTop': '20px' }}
                                 pageSize={pageSize}
-                                goPage={this.goPage.bind(this)} // 翻页
+                                goPage={this.goPage.bind(this)}
                                 goLink={this.goLink.bind(this)}
                                 data={list}
                                 loading={tableLoading}

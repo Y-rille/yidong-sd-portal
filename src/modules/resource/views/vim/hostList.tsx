@@ -25,7 +25,7 @@ class HostList extends React.Component<any, any> {
         }
     }
     render() {
-        let { data, pageSize, tableLoading, location } = this.props;
+        let { data, tableLoading, pageSize, location } = this.props;
         const mp_node: any = matchPath(location.pathname, {
             path: '/resource/vim/:id/host/:type'
         })
@@ -39,16 +39,15 @@ class HostList extends React.Component<any, any> {
                 {
                     data ? (
                         <CompactTable
-                            goPage={this.goPage.bind(this)} // 翻页
+                            outStyle={{ 'marginTop': '20px' }}
+                            goPage={this.goPage.bind(this)}
                             goLink={this.goLink.bind(this)}
                             data={data}
-                            actionAuth={[]}
                             pageSize={pageSize}
                             loading={tableLoading}
-                            outStyle={{ 'marginTop': '20px' }}
                             sortAuth={sortAuth}
                             footInfoAuth={<div>*&nbsp;主机共有{ft}{data.totalCount}个</div>}
-                            size={{ y: data.totalCount > pageSize ? window.innerHeight - 430 : window.innerHeight - 420 }}
+                            size={{ y: data.totalCount > pageSize ? window.innerHeight - 427 : window.innerHeight - 422 }}
                         />
                     ) : (
                             <Spin />

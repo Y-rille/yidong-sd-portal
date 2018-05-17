@@ -77,71 +77,6 @@ class Magnetic extends React.Component<any, any> {
             });
         })
     }
-    createTemplate = () => {
-        let { findSelected } = this.state
-        let { findData } = this.props
-        let params = {
-            code: 1,
-            data: {
-                header: findData.header,
-                dataList: findSelected
-            }
-        }
-        this.props.actions.findtemplate('diskarray', params, (data, err) => {
-            if (data && data.code === 1) {
-                this.setState({
-                    downloadUrl: data.url
-                })
-                emitter.emit('message', 'success', '模板生成成功！')
-            }
-            if (err || (data && data.code !== 1)) {
-                emitter.emit('message', 'error', '模板生成失败！')
-            }
-        })
-    }
-    downloadTemplate() {
-        let { downloadUrl } = this.state
-        if (downloadUrl) {
-            window.open(downloadUrl)
-        } else {
-            emitter.emit('message', 'error', '请先生成模板！')
-        }
-    }
-    findConfirm() {
-        let { uploadUrl } = this.state
-        if (!uploadUrl) {
-            this.uploadRef.removeFileList()
-            emitter.emit('message', 'error', '请先上传模板文件！')
-            return
-        }
-        this.props.actions.findConfirm('diskarray', { url: uploadUrl }, (data, err) => {
-            if (data && data.code === 1) {
-                emitter.emit('message', 'success', '发现成功！')
-                this.setState({
-                    pageNo: 1
-                }, () => {
-                    this.getTableData()
-                })
-            }
-            if (err || (data && data.code !== 1)) {
-                emitter.emit('message', 'error', '发现失败！')
-            }
-            this.setState({
-                visible: false,
-            });
-            this.props.actions.resetfindData()
-            this.formRef.resetForm()
-            this.uploadRef.removeFileList()
-        })
-    }
-    uploadChange(url) {
-        this.setState({
-            uploadUrl: url
-        })
-    }
-    componentWillMount() {
-        this.getTableData()
-    }
     getCascaderData(type, value) {
         let { datacenter, vendor } = this.state
         this.setState({
@@ -239,6 +174,14 @@ class Magnetic extends React.Component<any, any> {
             cancelText: '取消',
         });
     }
+    selectRow = (data) => {
+        let { pageNo, selected } = this.state
+        let newSelected = selected
+        newSelected[pageNo] = data
+        this.setState({
+            selected: newSelected
+        })
+    }
     showModal = () => {
         this.setState({
             visible: true,
@@ -255,41 +198,80 @@ class Magnetic extends React.Component<any, any> {
             this.uploadRef.removeFileList()
         }
     }
-    selectRow = (data) => {
-        let { pageNo, selected } = this.state
-        let newSelected = selected
-        newSelected[pageNo] = data
-        this.setState({
-            selected: newSelected
-        })
-    }
     findSelectRow(data) {
         this.setState({
             findSelected: data,
             btnDisabled: data.length > 0 ? false : true
         })
     }
-    // addData = () => {
-    //     let { selected } = this.state
-    //     this.props.actions.findConfirm('diskarray', { data: { dataList: selected } }, (data, err) => {
-    //         if (data && data.code === 1) {
-    //             emitter.emit('message', 'success', '添加成功！')
-    //             let queryObj = {
-    //                 pageNo: 1
-    //             }
-    //             this.getTableData()
-    //         }
-    //         if (err || (data && data.code !== 1)) {
-    //             emitter.emit('message', 'error', '添加失败！')
-    //         }
-    //         this.setState({
-    //             visible: false,
-    //             selected: []
-    //         });
-    //         this.formRef.handleReset()
-    //         this.props.actions.resetfindData()
-    //     })
-    // }
+    createTemplate = () => {
+        let { findSelected } = this.state
+        let { findData } = this.props
+        let params = {
+            code: 1,
+            data: {
+                header: findData.header,
+                dataList: findSelected
+            }
+        }
+        this.props.actions.findtemplate('diskarray', params, (data, err) => {
+            if (data && data.code === 1) {
+                this.setState({
+                    downloadUrl: data.url
+                })
+                emitter.emit('message', 'success', '模板生成成功！')
+            }
+            if (err || (data && data.code !== 1)) {
+                emitter.emit('message', 'error', '模板生成失败！')
+            }
+        })
+    }
+    downloadTemplate() {
+        let { downloadUrl } = this.state
+        if (downloadUrl) {
+            window.open(downloadUrl)
+        } else {
+            emitter.emit('message', 'error', '请先生成模板！')
+        }
+    }
+    uploadChange(url) {
+        this.setState({
+            uploadUrl: url
+        })
+    }
+    findConfirm() {
+        let { uploadUrl } = this.state
+        if (!uploadUrl) {
+            this.uploadRef.removeFileList()
+            emitter.emit('message', 'error', '请先上传模板文件！')
+            return
+        }
+        this.props.actions.findConfirm('diskarray', { url: uploadUrl }, (data, err) => {
+            if (data && data.code === 1) {
+                emitter.emit('message', 'success', '发现成功！')
+                this.setState({
+                    pageNo: 1
+                }, () => {
+                    this.getTableData()
+                })
+            }
+            if (err || (data && data.code !== 1)) {
+                emitter.emit('message', 'error', '发现失败！')
+            }
+            this.setState({
+                visible: false,
+            });
+            this.props.actions.resetfindData()
+            this.formRef.handleReset()
+            this.uploadRef.removeFileList()
+        })
+    }
+    componentWillMount() {
+        this.getTableData()
+    }
+    componentWillUnmount() {
+        this.props.actions.resetList()
+    }
     renderAddData() {
         let { btnDisabled } = this.state
         let { findData } = this.props
@@ -326,9 +308,6 @@ class Magnetic extends React.Component<any, any> {
         } else {
             return <div />
         }
-    }
-    componentWillUnmount() {
-        this.props.actions.resetList()
     }
     render() {
         let { match, nodeInfo, list, subDataPIM, subDataVendor, subDataCenter } = this.props;

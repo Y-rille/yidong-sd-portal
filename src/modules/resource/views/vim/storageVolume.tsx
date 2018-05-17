@@ -104,11 +104,10 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
     }
     handleManage() {
         let { config } = this.props
-        window.open(config.manage_link.storage_volume)
+        window.open(config.vim_manage_link.storage_volume)
     }
     componentWillMount() {
         let { pathname } = this.props.location
-
         // if (this.state.activeKey.length > 0) {  // 刷新
         let { pageNo } = this.state
         let queryObj = {
@@ -167,8 +166,7 @@ class StorageVolume extends React.Component<StorageVolumeProps, any> {
                             pageSize={pageSize}
                             data={list}
                             loading={tableLoading}
-                            actionAuth={[]}
-                            size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 352 }}
+                            size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 352 }}
                         />
                     ) : (
                             <Spin />

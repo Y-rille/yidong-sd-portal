@@ -30,10 +30,13 @@ class UserGroup extends React.Component<any, any> {
             vim_id: mp_node.params.id
         }
     }
-
     handleManage() {
         let { config } = this.props
-        // window.open(config.manage_link.flavor)
+        if (this.state.activeKey === 'user') {
+            window.open(config.vim_manage_link.user)
+        } else {
+            window.open(config.vim_manage_link.group)
+        }
     }
     changeUserNameValue(value) {
         this.setState({
@@ -71,7 +74,6 @@ class UserGroup extends React.Component<any, any> {
             default:
                 dsname = 'imdsUsergroup'
         }
-
         this.props.actions.queryList(dsname, params_obj, () => {
             self.setState({
                 tableLoading: false
@@ -88,30 +90,45 @@ class UserGroup extends React.Component<any, any> {
             pageNo
         })
     }
+    goView(key, obj) {
+        let { match } = this.props
+        let pageNo = 1
+        this.props.history.push(`${match.url}/user?pageNo=1&groupName=${obj.name}`)
+        this.setState({
+            activeKey: 'user',
+            groupName: obj.name
+        }, () => {
+            this.getTableData({
+                pageNo,
+            })
+        })
+    }
     handleClick() {
         let { match } = this.props
         let { userName, groupName, activeKey } = this.state
         let pageNo = 1
-        let queryObj = (activeKey === 'user') ? { pageNo, userName } : { pageNo, groupName }
+        let queryObj = (activeKey === 'user') ? { pageNo, userName, groupName } : { pageNo, groupName }
         this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
-        this.setState({
-            // pageNo
-        });
         this.getTableData(queryObj)
+        this.props.actions.resetList()
     }
     onChange(key) {
         let { match } = this.props
         let { pathname } = this.props.location
         let { userName, groupName } = this.state
         let pageNo = 1
-        let queryObj = (key === 'user') ? { pageNo, userName } : { pageNo, groupName }
+        let queryObj = { pageNo }
         this.props.history.push(`${match.url}/${key}?${qs.stringify(queryObj)}`)
         this.setState({
             activeKey: key,
-            // pageNo
+            userName: '',
+            groupName: ''
+        }, () => {
+            this.getTableData({
+                queryObj, key
+            })
         })
         this.props.actions.resetList()
-        this.getTableData(queryObj, key)
     }
     componentWillMount() {
         let { pathname } = this.props.location
@@ -130,13 +147,6 @@ class UserGroup extends React.Component<any, any> {
             matchPath(pathname, { path: `${match.url}/user` }) != null && 'user',
             matchPath(pathname, { path: `${match.url}/group` }) != null && 'group'
         ]).toString()
-        // this.state = {
-        //     activeKey: _.compact([
-        //         matchPath(pathname, { path: `${match.url}/user` }) != null && 'user',
-        //         matchPath(pathname, { path: `${match.url}/group` }) != null && 'group'
-        //     ]).toString(),
-        // }
-
         if (this.state.activeKey.length === 0 && actKey.length > 0) {    // 第一次进入;info返回；进入info
             let pageNo = qs.parse(nextProps.location.search).pageNo || 1
             let queryObj = {
@@ -172,30 +182,30 @@ class UserGroup extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
-                        {/* <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} /> */}
+
                         {
                             activeKey === 'user' ? (
                                 <Input placeholder="用户名称"
                                     value={userName} type="text"
                                     onChange={e => this.changeUserNameValue(e.target.value)}
-                                />) : (
-                                    <Input placeholder="用户组名称"
-                                        value={groupName} type="text"
-                                        onChange={e => this.changeGroupNameValue(e.target.value)} />
-                                )
+                                />
+                            ) : ''
                         }
+                        <Input placeholder="用户组名称"
+                            value={groupName} type="text"
+                            onChange={e => this.changeGroupNameValue(e.target.value)} />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}
                         >
                             查询
-                                </Button>
+                        </Button>
                         <Button style={{ float: 'right' }}
                             type="primary"
                             onClick={this.handleManage.bind(this)}
                         >
                             管理
-                            </Button>
+                        </Button>
                     </div>
                     <Tabs onChange={this.onChange.bind(this)} type="card" activeKey={activeKey} animated={false}>
                         <TabPane tab="用户" key="user"></TabPane>
@@ -204,7 +214,9 @@ class UserGroup extends React.Component<any, any> {
                     <Switch>
                         <Redirect from={`${match.url}`} to={`${match.url}/user`} exact />
                         <Route path={`${match.url}/:type`}
-                            render={() => <UserGroupList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} data={list} tableLoading={tableLoading} />}
+                            render={() => <UserGroupList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} data={list} tableLoading={tableLoading}
+                                goView={this.goView.bind(this)}
+                            />}
                         />
                     </Switch>
                 </div>

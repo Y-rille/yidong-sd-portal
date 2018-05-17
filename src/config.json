@@ -1,11 +1,16 @@
 {
-    "manage_link": {
+    "vim_manage_link": {
+        "virtual_group": "https://188.103.15.250/admin/server_groups/",
         "flavor": "https://188.103.15.250/admin/flavors/",
         "mirror": "https://188.103.15.250/admin/images/",
         "virtual_network": "https://188.103.15.250/admin/networks/",
         "storage_volume": "https://188.103.15.250/admin/volumes/",
-        "volume_type": "https://188.103.15.250/admin/volumes/?tab=volumes_group_tabs__volume_types_tab"
+        "virtual_router": "https://188.103.15.250/admin/routers/",
+        "user": "https://188.103.15.250/identity/users/",
+        "group": "https://188.103.15.250/identity/groups/",
+        "project_quota": "https://188.103.15.250/identity/"
     },
+    "manage_link": {},
     "alarm": "http://47.94.4.45:8080/alarm-mntr/flex/main.html",
     "log": "http://47.94.4.45:5601/app/kibana#/discover?_g=()",
     "ssh": "https://47.94.4.45:4200/ssh_proxy",
@@ -13,19 +18,5 @@
     "IPSAN": "https://188.103.14.22:8088",
     "threshold_manage": "http://47.94.4.45:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=warning-threshold&login=false&autoload=true",
     "custom_inspection": "http://47.94.4.45:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=TaiInspTask&login=false&autoload=true",
-    "vim_manage_link": {
-        "virtual_group": "https://188.103.15.250/admin/server_groups/",
-        "storage_qos": "",
-        "virtual_subnet": "https://188.103.15.250/admin/networks/",
-        "virtual_port": "",
-        "network_qos": "",
-        "virtual_router": "https://188.103.15.250/admin/routers/",
-        "virtual_firewall": "",
-        "vf_strategy": "",
-        "vf_rule": "",
-        "user": "https://188.103.15.250/identity/users/",
-        "group": "https://188.103.15.250/identity/groups/",
-        "project_quota": "https://188.103.15.250/identity/"
-    },
     "link_find": "http://47.94.4.45:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=MO_relationship_mgr_link&login=false&autoload=true"
 }

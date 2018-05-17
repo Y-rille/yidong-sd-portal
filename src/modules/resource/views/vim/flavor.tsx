@@ -87,7 +87,7 @@ class Flavor extends React.Component<any, any> {
     }
     handleManage() {
         let { config } = this.props
-        window.open(config.manage_link.flavor)
+        window.open(config.vim_manage_link.flavor)
     }
     componentWillMount() {
         let { pageNo } = this.state
@@ -146,8 +146,7 @@ class Flavor extends React.Component<any, any> {
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
-                                actionAuth={[]}
-                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 370 : window.innerHeight - 340 }}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 334 }}
                             />
                         ) : (
                                 <Spin />

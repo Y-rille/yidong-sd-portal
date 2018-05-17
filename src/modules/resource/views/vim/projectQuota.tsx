@@ -30,7 +30,7 @@ class ProjectQuota extends React.Component<any, any> {
     }
     handleManage() {
         let { config } = this.props
-        // window.open(config.manage_link.flavor)
+        window.open(config.vim_manage_link.project_quota)
     }
     getTableData() {
         this.setState({
@@ -102,7 +102,6 @@ class ProjectQuota extends React.Component<any, any> {
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px' }}>
-                    {/*<iframe style={{ width: '100%', height: '100%', border: '1px solid #e2e4e9' }} src={`${config.vim_manage_link.project_quota}`}></iframe>*/}
                     <div className={styles.queryBar}>
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
                         <Button
@@ -121,13 +120,11 @@ class ProjectQuota extends React.Component<any, any> {
                     {
                         list ? (
                             <CompactTable
-                                outStyle={{ marginTop: '20px' }}
                                 goPage={this.goPage.bind(this)}
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
-                                actionAuth={[]}
-                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 386 : window.innerHeight - 333 }}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 352 }}
                             />) : (
                                 <Spin />
                             )
