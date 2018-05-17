@@ -60,7 +60,7 @@ class UserGroup extends React.Component<any, any> {
         let { pageNo } = queryObj
         let { userName, groupName, pageSize, activeKey } = this.state
         let act_Key = actKey || activeKey
-        let params_obj = (act_Key === 'user') ? { pageNo, pageSize, userName, vim_id } : { pageNo, pageSize, groupName, vim_id }
+        let params_obj = (act_Key === 'user') ? { pageNo, pageSize, userName, groupName, vim_id } : { pageNo, pageSize, groupName, vim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
