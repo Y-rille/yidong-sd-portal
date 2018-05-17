@@ -109,22 +109,18 @@ class UserGroup extends React.Component<any, any> {
         let pageNo = 1
         let queryObj = (activeKey === 'user') ? { pageNo, userName, groupName } : { pageNo, groupName }
         this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
-        this.setState({
-            // pageNo
-        });
         this.getTableData(queryObj)
+        this.props.actions.resetList()
     }
     onChange(key) {
-        this.setState({
-            activeKey: key,
-        })
         let { match } = this.props
         let { pathname } = this.props.location
         let { userName, groupName } = this.state
         let pageNo = 1
-        let queryObj = (key === 'user') ? { pageNo, userName, groupName } : { pageNo, groupName }
+        let queryObj = { pageNo }
         this.props.history.push(`${match.url}/${key}?${qs.stringify(queryObj)}`)
         this.setState({
+            activeKey: key,
             userName: '',
             groupName: ''
         }, () => {
@@ -186,9 +182,7 @@ class UserGroup extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
-                        <Input placeholder="用户组名称"
-                            value={groupName} type="text"
-                            onChange={e => this.changeGroupNameValue(e.target.value)} />
+
                         {
                             activeKey === 'user' ? (
                                 <Input placeholder="用户名称"
@@ -197,6 +191,9 @@ class UserGroup extends React.Component<any, any> {
                                 />
                             ) : ''
                         }
+                        <Input placeholder="用户组名称"
+                            value={groupName} type="text"
+                            onChange={e => this.changeGroupNameValue(e.target.value)} />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}
