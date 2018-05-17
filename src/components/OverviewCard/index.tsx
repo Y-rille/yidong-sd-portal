@@ -161,7 +161,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
-                    <span>{item.description}</span>
+                    <span>{item.name}</span>
                 </div>
                 <div className={styles.card_cont_text}>
                     {newArr ? _.map(newArr, (header, key) => {
@@ -187,7 +187,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
-                    <span>{item.description}</span>
+                    <span>{item.name}</span>
                 </div>
                 {newArr ? _.map(newArr, (header, key) => {
                     return (
@@ -211,7 +211,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
-                    <span>{item.description}</span>
+                    <span>{item.name}</span>
                 </div>
                 {newArr ? _.map(newArr, (header, index) => {
                     return (
@@ -238,7 +238,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
-                    <span>{item.description}</span>
+                    <span>{item.name}</span>
                 </div>
                 <div className={styles.card_pie_cont}>
                     <div className={styles.card_pie_cont_left}>
