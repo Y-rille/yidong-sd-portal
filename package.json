@@ -15,7 +15,8 @@
     "e2e": "testcafe Chrome test/e2e*",
     "release": "standard-version",
     "dump": "npm run release  -- --prerelease",
-    "pub": "./node_modules/.bin/gulp --gulpfile ./tools/gulpfile.js deploy"
+    "pub": "./node_modules/.bin/gulp --gulpfile ./tools/gulpfile.js deploy",
+    "pub-hpe": "./node_modules/.bin/gulp --gulpfile ./tools/gulpfile-hpe.js deploy"
   },
   "pre-commit": [
     "lint"
