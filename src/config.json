@@ -1,22 +1,22 @@
 {
     "vim_manage_link": {
-        "virtual_group": "https://188.103.15.250/admin/server_groups/",
-        "flavor": "https://188.103.15.250/admin/flavors/",
-        "mirror": "https://188.103.15.250/admin/images/",
-        "virtual_network": "https://188.103.15.250/admin/networks/",
-        "storage_volume": "https://188.103.15.250/admin/volumes/",
-        "virtual_router": "https://188.103.15.250/admin/routers/",
-        "user": "https://188.103.15.250/identity/users/",
-        "group": "https://188.103.15.250/identity/groups/",
-        "project_quota": "https://188.103.15.250/identity/"
+        "virtual_group": "https://10.34.21.200/admin/server_groups/",
+        "flavor": "https://10.34.21.200/admin/flavors/",
+        "mirror": "https://10.34.21.200/admin/images/",
+        "virtual_network": "https://10.34.21.200/admin/networks/",
+        "storage_volume": "https://10.34.21.200/admin/volumes/",
+        "virtual_router": "https://10.34.21.200/admin/routers/",
+        "user": "https://10.34.21.200/identity/users/",
+        "group": "https://10.34.21.200/identity/groups/",
+        "project_quota": "https://10.34.21.200/identity/"
     },
     "manage_link": {},
-    "alarm": "http://47.94.4.45:8080/alarm-mntr/flex/main.html",
-    "log": "http://47.94.4.45:5601/app/kibana#/discover?_g=()",
+    "alarm": "http://15.146.38.119:8080/alarm-mntr/flex/main.html",
+    "log": "http://10.34.24.73:5601/app/kibana#/discover?_g=()",
     "ssh": "https://47.94.4.45:4200/ssh_proxy",
-    "vim_manage": "https://188.103.15.250",
+    "vim_manage": "https://10.34.21.200",
     "IPSAN": "https://188.103.14.22:8088",
-    "threshold_manage": "http://47.94.4.45:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=warning-threshold&login=false&autoload=true",
-    "custom_inspection": "http://47.94.4.45:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=TaiInspTask&login=false&autoload=true",
-    "link_find": "http://47.94.4.45:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=MO_relationship_mgr_link&login=false&autoload=true"
+    "threshold_manage": "http://15.146.38.119:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=warning-threshold&login=false&autoload=true",
+    "custom_inspection": "http://15.146.38.119:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=TaiInspTask&login=false&autoload=true",
+    "link_find": "http://15.146.38.119:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=MO_relationship_mgr_link&login=false&autoload=true"
 }
