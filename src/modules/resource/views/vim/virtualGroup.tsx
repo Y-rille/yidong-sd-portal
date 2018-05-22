@@ -135,7 +135,6 @@ class VirtualGroup extends React.Component<any, any> {
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
-                                actionAuth={[]}
                                 size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 334 }}
                             />) : (
                                 <Spin />

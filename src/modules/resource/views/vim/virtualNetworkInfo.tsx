@@ -12,7 +12,9 @@ const TabPane = Tabs.TabPane;
 class VirtualNetworkInfo extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            pageSize: 999,
+        }
     }
     goList() {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
@@ -84,34 +86,21 @@ class VirtualNetworkInfo extends React.Component<any, any> {
     }
     renderTable() {
         let list = this.props.list
-        let pageSize = 999
-        const { tableLoading } = this.state
+        const { pageSize } = this.state
+        let titleName = ['子网', '端口', 'DHCP']
+        let tableData = ['imdsVirtualNetworkSubnet', 'imdsVirtualNetworkPort', 'imdsVirtualNetworkDHCP']
         if (list) {
-            return (
-                <div>
+            return _.map(titleName, (item, i) => {
+                return (
                     <div style={{ 'marginTop': '20px' }}>
-                        <Headline title="子网" />
+                        <Headline title={item} />
                         <CompactTable
-                            data={list.imdsVirtualNetworkSubnet}
+                            data={list[tableData[i]]}
                             pageSize={pageSize}
                         />
                     </div>
-                    <div style={{ 'marginTop': '20px' }}>
-                        <Headline title="端口" />
-                        <CompactTable
-                            data={list.imdsVirtualNetworkPort}
-                            pageSize={pageSize}
-                        />
-                    </div>
-                    <div style={{ 'marginTop': '20px' }}>
-                        <Headline title="DHCP" />
-                        <CompactTable
-                            data={list.imdsVirtualNetworkDHCP}
-                            pageSize={pageSize}
-                        />
-                    </div>
-                </div>
-            )
+                )
+            })
         }
     }
     render() {
