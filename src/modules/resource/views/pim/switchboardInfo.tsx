@@ -144,14 +144,13 @@ class SwitchboardInfo extends React.Component<any, any> {
     }
     renderTab() {
         let { list, summary } = this.props
-        const { pageSize, tableLoading } = this.state;
+        const { pageSize } = this.state;
         if (list) {
             return (
                 <CompactTable
-                    pageSize={pageSize}
-                    loading={tableLoading}
-                    data={list}
                     outStyle={{ 'marginTop': '20px' }}
+                    data={list}
+                    pageSize={pageSize}
                 />
             )
         } else {
@@ -160,7 +159,6 @@ class SwitchboardInfo extends React.Component<any, any> {
                     <Spin />
                 </div>
             )
-
         }
     }
     renderPerformanceTab() {
@@ -185,7 +183,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             )
         } else {
             return (
-                <div style={{ position: 'relative', height: '50px' }}>
+                <div style={{ position: 'relative', height: '60px' }}>
                     <Spin />
                 </div>
             )
@@ -288,7 +286,6 @@ class SwitchboardInfo extends React.Component<any, any> {
                                 </TabPane>
                             </Tabs>
                         </TabPane>
-
                         <TabPane tab="资源关系" key="relation">
                             <Tabs size="small" activeKey={activeKey} onChange={this.onTab.bind(this)} animated={false}>
                                 <TabPane tab={'主板信息'} key={'imdsSwitchMotherboard'}>
@@ -306,8 +303,6 @@ class SwitchboardInfo extends React.Component<any, any> {
                                 <TabPane tab={'性能信息'} key={'imdsSwitchPort15MiKpis'}>
                                     {this.renderPerformanceTab()}
                                 </TabPane>
-
-                                {/* <TabPane tab="告警信息" key="6">告警信息</TabPane> */}
                             </Tabs>
                         </TabPane>
                     </Tabs>

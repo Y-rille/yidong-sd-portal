@@ -10,11 +10,10 @@
         "group": "https://188.103.15.250/identity/groups/",
         "project_quota": "https://188.103.15.250/identity/"
     },
-    "manage_link": {},
+    "vim_manage": "https://188.103.15.250",
+    "ssh": "https://47.94.4.45:4200/ssh_proxy",
     "alarm": "http://47.94.4.45:8080/alarm-mntr/flex/main.html",
     "log": "http://47.94.4.45:5601/app/kibana#/discover?_g=()",
-    "ssh": "https://47.94.4.45:4200/ssh_proxy",
-    "vim_manage": "https://188.103.15.250",
     "IPSAN": "https://188.103.14.22:8088",
     "threshold_manage": "http://47.94.4.45:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=warning-threshold&login=false&autoload=true",
     "custom_inspection": "http://47.94.4.45:8091/app-cfg/ui/resWebUIGroupAdapter.action?object=TaiInspTask&login=false&autoload=true",

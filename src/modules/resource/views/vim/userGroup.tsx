@@ -84,7 +84,7 @@ class UserGroup extends React.Component<any, any> {
         let { match } = this.props
         let { userName, groupName, activeKey } = this.state
         let pageNo = num
-        let queryObj = (activeKey === 'user') ? { pageNo, userName } : { pageNo, groupName }
+        let queryObj = (activeKey === 'user') ? { pageNo, userName, groupName } : { pageNo, groupName }
         this.props.history.push(`${match.url}/${activeKey}?${qs.stringify(queryObj)}`)
         this.getTableData({
             pageNo
@@ -182,7 +182,6 @@ class UserGroup extends React.Component<any, any> {
                 </div>
                 <div style={{ padding: '20px' }}>
                     <div className={styles.queryBar}>
-
                         {
                             activeKey === 'user' ? (
                                 <Input placeholder="用户名称"
@@ -214,7 +213,11 @@ class UserGroup extends React.Component<any, any> {
                     <Switch>
                         <Redirect from={`${match.url}`} to={`${match.url}/user`} exact />
                         <Route path={`${match.url}/:type`}
-                            render={() => <UserGroupList {...this.props} pageSize={pageSize} goPage={this.goPage.bind(this)} data={list} tableLoading={tableLoading}
+                            render={() => <UserGroupList {...this.props}
+                                data={list}
+                                pageSize={pageSize}
+                                tableLoading={tableLoading}
+                                goPage={this.goPage.bind(this)}
                                 goView={this.goView.bind(this)}
                             />}
                         />
