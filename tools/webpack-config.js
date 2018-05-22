@@ -112,7 +112,7 @@ module.exports = (type) => {
                     return module.context && module.context.indexOf('node_modules') !== -1;
                 }
             }),
-            new CopyWebpackPlugin([
+            new CopyWebpackPlugin(_.compact([
                 {
                     from: config.webpack.path.src + '/assets/',
                     to: 'assets/'
@@ -121,7 +121,7 @@ module.exports = (type) => {
                     from: config.webpack.path.src + '/lib/',
                     to: 'lib/'
                 },
-                {
+                isDist && {
                     from: config.webpack.path.src + '/config.json',
                     to: './'
                 },
@@ -133,7 +133,7 @@ module.exports = (type) => {
                     from: config.webpack.path.src + '/favicon.png',
                     to: './'
                 }
-            ]),
+            ])),
             isDev && new HtmlWebpackPlugin({
                 title: pkgJson.title,
                 template: './src/templates/index.ejs',
