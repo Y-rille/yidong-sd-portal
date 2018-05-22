@@ -25,7 +25,7 @@ export interface CompactTableProps {
     pageSize?
     loading?
     size?           // {y:185},传size，需在header里添加width
-    goView?         // 虚拟端口管理
+    goView?         // 操作
     viewList?       // 查看
 }
 
@@ -216,7 +216,7 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
         this.props.goLink(key, obj)
     }
     renderTable() {
-        let { actionAuth, data, selectAuth, selectRow, loading, size, sortAuth, viewList } = this.props
+        let { actionAuth, data, selectAuth, selectRow, loading, size, sortAuth, viewList, actionWidth } = this.props
         let header = data.header || []
         let dataList: any = _.merge([], data.dataList)
         let columns = []
@@ -245,11 +245,10 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
         }
 
         if (actionAuth && actionAuth.length > 0) {
-
             columns.push({
                 title: '操作',
                 key: 'action',
-                width: this.props.actionWidth ? this.props.actionWidth : 150,
+                width: actionWidth ? actionWidth : 150,
                 render: (text, record) => {
                     let actionArr = []
                     for (let i = 0; i < actionAuth.length; i++) {

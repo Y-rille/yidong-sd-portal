@@ -24,6 +24,7 @@ import VolumeTypeInfo from '../../container/vim/volumeTypeInfo'
 import VirtualGroup from '../../container/vim/virtualGroup'
 import NetworkQos from '../../container/vim/networkQos'
 import ProjectQuota from '../../container/vim/projectQuota'
+import ProjectUser from '../../container/vim/projectUser'
 import StorageQos from '../../container/vim/storageQos'
 import UserGroup from '../../container/vim/userGroup'
 import VfRule from '../../container/vim/vfRule'
@@ -84,6 +85,7 @@ class Vim extends React.Component<any, any> {
                         <Route path={`${match.url}/vf_strategy`} component={VfStrategy} />
                         <Route path={`${match.url}/vf_rule`} component={VfRule} />
                         <Route path={`${match.url}/user_group`} component={UserGroup} />
+                        <Route path={`${match.url}/project_quota/:id/user`} component={ProjectUser} />
                         <Route path={`${match.url}/project_quota`} component={ProjectQuota} />
                     </Switch>
                 </div>) : (

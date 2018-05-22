@@ -72,6 +72,10 @@ class ProjectQuota extends React.Component<any, any> {
         });
         this.getTableData()
     }
+    goView(key, obj) {
+        let { match } = this.props
+        this.props.history.push(`${match.url}/${obj.id}/user`)
+    }
     componentWillMount() {
         let { pageNo } = this.state
         let queryObj = {
@@ -86,6 +90,12 @@ class ProjectQuota extends React.Component<any, any> {
         let { match, nodeInfo, list } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let { pageSize, tableLoading, project } = this.state
+        let viewList = [
+            {
+                'key': 'user',
+                'value': '查看用户列表'
+            }
+        ]
         return (
             <div>
                 <div className={styles.header}>
@@ -121,10 +131,14 @@ class ProjectQuota extends React.Component<any, any> {
                         list ? (
                             <CompactTable
                                 goPage={this.goPage.bind(this)}
+                                goView={this.goView.bind(this)}
                                 data={list}
                                 pageSize={pageSize}
                                 loading={tableLoading}
-                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 352 }}
+                                viewList={viewList}
+                                actionAuth={['view']}
+                                size={{ y: list.totalCount > pageSize ? window.innerHeight - 386 : window.innerHeight - 334 }}
+                                actionWidth={500}
                             />) : (
                                 <Spin />
                             )

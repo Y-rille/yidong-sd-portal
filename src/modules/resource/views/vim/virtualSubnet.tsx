@@ -33,7 +33,7 @@ class VirtualSubnet extends React.Component<any, any> {
             project: type === 'Project' ? value : project,
         })
     }
-    projectQuotaInput(value) {
+    virtualSubnetInput(value) {
         this.setState({
             vsname: value
         })
@@ -123,7 +123,7 @@ class VirtualSubnet extends React.Component<any, any> {
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
                         <Input placeholder="虚拟子网名称"
                             value={vsname} type="text"
-                            onChange={e => this.projectQuotaInput(e.target.value)} />
+                            onChange={e => this.virtualSubnetInput(e.target.value)} />
                         <Button
                             type="primary"
                             onClick={this.handleClick.bind(this)}
