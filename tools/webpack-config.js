@@ -121,7 +121,7 @@ module.exports = (type) => {
                     from: config.webpack.path.src + '/lib/',
                     to: 'lib/'
                 },
-                isDist && {
+                isDev && {
                     from: config.webpack.path.src + '/config.json',
                     to: './'
                 },
