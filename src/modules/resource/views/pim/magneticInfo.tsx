@@ -134,32 +134,6 @@ class MageneticInfo extends React.Component<any, any> {
             }
         })
     }
-    confirmUpOrDown = (e) => {
-        // let title = '上电'
-        let content = '服务器正在运行，确定上电吗？'
-        if (this.state.status === 'down') {
-            // title = '上电'
-            content = '服务器正在运行，确定上电吗？'
-        } else if (this.state.status === 'up') {
-            // title = '下电'
-            content = '服务器正在运行，确定下电吗？'
-        }
-        let self = this
-        confirm({
-            title: content,
-            content: '',
-            okText: '确认',
-            cancelText: '取消',
-            iconType: 'exclamation-circle',
-            onOk() {
-                self.setState({
-                    status: self.state.status === 'down' ? 'up' : 'down'
-                })
-            },
-            onCancel() {
-            }
-        })
-    }
 
     goPage = (pageNo) => {
         this.setState({
@@ -192,7 +166,7 @@ class MageneticInfo extends React.Component<any, any> {
     renderPerformance() {
         let self = this;
         let { summary, list } = this.props
-        let pageSize = 999
+        let { pageSize } = this.state
         if (list && list.imdsDiskarrayLun15MiKpis && list.imdsDiskarrayPort15MiKpis && list.imdsDiskarrayTemperature) {
             return (
                 <div>
@@ -222,13 +196,12 @@ class MageneticInfo extends React.Component<any, any> {
     }
     renderNormalTable() {
         let { list } = this.props
-        let { tableLoading } = this.state
+        let { pageSize } = this.state
         if (list && list.header) {
             return (
                 <CompactTable
                     goPage={this.goPage.bind(this)} // 翻页
-                    pageSize={999}
-                    loading={tableLoading}
+                    pageSize={pageSize}
                     data={list}
                 />
             )
@@ -242,32 +215,21 @@ class MageneticInfo extends React.Component<any, any> {
     }
     renderOthers() {
         let { list } = this.props
-        let pageSize = 999
-        if (list && list.imdsDiskarrayBBU && list.imdsDiskarrayFan && list.imdsDiskarrayPower && list.imdsDiskarrayController) {
-            return (
-                <div>
-                    <Headline title="BBU信息" />
-                    <CompactTable
-                        pageSize={pageSize}
-                        data={list.imdsDiskarrayBBU}
-                    />
-                    <Headline title="风扇信息" />
-                    <CompactTable
-                        pageSize={pageSize}
-                        data={list.imdsDiskarrayFan}
-                    />
-                    <Headline title="电源信息" />
-                    <CompactTable
-                        pageSize={pageSize}
-                        data={list.imdsDiskarrayPower}
-                    />
-                    <Headline title="控制器信息" />
-                    <CompactTable
-                        pageSize={pageSize}
-                        data={list.imdsDiskarrayController}
-                    />
-                </div>
-            )
+        let { pageSize } = this.state
+        var titleName = ['BBU信息', '风扇信息', '电源信息', '控制器信息']
+        var tableData = ['imdsDiskarrayBBU', 'imdsDiskarrayFan', 'imdsDiskarrayPower', 'imdsDiskarrayController']
+        if (list) {
+            return _.map(titleName, (item, i) => {
+                return (
+                    <div style={{ 'marginTop': '20px' }}>
+                        <Headline title={item} />
+                        <CompactTable
+                            data={list[tableData[i]]}
+                            pageSize={pageSize}
+                        />
+                    </div>
+                )
+            })
         } else {
             return (
                 <div style={{ position: 'relative', height: '30px' }}>
@@ -403,7 +365,6 @@ class MageneticInfo extends React.Component<any, any> {
                                         {this.renderPerformance()}
                                     </div>
                                 </TabPane>
-                                {/* <TabPane tab="告警" key=""></TabPane> */}
                                 <TabPane tab="其它信息" key="other">
                                     <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                                         {this.renderOthers()}
