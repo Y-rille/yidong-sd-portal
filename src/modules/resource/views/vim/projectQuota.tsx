@@ -74,7 +74,7 @@ class ProjectQuota extends React.Component<any, any> {
     }
     goView(key, obj) {
         let { match } = this.props
-        this.props.history.push(`${match.url}/${obj.id}/user`)
+        this.props.history.push(`${match.url}/${obj.id}/user?name=${obj.name}`)
     }
     componentWillMount() {
         let { pageNo } = this.state

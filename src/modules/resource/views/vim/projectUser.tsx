@@ -11,7 +11,7 @@ import CompactTable from '../../../../components/CompactTable/'
 class ProjectUser extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        let { pageNo, vim_id, userName } = qs.parse(this.props.location.search)
+        let { pageNo, vim_id, userName, name } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/vim/:id'
         })
@@ -21,6 +21,7 @@ class ProjectUser extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             vim_id: mp_node ? mp_node.params.id : '',
             userName: userName ? userName : '',
+            name: name ? name : ''
         }
     }
     goPage(num) {
@@ -83,13 +84,13 @@ class ProjectUser extends React.Component<any, any> {
         this.props.actions.resetList()
     }
     render() {
-        const { pageSize, tableLoading, userName } = this.state;
+        const { pageSize, tableLoading, userName, name } = this.state;
         let { match, nodeInfo, config, list } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>项目名称</h1>
+                    <h1 className={styles.title}>{name}</h1>
                     {nodeInfo ? (
                         <Breadcrumb>
                             <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
