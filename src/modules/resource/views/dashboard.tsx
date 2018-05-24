@@ -43,13 +43,15 @@ class Dashboard extends React.Component<any, any> {
         confirm({
             title: '确定要删除该VIM吗?',
             onOk() {
-                self.props.actions.deleteInstance('vim', moInstId, (data, error) => {
-                    if (data) {
+                self.props.actions.deleteInstance('vim', moInstId, (data, err) => {
+                    if (data && data.code === 1) {
                         emitter.emit('message', 'success', '删除成功！')
                         self.props.actions.getMoTree('mgrmoTree')
                         self.props.actions.getOverview('overviewVIM')
-                    } else {
-                        emitter.emit('message', 'error', '删除失败！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.response.data.message ? err.response.data.message : '删除失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
             },
@@ -87,6 +89,9 @@ class Dashboard extends React.Component<any, any> {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '编辑成功！')
+                        setTimeout(function () {
+                            window.open(config.vim_manage)
+                        }, 2000);
                     } else {
                         emitter.emit('message', 'error', '编辑失败！')
                     }
@@ -101,7 +106,9 @@ class Dashboard extends React.Component<any, any> {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '创建成功！')
-                        window.open(config.vim_manage)
+                        setTimeout(function () {
+                            window.open(config.vim_manage)
+                        }, 2000);
                     } else {
                         emitter.emit('message', 'error', '创建失败！')
                     }
