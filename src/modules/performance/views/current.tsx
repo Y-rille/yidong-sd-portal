@@ -70,7 +70,28 @@ class Current extends React.Component<any, any> {
             this.getData(this.props.kpis)
         }
     }
-    getData(facts, begintime = moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf(), endtime = moment().tz('Asia/Shanghai').valueOf(), timeFilter = null) {
+    getData(facts, begintime = null, endtime = null, timeFilter = null) {
+        // begintime = moment().tz('Asia/Shanghai').subtract(15, 'minutes').valueOf()
+        // endtime = moment().tz('Asia/Shanghai').valueOf()
+
+        let d = new Date()
+        let m = d.getMinutes()
+        let ms = d.getMilliseconds() + d.getSeconds() * 1000
+        if (m > 0 && m < 15) {
+            begintime = moment().tz('Asia/Shanghai').subtract((15 + m), 'minutes').valueOf() - ms
+        } else if (m >= 15 && m < 30) {
+            begintime = moment().tz('Asia/Shanghai').subtract(m, 'minutes').valueOf() - ms
+        } else if (m >= 30 && m < 45) {
+            begintime = moment().tz('Asia/Shanghai').subtract((m - 15), 'minutes').valueOf() - ms
+        } else {
+            // ( m >= 45 && m < 60 )
+            begintime = moment().tz('Asia/Shanghai').subtract((m - 30), 'minutes').valueOf() - ms
+        }
+        endtime = begintime + 15 * 60000
+
+        // console.log(begintime, new Date(begintime));
+        // console.log(endtime, new Date(endtime));
+
         let nodeInfo = this.props.nodeInfo
         let wheredim = `${nodeInfo.bizFields.moDimensionId},eq,${nodeInfo.nodeName}`
         let DataParams = {
@@ -128,7 +149,7 @@ class Current extends React.Component<any, any> {
                         )
                     })}
                 </Row>) : (
-                    <NoData/>
+                    <NoData />
                 )
         )
 
