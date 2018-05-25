@@ -174,6 +174,10 @@ class Magnetic extends React.Component<any, any> {
             cancelText: '取消',
         });
     }
+    shield() {
+        let { match } = this.props
+        this.props.history.push(`${match.url}/shield`)
+    }
     selectRow = (data) => {
         let { pageNo, selected } = this.state
         let newSelected = selected
@@ -344,6 +348,7 @@ class Magnetic extends React.Component<any, any> {
                                     <Button type="primary" onClick={this.showModal}>发现</Button>
                                     <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
                                     <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
+                                    <Button type="primary" onClick={this.shield.bind(this)}>屏蔽管理</Button>
                                 </div>
                                 <Modal
                                     title="发现"
