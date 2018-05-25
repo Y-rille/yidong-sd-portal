@@ -11,6 +11,7 @@ import SwitchboardInfo from '../../container/pim/switchboardInfo'
 import Firewall from '../../container/pim/firewall'
 import FirewallInfo from '../../container/pim/firewallInfo'
 import Edit from '../../container/pim/edit'
+import Shield from '../../container/pim/shieldList'
 import styles from '../../style/index.less'
 class Pim extends React.Component<any, any> {
     constructor(props) {
@@ -32,6 +33,7 @@ class Pim extends React.Component<any, any> {
                 <div>
                     <Switch>
                         {/* <Redirect from={`${match.url}`} to={`${match.url}/magnetic`} exact /> */}
+                        <Route path={`${match.url}/:type/shield`} component={Shield} />
                         <Route path={`${match.url}/:type/edit`} component={Edit} />
                         <Route path={`${match.url}/magnetic/info/:id`} component={MagneticInfo} />
                         <Route path={`${match.url}/magnetic`} component={Magnetic} />

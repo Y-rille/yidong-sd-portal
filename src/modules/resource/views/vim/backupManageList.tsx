@@ -21,28 +21,6 @@ class BackupManageList extends React.Component<any, any> {
             this.props.goPage(n)
         }
     }
-    goDelete(obj) {
-        let moTypeKey = 'server'
-        let moInstId = obj.id
-        let self = this
-        Modal.confirm({
-            title: `确定要删除“${obj.name}”吗？`,
-            okText: '确定',
-            cancelText: '取消',
-            onOk() {
-                self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
-                    if (data && data.code === 1) {
-                        emitter.emit('message', 'success', '删除成功！')
-                    }
-                    if (err || (data && data.code !== 1)) {
-                        let msg = err && err.response.data.message ? err.response.data.message : '删除失败！'
-                        emitter.emit('message', 'error', msg)
-                    }
-                })
-            },
-            onCancel() { },
-        });
-    }
     goRecover(obj) {
         let self = this
         let moInstId = obj.id

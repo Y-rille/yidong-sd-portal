@@ -15,7 +15,8 @@ export interface CompactTableProps {
     goDelete?
     goBackup?       // 备份
     goRecover?      // 恢复
-    actionAuth?     // [ 'edit','delete','backup','recover' ] -- 操作权限
+    goRemove?         // 移出
+    actionAuth?     // [ 'edit','delete','backup','recover','remove '] -- 操作权限
     actionWidth?    // 操作宽度
     footInfoAuth?   // 页脚信息
     outStyle?
@@ -206,6 +207,11 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
             this.props.goRecover(record)
         }
     }
+    goRemove(record) {
+        if (this.props.goRemove) {
+            this.props.goRemove(record)
+        }
+    }
     goPage(current) {
         this.setState({ page_num: current })
         if (this.props.goPage) {
@@ -264,6 +270,9 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
                                 break
                             case 'recover':
                                 actionArr.push(<a onClick={this.goRecover.bind(this, record)} id={record.id} href="javascript:;" type="vertical">恢复</a>)
+                                break
+                            case 'remove':
+                                actionArr.push(<a onClick={this.goRemove.bind(this, record)} id={record.id} href="javascript:;" type="vertical">移出</a>)
                                 break
                             case 'view':
                                 _.map(viewList, (item) => {

@@ -6,7 +6,7 @@ import { matchPath } from 'react-router'
 import CompactTable from '../../../../components/CompactTable'
 import FilterSwitchBoardForm from '../../../../components/FilterSwitchBoardForm'
 import Cascaderor from '../../../../components/Cascaderor'
-import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Input, Modal, Select, } from 'antd'
+import { Row, Col, Breadcrumb, Icon, Tabs, Button, Spin, Input, Modal, Select } from 'antd'
 import styles from '../../style/index.less'
 import qs from 'querystringify'
 import { ResourceActions } from '../../actions/index'
@@ -204,6 +204,10 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             okText: '确认',
             cancelText: '取消',
         });
+    }
+    shield() {
+        let { match } = this.props
+        this.props.history.push(`${match.url}/shield`)
     }
     createTemplate = () => {
         let { findSelected } = this.state
@@ -404,6 +408,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                         <Button type="primary" onClick={this.showModal}>发现</Button>
                                         <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
                                         <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
+                                        <Button type="primary" onClick={this.shield.bind(this)}>屏蔽管理</Button>
                                     </div>
                                     <Modal
                                         title="发现"

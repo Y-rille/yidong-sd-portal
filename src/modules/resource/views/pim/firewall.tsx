@@ -246,6 +246,10 @@ class Firewall extends React.Component<FirewallProps, any> {
             cancelText: '取消',
         });
     }
+    shield() {
+        let { match } = this.props
+        this.props.history.push(`${match.url}/shield`)
+    }
     goDelete(obj) {
         let moTypeKey = 'firewall'
         let moInstId = obj.id
@@ -367,6 +371,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                                     <Button type="primary" onClick={this.showModal}>发现</Button>
                                     <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
                                     <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
+                                    <Button type="primary" onClick={this.shield.bind(this)}>屏蔽管理</Button>
                                 </div>
                                 <Modal
                                     title="发现"
