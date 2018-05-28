@@ -47,15 +47,7 @@ class SwitchboardInfo extends React.Component<any, any> {
             window.open(`${config.ssh}?ip=${_data['ManagerV4IP']}`)
         }
     }
-    goPage(num) {
-        let { match } = this.props
-        let pageNo = num
-        let queryObj = { pageNo }
-        this.props.history.push(`${match.url}`)
-        this.getTableData({
-            pageNo
-        })
-    }
+
     onChange(key) {
         let moTypeKey = 'switch'
         this.setState({
@@ -67,7 +59,7 @@ class SwitchboardInfo extends React.Component<any, any> {
                 pageNo: 1,
                 activeKey: 'imdsSwitchMotherboard'
             }, () => {
-                this.getTableData({ pageNo: 1 })
+                this.getTableData()
             })
         } else {
             this.setState({
@@ -107,27 +99,25 @@ class SwitchboardInfo extends React.Component<any, any> {
                 disabled: true,
                 activeKey: key
             }, () => {
-                this.goPage(1)
+                this.getTableData()
                 this.props.actions.getSummary('imdsSwitch15MiKpis', { switch_id: id });
             })
-
         } else {
             this.setState({
                 disabled: false,
                 activeKey: key
             }, () => {
-                this.goPage(1)
+                this.getTableData()
             })
         }
     }
-    getTableData(queryObj) {
+    getTableData() {
         this.setState({
             tableLoading: true
         });
         let self = this
-        let { pageNo } = queryObj
         let { pageSize, activeKey, switch_id } = this.state
-        this.props.actions.queryList(activeKey, { pageNo, pageSize, switch_id }, () => {
+        this.props.actions.queryList(activeKey, { pageSize, activeKey, switch_id }, () => {
             self.setState({
                 tableLoading: false
             });
