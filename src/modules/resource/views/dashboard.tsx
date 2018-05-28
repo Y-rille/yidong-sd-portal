@@ -90,7 +90,7 @@ class Dashboard extends React.Component<any, any> {
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '编辑成功！')
                         setTimeout(function () {
-                            window.open(config.vim_manage)
+                            window.open(formdata.url)
                         }, 2000);
                     } else {
                         emitter.emit('message', 'error', '编辑失败！')
@@ -107,7 +107,7 @@ class Dashboard extends React.Component<any, any> {
                         this.props.actions.getOverview('overviewVIM')
                         emitter.emit('message', 'success', '创建成功！')
                         setTimeout(function () {
-                            window.open(config.vim_manage)
+                            window.open(formdata.url)
                         }, 2000);
                     } else {
                         emitter.emit('message', 'error', '创建失败！')
