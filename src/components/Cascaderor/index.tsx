@@ -19,12 +19,12 @@ export default class Cascaderor extends React.PureComponent<CascaderProps, any> 
         }
     }
     render() {
-        let { value, style } = this.props
+        let { value, style, data } = this.props
         return (
             <Cascader
                 value={value}
                 style={style}
-                options={this.props.data}
+                options={data}
                 onChange={this.onChangeDataCenter.bind(this)}
                 placeholder={this.props.type === 'DataCenter' ? '数据中心' : '供应商'}
             />

@@ -20,7 +20,7 @@ class Server extends React.Component<any, any> {
     uploadRef: any
     constructor(props) {
         super(props);
-        let { pageNo, vendor, datacenter } = qs.parse(this.props.location.search)
+        let { pageNo, vendor, datacenter, machineroom, cabinet } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/:type/:id'
         })
@@ -31,7 +31,9 @@ class Server extends React.Component<any, any> {
             pageNo: pageNo ? pageNo : 1,
             pim_id: mp_node.params.id,
             visible: false,
-            datacenter: datacenter ? datacenter.split(',') : '',    // 数据中心
+            datacenter: datacenter,     // 数据中心
+            machineroom: machineroom,   // 机房
+            cabinet: cabinet,           // 机柜
             selected: {},
             findSelected: [],
             btnDisabled: true,
@@ -50,23 +52,25 @@ class Server extends React.Component<any, any> {
     }
     getCascaderData(type, value) {
         let { datacenter, vendor } = this.state
-        this.setState({
-            datacenter: type === 'DataCenter' ? value : datacenter,
-            vendor: type === 'DataVendor' ? value : vendor
-        })
-    }
-    dataSelectChange(value) {
-        this.setState({
-            dataSelectValue: value
-        })
+        if (type === 'DataCenter') {
+            this.setState({
+                datacenter: value[0],
+                machineroom: value[1],
+                cabinet: value[2]
+            })
+        } else {
+            this.setState({
+                vendor: vendor
+            })
+        }
     }
     handleClick() { // 查询按钮
         this.setState({
             pageNo: 1
         }, () => {
             let { match } = this.props
-            const { vendor, pageNo, datacenter } = this.state;
-            let queryObj = { pageNo, datacenter, vendor }
+            const { vendor, pageNo, datacenter, machineroom, cabinet } = this.state;
+            let queryObj = { pageNo, datacenter, machineroom, cabinet, vendor }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
             this.getTableData()
         });
@@ -242,13 +246,13 @@ class Server extends React.Component<any, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { vendor, datacenter } = this.state
+        let { vendor, datacenter, machineroom, cabinet } = this.state
         let pageNo = num
         this.setState({
             pageNo: num
         }, () => {
             this.getTableData()
-            let queryObj = { pageNo, vendor, datacenter }
+            let queryObj = { pageNo, datacenter, machineroom, cabinet, vendor }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         })
     }
@@ -269,8 +273,8 @@ class Server extends React.Component<any, any> {
             tableLoading: true
         });
         let self = this
-        let { vendor, datacenter, pageSize, pim_id, pageNo } = this.state
-        let params_obj = { pageNo, pageSize, vendor, datacenter, pim_id }
+        let { datacenter, machineroom, cabinet, vendor, pageSize, pim_id, pageNo } = this.state
+        let params_obj = { pageNo, pageSize, datacenter, machineroom, cabinet, vendor, pim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -327,7 +331,7 @@ class Server extends React.Component<any, any> {
     render() {
         let { match, nodeInfo, subDataVendor, subDataCenter, list, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { vendor, pageSize, tableLoading, datacenter, selected } = this.state;
+        const { vendor, pageSize, tableLoading, datacenter, machineroom, cabinet, selected } = this.state;
         let selectLength = 0
         _.forIn(selected, function (value, key) {
             selectLength += value.length
@@ -352,7 +356,7 @@ class Server extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
+                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={[datacenter, machineroom, cabinet]} />
                                 <Selector type="Vendor" data={subDataVendor} getData={this.getVendorData.bind(this)} value={vendor} />
                                 <Button
                                     type="primary"
