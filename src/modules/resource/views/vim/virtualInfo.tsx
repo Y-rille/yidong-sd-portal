@@ -102,6 +102,9 @@ class VirtualInfo extends React.Component<any, any> {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
     }
+    controlStation() {
+
+    }
     showStorageVolume() {
         let vim_id = this.state.vim_id
         let { match } = this.props
@@ -155,7 +158,10 @@ class VirtualInfo extends React.Component<any, any> {
         if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
             let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
             let hostTypePath = hostType ? `/${hostType}/` : ''
-            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${matchMoTypeKeyAndRoute(moTypeKey.toLocaleLowerCase())}/${hostTypePath}info/${moInstId}?active=topo`)
+            let route = matchMoTypeKeyAndRoute(moTypeKey.toLocaleLowerCase())
+            if (route) {
+                this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${route}/${hostTypePath}info/${moInstId}?active=topo`)
+            }
         }
     }
     refreshHandler() {
@@ -204,6 +210,11 @@ class VirtualInfo extends React.Component<any, any> {
     renderBtns() {
         return (
             <div className={styles.btn}>
+                <Button
+                    type="primary" ghost
+                    icon="code"
+                    onClick={this.controlStation.bind(this)}
+                >控制台</Button>
                 <Button
                     type="primary" ghost
                     icon="eye-o"

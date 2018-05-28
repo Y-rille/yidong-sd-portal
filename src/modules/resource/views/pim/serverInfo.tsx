@@ -35,7 +35,7 @@ class ServerInfo extends React.Component<any, any> {
             showBtn: true,
             tableLoading: false,
             pageNo: pageNo ? pageNo : 1,
-            pageSize: 9999,
+            pageSize: 999,
             activeKey: 'imdsServerProcessor',
             detailKey: 'overview',
             host_info: null,
@@ -51,10 +51,10 @@ class ServerInfo extends React.Component<any, any> {
     confirmUpOrDown = (e) => {
         // let title = '上电'
         let content = '服务器正在运行，确定上电吗？'
-        if (this.state.status === 2) {
+        if (this.state.status === '2') {
             // title = '上电'
             content = '服务器正在运行，确定上电吗？'
-        } else if (this.state.status === 1) {
+        } else if (this.state.status === '1') {
             // title = '下电'
             content = '服务器正在运行，确定下电吗？'
         }
@@ -66,7 +66,7 @@ class ServerInfo extends React.Component<any, any> {
             cancelText: '取消',
             iconType: 'exclamation-circle',
             onOk() {
-                let operateType = self.state.status === 2 ? 'poweron' : 'poweroff'
+                let operateType = self.state.status === '2' ? 'poweron' : 'poweroff'
                 let moTypeKey = 'server'
                 let match = self.props.match
                 let moInstId = match.params.id
@@ -74,7 +74,7 @@ class ServerInfo extends React.Component<any, any> {
                     if (res && res.code === 1) {
                         emitter.emit('message', 'success', '操作成功！')
                         self.setState({
-                            status: self.state.status === 2 ? 1 : 2
+                            status: self.state.status === '2' ? '1' : '2'
                         })
                         self.getAttributes()
                     }
@@ -281,11 +281,11 @@ class ServerInfo extends React.Component<any, any> {
             });
         })
     }
-    getAttributes() {
+    getAttributes(cb?) {
         let moTypeKey = 'server';
         let match = this.props.match
         let id = match.params.id
-        this.props.actions.getObjData(moTypeKey, id);
+        this.props.actions.getObjData(moTypeKey, id, cb);
     }
     getTopo(cb?) {
         let { server } = this.state
@@ -316,11 +316,21 @@ class ServerInfo extends React.Component<any, any> {
     nodeDblClick(data) {
         if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
             let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
-            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${matchMoTypeKeyAndRoute(moTypeKey.toLocaleLowerCase())}/info/${moInstId}?active=topo`)
+            let route = matchMoTypeKeyAndRoute(moTypeKey.toLocaleLowerCase())
+            if (route) {
+                this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${route}/info/${moInstId}?active=topo`)
+            }
         }
     }
     refreshHandler() {
         this.getTopo()
+    }
+    getPowerStatus(objData) {
+        let { columns, values } = objData.data
+        let powerStatus
+        let baseData = _.zipObject(columns, _.head(values))
+        powerStatus = baseData.powerStatus
+        return powerStatus
     }
     componentWillMount() {
         let moTypeKey = 'server';
@@ -339,9 +349,21 @@ class ServerInfo extends React.Component<any, any> {
         if (active && active === 'topo') {
             this.getTopo(this.getTopoState())
         } else {
-            this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id })
+            // this.props.actions.queryListServerPower('imdsServerPowerStatus', { server: id }, (err, data) => {
+            //     if (data) {
+            //         this.setState({
+            //             status: data
+            //         })
+            //     }
+            // })
             this.props.actions.getObjAttributes(moTypeKey)
-            this.getAttributes()
+            this.getAttributes((err, data) => {
+                if (data) {
+                    this.setState({
+                        status: this.getPowerStatus(data)
+                    })
+                }
+            })
         }
     }
     componentDidMount() {
@@ -383,42 +405,35 @@ class ServerInfo extends React.Component<any, any> {
     renderBtns() {
         let { showBtn, status } = this.state
         let _power = this.props.power
-        if (_power && _power.powerStatus !== status && !status) {
-            this.setState({
-                status: _power.powerStatus
-            })
-        }
-        if (showBtn && status) {
-            if (_power) {
-                return (
-                    <div className={styles.btn}>
-                        <Button
-                            type="primary" ghost
-                            icon="dingding"
-                            onClick={this.confirmUpOrDown}
-                        >{this.state.status === 2 ? '上电' : '下电'}</Button>
-                        <Button type="primary" disabled={this.state.status === 2} ghost icon="retweet"
-                            onClick={this.confirmRest.bind(this, 'reset')}
-                        >复位</Button>
-                        <Button type="primary"
-                            icon="link" ghost
-                            onClick={this.sshLink.bind(this, 'reset')}
-                        >设备管理</Button>
-                        <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
-                    </div>
-                )
-            } else {
-                return (
-                    <div className={styles.btn}>
-                        <Button type="primary" disabled={this.state.status === 2} ghost icon="retweet"
-                            onClick={this.confirmRest.bind(this, 'reset')}>复位</Button>
-                        <Button type="primary"
-                            icon="link" ghost
-                            onClick={this.sshLink.bind(this, 'reset')}>设备管理</Button>
-                        <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
-                    </div>
-                )
-            }
+        // if (_power && _power.powerStatus !== status && !status) {
+        //     this.setState({
+        //         status: _power.powerStatus
+        //     })
+        // }
+        if (showBtn) {
+            return (
+                <div className={styles.btn}>
+                    {status ? (
+                        <div style={{ display: 'inline-block' }}>
+                            <Button
+                                type="primary" ghost
+                                icon="dingding"
+                                onClick={this.confirmUpOrDown}
+                            >{status === '2' ? '上电' : '下电'}</Button>
+                            <Button type="primary" disabled={status === '1'} ghost icon="retweet"
+                                onClick={this.confirmRest.bind(this, 'reset')}
+                            >复位</Button>
+                        </div>
+
+                    ) : ''}
+
+                    <Button type="primary"
+                        icon="link" ghost
+                        onClick={this.sshLink.bind(this, 'reset')}
+                    >设备管理</Button>
+                    <Button type="primary" ghost icon="eye-o" onClick={this.goHost.bind(this)}>查看主机</Button>
+                </div>
+            )
         } else {
             return (<div></div>)
         }
@@ -441,7 +456,6 @@ class ServerInfo extends React.Component<any, any> {
     }
     renderMemory() {
         let { list } = this.props
-        let { tableLoading } = this.state
         let sum = 0
         let total = ''
         if (list && list.header && list.dataList) {
@@ -453,7 +467,6 @@ class ServerInfo extends React.Component<any, any> {
             return (
                 <CompactTable
                     goPage={this.goPage.bind(this)}
-                    loading={tableLoading}
                     data={list}
                     footInfoAuth={<div>*&nbsp;总容量(GB)&nbsp;:&nbsp;{total}</div>}
                 />
@@ -468,20 +481,18 @@ class ServerInfo extends React.Component<any, any> {
     }
     renderNormalTable() {
         let { list } = this.props
-        let { tableLoading } = this.state
         if (list && list.header) {
             return (
                 <div style={{ marginTop: '20px', marginBottom: '20px' }}>
                     <CompactTable
                         goPage={this.goPage.bind(this)}
-                        loading={tableLoading}
                         data={list}
                     />
                 </div>
             )
         } else {
             return (
-                <div style={{ position: 'relative', height: '30px' }}>
+                <div style={{ position: 'relative', height: '60px' }}>
                     <Spin />
                 </div>
             )
@@ -525,7 +536,7 @@ class ServerInfo extends React.Component<any, any> {
     }
     renderOthers() {
         let { list, summary } = this.props
-        let pageSize = 999
+        let { pageSize } = this.state
         if (list && summary) {
             return (
                 <div>

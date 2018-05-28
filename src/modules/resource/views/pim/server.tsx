@@ -36,7 +36,7 @@ class Server extends React.Component<any, any> {
             findSelected: [],
             btnDisabled: true,
             downloadUrl: '',
-            uploadUrl: ''
+            uploadUrl: '',
         }
     }
     getData(data) { // 发现
@@ -200,6 +200,10 @@ class Server extends React.Component<any, any> {
             cancelText: '取消',
         });
     }
+    shield() {
+        let { match } = this.props
+        this.props.history.push(`${match.url}/shield`)
+    }
     goDelete(obj) {
         let moTypeKey = 'server'
         let moInstId = obj.id
@@ -360,6 +364,7 @@ class Server extends React.Component<any, any> {
                                     <Button type="primary" onClick={this.showModal}>发现</Button>
                                     <Button type="primary" onClick={this.updateAll.bind(this)} disabled={selectLength ? false : true}>批量更新</Button>
                                     <Button type="danger" onClick={this.deleteAll.bind(this)} disabled={selectLength ? false : true}>批量删除</Button>
+                                    <Button type="primary" onClick={this.shield.bind(this)}>屏蔽管理</Button>
                                 </div>
                                 <Modal
                                     title="发现"

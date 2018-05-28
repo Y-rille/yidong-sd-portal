@@ -9,8 +9,18 @@ import styles from '../style/index.less'
 import { stringify } from 'querystringify'
 import CompactTable from '../../../components/CompactTable'
 import BackupList from '../container/vim/backuplist'
-
-class Backup extends React.Component<any, any> {
+import Selector from '../../../components/Selector'
+import { ResourceActions } from '../actions/index'
+export interface BackupProps {
+    location
+    history
+    match
+    actions: ResourceActions
+    resourceTree
+    nodeInfo
+    list
+}
+class Backup extends React.Component<BackupProps, any> {
     constructor(props) {
         super(props);
         const mp_node: any = matchPath(this.props.location.pathname, {

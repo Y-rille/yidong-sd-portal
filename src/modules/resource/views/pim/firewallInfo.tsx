@@ -163,14 +163,13 @@ class FirewallInfo extends React.Component<any, any> {
     }
     renderMotherBoard() {
         let { list } = this.props
-        const { pageSize, tableLoading } = this.state;
+        const { pageSize } = this.state;
         if (list) {
             return (
                 <CompactTable
                     goPage={this.goPage.bind(this)}
                     data={list}
                     pageSize={pageSize}
-                    loading={tableLoading}
                 />)
         } else {
             return (

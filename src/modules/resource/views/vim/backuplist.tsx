@@ -10,18 +10,34 @@ import { stringify } from 'querystringify'
 import styles from '../../style/index.less'
 import BackupForm from '../../../../components/BackupForm'
 import emitter from '../../../../common/emitter'
+import { ResourceActions } from '../../actions/index'
 
-class BackupList extends React.Component<any, any> {
+export interface BackupListProps {
+    location
+    history
+    match
+    actions: ResourceActions
+    resourceTree
+    nodeInfo
+    list
+    goPage
+    goLink
+}
+class BackupList extends React.Component<BackupListProps, any> {
     formRef: any
     constructor(props) {
         super(props);
-        let { pageNo, pim_id } = qs.parse
+        let { pageNo } = qs.parse(this.props.location.search)
+        const mp_node: any = matchPath(this.props.location.pathname, {
+            path: '/resource/dashboard/backup/:id'
+        })
         this.state = {
             visible: false,
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
-            id: null
+            vim_id: mp_node.params.id,
+            backupInfo: null
         }
     }
     goPage = (n) => {
@@ -37,7 +53,7 @@ class BackupList extends React.Component<any, any> {
     goBackup(data) {
         this.setState({
             visible: true,
-            id: data.id
+            backupInfo: data
         });
     }
     handleCancel = () => {
@@ -50,8 +66,12 @@ class BackupList extends React.Component<any, any> {
     handleOk() {
         let moTypeKey = 'vim'
         let operateType = 'backup'
-        let moInstId = this.state.id
         let formdata = this.formRef.getData()
+        let { backupInfo, vim_id } = this.state
+        let moInstId = backupInfo.host_id
+        formdata.region = backupInfo.region_name
+        formdata.hostId = moInstId
+        formdata.vimId = vim_id
         if (formdata) {
             this.props.actions.operateStatus(moTypeKey, moInstId, operateType, (err, res) => {
                 if (res && res.code === 1) {
@@ -70,7 +90,8 @@ class BackupList extends React.Component<any, any> {
         }
     }
     render() {
-        let { list, pageSize, tableLoading, location } = this.props;
+        let { list, location } = this.props
+        let { pageSize, tableLoading } = this.state
         const mp_node: any = matchPath(location.pathname, {})
         let ft = ''
         if (mp_node && mp_node.params.type) {

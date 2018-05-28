@@ -377,11 +377,11 @@ export const deleteInstance = (moTypeKey, moInstId, cb) => (dispatch) => {
 export const addVim = (moTypeKey, params, cb) => (dispatch) => {
     return API.addVim(moTypeKey, params).then((res: any) => {
         if (cb) {
-            cb(res.data, null)
+            cb(null, res.data)
         }
     }).catch((err) => {
         if (cb) {
-            cb(null, err)
+            cb(err, null)
         }
     })
 }

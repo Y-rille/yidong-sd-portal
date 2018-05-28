@@ -12,15 +12,15 @@ import qs from 'querystringify'
 import Selector from '../../../../components/Selector'
 import { ResourceActions } from '../../actions/index'
 export interface HostProps {
-    location?,
-    history?,
-    actions: ResourceActions,
-    match,
-    subDataRegion?,
-    subDataAZ?,
-    subDataHA?
-    nodeInfo?
-    list?,
+    location
+    history
+    match
+    actions: ResourceActions
+    subDataRegion
+    subDataAZ
+    subDataHA
+    nodeInfo
+    list
 }
 
 class Host extends React.Component<HostProps, any> {

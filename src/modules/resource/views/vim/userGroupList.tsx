@@ -38,25 +38,16 @@ class UserGroupList extends React.Component<any, any> {
             <div style={{ paddingTop: '20px' }}>
                 {
                     data ? (
-                        type === 'user' ? (<CompactTable
+                        <CompactTable
                             goPage={this.goPage.bind(this)}
                             data={data}
                             pageSize={pageSize}
                             loading={tableLoading}
+                            viewList={type === 'group' ? viewList : ''}
+                            actionAuth={type === 'group' ? ['view'] : ''}
+                            goView={this.goView.bind(this)}
                             size={{ y: data.totalCount > pageSize ? window.innerHeight - 430 : window.innerHeight - 420 }}
-                        />) : (
-                                <CompactTable
-                                    goPage={this.goPage.bind(this)}
-                                    data={data}
-                                    pageSize={pageSize}
-                                    loading={tableLoading}
-                                    viewList={viewList}
-                                    actionAuth={['view']}
-                                    goView={this.goView.bind(this)}
-                                    size={{ y: data.totalCount > pageSize ? window.innerHeight - 430 : window.innerHeight - 420 }}
-                                />
-                            )
-
+                        />
                     ) : (
                             <Spin />
                         )

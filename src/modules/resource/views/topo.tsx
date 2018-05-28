@@ -50,7 +50,10 @@ class Home extends React.Component<any, any> {
         if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
             let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
             let hostTypePath = hostType ? `/${hostType}/` : ''
-            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${matchMoTypeKeyAndRoute(moTypeKey.toLocaleLowerCase())}/${hostTypePath}info/${moInstId}?active=topo`)
+            let route = matchMoTypeKeyAndRoute(moTypeKey.toLocaleLowerCase())
+            if (route) {
+                this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${route}/${hostTypePath}info/${moInstId}?active=topo`)
+            }
         }
     }
     refreshHandler() {
