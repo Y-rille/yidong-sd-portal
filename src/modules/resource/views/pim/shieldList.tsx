@@ -29,7 +29,7 @@ class ShieldList extends React.Component<ShieldListProps, any> {
     uploadRef: any
     constructor(props) {
         super(props);
-        let { pageNo, vendor, datacenter, name, assettag } = qs.parse(this.props.location.search)
+        let { pageNo, vendor, name, assettag, datacenter, machineroom, cabinet } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.location.pathname, {
             path: '/resource/pim/:id/:type/shield'
         })
@@ -41,7 +41,9 @@ class ShieldList extends React.Component<ShieldListProps, any> {
             pim_id: mp_node.params.id,
             type: mp_node.params.type,
             visible: false,
-            datacenter: datacenter ? datacenter.split(',') : '',
+            datacenter: datacenter,
+            machineroom: machineroom,
+            cabinet: cabinet,
             name: name ? name : '',
             inputStatus: assettag ? 'switchID' : 'switchName',
             assettag: assettag ? assettag : '',
@@ -49,11 +51,13 @@ class ShieldList extends React.Component<ShieldListProps, any> {
         }
     }
     getCascaderData(type, value) {
-        let { datacenter, vendor } = this.state
-        this.setState({
-            datacenter: type === 'DataCenter' ? value : datacenter,
-            vendor: type === 'DataVendor' ? value : vendor
-        })
+        if (type === 'DataCenter') {
+            this.setState({
+                datacenter: value[0],
+                machineroom: value[1],
+                cabinet: value[2]
+            })
+        }
     }
     dataSelectChange(value) {
         this.setState({
@@ -61,14 +65,14 @@ class ShieldList extends React.Component<ShieldListProps, any> {
         })
     }
     handleClick() {
+        let { match } = this.props
+        let { type } = match.params
+        let queryObj = {}
+        const { vendor, pageNo, name, assettag, datacenter, machineroom, cabinet } = this.state;
         this.setState({
             pageNo: 1
         }, () => {
-            let { match } = this.props
-            let { type } = this.props.match.params
-            let queryObj = {}
-            const { vendor, pageNo, datacenter, name, assettag } = this.state;
-            type === 'switchboard' ? (queryObj = { pageNo, datacenter, name, assettag }) : (queryObj = { pageNo, datacenter, vendor })
+            type === 'switchboard' ? (queryObj = { pageNo, name, assettag, datacenter, machineroom, cabinet }) : (queryObj = { pageNo, vendor, datacenter, machineroom, cabinet })
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
             this.getTableData()
         });
@@ -92,14 +96,16 @@ class ShieldList extends React.Component<ShieldListProps, any> {
     }
     goPage = (num) => {
         let { match } = this.props
-        let { vendor, datacenter } = this.state
+        let { type } = match.params
         let pageNo = num
+        let queryObj = {}
+        const { vendor, name, assettag, datacenter, machineroom, cabinet } = this.state;
         this.setState({
             pageNo: num
         }, () => {
-            this.getTableData()
-            let queryObj = { pageNo, vendor, datacenter }
+            type === 'switchboard' ? (queryObj = { pageNo, name, assettag, datacenter, machineroom, cabinet }) : (queryObj = { pageNo, vendor, datacenter, machineroom, cabinet })
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
+            this.getTableData()
         })
     }
     goRemove(obj) {
@@ -116,7 +122,7 @@ class ShieldList extends React.Component<ShieldListProps, any> {
                 moTypeKey = 'switch'
                 break;
             case 'magnetic':
-                this.moTypeKey = 'diskarray'
+                moTypeKey = 'diskarray'
                 break
             default:
                 moTypeKey = 'server'
@@ -157,8 +163,8 @@ class ShieldList extends React.Component<ShieldListProps, any> {
             tableLoading: true
         });
         let self = this
-        let { vendor, datacenter, pageSize, pim_id, pageNo, type } = this.state
-        let params_obj = { pageNo, pageSize, vendor, datacenter, pim_id }
+        let { vendor, pageSize, pim_id, pageNo, type, datacenter, machineroom, cabinet } = this.state
+        let params_obj = { pageNo, pageSize, vendor, pim_id, datacenter, machineroom, cabinet }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -196,7 +202,7 @@ class ShieldList extends React.Component<ShieldListProps, any> {
     render() {
         let { match, nodeInfo, subDataVendor, subDataCenter, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { type, vendor, pageSize, tableLoading, datacenter, assettag, name } = this.state;
+        const { type, vendor, pageSize, tableLoading, assettag, name, datacenter, machineroom, cabinet } = this.state;
         let base_data = {
             server: '服务器',
             firewall: '防火墙',
@@ -230,7 +236,7 @@ class ShieldList extends React.Component<ShieldListProps, any> {
                         <div style={{ padding: '20px' }}>
                             <div className={styles.shieldBar}>
                                 <div className={styles.shieldQuery}>
-                                    <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
+                                    <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={[datacenter, machineroom, cabinet]} />
                                 </div>
                                 {
                                     type === 'switchboard' ? (
@@ -246,7 +252,7 @@ class ShieldList extends React.Component<ShieldListProps, any> {
                                             </InputGroup>
                                         </div>
                                     ) : (
-                                            <div className={styles.shieldQuery}>
+                                            <div className={styles.vender}>
                                                 <Selector type="Vendor" data={subDataVendor} getData={this.getVendorData.bind(this)} value={vendor} />
                                             </div>)
                                 }
