@@ -25,7 +25,7 @@ export interface ShieldListProps {
     list
 }
 class ShieldList extends React.Component<ShieldListProps, any> {
-    formRef: any;
+    formRef: any
     uploadRef: any
     constructor(props) {
         super(props);
@@ -65,8 +65,10 @@ class ShieldList extends React.Component<ShieldListProps, any> {
             pageNo: 1
         }, () => {
             let { match } = this.props
+            let { type } = this.props.match.params
+            let queryObj = {}
             const { vendor, pageNo, datacenter, name, assettag } = this.state;
-            let queryObj = { pageNo, datacenter, vendor, name, assettag }
+            type === 'switchboard' ? (queryObj = { pageNo, datacenter, name, assettag }) : (queryObj = { pageNo, datacenter, vendor })
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
             this.getTableData()
         });
@@ -101,7 +103,24 @@ class ShieldList extends React.Component<ShieldListProps, any> {
         })
     }
     goRemove(obj) {
-        let moTypeKey = 'server'
+        let { type } = this.props.match.params
+        let moTypeKey = ''
+        switch (type) {
+            case 'server':
+                moTypeKey = 'server'
+                break;
+            case 'firewall':
+                moTypeKey = 'firewall'
+                break;
+            case 'switchboard':
+                moTypeKey = 'switch'
+                break;
+            case 'magnetic':
+                this.moTypeKey = 'diskarray'
+                break
+            default:
+                moTypeKey = 'server'
+        }
         let moInstId = obj.id
         let self = this
         Modal.confirm({
@@ -109,15 +128,15 @@ class ShieldList extends React.Component<ShieldListProps, any> {
             okText: '确定',
             cancelText: '取消',
             onOk() {
-                // self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
-                //     if (data && data.code === 1) {
-                //         emitter.emit('message', 'success', '移出成功！')
-                //     }
-                //     if (err || (data && data.code !== 1)) {
-                //         let msg = err && err.response.data.message ? err.response.data.message : '移出失败！'
-                //         emitter.emit('message', 'error', msg)
-                //     }
-                // })
+                self.props.actions.deleteInstance(moTypeKey, moInstId, (data, err) => {
+                    if (data && data.code === 1) {
+                        emitter.emit('message', 'success', '移出成功！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.response.data.message ? err.response.data.message : '移出失败！'
+                        emitter.emit('message', 'error', msg)
+                    }
+                })
             },
             onCancel() { },
         });
@@ -148,18 +167,21 @@ class ShieldList extends React.Component<ShieldListProps, any> {
         let dsname = ''
         switch (type) {
             case 'server':
-                dsname = ''
+                dsname = 'imdsServerBlacklist'
                 break;
             case 'firewall':
-                dsname = ''
+                dsname = 'imdsFirewallBlacklist'
                 break;
             case 'switchboard':
-                dsname = ''
+                dsname = 'imdsSwitchBlacklist'
+                break;
+            case 'magnetic':
+                dsname = 'imdsDiskArrayBlacklist'
                 break;
             default:
-                dsname = ''
+                dsname = 'imdsServerBlacklist'
         }
-        this.props.actions.queryList('imdsServer', params_obj, () => {
+        this.props.actions.queryList(dsname, params_obj, () => {
             self.setState({
                 tableLoading: false
             });
