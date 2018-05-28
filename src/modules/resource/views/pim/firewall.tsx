@@ -34,7 +34,7 @@ class Firewall extends React.Component<FirewallProps, any> {
     uploadRef: any
     constructor(props) {
         super(props);
-        let { pageNo, datacenter, vendor, pim_id } = qs.parse(this.props.location.search)
+        let { pageNo, datacenter, machineroom, cabinet, vendor, pim_id } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/pim/:id'
         })
@@ -43,7 +43,10 @@ class Firewall extends React.Component<FirewallProps, any> {
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
-            datacenter: datacenter ? datacenter.split(',') : '',
+            // datacenter: datacenter ? datacenter.split(',') : '',
+            datacenter: datacenter,     // 数据中心
+            machineroom: machineroom,   // 机房
+            cabinet: cabinet,           // 机柜
             vendor: vendor ? vendor : '',
             pim_id: mp_node ? mp_node.params.id : '',
             selected: {},
@@ -62,32 +65,43 @@ class Firewall extends React.Component<FirewallProps, any> {
         }
     }
     getCascaderData(type, value) {
-        let { datacenter, vendor } = this.state
-        this.setState({
-            datacenter: type === 'DataCenter' ? value : datacenter,
-            vendor: type === 'DataVendor' ? value : vendor
-        })
+        let { vendor } = this.state
+        if (type === 'DataCenter') {
+            this.setState({
+                datacenter: value[0],
+                machineroom: value[1],
+                cabinet: value[2]
+            })
+        } else {
+            this.setState({
+                vendor: vendor
+            })
+        }
+        // this.setState({
+        //     datacenter: type === 'DataCenter' ? value : datacenter,
+        //     vendor: type === 'DataVendor' ? value : vendor
+        // })
     }
     handleClick() {
         this.setState({
             pageNo: 1
         }, () => {
             let { match } = this.props
-            const { vendor, pageNo, datacenter } = this.state;
-            let queryObj = { pageNo, datacenter, vendor }
+            const { vendor, pageNo, datacenter, machineroom, cabinet } = this.state;
+            let queryObj = { pageNo, datacenter, machineroom, cabinet, vendor }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
             this.getTableData()
         });
     }
     goPage = (num) => {
         let { match } = this.props
-        let { vendor, datacenter } = this.state
+        let { vendor, datacenter, machineroom, cabinet } = this.state
         let pageNo = num
         this.setState({
             pageNo: num
         }, () => {
             this.getTableData()
-            let queryObj = { pageNo, vendor, datacenter }
+            let queryObj = { pageNo, vendor, datacenter, machineroom, cabinet }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         })
     }
@@ -276,8 +290,8 @@ class Firewall extends React.Component<FirewallProps, any> {
             tableLoading: true
         });
         let self = this
-        let { vendor, datacenter, pageSize, pim_id, pageNo } = this.state
-        let params_obj = { pageNo, pageSize, vendor, datacenter, pim_id }
+        let { vendor, datacenter, machineroom, cabinet, pageSize, pim_id, pageNo } = this.state
+        let params_obj = { pageNo, pageSize, vendor, datacenter, machineroom, cabinet, pim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -334,7 +348,7 @@ class Firewall extends React.Component<FirewallProps, any> {
     render() {
         let { match, list, nodeInfo, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        const { pageSize, tableLoading, datacenter, vendor, selected } = this.state;
+        const { pageSize, tableLoading, datacenter, machineroom, cabinet, vendor, selected } = this.state;
         let selectLength = 0
         _.forIn(selected, function (value, key) {
             selectLength += value.length
@@ -359,7 +373,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
+                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={[datacenter, machineroom, cabinet]} />
                                 <Selector type="Vendor" data={this.props.subDataVendor} getData={this.searchData.bind(this)} value={vendor} />
                                 <Button
                                     type="primary"

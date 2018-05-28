@@ -20,7 +20,7 @@ class Magnetic extends React.Component<any, any> {
     uploadRef: any
     constructor(props) {
         super(props);
-        let { datacenter, vendor, pageNo } = qs.parse(this.props.location.search)
+        let { datacenter, machineroom, cabinet, vendor, pageNo } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/pim/:id'
         })
@@ -29,7 +29,9 @@ class Magnetic extends React.Component<any, any> {
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
-            datacenter: datacenter ? datacenter.split(',') : '',
+            datacenter: datacenter,     // 数据中心
+            machineroom: machineroom,   // 机房
+            cabinet: cabinet,           // 机柜
             vendor: vendor ? vendor : '',
             pim_id: mp_node.params.id ? mp_node.params.id : '',
             selected: {},
@@ -53,8 +55,8 @@ class Magnetic extends React.Component<any, any> {
             pageNo: 1
         }, () => {
             let { match } = this.props
-            const { vendor, pageNo, datacenter } = this.state;
-            let queryObj = { pageNo, datacenter, vendor }
+            const { vendor, pageNo, datacenter, machineroom, cabinet } = this.state;
+            let queryObj = { pageNo, datacenter, machineroom, cabinet, vendor }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
             this.getTableData()
         });
@@ -64,8 +66,8 @@ class Magnetic extends React.Component<any, any> {
             tableLoading: true
         });
         let self = this
-        let { datacenter, vendor, pageSize, pim_id, pageNo } = this.state
-        let params_obj = { pageNo, datacenter, vendor, pageSize, pim_id }
+        let { datacenter, machineroom, cabinet, vendor, pageSize, pim_id, pageNo } = this.state
+        let params_obj = { pageNo, datacenter, machineroom, cabinet, vendor, pageSize, pim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -78,22 +80,30 @@ class Magnetic extends React.Component<any, any> {
         })
     }
     getCascaderData(type, value) {
-        let { datacenter, vendor } = this.state
+        if (type === 'DataCenter') {
+            this.setState({
+                datacenter: value[0],
+                machineroom: value[1],
+                cabinet: value[2]
+            })
+        }
+    }
+    getVendorData(type, value) {  // 供应商条件切换
+        let { vendor } = this.state
         this.setState({
-            datacenter: type === 'DataCenter' ? value : datacenter,
             vendor: type === 'Vendor' ? value : vendor
         })
     }
     goPage = (num) => {
         let { match } = this.props
-        let { datacenter, vendor } = this.state
+        let { datacenter, machineroom, cabinet, vendor } = this.state
         let pageNo = num
 
         this.setState({
             pageNo: num
         }, () => {
             this.getTableData()
-            let queryObj = { pageNo, datacenter, vendor }
+            let queryObj = { pageNo, datacenter, machineroom, cabinet, vendor }
             this.props.history.push(`${match.url}?${stringify(queryObj)}`)
         })
     }
@@ -315,7 +325,7 @@ class Magnetic extends React.Component<any, any> {
     }
     render() {
         let { match, nodeInfo, list, subDataPIM, subDataVendor, subDataCenter } = this.props;
-        const { datacenter, vendor, pageSize, tableLoading, selected } = this.state;
+        const { datacenter, machineroom, cabinet, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let selectLength = 0
         _.forIn(selected, function (value, key) {
@@ -341,8 +351,8 @@ class Magnetic extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px 20px 0px' }}>
                             <div className={styles.queryBar}>
-                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={datacenter} />
-                                <Selector type="Vendor" data={subDataVendor} getData={this.getCascaderData.bind(this)} value={vendor} />
+                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={[datacenter, machineroom, cabinet]} />
+                                <Selector type="Vendor" data={subDataVendor} getData={this.getVendorData.bind(this)} value={vendor} />
                                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
                                 <div style={{ float: 'right' }}>
                                     <Button type="primary" onClick={this.showModal}>发现</Button>

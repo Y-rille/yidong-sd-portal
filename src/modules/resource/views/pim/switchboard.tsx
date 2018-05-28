@@ -35,7 +35,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
     uploadRef: any
     constructor(props) {
         super(props);
-        let { pageNo, datacenter, name, assettag } = qs.parse(this.props.location.search)
+        let { pageNo, datacenter, machineroom, cabinet, name, assettag } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
             path: '/resource/pim/:id'
         })
@@ -45,7 +45,10 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             pim_id: mp_node ? mp_node.params.id : '',
             name: name ? name : '',
             pageSize: 10,
-            datacenter: datacenter ? datacenter.split(',') : '',
+            // datacenter: datacenter ? datacenter.split(',') : '',
+            datacenter: datacenter,     // 数据中心
+            machineroom: machineroom,   // 机房
+            cabinet: cabinet,           // 机柜
             pageNo: pageNo ? pageNo : 1,
             inputStatus: assettag ? 'switchID' : 'switchName',
             assettag: assettag ? assettag : '',
@@ -54,11 +57,6 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             btnDisabled: true,
             uploadUrl: ''
         };
-    }
-    onDataChange(value) {
-        this.setState({
-            datacenter: value
-        })
     }
     onNameChange(value) {
         if (this.state.inputStatus === 'switchName') {
@@ -74,13 +72,13 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         }
     }
     handleClick() {
-        const { datacenter, name, assettag } = this.state;
+        const { datacenter, machineroom, cabinet, name, assettag } = this.state;
         let pageNo = 1
         this.setState({
             pageNo
         }, () => {
             let { match } = this.props
-            let queryObj = { pageNo, datacenter, name, assettag }
+            let queryObj = { pageNo, datacenter, machineroom, cabinet, name, assettag }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         });
@@ -90,9 +88,9 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
             pageNo: num
         }, () => {
             let { match } = this.props
-            let { name, pim_id, datacenter, assettag } = this.state
+            let { name, pim_id, datacenter, machineroom, cabinet, assettag } = this.state
             let pageNo = num
-            let queryObj = { pageNo, name, assettag, datacenter }
+            let queryObj = { pageNo, name, assettag, datacenter, machineroom, cabinet }
             this.props.history.push(`${match.url}?${qs.stringify(queryObj)}`)
             this.getTableData()
         })
@@ -281,10 +279,13 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         }
     }
     getCascaderData(type, value) {
-        let { datacenter } = this.state
-        this.setState({
-            datacenter: type === 'DataCenter' ? value : datacenter,
-        })
+        if (type === 'DataCenter') {
+            this.setState({
+                datacenter: value[0],
+                machineroom: value[1],
+                cabinet: value[2]
+            })
+        }
     }
     getSelectValue(value) {
         this.setState({
@@ -295,8 +296,8 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         this.setState({
             tableLoading: true
         });
-        let { name, assettag, datacenter, pageSize, pageNo, pim_id } = this.state
-        let params_obj = { pageNo, name, assettag, datacenter, pageSize, pim_id }
+        let { name, assettag, datacenter, machineroom, cabinet, pageSize, pageNo, pim_id } = this.state
+        let params_obj = { pageNo, name, assettag, datacenter, machineroom, cabinet, pageSize, pim_id }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
@@ -351,7 +352,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         }
     }
     render() {
-        const { name, datacenter, pageSize, tableLoading, assettag, selected } = this.state;
+        const { name, datacenter, machineroom, cabinet, pageSize, tableLoading, assettag, selected } = this.state;
         let { match, nodeInfo, list, subDataPIM, subDataVendor, subDataSwitchType } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let selectLength = 0
@@ -383,7 +384,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                     style={{ width: '220px' }}
                                     type="DataCenter"
                                     data={this.props.subDataCenter}
-                                    getCascaderData={this.getCascaderData.bind(this)} value={datacenter}
+                                    getCascaderData={this.getCascaderData.bind(this)} value={[datacenter, machineroom, cabinet]}
                                 />
                                     <div>
                                         <InputGroup compact>
