@@ -316,7 +316,10 @@ class ServerInfo extends React.Component<any, any> {
     nodeDblClick(data) {
         if (data && data.model && data.model.attributes && data.model.attributes.bizFields && data.model.attributes.bizFields.ifRedirect) {
             let { moMgrType, moMgrId, moTypeKey, moInstId, hostType } = data.model.attributes.bizFields
-            this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${matchMoTypeKeyAndRoute(moTypeKey.toLocaleLowerCase())}/info/${moInstId}?active=topo`)
+            let route = matchMoTypeKeyAndRoute(moTypeKey.toLocaleLowerCase())
+            if (route) {
+                this.props.history.push(`/resource/${moMgrType}/${moMgrId}/${route}/info/${moInstId}?active=topo`)
+            }
         }
     }
     refreshHandler() {
