@@ -78,8 +78,8 @@ class VirtualNetworkInfo extends React.Component<VirtualNetworkInfoProps, any> {
         let id = match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey, id)
-        this.getTableData('imdsVirtualNetworkSubnet')
-        this.getTableData('imdsVirtualNetworkPort')
+        this.getTableData('imdsVirtualSubnet')
+        this.getTableData('imdsVirtualPort')
         this.getTableData('imdsVirtualNetworkDHCP')
     }
     componentWillUnmount() {
@@ -113,7 +113,7 @@ class VirtualNetworkInfo extends React.Component<VirtualNetworkInfoProps, any> {
                             <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
                         </Headline>
                         <CompactTable
-                            data={list.imdsVirtualNetworkSubnet}
+                            data={list.imdsVirtualSubnet}
                             pageSize={pageSize}
                         />
                     </div >
@@ -122,7 +122,7 @@ class VirtualNetworkInfo extends React.Component<VirtualNetworkInfoProps, any> {
                             <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
                         </Headline>
                         <CompactTable
-                            data={list.imdsVirtualNetworkPort}
+                            data={list.imdsVirtualPort}
                             pageSize={pageSize}
                         />
                     </div >
