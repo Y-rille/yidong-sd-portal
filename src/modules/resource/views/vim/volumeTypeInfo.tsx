@@ -25,8 +25,8 @@ class VolumeTypeInfo extends React.Component<any, any> {
             showBtn: key === 'log' ? false : true
         })
         if (key === 'log') {
-            this.props.actions.getSyslog('vm', this.props.match.params.id, (data, err) => {
-                if (data.code === 1) {
+            this.props.actions.getSyslog('volumetype', this.props.match.params.id, (data, err) => {
+                if (data && data.code === 1) {
                     let data_fix = data.log.split('\n')
                     this.setState({
                         events: data_fix
@@ -36,7 +36,7 @@ class VolumeTypeInfo extends React.Component<any, any> {
         }
     }
     componentWillMount() {
-        let moTypeKey = 'vm'
+        let moTypeKey = 'volumetype'
         let match = this.props.match
         let id = match.params.id
         this.props.actions.getObjAttributes(moTypeKey)

@@ -356,6 +356,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
         let { match, nodeInfo, list, subDataPIM, subDataVendor, subDataSwitchType } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let selectLength = 0
+        let centerVal = (datacenter && machineroom && cabinet) ? [datacenter, machineroom, cabinet] : []
         _.forIn(selected, function (value, key) {
             selectLength += value.length
         });
@@ -384,7 +385,7 @@ class Switchboard extends React.Component<SwitchboardProps, any> {
                                     style={{ width: '220px' }}
                                     type="DataCenter"
                                     data={this.props.subDataCenter}
-                                    getCascaderData={this.getCascaderData.bind(this)} value={[datacenter, machineroom, cabinet]}
+                                    getCascaderData={this.getCascaderData.bind(this)} value={centerVal}
                                 />
                                     <div>
                                         <InputGroup compact>

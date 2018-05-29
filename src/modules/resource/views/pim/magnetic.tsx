@@ -328,6 +328,7 @@ class Magnetic extends React.Component<any, any> {
         const { datacenter, machineroom, cabinet, vendor, pageSize, tableLoading, selected } = this.state;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         let selectLength = 0
+        let centerVal = (datacenter && machineroom && cabinet) ? [datacenter, machineroom, cabinet] : []
         _.forIn(selected, function (value, key) {
             selectLength += value.length
         });
@@ -351,7 +352,7 @@ class Magnetic extends React.Component<any, any> {
                         </div>
                         <div style={{ padding: '20px 20px 0px' }}>
                             <div className={styles.queryBar}>
-                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={[datacenter, machineroom, cabinet]} />
+                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={centerVal} />
                                 <Selector type="Vendor" data={subDataVendor} getData={this.getVendorData.bind(this)} value={vendor} />
                                 <Button type="primary" onClick={this.handleClick.bind(this)}>查询</Button>
                                 <div style={{ float: 'right' }}>

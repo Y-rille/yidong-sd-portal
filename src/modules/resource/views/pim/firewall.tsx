@@ -349,6 +349,7 @@ class Firewall extends React.Component<FirewallProps, any> {
         let { match, list, nodeInfo, subDataPIM } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading, datacenter, machineroom, cabinet, vendor, selected } = this.state;
+        let centerVal = (datacenter && machineroom && cabinet) ? [datacenter, machineroom, cabinet] : []
         let selectLength = 0
         _.forIn(selected, function (value, key) {
             selectLength += value.length
@@ -373,7 +374,7 @@ class Firewall extends React.Component<FirewallProps, any> {
                         </div>
                         <div style={{ padding: '20px' }}>
                             <div className={styles.queryBar}>
-                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={[datacenter, machineroom, cabinet]} />
+                                <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={centerVal} />
                                 <Selector type="Vendor" data={this.props.subDataVendor} getData={this.searchData.bind(this)} value={vendor} />
                                 <Button
                                     type="primary"
