@@ -5,15 +5,16 @@ import { Tooltip, Button, Form, Row, Col, Input, Spin } from 'antd';
 const FormItem = Form.Item;
 
 interface DynamicPropertiesCollapseFormProps {
-    data: object;
+    data: object
     editData?
     loading?
+    form?
 }
 const formItemLayout = {
     labelCol: { span: 9 },
     wrapperCol: { span: 15 },
 };
-class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicPropertiesCollapseFormProps> {
+class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicPropertiesCollapseFormProps, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -81,7 +82,6 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
         return items;
     }
     render() {
-        // console.log(this.state.ediable, '=======>this.state.ediable')
         if (this.props.data) {
             let isEditor = false;
             if (_.find(this.props.data, { editable: 1 })) {
