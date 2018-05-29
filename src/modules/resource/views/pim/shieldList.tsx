@@ -203,6 +203,7 @@ class ShieldList extends React.Component<ShieldListProps, any> {
         let { match, nodeInfo, subDataVendor, subDataCenter, list } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { type, vendor, pageSize, tableLoading, assettag, name, datacenter, machineroom, cabinet } = this.state;
+        let centerVal = (datacenter && machineroom && cabinet) ? [datacenter, machineroom, cabinet] : []
         let base_data = {
             server: '服务器',
             firewall: '防火墙',
@@ -236,7 +237,7 @@ class ShieldList extends React.Component<ShieldListProps, any> {
                         <div style={{ padding: '20px' }}>
                             <div className={styles.shieldBar}>
                                 <div className={styles.shieldQuery}>
-                                    <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={[datacenter, machineroom, cabinet]} />
+                                    <Cascaderor type="DataCenter" style={{ width: '220px' }} data={this.props.subDataCenter} getCascaderData={this.getCascaderData.bind(this)} value={centerVal} />
                                 </div>
                                 {
                                     type === 'switchboard' ? (
