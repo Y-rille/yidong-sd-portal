@@ -95,7 +95,7 @@ class ServerInfo extends React.Component<any, any> {
         })
         if (key === 'log') {
             this.props.actions.getSyslog('server', this.props.match.params.id, (data, err) => {
-                if (data.code === 1) {
+                if (data && data.code === 1) {
                     let data_fix = data.log.split('\n')
                     this.setState({
                         events: data_fix
