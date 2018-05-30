@@ -35,14 +35,21 @@ export default class Summaries extends React.PureComponent<SummariesProps, any> 
             dataValues.updatedat = moment.tz(dataValues.updatedat, 'Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss')
         }
         const dataKeys = data ? data.header : '';
-        let dataCol = (colNum === 2 ? 12 : (colNum === 3 ? 8 : (colNum === 4 ? 6 : 4)))
+        let dataCol = (colNum === 1 ? 24 : (colNum === 2 ? 12 : (colNum === 3 ? 8 : (colNum === 4 ? 6 : 4))))
         let right = (dataCol === 4 ? '28px' : '0')
+        let _style = {}
+        if (colNum !== 1) {
+            _style = {
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap'
+            }
+        }
         if (dataValues) {
             return _.map(dataKeys, (item) => {
                 return (
-                    <Col span={dataCol} style={{ marginBottom: '20px', marginRight: right, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                    <Col span={dataCol} style={_.merge({ marginBottom: '20px', marginRight: right }, _style)}>
                         {item.title}:
-                    <span style={{ display: 'inline-block', width: '10px' }} />
                         <Tooltip title={dataValues[item.key]}><span>{dataValues[item.key]}</span></Tooltip>
                     </Col>
                 )
