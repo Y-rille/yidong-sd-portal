@@ -7,8 +7,8 @@ const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 
 interface DynamicPropertiesCollapseProps {
-    attributes: Array<object>;
-    data: object;
+    attributes: Array<object>
+    data: object
     editData?
     loading?
     outStyle?
@@ -16,7 +16,7 @@ interface DynamicPropertiesCollapseProps {
 interface DynamicPropertiesPanelState {
 }
 
-export default class DynamicPropertiesCollapse extends React.PureComponent<DynamicPropertiesCollapseProps> {
+export default class DynamicPropertiesCollapse extends React.PureComponent<DynamicPropertiesCollapseProps, any> {
     constructor(props) {
         super(props);
         this.state = {

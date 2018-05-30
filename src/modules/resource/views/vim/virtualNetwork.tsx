@@ -76,8 +76,6 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         let { match } = this.props
         if (key === 'name') {
             this.props.history.push(`${match.url}/info/${obj.id}`)
-        } else if (key === 'subnetList') {
-            this.props.history.push(`${match.url}/${obj.id}/subnet`)
         }
     }
     goView(key, obj) {
@@ -173,11 +171,8 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
                         pageSize={pageSize}
                         goPage={this.goPage.bind(this)}
                         goLink={this.goLink.bind(this)}
-                        goView={this.goView.bind(this)}
-                        viewList={viewList}
                         data={list}
                         loading={tableLoading}
-                        actionAuth={['view']}
                         size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 334 }}
                     />) : (<Spin />)}
                 </div>

@@ -2,14 +2,27 @@ import * as React from 'react';
 import { matchPath } from 'react-router'
 import * as _ from 'lodash';
 import styles from '../../style/index.less'
-import { Breadcrumb, Icon, Tabs, Spin } from 'antd';
+import { Breadcrumb, Icon, Tabs, Spin, Button } from 'antd';
 import DynamicPropertiesCollapse from '../../../../components/DynamicPropertiesCollapse'
 import Headline from '../../../../components/Headline'
 import CompactTable from '../../../../components/CompactTable'
 import qs from 'querystringify'
 import emitter from '../../../../common/emitter'
+import { ResourceActions } from '../../actions/index'
+
 const TabPane = Tabs.TabPane;
-class VirtualNetworkInfo extends React.Component<any, any> {
+export interface VirtualNetworkInfoProps {
+    location
+    history
+    match
+    config
+    actions: ResourceActions
+    nodeInfo
+    objAttributes
+    objData
+    list
+}
+class VirtualNetworkInfo extends React.Component<VirtualNetworkInfoProps, any> {
     constructor(props) {
         super(props);
         this.state = {
@@ -48,6 +61,11 @@ class VirtualNetworkInfo extends React.Component<any, any> {
             }
         })
     }
+    handleManage() {
+        let { config } = this.props
+        let id = this.props.match.params.id
+        window.open(`${config.vim_manage_link.virtual_network}${id}/detail`)
+    }
     getTableData(activeKey) {
         let self = this
         let match = this.props.match
@@ -60,8 +78,8 @@ class VirtualNetworkInfo extends React.Component<any, any> {
         let id = match.params.id
         this.props.actions.getObjAttributes(moTypeKey)
         this.props.actions.getObjData(moTypeKey, id)
-        this.getTableData('imdsVirtualNetworkSubnet')
-        this.getTableData('imdsVirtualNetworkPort')
+        this.getTableData('imdsVirtualSubnet')
+        this.getTableData('imdsVirtualPort')
         this.getTableData('imdsVirtualNetworkDHCP')
     }
     componentWillUnmount() {
@@ -85,22 +103,38 @@ class VirtualNetworkInfo extends React.Component<any, any> {
         }
     }
     renderTable() {
-        let list = this.props.list
+        let { config, list } = this.props
         const { pageSize } = this.state
-        let titleName = ['子网', '端口', 'DHCP']
-        let tableData = ['imdsVirtualNetworkSubnet', 'imdsVirtualNetworkPort', 'imdsVirtualNetworkDHCP']
         if (list) {
-            return _.map(titleName, (item, i) => {
-                return (
+            return (
+                <div>
                     <div style={{ 'marginTop': '20px' }}>
-                        <Headline title={item} />
+                        <Headline title="子网">
+                            <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                        </Headline>
                         <CompactTable
-                            data={list[tableData[i]]}
+                            data={list.imdsVirtualSubnet}
+                            pageSize={pageSize}
+                        />
+                    </div >
+                    <div style={{ 'marginTop': '20px' }}>
+                        <Headline title="端口">
+                            <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
+                        </Headline>
+                        <CompactTable
+                            data={list.imdsVirtualPort}
+                            pageSize={pageSize}
+                        />
+                    </div >
+                    <div style={{ 'marginTop': '20px' }}>
+                        <Headline title="DHCP" />
+                        <CompactTable
+                            data={list.imdsVirtualNetworkDHCP}
                             pageSize={pageSize}
                         />
                     </div>
-                )
-            })
+                </div>
+            )
         }
     }
     render() {

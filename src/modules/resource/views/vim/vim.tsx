@@ -30,9 +30,9 @@ import UserGroup from '../../container/vim/userGroup'
 import VfRule from '../../container/vim/vfRule'
 import VfStrategy from '../../container/vim/vfStrategy'
 import VirtualFirewall from '../../container/vim/virtualFirewall'
-import VirtualPort from '../../container/vim/virtualPort'
+// import VirtualPort from '../../container/vim/virtualPort'
 import VirtualRouter from '../../container/vim/virtualRouter'
-import VirtualSubnet from '../../container/vim/virtualSubnet'
+// import VirtualSubnet from '../../container/vim/virtualSubnet'
 import styles from '../../style/index.less'
 import vfRule from '../../container/vim/vfRule';
 class Vim extends React.Component<any, any> {
@@ -72,8 +72,8 @@ class Vim extends React.Component<any, any> {
                         <Route path={`${match.url}/virtual/info/:id`} component={VirtualInfo} />
                         <Route path={`${match.url}/virtual`} component={Virtual} />
                         <Route path={`${match.url}/virtual_network/info/:id`} component={VirtualNetworkInfo} />
-                        <Route path={`${match.url}/virtual_network/:id/subnet`} component={VirtualSubnet} />
-                        <Route path={`${match.url}/virtual_network/:id/port`} component={VirtualPort} />
+                        {/* <Route path={`${match.url}/virtual_network/:id/subnet`} component={VirtualSubnet} />
+                        <Route path={`${match.url}/virtual_network/:id/port`} component={VirtualPort} /> */}
                         <Route path={`${match.url}/virtual_network`} component={VirtualNetwork} />
                         <Route path={`${match.url}/volume_type/info/:id`} component={VolumeTypeInfo} />
                         <Route path={`${match.url}/volume_type`} component={VolumeType} />
