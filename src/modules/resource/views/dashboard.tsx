@@ -65,9 +65,8 @@ class Dashboard extends React.Component<any, any> {
             this.props.history.push(`${match.url}/backup/${metadata.ID}/clusterConfig`)
         }
     }
-    goManage() {
-        let { config } = this.props
-        window.open(config.vim_manage)
+    goManage(metadata) {
+        window.open(metadata.url)
     }
     handleOk(formdata) {
         let moTypeKey = 'vim'
