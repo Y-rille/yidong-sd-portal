@@ -76,9 +76,9 @@ class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
             // delete summary.dataList[0].route
             // console.log(summary.dataList);
         }
-        console.log(summary, 'all');
-        console.log(summaryDns, 'dns');
-        console.log(summaryRoute, 'route');
+        // console.log(summary, 'all');
+        // console.log(summaryDns, 'dns');
+        // console.log(summaryRoute, 'route');
 
         return (
             <div>
