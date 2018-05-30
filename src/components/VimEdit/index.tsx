@@ -51,6 +51,8 @@ export default class VimEdit extends React.PureComponent<VimEditProps, any> {
                 visible={this.props.visible}
                 onOk={this.handleOk.bind(this)}
                 onCancel={this.handleCancel.bind(this)}
+                width="60%"
+                // style={{ top: '8%' }}
                 footer={[
                     <Button key="back" onClick={this.handleCancel.bind(this)}>取消</Button>,
                     <Button key="submit" type="primary" loading={this.props.loading}
