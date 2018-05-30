@@ -119,12 +119,6 @@ class VirtualNetwork extends React.Component<VirtualNetworkProps, any> {
         let { match, list, nodeInfo } = this.props
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         const { pageSize, tableLoading, project, name, vnGroup } = this.state;
-        let viewList = [
-            {
-                'key': 'port',
-                'value': '查看虚拟端口'
-            }
-        ]
         return (
             <div>
                 <div className={styles.header}>
