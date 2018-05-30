@@ -103,7 +103,12 @@ class VirtualInfo extends React.Component<any, any> {
         this.props.history.push(`${path}`)
     }
     controlStation() {
-
+        let { columns, values } = this.props.objData.data
+        let { config } = this.props
+        let baseData = _.zipObject(columns, _.head(values))
+        if (baseData && baseData.project && baseData.uuid) {
+            window.open(`${config.vim_manage}/${baseData.project}/instances/${baseData.uuid}`)
+        }
     }
     showStorageVolume() {
         let vim_id = this.state.vim_id
