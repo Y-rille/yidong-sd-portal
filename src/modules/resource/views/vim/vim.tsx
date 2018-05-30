@@ -20,7 +20,6 @@ import VirtualInfo from '../../container/vim/virtualInfo'
 import VirtualNetwork from '../../container/vim/virtualNetwork'
 import VirtualNetworkInfo from '../../container/vim/virtualNetworkInfo'
 import VirtualSubnetInfo from '../../container/vim/virtualSubnetInfo'
-import VirtualPortInfo from '../../container/vim/virtualPortInfo'
 import VolumeType from '../../container/vim/volumeType'
 import VolumeTypeInfo from '../../container/vim/volumeTypeInfo'
 import VirtualGroup from '../../container/vim/virtualGroup'
@@ -41,7 +40,6 @@ class Vim extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
-
     componentWillMount() {
         // 选择项查询
         let selectKey = ['imdsSelectionAZ', 'imdsSelectionHA', 'imdsSelectionRegion', 'imdsSelectionHost', 'imdsSelectionProject']
@@ -74,7 +72,6 @@ class Vim extends React.Component<any, any> {
                         <Route path={`${match.url}/virtual/info/:id`} component={VirtualInfo} />
                         <Route path={`${match.url}/virtual`} component={Virtual} />
                         <Route path={`${match.url}/virtual_network/info/:id/subnet/:s_id`} component={VirtualSubnetInfo} />
-                        <Route path={`${match.url}/virtual_network/info/:id/port/:s_id`} component={VirtualPortInfo} />
                         <Route path={`${match.url}/virtual_network/info/:id`} component={VirtualNetworkInfo} />
                         {/* <Route path={`${match.url}/virtual_network/:id/subnet`} component={VirtualSubnet} />
                         <Route path={`${match.url}/virtual_network/:id/port`} component={VirtualPort} /> */}

@@ -66,7 +66,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 <Select>
                                     {this.renderVendorOptions()}
                                 </Select>
-                                )}
+                            )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
@@ -79,7 +79,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入开始IP" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -91,7 +91,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入结束IP" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                 </Row>
@@ -107,7 +107,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入Provider IP" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -121,7 +121,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入Provider用户名" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -135,7 +135,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 }],
                             })(
                                 <Input type="password" placeholder="请输入Provider密码" />
-                                )}
+                            )}
                         </FormItem>
                     </Col>
                 </Row>
@@ -151,7 +151,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入Provider命名空间" />
-                                )}
+                            )}
                         </FormItem>
                     </Col>
                     <Col span={8}>
@@ -161,14 +161,15 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                         >
                             {getFieldDecorator('datacenter', {
                                 rules: [{
-                                    required: true, message: '请选择！',
+                                    required: true, message: '请选择数据中心！',
                                 }],
                             })(
                                 <Cascader
                                     options={this.props.subDataCenter}
+                                    placeholder="请选择数据中心"
                                 />
 
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                     <Col span={8}>
@@ -179,7 +180,7 @@ class MagneticTableCls extends React.PureComponent<MagneticTableClsProps, any> {
                             {getFieldDecorator('slot', {
                             })(
                                 <Input placeholder="请输入安装U位" />
-                                )}
+                            )}
                         </FormItem>
                     </Col>
                 </Row>

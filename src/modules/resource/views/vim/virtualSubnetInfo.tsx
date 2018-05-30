@@ -14,10 +14,9 @@ export interface VirtualSubnetInfoProps {
     location
     history
     match
-    actions: ResourceActions,
+    actions: ResourceActions
     summary
     nodeInfo
-    list
 }
 class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
     constructor(props) {
@@ -40,16 +39,47 @@ class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
         this.props.history.push(`${path}`)
     }
     componentWillMount() {
-        let host = this.props.match.params.id
-        this.props.actions.getSummary('imdsHostOverview', { host: host }, null)
+        let virtualSubnet = this.props.match.params.id
+        this.props.actions.getSummary('imdsVirtualSubnetDetail', { virtualSubnet: virtualSubnet }, null)
     }
     componentWillUnmount() {
         this.props.actions.resetSummary();
     }
     render() {
-        const { pageSize, tableLoading, ha, name } = this.state;
-        let { nodeInfo, list, summary } = this.props;
+        let { nodeInfo, summary } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
+        var arr = []
+        let dns = []
+        let route = []
+        let summary1 = {}
+        let summaryDns = {}
+        let summaryRoute = {}
+        _.map(summary && summary.header, (item, i) => {
+            if (item.key === 'dns') {
+                summaryDns.header = _.filter(summary.header, item)
+            } else if (item.key === 'route') {
+                summaryRoute.header = _.filter(summary.header, item)
+            } else {
+                summary1.header = arr.push(item)
+            }
+        })
+        _.map(summary && summary.dataList, (item, i) => {
+            dns.push({ dns: item.dns })
+            summaryDns.dataList = dns
+            route.push({ route: item.route })
+            summaryRoute.dataList = route
+            // summary1.dataList = 
+        }
+        )
+        if (summary && summary.dataList) {
+            // delete summary.dataList[0].dns
+            // delete summary.dataList[0].route
+            // console.log(summary.dataList);
+        }
+        console.log(summary, 'all');
+        console.log(summaryDns, 'dns');
+        console.log(summaryRoute, 'route');
+
         return (
             <div>
                 <div className={styles.header}>
@@ -77,14 +107,14 @@ class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
                                 <Summaries
                                     data={summary}
                                     colNum={3} />
-                                {/*  <Headline title="DNS地址" />
-                               <Summaries
-                                    data={summary}
+                                <Headline title="DNS地址" />
+                                <Summaries
+                                    data={summaryDns}
                                     colNum={1} />
                                 <Headline title="静态路由" />
                                 <Summaries
-                                    data={summary}
-                                    colNum={1} /> */}
+                                    data={summaryRoute}
+                                    colNum={1} />
                             </div>)
                             : ''}
                     </div>
