@@ -19,6 +19,8 @@ import Virtual from '../../container/vim/virtual'
 import VirtualInfo from '../../container/vim/virtualInfo'
 import VirtualNetwork from '../../container/vim/virtualNetwork'
 import VirtualNetworkInfo from '../../container/vim/virtualNetworkInfo'
+import VirtualSubnetInfo from '../../container/vim/virtualSubnetInfo'
+import VirtualPortInfo from '../../container/vim/virtualPortInfo'
 import VolumeType from '../../container/vim/volumeType'
 import VolumeTypeInfo from '../../container/vim/volumeTypeInfo'
 import VirtualGroup from '../../container/vim/virtualGroup'
@@ -30,8 +32,8 @@ import UserGroup from '../../container/vim/userGroup'
 import VfRule from '../../container/vim/vfRule'
 import VfStrategy from '../../container/vim/vfStrategy'
 import VirtualFirewall from '../../container/vim/virtualFirewall'
-// import VirtualPort from '../../container/vim/virtualPort'
 import VirtualRouter from '../../container/vim/virtualRouter'
+// import VirtualPort from '../../container/vim/virtualPort'
 // import VirtualSubnet from '../../container/vim/virtualSubnet'
 import styles from '../../style/index.less'
 import vfRule from '../../container/vim/vfRule';
@@ -71,6 +73,8 @@ class Vim extends React.Component<any, any> {
                         <Route path={`${match.url}/storage_snapshot`} component={StorageSnapshot} />
                         <Route path={`${match.url}/virtual/info/:id`} component={VirtualInfo} />
                         <Route path={`${match.url}/virtual`} component={Virtual} />
+                        <Route path={`${match.url}/virtual_network/info/:id/subnet/:s_id`} component={VirtualSubnetInfo} />
+                        <Route path={`${match.url}/virtual_network/info/:id/port/:s_id`} component={VirtualPortInfo} />
                         <Route path={`${match.url}/virtual_network/info/:id`} component={VirtualNetworkInfo} />
                         {/* <Route path={`${match.url}/virtual_network/:id/subnet`} component={VirtualSubnet} />
                         <Route path={`${match.url}/virtual_network/:id/port`} component={VirtualPort} /> */}

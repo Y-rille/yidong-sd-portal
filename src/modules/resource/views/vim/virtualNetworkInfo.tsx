@@ -33,6 +33,18 @@ class VirtualNetworkInfo extends React.Component<VirtualNetworkInfoProps, any> {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
     }
+    goSubnetInfo(key, obj) {
+        let { match } = this.props
+        if (key === 'name') {
+            this.props.history.push(`${match.url}/subnet/${obj.id}`)
+        }
+    }
+    goPortInfo(key, obj) {
+        let { match } = this.props
+        if (key === 'name') {
+            this.props.history.push(`${match.url}/port/${obj.id}`)
+        }
+    }
     handleEditData(d, cb) {
         let moTypeKey = 'virtual_network'
         let match = this.props.match
@@ -113,8 +125,9 @@ class VirtualNetworkInfo extends React.Component<VirtualNetworkInfoProps, any> {
                             <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
                         </Headline>
                         <CompactTable
-                            data={list.imdsVirtualSubnet}
+                            // data={list.imdsVirtualSubnet}
                             pageSize={pageSize}
+                            goLink={this.goSubnetInfo.bind(this)}
                         />
                     </div >
                     <div style={{ 'marginTop': '20px' }}>
@@ -122,8 +135,9 @@ class VirtualNetworkInfo extends React.Component<VirtualNetworkInfoProps, any> {
                             <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
                         </Headline>
                         <CompactTable
-                            data={list.imdsVirtualPort}
+                            // data={list.imdsVirtualPort}
                             pageSize={pageSize}
+                            goLink={this.goPortInfo.bind(this)}
                         />
                     </div >
                     <div style={{ 'marginTop': '20px' }}>

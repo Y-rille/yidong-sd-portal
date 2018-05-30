@@ -43,7 +43,7 @@ export default class CompactTable extends React.PureComponent<CompactTableProps,
             header: [{
                 key: 'name',
                 title: '主机名称',
-                link: false
+                link: true
             }, {
                 key: 'role',
                 title: '角色',
