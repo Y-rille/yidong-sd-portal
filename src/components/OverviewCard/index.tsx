@@ -21,6 +21,17 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     options: any
     chart: any
     newObj: any
+    static defaultProps = {
+        textData: {
+            data: {
+                headers: ['VCPU', '内存', '硬盘'],
+                values: [['300/700/1000/70%', '400/600/1000/60%', '200/800/1000/50%']]
+            },
+            description: '',
+            name: '资源分配情况',
+            type: 'text'
+        }
+    }
     goEdit() {
         let id = this.props.data.metadata.moInstId
         if (this.props.goEdit) {
@@ -40,8 +51,9 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         }
     }
     goManage() {
+        let metadata = this.props.data.metadata
         if (this.props.goManage) {
-            this.props.goManage()
+            this.props.goManage(metadata)
         }
     }
     doFind() {
@@ -56,8 +68,6 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
             this.props.goTopo(metadata)
         }
     }
-
-    static defaultProps = {}
 
     toNewData(arr1, arr2) {
         let newArr: any = []
@@ -154,6 +164,16 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
             }
         })
     }
+    renderColorText(stringVal) {
+        let arrColor = ['#6fbdf3', '#fba277', '#7cd8ba', 'dadada']
+        let tempArr = _.split(stringVal, '/')
+        let tempCon = []
+        _.map(tempArr, (item, key) => {
+            let display = (key === tempArr.length - 1) ? 'none' : 'inline-block'
+            tempCon.push(<span style={{ color: arrColor[key] }}>{item}<i style={{ display: display }}>&nbsp;/&nbsp;</i></span>)
+        })
+        return tempCon
+    }
 
     renderCardText(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
@@ -164,12 +184,13 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     <span>{item.name}</span>
                 </div>
                 <div className={styles.card_cont_text}>
+                    <p>{this.renderColorText('未使用/已使用/总(GB)')}</p>
                     {newArr ? _.map(newArr, (header, key) => {
                         return (
                             <p className={styles.card_header} key={key}>
-                                {header[0]}
-                                <Tooltip placement="top" title={header[1]} arrowPointAtCenter>
-                                    <span className={styles.card_value}>：{header[1]}</span>
+                                {header[0]}：
+                                <Tooltip placement="top" title={this.renderColorText(header[1])} arrowPointAtCenter>
+                                    {this.renderColorText(header[1])}
                                 </Tooltip>
                             </p>
                         )
@@ -271,6 +292,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
 
     renderCard() {
         let { data } = this.props
+        let { textData } = this.props
         let reports = data.reports
         return (
             <div className={styles.row_card}>
@@ -278,6 +300,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     switch (item.type) {
                         case 'text':
                             return this.renderCardText(item)
+                            // return this.renderCardText(textData)
                         // break;
                         case 'dot1':
                             return this.renderCardDot1(item)
