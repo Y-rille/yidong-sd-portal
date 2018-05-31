@@ -48,37 +48,39 @@ class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
     render() {
         let { nodeInfo, summary } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        var arr = []
-        let dns = []
-        let route = []
-        let summary1 = {}
-        let summaryDns = {}
-        let summaryRoute = {}
-        _.map(summary && summary.header, (item, i) => {
-            if (item.key === 'dns') {
-                summaryDns.header = _.filter(summary.header, item)
-            } else if (item.key === 'route') {
-                summaryRoute.header = _.filter(summary.header, item)
-            } else {
-                summary1.header = arr.push(item)
-            }
-        })
-        _.map(summary && summary.dataList, (item, i) => {
-            dns.push({ dns: item.dns })
-            summaryDns.dataList = dns
-            route.push({ route: item.route })
-            summaryRoute.dataList = route
-            // summary1.dataList = 
+        let summary1 = {
+            header: [],
+            dataList: []
         }
-        )
-        if (summary && summary.dataList) {
-            // delete summary.dataList[0].dns
-            // delete summary.dataList[0].route
-            // console.log(summary.dataList);
+        let summaryDns = {
+            header: [],
+            dataList: []
         }
-        // console.log(summary, 'all');
-        // console.log(summaryDns, 'dns');
-        // console.log(summaryRoute, 'route');
+        let summaryRoute = {
+            header: [],
+            dataList: []
+        }
+        if (summary) {
+            let header = summary.header
+            let val = _.head(summary.dataList)
+            let objdns = _.find(header, ['key', 'dns'])
+            let objroute = _.find(header, ['key', 'route'])
+            summary1.header = _.difference(header, [objdns, objroute])
+            summaryDns.header.push(objdns)
+            summaryRoute.header.push(objroute)
+            _.forIn(val, (value, key) => {
+                switch (key) {
+                    case 'dns':
+                        summaryDns.dataList.push({ 'dns': value })
+                        break;
+                    case 'route':
+                        summaryRoute.dataList.push({ 'route': value })
+                        break;
+                    default: summary1.dataList.push(_.omit(val, ['dns', 'route']))
+                        return
+                }
+            })
+        }
 
         return (
             <div>
@@ -105,7 +107,7 @@ class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
                         {summary ?
                             (<div>
                                 <Summaries
-                                    data={summary}
+                                    data={summary1}
                                     colNum={3} />
                                 <Headline title="DNS地址" />
                                 <Summaries

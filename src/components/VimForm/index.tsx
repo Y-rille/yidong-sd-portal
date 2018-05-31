@@ -57,32 +57,6 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                         >
                             <p>{this.state.VimId}</p>
                         </Form.Item>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="用户名"
-                        >
-                            {getFieldDecorator('adm', {
-                                initialValue: data.adm,
-                                rules: [{
-                                    required: true, message: '请输入用户名！',
-                                }],
-                            })(
-                                <Input placeholder="请输入用户名" />
-                                )}
-                        </Form.Item>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="密码"
-                        >
-                            {getFieldDecorator('pwd', {
-                                initialValue: data.pwd,
-                                rules: [{
-                                    required: true, message: '请输入密码！',
-                                }],
-                            })(
-                                <Input type="password" placeholder="请输入密码" />
-                                )}
-                        </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item
@@ -98,6 +72,42 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                                 <Input placeholder="请输入名称" />
                                 )}
                         </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12}>
+                        <Form.Item
+                            {...formItemLayout}
+                            label="用户名"
+                        >
+                            {getFieldDecorator('adm', {
+                                initialValue: data.adm,
+                                rules: [{
+                                    required: true, message: '请输入用户名！',
+                                }],
+                            })(
+                                <Input placeholder="请输入用户名" />
+                                )}
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            {...formItemLayout}
+                            label="密码"
+                        >
+                            {getFieldDecorator('pwd', {
+                                initialValue: data.pwd,
+                                rules: [{
+                                    required: true, message: '请输入密码！',
+                                }],
+                            })(
+                                <Input type="password" placeholder="请输入密码" />
+                                )}
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12}>
                         <Form.Item
                             {...formItemLayout}
                             label="URL"
@@ -111,6 +121,8 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                                 <Input placeholder="请输入URL" />
                                 )}
                         </Form.Item>
+                    </Col>
+                    <Col span={12}>
                         <Form.Item
                             {...formItemLayout}
                             label="位置"
