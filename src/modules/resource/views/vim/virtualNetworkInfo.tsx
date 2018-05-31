@@ -119,7 +119,7 @@ class VirtualNetworkInfo extends React.Component<VirtualNetworkInfoProps, any> {
                             <Button type="primary" onClick={this.handleManage.bind(this)}>管理</Button>
                         </Headline>
                         <CompactTable
-                            // data={list.imdsVirtualSubnet}
+                            data={list.imdsVirtualSubnet}
                             pageSize={pageSize}
                             goLink={this.goLink.bind(this)}
                         />
