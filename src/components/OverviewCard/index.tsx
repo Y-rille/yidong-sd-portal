@@ -184,7 +184,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     <span>{item.name}</span>
                 </div>
                 <div className={styles.card_cont_text}>
-                    <p>{this.renderColorText('未使用/已使用/总(GB)')}</p>
+                    <p>{this.renderColorText('未使用/已使用/总/百分比')}</p>
                     {newArr ? _.map(newArr, (header, key) => {
                         return (
                             <p className={styles.card_header} key={key}>
@@ -300,7 +300,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     switch (item.type) {
                         case 'text':
                             return this.renderCardText(item)
-                            // return this.renderCardText(textData)
+                        // return this.renderCardText(textData)
                         // break;
                         case 'dot1':
                             return this.renderCardDot1(item)
