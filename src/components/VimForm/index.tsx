@@ -10,11 +10,11 @@ export interface VimFormClsProps extends FormComponentProps {
 }
 const formItemLayout = {
     labelCol: { span: 4 },
-    wrapperCol: { span: 18 },
+    wrapperCol: { span: 20 },
 };
 const formItemLayoutBei = {
     labelCol: { span: 2 },
-    wrapperCol: { span: 21 },
+    wrapperCol: { span: 22 },
 };
 class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
     constructor(props: any) {
