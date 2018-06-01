@@ -4,7 +4,7 @@
 .overviewCard {
     border-radius: 4px;
     background-color: #f5f7f9;
-    padding: @padding-base; 
+    padding: @padding-base @padding-base 0 @padding-base; 
     :global{
         .ant-card-body{
             padding: @padding-base;
@@ -78,8 +78,8 @@
             
             .card_pie_cont {
                 display: flex;
+                div{flex:1}
                 .card_pie_cont_left{
-                    flex: 1;
                     margin-top: 52px;
                     .card_header{
                         margin-top: @margin-min;
@@ -89,12 +89,10 @@
                     }
                 }
                 .card_pie_cont_center{
-                    flex: 1;
                     width: 120px;
                     height: 120px;
                 }
                 .card_pie_cont_right{
-                    flex: 1;
                     margin-top: 22px;
                 }
             }
@@ -103,7 +101,7 @@
             width: 25%;
         }
         .card_w2 {
-            width: calc(~'50% + 20px');
+            width: calc(~'75% + 40px');
             .card_titile {
                 margin-bottom: 0;
             }
