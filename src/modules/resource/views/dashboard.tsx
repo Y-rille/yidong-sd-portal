@@ -61,8 +61,8 @@ class Dashboard extends React.Component<any, any> {
     }
     goBackup(metadata) {
         let { match } = this.props
-        if (metadata.ID) {
-            this.props.history.push(`${match.url}/backup/${metadata.ID}/clusterConfig`)
+        if (metadata.id) {
+            this.props.history.push(`${match.url}/backup/${metadata.id}/clusterConfig`)
         }
     }
     goManage(metadata) {
@@ -132,15 +132,15 @@ class Dashboard extends React.Component<any, any> {
     }
     goTopo(metadata) {
         let { match } = this.props
-        if (metadata.ID && metadata.metaname) {
-            this.props.history.push(`${match.url}/topo/${metadata.ID}`)
+        if (metadata.id && metadata.metaname) {
+            this.props.history.push(`${match.url}/topo/${metadata.id}`)
         }
     }
     findHandleOk() {
         let { pimInfo } = this.state
         let { match } = this.props
-        if (pimInfo.ID && pimInfo.metaname) {
-            this.props.history.push(`${match.url}/topo/${pimInfo.ID}`)
+        if (pimInfo.id && pimInfo.metaname) {
+            this.props.history.push(`${match.url}/topo/${pimInfo.id}`)
         }
         this.setState({
             findVisible: false,
@@ -158,9 +158,13 @@ class Dashboard extends React.Component<any, any> {
     }
     renderOverviewCard(data, type) {
         data = data || []
-        return _.map(data, (item) => {
+        return _.map(data, (item, key) => {
+            let cls = {
+                'paddingBottom': (key === data.length - 1) ? '20px' : '0'
+            }
             return (
                 <OverviewCard
+                    outStyle={cls}
                     data={item}
                     type={type}
                     goEdit={type === 'vim' ? this.goEdit.bind(this) : null}
