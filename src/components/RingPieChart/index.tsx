@@ -31,6 +31,7 @@ export default class RingPieChart extends React.PureComponent<RingPieChartProps,
                 spacing: 0
             },
             title: {
+                floating: true,
                 text: ''
             },
             tooltip: {
@@ -40,7 +41,7 @@ export default class RingPieChart extends React.PureComponent<RingPieChartProps,
                 pie: {
                     allowPointSelect: false,
                     cursor: 'pointer',
-                    colors: ['#7cd8ba', '#879dbb', '#ffe780'],
+                    colors: ['#879dbb', '#ffe780'],
                     dataLabels: {
                         enabled: true,
                         distance: -20,

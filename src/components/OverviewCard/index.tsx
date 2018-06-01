@@ -26,15 +26,6 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     chart: any
     newObj: any
     static defaultProps = {
-        textData: {
-            data: {
-                headers: ['VCPU', '内存', '硬盘'],
-                values: [['300/700/1000/70%', '400/600/1000/60%', '200/800/1000/50%']]
-            },
-            description: '',
-            name: '资源分配情况',
-            type: 'text'
-        }
     }
     goEdit() {
         let id = this.props.data.metadata.moInstId
@@ -198,11 +189,12 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     renderCardPie(item) {
         const clsCard = classNames(styles.card, styles.card_w2);
         const clsIcon = classNames(styles.icon, styles.icon_square);
-        let leftTextArr: any = ['总（台）', '未分配裸机（台）']
-        let ringPieData = this.toNewData2(item.data.headers, _.head(item.data.values), leftTextArr, true)
+        let arrColor = ['#7cd8ba', '#879dbb', '#ffe780']        
+        let ringTextArr: any = ['未分配裸机（台）', '已分配机器(台)']        
+        let leftTextArr: any = ['总（台）', '未分配裸机（台）', '已分配机器(台)']
         let rightTextArr: any = ['计算节点', '控制节点', '存储节点']
+        let ringPieData = this.toNewData2(item.data.headers, _.head(item.data.values), ringTextArr, true)        
         let basePieData = this.toNewData2(item.data.headers, _.head(item.data.values), rightTextArr, true)
-        let arrColor = ['#7cd8ba', '#879dbb', '#ffe780']
         let newLeftArr = this.toNewData2(item.data.headers, _.head(item.data.values), leftTextArr)
         let newRightArr = this.toNewData2(item.data.headers, _.head(item.data.values), rightTextArr)
         return (
@@ -214,12 +206,14 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     <div className={styles.card_pie_cont_center}>
                         <RingPieChart data={ringPieData}/>
                     </div>
-                    <div className={styles.card_pie_cont_left}>
+                    <div className={styles.card_pie_cont_right}>
                         {newLeftArr ? _.map(newLeftArr, (header, key) => {
                             return (
-                                <p className={styles.card_header} key={key}>
-                                    {header[0]}
-                                    <span className={styles.card_value}>：{header[1]}</span>
+                                <p className={styles.card_cont_dot} key={key}>
+                                    <span className={clsIcon} style={{ backgroundColor: arrColor[key] }} />
+                                    {header[0]}：
+                                    <span className={styles.card_cont_center} style={{ color: arrColor[key] }}>{header[1]}</span>
+                                    <span style={{ color: arrColor[key] }}>&nbsp;个</span>
                                 </p>
                             )
                         }) : ''}
