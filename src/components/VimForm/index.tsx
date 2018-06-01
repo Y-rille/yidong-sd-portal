@@ -44,6 +44,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
             })
         }
     }
+
     render() {
         let { data } = this.props
         const { getFieldDecorator } = this.props.form;
@@ -70,7 +71,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入名称" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                 </Row>
@@ -87,7 +88,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入用户名" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -102,7 +103,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                                 }],
                             })(
                                 <Input type="password" placeholder="请输入密码" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                 </Row>
@@ -119,7 +120,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入URL" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -134,7 +135,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                                 }],
                             })(
                                 <Input placeholder="请输入位置" />
-                                )}
+                            )}
                         </Form.Item>
                     </Col>
                 </Row>
@@ -151,7 +152,7 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
                                 }],
                             })(
                                 <TextArea rows={4} />
-                                )}
+                            )}
                         </FormItem>
                     </Col>
                 </Row>

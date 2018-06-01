@@ -2,8 +2,8 @@
 import * as React from 'react';
 export interface MainProps {
     animate?: boolean;
-    width?: number;
-    height?: number;
+    width?: any;
+    height?: any;
     drawGrid?: boolean;
     rankDir?: 'TB' | 'BT' | 'LR' | 'RL';
     onDblclick?: Function;
