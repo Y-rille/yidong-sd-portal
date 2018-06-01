@@ -40,7 +40,7 @@ export default class VimEdit extends React.PureComponent<VimEditProps, any> {
         let _data = {}
         if (data) {
             data.columns.map((item, index) => {
-                const key = data.headers[index];
+                const key = data.columns[index];
                 const values = data.values[0][index];
                 _data[key] = values
             });
