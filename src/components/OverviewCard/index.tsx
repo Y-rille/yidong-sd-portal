@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Card, Tooltip, Button } from 'antd';
 import * as Highcharts from 'highcharts';
+import BasePieChart from '../BasePieChart'
+import RingPieChart from '../RingPieChart'
 import classNames from 'classnames';
 import styles from './index.less';
 import _ from 'lodash';
@@ -9,6 +11,7 @@ export interface OverviewCardProps {
     goEdit?
     data?
     type?
+    outStyle?
     goDelete?
     goBackup?
     goManage?
@@ -17,7 +20,8 @@ export interface OverviewCardProps {
 }
 
 export default class OverviewCard extends React.PureComponent<OverviewCardProps, any> {
-    pie: any
+    pieLeft: any
+    pieRight: any
     options: any
     chart: any
     newObj: any
@@ -106,63 +110,6 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     }
 
     componentDidMount() {
-        let { data } = this.props
-        let reports = data.reports
-        reports.map((item) => {
-            if (item.type === 'pie') {
-                let PieTextArr: any = ['计算节点', '控制节点', '存储节点']
-                let pieData = this.toNewData2(item.data.headers, _.head(item.data.values), PieTextArr, true)
-                this.options = {
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false,
-                        spacing: 0
-                    },
-                    title: {
-                        text: ''
-                    },
-                    tooltip: {
-                        enabled: false,
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: false,
-                            cursor: 'pointer',
-                            colors: ['#7cd8ba', '#879dbb', '#ffe780'],
-                            dataLabels: {
-                                enabled: true,
-                                distance: -20,
-                                style: {
-                                    fontSize: '9px',
-                                    color: 'white'
-                                },
-                                format: '{point.percentage:.1f}%'
-                            },
-                            states: {
-                                hover: {
-                                    enabled: false
-                                }
-                            }
-                        }
-                    },
-                    credits: {  // 版权信息，不显示
-                        enabled: false
-                    },
-                    navigation: {
-                        buttonOptions: {
-                            enabled: false
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: '浏览器访问量占比',
-                        data: pieData
-                    }]
-                }
-                this.chart = Highcharts.chart(this.pie, this.options);
-            }
-        })
     }
     renderColorText(stringVal) {
         let arrColor = ['#53bdf9', '#f29d38', '#65cfc8', 'dadada']
@@ -252,7 +199,9 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         const clsCard = classNames(styles.card, styles.card_w2);
         const clsIcon = classNames(styles.icon, styles.icon_square);
         let leftTextArr: any = ['总（台）', '未分配裸机（台）']
+        let ringPieData = this.toNewData2(item.data.headers, _.head(item.data.values), leftTextArr, true)
         let rightTextArr: any = ['计算节点', '控制节点', '存储节点']
+        let basePieData = this.toNewData2(item.data.headers, _.head(item.data.values), rightTextArr, true)
         let arrColor = ['#7cd8ba', '#879dbb', '#ffe780']
         let newLeftArr = this.toNewData2(item.data.headers, _.head(item.data.values), leftTextArr)
         let newRightArr = this.toNewData2(item.data.headers, _.head(item.data.values), rightTextArr)
@@ -262,6 +211,9 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     <span>{item.name}</span>
                 </div>
                 <div className={styles.card_pie_cont}>
+                    <div className={styles.card_pie_cont_center}>
+                        <RingPieChart data={ringPieData}/>
+                    </div>
                     <div className={styles.card_pie_cont_left}>
                         {newLeftArr ? _.map(newLeftArr, (header, key) => {
                             return (
@@ -272,7 +224,9 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                             )
                         }) : ''}
                     </div>
-                    <div className={styles.card_pie_cont_center} ref={(node) => { this.pie = node }} ></div>
+                    <div className={styles.card_pie_cont_center}>
+                        <BasePieChart data={basePieData} />
+                    </div>                   
                     <div className={styles.card_pie_cont_right}>
                         {newRightArr ? _.map(newRightArr, (header, key) => {
                             return (
@@ -300,7 +254,6 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     switch (item.type) {
                         case 'text':
                             return this.renderCardText(item)
-                        // return this.renderCardText(textData)
                         // break;
                         case 'dot1':
                             return this.renderCardDot1(item)
@@ -317,13 +270,13 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     }
 
     render() {
-        let { data } = this.props
+        let { data, outStyle } = this.props
         let metadata = data.metadata
         let { type } = this.props
         return (
-            <div className={styles.overviewCard}>
+            <div className={styles.overviewCard} style={outStyle}>
                 <div className={styles.title}>
-                    <span className={styles.title_header}>{metadata.NAME}</span><span>ID: {metadata.ID}</span>&emsp;<span>位置:{metadata.location}</span>&emsp;
+                    <span className={styles.title_header}>{metadata.NAME}</span><span>ID: {metadata.id}</span>&emsp;<span>位置:{metadata.location}</span>&emsp;
                     {type === 'vim' ? (<a href="javascript:;" onClick={this.goEdit.bind(this)}>编辑</a>) : ''}
                     {type === 'pim' ? (<a href="javascript:;" onClick={this.doFind.bind(this)}>链路发现</a>) : ''}
                     {type === 'pim' ? (<a className={styles.title_mg} href="javascript:;" onClick={this.goTopo.bind(this)}>网络拓扑</a>) : ''}
