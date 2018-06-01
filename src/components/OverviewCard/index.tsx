@@ -165,12 +165,12 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         })
     }
     renderColorText(stringVal) {
-        let arrColor = ['#6fbdf3', '#fba277', '#7cd8ba', 'dadada']
+        let arrColor = ['#53bdf9', '#f29d38', '#65cfc8', 'dadada']
         let tempArr = _.split(stringVal, '/')
         let tempCon = []
         _.map(tempArr, (item, key) => {
             let display = (key === tempArr.length - 1) ? 'none' : 'inline-block'
-            tempCon.push(<span style={{ color: arrColor[key] }}>{item}<i style={{ display: display }}>&nbsp;/&nbsp;</i></span>)
+            tempCon.push(<span style={{ color: arrColor[key] }}>{item}<i style={{ display: display }}>/</i></span>)
         })
         return tempCon
     }
@@ -203,7 +203,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     renderCardDot1(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
         const clsIcon = classNames(styles.icon, styles.icon_round);
-        let arrColor = ['#6fbdf3', '#fba277', '#000']
+        let arrColor = ['#504f4f', '#c73420', '#f29d38', '#f8cd46', '#53bdf9']        
         let newArr = this.toNewData(item.data.headers, _.head(item.data.values))
         return (
             <Card className={clsCard} bordered={false}>
@@ -213,10 +213,10 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                 {newArr ? _.map(newArr, (header, key) => {
                     return (
                         <p className={styles.card_cont_dot} key={key}>
-                            <span className={clsIcon} style={{ backgroundColor: arrColor[key < 3 ? key : 2] }} />
+                            <span className={clsIcon} style={{ backgroundColor: arrColor[key] }} />
                             {header[0]}：
-                            <span className={styles.card_cont_center} style={{ color: arrColor[key < 3 ? key : 2] }}>{header[1]}</span>
-                            <span style={{ color: arrColor[key < 3 ? key : 2] }}>&nbsp;个</span>
+                            <span className={styles.card_cont_center} style={{ color: arrColor[key] }}>{header[1]}</span>
+                            <span style={{ color: arrColor[key] }}>&nbsp;个</span>
                         </p>
                     )
                 }) : ''}
@@ -227,7 +227,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     renderCardDot2(item) {
         const clsCard = classNames(styles.card, styles.card_w4);
         const clsIcon = classNames(styles.icon, styles.icon_round);
-        let arrColor = ['#6fbdf3', '#b2becd', '#7cd8ba']
+        let arrColor = ['#504f4f', '#53bdf9', '#b2becd']
         let newArr = this.toNewData(item.data.headers, _.head(item.data.values))
         return (
             <Card className={clsCard} bordered={false}>

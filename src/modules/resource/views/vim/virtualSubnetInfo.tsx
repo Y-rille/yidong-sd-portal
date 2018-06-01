@@ -77,7 +77,7 @@ class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
                         summaryRoute.dataList.push({ 'route': value })
                         break;
                     default: summary1.dataList.push(_.omit(val, ['dns', 'route']))
-                        return
+                        break;
                 }
             })
         }
