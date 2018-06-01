@@ -48,7 +48,7 @@ class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
     render() {
         let { nodeInfo, summary } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
-        let summary1 = {
+        let summaryBase = {
             header: [],
             dataList: []
         }
@@ -65,7 +65,7 @@ class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
             let val = _.head(summary.dataList)
             let objdns = _.find(header, ['key', 'dns'])
             let objroute = _.find(header, ['key', 'route'])
-            summary1.header = _.difference(header, [objdns, objroute])
+            summaryBase.header = _.difference(header, [objdns, objroute])
             summaryDns.header.push(objdns)
             summaryRoute.header.push(objroute)
             _.forIn(val, (value, key) => {
@@ -76,8 +76,8 @@ class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
                     case 'route':
                         summaryRoute.dataList.push({ 'route': value })
                         break;
-                    default: summary1.dataList.push(_.omit(val, ['dns', 'route']))
-                        break;
+                    default: summaryBase.dataList.push(_.omit(val, ['dns', 'route']))
+                        return
                 }
             })
         }
@@ -107,7 +107,7 @@ class VirtualSubnetInfo extends React.Component<VirtualSubnetInfoProps, any> {
                         {summary ?
                             (<div>
                                 <Summaries
-                                    data={summary1}
+                                    data={summaryBase}
                                     colNum={3} />
                                 <Headline title="DNS地址" />
                                 <Summaries
