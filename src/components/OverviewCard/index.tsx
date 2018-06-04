@@ -26,6 +26,16 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     chart: any
     newObj: any
     static defaultProps = {
+        pieData: {
+            data: {
+                headers: ['总（台）', '未分配裸机（台）', '已分配机器(台)', '控制节点', '存储节点', '计算节点'],
+                values: [['10', '4', '6', '4', '4', '2']]
+
+            },
+            description: '',
+            name: '服务器',
+            type: 'pie'
+        }
     }
     goEdit() {
         let id = this.props.data.metadata.moInstId
@@ -189,7 +199,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     renderCardPie(item) {
         const clsCard = classNames(styles.card, styles.card_w2);
         const clsIcon = classNames(styles.icon, styles.icon_square);
-        let arrColor = ['#7cd8ba', '#879dbb', '#ffe780']        
+        let arrColor = ['#ffe780', '#879dbb', '#7cd8ba']        
         let ringTextArr: any = ['未分配裸机（台）', '已分配机器(台)']        
         let leftTextArr: any = ['总（台）', '未分配裸机（台）', '已分配机器(台)']
         let rightTextArr: any = ['计算节点', '控制节点', '存储节点']
@@ -197,6 +207,8 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
         let basePieData = this.toNewData2(item.data.headers, _.head(item.data.values), rightTextArr, true)
         let newLeftArr = this.toNewData2(item.data.headers, _.head(item.data.values), leftTextArr)
         let newRightArr = this.toNewData2(item.data.headers, _.head(item.data.values), rightTextArr)
+        let totalText = this.toNewData(item.data.headers, _.head(item.data.values))
+        let total = _.head(totalText)
         return (
             <Card className={clsCard} bordered={false}>
                 <div className={styles.card_titile}>
@@ -204,7 +216,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                 </div>
                 <div className={styles.card_pie_cont}>
                     <div className={styles.card_pie_cont_center}>
-                        <RingPieChart data={ringPieData}/>
+                        <RingPieChart data={ringPieData} total={total}/>
                     </div>
                     <div className={styles.card_pie_cont_right}>
                         {newLeftArr ? _.map(newLeftArr, (header, key) => {
@@ -240,7 +252,7 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
 
     renderCard() {
         let { data } = this.props
-        let { textData } = this.props
+        let { pieData } = this.props
         let reports = data.reports
         return (
             <div className={styles.row_card}>
@@ -256,7 +268,8 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                             return this.renderCardDot2(item)
                         // break;
                         default:
-                            return this.renderCardPie(item)
+                            // return this.renderCardPie(item)
+                            return this.renderCardPie(pieData)
                     }
                 })}
             </div>

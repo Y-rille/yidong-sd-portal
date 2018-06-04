@@ -40,7 +40,7 @@ export default class BasePieChart extends React.PureComponent<BasePieChartProps,
                 pie: {
                     allowPointSelect: false,
                     cursor: 'pointer',
-                    colors: ['#7cd8ba', '#879dbb', '#ffe780'],
+                    colors: ['#ffe780', '#879dbb', '#7cd8ba'],
                     dataLabels: {
                         enabled: true,
                         distance: -20,

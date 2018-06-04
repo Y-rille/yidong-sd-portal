@@ -1,8 +1,10 @@
 import React from 'react';
 import * as Highcharts from 'highcharts';
+import _ from 'lodash';
 
 export interface RingPieChartProps {
     data
+    total
 }
 
 /**
@@ -22,7 +24,8 @@ export default class RingPieChart extends React.PureComponent<RingPieChartProps,
         };
     }
     componentDidMount() {
-        let { data } = this.props
+        let { data, total } = this.props
+        let titleTxt = total.join(':')
         var options = {
             chart: {
                 plotBackgroundColor: null,
@@ -31,8 +34,14 @@ export default class RingPieChart extends React.PureComponent<RingPieChartProps,
                 spacing: 0
             },
             title: {
-                floating: true,
-                text: ''
+                text: '总:' + total[1],
+                // floating: true,
+                align: 'center',
+                verticalAlign: 'middle',
+                style: {
+                    fontSize: '10px',
+                    color: '#ffe780'
+                },
             },
             tooltip: {
                 enabled: false,
@@ -41,7 +50,7 @@ export default class RingPieChart extends React.PureComponent<RingPieChartProps,
                 pie: {
                     allowPointSelect: false,
                     cursor: 'pointer',
-                    colors: ['#879dbb', '#ffe780'],
+                    colors: ['#879dbb', '#7cd8ba'],
                     dataLabels: {
                         enabled: true,
                         distance: -20,
@@ -68,7 +77,7 @@ export default class RingPieChart extends React.PureComponent<RingPieChartProps,
             },
             series: [{
                 type: 'pie',
-                innerSize: '60%',
+                innerSize: '70%',
                 name: '浏览器访问量占比',
                 data: data
             }]
