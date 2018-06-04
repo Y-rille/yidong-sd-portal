@@ -26,16 +26,16 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
     chart: any
     newObj: any
     static defaultProps = {
-        pieData: {
-            data: {
-                headers: ['总（台）', '未分配裸机（台）', '已分配机器(台)', '控制节点', '存储节点', '计算节点'],
-                values: [['10', '4', '6', '4', '4', '2']]
+        // pieData: {
+        //     data: {
+        //         headers: ['总（台）', '未分配裸机（台）', '已分配机器(台)', '控制节点', '存储节点', '计算节点'],
+        //         values: [['10', '4', '6', '4', '4', '2']]
 
-            },
-            description: '',
-            name: '服务器',
-            type: 'pie'
-        }
+        //     },
+        //     description: '',
+        //     name: '服务器',
+        //     type: 'pie'
+        // }
     }
     goEdit() {
         let id = this.props.data.metadata.moInstId
@@ -268,8 +268,8 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                             return this.renderCardDot2(item)
                         // break;
                         default:
-                            // return this.renderCardPie(item)
-                            return this.renderCardPie(pieData)
+                            return this.renderCardPie(item)
+                            // return this.renderCardPie(pieData)
                     }
                 })}
             </div>

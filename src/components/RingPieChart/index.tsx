@@ -25,7 +25,8 @@ export default class RingPieChart extends React.PureComponent<RingPieChartProps,
     }
     componentDidMount() {
         let { data, total } = this.props
-        let titleTxt = total.join(':')
+        // let titleTxt = total.join(':')
+        let titleTxt = (total[1] > 0) ? '总:' + total[1] : ''
         var options = {
             chart: {
                 plotBackgroundColor: null,
@@ -34,7 +35,7 @@ export default class RingPieChart extends React.PureComponent<RingPieChartProps,
                 spacing: 0
             },
             title: {
-                text: '总:' + total[1],
+                text: titleTxt,
                 // floating: true,
                 align: 'center',
                 verticalAlign: 'middle',
