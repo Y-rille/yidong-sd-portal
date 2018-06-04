@@ -147,42 +147,23 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
             </Card>
         )
     }
-
-    renderCardDot1(item) {
-        const clsCard = classNames(styles.card, styles.card_w4);
-        const clsIcon = classNames(styles.icon, styles.icon_round);
-        let arrColor = ['#504f4f', '#c73420', '#f29d38', '#f8cd46', '#53bdf9']        
-        let newArr = this.toNewData(item.data.headers, _.head(item.data.values))
-        return (
-            <Card className={clsCard} bordered={false}>
-                <div className={styles.card_titile}>
-                    <span>{item.name}</span>
-                </div>
-                {newArr ? _.map(newArr, (header, key) => {
-                    return (
-                        <p className={styles.card_cont_dot} key={key}>
-                            <span className={clsIcon} style={{ backgroundColor: arrColor[key] }} />
-                            {header[0]}：
-                            <span className={styles.card_cont_center} style={{ color: arrColor[key] }}>{header[1]}</span>
-                            <span style={{ color: arrColor[key] }}>&nbsp;个</span>
-                        </p>
-                    )
-                }) : ''}
-            </Card>
-        )
-    }
-
-    renderCardDot2(item) {
-        const clsCard = classNames(styles.card, styles.card_w4);
-        const clsIcon = classNames(styles.icon, styles.icon_round);
-        let arrColor = ['#504f4f', '#53bdf9', '#b2becd']
-        let newArr = this.toNewData(item.data.headers, _.head(item.data.values))
-        return (
-            <Card className={clsCard} bordered={false}>
-                <div className={styles.card_titile}>
-                    <span>{item.name}</span>
-                </div>
-                {newArr ? _.map(newArr, (header, index) => {
+    renderLabelCon(data, type) {
+        let clsIcon = classNames(styles.icon, (type === 'pie') ? styles.icon_square : styles.icon_round); 
+        let arrColor
+        switch (type) {
+            case 'dot1':
+                arrColor = ['#504f4f', '#c73420', '#f29d38', '#f8cd46', '#53bdf9']
+                break
+            case 'dot2':
+                arrColor = ['#504f4f', '#53bdf9', '#b2becd']
+                break
+            case 'pie':
+                arrColor = ['#ffe780', '#879dbb', '#7cd8ba']
+                break
+            default: arrColor = ''
+                break
+        }
+        return _.map(data, (header, index) => {
                     return (
                         <p className={styles.card_cont_dot} key={index}>
                             <span className={clsIcon} style={{ backgroundColor: arrColor[index] }} />
@@ -191,12 +172,23 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                             <span style={{ color: arrColor[index] }}>&nbsp;个</span>
                         </p>
                     )
-                }) : ''}
+                })
+    }
+    renderCardDot(item, type) {
+        const clsCard = classNames(styles.card, styles.card_w4);
+        const clsIcon = classNames(styles.icon, styles.icon_round);   
+        let newArr = this.toNewData(item.data.headers, _.head(item.data.values))  
+        return (
+            <Card className={clsCard} bordered={false}>
+                <div className={styles.card_titile}>
+                    <span>{item.name}</span>
+                </div>
+                {newArr ? this.renderLabelCon(newArr, type) : ''}
             </Card>
         )
     }
-
-    renderCardPie(item) {
+    
+    renderCardPie(item, type) {
         const clsCard = classNames(styles.card, styles.card_w2);
         const clsIcon = classNames(styles.icon, styles.icon_square);
         let arrColor = ['#ffe780', '#879dbb', '#7cd8ba']        
@@ -219,37 +211,19 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                         <RingPieChart data={ringPieData} total={total}/>
                     </div>
                     <div className={styles.card_pie_cont_right}>
-                        {newLeftArr ? _.map(newLeftArr, (header, key) => {
-                            return (
-                                <p className={styles.card_cont_dot} key={key}>
-                                    <span className={clsIcon} style={{ backgroundColor: arrColor[key] }} />
-                                    {header[0]}：
-                                    <span className={styles.card_cont_center} style={{ color: arrColor[key] }}>{header[1]}</span>
-                                    <span style={{ color: arrColor[key] }}>&nbsp;个</span>
-                                </p>
-                            )
-                        }) : ''}
+                        {newLeftArr ? this.renderLabelCon(newLeftArr, type) : ''}
                     </div>
                     <div className={styles.card_pie_cont_center}>
                         <BasePieChart data={basePieData} />
                     </div>                   
                     <div className={styles.card_pie_cont_right}>
-                        {newRightArr ? _.map(newRightArr, (header, key) => {
-                            return (
-                                <p className={styles.card_cont_dot} key={key}>
-                                    <span className={clsIcon} style={{ backgroundColor: arrColor[key] }} />
-                                    {header[0]}：
-                                    <span className={styles.card_cont_center} style={{ color: arrColor[key] }}>{header[1]}</span>
-                                    <span style={{ color: arrColor[key] }}>&nbsp;个</span>
-                                </p>
-                            )
-                        }) : ''}
+                        {newRightArr ? this.renderLabelCon(newRightArr, type) : ''}
                     </div>
                 </div>
             </Card>
         )
     }
-
+    
     renderCard() {
         let { data } = this.props
         let { pieData } = this.props
@@ -260,15 +234,12 @@ export default class OverviewCard extends React.PureComponent<OverviewCardProps,
                     switch (item.type) {
                         case 'text':
                             return this.renderCardText(item)
-                        // break;
                         case 'dot1':
-                            return this.renderCardDot1(item)
-                        // break;
+                            return this.renderCardDot(item, item.type)
                         case 'dot2':
-                            return this.renderCardDot2(item)
-                        // break;
+                            return this.renderCardDot(item, item.type)
                         default:
-                            return this.renderCardPie(item)
+                            return this.renderCardPie(item, item.type)
                             // return this.renderCardPie(pieData)
                     }
                 })}
