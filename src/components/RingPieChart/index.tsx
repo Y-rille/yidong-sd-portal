@@ -78,7 +78,7 @@ export default class RingPieChart extends React.PureComponent<RingPieChartProps,
             series: [{
                 type: 'pie',
                 innerSize: '70%',
-                name: '浏览器访问量占比',
+                name: '服务器分配状态占比',
                 data: data
             }]
         }

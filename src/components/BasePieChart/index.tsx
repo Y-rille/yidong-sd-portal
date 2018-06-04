@@ -67,7 +67,7 @@ export default class BasePieChart extends React.PureComponent<BasePieChartProps,
             },
             series: [{
                 type: 'pie',
-                name: '浏览器访问量占比',
+                name: '节点占比',
                 data: data
             }]
         }
