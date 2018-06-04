@@ -108,8 +108,10 @@ class Dashboard extends React.Component<any, any> {
                         setTimeout(function () {
                             window.open(formdata.url)
                         }, 2000);
-                    } else {
-                        emitter.emit('message', 'error', '创建失败！')
+                    }
+                    if (err || (data && data.code !== 1)) {
+                        let msg = err && err.response.data.message ? '创建失败, ' + err.response.data.message : '创建失败！'
+                        emitter.emit('message', 'error', msg)
                     }
                 })
             }
