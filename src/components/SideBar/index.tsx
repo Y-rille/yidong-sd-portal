@@ -103,7 +103,7 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                                         <Menu.Item key={`/resource/vim/${id}/volume_type`} >卷类型管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/storage_qos`}>存储QOS管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/network_qos`} >网络QOS管理</Menu.Item>
-                                        <Menu.Item key={`/resource/vim/${id}/virtual_router`} >虚拟路由器信息管理</Menu.Item>
+                                        <Menu.Item key={`/resource/vim/${id}/virtual_router`} >虚拟路由器管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/virtual_firewall`}>虚拟防火墙管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/vf_strategy`}>虚拟防火墙安全策略管理</Menu.Item>
                                         <Menu.Item key={`/resource/vim/${id}/vf_rule`}>虚拟防火墙安全规则管理</Menu.Item>

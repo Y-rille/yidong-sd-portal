@@ -91,7 +91,7 @@ class VirtualRouter extends React.Component<any, any> {
         return (
             <div>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>虚拟路由器信息管理</h1>
+                    <h1 className={styles.title}>虚拟路由器管理</h1>
                     <Breadcrumb>
                         <Breadcrumb.Item><Icon type="home" /></Breadcrumb.Item>
                         <Breadcrumb.Item>资源管理</Breadcrumb.Item>
@@ -100,13 +100,13 @@ class VirtualRouter extends React.Component<any, any> {
                                 return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
                             })
                         }
-                        <Breadcrumb.Item>虚拟路由器信息管理</Breadcrumb.Item>
+                        <Breadcrumb.Item>虚拟路由器管理</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
                 <div style={{ padding: '20px', height: window.innerHeight - 204 }}>
                     <div className={styles.queryBar}>
                         <Selector type="Project" data={this.props.subDataProject} getData={this.getData.bind(this)} value={project} />
-                        <Input placeholder="虚拟路由器信息名称"
+                        <Input placeholder="虚拟路由器名称"
                             value={name} type="text"
                             onChange={e => this.virtualRouterInput(e.target.value)} />
                         <Button
