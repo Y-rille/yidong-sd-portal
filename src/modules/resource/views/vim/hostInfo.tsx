@@ -336,7 +336,7 @@ class HostInfo extends React.Component<any, any> {
         )
     }
     renderDynamicPropertiesCollapse() {
-        let { summary } = this.props
+        let { summary, dict, dictOptions } = this.props
         if (summary && this.props.objAttributes && this.props.objData) {
             return (
                 <div style={{ marginTop: '20px' }}>
@@ -346,6 +346,8 @@ class HostInfo extends React.Component<any, any> {
                     <DynamicPropertiesCollapse
                         attributes={this.props.objAttributes}
                         data={this.props.objData}
+                        dict={dict}
+                        dictOptions={dictOptions}
                         editData={this.handleEditData.bind(this)} />
                 </div>
             )

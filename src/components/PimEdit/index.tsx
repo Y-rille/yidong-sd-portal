@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Form, Input, Button, Select, Row, Col } from 'antd';
 const FormItem = Form.Item;
+const Option = Select.Option;
 import { FormComponentProps } from 'antd/lib/form/Form';
 import styles from './index.less';
 
@@ -10,6 +11,8 @@ declare let global: any;
 
 export interface PimEditProps extends FormComponentProps {
     data?
+    dict?
+    dictOptions?
 }
 const formItemLayout = {
     labelCol: { span: 6 },
@@ -33,10 +36,17 @@ class PimEditCls extends React.PureComponent<PimEditProps, any> {
     handleReset() {
         this.props.form.resetFields()
     }
-    renderFormItem() {
-        let { data } = this.props
-        const { getFieldDecorator } = this.props.form;
+    renderOptions(data) {
         return _.map(data, (item) => {
+            return <Option value={item}>{item}</Option>
+        })
+    }
+    renderFormItem() {
+        let { data, dict, dictOptions } = this.props
+        const { getFieldDecorator } = this.props.form;
+        let dictOptions_fix = _.keyBy(dictOptions, 'dictName')
+        return _.map(data, (item) => {
+
             return (
                 <Row>
                     <Col>
@@ -49,12 +59,15 @@ class PimEditCls extends React.PureComponent<PimEditProps, any> {
                                 initialValue: '',
                                 rules: [],
                             })(
-                                <Input placeholder="请输入" />
+                                dict.indexOf(item.physicalTablefield) > -1 && dictOptions_fix[item.physicalTablefield] ?
+                                    <Select>{this.renderOptions(dictOptions_fix[item.physicalTablefield].dictItems)}</Select> :
+                                    <Input placeholder="请输入" />
                             )}
                         </Form.Item>
                     </Col>
                 </Row>
             )
+
         })
     }
     render() {

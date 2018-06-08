@@ -15,7 +15,9 @@ function mapProps(state) {
         summary: state.resourceReducer.summary,
         list: state.resourceReducer.list,
         syslog: state.resourceReducer.syslog,
-        config: state.commonReducer.config
+        config: state.commonReducer.config,
+        dict: state.resourceReducer.dict,
+        dictOptions: state.resourceReducer.dictOptions,
     }
 }
 function mapDispatchToProps(dispatch) {

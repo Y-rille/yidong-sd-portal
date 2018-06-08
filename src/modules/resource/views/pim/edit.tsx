@@ -104,8 +104,9 @@ class Edit extends React.Component<any, any> {
     }
     renderPimEdit() {
         let data = this.fixData()
+        let { dict, dictOptions } = this.props
         if (data.length) {
-            return <PimEdit wrappedComponentRef={(node) => { this.formRef = node }} data={data} />
+            return <PimEdit wrappedComponentRef={(node) => { this.formRef = node }} data={data} dict={dict} dictOptions={dictOptions} />
         }
     }
     render() {

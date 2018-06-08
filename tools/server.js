@@ -31,7 +31,7 @@ var webProxy = proxy(options);
 
 
 var options_setting = {
-    target: 'http://15.146.38.119:8067/', // target host
+    target: 'http://111.198.190.250:8891/api_setting/', // target host
     secure: false,
     changeOrigin: true,               // needed for virtual hosted sites
     ws: true,                         // proxy websockets
@@ -44,7 +44,7 @@ var options_setting = {
 var webProxy_setting = proxy(options_setting);
 
 var options_performance = {
-    target: 'http://15.146.38.119:8090/', // target host
+    target: 'http://111.198.190.250:8891/api_performance/', // target host
     secure: false,
     changeOrigin: true,               // needed for virtual hosted sites
     ws: true,                         // proxy websockets
@@ -57,7 +57,7 @@ var options_performance = {
 var webProxy_performance = proxy(options_performance);
 
 var options_resource = {
-    target: 'http://15.146.38.119:8090/', // target host
+    target: 'http://111.198.190.250:8891/api_resource/', // target host
     secure: false,
     changeOrigin: true,               // needed for virtual hosted sites
     ws: true,                         // proxy websockets
@@ -70,7 +70,7 @@ var options_resource = {
 var webProxy_resource = proxy(options_resource);
 
 var options_agent = {
-    target: 'http://15.146.38.119:18028/', // target host
+    target: 'http://111.198.190.250:8891/api_agent/', // target host
     secure: false,
     changeOrigin: true,               // needed for virtual hosted sites
     ws: true,                         // proxy websockets

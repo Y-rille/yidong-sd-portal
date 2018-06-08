@@ -12,6 +12,8 @@ interface DynamicPropertiesCollapseProps {
     editData?
     loading?
     outStyle?
+    dict?
+    dictOptions?
 }
 interface DynamicPropertiesPanelState {
 }
@@ -61,7 +63,7 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
     }
     render() {
         let { data } = this.state
-        let { outStyle } = this.props
+        let { outStyle, dict, dictOptions } = this.props
         let style = outStyle ? outStyle : { 'paddingTop': '20px' }
         let leng = data.groups.length - 1
         let defaultStyle = { 'marginBottom': '20px' }
@@ -74,13 +76,15 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
                                 let sindex = index.toString()
                                 let itemStyle = (sindex < leng) ? defaultStyle : { 'marginBottom': '0px' }
                                 const formData = data.list.filter(item => (item.attributeGroup === group && item.visible))
-                                return <Panel
-                                    header={group}
-                                    key={sindex}
-                                    style={itemStyle}
-                                >
-                                    <DynamicPropertiesCollapseForm data={formData} editData={this.handleEditData.bind(this)} />
-                                </Panel>
+                                if (formData.length) {
+                                    return <Panel
+                                        header={group}
+                                        key={sindex}
+                                        style={itemStyle}
+                                    >
+                                        <DynamicPropertiesCollapseForm data={formData} dict={dict} dictOptions={dictOptions} editData={this.handleEditData.bind(this)} />
+                                    </Panel>
+                                }
                             })
                         }
                     </Collapse>

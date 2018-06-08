@@ -26,7 +26,9 @@ import {
     editBatchData,
     getTopo,
     getTopoState,
-    findtemplate
+    findtemplate,
+    getDict,
+    getDictOptions
 } from './resource'
 
 const HomeActionCreatorsMap = {
@@ -57,7 +59,9 @@ const HomeActionCreatorsMap = {
     editBatchData,
     getTopo,
     getTopoState,
-    findtemplate
+    findtemplate,
+    getDict,
+    getDictOptions
 }
 
 export interface ResourceActions {
@@ -88,7 +92,9 @@ export interface ResourceActions {
     editBatchData: Function,
     getTopo: Function,
     getTopoState: Function,
-    findtemplate: Function
+    findtemplate: Function,
+    getDict: Function,
+    getDictOptions: Function
 }
 
 export default HomeActionCreatorsMap;

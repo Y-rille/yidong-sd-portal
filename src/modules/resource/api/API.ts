@@ -175,6 +175,14 @@ class API {
     // 1.5       
     return axios.get(`/api_resource/datashare-svr/api/moinst/${moTypeKey}/${moInstId}`)
   }
+  getDict() {
+    // 获取有字典的数组
+    return axios.get(`/api_resource/datashare-svr/api/moinst/dict`)
+  }
+  getDictOptions() {
+    // 获取字典下拉选项
+    return axios.get(`/api_resource/datashare-svr/api/moinst/dictArray`)
+  }
   getOverview(dsname) {
     return axios.get(`/api_resource/datashare-svr/api/imds/report/${dsname}`)
   }

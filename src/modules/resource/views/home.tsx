@@ -39,6 +39,9 @@ class Home extends React.Component<any, any> {
                 self.getNodeInfo(nodeId, resourceTree)
             }
         })
+        // 获取字典
+        this.props.actions.getDict()
+        this.props.actions.getDictOptions()
     }
     componentWillReceiveProps(nextProps) {
         const pre_mp_node: any = matchPath(this.props.location.pathname, {

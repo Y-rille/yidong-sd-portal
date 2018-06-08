@@ -14,6 +14,8 @@ function mapProps(state) {
         objData: state.resourceReducer.objData,
         objAttributes: state.resourceReducer.objAttributes,
         list: state.resourceReducer.list,
+        dict: state.resourceReducer.dict,
+        dictOptions: state.resourceReducer.dictOptions,
     }
 }
 function mapDispatchToProps(dispatch) {

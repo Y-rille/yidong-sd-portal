@@ -223,11 +223,14 @@ class SwitchboardInfo extends React.Component<any, any> {
         this.props.actions.resetObjData()
     }
     renderDynamicPropertiesCollapse() {
-        if (this.props.objAttributes && this.props.objData) {
+        let { objAttributes, objData, dict, dictOptions } = this.props
+        if (objAttributes && objData) {
             return (
                 <DynamicPropertiesCollapse
-                    attributes={this.props.objAttributes}
-                    data={this.props.objData}
+                    attributes={objAttributes}
+                    data={objData}
+                    dict={dict}
+                    dictOptions={dictOptions}
                     editData={this.handleEditData.bind(this)} />
             )
         } else {
