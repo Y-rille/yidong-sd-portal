@@ -103,7 +103,7 @@ class VirtualInfo extends React.Component<any, any> {
         this.props.history.push(`${path}`)
     }
     controlStation() {
-        let { columns, values } = this.props.objData.data
+        let { columns, values } = this.props.objData
         let { config } = this.props
         let baseData = _.zipObject(columns, _.head(values))
         if (baseData && baseData.project && baseData.uuid) {

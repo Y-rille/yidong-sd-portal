@@ -50,31 +50,34 @@ class VimFormCls extends React.PureComponent<VimFormClsProps, any> {
         const { getFieldDecorator } = this.props.form;
         return (
             <Form className={styles.vimForm}>
-                <Row>
-                    <Col span={12}>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="VIM ID"
-                        >
-                            <p>{this.state.VimId}</p>
-                        </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                        <Form.Item
-                            {...formItemLayout}
-                            label="名称"
-                        >
-                            {getFieldDecorator('NAME', {
-                                initialValue: data.NAME,
-                                rules: [{
-                                    required: true, message: '请输入名称！',
-                                }],
-                            })(
-                                <Input placeholder="请输入名称" />
-                            )}
-                        </Form.Item>
-                    </Col>
-                </Row>
+                {
+                    data.ID ?
+                        <Row>
+                            <Col span={12}>
+                                <Form.Item
+                                    {...formItemLayout}
+                                    label="VIM ID"
+                                >
+                                    <p>{this.state.VimId}</p>
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    {...formItemLayout}
+                                    label="名称"
+                                >
+                                    {getFieldDecorator('NAME', {
+                                        initialValue: data.NAME,
+                                        rules: [{
+                                            required: true, message: '请输入名称！',
+                                        }],
+                                    })(
+                                        <Input placeholder="请输入名称" />
+                                    )}
+                                </Form.Item>
+                            </Col>
+                        </Row> : ''
+                }
                 <Row>
                     <Col span={12}>
                         <Form.Item

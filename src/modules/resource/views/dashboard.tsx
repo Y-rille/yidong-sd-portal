@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import { Row, Breadcrumb, Icon, Button, Spin, Modal } from 'antd';
 import OverviewCard from '../../../components/OverviewCard'
-import PimSummary from '../../../components/PimSummary'
 import VimEdit from '../../../components/VimEdit/'
 import Headline from '../../../components/Headline'
 import emitter from '../../../common/emitter'
