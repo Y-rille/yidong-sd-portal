@@ -132,6 +132,29 @@ export const getData = (packageId, params: DataParams, cb) => (dispatch) => {
   })
 }
 
+/**
+ * 指标数据查询
+ * @param packageId 分析模型包ID
+ * @param params 
+ * @param cb 
+ */
+export const getOneData = (packageId, params: DataParams, cb) => (dispatch) => {
+  dispatch({ type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: null });
+  return kpiAPI.getOneData(packageId, params).then((res: any) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: res.data }
+    dispatch(action);
+    if (cb) {
+      cb(res.data)
+    }
+  }).catch((err) => {
+    let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, kpidata: null }
+    dispatch(action);
+    if (cb) {
+      cb(err)
+    }
+  })
+}
+
 export const cleanMoTypeKpisAndMoInstKpiThresholds = (cb) => (dispatch) => {
   let action = { type: ActionTypes.PERFORMANCE_SAY_HELLO, moTypeKpis: null, moInstKpiThresholds: null }
   dispatch(action);

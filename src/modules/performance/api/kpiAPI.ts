@@ -81,6 +81,9 @@ class KpiAPI {
   getData(packageId, params: DataParams) {
     return axios.get(`/api_performance/datashare-svr/api/kpi/getData/${packageId}?${stringify(params)}`)
   }
+  getOneData(packageId, params: DataParams) { // 获取当前状态
+    return axios.get(`/api_performance/datashare-svr/api/kpi/getOneData/${packageId}?${stringify(params)}`)
+  }
 }
 
 export default new KpiAPI();

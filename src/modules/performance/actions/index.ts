@@ -6,6 +6,7 @@ import {
   getMoInstKpiThresholds,
   cleanMoTypeKpisAndMoInstKpiThresholds,
   getData,
+  getOneData,
   getMoTypeKpis,
   getNodeData
 } from './kpi'
@@ -18,6 +19,7 @@ const HomeActionCreatorsMap = {
   getMoInstKpiThresholds,
   cleanMoTypeKpisAndMoInstKpiThresholds,
   getData,
+  getOneData,
   getMoTypeKpis,
   getNodeData
 }
@@ -30,6 +32,7 @@ export interface PerformanceActions {
   getMoInstKpiThresholds: Function
   cleanMoTypeKpisAndMoInstKpiThresholds: Function
   getData: Function
+  getOneData: Function
   getMoTypeKpis: Function
   getNodeData: Function
 }
