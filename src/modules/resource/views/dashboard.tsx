@@ -47,6 +47,7 @@ class Dashboard extends React.Component<any, any> {
                         emitter.emit('message', 'success', '删除成功！')
                         self.props.actions.getMoTree('mgrmoTree')
                         self.props.actions.getOverview('overviewVIM')
+                        self.props.actions.getOverview('overviewPIM')
                     }
                     if (err || (data && data.code !== 1)) {
                         let msg = err && err.response.data.message ? err.response.data.message : '删除失败！'
@@ -86,6 +87,7 @@ class Dashboard extends React.Component<any, any> {
                     if (data && data.code === 1) {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
+                        this.props.actions.getOverview('overviewPIM')
                         emitter.emit('message', 'success', '编辑成功！')
                         setTimeout(function () {
                             window.open(formdata.url)
@@ -103,6 +105,7 @@ class Dashboard extends React.Component<any, any> {
                     if (data && data.code === 1) {
                         this.props.actions.getMoTree('mgrmoTree')
                         this.props.actions.getOverview('overviewVIM')
+                        this.props.actions.getOverview('overviewPIM')
                         emitter.emit('message', 'success', '创建成功！')
                         setTimeout(function () {
                             window.open(formdata.url)
