@@ -79,7 +79,7 @@ class HostInfo extends React.Component<any, any> {
             this.props.actions.resetList();
             this.setState({
                 pageNo: 1,
-                pageSize: 1,
+                pageSize: 10,
                 activeKey: 'imdsHostSubRes'
             }, () => {
                 this.getTableData({ pageNo: 1 })
@@ -174,8 +174,8 @@ class HostInfo extends React.Component<any, any> {
     payAttention() {
         let moTypeKey = 'host'
         let { host, observe } = this.state
-        let editObserve = (observe === '0') ? '1' : '0'
-        let tipTxt = (editObserve === '1') ? '关注' : '取消关注'
+        let editObserve = (observe !== '1') ? '1' : '0'
+        let tipTxt = (editObserve !== '1') ? '取消关注' : '关注'
         this.props.actions.editObjData(moTypeKey, host, { observe: editObserve }, (err, data) => {
             if (err || (data && data.code !== 1)) {
                 emitter.emit('message', 'error', `${tipTxt}失败！`)
