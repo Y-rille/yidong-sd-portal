@@ -11,15 +11,16 @@ import CompactTable from '../../../../components/CompactTable/'
 class ProjectUser extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        let { pageNo, vim_id, userName, name } = qs.parse(this.props.location.search)
+        let { pageNo, vim_id, userName, name, projectId } = qs.parse(this.props.location.search)
         const mp_node: any = matchPath(this.props.match.url, {
-            path: '/resource/vim/:id'
+            path: '/resource/vim/:id/project_quota/:projectId'
         })
         this.state = {
             tableLoading: false,
             pageSize: 10,
             pageNo: pageNo ? pageNo : 1,
             vim_id: mp_node ? mp_node.params.id : '',
+            projectId: mp_node ? mp_node.params.projectId : '',
             userName: userName ? userName : '',
             name: name ? name : ''
         }
@@ -60,8 +61,8 @@ class ProjectUser extends React.Component<any, any> {
         });
         let self = this
         let { pageNo } = queryObj
-        let { pageSize, userName, vim_id } = this.state
-        let params_obj = { pageNo, pageSize, userName, vim_id }
+        let { pageSize, userName, vim_id, projectId } = this.state
+        let params_obj = { pageNo, pageSize, userName, vim_id, projectId }
         _.forIn(params_obj, ((val, key) => {
             if (val === '' || !val || val.length === 0) {
                 delete params_obj[key]
