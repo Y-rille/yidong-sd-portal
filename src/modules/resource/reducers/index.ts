@@ -23,7 +23,6 @@ const ResourceState = SI.from({
     overviewVIM: null,
     overviewPIM: null,
     syslog: null,
-    dict: null,
     dictOptions: null
 });
 

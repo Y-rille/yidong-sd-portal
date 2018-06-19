@@ -16,7 +16,6 @@ function mapProps(state) {
         list: state.resourceReducer.list,
         syslog: state.resourceReducer.syslog,
         config: state.commonReducer.config,
-        dict: state.resourceReducer.dict,
         dictOptions: state.resourceReducer.dictOptions,
     }
 }

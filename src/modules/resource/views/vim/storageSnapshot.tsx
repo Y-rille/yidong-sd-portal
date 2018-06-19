@@ -76,6 +76,15 @@ class StorageSnapshot extends React.Component<any, any> {
         });
         this.getTableData()
     }
+    goLink(key, obj) {
+        const mp_node: any = matchPath(this.props.match.url, {
+            path: '/resource/vim/:id'
+        })
+        let vimId = mp_node.params.id
+        if (key === 'sVName') {
+            this.props.history.push(`/resource/vim/${vimId}/storage_volume/info/${obj.volumnId}`)
+        }
+    }
     componentWillMount() {
         this.getTableData()
     }
@@ -132,6 +141,7 @@ class StorageSnapshot extends React.Component<any, any> {
                                 pageSize={pageSize}
                                 loading={tableLoading}
                                 actionAuth={[]}
+                                goLink={this.goLink.bind(this)}
                                 size={{ y: list.totalCount > pageSize ? window.innerHeight - 368 : window.innerHeight - 352 }}
                             />
                         ) : (

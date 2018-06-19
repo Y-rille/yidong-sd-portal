@@ -230,35 +230,16 @@ export const getObjData = (moTypeKey, moInstId, cb) => (dispatch) => {
 }
 
 /**
- * 获取有字典的数组
- * @param cb 
- */
-export const getDict = (cb) => (dispatch) => {
-    return API.getDict().then((res: any) => {
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, dict: res.data.data }
-        dispatch(action);
-        if (cb) {
-            cb(null, res.data)
-        }
-    }).catch((err) => {
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, dict: null }
-        dispatch(action);
-        if (cb) {
-            cb(err, null)
-        }
-    })
-}
-
-/**
  * 获取字典下拉选项
  * @param cb 
  */
 export const getDictOptions = (cb) => (dispatch) => {
     return API.getDictOptions().then((res: any) => {
-        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, dictOptions: res.data.data }
+        let data = JSON.parse(res.data.data)
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO, dictOptions: data }
         dispatch(action);
         if (cb) {
-            cb(null, res.data)
+            cb(null, data)
         }
     }).catch((err) => {
         let action = { type: ActionTypes.RESOURCE_SAY_HELLO, dictOptions: null }

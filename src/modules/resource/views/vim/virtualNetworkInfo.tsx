@@ -95,14 +95,13 @@ class VirtualNetworkInfo extends React.Component<VirtualNetworkInfoProps, any> {
         this.props.actions.resetObjData()
     }
     renderDynamicPropertiesCollapse() {
-        let { objAttributes, objData, dict, dictOptions } = this.props
+        let { objAttributes, objData, dictOptions } = this.props
         if (objAttributes && objData) {
             return (
                 <DynamicPropertiesCollapse
                     attributes={objAttributes}
                     data={objData}
-                    dict={dict}
-                    dictOptions={dictOptions}
+                    dictOptions={dictOptions.t_VIRTUAL_NETWORK}
                     editData={this.handleEditData.bind(this)} />
             )
         } else {

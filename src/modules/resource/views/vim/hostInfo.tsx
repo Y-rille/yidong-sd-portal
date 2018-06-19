@@ -346,8 +346,7 @@ class HostInfo extends React.Component<any, any> {
                     <DynamicPropertiesCollapse
                         attributes={this.props.objAttributes}
                         data={this.props.objData}
-                        dict={dict}
-                        dictOptions={dictOptions}
+                        dictOptions={dictOptions.t_HOST}
                         editData={this.handleEditData.bind(this)} />
                 </div>
             )

@@ -60,19 +60,20 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
     componentDidMount() {
     }
     renderOptions(data) {
-        return _.map(data, (item) => {
-            return <Option value={item}>{item}</Option>
+        let options = []
+        _.forOwn(data, (value, key) => {
+            options.push(<Option value={value}>{key}</Option>)
         })
+        return options
     }
     renderForm(data) {
         let items = []
         const { getFieldDecorator } = this.props.form;
-        let { dict, dictOptions } = this.props
-        let dictOptions_fix = _.keyBy(dictOptions, 'dictName')
+        let { dictOptions } = this.props
         return data.map((item, index) => {
             if (item.editable && this.state.isEdit) {
                 // 编辑状态
-                if (dict.indexOf(item.physicalTablefield) > -1 && dictOptions_fix[item.physicalTablefield]) {
+                if (dictOptions && dictOptions[item.physicalTablefield]) {
                     return (
                         <Col span={12} key={index}>
                             <FormItem {...formItemLayout} label={item.key}>
@@ -82,7 +83,7 @@ class SetDynamicPropertiesCollapseForm extends React.PureComponent<DynamicProper
                                             required: true, message: '输入不能为空!',
                                         }]
                                 })(
-                                    <Select>{this.renderOptions(dictOptions_fix[item.physicalTablefield].dictItems)}</Select>
+                                    <Select>{this.renderOptions(dictOptions[item.physicalTablefield])}</Select>
                                 )}
                             </FormItem>
                         </Col>

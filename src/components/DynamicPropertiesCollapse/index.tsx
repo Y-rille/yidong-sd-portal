@@ -82,7 +82,7 @@ export default class DynamicPropertiesCollapse extends React.PureComponent<Dynam
                                         key={sindex}
                                         style={itemStyle}
                                     >
-                                        <DynamicPropertiesCollapseForm data={formData} dict={dict} dictOptions={dictOptions} editData={this.handleEditData.bind(this)} />
+                                        <DynamicPropertiesCollapseForm data={formData} dictOptions={dictOptions} editData={this.handleEditData.bind(this)} />
                                     </Panel>
                                 }
                             })

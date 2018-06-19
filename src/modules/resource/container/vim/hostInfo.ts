@@ -14,7 +14,6 @@ function mapProps(state) {
         list: state.resourceReducer.list,
         nodeInfo: state.resourceReducer.nodeInfo,
         summary: state.resourceReducer.summary,
-        dict: state.resourceReducer.dict,
         dictOptions: state.resourceReducer.dictOptions,
     }
 }

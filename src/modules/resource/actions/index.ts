@@ -27,7 +27,6 @@ import {
     getTopo,
     getTopoState,
     findtemplate,
-    getDict,
     getDictOptions
 } from './resource'
 
@@ -60,7 +59,6 @@ const HomeActionCreatorsMap = {
     getTopo,
     getTopoState,
     findtemplate,
-    getDict,
     getDictOptions
 }
 
@@ -93,7 +91,6 @@ export interface ResourceActions {
     getTopo: Function,
     getTopoState: Function,
     findtemplate: Function,
-    getDict: Function,
     getDictOptions: Function
 }
 

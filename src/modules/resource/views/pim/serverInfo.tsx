@@ -387,14 +387,13 @@ class ServerInfo extends React.Component<any, any> {
         clearInterval(this.topoStateTimer)
     }
     renderDynamicPropertiesCollapse() {
-        let { objAttributes, objData, dict, dictOptions } = this.props
+        let { objAttributes, objData, dictOptions } = this.props
         if (objAttributes && objData) {
             return (
                 <DynamicPropertiesCollapse
                     attributes={objAttributes}
                     data={objData}
-                    dict={dict}
-                    dictOptions={dictOptions}
+                    dictOptions={dictOptions.t_SERVER}
                     editData={this.handleEditData.bind(this)} />
             )
         } else {

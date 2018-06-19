@@ -40,7 +40,6 @@ class Home extends React.Component<any, any> {
             }
         })
         // 获取字典
-        this.props.actions.getDict()
         this.props.actions.getDictOptions()
     }
     componentWillReceiveProps(nextProps) {

@@ -245,14 +245,13 @@ class VirtualInfo extends React.Component<any, any> {
         )
     }
     renderDynamicPropertiesCollapse() {
-        let { objAttributes, objData, dict, dictOptions } = this.props
+        let { objAttributes, objData, dictOptions } = this.props
         if (objAttributes && objData) {
             return (
                 <DynamicPropertiesCollapse
                     attributes={objAttributes}
                     data={objData}
-                    dict={dict}
-                    dictOptions={dictOptions}
+                    dictOptions={dictOptions.t_VM}
                     editData={this.handleEditData.bind(this)} />
             )
         } else {
