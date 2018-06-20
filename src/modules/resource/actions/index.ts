@@ -1,6 +1,7 @@
 import {
     getMoTree,
     getSubDataByName,
+    getSubDataInfoByName,
     queryList,
     resetList,
     getObjAttributes,
@@ -33,6 +34,7 @@ import {
 const HomeActionCreatorsMap = {
     getMoTree,
     getSubDataByName,
+    getSubDataInfoByName,
     queryList,
     resetList,
     getObjAttributes,
@@ -65,7 +67,8 @@ const HomeActionCreatorsMap = {
 export interface ResourceActions {
     getMoTree: Function,
     getSubDataByName: Function,
-    queryList: Function
+    getSubDataInfoByName: Fumction,
+    queryList: Function,
     getObjAttributes: Function,
     getObjData: Function,
     getNodeData: Function,

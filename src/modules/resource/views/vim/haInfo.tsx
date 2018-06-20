@@ -92,6 +92,11 @@ class HaInfo extends React.Component<any, any> {
         let path = this.props.location.pathname.replace(/\/info\/(\w+)/, '')
         this.props.history.push(`${path}`)
     }
+    componentWillMount() {
+        let ha_id = this.props.match.params.id
+        this.props.actions.getSummary('imdsHAInfo', { ha_id: ha_id });
+        this.props.actions.getSubDataInfoByName('imdsSelectionAZ', { id: ha_id });
+    }
     componentDidMount() {
         this.getTableData()
     }
@@ -107,13 +112,9 @@ class HaInfo extends React.Component<any, any> {
             </div>
         )
     }
-    componentWillMount() {
-        let ha_id = this.props.match.params.id
-        this.props.actions.getSummary('imdsHAInfo', { ha_id: ha_id });
-    }
     render() {
         const { pageSize, tableLoading, az, name } = this.state;
-        let { nodeInfo, list, subDataAZ, summary } = this.props;
+        let { nodeInfo, list, subDataInfoAZ, summary } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -145,7 +146,7 @@ class HaInfo extends React.Component<any, any> {
                                 placeholder="主机名称"
                                 onChange={this.HostInputChange.bind(this)}
                             />
-                            <Selector type="AZ" data={subDataAZ} getData={this.getData.bind(this)} value={az} />
+                            <Selector type="AZ" data={subDataInfoAZ} getData={this.getData.bind(this)} value={az} />
 
                             <Button
                                 type="primary"

@@ -159,9 +159,15 @@ class API {
   getQueryTree(queryKey) {
     return axios.get(`/api_resource/datashare-svr/api/querytree/${queryKey}`)
   }
-  getSubDataByName(dsname) {
+  getSubDataByName(dsname, params?) {
     // 4.1
-    return axios.get(`/api_resource/datashare-svr/api/dssvr/getSubDataByName/${dsname}`)
+    if (params) {
+      // 通过id过滤查询
+      return axios.get(`/api_resource/datashare-svr/api/dssvr/getSubDataByName/${dsname}?${stringify(params)}`)
+    } else {
+      return axios.get(`/api_resource/datashare-svr/api/dssvr/getSubDataByName/${dsname}`)
+    }
+
   }
   queryList(dsname, params?: DataParams) {
     // 4.2

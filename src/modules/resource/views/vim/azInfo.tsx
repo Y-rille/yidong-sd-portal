@@ -108,6 +108,7 @@ class AzInfo extends React.Component<any, any> {
     componentWillMount() {
         let az_id = this.props.match.params.id
         this.props.actions.getSummary('imdsAZInfo', { az_id: az_id });
+        this.props.actions.getSubDataInfoByName('imdsSelectionHA', { id: az_id });
     }
     componentDidMount() {
         this.getTableData();
@@ -118,7 +119,7 @@ class AzInfo extends React.Component<any, any> {
     }
     render() {
         const { pageSize, tableLoading, ha, name } = this.state;
-        let { nodeInfo, list, subDataHA, summary } = this.props;
+        let { nodeInfo, list, subDataInfoHA, summary } = this.props;
         let labelPathArr = nodeInfo ? nodeInfo.labelPath.split('/') : []
         return (
             <div>
@@ -152,7 +153,7 @@ class AzInfo extends React.Component<any, any> {
                                 placeholder="主机名称"
                                 onChange={this.HostInputChange.bind(this)}
                             />
-                            <Selector type="HA" data={subDataHA} getData={this.getData.bind(this)} value={ha} />
+                            <Selector type="HA" data={subDataInfoHA} getData={this.getData.bind(this)} value={ha} />
 
                             <Button
                                 type="primary"

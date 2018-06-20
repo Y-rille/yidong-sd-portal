@@ -188,6 +188,40 @@ export const getSubDataByName = (dsname, cb) => (dispatch) => {
     })
 }
 /**
+ * 选择项通过id过滤查询
+ * @param id 数据订阅id
+ * @param dsname 数据订阅名
+ * @param cb 
+ */
+export const getSubDataInfoByName = (dsname, params, cb) => (dispatch) => {
+    return API.getSubDataByName(dsname, params).then((res: any) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO }
+        let name = ''
+        switch (dsname) {
+            case 'imdsSelectionAZ':
+                name = 'AZ'
+                break;
+            case 'imdsSelectionHA':
+                name = 'HA'
+                break;
+            default:
+                name = 'AZ'
+        }
+        action[`subDataInfo${name}`] = res.data.data
+        dispatch(action);
+        if (cb) {
+            cb(null)
+        }
+    }).catch((err) => {
+        let action = { type: ActionTypes.RESOURCE_SAY_HELLO }
+        action[`subDataInfo${dsname}`] = null
+        dispatch(action);
+        if (cb) {
+            cb(err)
+        }
+    })
+}
+/**
  * 对象属性查询
  * @param moTypeKey 对象类型ID或对象类型英文名
  * @param cb 

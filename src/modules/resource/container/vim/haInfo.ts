@@ -11,7 +11,7 @@ function mapProps(state) {
         name: state.resourceReducer.name,
         nodeInfo: state.resourceReducer.nodeInfo,
         list: state.resourceReducer.list,
-        subDataAZ: state.resourceReducer.subDataAZ,
+        subDataInfoAZ: state.resourceReducer.subDataInfoAZ,
         summary: state.resourceReducer.summary
     }
 }

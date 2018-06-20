@@ -5,6 +5,8 @@ const ResourceState = SI.from({
     name: 'RESOURCE',
     resourceTree: null,
     list: null,
+    subDataInfoAZ: null,
+    subDataInfoHA: null,
     subDataAZ: null,
     subDataHA: null,
     subDataRegion: null,
