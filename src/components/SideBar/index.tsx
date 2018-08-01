@@ -77,15 +77,18 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                     <Menu
                         onClick={this.handleClick}
                         style={{ height: window.innerHeight - 64 }}
-                        defaultOpenKeys={selectedKeys}
+                        defaultOpenKeys={['/resource']}
                         selectedKeys={selectedKeys}
                         mode="inline"
-                    >
-                        <Menu.Item key="/resource/dashboard">
+                    >   
+
+                        <SubMenu key="/resource" title={<span><Icon type="folder" /><span>资源管理</span></span>}>
+                            <Menu.Item key="/resource/dashboard">
                             <Icon type="inbox" />
                             <span>概览</span>
-                        </Menu.Item >
-                        {data['虚拟资源'].map((item, i) => {
+                            </Menu.Item >
+
+                            {data['虚拟资源'].map((item, i) => {
                             return item.children.map((_item, _i) => {
                                 let id = _item.nodeId
                                 return (
@@ -128,6 +131,19 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                                 })
                             })
                         }
+                        </SubMenu>
+                        <Menu.Item key="alarm">
+                            <Icon type="bell" />告警管理
+                        </Menu.Item>
+                        <Menu.Item key="performance">
+                            <Icon type="exception" />性能管理
+                        </Menu.Item>
+                        <Menu.Item key="setting/user">
+                            <Icon type="solution" />用户管理
+                        </Menu.Item>
+                        <Menu.Item key="setting/log">
+                            <Icon type="form" />日志管理
+                        </Menu.Item>
                     </Menu>
                 </div >
             )

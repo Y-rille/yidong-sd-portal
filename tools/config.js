@@ -4,7 +4,7 @@ const path = require('path');
 const __basename = path.dirname(__dirname);
 
 var config = {
-    port: '9001',
+    port: '9090',
     deploy: {
         host: '47.94.4.45',
         port: 22,

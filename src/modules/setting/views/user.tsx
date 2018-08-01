@@ -7,6 +7,9 @@ import UserEditPassword from '../../../components/UserEditPassword/'
 import UserEdit from '../container/userEdit'
 import UserList from '../container/userList'
 
+export interface UserProps {
+    match?
+}
 class User extends React.PureComponent<UserProps, any> {
     constructor(props) {
         super(props);

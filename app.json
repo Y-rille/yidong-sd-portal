@@ -1,6 +1,6 @@
 {
-  "name": "cloud-management-platform",
-  "title": "云管平台",
+  "name": "sd-portal",
+  "title": "浙江移动业务编排平台",
   "description": "cloud management platform",
   "dependencies": {
     "http-proxy-middleware": "^0.17.4",
