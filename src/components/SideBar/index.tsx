@@ -136,13 +136,13 @@ export default class SideBar extends React.PureComponent<SideBarProps, any> {
                             <Icon type="bell" />告警管理
                         </Menu.Item>
                         <Menu.Item key="performance">
-                            <Icon type="exception" />性能管理
+                            <Icon type="bar-chart" />性能管理
                         </Menu.Item>
-                        <Menu.Item key="setting/user">
-                            <Icon type="solution" />用户管理
-                        </Menu.Item>
-                        <Menu.Item key="setting/log">
+                        <Menu.Item key="log">
                             <Icon type="form" />日志管理
+                        </Menu.Item>
+                        <Menu.Item key="user">
+                            <Icon type="solution" />用户管理
                         </Menu.Item>
                     </Menu>
                 </div >

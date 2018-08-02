@@ -11,7 +11,10 @@ class Home extends React.Component<any, any> {
         }
         return (
             <div style={{ height: window.innerHeight - 64, width: '100%' }}>
-                <iframe style={{ width: '100%', height: '100%', border: '0px' }} src={`${config.alarm}?userId=${this.props.currentUser.id}`}></iframe>
+                 <iframe style={{ width: '100%', height: '100%', border: '0px' }} 
+                    src="https://www.baidu.com/">
+                    /* src={`${config.alarm} ?userId=${this.props.currentUser.id}`}> */
+                     </iframe> 
             </div>
         );
     }
